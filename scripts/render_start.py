@@ -6,6 +6,9 @@ from pathlib import Path
 
 root = Path(__file__).resolve().parent.parent
 os.chdir(root)
+# Running a script in scripts/ makes that directory Python's import root.
+# Django's settings and apps live one level above it.
+sys.path.insert(0, str(root))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 import django
 django.setup()

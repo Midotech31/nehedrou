@@ -1,6 +1,6 @@
 # Test en ligne sur Render
 
-Préparation du 10 octobre 2026. Dépôt dédié `Midotech31/nehedrou`, privé par défaut. Les bases locales, mots de passe, téléversements et environnements ne sont pas versionnés.
+Publication du 10 octobre 2026. [Dépôt dédié Midotech31/nehedrou](https://github.com/Midotech31/nehedrou), rendu public avec l’accord du propriétaire pour permettre le déploiement. [Adresse de la démonstration](https://nehedrou-demo.onrender.com). Les bases locales, mots de passe, téléversements et environnements ne sont pas versionnés.
 
 Le service `nehedrou-demo` utilise le plan gratuit de Render, avec Gunicorn, WhiteNoise, `DJANGO_DEBUG=0`, cookies sécurisés et origine HTTPS. `render.yaml` décrit la configuration reproductible. La création directe par le connecteur utilise les mêmes commandes : `python scripts/render_build.py` et `python scripts/render_start.py`.
 
