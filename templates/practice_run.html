@@ -1,0 +1,19 @@
+{% extends 'base.html' %}{% load i18n %}{% block title %}{% translate "Practice run" %} · {{ reported_count }} / {{ task_count }} · Nehedrou{% endblock %}{% block content %}
+<a href="{% url 'program_detail' run.program_id %}"><span class="direction-arrow" aria-hidden="true">←</span> {% translate "Return to program" %}</a>
+<div class="page-heading"><div><span class="eyebrow">{% translate "Practice run" %}</span><h1 dir="auto">{{ run.program.title }}</h1><p><bdi>{{ run.program.child.code }}</bdi> · {{ run.program.variety.display_label }}</p></div><span class="badge">{{ run.get_state_display }}</span></div>
+<section class="card run-overview">
+<h2>{% translate "Your place is saved" %}</h2>
+<p>{% translate "Activities stay in the assigned order. You can pause and return later." %}</p>
+<label for="run-progress"><bdi>{{ reported_count }} / {{ task_count }}</bdi> {% translate "activities reported" %}</label>
+<progress id="run-progress" value="{{ reported_count }}" max="{{ task_count }}">{{ reported_count }} / {{ task_count }}</progress>
+<p class="muted">{% translate "This shows participation, not speech improvement. Unstarted activities are not counted as errors." %}</p>
+{% if blocked_reason %}<div class="message" role="status"><p>{{ blocked_reason }}</p><p>{% translate "No activity has been skipped. You can close this run and ask your clinician to adjust the program." %}</p></div>{% endif %}
+{% if run.state == 'completed' %}<h3>{% translate "All activity reports are saved" %}</h3><p>{% translate "Your clinician can review the reports before your next appointment." %}</p>{% elif run.state == 'stopped' %}<h3>{% translate "Practice ended for now" %}</h3><p>{% translate "Your saved reports remain available. The remaining activities were not started." %}</p>{% endif %}
+<div class="actions no-print">{% if resume_url %}<a class="button" href="{{ resume_url }}">{% translate "Continue the current activity" %} <span class="direction-arrow" aria-hidden="true">→</span></a>{% endif %}{% if own_run and run.state == 'active' %}<a class="button secondary" href="{% url 'dashboard' %}">{% translate "Pause and return later" %}</a><form method="post" action="{% url 'practice_run_stop' run.pk %}">{% csrf_token %}<button class="text-button" type="submit">{% translate "End this practice run" %}</button></form>{% else %}<a class="button secondary" href="{% url 'program_detail' run.program_id %}">{% translate "Return to program" %}</a>{% endif %}</div>
+</section>
+<section class="card run-tasks"><h2>{% translate "Activities and feedback" %}</h2><ol>
+{% for task in tasks %}<li class="run-task {% if run.state == 'active' and pending.pk == task.pk %}current{% endif %}"><div><h3 dir="auto">{{ task.item.activity.title }}</h3><p><bdi>{{ task.item.activity.word_a }}</bdi> / <bdi>{{ task.item.activity.word_b }}</bdi></p>
+{% if task.saved_report %}<span class="badge">{{ task.saved_report.get_completion_display }}</span><p>{{ task.saved_report.get_parent_report_display }} · {{ task.saved_report.created_at|date:'DATETIME_FORMAT' }}</p>{% if task.saved_report.comment %}<p dir="auto">{{ task.saved_report.comment }}</p>{% endif %}{% if own_run %}<a href="{% url 'practice_report' task.saved_report.pk %}">{% translate "View saved report" %}</a>{% endif %}
+{% else %}<span class="badge neutral">{% translate "Not started" %}</span>{% endif %}</div></li>{% endfor %}</ol></section>
+<p class="muted">{% translate "Started" %}: {{ run.started_at|date:'DATETIME_FORMAT' }}{% if run.finished_at %} · {% translate "Ended" %}: {{ run.finished_at|date:'DATETIME_FORMAT' }}{% endif %}</p>
+{% endblock %}

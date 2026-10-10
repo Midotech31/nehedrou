@@ -1,0 +1,1829 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8\nLanguage: ar\nPlural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+msgid "A caregiver guides familiarization, a picture task and a short exchange."
+msgstr "يرافق الوالد الطفل في التعرف على الكلمات واختيار صورة وحوار قصير."
+
+msgid "A clear view of your shared practice."
+msgstr "نظرة واضحة على الممارسة المشتركة."
+
+msgid "A family invitation requires a child profile."
+msgstr "تتطلب دعوة العائلة ملف طفل."
+
+msgid "A focused first module"
+msgstr "وحدة أولى محددة"
+
+msgid "A game result describes a closed task. It does not measure speech quality or progress in conversation."
+msgstr "تصف نتيجة اللعبة مهمة محددة. لا تقيس جودة الكلام أو التقدم في المحادثة."
+
+msgid "A little practice. A shared journey."
+msgstr "ممارسة بسيطة ورحلة مشتركة."
+
+msgid "A password reset was requested for your Nehdrou account."
+msgstr "طُلب إعادة تعيين كلمة المرور لحسابك في نهدروا."
+
+msgid "A practice manager cannot be removed here."
+msgstr "لا يمكن حذف مسؤول العيادة هنا."
+
+msgid "A practitioner invitation must not include a child profile."
+msgstr "يجب ألا تتضمن دعوة المختص ملف طفل."
+
+msgid "A published version cannot return to draft."
+msgstr "لا يمكن إعادة النسخة المنشورة إلى مسودة."
+
+msgid "A short exchange"
+msgstr "حوار قصير"
+
+msgid "ACCOMPANIMENT"
+msgstr "المرافقة"
+
+msgid "AT HOME, TOGETHER"
+msgstr "في المنزل معًا"
+
+msgid "Accept invitation"
+msgstr "قبول الدعوة"
+
+msgid "Access has expired. Existing records and exports remain available."
+msgstr "انتهى الوصول. تبقى السجلات والتصدير متاحة."
+
+msgid "Access is no longer available."
+msgstr "لم يعد الوصول متاحًا."
+
+msgid "Access until"
+msgstr "الوصول حتى"
+
+msgid "Active"
+msgstr "نشط"
+
+msgid "Active profiles"
+msgstr "الملفات النشطة"
+
+msgid "Active programs"
+msgstr "البرامج النشطة"
+
+msgid "Activities"
+msgstr "الأنشطة"
+
+msgid "Activity library"
+msgstr "مكتبة الأنشطة"
+
+msgid "Activity unavailable"
+msgstr "النشاط غير متاح"
+
+msgid "Add a child profile"
+msgstr "إضافة ملف طفل"
+
+msgid "Add a profile and choose activities, or accept your clinician’s invitation."
+msgstr "أضف ملفًا واختر الأنشطة، أو اقبل دعوة المختص."
+
+msgid "Add observation"
+msgstr "إضافة ملاحظة"
+
+msgid "Age in years"
+msgstr "العمر بالسنوات"
+
+msgid "All activities must match the selected variety."
+msgstr "يجب أن تتطابق جميع الأنشطة مع التنوع اللغوي المحدد."
+
+msgid "All varieties"
+msgstr "جميع التنوعات"
+
+msgid "An active practice member is required."
+msgstr "يجب أن يكون العضو نشطًا في العيادة."
+
+msgid "Approved"
+msgstr "معتمد"
+
+msgid "Ask your clinician for a new invitation."
+msgstr "اطلب دعوة جديدة من المختص."
+
+msgid "Assign program"
+msgstr "إسناد البرنامج"
+
+msgid "Assigned program identity cannot be changed."
+msgstr "لا يمكن تغيير هوية البرنامج المسند."
+
+msgid "Audio model"
+msgstr "النموذج الصوتي"
+
+msgid "Authorized caregivers"
+msgstr "المرافقون المصرّح لهم"
+
+msgid "Billing is managed manually. No card information is collected."
+msgstr "الفوترة تُدار يدويًا. لا تُجمع معلومات البطاقات البنكية."
+
+msgid "Caregiver email"
+msgstr "البريد الإلكتروني للمرافق أو المختص"
+
+msgid "Caregiver instructions"
+msgstr "إرشادات المرافق"
+
+msgid "Caregiver: say this word naturally, then invite the child to choose the matching image."
+msgstr "أيها المرافق: قل هذه الكلمة بشكل طبيعي، ثم اطلب من الطفل اختيار الصورة المناسبة."
+
+msgid "Change"
+msgstr "تغيير"
+
+msgid "Check your email"
+msgstr "تحقق من بريدك الإلكتروني"
+
+msgid "Child profiles"
+msgstr "ملفات الأطفال"
+
+msgid "Choose a new password"
+msgstr "اختيار كلمة مرور جديدة"
+
+msgid "Choose an answer or stop the activity."
+msgstr "اختر إجابة أو أوقف النشاط."
+
+msgid "Choose another instruction language in your preferences or contact your clinician."
+msgstr "اختر لغة إرشادات أخرى في التفضيلات أو تواصل مع المختص."
+
+msgid "Choose content for the child’s spoken variety."
+msgstr "اختر محتوى يناسب التنوع اللغوي للطفل."
+
+msgid "Choose the matching image"
+msgstr "اختر الصورة المناسبة"
+
+msgid "Choose with care"
+msgstr "اختيار بعناية"
+
+msgid "Clinical and linguistic reviews are required."
+msgstr "يلزم إجراء مراجعة سريرية ولغوية."
+
+msgid "Clinician"
+msgstr "مختص النطق"
+
+msgid "Closed-task answers"
+msgstr "إجابات المهام المحددة"
+
+msgid "Comfortable"
+msgstr "مريح"
+
+msgid "Complete program"
+msgstr "إنهاء البرنامج"
+
+msgid "Completed"
+msgstr "مكتمل"
+
+msgid "Connect the clinician’s program with simple, accompanied activities at home."
+msgstr "اربطوا برنامج المختص بأنشطة منزلية بسيطة وبمرافقة أحد الوالدين."
+
+msgid "Contact the editorial team. Content is never replaced by another language automatically."
+msgstr "تواصل مع فريق التحرير. لا يُستبدل المحتوى تلقائيًا بلغة أخرى."
+
+msgid "Contact your clinician to adjust the program."
+msgstr "تواصل مع المختص لتعديل البرنامج."
+
+msgid "Contrast or title"
+msgstr "التباين أو العنوان"
+
+msgid "Create a caregiver account or sign in with the invited email address."
+msgstr "أنشئ حساب مرافق أو سجل الدخول بالبريد الإلكتروني المدعو."
+
+msgid "Create a new version to change published content."
+msgstr "أنشئ نسخة جديدة لتعديل المحتوى المنشور."
+
+msgid "Create a program"
+msgstr "إنشاء برنامج"
+
+msgid "Create account"
+msgstr "إنشاء الحساب"
+
+msgid "Create your practice"
+msgstr "إنشاء عيادتك"
+
+msgid "Data requests"
+msgstr "طلبات البيانات"
+
+msgid "Deletion requests require review of the practice’s applicable obligations."
+msgstr "تتطلب طلبات الحذف مراجعة الالتزامات المطبقة على العيادة."
+
+msgid "Demo content cannot be assigned outside demonstration mode."
+msgstr "لا يمكن إسناد المحتوى التجريبي خارج وضع العرض."
+
+msgid "Demonstration · fictional data and unvalidated sample content"
+msgstr "عرض تجريبي · بيانات وهمية وأمثلة غير معتمدة"
+
+msgid "Designed for ages 4–7 following professional evaluation. Demonstration content requires clinical and linguistic review before use with real children."
+msgstr "للأطفال من 4 إلى 7 سنوات بعد تقييم مهني. يتطلب المحتوى التجريبي مراجعة سريرية ولغوية قبل استخدامه مع أطفال حقيقيين."
+
+msgid "Difficult"
+msgstr "صعب"
+
+msgid "Discover the words"
+msgstr "التعرف على الكلمات"
+
+msgid "Draft"
+msgstr "مسودة"
+
+msgid "EXPLORE"
+msgstr "استكشاف"
+
+msgid "Enter your account email address."
+msgstr "أدخل البريد الإلكتروني لحسابك."
+
+msgid "Expired access blocks new profiles and assignments. Existing programs, history and authorized exports remain accessible."
+msgstr "انتهاء الوصول يمنع الملفات والإسنادات الجديدة. تبقى البرامج الحالية والسجل والتصدير المصرّح به متاحة."
+
+msgid "Export authorized data"
+msgstr "تصدير البيانات المصرّح بها"
+
+msgid "Family access is included in practice access. Plans and prices will be defined after pilot validation. Billing is manual; online payments are not enabled."
+msgstr "يشمل وصول العيادة وصول العائلة. ستُحدد الخطط والأسعار بعد تقييم التجربة. الفوترة يدوية والدفع الإلكتروني غير مفعّل."
+
+msgid "Family space"
+msgstr "مساحة العائلة"
+
+msgid "Filter"
+msgstr "تصفية"
+
+msgid "Forgot your password?"
+msgstr "نسيت كلمة المرور؟"
+
+msgid "French · English · Arabic"
+msgstr "الفرنسية · الإنجليزية · العربية"
+
+msgid "Frequency and duration chosen by clinician"
+msgstr "التكرار والمدة التي يحددها المختص"
+
+msgid "Good to see you"
+msgstr "مرحبًا"
+
+msgid "Guided home practice. Your clinician chooses the goals."
+msgstr "ممارسة منزلية بإشراف مرافق. يختار المختص الأهداف."
+
+msgid "I already have an account"
+msgstr "لديّ حساب بالفعل"
+
+msgid "If an account matches this email address, a recovery link has been sent."
+msgstr "إذا كان هناك حساب بهذا البريد، فقد أُرسل رابط لاستعادة الوصول."
+
+msgid "Ignore this email if you did not request it."
+msgstr "تجاهل هذه الرسالة إذا لم تطلب ذلك."
+
+msgid "In review"
+msgstr "قيد المراجعة"
+
+msgid "Instructions must contain language codes and text."
+msgstr "يجب أن تتضمن الإرشادات رموز اللغات والنص."
+
+msgid "Instructions unavailable"
+msgstr "الإرشادات غير متاحة"
+
+msgid "Interface language"
+msgstr "لغة الواجهة"
+
+msgid "Invalid editorial media path."
+msgstr "مسار الوسائط التحريرية غير صالح."
+
+msgid "Invitation sent. In local demo mode, check the server console."
+msgstr "أُرسلت الدعوة. في العرض المحلي، تحقق من نافذة الخادم."
+
+msgid "Invitation unavailable"
+msgstr "الدعوة غير متاحة"
+
+msgid "Invite a caregiver"
+msgstr "دعوة مرافق"
+
+msgid "Invite a practitioner"
+msgstr "دعوة مختص"
+
+msgid "Invite the child to ask for a picture. Follow the clinician’s guidance and keep the exchange comfortable."
+msgstr "اطلب من الطفل أن يطلب صورة. اتبع إرشادات المختص وحافظ على حوار مريح."
+
+msgid "KEEP IN MIND"
+msgstr "للتذكير"
+
+msgid "Listen and choose"
+msgstr "الاستماع والاختيار"
+
+msgid "Main navigation"
+msgstr "التنقل الرئيسي"
+
+msgid "Managing membership does not grant access to clinical records."
+msgstr "إدارة الأعضاء لا تمنح الوصول إلى الملفات السريرية."
+
+msgid "Media rights"
+msgstr "حقوق الوسائط"
+
+msgid "Needed help"
+msgstr "احتاج إلى مساعدة"
+
+msgid "Next"
+msgstr "التالي"
+
+msgid "No authorized profiles available."
+msgstr "لا توجد ملفات متاحة لك."
+
+msgid "No caregiver linked yet."
+msgstr "لا يوجد مرافق مرتبط بعد."
+
+msgid "No content available for this variety"
+msgstr "لا يوجد محتوى لهذا التنوع اللغوي"
+
+msgid "No practice reports yet."
+msgstr "لا توجد تقارير ممارسة حتى الآن."
+
+msgid "No program assigned yet."
+msgstr "لم يُسنَد أي برنامج بعد."
+
+msgid "Only profiles you are authorized to accompany appear here."
+msgstr "تظهر هنا فقط الملفات التي يحق لك مرافقتها."
+
+msgid "Only published activities can be assigned."
+msgstr "يمكن إسناد الأنشطة المنشورة فقط."
+
+msgid "Open my space"
+msgstr "فتح مساحتي"
+
+msgid "Overview"
+msgstr "نظرة عامة"
+
+msgid "PRACTICE"
+msgstr "العيادة"
+
+msgid "Pagination"
+msgstr "تقسيم الصفحات"
+
+msgid "Parent comment"
+msgstr "تعليق الوالدين"
+
+msgid "Parent instruction language"
+msgstr "لغة إرشادات الوالدين"
+
+msgid "Parent report"
+msgstr "تقرير الوالدين"
+
+msgid "Parent reports"
+msgstr "تقارير الوالدين"
+
+msgid "Participation"
+msgstr "المشاركة"
+
+msgid "Participation reports"
+msgstr "تقارير المشاركة"
+
+msgid "Participation, picture-task answers and parent comments remain distinct."
+msgstr "تُعرض المشاركة وإجابات الصور وتعليقات الوالدين بشكل منفصل."
+
+msgid "Password updated"
+msgstr "تم تحديث كلمة المرور"
+
+msgid "Pending invitations"
+msgstr "الدعوات المعلقة"
+
+msgid "Personal instructions"
+msgstr "إرشادات مخصصة"
+
+msgid "Plan and access"
+msgstr "الخطة والوصول"
+
+msgid "Practice manager"
+msgstr "مسؤول العيادة"
+
+msgid "Practice members"
+msgstr "أعضاء العيادة"
+
+msgid "Practice name"
+msgstr "اسم العيادة"
+
+msgid "Practice reports"
+msgstr "تقارير الممارسة"
+
+msgid "Practice saved. Thank you for participating."
+msgstr "حُفظت الممارسة. شكرًا لمشاركتك."
+
+msgid "Practice summary"
+msgstr "ملخص الممارسة"
+
+msgid "Practice together"
+msgstr "ممارسة معًا"
+
+msgid "Practitioners"
+msgstr "المختصون"
+
+msgid "Preferences"
+msgstr "التفضيلات"
+
+msgid "Preferences saved. Program language is unchanged."
+msgstr "حُفظت التفضيلات. لم تتغير لغة البرنامج."
+
+msgid "Previous"
+msgstr "السابق"
+
+msgid "Printable support"
+msgstr "مادة قابلة للطباعة"
+
+msgid "Professional observation"
+msgstr "ملاحظة المختص"
+
+msgid "Professional observations"
+msgstr "ملاحظات المختص"
+
+msgid "Professional pilot"
+msgstr "تجربة مهنية أولية"
+
+msgid "Program title"
+msgstr "عنوان البرنامج"
+
+msgid "Pseudonym"
+msgstr "اسم مستعار"
+
+msgid "Publication requires media, rights, population and all instructions."
+msgstr "يتطلب النشر الوسائط والحقوق والفئة المستهدفة وجميع الإرشادات."
+
+msgid "Published"
+msgstr "منشور"
+
+msgid "Recent practice"
+msgstr "الممارسة الأخيرة"
+
+msgid "Request erasure review"
+msgstr "طلب مراجعة حذف البيانات"
+
+msgid "Reset your password"
+msgstr "إعادة تعيين كلمة المرور"
+
+msgid "Reviewed audio and transcription are required."
+msgstr "يلزم صوت وتفريغ تمت مراجعتهما."
+
+msgid "Reviews require a submitted content version."
+msgstr "تتطلب المراجعة نسخة محتوى مقدمة للمراجعة."
+
+msgid "Revoke access"
+msgstr "إلغاء الوصول"
+
+msgid "Revoke invitation"
+msgstr "إلغاء الدعوة"
+
+msgid "Revoked"
+msgstr "ملغى"
+
+msgid "Save"
+msgstr "حفظ"
+
+msgid "Save practice report"
+msgstr "حفظ تقرير الممارسة"
+
+msgid "Save profile"
+msgstr "حفظ الملف"
+
+msgid "Scope and limitations"
+msgstr "النطاق والحدود"
+
+msgid "Select a spoken variety recorded for this child."
+msgstr "اختر تنوعًا لغويًا مسجلًا لهذا الطفل."
+
+msgid "Send invitation"
+msgstr "إرسال الدعوة"
+
+msgid "Share the experience"
+msgstr "مشاركة التجربة"
+
+msgid "Sign in"
+msgstr "تسجيل الدخول"
+
+msgid "Sign out"
+msgstr "تسجيل الخروج"
+
+msgid "Skip to content"
+msgstr "انتقل إلى المحتوى"
+
+msgid "Small steps, shared practice."
+msgstr "خطوات صغيرة وممارسة مشتركة."
+
+msgid "Speech production is accompanied; the application does not grade it."
+msgstr "إنتاج الكلام يكون بمرافقة؛ التطبيق لا يقيّمه."
+
+msgid "Spoken varieties"
+msgstr "التنوعات اللغوية المنطوقة"
+
+msgid "Spoken variety"
+msgstr "التنوع اللغوي المنطوق"
+
+msgid "Stopped"
+msgstr "متوقف"
+
+msgid "Stopped attempts"
+msgstr "المحاولات المتوقفة"
+
+msgid "Stopped attempts do not count as incorrect answers."
+msgstr "المحاولات المتوقفة لا تُحسب إجابات خاطئة."
+
+msgid "Switch practice"
+msgstr "تغيير العيادة"
+
+msgid "TOGETHER WITH A CAREGIVER"
+msgstr "مع مرافق"
+
+msgid "The active child quota has been reached."
+msgstr "تم بلوغ الحد الأقصى لملفات الأطفال النشطة."
+
+msgid "The activity link has expired. Reload the page."
+msgstr "انتهت صلاحية رابط النشاط. أعد تحميل الصفحة."
+
+msgid "The activity must match the program variety."
+msgstr "يجب أن يتطابق النشاط مع التنوع اللغوي للبرنامج."
+
+msgid "The application does not evaluate pronunciation or establish a diagnosis. No child voice is recorded."
+msgstr "لا يقيّم التطبيق النطق ولا يضع تشخيصًا. لا يتم تسجيل أصوات الأطفال."
+
+msgid "The child must belong to this practice."
+msgstr "يجب أن ينتمي الطفل إلى هذه العيادة."
+
+msgid "The clinician selects the spoken variety, content and practice schedule."
+msgstr "يختار المختص التنوع اللغوي والمحتوى وجدول الممارسة."
+
+msgid "The demonstration covers ages 4 to 7."
+msgstr "يشمل العرض التجريبي الأعمار من 4 إلى 7 سنوات."
+
+msgid "The practitioner quota has been reached."
+msgstr "تم بلوغ الحد الأقصى للمختصين."
+
+msgid "The responsible clinician must be an active practice member."
+msgstr "يجب أن يكون المختص المسؤول عضوًا نشطًا في العيادة."
+
+msgid "The session must belong to the program practice."
+msgstr "يجب أن تنتمي الجلسة إلى عيادة البرنامج."
+
+msgid "These results do not score pronunciation. Stopped attempts are excluded from the answer denominator."
+msgstr "هذه النتائج لا تقيّم النطق. تُستبعد المحاولات المتوقفة من عدد الإجابات المحتسب."
+
+msgid "This activity is no longer available. Contact your clinician."
+msgstr "هذا النشاط لم يعد متاحًا. تواصل مع المختص."
+
+msgid "This invitation is unavailable or belongs to another account."
+msgstr "هذه الدعوة غير متاحة أو تخص حسابًا آخر."
+
+msgid "This recovery link is invalid or expired."
+msgstr "رابط الاستعادة غير صالح أو منتهي الصلاحية."
+
+msgid "This submission key was already used with different answers."
+msgstr "استُخدم مفتاح الإرسال هذا مع إجابات مختلفة."
+
+msgid "Too many attempts. Try again in 15 minutes."
+msgstr "محاولات كثيرة. أعد المحاولة بعد 15 دقيقة."
+
+msgid "Unvalidated example"
+msgstr "مثال غير معتمد"
+
+msgid "Unvalidated example. A caregiver reads the word; reviewed audio is not supplied in this demonstration."
+msgstr "مثال غير معتمد. يقرأ المرافق الكلمة؛ لا يتضمن هذا العرض نموذجًا صوتيًا مراجعًا."
+
+msgid "Use your browser’s Print command to print or save as PDF."
+msgstr "استخدم أمر الطباعة في المتصفح للطباعة أو الحفظ بصيغة PDF."
+
+msgid "View profiles"
+msgstr "عرض الملفات"
+
+msgid "Visible only to the responsible clinician."
+msgstr "تظهر فقط للمختص المسؤول."
+
+msgid "WELCOME BACK"
+msgstr "مرحبًا بعودتك"
+
+msgid "Withdrawn"
+msgstr "مسحوب"
+
+msgid "Withdrawn content. Contact your clinician."
+msgstr "سُحب هذا المحتوى. تواصل مع المختص."
+
+msgid "YOUR SPACE"
+msgstr "مساحتك"
+
+msgid "You can now sign in with your new password."
+msgstr "يمكنك الآن تسجيل الدخول بكلمة المرور الجديدة."
+
+msgid "You have been invited to Nehedrou. Sign in or create an account to accept this invitation:"
+msgstr "تمت دعوتك إلى نهدروا. سجل الدخول أو أنشئ حسابًا لقبول هذه الدعوة:"
+
+msgid "Your Nehedrou invitation"
+msgstr "دعوتك إلى نهدروا"
+
+msgid "Your clinician’s guidance"
+msgstr "إرشادات المختص"
+
+msgid "Your first program starts here"
+msgstr "يبدأ برنامجك الأول هنا"
+
+msgid "Your invitation"
+msgstr "دعوتك"
+
+msgid "Your practice space is ready."
+msgstr "مساحة الممارسة جاهزة."
+
+msgid "Your programs"
+msgstr "برامجك"
+
+msgid "Your request has been recorded for manual review by the practice."
+msgstr "سُجل طلبك للمراجعة اليدوية من طرف العيادة."
+
+msgid "years"
+msgstr "سنوات"
+
+msgid "Caregiver"
+msgstr "مرافق"
+
+msgid "Archive profile"
+msgstr "أرشفة الملف"
+
+msgid "This profile is archived. Existing records remain accessible."
+msgstr "هذا الملف مؤرشف. تبقى السجلات الحالية متاحة."
+
+msgid "A content series must keep the same spoken variety."
+msgstr "يجب أن تحافظ سلسلة المحتوى على نفس التنوع اللغوي."
+
+msgid "Publication requires available editorial images."
+msgstr "يتطلب النشر توفر الصور التحريرية."
+
+msgid "FOR SPEECH THERAPISTS AND FAMILIES"
+msgstr "للمختصين في علاج النطق والعائلات"
+
+msgid "Connect speech therapy sessions with home practice."
+msgstr "اربطوا جلسة علاج النطق بالممارسة في المنزل."
+
+msgid "The clinician chooses a program. The caregiver guides the activities at home and shares how practice went, to help prepare the next session."
+msgstr "برنامج يختاره أخصائي النطق، يمارسه الطفل مع أحد الوالدين. شاركوا كيف جرت الممارسة للتحضير للجلسة التالية."
+
+msgid "Demonstration, not yet available for clinical use"
+msgstr "عرض تجريبي غير متاح بعد للاستخدام السريري"
+
+msgid "Explore with fictional profiles only. The sample activities are not clinically validated."
+msgstr "استكشفوا باستخدام ملفات وهمية فقط. الأنشطة المعروضة كأمثلة غير معتمدة سريريًا."
+
+msgid "Create a demonstration space"
+msgstr "إنشاء مساحة تجريبية"
+
+msgid "I already have access"
+msgstr "لديّ وصول بالفعل"
+
+msgid "French, English and Arabic interfaces. Clinical content availability depends on the reviewed spoken variety."
+msgstr "واجهات بالفرنسية والإنجليزية والعربية. إتاحة المحتوى السريري تعتمد على التنوع اللغوي الذي تمت مراجعته."
+
+msgid "HOW IT WORKS"
+msgstr "كيف يعمل التطبيق"
+
+msgid "One program, a shared practice"
+msgstr "برنامج واحد وممارسة مشتركة"
+
+msgid "The clinician prepares"
+msgstr "المختص يُحضّر"
+
+msgid "Select activities, give clear instructions and choose the practice schedule."
+msgstr "اختيار الأنشطة وتقديم إرشادات واضحة وتحديد جدول الممارسة."
+
+msgid "The family accompanies"
+msgstr "العائلة ترافق"
+
+msgid "Follow the assigned instructions, practice together and report participation or difficulties."
+msgstr "اتباع الإرشادات المسندة والممارسة معًا والإبلاغ عن المشاركة أو الصعوبات."
+
+msgid "The clinician reviews"
+msgstr "المختص يطّلع على التقارير"
+
+msgid "Review completed and stopped attempts, caregiver comments and separate professional observations."
+msgstr "الاطلاع على المحاولات المكتملة أو المتوقفة وتعليقات المرافق والملاحظات المهنية بشكل منفصل."
+
+msgid "For clinicians: organize home practice"
+msgstr "للمختصين: تنظيم الممارسة المنزلية"
+
+msgid "Keep the assigned activities, instructions and practice reports in one space. The clinician remains responsible for the goals and adjustments."
+msgstr "اجمعوا الأنشطة المسندة والإرشادات وتقارير الممارسة في مساحة واحدة. يبقى المختص مسؤولًا عن الأهداف والتعديلات."
+
+msgid "For families: know what to do"
+msgstr "للعائلات: معرفة ما ينبغي فعله"
+
+msgid "Access the child’s assigned program, read the caregiver instructions and share difficulties with the clinician."
+msgstr "الوصول إلى البرنامج المسند للطفل وقراءة إرشادات المرافق ومشاركة الصعوبات مع المختص."
+
+msgid "For follow-up: understand the reports"
+msgstr "للمتابعة: فهم التقارير"
+
+msgid "Participation, answers to picture tasks and professional observations are shown separately. A game result is not a pronunciation score."
+msgstr "تُعرض المشاركة وإجابات اختيار الصور والملاحظات المهنية بشكل منفصل. نتيجة اللعبة ليست تقييمًا للنطق."
+
+msgid "Who is the first module intended for?"
+msgstr "لمن تُوجّه الوحدة الأولى؟"
+
+msgid "The intended first audience is children aged 4–7 already assessed by a qualified clinician, with a developmental phonological disorder for which the clinician considers phonological contrasts appropriate. Suitability is decided by the professional."
+msgstr "الفئة الأولية المستهدفة هي الأطفال من 4 إلى 7 سنوات الذين قيّمهم مختص مؤهل، ولديهم اضطراب فونولوجي نمائي يرى المختص أن التباينات الصوتية مناسبة له. يقرر المختص مدى ملاءمة الاستخدام."
+
+msgid "The software does not diagnose, automatically assess pronunciation or replace speech therapy. Its therapeutic effectiveness has not been evaluated. No child voice is recorded in this version."
+msgstr "لا يضع البرنامج تشخيصًا ولا يقيّم النطق آليًا ولا يحل محل التكفل بعلاج النطق. لم تُقيّم فعاليته العلاجية. هذه النسخة لا تسجل أصوات الأطفال."
+
+msgid "Current status and future access"
+msgstr "الحالة الحالية والوصول مستقبلًا"
+
+msgid "This is a working demonstration with fictional content. Real clinical use requires reviewed content, further testing and the applicable launch conditions. No paid offer is currently available here."
+msgstr "هذا عرض تجريبي يعمل بمحتوى وهمي. يتطلب الاستخدام السريري الحقيقي محتوى مراجعًا واختبارات إضافية واستيفاء شروط الإطلاق المطبقة. لا توجد هنا حاليًا خطة مدفوعة متاحة."
+
+msgid "Account security"
+msgstr "أمان الحساب"
+
+msgid "Activate protection"
+msgstr "تفعيل الحماية"
+
+msgid "Adjust program"
+msgstr "تعديل البرنامج"
+
+msgid "Apply transition"
+msgstr "تطبيق الانتقال"
+
+msgid "Audio"
+msgstr "صوت"
+
+msgid "Authenticator code"
+msgstr "رمز المصادقة"
+
+msgid "Authenticator code or recovery code"
+msgstr "رمز المصادقة أو الاسترداد"
+
+msgid "CONTENT GOVERNANCE"
+msgstr "إدارة المحتوى"
+
+msgid "Cancelled"
+msgstr "ملغاة"
+
+msgid "Changes requested"
+msgstr "تعديلات مطلوبة"
+
+msgid "Continue"
+msgstr "متابعة"
+
+msgid "Current password"
+msgstr "كلمة المرور الحالية"
+
+msgid "Decision"
+msgstr "قرار"
+
+msgid "Decision reason"
+msgstr "سبب القرار"
+
+msgid "Edit child profile"
+msgstr "تعديل ملف الطفل"
+
+msgid "Edit content draft"
+msgstr "تعديل المسودة"
+
+msgid "Edit profile"
+msgstr "تعديل الملف"
+
+msgid "Editorial media saved"
+msgstr "تم حفظ الوسائط"
+
+msgid "Editorial workspace"
+msgstr "مساحة التحرير"
+
+msgid "Image"
+msgstr "صورة"
+
+msgid "Information about your data"
+msgstr "معلومات عن بياناتكم"
+
+msgid "Issued"
+msgstr "صادرة"
+
+msgid "Manage access"
+msgstr "إدارة الوصول"
+
+msgid "Manual access rights"
+msgstr "صلاحيات الوصول اليدوية"
+
+msgid "Manual billing operations"
+msgstr "الفوترة اليدوية"
+
+msgid "Missing"
+msgstr "غير متوفر"
+
+msgid "New draft"
+msgstr "مسودة جديدة"
+
+msgid "New responsible clinician"
+msgstr "الأخصائي المسؤول الجديد"
+
+msgid "Next state"
+msgstr "الحالة التالية"
+
+msgid "No pending requests."
+msgstr "لا توجد طلبات معلقة."
+
+msgid "Paid"
+msgstr "مدفوعة"
+
+msgid "Practice settings"
+msgstr "إعدادات العيادة"
+
+msgid "Preview media"
+msgstr "معاينة الوسائط"
+
+msgid "Publication checklist"
+msgstr "مراجعة متطلبات النشر"
+
+msgid "Record a manual invoice"
+msgstr "تسجيل فاتورة يدوية"
+
+msgid "Record decision"
+msgstr "تسجيل القرار"
+
+msgid "Recorded invoices"
+msgstr "الفواتير المسجلة"
+
+msgid "Recovery codes"
+msgstr "رموز الاسترداد"
+
+msgid "Regenerate"
+msgstr "إنشاء من جديد"
+
+msgid "Regenerate recovery codes"
+msgstr "إنشاء رموز استرداد جديدة"
+
+msgid "Restore profile"
+msgstr "إعادة تفعيل الملف"
+
+msgid "Retention period in days"
+msgstr "مدة الاحتفاظ بالأيام"
+
+msgid "Review data request"
+msgstr "مراجعة طلب البيانات"
+
+msgid "Review request"
+msgstr "مراجعة الطلب"
+
+msgid "Save your recovery codes"
+msgstr "احفظوا رموز الاسترداد"
+
+msgid "Status"
+msgstr "الحالة"
+
+msgid "Submit review"
+msgstr "تسجيل المراجعة"
+
+msgid "Transfer"
+msgstr "نقل"
+
+msgid "Transfer professional responsibility"
+msgstr "نقل المسؤولية المهنية"
+
+msgid "Two-factor authentication"
+msgstr "المصادقة الثنائية"
+
+msgid "Upload"
+msgstr "رفع الملف"
+
+msgid "Upload editorial media"
+msgstr "رفع وسائط للمحتوى"
+
+msgid "Verify"
+msgstr "تحقق"
+
+msgid "Verify your identity"
+msgstr "تحققوا من هويتكم"
+
+msgid "Version reviews"
+msgstr "مراجعات هذه النسخة"
+
+msgid "French caregiver instructions"
+msgstr "تعليمات الأسرة بالفرنسية"
+
+msgid "English caregiver instructions"
+msgstr "تعليمات الأسرة بالإنجليزية"
+
+msgid "Arabic caregiver instructions"
+msgstr "تعليمات الأسرة بالعربية"
+
+msgid "Invalid or already used code."
+msgstr "الرمز غير صالح أو مستخدم سابقًا."
+
+msgid "The password is incorrect."
+msgstr "كلمة المرور غير صحيحة."
+
+msgid "The pseudonym does not match."
+msgstr "الاسم المستعار غير مطابق."
+
+msgid "I have read this information"
+msgstr "قرأت هذه المعلومات"
+
+msgid "Create a new content version"
+msgstr "إنشاء نسخة جديدة من المحتوى"
+
+msgid "Erase the child record"
+msgstr "حذف ملف الطفل"
+
+msgid "Retain with documented reason"
+msgstr "الاحتفاظ مع توثيق السبب"
+
+msgid "Configured retention days"
+msgstr "مدة الاحتفاظ المحددة"
+
+msgid "Programs referring to this version"
+msgstr "البرامج التي تستخدم هذه النسخة"
+
+msgid "Assign updated program"
+msgstr "إسناد البرنامج المعدل"
+
+msgid "Adjust program with a new version"
+msgstr "تعديل البرنامج بإنشاء نسخة جديدة"
+
+msgid "The amount cannot be negative."
+msgstr "لا يمكن أن يكون المبلغ سالبًا."
+
+msgid "The file must be smaller than 15 MB."
+msgstr "يجب أن يكون الملف أقل من 15 ميغابايت."
+
+msgid "Use a PNG, JPEG, WAV or MP3 file."
+msgstr "استخدموا ملف PNG أو JPEG أو WAV أو MP3."
+
+msgid "Use this reference in the content draft."
+msgstr "استخدموا هذا المرجع في مسودة المحتوى."
+
+msgid "A little practice, together."
+msgstr "لحظة تدريب قصيرة، معًا."
+
+msgid "A moment to practice together"
+msgstr "لحظة للتدريب معًا"
+
+msgid "Active profiles you can access"
+msgstr "الملفات النشطة المتاحة لكم"
+
+msgid "Activity steps"
+msgstr "مراحل النشاط"
+
+msgid "Activity title"
+msgstr "عنوان النشاط"
+
+msgid "All languages"
+msgstr "جميع اللغات"
+
+msgid "All profiles"
+msgstr "جميع الملفات"
+
+msgid "Arabic · Algeria (pilot)"
+msgstr "العربية · الجزائر (تجريبي)"
+
+msgid "Archived"
+msgstr "مؤرشف"
+
+msgid "Assign from a child profile"
+msgstr "الإسناد من ملف الطفل"
+
+msgid "Assigned by the clinician"
+msgstr "بإسناد من الأخصائي"
+
+msgid "Assigned program"
+msgstr "البرنامج المسند"
+
+msgid "Audio available"
+msgstr "الصوت متوفر"
+
+msgid "Audio to prepare"
+msgstr "الصوت قيد الإعداد"
+
+msgid "Authenticator setup QR code"
+msgstr "رمز QR لإعداد المصادقة"
+
+msgid "Cat illustration"
+msgstr "صورة قطة"
+
+msgid "Choose this policy with your practice adviser before processing erasure."
+msgstr "حددوا هذه السياسة مع مستشار العيادة قبل معالجة الحذف."
+
+msgid "Configure the practice retention policy before processing erasure."
+msgstr "حددوا سياسة الاحتفاظ الخاصة بالعيادة قبل معالجة الحذف."
+
+msgid "Content language"
+msgstr "لغة المحتوى"
+
+msgid "Demonstration content"
+msgstr "محتوى تجريبي"
+
+msgid "Discover"
+msgstr "اكتشاف"
+
+msgid "Discover two pictures, listen and share a short exchange."
+msgstr "اكتشفوا صورتين، واستمعوا، وتبادلوا حديثًا قصيرًا."
+
+msgid "Discover · Listen · Exchange"
+msgstr "اكتشاف · استماع · تواصل"
+
+msgid "Each code can be used once if your authenticator is unavailable. Store them securely. They will not be displayed again."
+msgstr "يمكن استخدام كل رمز مرة واحدة عند تعذر الوصول إلى تطبيق المصادقة. احفظوها في مكان آمن، فلن تُعرض مرة أخرى."
+
+msgid "English · United States (pilot)"
+msgstr "الإنجليزية · الولايات المتحدة (تجريبي)"
+
+msgid "Enter the child pseudonym to confirm"
+msgstr "أدخلوا الاسم المستعار للطفل للتأكيد"
+
+msgid "Enter the setup key manually"
+msgstr "أدخلوا مفتاح الإعداد يدويًا"
+
+msgid "Erasure removes the profile, programs, practice comments, observations, family links and unused invitations. The decision record remains without the child link. This cannot be undone from the application."
+msgstr "يحذف هذا الإجراء الملف والبرامج والتعليقات والملاحظات وروابط الأسرة والدعوات غير المستخدمة. يبقى سجل القرار دون رابط بالطفل. لا يمكن التراجع عن الحذف من التطبيق."
+
+msgid "Example of the guided workspace"
+msgstr "مثال لمساحة التدريب الموجّه"
+
+msgid "Example only · content to be validated"
+msgstr "مثال فقط · محتوى ينتظر الاعتماد"
+
+msgid "Exchange"
+msgstr "تواصل"
+
+msgid "Explore activity"
+msgstr "اكتشاف النشاط"
+
+msgid "Feedback that stays connected"
+msgstr "ملاحظات تصل بين الجلسات"
+
+msgid "Fictional child profile"
+msgstr "ملف طفل افتراضي"
+
+msgid "File"
+msgstr "ملف"
+
+msgid "First audio URL"
+msgstr "رابط الصوت الأول"
+
+msgid "First illustration reference"
+msgstr "مرجع الصورة الأولى"
+
+msgid "First word"
+msgstr "الكلمة الأولى"
+
+msgid "First word transcription"
+msgstr "الكتابة الصوتية للكلمة الأولى"
+
+msgid "French · France (pilot)"
+msgstr "الفرنسية · فرنسا (تجريبي)"
+
+msgid "Illustrative preview"
+msgstr "معاينة توضيحية"
+
+msgid "Information acknowledgement recorded."
+msgstr "تم تسجيل إقراركم بقراءة المعلومات."
+
+msgid "Intended population"
+msgstr "الفئة المستهدفة"
+
+msgid "Interface language changes the menus. Content language filters the words used in activities. The child's spoken variety remains the clinician's choice."
+msgstr "لغة الواجهة تغيّر القوائم. لغة المحتوى تحدد كلمات الأنشطة المعروضة. يختار الأخصائي التنوع اللغوي المناسب للطفل."
+
+msgid "Keep the varieties of active programs or complete those programs first."
+msgstr "احتفظوا بالتنوعات اللغوية للبرامج النشطة أو أغلقوا هذه البرامج أولًا."
+
+msgid "Limits and precautions"
+msgstr "الحدود والاحتياطات"
+
+msgid "Listen"
+msgstr "استماع"
+
+msgid "Media type"
+msgstr "نوع الوسائط"
+
+msgid "Open a profile, choose its program and review the family's latest feedback."
+msgstr "افتحوا ملفًا واطلعوا على برنامجه وآخر ملاحظات الأسرة."
+
+msgid "Open profile"
+msgstr "فتح الملف"
+
+msgid "Open program"
+msgstr "فتح البرنامج"
+
+msgid "Open the assigned program. Follow the instructions and tell your clinician how it went."
+msgstr "افتحوا البرنامج المسند، واتبعوا التعليمات، وشاركوا الأخصائي كيف جرى التدريب."
+
+msgid "Participation and caregiver comments, ready for the next session."
+msgstr "مشاركة الطفل وتعليقات الأسرة استعدادًا للجلسة القادمة."
+
+msgid "Participation describes practice, not pronunciation quality."
+msgstr "تصف المشاركة التدريب دون تقييم جودة النطق."
+
+msgid "Participation over the last seven days"
+msgstr "المشاركة خلال الأيام السبعة الماضية"
+
+msgid "Phonological contrast"
+msgstr "التقابل الفونولوجي"
+
+msgid "Practice rhythm"
+msgstr "وتيرة التدريب"
+
+msgid "Protection is active. Recovery codes can be regenerated after verification."
+msgstr "الحماية مفعّلة. يمكن إنشاء رموز استرداد جديدة بعد التحقق."
+
+msgid "Rat illustration"
+msgstr "صورة جرذ"
+
+msgid "Reports over the last seven days"
+msgstr "تقارير الأيام السبعة الماضية"
+
+msgid "Reports will appear after an activity is saved."
+msgstr "ستظهر التقارير بعد حفظ نشاط."
+
+msgid "Required fields are present. Human review is still required."
+msgstr "الحقول المطلوبة مكتملة. لا تزال المراجعة المهنية ضرورية."
+
+msgid "Reset filters"
+msgstr "إعادة ضبط المرشحات"
+
+msgid "Review each spoken variety and content version before clinical publication."
+msgstr "راجعوا كل تنوع لغوي وكل نسخة محتوى قبل النشر السريري."
+
+msgid "Review notes"
+msgstr "ملاحظات المراجعة"
+
+msgid "Review type"
+msgstr "نوع المراجعة"
+
+msgid "Scan this QR code with your authenticator, then enter your current password and the six-digit code."
+msgstr "امسحوا رمز QR بتطبيق المصادقة، ثم أدخلوا كلمة المرور الحالية والرمز المكوّن من ستة أرقام."
+
+msgid "Search activities"
+msgstr "البحث عن أنشطة"
+
+msgid "Search by pseudonym"
+msgstr "البحث بالاسم المستعار"
+
+msgid "Second audio URL"
+msgstr "رابط الصوت الثاني"
+
+msgid "Second illustration reference"
+msgstr "مرجع الصورة الثانية"
+
+msgid "Second word"
+msgstr "الكلمة الثانية"
+
+msgid "Second word transcription"
+msgstr "الكتابة الصوتية للكلمة الثانية"
+
+msgid "Seven days"
+msgstr "سبعة أيام"
+
+msgid "The configured retention period has not elapsed. Retain with a documented reason."
+msgstr "لم تنقضِ مدة الاحتفاظ المحددة. وثّقوا سبب الاحتفاظ."
+
+msgid "The file type must match the selected media kind."
+msgstr "يجب أن يتوافق تنسيق الملف مع نوع الوسائط المحدد."
+
+msgid "The practice manages accompanied profiles and authorizes family access. The application records assigned activities, participation and comments. Professional observations remain restricted."
+msgstr "تدير العيادة الملفات وتمنح الوصول للأسرة. يسجل التطبيق الأنشطة المسندة والمشاركة والتعليقات. تبقى الملاحظات المهنية محدودة الوصول."
+
+msgid "This editorial transition is not allowed."
+msgstr "هذا الانتقال التحريري غير مسموح."
+
+msgid "This local version uses fictional profiles. Before real use, the practice must provide its identified contacts, applicable legal information, retention policy and hosting details."
+msgstr "تستخدم هذه النسخة المحلية ملفات افتراضية. قبل الاستخدام الفعلي، يجب أن توفر العيادة بيانات الاتصال والمعلومات القانونية وسياسة الاحتفاظ وتفاصيل الاستضافة."
+
+msgid "This request has already been resolved."
+msgstr "تمت معالجة هذا الطلب مسبقًا."
+
+msgid "This week's practice"
+msgstr "تدريب هذا الأسبوع"
+
+msgid "Try another search or reset the filters."
+msgstr "جرّبوا بحثًا آخر أو أعيدوا ضبط المرشحات."
+
+msgid "Turn a goal into shared practice."
+msgstr "من الهدف إلى التدريب المشترك."
+
+msgid "Upload only authorized illustrations or adult speech models, never child recordings or patient documents."
+msgstr "ارفعوا فقط صورًا مصرحًا بها أو نماذج صوتية للبالغين، ولا ترفعوا تسجيلات الأطفال أو وثائق المرضى."
+
+msgid "Usage rights"
+msgstr "حقوق الاستخدام"
+
+msgid "You can export authorized records or submit an erasure request from the profile. Acknowledging this information is not a certification of compliance or a substitute for applicable consent."
+msgstr "يمكنكم تصدير البيانات المسموح بها أو طلب حذفها من الملف. الإقرار بقراءة المعلومات لا يعد شهادة امتثال ولا بديلًا عن الموافقة المطلوبة."
+
+msgid "Your next step"
+msgstr "خطوتكم التالية"
+
+msgid "activities"
+msgstr "أنشطة"
+
+msgid "activities found"
+msgstr "أنشطة متاحة"
+
+msgid "participation reports"
+msgstr "تقارير مشاركة"
+
+msgid "profiles found"
+msgstr "ملفات متاحة"
+
+msgid "reports"
+msgstr "تقارير"
+
+msgid "Three language choices, each with a clear purpose."
+msgstr "ثلاثة اختيارات لغوية، لكل منها دور واضح."
+
+msgid "The navigation, buttons and messages. Use the language buttons at the top of each page."
+msgstr "القوائم والأزرار والرسائل. استخدموا أزرار اللغة أعلى كل صفحة."
+
+msgid "The language in which you read activity instructions. Choose it below; it does not change the words assigned to the child."
+msgstr "لغة قراءة تعليمات الأنشطة. اختاروها أدناه، فهي لا تغيّر الكلمات المسندة للطفل."
+
+msgid "The words and speech models used for practice. The clinician records the child's variety and selects matching activities."
+msgstr "الكلمات والنماذج الصوتية المستخدمة في التدريب. يسجل الأخصائي التنوع اللغوي للطفل ويختار الأنشطة المناسبة له."
+
+msgid "Choose your instruction language"
+msgstr "اختاروا لغة التعليمات"
+
+msgid "Choose a variety, select illustrated activities and give the family clear instructions."
+msgstr "اختاروا تنوعًا لغويًا، وحددوا الأنشطة المصورة، وقدّموا تعليمات واضحة للأسرة."
+
+msgid "Program identity"
+msgstr "بيانات البرنامج"
+
+msgid "Select activities"
+msgstr "اختيار الأنشطة"
+
+msgid "Only published activities matching this child's recorded varieties are offered."
+msgstr "تُعرض فقط الأنشطة المنشورة المتوافقة مع التنوعات اللغوية المسجلة لهذا الطفل."
+
+msgid "selected"
+msgstr "مختارة"
+
+msgid "No activities match these filters."
+msgstr "لا توجد أنشطة تتوافق مع هذه المرشحات."
+
+msgid "Guide the family"
+msgstr "إرشاد الأسرة"
+
+msgid "Cancel"
+msgstr "إلغاء"
+
+msgid "Expired"
+msgstr "منتهي الصلاحية"
+
+msgid "Family"
+msgstr "أسرة"
+
+msgid "Export"
+msgstr "تصدير"
+
+msgid "Erasure"
+msgstr "حذف"
+
+msgid "Pending"
+msgstr "قيد الانتظار"
+
+msgid "Resolved"
+msgstr "تمت المعالجة"
+
+msgid "Clinical"
+msgstr "سريرية"
+
+msgid "Linguistic"
+msgstr "لغوية"
+
+msgid "Plan name"
+msgstr "اسم الخطة"
+
+msgid "Child profile quota"
+msgstr "الحد الأقصى لملفات الأطفال"
+
+msgid "Practitioner quota"
+msgstr "الحد الأقصى للأخصائيين"
+
+msgid "Amount"
+msgstr "المبلغ"
+
+msgid "Currency"
+msgstr "العملة"
+
+msgid "Billing reference"
+msgstr "مرجع الفوترة"
+
+msgid "Invoice number"
+msgstr "رقم الفاتورة"
+
+msgid "Payment reference"
+msgstr "مرجع الدفع"
+
+msgid "Country code"
+msgstr "رمز البلد"
+
+msgid "Help and guidance"
+msgstr "المساعدة والإرشادات"
+
+msgid "Preferences and security"
+msgstr "التفضيلات والأمان"
+
+msgid "Find your next step and understand what each report means."
+msgstr "اعرفوا الخطوة التالية وافهموا معلومات المتابعة."
+
+msgid "For clinicians"
+msgstr "للأخصائيين"
+
+msgid "For families"
+msgstr "للأسر"
+
+msgid "Create a minimal child profile and record the spoken variety."
+msgstr "أنشئوا ملفًا مختصرًا للطفل وسجّلوا تنوعه اللغوي."
+
+msgid "Choose matching activities, give instructions and specify a schedule."
+msgstr "اختاروا الأنشطة المناسبة وقدّموا التعليمات وحددوا وتيرة التدريب."
+
+msgid "Invite the caregiver using their email, then review their participation reports."
+msgstr "ادعوا المرافق ببريده الإلكتروني ثم راجعوا تقارير المشاركة."
+
+msgid "Accept the clinician's invitation with the invited email address."
+msgstr "اقبلوا دعوة الأخصائي باستخدام عنوان البريد المدعو."
+
+msgid "Open the assigned program and follow the guided activity together."
+msgstr "افتحوا البرنامج المسند واتبعوا النشاط الموجّه معًا."
+
+msgid "Save participation and a short comment. You can stop without reporting an incorrect answer."
+msgstr "احفظوا المشاركة وتعليقًا قصيرًا. يمكنكم التوقف دون احتساب إجابة خاطئة."
+
+msgid "Common questions"
+msgstr "أسئلة شائعة"
+
+msgid "Why do the words stay the same when I change the interface language?"
+msgstr "لماذا تبقى الكلمات نفسها عند تغيير لغة الواجهة؟"
+
+msgid "The interface translates menus. The clinician chooses the words and spoken variety. Change the caregiver instruction language in Preferences; filter content languages in the library."
+msgstr "تترجم الواجهة القوائم. يختار الأخصائي الكلمات والتنوع اللغوي. غيّروا لغة التعليمات في التفضيلات، وحددوا لغة المحتوى في المكتبة."
+
+msgid "Why is audio unavailable in some activities?"
+msgstr "لماذا لا يتوفر الصوت في بعض الأنشطة؟"
+
+msgid "These demonstration examples do not contain approved audio models. The caregiver reads the word. Clinical publication requires reviewed adult speech models and transcriptions."
+msgstr "لا تتضمن هذه الأمثلة التجريبية نماذج صوتية معتمدة. يقرأ المرافق الكلمة. يتطلب النشر السريري نماذج صوتية للبالغين وكتابة صوتية تمت مراجعتها."
+
+msgid "What does the practice result measure?"
+msgstr "ماذا تقيس نتيجة النشاط؟"
+
+msgid "It records a choice between pictures and a participation report. It does not assess pronunciation, diagnose a disorder or establish therapeutic improvement."
+msgstr "يسجّل اختيارًا بين الصور وتقرير مشاركة. لا يقيّم النطق ولا يشخّص اضطرابًا ولا يثبت تحسنًا علاجيًا."
+
+msgid "What if the activity is difficult or the child wants to stop?"
+msgstr "ماذا نفعل إذا كان النشاط صعبًا أو أراد الطفل التوقف؟"
+
+msgid "Select Stopped, describe the difficulty if useful and contact the responsible clinician. Stopped attempts are excluded from the answer count."
+msgstr "اختاروا متوقف، وصفوا الصعوبة عند الحاجة واتصلوا بالأخصائي المسؤول. تُستبعد المحاولات المتوقفة من حساب الإجابات."
+
+msgid "Why can I no longer open an activity?"
+msgstr "لماذا لم أعد أستطيع فتح نشاط؟"
+
+msgid "The program may be completed, the profile archived, the content withdrawn or your access revoked. Ask the responsible clinician to check the program and your access."
+msgstr "قد يكون البرنامج مغلقًا أو الملف مؤرشفًا أو المحتوى مسحوبًا أو صلاحية الوصول ملغاة. اطلبوا من الأخصائي المسؤول التحقق من البرنامج وصلاحية الوصول."
+
+msgid "Who can read the family's reports?"
+msgstr "من يستطيع قراءة تقارير الأسرة؟"
+
+msgid "Authorized caregivers and the responsible clinician can read the profile's reports. Professional observations are restricted to the responsible clinician. Practice management alone does not grant clinical access."
+msgstr "يمكن للمرافقين المصرح لهم والأخصائي المسؤول قراءة تقارير الملف. تقتصر الملاحظات المهنية على الأخصائي المسؤول. إدارة العيادة وحدها لا تمنح الوصول إلى الملفات السريرية."
+
+msgid "Is this version available for clinical use?"
+msgstr "هل هذه النسخة متاحة للاستخدام السريري؟"
+
+msgid "This local demonstration uses fictional profiles and unvalidated examples. Clinical review, approved media and real deployment requirements must be completed before real use."
+msgstr "تستخدم هذه النسخة المحلية ملفات افتراضية وأمثلة غير معتمدة. يجب إكمال المراجعة السريرية والوسائط المعتمدة ومتطلبات النشر قبل الاستخدام الفعلي."
+
+msgid "HOME PRACTICE · CHILDREN AGED 4–7"
+msgstr "بين جلسات علاج النطق والممارسة المنزلية · من ٤ إلى ٧ سنوات"
+
+msgid "Explore a sample activity"
+msgstr "جرّبوا نشاطًا توضيحيًا"
+
+msgid "Discover two pictures, choose one and preview a practice report."
+msgstr "اكتشفوا صورتين، واختاروا إحداهما، ثم اطّلعوا على مثال لتقرير المشاركة."
+
+msgid "Practice report"
+msgstr "تقرير المشاركة"
+
+msgid "Illustrative example · reviewed audio not supplied"
+msgstr "مثال توضيحي · لا يتضمن نموذجًا صوتيًا معتمدًا"
+
+msgid "Back to overview"
+msgstr "العودة إلى العرض"
+
+msgid "INTERACTIVE DEMONSTRATION"
+msgstr "تجربة تفاعلية توضيحية"
+
+msgid "Try the interface using fictional examples. No child profile is created and no practice report is saved."
+msgstr "اكتشفوا الواجهة باستخدام أمثلة افتراضية. لا يُنشأ ملف لطفل ولا يُحفظ أي تقرير مشاركة."
+
+msgid "Illustrative words and pictures, not a clinically reviewed phonological contrast. Reviewed audio is not supplied; the displayed word can be read aloud."
+msgstr "هذه الكلمات والصور توضح الواجهة، ولا تمثل تقابلًا صوتيًا معتمدًا سريريًا. لا تتوفر نماذج صوتية معتمدة؛ يمكن قراءة الكلمة المعروضة بصوت مسموع."
+
+msgid "Preview only · nothing saved"
+msgstr "معاينة فقط · لا تُحفظ البيانات"
+
+msgid "This is how a practice report is presented"
+msgstr "هكذا يُعرض تقرير المشاركة"
+
+msgid "Picture choice"
+msgstr "اختيار الصورة"
+
+msgid "A picture choice and a caregiver report do not measure pronunciation or clinical progress."
+msgstr "لا يقيس اختيار الصورة أو تقرير المرافق النطقَ أو التقدم السريري."
+
+msgid "In an assigned program, the authorized family and responsible clinician can review the saved practice reports."
+msgstr "في البرنامج المسند، تستطيع الأسرة المصرح لها والأخصائي المسؤول مراجعة تقارير المشاركة المحفوظة."
+
+msgid "Try again"
+msgstr "إعادة التجربة"
+
+msgid "Discover the two illustrations and their labels. This first step introduces the interface."
+msgstr "اكتشفوا الصورتين واسميهما. تقدم هذه الخطوة الأولى طريقة استخدام الواجهة."
+
+msgid "Choose a picture"
+msgstr "اختيار صورة"
+
+msgid "Select the picture for the displayed word. This only demonstrates image selection."
+msgstr "اختاروا الصورة التي توافق الكلمة المعروضة. يوضح هذا المثال اختيار الصور فقط."
+
+msgid "Preview the caregiver report"
+msgstr "معاينة تقرير المرافق"
+
+msgid "Choose fictional responses to see the summary. There is no child recording and no pronunciation score."
+msgstr "اختاروا إجابات افتراضية لعرض الملخص. لا يُسجل صوت الطفل ولا تُعطى درجة للنطق."
+
+msgid "Show the sample summary"
+msgstr "عرض الملخص التوضيحي"
+
+msgid "Stopped · no answer counted"
+msgstr "توقف النشاط · لا تُحتسب إجابة"
+
+msgid "Matching picture selected"
+msgstr "تم اختيار الصورة الموافقة"
+
+msgid "A different picture selected"
+msgstr "تم اختيار صورة أخرى"
+
+msgid "Choose"
+msgstr "اختيار"
+
+msgid "Accept the invitation sent by your clinician. If no activities appear, contact the practice."
+msgstr "اقبلوا دعوة المختص. إذا لم تظهر أي أنشطة، تواصلوا مع العيادة."
+
+msgid "An account already exists. Sign in to accept your invitation."
+msgstr "يوجد حساب بالفعل. سجّلوا الدخول لقبول الدعوة."
+
+msgid "Assigned order"
+msgstr "ترتيب الأنشطة المعيّن"
+
+msgid "Before you begin"
+msgstr "قبل أن تبدأوا"
+
+msgid "Changing the fields below requires a new preview."
+msgstr "بعد تعديل الحقول أدناه، اعرضوا الملخص من جديد."
+
+msgid "Choose a goal, activities and personal guidance."
+msgstr "اختاروا هدفًا وأنشطة وتوجيهات خاصة بالطفل."
+
+msgid "Choose a response"
+msgstr "اختاروا إجابة"
+
+msgid "Create a profile"
+msgstr "إنشاء ملف"
+
+msgid "Delivery failed"
+msgstr "تعذّر الإرسال"
+
+msgid "Finish for today"
+msgstr "إنهاء التدريب لهذا اليوم"
+
+msgid "Follow your clinician's guidance, at a comfortable pace."
+msgstr "اتبعوا توجيهات المختص بوتيرة مريحة."
+
+msgid "From the practice to the family, in three steps"
+msgstr "من العيادة إلى الأسرة، في ثلاث خطوات"
+
+msgid "Give access to the assigned program only."
+msgstr "امنحوا الوصول إلى البرنامج المعيّن فقط."
+
+msgid "Goal chosen by the clinician"
+msgstr "الهدف الذي اختاره المختص"
+
+msgid "Invitation handed to the mail service. Receipt is not yet confirmed."
+msgstr "أُرسلت الدعوة إلى خدمة البريد. لم يُؤكَّد استلامها بعد."
+
+msgid "Invitation saved, but email delivery failed. Retry from pending invitations."
+msgstr "حُفظت الدعوة، لكن تعذّر إرسال البريد. أعيدوا المحاولة من الدعوات المعلّقة."
+
+msgid "Invite the family"
+msgstr "دعوة الأسرة"
+
+msgid "Last report"
+msgstr "آخر متابعة"
+
+msgid "Local console only"
+msgstr "وحدة التشغيل المحلية فقط"
+
+msgid "Local demonstration: the invitation link is in the server console. No email was sent."
+msgstr "عرض محلي: رابط الدعوة في وحدة تشغيل الخادم. لم تُرسل رسالة بريد."
+
+msgid "Move earlier"
+msgstr "تقديم النشاط"
+
+msgid "Move later"
+msgstr "تأخير النشاط"
+
+msgid "Next assigned activity"
+msgstr "النشاط المعيّن التالي"
+
+msgid "No help requests or stopped activities reported this week."
+msgstr "لم يُبلَّغ عن حاجة إلى المساعدة أو توقف هذا الأسبوع."
+
+msgid "Open the assigned activity"
+msgstr "فتح النشاط المعيّن"
+
+msgid "Pending delivery"
+msgstr "بانتظار الإرسال"
+
+msgid "Please check your responses"
+msgstr "راجعوا إجاباتكم"
+
+msgid "Prepare shared practice"
+msgstr "تحضير التدريب المشترك"
+
+msgid "Prepare the next appointment"
+msgstr "التحضير للموعد القادم"
+
+msgid "Prepare the program"
+msgstr "تحضير البرنامج"
+
+msgid "Preview the assignment"
+msgstr "المراجعة قبل تعيين البرنامج"
+
+msgid "Publication requires available protected audio with usage rights."
+msgstr "يتطلب النشر ملفات صوت محمية ومتاحة مع حقوق استخدامها."
+
+msgid "Record the child's spoken varieties."
+msgstr "حدّدوا التنوعات اللغوية التي يتحدث بها الطفل."
+
+msgid "Report saved"
+msgstr "حُفظت المتابعة"
+
+msgid "Retry with a new invitation link"
+msgstr "إعادة المحاولة برابط دعوة جديد"
+
+msgid "Return to program"
+msgstr "العودة إلى البرنامج"
+
+msgid "Review before assignment"
+msgstr "ملخص قبل تعيين البرنامج"
+
+msgid "Sent to mail service"
+msgstr "أُرسلت إلى خدمة البريد"
+
+msgid "Stop for today"
+msgstr "التوقف لهذا اليوم"
+
+msgid "Stop whenever the child needs a break. Tell your clinician what helped or was difficult."
+msgstr "توقفوا متى احتاج الطفل إلى استراحة. أخبروا المختص بما ساعد الطفل وما كان صعبًا."
+
+msgid "Thank you for practicing together"
+msgstr "شكرًا على التدريب معًا"
+
+msgid "The activity order does not match the selection."
+msgstr "ترتيب الأنشطة لا يطابق الاختيار."
+
+msgid "These are caregiver reports, not a clinical assessment."
+msgstr "هذه ملاحظات المرافق ولا تمثل تقييمًا سريريًا."
+
+msgid "This activity is unavailable in this mode. Contact your clinician."
+msgstr "هذا النشاط غير متاح في هذا الوضع. تواصلوا مع المختص."
+
+msgid "View program and reports"
+msgstr "عرض البرنامج والمتابعات"
+
+msgid "Your assigned activities"
+msgstr "الأنشطة المعيّنة لكم"
+
+msgid "Your clinician can review this report. Continue only as directed and while the child is comfortable."
+msgstr "يمكن للمختص الاطلاع على هذه المتابعة. واصلوا وفق توجيهاته وما دام الطفل مرتاحًا."
+
+msgid "Your clinician will assign your program"
+msgstr "سيعيّن المختص برنامجكم"
+
+msgid "reports mentioning help or difficulty"
+msgstr "متابعات تشير إلى مساعدة أو صعوبة"
+
+msgid "stopped activities"
+msgstr "أنشطة توقّف فيها التدريب"
+
+msgid "Your clinician's exercises, supported at home."
+msgstr "تمارين يختارها أخصائي النطق، ومرافقة في المنزل."
+
+msgid "A finished practice run cannot be reopened or reassigned."
+msgstr "لا يمكن إعادة فتح مسار منتهٍ أو إسناده إلى شخص آخر."
+
+msgid "Activities and feedback"
+msgstr "الأنشطة والملاحظات"
+
+msgid "Activities stay in the assigned order. You can pause and return later."
+msgstr "تبقى الأنشطة بالترتيب المحدد. يمكنكم التوقف مؤقتًا والعودة لاحقًا."
+
+msgid "Activity in your practice run"
+msgstr "النشاط في مسار الممارسة"
+
+msgid "All activity reports are saved"
+msgstr "تم حفظ جميع تقارير الأنشطة"
+
+msgid "Assigned activities cannot be changed. Create an adjusted program."
+msgstr "لا يمكن تغيير الأنشطة المسندة. أنشئوا برنامجًا معدّلًا."
+
+msgid "Begin practice run"
+msgstr "بدء مسار الممارسة"
+
+msgid "Continue the current activity"
+msgstr "متابعة النشاط الحالي"
+
+msgid "End this practice run"
+msgstr "إنهاء هذا المسار"
+
+msgid "Ended"
+msgstr "انتهى"
+
+msgid "In progress"
+msgstr "جارٍ"
+
+msgid "No activity has been skipped. You can close this run and ask your clinician to adjust the program."
+msgstr "لم يتم تجاوز أي نشاط. يمكنكم إنهاء هذا المسار وطلب تعديل البرنامج من المختص."
+
+msgid "No practice runs yet. Individual activity reports remain below."
+msgstr "لا توجد مسارات بعد. تقارير الأنشطة الفردية موجودة أدناه."
+
+msgid "Not started"
+msgstr "لم يبدأ"
+
+msgid "Pause and return later"
+msgstr "التوقف مؤقتًا والعودة لاحقًا"
+
+msgid "Pause or view your practice run"
+msgstr "التوقف مؤقتًا أو عرض المسار"
+
+msgid "Practice at your own pace"
+msgstr "الممارسة بالوتيرة المناسبة لكم"
+
+msgid "Practice ended for now"
+msgstr "انتهت الممارسة في الوقت الحالي"
+
+msgid "Practice run"
+msgstr "مسار الممارسة"
+
+msgid "Practice run steps cannot be changed."
+msgstr "لا يمكن تغيير خطوات مسار الممارسة."
+
+msgid "Practice runs"
+msgstr "مسارات الممارسة"
+
+msgid "Resume the current activity from your practice run."
+msgstr "استأنفوا النشاط الحالي من مسار الممارسة."
+
+msgid "Resume your practice run"
+msgstr "استئناف مسار الممارسة"
+
+msgid "Started"
+msgstr "بدأ"
+
+msgid "The activity must belong to this practice run."
+msgstr "يجب أن يكون النشاط ضمن هذا المسار."
+
+msgid "The practice run state and finish date must agree."
+msgstr "يجب أن تتوافق حالة المسار مع تاريخ انتهائه."
+
+msgid "The report must match its practice run step."
+msgstr "يجب أن يتطابق التقرير مع خطوة مسار الممارسة."
+
+msgid "This shows participation, not speech improvement. Unstarted activities are not counted as errors."
+msgstr "يوضح هذا المؤشر المشاركة، وليس تحسّن النطق. لا تُحتسب الأنشطة التي لم تبدأ ضمن الأخطاء."
+
+msgid "View practice run summary"
+msgstr "عرض ملخص المسار"
+
+msgid "View saved report"
+msgstr "عرض التقرير المحفوظ"
+
+msgid "Your clinician can review the reports before your next appointment."
+msgstr "يمكن للمختص مراجعة التقارير قبل موعدكم القادم."
+
+msgid "Your place is saved"
+msgstr "تم حفظ موضعكم في المسار"
+
+msgid "Your saved reports remain available. The remaining activities were not started."
+msgstr "تبقى تقاريركم المحفوظة متاحة. لم تبدأ الأنشطة المتبقية."
+
+msgid "activities reported"
+msgstr "أنشطة لها تقارير"
+
+msgid "Save the activity report before leaving to keep this activity's answers and comments."
+msgstr "احفظوا تقرير النشاط قبل المغادرة للاحتفاظ بإجابات هذا النشاط وملاحظاته."
+
+msgid "A password reset was requested for your Nehedrou account."
+msgstr "طُلبت إعادة تعيين كلمة مرور حسابكم في Nehedrou."
+
+msgid "All"
+msgstr "الكل"
+
+msgid "All shared guidance"
+msgstr "جميع الإرشادات المشتركة"
+
+msgid "Audio models must last between 0.05 and 60 seconds, with a supported sample rate."
+msgstr "يجب أن تتراوح مدة النموذج الصوتي بين 0.05 و60 ثانية، بمعدل أخذ عينات مدعوم."
+
+msgid "Change the dates or status to find earlier reports."
+msgstr "غيّروا التواريخ أو الحالة للعثور على التقارير السابقة."
+
+msgid "Clinician feedback"
+msgstr "ملاحظات المختص"
+
+msgid "Complete history"
+msgstr "السجل الكامل"
+
+msgid "Feedback for the family"
+msgstr "ملاحظات موجّهة للأسرة"
+
+msgid "Filter history"
+msgstr "تصفية السجل"
+
+msgid "From date"
+msgstr "من تاريخ"
+
+msgid "History pages"
+msgstr "صفحات السجل"
+
+msgid "Images must not exceed 6000 pixels per side or 16 million pixels."
+msgstr "يجب ألا تتجاوز الصور 6000 بكسل لكل جانب أو 16 مليون بكسل."
+
+msgid "No clinician feedback on this report yet."
+msgstr "لا توجد ملاحظات من المختص حول هذا التقرير بعد."
+
+msgid "No records match these filters"
+msgstr "لا توجد سجلات تطابق هذه المرشّحات"
+
+msgid "Only the responsible clinician can publish feedback for this family."
+msgstr "يمكن للمختص المسؤول وحده نشر ملاحظات لهذه الأسرة."
+
+msgid "Page"
+msgstr "الصفحة"
+
+msgid "Program history"
+msgstr "سجل البرنامج"
+
+msgid "Publish family feedback"
+msgstr "نشر الملاحظات للأسرة"
+
+msgid "Published feedback cannot be changed. Publish a new clarification."
+msgstr "لا يمكن تعديل الملاحظات المنشورة. انشروا توضيحًا جديدًا."
+
+msgid "Recent parent reports"
+msgstr "أحدث تقارير الوالدين"
+
+msgid "Recent practice runs"
+msgstr "أحدث جلسات الممارسة"
+
+msgid "Record type"
+msgstr "نوع السجل"
+
+msgid "Related parent report"
+msgstr "تقرير الوالدين المرتبط"
+
+msgid "Respond to this report"
+msgstr "الردّ على هذا التقرير"
+
+msgid "Saved activity report"
+msgstr "تقرير النشاط المحفوظ"
+
+msgid "Shared guidance"
+msgstr "إرشادات مشتركة"
+
+msgid "The report must belong to this program."
+msgstr "يجب أن يكون التقرير مرتبطًا بهذا البرنامج."
+
+msgid "The start date must be before or equal to the end date."
+msgstr "يجب أن يسبق تاريخ البداية تاريخ النهاية أو يوافقه."
+
+msgid "This feedback will be visible to the authorized caregivers. Private professional observations stay separate."
+msgstr "ستظهر هذه الملاحظات للمرافقين المصرّح لهم. تبقى الملاحظات المهنية الخاصة منفصلة."
+
+msgid "This media file is incomplete or unreadable. Upload a valid file."
+msgstr "ملف الوسائط هذا غير مكتمل أو غير قابل للقراءة. ارفعوا ملفًا صالحًا."
+
+msgid "To date"
+msgstr "إلى تاريخ"
+
+msgid "Uploaded media cannot be replaced. Upload a new file."
+msgstr "لا يمكن استبدال الوسائط المرفوعة. ارفعوا ملفًا جديدًا."
+
+msgid "View the related report"
+msgstr "عرض التقرير المرتبط"
+
+msgid "Write to the family"
+msgstr "الكتابة إلى الأسرة"
+
+msgid "Your clinician's feedback will appear here."
+msgstr "ستظهر ملاحظات مختصكم هنا."
+
+msgid "Your feedback is now visible to the authorized caregivers."
+msgstr "أصبحت ملاحظاتكم مرئية للمرافقين المصرّح لهم."
+
+msgid "matching records"
+msgstr "سجلات مطابقة"
+
+msgid "Test space: use fictional data only. Changes may disappear after a restart."
+msgstr "مساحة تجريبية: استخدموا بيانات وهمية فقط. قد تختفي التغييرات بعد إعادة التشغيل."

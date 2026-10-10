@@ -1,0 +1,27 @@
+{% extends 'base.html' %}{% load i18n static %}
+{% block content %}
+<div class="demo-workspace">
+<a href="{% url 'home' %}">{% translate "Back to overview" %}</a>
+<div class="page-heading"><div><span class="eyebrow">{% translate "INTERACTIVE DEMONSTRATION" %}</span><h1>{% translate "Explore a sample activity" %}</h1><p>{% translate "Try the interface using fictional examples. No child profile is created and no practice report is saved." %}</p></div></div>
+<div class="library-note"><p>{% translate "Illustrative words and pictures, not a clinically reviewed phonological contrast. Reviewed audio is not supplied; the displayed word can be read aloud." %}</p></div>
+{% if summary %}
+<section class="card demo-summary" aria-labelledby="summary-title">
+<span class="badge neutral">{% translate "Preview only · nothing saved" %}</span><h2 id="summary-title">{% translate "This is how a practice report is presented" %}</h2>
+<dl><dt>{% translate "Picture choice" %}</dt><dd>{{ summary.answer }}</dd><dt>{% translate "Participation" %}</dt><dd>{{ summary.completion }}</dd><dt>{% translate "Parent report" %}</dt><dd>{{ summary.parent_report }}</dd></dl>
+<p>{% translate "A picture choice and a caregiver report do not measure pronunciation or clinical progress." %}</p>
+<p>{% translate "In an assigned program, the authorized family and responsible clinician can review the saved practice reports." %}</p>
+<div class="actions"><a class="button" href="{% url 'signup' %}">{% translate "Create a demonstration space" %}</a><a class="button secondary" href="{% url 'demo_activity' %}">{% translate "Try again" %}</a></div>
+</section>
+{% else %}
+<nav class="activity-progress" aria-label="{% translate 'Activity steps' %}"><span class="badge" data-step-counter dir="ltr">1 / 3</span><strong data-step-label>{% translate "Discover the words" %}</strong></nav>
+<form method="post" data-guided-activity novalidate>{% csrf_token %}{% include 'error_summary.html' %}<button type="button" class="text-button stop-activity" data-stop-activity hidden>{% translate 'Stop for today' %}</button>
+<section class="card" data-activity-step="1" data-title="{% translate 'Discover the words' %}"><span class="step">01</span><h2 tabindex="-1">{% translate "Discover the words" %}</h2><p>{% translate "Discover the two illustrations and their labels. This first step introduces the interface." %}</p>
+<div class="picture-pair"><figure><img src="{% static 'editorial/cat.svg' %}" alt="{{ word_a }}" width="160" height="160"><figcaption><bdi>{{ word_a }}</bdi></figcaption></figure><figure><img src="{% static 'editorial/rat.svg' %}" alt="{{ word_b }}" width="160" height="160"><figcaption><bdi>{{ word_b }}</bdi></figcaption></figure></div></section>
+<section class="card" data-activity-step="2" data-title="{% translate 'Choose a picture' %}"><span class="step">02</span><h2 tabindex="-1">{% translate "Choose a picture" %}</h2><p>{% translate "Select the picture for the displayed word. This only demonstrates image selection." %}</p><p class="target"><bdi>{{ word_a }}</bdi></p>
+<fieldset id="id_answer" tabindex="-1" class="picture-choice"><legend>{% translate "Choose the matching image" %}</legend><label><input type="radio" name="answer" value="a" {% if form.answer.value == 'a' %}checked{% endif %}><img src="{% static 'editorial/cat.svg' %}" alt="{{ word_a }}" width="140" height="140"><span>A</span></label><label><input type="radio" name="answer" value="b" {% if form.answer.value == 'b' %}checked{% endif %}><img src="{% static 'editorial/rat.svg' %}" alt="{{ word_b }}" width="140" height="140"><span>B</span></label></fieldset></section>
+<section class="card" data-activity-step="3" data-title="{% translate 'Preview the caregiver report' %}"><span class="step">03</span><h2 tabindex="-1">{% translate "Preview the caregiver report" %}</h2><p>{% translate "Choose fictional responses to see the summary. There is no child recording and no pronunciation score." %}</p><p>{{ form.completion.label_tag }}{{ form.completion }}</p><p>{{ form.parent_report.label_tag }}{{ form.parent_report }}</p><button class="button" type="submit">{% translate "Show the sample summary" %}</button></section>
+<div class="actions guided-controls" hidden><button class="button secondary" type="button" data-step-back>{% translate "Previous" %}</button><button class="button" type="button" data-step-next>{% translate "Next" %}</button></div>
+</form><script src="{% static 'activity.js' %}?v=4" defer></script>
+{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{
+  "original_asset_sha256": "5050a7ffe70b3ba34eea47ba311a66d4d2066325b77e6bf0e38ff22546ce6bbe",
+  "alpha_extrema": [
+    0,
+    254
+  ],
+  "sample_position": [
+    768,
+    512
+  ],
+  "sample_rgba": [
+    32,
+    98,
+    107,
+    252
+  ],
+  "previous_background": "#092e34",
+  "new_background": "#f8fcfc",
+  "sample_previous_contrast": 2.06,
+  "sample_new_contrast": 6.54,
+  "limit": "One opaque logo pixel sample, not an accessibility certification or a browser screenshot."
+}

@@ -1,0 +1,28 @@
+{
+  "technical_gates_passed": false,
+  "checks": {
+    "demonstration_disabled": false,
+    "debug_disabled": false,
+    "postgresql": false,
+    "privileged_mfa_required": false,
+    "public_https_origin": false,
+    "smtp_configured": false,
+    "published_nondemo_content_in_each_offered_language": false,
+    "published_audio_and_current_reviews_available": false
+  },
+  "published_nondemo_counts": {
+    "fr": 0,
+    "en": 0,
+    "ar": 0
+  },
+  "versions_with_unavailable_audio_or_reviews": 0,
+  "manual_gates_required": [
+    "professional_content_and_audio_validation",
+    "native_language_review",
+    "browser_and_accessibility_acceptance",
+    "backup_restore_and_concurrency_acceptance",
+    "applicable_launch_obligations",
+    "clinical_effectiveness_claims_require_separate_evidence"
+  ],
+  "scope": "A technical report, never clinical validation or commercial approval."
+}

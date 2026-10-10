@@ -1,0 +1,80 @@
+{
+  "at": "2026-10-09T22:29:07.153359+00:00",
+  "active_root": "E:\\LocalCoderWorkspace\\Nehdrou\\outputs\\nehdrou",
+  "http_checks": [
+    {
+      "language": "fr",
+      "flow": "home_and_public_stopped_preview",
+      "passed": true
+    },
+    {
+      "language": "fr",
+      "role": "clinician",
+      "flow": "dashboard_and_ordered_builder",
+      "passed": true
+    },
+    {
+      "language": "fr",
+      "role": "family",
+      "flow": "double_start_and_stable_resume",
+      "passed": true
+    },
+    {
+      "language": "fr",
+      "role": "family",
+      "flow": "stopped_run_and_idempotent_replay",
+      "passed": true
+    },
+    {
+      "language": "en",
+      "flow": "home_and_public_stopped_preview",
+      "passed": true
+    },
+    {
+      "language": "en",
+      "role": "clinician",
+      "flow": "dashboard_and_ordered_builder",
+      "passed": true
+    },
+    {
+      "language": "en",
+      "role": "family",
+      "flow": "double_start_and_stable_resume",
+      "passed": true
+    },
+    {
+      "language": "en",
+      "role": "family",
+      "flow": "completed_run_and_idempotent_replay",
+      "passed": true
+    },
+    {
+      "language": "ar",
+      "flow": "home_and_public_stopped_preview",
+      "passed": true
+    },
+    {
+      "language": "ar",
+      "role": "clinician",
+      "flow": "dashboard_and_ordered_builder",
+      "passed": true
+    },
+    {
+      "language": "ar",
+      "role": "family",
+      "flow": "double_start_and_stable_resume",
+      "passed": true
+    },
+    {
+      "language": "ar",
+      "role": "family",
+      "flow": "close_without_invented_report",
+      "passed": true
+    }
+  ],
+  "original_logo_sha256": "5050a7ffe70b3ba34eea47ba311a66d4d2066325b77e6bf0e38ff22546ce6bbe",
+  "http_scope": "Server HTTP, HTML and CSRF only; no JavaScript execution or visual/browser acceptance.",
+  "browser_rendering": "Chrome BrowserAct opened after user approval and daemon restart; actual recipe documented separately in RECETTE_NAVIGATEUR.md.",
+  "recording": "No recording started or MP4 claimed.",
+  "clinical_approval": "No approved clinical catalogue or audio supplied."
+}

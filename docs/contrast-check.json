@@ -1,0 +1,38 @@
+[
+  {
+    "component": "Text",
+    "foreground": "#193e47",
+    "background": "#ffffff",
+    "ratio": 11.53
+  },
+  {
+    "component": "Secondary text",
+    "foreground": "#4f6972",
+    "background": "#ffffff",
+    "ratio": 5.84
+  },
+  {
+    "component": "Secondary text on canvas",
+    "foreground": "#4f6972",
+    "background": "#f5f8fa",
+    "ratio": 5.48
+  },
+  {
+    "component": "Primary button",
+    "foreground": "#ffffff",
+    "background": "#126770",
+    "ratio": 6.56
+  },
+  {
+    "component": "Warning",
+    "foreground": "#76520e",
+    "background": "#fff1d9",
+    "ratio": 6.31
+  },
+  {
+    "component": "Neutral badge",
+    "foreground": "#465f6d",
+    "background": "#edf2f7",
+    "ratio": 5.98
+  }
+]

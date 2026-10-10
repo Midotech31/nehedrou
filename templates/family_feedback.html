@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% load i18n %}{% block content %}
+<a href="{% url 'program_detail' program.pk %}"><span class="direction-arrow" aria-hidden="true">←</span> <bdi>{{ program.title }}</bdi></a>
+<div class="page-heading"><div><span class="eyebrow">{% translate "Shared guidance" %}</span><h1>{% translate "Feedback for the family" %}</h1><p><bdi>{{ program.child.code }}</bdi> · <bdi>{{ program.title }}</bdi></p></div></div>
+{% if source_report %}<section class="card"><h2>{% translate "Parent report" %}</h2><p><bdi>{{ source_report.item.activity.title }}</bdi> · {{ source_report.created_at|date:'DATETIME_FORMAT' }}</p><p>{{ source_report.get_completion_display }} · {{ source_report.get_parent_report_display }}</p><p dir="auto">{{ source_report.comment }}</p></section>{% endif %}
+<section class="card feedback-composer"><p class="callout">{% translate "This feedback will be visible to the authorized caregivers. Private professional observations stay separate." %}</p><form method="post">{% csrf_token %}{% include 'error_summary.html' %}{{ form.as_p }}<button class="button" type="submit">{% translate "Publish family feedback" %}</button></form></section>
+{% endblock %}

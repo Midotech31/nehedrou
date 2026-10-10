@@ -1,0 +1,126 @@
+{
+  "passed": true,
+  "scope": "Isolated local WSGI simulation with DEBUG=False, HTTPS proxy, manifest static storage and fictional data; not a live Render or browser test.",
+  "checks": [
+    {
+      "check": "/fr/",
+      "passed": true
+    },
+    {
+      "check": "/fr/ debug disabled",
+      "passed": true
+    },
+    {
+      "check": "/fr/ temporary warning",
+      "passed": true
+    },
+    {
+      "check": "/fr/try/",
+      "passed": true
+    },
+    {
+      "check": "/fr/try/ debug disabled",
+      "passed": true
+    },
+    {
+      "check": "/fr/try/ temporary warning",
+      "passed": true
+    },
+    {
+      "check": "/en/",
+      "passed": true
+    },
+    {
+      "check": "/en/ debug disabled",
+      "passed": true
+    },
+    {
+      "check": "/en/ temporary warning",
+      "passed": true
+    },
+    {
+      "check": "/en/try/",
+      "passed": true
+    },
+    {
+      "check": "/en/try/ debug disabled",
+      "passed": true
+    },
+    {
+      "check": "/en/try/ temporary warning",
+      "passed": true
+    },
+    {
+      "check": "/ar/",
+      "passed": true
+    },
+    {
+      "check": "/ar/ debug disabled",
+      "passed": true
+    },
+    {
+      "check": "/ar/ temporary warning",
+      "passed": true
+    },
+    {
+      "check": "/ar/try/",
+      "passed": true
+    },
+    {
+      "check": "/ar/try/ debug disabled",
+      "passed": true
+    },
+    {
+      "check": "/ar/try/ temporary warning",
+      "passed": true
+    },
+    {
+      "check": "static logo",
+      "passed": true
+    },
+    {
+      "check": "original logo sha",
+      "passed": true
+    },
+    {
+      "check": "static css",
+      "passed": true
+    },
+    {
+      "check": "database health",
+      "passed": true
+    },
+    {
+      "check": "secure csrf cookie",
+      "passed": true
+    },
+    {
+      "check": "https clinician login",
+      "passed": true
+    },
+    {
+      "check": "secure session cookie",
+      "passed": true
+    },
+    {
+      "check": "clinician dashboard",
+      "passed": true
+    },
+    {
+      "check": "contextual language post",
+      "passed": true
+    },
+    {
+      "check": "foreign origin rejected",
+      "passed": true
+    },
+    {
+      "check": "null origin rejected",
+      "passed": true
+    },
+    {
+      "check": "logout post",
+      "passed": true
+    }
+  ]
+}

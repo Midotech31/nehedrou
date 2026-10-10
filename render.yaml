@@ -1,0 +1,30 @@
+# Fictional test deployment. Temporary SQLite is not a clinical production database.
+services:
+  - type: web
+    name: nehedrou-demo
+    runtime: python
+    plan: free
+    region: frankfurt
+    branch: main
+    buildCommand: python scripts/render_build.py
+    startCommand: python scripts/render_start.py
+    healthCheckPath: /healthz/
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.15
+      - key: DJANGO_DEBUG
+        value: "0"
+      - key: DEMO_MODE
+        value: "1"
+      - key: DEMO_EPHEMERAL
+        value: "1"
+      - key: DEMO_DATABASE_PATH
+        value: /tmp/nehedrou-demo.sqlite3
+      - key: MFA_REQUIRED
+        value: "0"
+      - key: DJANGO_SECRET_KEY
+        sync: false # Supply a private random value of at least 50 characters.
+      - key: DEMO_PASSWORD
+        sync: false
+      - key: EMAIL_BACKEND
+        value: django.core.mail.backends.console.EmailBackend

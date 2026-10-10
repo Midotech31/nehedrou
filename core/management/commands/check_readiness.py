@@ -1,0 +1,50 @@
+"""Technical launch gates. These checks never certify clinical effectiveness."""
+import json
+from urllib.parse import urlsplit
+from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
+from django.db import connection
+from catalog.models import Activity
+
+
+class Command(BaseCommand):
+    help = 'Report technical launch blockers without exposing accounts or credentials.'
+
+    def add_arguments(self, parser):
+        parser.add_argument('--json', action='store_true')
+        parser.add_argument('--strict', action='store_true', help='Fail if any technical gate is unmet.')
+
+    def handle(self, *args, **options):
+        catalogue = Activity.objects.filter(state='published', is_demo=False)
+        coverage = {}
+        for code, _label in settings.LANGUAGES:
+            coverage[code] = catalogue.filter(variety__language=code).count()
+        # Re-check deployment origin and durable media. Published versions are immutable.
+        unavailable = sum(not (a.usable and a.has_current_reviews()) for a in catalogue)
+        origin = urlsplit(settings.PUBLIC_ORIGIN)
+        checks = {
+            'demonstration_disabled': not settings.DEMO_MODE,
+            'debug_disabled': not settings.DEBUG,
+            'postgresql': connection.vendor == 'postgresql',
+            'privileged_mfa_required': settings.MFA_REQUIRED,
+            'public_https_origin': origin.scheme == 'https' and bool(origin.netloc) and not origin.username and not origin.password,
+            'smtp_configured': settings.EMAIL_BACKEND.endswith('smtp.EmailBackend') and bool(settings.EMAIL_HOST),
+            'published_nondemo_content_in_each_offered_language': all(coverage.values()),
+            'published_audio_and_current_reviews_available': bool(catalogue.exists()) and unavailable == 0,
+        }
+        report = {
+            'technical_gates_passed': all(checks.values()),
+            'checks': checks,
+            'published_nondemo_counts': coverage,
+            'versions_with_unavailable_audio_or_reviews': unavailable,
+            'manual_gates_required': ['professional_content_and_audio_validation', 'native_language_review', 'browser_and_accessibility_acceptance', 'backup_restore_and_concurrency_acceptance', 'applicable_launch_obligations', 'clinical_effectiveness_claims_require_separate_evidence'],
+            'scope': 'A technical report, never clinical validation or commercial approval.',
+        }
+        if options['json']:
+            self.stdout.write(json.dumps(report, ensure_ascii=True, indent=2))
+        else:
+            for name, passed in checks.items():
+                self.stdout.write(('PASS ' if passed else 'BLOCK ') + name)
+            self.stdout.write(report['scope'])
+        if options['strict'] and not report['technical_gates_passed']:
+            raise CommandError('Technical launch gates are not met.')

@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% load i18n %}{% block content %}<div class="page-heading"><h1>{{ title }}</h1></div><section class="card form-card"><form method="post">{% csrf_token %}{% include 'error_summary.html' %}{{ form.as_p }}<button class="button" type="submit">{{ submit }}</button></form></section>{% endblock %}

@@ -1,0 +1,421 @@
+{
+  "version": 6,
+  "scope": "Local fictional demonstration; not a clinically approved product or a production deployment.",
+  "postgresql": {
+    "passed": 102,
+    "skipped": 0,
+    "seconds": 164.955,
+    "concurrency_cases": 6
+  },
+  "sqlite": {
+    "passed": 96,
+    "skipped_postgresql_only": 6,
+    "seconds": 97.89
+  },
+  "final_presentation_regressions": {
+    "passed": 2,
+    "seconds": 7.011
+  },
+  "restore": {
+    "passed": true,
+    "source_database": "nehdrou_final_audit_20261009",
+    "restored_database": "nehdrou_restore_442c8d87da",
+    "table_count": 36,
+    "row_counts": {
+      "auth_group": 1,
+      "auth_group_permissions": 22,
+      "auth_permission": 127,
+      "care_child": 4,
+      "care_child_varieties": 4,
+      "care_familylink": 1,
+      "care_observation": 0,
+      "care_practicerun": 1,
+      "care_practiceruntask": 1,
+      "care_practicesession": 1,
+      "care_program": 3,
+      "care_programfeedback": 1,
+      "care_programitem": 3,
+      "catalog_activity": 3,
+      "catalog_editorialgrant": 3,
+      "catalog_mediaasset": 1,
+      "catalog_review": 0,
+      "catalog_variety": 3,
+      "core_auditevent": 4,
+      "core_entitlement": 2,
+      "core_invitation": 0,
+      "core_invoice": 0,
+      "core_membership": 2,
+      "core_noticeacknowledgement": 0,
+      "core_organization": 2,
+      "core_privacyrequest": 0,
+      "core_ratewindow": 0,
+      "core_recoverycode": 0,
+      "core_user": 4,
+      "core_user_groups": 1,
+      "core_user_user_permissions": 0,
+      "django_admin_log": 0,
+      "django_content_type": 31,
+      "django_migrations": 36,
+      "django_session": 0,
+      "otp_totp_totpdevice": 0
+    },
+    "identical_row_counts": true,
+    "unvalidated_foreign_keys": 0,
+    "protected_media_copy_sha256": "c726d333dd159a31423f3480dbb1c5c4a9dfcd30efe1f7e12ade390dc92e8908",
+    "export_and_access_checked": true,
+    "scope": "Fictional local PostgreSQL and a separate media fixture; not a production backup system or complete media collection."
+  },
+  "http": {
+    "at": "2026-10-09T22:29:07.153359+00:00",
+    "active_root": "E:\\LocalCoderWorkspace\\Nehdrou\\outputs\\nehdrou",
+    "http_checks": [
+      {
+        "language": "fr",
+        "flow": "home_and_public_stopped_preview",
+        "passed": true
+      },
+      {
+        "language": "fr",
+        "role": "clinician",
+        "flow": "dashboard_and_ordered_builder",
+        "passed": true
+      },
+      {
+        "language": "fr",
+        "role": "family",
+        "flow": "double_start_and_stable_resume",
+        "passed": true
+      },
+      {
+        "language": "fr",
+        "role": "family",
+        "flow": "stopped_run_and_idempotent_replay",
+        "passed": true
+      },
+      {
+        "language": "en",
+        "flow": "home_and_public_stopped_preview",
+        "passed": true
+      },
+      {
+        "language": "en",
+        "role": "clinician",
+        "flow": "dashboard_and_ordered_builder",
+        "passed": true
+      },
+      {
+        "language": "en",
+        "role": "family",
+        "flow": "double_start_and_stable_resume",
+        "passed": true
+      },
+      {
+        "language": "en",
+        "role": "family",
+        "flow": "completed_run_and_idempotent_replay",
+        "passed": true
+      },
+      {
+        "language": "ar",
+        "flow": "home_and_public_stopped_preview",
+        "passed": true
+      },
+      {
+        "language": "ar",
+        "role": "clinician",
+        "flow": "dashboard_and_ordered_builder",
+        "passed": true
+      },
+      {
+        "language": "ar",
+        "role": "family",
+        "flow": "double_start_and_stable_resume",
+        "passed": true
+      },
+      {
+        "language": "ar",
+        "role": "family",
+        "flow": "close_without_invented_report",
+        "passed": true
+      }
+    ],
+    "original_logo_sha256": "5050a7ffe70b3ba34eea47ba311a66d4d2066325b77e6bf0e38ff22546ce6bbe",
+    "http_scope": "Server HTTP, HTML and CSRF only; no JavaScript execution or visual/browser acceptance.",
+    "browser_rendering": "Chrome BrowserAct opened after user approval and daemon restart; actual recipe documented separately in RECETTE_NAVIGATEUR.md.",
+    "recording": "No recording started or MP4 claimed.",
+    "clinical_approval": "No approved clinical catalogue or audio supplied."
+  },
+  "public_browser_states": {
+    "320": [
+      {
+        "url": "http://127.0.0.1:8000/fr/",
+        "lang": "fr",
+        "dir": "ltr",
+        "width": 320,
+        "height": 900,
+        "scrollWidth": 320,
+        "overflow": false,
+        "bodyFont": "\"Segoe UI\", Arial, sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": []
+      },
+      {
+        "url": "http://127.0.0.1:8000/fr/try/",
+        "lang": "fr",
+        "dir": "ltr",
+        "width": 320,
+        "height": 900,
+        "scrollWidth": 320,
+        "overflow": false,
+        "bodyFont": "\"Segoe UI\", Arial, sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": [],
+        "counter": "1 / 3",
+        "counterDir": "ltr"
+      },
+      {
+        "url": "http://127.0.0.1:8000/en/",
+        "lang": "en",
+        "dir": "ltr",
+        "width": 320,
+        "height": 900,
+        "scrollWidth": 320,
+        "overflow": false,
+        "bodyFont": "\"Segoe UI\", Arial, sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": []
+      },
+      {
+        "url": "http://127.0.0.1:8000/en/try/",
+        "lang": "en",
+        "dir": "ltr",
+        "width": 320,
+        "height": 900,
+        "scrollWidth": 320,
+        "overflow": false,
+        "bodyFont": "\"Segoe UI\", Arial, sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": [],
+        "counter": "1 / 3",
+        "counterDir": "ltr"
+      },
+      {
+        "url": "http://127.0.0.1:8000/ar/",
+        "lang": "ar",
+        "dir": "rtl",
+        "width": 320,
+        "height": 900,
+        "scrollWidth": 320,
+        "overflow": false,
+        "bodyFont": "Tajawal, \"Segoe UI\", sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": []
+      },
+      {
+        "url": "http://127.0.0.1:8000/ar/try/",
+        "lang": "ar",
+        "dir": "rtl",
+        "width": 320,
+        "height": 900,
+        "scrollWidth": 320,
+        "overflow": false,
+        "bodyFont": "Tajawal, \"Segoe UI\", sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": [],
+        "counter": "1 / 3",
+        "counterDir": "ltr"
+      }
+    ],
+    "390": [
+      {
+        "url": "http://127.0.0.1:8000/fr/",
+        "lang": "fr",
+        "dir": "ltr",
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390,
+        "overflow": false,
+        "bodyFont": "\"Segoe UI\", Arial, sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": []
+      },
+      {
+        "url": "http://127.0.0.1:8000/fr/try/",
+        "lang": "fr",
+        "dir": "ltr",
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390,
+        "overflow": false,
+        "bodyFont": "\"Segoe UI\", Arial, sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": [],
+        "counter": "1 / 3",
+        "counterDir": "ltr"
+      },
+      {
+        "url": "http://127.0.0.1:8000/en/",
+        "lang": "en",
+        "dir": "ltr",
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390,
+        "overflow": false,
+        "bodyFont": "\"Segoe UI\", Arial, sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": []
+      },
+      {
+        "url": "http://127.0.0.1:8000/en/try/",
+        "lang": "en",
+        "dir": "ltr",
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390,
+        "overflow": false,
+        "bodyFont": "\"Segoe UI\", Arial, sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": [],
+        "counter": "1 / 3",
+        "counterDir": "ltr"
+      },
+      {
+        "url": "http://127.0.0.1:8000/ar/",
+        "lang": "ar",
+        "dir": "rtl",
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390,
+        "overflow": false,
+        "bodyFont": "Tajawal, \"Segoe UI\", sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": []
+      },
+      {
+        "url": "http://127.0.0.1:8000/ar/try/",
+        "lang": "ar",
+        "dir": "rtl",
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390,
+        "overflow": false,
+        "bodyFont": "Tajawal, \"Segoe UI\", sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": [],
+        "counter": "1 / 3",
+        "counterDir": "ltr"
+      }
+    ],
+    "1440": [
+      {
+        "url": "http://127.0.0.1:8000/fr/",
+        "lang": "fr",
+        "dir": "ltr",
+        "width": 1440,
+        "height": 1000,
+        "scrollWidth": 1425,
+        "overflow": false,
+        "bodyFont": "\"Segoe UI\", Arial, sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": []
+      },
+      {
+        "url": "http://127.0.0.1:8000/fr/try/",
+        "lang": "fr",
+        "dir": "ltr",
+        "width": 1440,
+        "height": 1000,
+        "scrollWidth": 1425,
+        "overflow": false,
+        "bodyFont": "\"Segoe UI\", Arial, sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": [],
+        "counter": "1 / 3",
+        "counterDir": "ltr"
+      },
+      {
+        "url": "http://127.0.0.1:8000/en/",
+        "lang": "en",
+        "dir": "ltr",
+        "width": 1440,
+        "height": 1000,
+        "scrollWidth": 1425,
+        "overflow": false,
+        "bodyFont": "\"Segoe UI\", Arial, sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": []
+      },
+      {
+        "url": "http://127.0.0.1:8000/en/try/",
+        "lang": "en",
+        "dir": "ltr",
+        "width": 1440,
+        "height": 1000,
+        "scrollWidth": 1425,
+        "overflow": false,
+        "bodyFont": "\"Segoe UI\", Arial, sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": [],
+        "counter": "1 / 3",
+        "counterDir": "ltr"
+      },
+      {
+        "url": "http://127.0.0.1:8000/ar/",
+        "lang": "ar",
+        "dir": "rtl",
+        "width": 1440,
+        "height": 1000,
+        "scrollWidth": 1425,
+        "overflow": false,
+        "bodyFont": "Tajawal, \"Segoe UI\", sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": []
+      },
+      {
+        "url": "http://127.0.0.1:8000/ar/try/",
+        "lang": "ar",
+        "dir": "rtl",
+        "width": 1440,
+        "height": 1000,
+        "scrollWidth": 1425,
+        "overflow": false,
+        "bodyFont": "Tajawal, \"Segoe UI\", sans-serif",
+        "headings": 1,
+        "brokenImages": [],
+        "labelsMissing": [],
+        "counter": "1 / 3",
+        "counterDir": "ltr"
+      }
+    ]
+  },
+  "visual_review": "Independent final review of FR/EN/AR public home screenshots at 390 px: acceptable for a public fictional demonstration; no blocking visual defect visible in these captures.",
+  "not_qualified": [
+    "Clinical content and audio approval",
+    "Therapeutic efficacy",
+    "Native field review",
+    "Physical devices and assistive technology",
+    "200 percent browser zoom",
+    "Production load and operations",
+    "International commercial and market obligations",
+    "Willingness to pay and retention"
+  ],
+  "clinically_approved_versions": 0,
+  "clinically_approved_audio": 0
+}

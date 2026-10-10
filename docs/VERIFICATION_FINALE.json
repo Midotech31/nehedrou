@@ -1,0 +1,81 @@
+{
+  "at": "2026-10-09T20:45:18.895971+00:00",
+  "active_root": "E:\\LocalCoderWorkspace\\Nehdrou\\outputs\\nehdrou",
+  "http_checks": [
+    {
+      "language": "fr",
+      "flow": "public_home_and_stopped_preview",
+      "passed": true
+    },
+    {
+      "language": "fr",
+      "role": "clinician",
+      "flow": "dashboard_and_ordered_builder",
+      "passed": true
+    },
+    {
+      "language": "fr",
+      "role": "family",
+      "flow": "direct_activity_and_saved_stopped_report",
+      "passed": true
+    },
+    {
+      "language": "en",
+      "flow": "public_home_and_stopped_preview",
+      "passed": true
+    },
+    {
+      "language": "en",
+      "role": "clinician",
+      "flow": "dashboard_and_ordered_builder",
+      "passed": true
+    },
+    {
+      "language": "en",
+      "role": "family",
+      "flow": "direct_activity_and_saved_stopped_report",
+      "passed": true
+    },
+    {
+      "language": "ar",
+      "flow": "public_home_and_stopped_preview",
+      "passed": true
+    },
+    {
+      "language": "ar",
+      "role": "clinician",
+      "flow": "dashboard_and_ordered_builder",
+      "passed": true
+    },
+    {
+      "language": "ar",
+      "role": "family",
+      "flow": "direct_activity_and_saved_stopped_report",
+      "passed": true
+    }
+  ],
+  "original_logo_sha256": "5050a7ffe70b3ba34eea47ba311a66d4d2066325b77e6bf0e38ff22546ce6bbe",
+  "test_suite": {
+    "discovered": 70,
+    "passed": 67,
+    "skipped": 3,
+    "skipped_reason": "PostgreSQL row-lock tests; Windows server failed at internal checkpoint signalling.",
+    "sqlite_exit_code": 0,
+    "duration_seconds": 55.471
+  },
+  "translations": {
+    "messages_per_language": 537,
+    "ui_keys": 504,
+    "missing": {
+      "fr": 0,
+      "en": 0,
+      "ar": 0
+    }
+  },
+  "javascript_syntax": "passed",
+  "migrations": "applied; no changes detected",
+  "browser_rendering": "not inspected; in-app kernel unavailable, BrowserAct creation consent pending",
+  "recording": "not started; no MP4 claimed",
+  "clinical_approval": "none supplied",
+  "http_scope": "Server HTTP and CSRF; does not execute JavaScript or establish visual acceptance."
+}

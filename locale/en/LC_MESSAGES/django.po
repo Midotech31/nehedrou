@@ -1,0 +1,1829 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8\nLanguage: en\nPlural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "A caregiver guides familiarization, a picture task and a short exchange."
+msgstr "A caregiver guides familiarization, a picture task and a short exchange."
+
+msgid "A clear view of your shared practice."
+msgstr "A clear view of your shared practice."
+
+msgid "A family invitation requires a child profile."
+msgstr "A family invitation requires a child profile."
+
+msgid "A focused first module"
+msgstr "A focused first module"
+
+msgid "A game result describes a closed task. It does not measure speech quality or progress in conversation."
+msgstr "A game result describes a closed task. It does not measure speech quality or progress in conversation."
+
+msgid "A little practice. A shared journey."
+msgstr "A little practice. A shared journey."
+
+msgid "A password reset was requested for your Nehdrou account."
+msgstr "A password reset was requested for your Nehdrou account."
+
+msgid "A practice manager cannot be removed here."
+msgstr "A practice manager cannot be removed here."
+
+msgid "A practitioner invitation must not include a child profile."
+msgstr "A practitioner invitation must not include a child profile."
+
+msgid "A published version cannot return to draft."
+msgstr "A published version cannot return to draft."
+
+msgid "A short exchange"
+msgstr "A short exchange"
+
+msgid "ACCOMPANIMENT"
+msgstr "ACCOMPANIMENT"
+
+msgid "AT HOME, TOGETHER"
+msgstr "AT HOME, TOGETHER"
+
+msgid "Accept invitation"
+msgstr "Accept invitation"
+
+msgid "Access has expired. Existing records and exports remain available."
+msgstr "Access has expired. Existing records and exports remain available."
+
+msgid "Access is no longer available."
+msgstr "Access is no longer available."
+
+msgid "Access until"
+msgstr "Access until"
+
+msgid "Active"
+msgstr "Active"
+
+msgid "Active profiles"
+msgstr "Active profiles"
+
+msgid "Active programs"
+msgstr "Active programs"
+
+msgid "Activities"
+msgstr "Activities"
+
+msgid "Activity library"
+msgstr "Activity library"
+
+msgid "Activity unavailable"
+msgstr "Activity unavailable"
+
+msgid "Add a child profile"
+msgstr "Add a child profile"
+
+msgid "Add a profile and choose activities, or accept your clinician’s invitation."
+msgstr "Add a profile and choose activities, or accept your clinician’s invitation."
+
+msgid "Add observation"
+msgstr "Add observation"
+
+msgid "Age in years"
+msgstr "Age in years"
+
+msgid "All activities must match the selected variety."
+msgstr "All activities must match the selected variety."
+
+msgid "All varieties"
+msgstr "All varieties"
+
+msgid "An active practice member is required."
+msgstr "An active practice member is required."
+
+msgid "Approved"
+msgstr "Approved"
+
+msgid "Ask your clinician for a new invitation."
+msgstr "Ask your clinician for a new invitation."
+
+msgid "Assign program"
+msgstr "Assign program"
+
+msgid "Assigned program identity cannot be changed."
+msgstr "Assigned program identity cannot be changed."
+
+msgid "Audio model"
+msgstr "Audio model"
+
+msgid "Authorized caregivers"
+msgstr "Authorized caregivers"
+
+msgid "Billing is managed manually. No card information is collected."
+msgstr "Billing is managed manually. No card information is collected."
+
+msgid "Caregiver email"
+msgstr "Caregiver email"
+
+msgid "Caregiver instructions"
+msgstr "Caregiver instructions"
+
+msgid "Caregiver: say this word naturally, then invite the child to choose the matching image."
+msgstr "Caregiver: say this word naturally, then invite the child to choose the matching image."
+
+msgid "Change"
+msgstr "Change"
+
+msgid "Check your email"
+msgstr "Check your email"
+
+msgid "Child profiles"
+msgstr "Child profiles"
+
+msgid "Choose a new password"
+msgstr "Choose a new password"
+
+msgid "Choose an answer or stop the activity."
+msgstr "Choose an answer or stop the activity."
+
+msgid "Choose another instruction language in your preferences or contact your clinician."
+msgstr "Choose another instruction language in your preferences or contact your clinician."
+
+msgid "Choose content for the child’s spoken variety."
+msgstr "Choose content for the child’s spoken variety."
+
+msgid "Choose the matching image"
+msgstr "Choose the matching image"
+
+msgid "Choose with care"
+msgstr "Choose with care"
+
+msgid "Clinical and linguistic reviews are required."
+msgstr "Clinical and linguistic reviews are required."
+
+msgid "Clinician"
+msgstr "Clinician"
+
+msgid "Closed-task answers"
+msgstr "Closed-task answers"
+
+msgid "Comfortable"
+msgstr "Comfortable"
+
+msgid "Complete program"
+msgstr "Complete program"
+
+msgid "Completed"
+msgstr "Completed"
+
+msgid "Connect the clinician’s program with simple, accompanied activities at home."
+msgstr "Connect the clinician’s program with simple, accompanied activities at home."
+
+msgid "Contact the editorial team. Content is never replaced by another language automatically."
+msgstr "Contact the editorial team. Content is never replaced by another language automatically."
+
+msgid "Contact your clinician to adjust the program."
+msgstr "Contact your clinician to adjust the program."
+
+msgid "Contrast or title"
+msgstr "Contrast or title"
+
+msgid "Create a caregiver account or sign in with the invited email address."
+msgstr "Create a caregiver account or sign in with the invited email address."
+
+msgid "Create a new version to change published content."
+msgstr "Create a new version to change published content."
+
+msgid "Create a program"
+msgstr "Create a program"
+
+msgid "Create account"
+msgstr "Create account"
+
+msgid "Create your practice"
+msgstr "Create your practice"
+
+msgid "Data requests"
+msgstr "Data requests"
+
+msgid "Deletion requests require review of the practice’s applicable obligations."
+msgstr "Deletion requests require review of the practice’s applicable obligations."
+
+msgid "Demo content cannot be assigned outside demonstration mode."
+msgstr "Demo content cannot be assigned outside demonstration mode."
+
+msgid "Demonstration · fictional data and unvalidated sample content"
+msgstr "Demonstration · fictional data and unvalidated sample content"
+
+msgid "Designed for ages 4–7 following professional evaluation. Demonstration content requires clinical and linguistic review before use with real children."
+msgstr "Designed for ages 4–7 following professional evaluation. Demonstration content requires clinical and linguistic review before use with real children."
+
+msgid "Difficult"
+msgstr "Difficult"
+
+msgid "Discover the words"
+msgstr "Discover the words"
+
+msgid "Draft"
+msgstr "Draft"
+
+msgid "EXPLORE"
+msgstr "EXPLORE"
+
+msgid "Enter your account email address."
+msgstr "Enter your account email address."
+
+msgid "Expired access blocks new profiles and assignments. Existing programs, history and authorized exports remain accessible."
+msgstr "Expired access blocks new profiles and assignments. Existing programs, history and authorized exports remain accessible."
+
+msgid "Export authorized data"
+msgstr "Export authorized data"
+
+msgid "Family access is included in practice access. Plans and prices will be defined after pilot validation. Billing is manual; online payments are not enabled."
+msgstr "Family access is included in practice access. Plans and prices will be defined after pilot validation. Billing is manual; online payments are not enabled."
+
+msgid "Family space"
+msgstr "Family space"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Forgot your password?"
+msgstr "Forgot your password?"
+
+msgid "French · English · Arabic"
+msgstr "French · English · Arabic"
+
+msgid "Frequency and duration chosen by clinician"
+msgstr "Frequency and duration chosen by clinician"
+
+msgid "Good to see you"
+msgstr "Good to see you"
+
+msgid "Guided home practice. Your clinician chooses the goals."
+msgstr "Guided home practice. Your clinician chooses the goals."
+
+msgid "I already have an account"
+msgstr "I already have an account"
+
+msgid "If an account matches this email address, a recovery link has been sent."
+msgstr "If an account matches this email address, a recovery link has been sent."
+
+msgid "Ignore this email if you did not request it."
+msgstr "Ignore this email if you did not request it."
+
+msgid "In review"
+msgstr "In review"
+
+msgid "Instructions must contain language codes and text."
+msgstr "Instructions must contain language codes and text."
+
+msgid "Instructions unavailable"
+msgstr "Instructions unavailable"
+
+msgid "Interface language"
+msgstr "Interface language"
+
+msgid "Invalid editorial media path."
+msgstr "Invalid editorial media path."
+
+msgid "Invitation sent. In local demo mode, check the server console."
+msgstr "Invitation sent. In local demo mode, check the server console."
+
+msgid "Invitation unavailable"
+msgstr "Invitation unavailable"
+
+msgid "Invite a caregiver"
+msgstr "Invite a caregiver"
+
+msgid "Invite a practitioner"
+msgstr "Invite a practitioner"
+
+msgid "Invite the child to ask for a picture. Follow the clinician’s guidance and keep the exchange comfortable."
+msgstr "Invite the child to ask for a picture. Follow the clinician’s guidance and keep the exchange comfortable."
+
+msgid "KEEP IN MIND"
+msgstr "KEEP IN MIND"
+
+msgid "Listen and choose"
+msgstr "Listen and choose"
+
+msgid "Main navigation"
+msgstr "Main navigation"
+
+msgid "Managing membership does not grant access to clinical records."
+msgstr "Managing membership does not grant access to clinical records."
+
+msgid "Media rights"
+msgstr "Media rights"
+
+msgid "Needed help"
+msgstr "Needed help"
+
+msgid "Next"
+msgstr "Next"
+
+msgid "No authorized profiles available."
+msgstr "No authorized profiles available."
+
+msgid "No caregiver linked yet."
+msgstr "No caregiver linked yet."
+
+msgid "No content available for this variety"
+msgstr "No content available for this variety"
+
+msgid "No practice reports yet."
+msgstr "No practice reports yet."
+
+msgid "No program assigned yet."
+msgstr "No program assigned yet."
+
+msgid "Only profiles you are authorized to accompany appear here."
+msgstr "Only profiles you are authorized to accompany appear here."
+
+msgid "Only published activities can be assigned."
+msgstr "Only published activities can be assigned."
+
+msgid "Open my space"
+msgstr "Open my space"
+
+msgid "Overview"
+msgstr "Overview"
+
+msgid "PRACTICE"
+msgstr "PRACTICE"
+
+msgid "Pagination"
+msgstr "Pagination"
+
+msgid "Parent comment"
+msgstr "Parent comment"
+
+msgid "Parent instruction language"
+msgstr "Parent instruction language"
+
+msgid "Parent report"
+msgstr "Parent report"
+
+msgid "Parent reports"
+msgstr "Parent reports"
+
+msgid "Participation"
+msgstr "Participation"
+
+msgid "Participation reports"
+msgstr "Participation reports"
+
+msgid "Participation, picture-task answers and parent comments remain distinct."
+msgstr "Participation, picture-task answers and parent comments remain distinct."
+
+msgid "Password updated"
+msgstr "Password updated"
+
+msgid "Pending invitations"
+msgstr "Pending invitations"
+
+msgid "Personal instructions"
+msgstr "Personal instructions"
+
+msgid "Plan and access"
+msgstr "Plan and access"
+
+msgid "Practice manager"
+msgstr "Practice manager"
+
+msgid "Practice members"
+msgstr "Practice members"
+
+msgid "Practice name"
+msgstr "Practice name"
+
+msgid "Practice reports"
+msgstr "Practice reports"
+
+msgid "Practice saved. Thank you for participating."
+msgstr "Practice saved. Thank you for participating."
+
+msgid "Practice summary"
+msgstr "Practice summary"
+
+msgid "Practice together"
+msgstr "Practice together"
+
+msgid "Practitioners"
+msgstr "Practitioners"
+
+msgid "Preferences"
+msgstr "Preferences"
+
+msgid "Preferences saved. Program language is unchanged."
+msgstr "Preferences saved. Program language is unchanged."
+
+msgid "Previous"
+msgstr "Previous"
+
+msgid "Printable support"
+msgstr "Printable support"
+
+msgid "Professional observation"
+msgstr "Professional observation"
+
+msgid "Professional observations"
+msgstr "Professional observations"
+
+msgid "Professional pilot"
+msgstr "Professional pilot"
+
+msgid "Program title"
+msgstr "Program title"
+
+msgid "Pseudonym"
+msgstr "Pseudonym"
+
+msgid "Publication requires media, rights, population and all instructions."
+msgstr "Publication requires media, rights, population and all instructions."
+
+msgid "Published"
+msgstr "Published"
+
+msgid "Recent practice"
+msgstr "Recent practice"
+
+msgid "Request erasure review"
+msgstr "Request erasure review"
+
+msgid "Reset your password"
+msgstr "Reset your password"
+
+msgid "Reviewed audio and transcription are required."
+msgstr "Reviewed audio and transcription are required."
+
+msgid "Reviews require a submitted content version."
+msgstr "Reviews require a submitted content version."
+
+msgid "Revoke access"
+msgstr "Revoke access"
+
+msgid "Revoke invitation"
+msgstr "Revoke invitation"
+
+msgid "Revoked"
+msgstr "Revoked"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Save practice report"
+msgstr "Save practice report"
+
+msgid "Save profile"
+msgstr "Save profile"
+
+msgid "Scope and limitations"
+msgstr "Scope and limitations"
+
+msgid "Select a spoken variety recorded for this child."
+msgstr "Select a spoken variety recorded for this child."
+
+msgid "Send invitation"
+msgstr "Send invitation"
+
+msgid "Share the experience"
+msgstr "Share the experience"
+
+msgid "Sign in"
+msgstr "Sign in"
+
+msgid "Sign out"
+msgstr "Sign out"
+
+msgid "Skip to content"
+msgstr "Skip to content"
+
+msgid "Small steps, shared practice."
+msgstr "Small steps, shared practice."
+
+msgid "Speech production is accompanied; the application does not grade it."
+msgstr "Speech production is accompanied; the application does not grade it."
+
+msgid "Spoken varieties"
+msgstr "Spoken varieties"
+
+msgid "Spoken variety"
+msgstr "Spoken variety"
+
+msgid "Stopped"
+msgstr "Stopped"
+
+msgid "Stopped attempts"
+msgstr "Stopped attempts"
+
+msgid "Stopped attempts do not count as incorrect answers."
+msgstr "Stopped attempts do not count as incorrect answers."
+
+msgid "Switch practice"
+msgstr "Switch practice"
+
+msgid "TOGETHER WITH A CAREGIVER"
+msgstr "TOGETHER WITH A CAREGIVER"
+
+msgid "The active child quota has been reached."
+msgstr "The active child quota has been reached."
+
+msgid "The activity link has expired. Reload the page."
+msgstr "The activity link has expired. Reload the page."
+
+msgid "The activity must match the program variety."
+msgstr "The activity must match the program variety."
+
+msgid "The application does not evaluate pronunciation or establish a diagnosis. No child voice is recorded."
+msgstr "The application does not evaluate pronunciation or establish a diagnosis. No child voice is recorded."
+
+msgid "The child must belong to this practice."
+msgstr "The child must belong to this practice."
+
+msgid "The clinician selects the spoken variety, content and practice schedule."
+msgstr "The clinician selects the spoken variety, content and practice schedule."
+
+msgid "The demonstration covers ages 4 to 7."
+msgstr "The demonstration covers ages 4 to 7."
+
+msgid "The practitioner quota has been reached."
+msgstr "The practitioner quota has been reached."
+
+msgid "The responsible clinician must be an active practice member."
+msgstr "The responsible clinician must be an active practice member."
+
+msgid "The session must belong to the program practice."
+msgstr "The session must belong to the program practice."
+
+msgid "These results do not score pronunciation. Stopped attempts are excluded from the answer denominator."
+msgstr "These results do not score pronunciation. Stopped attempts are excluded from the answer denominator."
+
+msgid "This activity is no longer available. Contact your clinician."
+msgstr "This activity is no longer available. Contact your clinician."
+
+msgid "This invitation is unavailable or belongs to another account."
+msgstr "This invitation is unavailable or belongs to another account."
+
+msgid "This recovery link is invalid or expired."
+msgstr "This recovery link is invalid or expired."
+
+msgid "This submission key was already used with different answers."
+msgstr "This submission key was already used with different answers."
+
+msgid "Too many attempts. Try again in 15 minutes."
+msgstr "Too many attempts. Try again in 15 minutes."
+
+msgid "Unvalidated example"
+msgstr "Unvalidated example"
+
+msgid "Unvalidated example. A caregiver reads the word; reviewed audio is not supplied in this demonstration."
+msgstr "Unvalidated example. A caregiver reads the word; reviewed audio is not supplied in this demonstration."
+
+msgid "Use your browser’s Print command to print or save as PDF."
+msgstr "Use your browser’s Print command to print or save as PDF."
+
+msgid "View profiles"
+msgstr "View profiles"
+
+msgid "Visible only to the responsible clinician."
+msgstr "Visible only to the responsible clinician."
+
+msgid "WELCOME BACK"
+msgstr "WELCOME BACK"
+
+msgid "Withdrawn"
+msgstr "Withdrawn"
+
+msgid "Withdrawn content. Contact your clinician."
+msgstr "Withdrawn content. Contact your clinician."
+
+msgid "YOUR SPACE"
+msgstr "YOUR SPACE"
+
+msgid "You can now sign in with your new password."
+msgstr "You can now sign in with your new password."
+
+msgid "You have been invited to Nehedrou. Sign in or create an account to accept this invitation:"
+msgstr "You have been invited to Nehedrou. Sign in or create an account to accept this invitation:"
+
+msgid "Your Nehedrou invitation"
+msgstr "Your Nehedrou invitation"
+
+msgid "Your clinician’s guidance"
+msgstr "Your clinician’s guidance"
+
+msgid "Your first program starts here"
+msgstr "Your first program starts here"
+
+msgid "Your invitation"
+msgstr "Your invitation"
+
+msgid "Your practice space is ready."
+msgstr "Your practice space is ready."
+
+msgid "Your programs"
+msgstr "Your programs"
+
+msgid "Your request has been recorded for manual review by the practice."
+msgstr "Your request has been recorded for manual review by the practice."
+
+msgid "years"
+msgstr "years"
+
+msgid "Caregiver"
+msgstr "Caregiver"
+
+msgid "Archive profile"
+msgstr "Archive profile"
+
+msgid "This profile is archived. Existing records remain accessible."
+msgstr "This profile is archived. Existing records remain accessible."
+
+msgid "A content series must keep the same spoken variety."
+msgstr "A content series must keep the same spoken variety."
+
+msgid "Publication requires available editorial images."
+msgstr "Publication requires available editorial images."
+
+msgid "FOR SPEECH THERAPISTS AND FAMILIES"
+msgstr "FOR SPEECH THERAPISTS AND FAMILIES"
+
+msgid "Connect speech therapy sessions with home practice."
+msgstr "Connect speech therapy sessions with home practice."
+
+msgid "The clinician chooses a program. The caregiver guides the activities at home and shares how practice went, to help prepare the next session."
+msgstr "The clinician chooses a program. The caregiver guides the activities at home and shares how practice went, to help prepare the next session."
+
+msgid "Demonstration, not yet available for clinical use"
+msgstr "Demonstration, not yet available for clinical use"
+
+msgid "Explore with fictional profiles only. The sample activities are not clinically validated."
+msgstr "Explore with fictional profiles only. The sample activities are not clinically validated."
+
+msgid "Create a demonstration space"
+msgstr "Create a demonstration space"
+
+msgid "I already have access"
+msgstr "I already have access"
+
+msgid "French, English and Arabic interfaces. Clinical content availability depends on the reviewed spoken variety."
+msgstr "French, English and Arabic interfaces. Clinical content availability depends on the reviewed spoken variety."
+
+msgid "HOW IT WORKS"
+msgstr "HOW IT WORKS"
+
+msgid "One program, a shared practice"
+msgstr "One program, a shared practice"
+
+msgid "The clinician prepares"
+msgstr "The clinician prepares"
+
+msgid "Select activities, give clear instructions and choose the practice schedule."
+msgstr "Select activities, give clear instructions and choose the practice schedule."
+
+msgid "The family accompanies"
+msgstr "The family accompanies"
+
+msgid "Follow the assigned instructions, practice together and report participation or difficulties."
+msgstr "Follow the assigned instructions, practice together and report participation or difficulties."
+
+msgid "The clinician reviews"
+msgstr "The clinician reviews"
+
+msgid "Review completed and stopped attempts, caregiver comments and separate professional observations."
+msgstr "Review completed and stopped attempts, caregiver comments and separate professional observations."
+
+msgid "For clinicians: organize home practice"
+msgstr "For clinicians: organize home practice"
+
+msgid "Keep the assigned activities, instructions and practice reports in one space. The clinician remains responsible for the goals and adjustments."
+msgstr "Keep the assigned activities, instructions and practice reports in one space. The clinician remains responsible for the goals and adjustments."
+
+msgid "For families: know what to do"
+msgstr "For families: know what to do"
+
+msgid "Access the child’s assigned program, read the caregiver instructions and share difficulties with the clinician."
+msgstr "Access the child’s assigned program, read the caregiver instructions and share difficulties with the clinician."
+
+msgid "For follow-up: understand the reports"
+msgstr "For follow-up: understand the reports"
+
+msgid "Participation, answers to picture tasks and professional observations are shown separately. A game result is not a pronunciation score."
+msgstr "Participation, answers to picture tasks and professional observations are shown separately. A game result is not a pronunciation score."
+
+msgid "Who is the first module intended for?"
+msgstr "Who is the first module intended for?"
+
+msgid "The intended first audience is children aged 4–7 already assessed by a qualified clinician, with a developmental phonological disorder for which the clinician considers phonological contrasts appropriate. Suitability is decided by the professional."
+msgstr "The intended first audience is children aged 4–7 already assessed by a qualified clinician, with a developmental phonological disorder for which the clinician considers phonological contrasts appropriate. Suitability is decided by the professional."
+
+msgid "The software does not diagnose, automatically assess pronunciation or replace speech therapy. Its therapeutic effectiveness has not been evaluated. No child voice is recorded in this version."
+msgstr "The software does not diagnose, automatically assess pronunciation or replace speech therapy. Its therapeutic effectiveness has not been evaluated. No child voice is recorded in this version."
+
+msgid "Current status and future access"
+msgstr "Current status and future access"
+
+msgid "This is a working demonstration with fictional content. Real clinical use requires reviewed content, further testing and the applicable launch conditions. No paid offer is currently available here."
+msgstr "This is a working demonstration with fictional content. Real clinical use requires reviewed content, further testing and the applicable launch conditions. No paid offer is currently available here."
+
+msgid "Account security"
+msgstr "Account security"
+
+msgid "Activate protection"
+msgstr "Activate protection"
+
+msgid "Adjust program"
+msgstr "Adjust program"
+
+msgid "Apply transition"
+msgstr "Apply transition"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Authenticator code"
+msgstr "Authenticator code"
+
+msgid "Authenticator code or recovery code"
+msgstr "Authenticator code or recovery code"
+
+msgid "CONTENT GOVERNANCE"
+msgstr "CONTENT GOVERNANCE"
+
+msgid "Cancelled"
+msgstr "Cancelled"
+
+msgid "Changes requested"
+msgstr "Changes requested"
+
+msgid "Continue"
+msgstr "Continue"
+
+msgid "Current password"
+msgstr "Current password"
+
+msgid "Decision"
+msgstr "Decision"
+
+msgid "Decision reason"
+msgstr "Decision reason"
+
+msgid "Edit child profile"
+msgstr "Edit child profile"
+
+msgid "Edit content draft"
+msgstr "Edit content draft"
+
+msgid "Edit profile"
+msgstr "Edit profile"
+
+msgid "Editorial media saved"
+msgstr "Editorial media saved"
+
+msgid "Editorial workspace"
+msgstr "Editorial workspace"
+
+msgid "Image"
+msgstr "Image"
+
+msgid "Information about your data"
+msgstr "Information about your data"
+
+msgid "Issued"
+msgstr "Issued"
+
+msgid "Manage access"
+msgstr "Manage access"
+
+msgid "Manual access rights"
+msgstr "Manual access rights"
+
+msgid "Manual billing operations"
+msgstr "Manual billing operations"
+
+msgid "Missing"
+msgstr "Missing"
+
+msgid "New draft"
+msgstr "New draft"
+
+msgid "New responsible clinician"
+msgstr "New responsible clinician"
+
+msgid "Next state"
+msgstr "Next state"
+
+msgid "No pending requests."
+msgstr "No pending requests."
+
+msgid "Paid"
+msgstr "Paid"
+
+msgid "Practice settings"
+msgstr "Practice settings"
+
+msgid "Preview media"
+msgstr "Preview media"
+
+msgid "Publication checklist"
+msgstr "Publication checklist"
+
+msgid "Record a manual invoice"
+msgstr "Record a manual invoice"
+
+msgid "Record decision"
+msgstr "Record decision"
+
+msgid "Recorded invoices"
+msgstr "Recorded invoices"
+
+msgid "Recovery codes"
+msgstr "Recovery codes"
+
+msgid "Regenerate"
+msgstr "Regenerate"
+
+msgid "Regenerate recovery codes"
+msgstr "Regenerate recovery codes"
+
+msgid "Restore profile"
+msgstr "Restore profile"
+
+msgid "Retention period in days"
+msgstr "Retention period in days"
+
+msgid "Review data request"
+msgstr "Review data request"
+
+msgid "Review request"
+msgstr "Review request"
+
+msgid "Save your recovery codes"
+msgstr "Save your recovery codes"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Submit review"
+msgstr "Submit review"
+
+msgid "Transfer"
+msgstr "Transfer"
+
+msgid "Transfer professional responsibility"
+msgstr "Transfer professional responsibility"
+
+msgid "Two-factor authentication"
+msgstr "Two-factor authentication"
+
+msgid "Upload"
+msgstr "Upload"
+
+msgid "Upload editorial media"
+msgstr "Upload editorial media"
+
+msgid "Verify"
+msgstr "Verify"
+
+msgid "Verify your identity"
+msgstr "Verify your identity"
+
+msgid "Version reviews"
+msgstr "Version reviews"
+
+msgid "French caregiver instructions"
+msgstr "French caregiver instructions"
+
+msgid "English caregiver instructions"
+msgstr "English caregiver instructions"
+
+msgid "Arabic caregiver instructions"
+msgstr "Arabic caregiver instructions"
+
+msgid "Invalid or already used code."
+msgstr "Invalid or already used code."
+
+msgid "The password is incorrect."
+msgstr "The password is incorrect."
+
+msgid "The pseudonym does not match."
+msgstr "The pseudonym does not match."
+
+msgid "I have read this information"
+msgstr "I have read this information"
+
+msgid "Create a new content version"
+msgstr "Create a new content version"
+
+msgid "Erase the child record"
+msgstr "Erase the child record"
+
+msgid "Retain with documented reason"
+msgstr "Retain with documented reason"
+
+msgid "Configured retention days"
+msgstr "Configured retention days"
+
+msgid "Programs referring to this version"
+msgstr "Programs referring to this version"
+
+msgid "Assign updated program"
+msgstr "Assign updated program"
+
+msgid "Adjust program with a new version"
+msgstr "Adjust program with a new version"
+
+msgid "The amount cannot be negative."
+msgstr "The amount cannot be negative."
+
+msgid "The file must be smaller than 15 MB."
+msgstr "The file must be smaller than 15 MB."
+
+msgid "Use a PNG, JPEG, WAV or MP3 file."
+msgstr "Use a PNG, JPEG, WAV or MP3 file."
+
+msgid "Use this reference in the content draft."
+msgstr "Use this reference in the content draft."
+
+msgid "A little practice, together."
+msgstr "A little practice, together."
+
+msgid "A moment to practice together"
+msgstr "A moment to practice together"
+
+msgid "Active profiles you can access"
+msgstr "Active profiles you can access"
+
+msgid "Activity steps"
+msgstr "Activity steps"
+
+msgid "Activity title"
+msgstr "Activity title"
+
+msgid "All languages"
+msgstr "All languages"
+
+msgid "All profiles"
+msgstr "All profiles"
+
+msgid "Arabic · Algeria (pilot)"
+msgstr "Arabic · Algeria (pilot)"
+
+msgid "Archived"
+msgstr "Archived"
+
+msgid "Assign from a child profile"
+msgstr "Assign from a child profile"
+
+msgid "Assigned by the clinician"
+msgstr "Assigned by the clinician"
+
+msgid "Assigned program"
+msgstr "Assigned program"
+
+msgid "Audio available"
+msgstr "Audio available"
+
+msgid "Audio to prepare"
+msgstr "Audio to prepare"
+
+msgid "Authenticator setup QR code"
+msgstr "Authenticator setup QR code"
+
+msgid "Cat illustration"
+msgstr "Cat illustration"
+
+msgid "Choose this policy with your practice adviser before processing erasure."
+msgstr "Choose this policy with your practice adviser before processing erasure."
+
+msgid "Configure the practice retention policy before processing erasure."
+msgstr "Configure the practice retention policy before processing erasure."
+
+msgid "Content language"
+msgstr "Content language"
+
+msgid "Demonstration content"
+msgstr "Demonstration content"
+
+msgid "Discover"
+msgstr "Discover"
+
+msgid "Discover two pictures, listen and share a short exchange."
+msgstr "Discover two pictures, listen and share a short exchange."
+
+msgid "Discover · Listen · Exchange"
+msgstr "Discover · Listen · Exchange"
+
+msgid "Each code can be used once if your authenticator is unavailable. Store them securely. They will not be displayed again."
+msgstr "Each code can be used once if your authenticator is unavailable. Store them securely. They will not be displayed again."
+
+msgid "English · United States (pilot)"
+msgstr "English · United States (pilot)"
+
+msgid "Enter the child pseudonym to confirm"
+msgstr "Enter the child pseudonym to confirm"
+
+msgid "Enter the setup key manually"
+msgstr "Enter the setup key manually"
+
+msgid "Erasure removes the profile, programs, practice comments, observations, family links and unused invitations. The decision record remains without the child link. This cannot be undone from the application."
+msgstr "Erasure removes the profile, programs, practice comments, observations, family links and unused invitations. The decision record remains without the child link. This cannot be undone from the application."
+
+msgid "Example of the guided workspace"
+msgstr "Example of the guided workspace"
+
+msgid "Example only · content to be validated"
+msgstr "Example only · content to be validated"
+
+msgid "Exchange"
+msgstr "Exchange"
+
+msgid "Explore activity"
+msgstr "Explore activity"
+
+msgid "Feedback that stays connected"
+msgstr "Feedback that stays connected"
+
+msgid "Fictional child profile"
+msgstr "Fictional child profile"
+
+msgid "File"
+msgstr "File"
+
+msgid "First audio URL"
+msgstr "First audio URL"
+
+msgid "First illustration reference"
+msgstr "First illustration reference"
+
+msgid "First word"
+msgstr "First word"
+
+msgid "First word transcription"
+msgstr "First word transcription"
+
+msgid "French · France (pilot)"
+msgstr "French · France (pilot)"
+
+msgid "Illustrative preview"
+msgstr "Illustrative preview"
+
+msgid "Information acknowledgement recorded."
+msgstr "Information acknowledgement recorded."
+
+msgid "Intended population"
+msgstr "Intended population"
+
+msgid "Interface language changes the menus. Content language filters the words used in activities. The child's spoken variety remains the clinician's choice."
+msgstr "Interface language changes the menus. Content language filters the words used in activities. The child's spoken variety remains the clinician's choice."
+
+msgid "Keep the varieties of active programs or complete those programs first."
+msgstr "Keep the varieties of active programs or complete those programs first."
+
+msgid "Limits and precautions"
+msgstr "Limits and precautions"
+
+msgid "Listen"
+msgstr "Listen"
+
+msgid "Media type"
+msgstr "Media type"
+
+msgid "Open a profile, choose its program and review the family's latest feedback."
+msgstr "Open a profile, choose its program and review the family's latest feedback."
+
+msgid "Open profile"
+msgstr "Open profile"
+
+msgid "Open program"
+msgstr "Open program"
+
+msgid "Open the assigned program. Follow the instructions and tell your clinician how it went."
+msgstr "Open the assigned program. Follow the instructions and tell your clinician how it went."
+
+msgid "Participation and caregiver comments, ready for the next session."
+msgstr "Participation and caregiver comments, ready for the next session."
+
+msgid "Participation describes practice, not pronunciation quality."
+msgstr "Participation describes practice, not pronunciation quality."
+
+msgid "Participation over the last seven days"
+msgstr "Participation over the last seven days"
+
+msgid "Phonological contrast"
+msgstr "Phonological contrast"
+
+msgid "Practice rhythm"
+msgstr "Practice rhythm"
+
+msgid "Protection is active. Recovery codes can be regenerated after verification."
+msgstr "Protection is active. Recovery codes can be regenerated after verification."
+
+msgid "Rat illustration"
+msgstr "Rat illustration"
+
+msgid "Reports over the last seven days"
+msgstr "Reports over the last seven days"
+
+msgid "Reports will appear after an activity is saved."
+msgstr "Reports will appear after an activity is saved."
+
+msgid "Required fields are present. Human review is still required."
+msgstr "Required fields are present. Human review is still required."
+
+msgid "Reset filters"
+msgstr "Reset filters"
+
+msgid "Review each spoken variety and content version before clinical publication."
+msgstr "Review each spoken variety and content version before clinical publication."
+
+msgid "Review notes"
+msgstr "Review notes"
+
+msgid "Review type"
+msgstr "Review type"
+
+msgid "Scan this QR code with your authenticator, then enter your current password and the six-digit code."
+msgstr "Scan this QR code with your authenticator, then enter your current password and the six-digit code."
+
+msgid "Search activities"
+msgstr "Search activities"
+
+msgid "Search by pseudonym"
+msgstr "Search by pseudonym"
+
+msgid "Second audio URL"
+msgstr "Second audio URL"
+
+msgid "Second illustration reference"
+msgstr "Second illustration reference"
+
+msgid "Second word"
+msgstr "Second word"
+
+msgid "Second word transcription"
+msgstr "Second word transcription"
+
+msgid "Seven days"
+msgstr "Seven days"
+
+msgid "The configured retention period has not elapsed. Retain with a documented reason."
+msgstr "The configured retention period has not elapsed. Retain with a documented reason."
+
+msgid "The file type must match the selected media kind."
+msgstr "The file type must match the selected media kind."
+
+msgid "The practice manages accompanied profiles and authorizes family access. The application records assigned activities, participation and comments. Professional observations remain restricted."
+msgstr "The practice manages accompanied profiles and authorizes family access. The application records assigned activities, participation and comments. Professional observations remain restricted."
+
+msgid "This editorial transition is not allowed."
+msgstr "This editorial transition is not allowed."
+
+msgid "This local version uses fictional profiles. Before real use, the practice must provide its identified contacts, applicable legal information, retention policy and hosting details."
+msgstr "This local version uses fictional profiles. Before real use, the practice must provide its identified contacts, applicable legal information, retention policy and hosting details."
+
+msgid "This request has already been resolved."
+msgstr "This request has already been resolved."
+
+msgid "This week's practice"
+msgstr "This week's practice"
+
+msgid "Try another search or reset the filters."
+msgstr "Try another search or reset the filters."
+
+msgid "Turn a goal into shared practice."
+msgstr "Turn a goal into shared practice."
+
+msgid "Upload only authorized illustrations or adult speech models, never child recordings or patient documents."
+msgstr "Upload only authorized illustrations or adult speech models, never child recordings or patient documents."
+
+msgid "Usage rights"
+msgstr "Usage rights"
+
+msgid "You can export authorized records or submit an erasure request from the profile. Acknowledging this information is not a certification of compliance or a substitute for applicable consent."
+msgstr "You can export authorized records or submit an erasure request from the profile. Acknowledging this information is not a certification of compliance or a substitute for applicable consent."
+
+msgid "Your next step"
+msgstr "Your next step"
+
+msgid "activities"
+msgstr "activities"
+
+msgid "activities found"
+msgstr "activities found"
+
+msgid "participation reports"
+msgstr "participation reports"
+
+msgid "profiles found"
+msgstr "profiles found"
+
+msgid "reports"
+msgstr "reports"
+
+msgid "Three language choices, each with a clear purpose."
+msgstr "Three language choices, each with a clear purpose."
+
+msgid "The navigation, buttons and messages. Use the language buttons at the top of each page."
+msgstr "The navigation, buttons and messages. Use the language buttons at the top of each page."
+
+msgid "The language in which you read activity instructions. Choose it below; it does not change the words assigned to the child."
+msgstr "The language in which you read activity instructions. Choose it below; it does not change the words assigned to the child."
+
+msgid "The words and speech models used for practice. The clinician records the child's variety and selects matching activities."
+msgstr "The words and speech models used for practice. The clinician records the child's variety and selects matching activities."
+
+msgid "Choose your instruction language"
+msgstr "Choose your instruction language"
+
+msgid "Choose a variety, select illustrated activities and give the family clear instructions."
+msgstr "Choose a variety, select illustrated activities and give the family clear instructions."
+
+msgid "Program identity"
+msgstr "Program identity"
+
+msgid "Select activities"
+msgstr "Select activities"
+
+msgid "Only published activities matching this child's recorded varieties are offered."
+msgstr "Only published activities matching this child's recorded varieties are offered."
+
+msgid "selected"
+msgstr "selected"
+
+msgid "No activities match these filters."
+msgstr "No activities match these filters."
+
+msgid "Guide the family"
+msgstr "Guide the family"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Expired"
+msgstr "Expired"
+
+msgid "Family"
+msgstr "Family"
+
+msgid "Export"
+msgstr "Export"
+
+msgid "Erasure"
+msgstr "Erasure"
+
+msgid "Pending"
+msgstr "Pending"
+
+msgid "Resolved"
+msgstr "Resolved"
+
+msgid "Clinical"
+msgstr "Clinical"
+
+msgid "Linguistic"
+msgstr "Linguistic"
+
+msgid "Plan name"
+msgstr "Plan name"
+
+msgid "Child profile quota"
+msgstr "Child profile quota"
+
+msgid "Practitioner quota"
+msgstr "Practitioner quota"
+
+msgid "Amount"
+msgstr "Amount"
+
+msgid "Currency"
+msgstr "Currency"
+
+msgid "Billing reference"
+msgstr "Billing reference"
+
+msgid "Invoice number"
+msgstr "Invoice number"
+
+msgid "Payment reference"
+msgstr "Payment reference"
+
+msgid "Country code"
+msgstr "Country code"
+
+msgid "Help and guidance"
+msgstr "Help and guidance"
+
+msgid "Preferences and security"
+msgstr "Preferences and security"
+
+msgid "Find your next step and understand what each report means."
+msgstr "Find your next step and understand what each report means."
+
+msgid "For clinicians"
+msgstr "For clinicians"
+
+msgid "For families"
+msgstr "For families"
+
+msgid "Create a minimal child profile and record the spoken variety."
+msgstr "Create a minimal child profile and record the spoken variety."
+
+msgid "Choose matching activities, give instructions and specify a schedule."
+msgstr "Choose matching activities, give instructions and specify a schedule."
+
+msgid "Invite the caregiver using their email, then review their participation reports."
+msgstr "Invite the caregiver using their email, then review their participation reports."
+
+msgid "Accept the clinician's invitation with the invited email address."
+msgstr "Accept the clinician's invitation with the invited email address."
+
+msgid "Open the assigned program and follow the guided activity together."
+msgstr "Open the assigned program and follow the guided activity together."
+
+msgid "Save participation and a short comment. You can stop without reporting an incorrect answer."
+msgstr "Save participation and a short comment. You can stop without reporting an incorrect answer."
+
+msgid "Common questions"
+msgstr "Common questions"
+
+msgid "Why do the words stay the same when I change the interface language?"
+msgstr "Why do the words stay the same when I change the interface language?"
+
+msgid "The interface translates menus. The clinician chooses the words and spoken variety. Change the caregiver instruction language in Preferences; filter content languages in the library."
+msgstr "The interface translates menus. The clinician chooses the words and spoken variety. Change the caregiver instruction language in Preferences; filter content languages in the library."
+
+msgid "Why is audio unavailable in some activities?"
+msgstr "Why is audio unavailable in some activities?"
+
+msgid "These demonstration examples do not contain approved audio models. The caregiver reads the word. Clinical publication requires reviewed adult speech models and transcriptions."
+msgstr "These demonstration examples do not contain approved audio models. The caregiver reads the word. Clinical publication requires reviewed adult speech models and transcriptions."
+
+msgid "What does the practice result measure?"
+msgstr "What does the practice result measure?"
+
+msgid "It records a choice between pictures and a participation report. It does not assess pronunciation, diagnose a disorder or establish therapeutic improvement."
+msgstr "It records a choice between pictures and a participation report. It does not assess pronunciation, diagnose a disorder or establish therapeutic improvement."
+
+msgid "What if the activity is difficult or the child wants to stop?"
+msgstr "What if the activity is difficult or the child wants to stop?"
+
+msgid "Select Stopped, describe the difficulty if useful and contact the responsible clinician. Stopped attempts are excluded from the answer count."
+msgstr "Select Stopped, describe the difficulty if useful and contact the responsible clinician. Stopped attempts are excluded from the answer count."
+
+msgid "Why can I no longer open an activity?"
+msgstr "Why can I no longer open an activity?"
+
+msgid "The program may be completed, the profile archived, the content withdrawn or your access revoked. Ask the responsible clinician to check the program and your access."
+msgstr "The program may be completed, the profile archived, the content withdrawn or your access revoked. Ask the responsible clinician to check the program and your access."
+
+msgid "Who can read the family's reports?"
+msgstr "Who can read the family's reports?"
+
+msgid "Authorized caregivers and the responsible clinician can read the profile's reports. Professional observations are restricted to the responsible clinician. Practice management alone does not grant clinical access."
+msgstr "Authorized caregivers and the responsible clinician can read the profile's reports. Professional observations are restricted to the responsible clinician. Practice management alone does not grant clinical access."
+
+msgid "Is this version available for clinical use?"
+msgstr "Is this version available for clinical use?"
+
+msgid "This local demonstration uses fictional profiles and unvalidated examples. Clinical review, approved media and real deployment requirements must be completed before real use."
+msgstr "This local demonstration uses fictional profiles and unvalidated examples. Clinical review, approved media and real deployment requirements must be completed before real use."
+
+msgid "HOME PRACTICE · CHILDREN AGED 4–7"
+msgstr "HOME PRACTICE · CHILDREN AGED 4–7"
+
+msgid "Explore a sample activity"
+msgstr "Explore a sample activity"
+
+msgid "Discover two pictures, choose one and preview a practice report."
+msgstr "Discover two pictures, choose one and preview a practice report."
+
+msgid "Practice report"
+msgstr "Practice report"
+
+msgid "Illustrative example · reviewed audio not supplied"
+msgstr "Illustrative example · reviewed audio not supplied"
+
+msgid "Back to overview"
+msgstr "Back to overview"
+
+msgid "INTERACTIVE DEMONSTRATION"
+msgstr "INTERACTIVE DEMONSTRATION"
+
+msgid "Try the interface using fictional examples. No child profile is created and no practice report is saved."
+msgstr "Try the interface using fictional examples. No child profile is created and no practice report is saved."
+
+msgid "Illustrative words and pictures, not a clinically reviewed phonological contrast. Reviewed audio is not supplied; the displayed word can be read aloud."
+msgstr "Illustrative words and pictures, not a clinically reviewed phonological contrast. Reviewed audio is not supplied; the displayed word can be read aloud."
+
+msgid "Preview only · nothing saved"
+msgstr "Preview only · nothing saved"
+
+msgid "This is how a practice report is presented"
+msgstr "This is how a practice report is presented"
+
+msgid "Picture choice"
+msgstr "Picture choice"
+
+msgid "A picture choice and a caregiver report do not measure pronunciation or clinical progress."
+msgstr "A picture choice and a caregiver report do not measure pronunciation or clinical progress."
+
+msgid "In an assigned program, the authorized family and responsible clinician can review the saved practice reports."
+msgstr "In an assigned program, the authorized family and responsible clinician can review the saved practice reports."
+
+msgid "Try again"
+msgstr "Try again"
+
+msgid "Discover the two illustrations and their labels. This first step introduces the interface."
+msgstr "Discover the two illustrations and their labels. This first step introduces the interface."
+
+msgid "Choose a picture"
+msgstr "Choose a picture"
+
+msgid "Select the picture for the displayed word. This only demonstrates image selection."
+msgstr "Select the picture for the displayed word. This only demonstrates image selection."
+
+msgid "Preview the caregiver report"
+msgstr "Preview the caregiver report"
+
+msgid "Choose fictional responses to see the summary. There is no child recording and no pronunciation score."
+msgstr "Choose fictional responses to see the summary. There is no child recording and no pronunciation score."
+
+msgid "Show the sample summary"
+msgstr "Show the sample summary"
+
+msgid "Stopped · no answer counted"
+msgstr "Stopped · no answer counted"
+
+msgid "Matching picture selected"
+msgstr "Matching picture selected"
+
+msgid "A different picture selected"
+msgstr "A different picture selected"
+
+msgid "Choose"
+msgstr "Choose"
+
+msgid "Accept the invitation sent by your clinician. If no activities appear, contact the practice."
+msgstr "Accept the invitation sent by your clinician. If no activities appear, contact the practice."
+
+msgid "An account already exists. Sign in to accept your invitation."
+msgstr "An account already exists. Sign in to accept your invitation."
+
+msgid "Assigned order"
+msgstr "Assigned order"
+
+msgid "Before you begin"
+msgstr "Before you begin"
+
+msgid "Changing the fields below requires a new preview."
+msgstr "Changing the fields below requires a new preview."
+
+msgid "Choose a goal, activities and personal guidance."
+msgstr "Choose a goal, activities and personal guidance."
+
+msgid "Choose a response"
+msgstr "Choose a response"
+
+msgid "Create a profile"
+msgstr "Create a profile"
+
+msgid "Delivery failed"
+msgstr "Delivery failed"
+
+msgid "Finish for today"
+msgstr "Finish for today"
+
+msgid "Follow your clinician's guidance, at a comfortable pace."
+msgstr "Follow your clinician's guidance, at a comfortable pace."
+
+msgid "From the practice to the family, in three steps"
+msgstr "From the practice to the family, in three steps"
+
+msgid "Give access to the assigned program only."
+msgstr "Give access to the assigned program only."
+
+msgid "Goal chosen by the clinician"
+msgstr "Goal chosen by the clinician"
+
+msgid "Invitation handed to the mail service. Receipt is not yet confirmed."
+msgstr "Invitation handed to the mail service. Receipt is not yet confirmed."
+
+msgid "Invitation saved, but email delivery failed. Retry from pending invitations."
+msgstr "Invitation saved, but email delivery failed. Retry from pending invitations."
+
+msgid "Invite the family"
+msgstr "Invite the family"
+
+msgid "Last report"
+msgstr "Last report"
+
+msgid "Local console only"
+msgstr "Local console only"
+
+msgid "Local demonstration: the invitation link is in the server console. No email was sent."
+msgstr "Local demonstration: the invitation link is in the server console. No email was sent."
+
+msgid "Move earlier"
+msgstr "Move earlier"
+
+msgid "Move later"
+msgstr "Move later"
+
+msgid "Next assigned activity"
+msgstr "Next assigned activity"
+
+msgid "No help requests or stopped activities reported this week."
+msgstr "No help requests or stopped activities reported this week."
+
+msgid "Open the assigned activity"
+msgstr "Open the assigned activity"
+
+msgid "Pending delivery"
+msgstr "Pending delivery"
+
+msgid "Please check your responses"
+msgstr "Please check your responses"
+
+msgid "Prepare shared practice"
+msgstr "Prepare shared practice"
+
+msgid "Prepare the next appointment"
+msgstr "Prepare the next appointment"
+
+msgid "Prepare the program"
+msgstr "Prepare the program"
+
+msgid "Preview the assignment"
+msgstr "Preview the assignment"
+
+msgid "Publication requires available protected audio with usage rights."
+msgstr "Publication requires available protected audio with usage rights."
+
+msgid "Record the child's spoken varieties."
+msgstr "Record the child's spoken varieties."
+
+msgid "Report saved"
+msgstr "Report saved"
+
+msgid "Retry with a new invitation link"
+msgstr "Retry with a new invitation link"
+
+msgid "Return to program"
+msgstr "Return to program"
+
+msgid "Review before assignment"
+msgstr "Review before assignment"
+
+msgid "Sent to mail service"
+msgstr "Sent to mail service"
+
+msgid "Stop for today"
+msgstr "Stop for today"
+
+msgid "Stop whenever the child needs a break. Tell your clinician what helped or was difficult."
+msgstr "Stop whenever the child needs a break. Tell your clinician what helped or was difficult."
+
+msgid "Thank you for practicing together"
+msgstr "Thank you for practicing together"
+
+msgid "The activity order does not match the selection."
+msgstr "The activity order does not match the selection."
+
+msgid "These are caregiver reports, not a clinical assessment."
+msgstr "These are caregiver reports, not a clinical assessment."
+
+msgid "This activity is unavailable in this mode. Contact your clinician."
+msgstr "This activity is unavailable in this mode. Contact your clinician."
+
+msgid "View program and reports"
+msgstr "View program and reports"
+
+msgid "Your assigned activities"
+msgstr "Your assigned activities"
+
+msgid "Your clinician can review this report. Continue only as directed and while the child is comfortable."
+msgstr "Your clinician can review this report. Continue only as directed and while the child is comfortable."
+
+msgid "Your clinician will assign your program"
+msgstr "Your clinician will assign your program"
+
+msgid "reports mentioning help or difficulty"
+msgstr "reports mentioning help or difficulty"
+
+msgid "stopped activities"
+msgstr "stopped activities"
+
+msgid "Your clinician's exercises, supported at home."
+msgstr "Your clinician's exercises, supported at home."
+
+msgid "A finished practice run cannot be reopened or reassigned."
+msgstr "A finished practice run cannot be reopened or reassigned."
+
+msgid "Activities and feedback"
+msgstr "Activities and feedback"
+
+msgid "Activities stay in the assigned order. You can pause and return later."
+msgstr "Activities stay in the assigned order. You can pause and return later."
+
+msgid "Activity in your practice run"
+msgstr "Activity in your practice run"
+
+msgid "All activity reports are saved"
+msgstr "All activity reports are saved"
+
+msgid "Assigned activities cannot be changed. Create an adjusted program."
+msgstr "Assigned activities cannot be changed. Create an adjusted program."
+
+msgid "Begin practice run"
+msgstr "Begin practice run"
+
+msgid "Continue the current activity"
+msgstr "Continue the current activity"
+
+msgid "End this practice run"
+msgstr "End this practice run"
+
+msgid "Ended"
+msgstr "Ended"
+
+msgid "In progress"
+msgstr "In progress"
+
+msgid "No activity has been skipped. You can close this run and ask your clinician to adjust the program."
+msgstr "No activity has been skipped. You can close this run and ask your clinician to adjust the program."
+
+msgid "No practice runs yet. Individual activity reports remain below."
+msgstr "No practice runs yet. Individual activity reports remain below."
+
+msgid "Not started"
+msgstr "Not started"
+
+msgid "Pause and return later"
+msgstr "Pause and return later"
+
+msgid "Pause or view your practice run"
+msgstr "Pause or view your practice run"
+
+msgid "Practice at your own pace"
+msgstr "Practice at your own pace"
+
+msgid "Practice ended for now"
+msgstr "Practice ended for now"
+
+msgid "Practice run"
+msgstr "Practice run"
+
+msgid "Practice run steps cannot be changed."
+msgstr "Practice run steps cannot be changed."
+
+msgid "Practice runs"
+msgstr "Practice runs"
+
+msgid "Resume the current activity from your practice run."
+msgstr "Resume the current activity from your practice run."
+
+msgid "Resume your practice run"
+msgstr "Resume your practice run"
+
+msgid "Started"
+msgstr "Started"
+
+msgid "The activity must belong to this practice run."
+msgstr "The activity must belong to this practice run."
+
+msgid "The practice run state and finish date must agree."
+msgstr "The practice run state and finish date must agree."
+
+msgid "The report must match its practice run step."
+msgstr "The report must match its practice run step."
+
+msgid "This shows participation, not speech improvement. Unstarted activities are not counted as errors."
+msgstr "This shows participation, not speech improvement. Unstarted activities are not counted as errors."
+
+msgid "View practice run summary"
+msgstr "View practice run summary"
+
+msgid "View saved report"
+msgstr "View saved report"
+
+msgid "Your clinician can review the reports before your next appointment."
+msgstr "Your clinician can review the reports before your next appointment."
+
+msgid "Your place is saved"
+msgstr "Your place is saved"
+
+msgid "Your saved reports remain available. The remaining activities were not started."
+msgstr "Your saved reports remain available. The remaining activities were not started."
+
+msgid "activities reported"
+msgstr "activities reported"
+
+msgid "Save the activity report before leaving to keep this activity's answers and comments."
+msgstr "Save the activity report before leaving to keep this activity's answers and comments."
+
+msgid "A password reset was requested for your Nehedrou account."
+msgstr "A password reset was requested for your Nehedrou account."
+
+msgid "All"
+msgstr "All"
+
+msgid "All shared guidance"
+msgstr "All shared guidance"
+
+msgid "Audio models must last between 0.05 and 60 seconds, with a supported sample rate."
+msgstr "Audio models must last between 0.05 and 60 seconds, with a supported sample rate."
+
+msgid "Change the dates or status to find earlier reports."
+msgstr "Change the dates or status to find earlier reports."
+
+msgid "Clinician feedback"
+msgstr "Clinician feedback"
+
+msgid "Complete history"
+msgstr "Complete history"
+
+msgid "Feedback for the family"
+msgstr "Feedback for the family"
+
+msgid "Filter history"
+msgstr "Filter history"
+
+msgid "From date"
+msgstr "From date"
+
+msgid "History pages"
+msgstr "History pages"
+
+msgid "Images must not exceed 6000 pixels per side or 16 million pixels."
+msgstr "Images must not exceed 6000 pixels per side or 16 million pixels."
+
+msgid "No clinician feedback on this report yet."
+msgstr "No clinician feedback on this report yet."
+
+msgid "No records match these filters"
+msgstr "No records match these filters"
+
+msgid "Only the responsible clinician can publish feedback for this family."
+msgstr "Only the responsible clinician can publish feedback for this family."
+
+msgid "Page"
+msgstr "Page"
+
+msgid "Program history"
+msgstr "Program history"
+
+msgid "Publish family feedback"
+msgstr "Publish family feedback"
+
+msgid "Published feedback cannot be changed. Publish a new clarification."
+msgstr "Published feedback cannot be changed. Publish a new clarification."
+
+msgid "Recent parent reports"
+msgstr "Recent parent reports"
+
+msgid "Recent practice runs"
+msgstr "Recent practice runs"
+
+msgid "Record type"
+msgstr "Record type"
+
+msgid "Related parent report"
+msgstr "Related parent report"
+
+msgid "Respond to this report"
+msgstr "Respond to this report"
+
+msgid "Saved activity report"
+msgstr "Saved activity report"
+
+msgid "Shared guidance"
+msgstr "Shared guidance"
+
+msgid "The report must belong to this program."
+msgstr "The report must belong to this program."
+
+msgid "The start date must be before or equal to the end date."
+msgstr "The start date must be before or equal to the end date."
+
+msgid "This feedback will be visible to the authorized caregivers. Private professional observations stay separate."
+msgstr "This feedback will be visible to the authorized caregivers. Private professional observations stay separate."
+
+msgid "This media file is incomplete or unreadable. Upload a valid file."
+msgstr "This media file is incomplete or unreadable. Upload a valid file."
+
+msgid "To date"
+msgstr "To date"
+
+msgid "Uploaded media cannot be replaced. Upload a new file."
+msgstr "Uploaded media cannot be replaced. Upload a new file."
+
+msgid "View the related report"
+msgstr "View the related report"
+
+msgid "Write to the family"
+msgstr "Write to the family"
+
+msgid "Your clinician's feedback will appear here."
+msgstr "Your clinician's feedback will appear here."
+
+msgid "Your feedback is now visible to the authorized caregivers."
+msgstr "Your feedback is now visible to the authorized caregivers."
+
+msgid "matching records"
+msgstr "matching records"
+
+msgid "Test space: use fictional data only. Changes may disappear after a restart."
+msgstr "Test space: use fictional data only. Changes may disappear after a restart."

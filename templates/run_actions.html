@@ -1,0 +1,5 @@
+{% load i18n %}
+<div class="actions">
+{% if current_run %}<a class="button" href="{% url 'practice_run_detail' current_run.pk %}">{% translate "Resume your practice run" %}</a>
+{% elif run_available %}<form method="post" action="{% url 'practice_run_start' program.pk %}">{% csrf_token %}<button class="button" type="submit">{% translate "Begin practice run" %}</button></form>{% endif %}
+</div>

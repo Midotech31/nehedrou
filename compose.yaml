@@ -1,0 +1,34 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: nehdrou
+      POSTGRES_USER: nehdrou
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nehdrou -d nehdrou"]
+      interval: 5s
+      retries: 15
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+  web:
+    build: .
+    environment:
+      DJANGO_DEBUG: "1"
+      DEMO_MODE: "1"
+      DEMO_PASSWORD: ${DEMO_PASSWORD:?Set DEMO_PASSWORD}
+      POSTGRES_HOST: db
+      POSTGRES_DB: nehdrou
+      POSTGRES_USER: nehdrou
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8000:8000"
+    command: ["sh", "-c", "python manage.py migrate && python manage.py seed_demo && python manage.py runserver 0.0.0.0:8000"]
+volumes:
+  pgdata:

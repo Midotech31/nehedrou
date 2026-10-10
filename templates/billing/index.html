@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% load i18n %}{% block content %}<h1>{% translate "Manual billing operations" %}</h1><section class="card">{% for organization in organizations %}<div class="report-row"><strong>{{ organization.name }}</strong><a href="{% url 'billing_detail' organization.pk %}">{% translate "Manage access" %}</a></div>{% endfor %}</section>{% endblock %}

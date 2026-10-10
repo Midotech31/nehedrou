@@ -1,0 +1,23 @@
+[
+  {
+    "variety_code": "fr-fr-pilot",
+    "series": "c7345d53-b0c2-4511-a5bb-2911b87617f6",
+    "version": 1,
+    "title": "Exemple d’import — à relire",
+    "contrast": "À définir par le relecteur",
+    "word_a": "chapeau",
+    "word_b": "bateau",
+    "image_a": "editorial/hat.svg",
+    "image_b": "editorial/boat.svg",
+    "instructions": {
+      "fr": "Exemple de consigne à relire.",
+      "en": "Example instruction requiring review.",
+      "ar": "مثال إرشادات يتطلب المراجعة."
+    },
+    "population": "Démonstration uniquement",
+    "rights": "Illustrations originales MIT ; vérifier les futurs médias.",
+    "limitations": "Ce vocabulaire ne constitue pas une paire minimale approuvée.",
+    "is_demo": true,
+    "state": "draft"
+  }
+]

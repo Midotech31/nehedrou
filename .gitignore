@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+*.sqlite3
+.env
+.demo-password
+staticfiles/
+*.log
+editorial_uploads/
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
+.render-secrets.json
