@@ -41,8 +41,12 @@ def demo_activity(request):
         from django.http import HttpResponseNotAllowed
         return HttpResponseNotAllowed(['GET', 'HEAD', 'POST'])
     from django.utils.translation import get_language
-    words = {'fr': ('chat', 'rat'), 'en': ('cat', 'rat'), 'ar': ('قِطّ', 'فأر')}
-    word_a, word_b = words.get(get_language(), words['fr'])
+    examples = {
+        'fr': ('chat', 'rat', 'cat', 'rat', _('French · illustrative contrast')),
+        'en': ('coat', 'goat', 'coat', 'goat', _('English · illustrative contrast')),
+        'ar': ('دار', 'نار', 'house', 'fire', _('Algerian Darja · local proposal awaiting review')),
+    }
+    word_a, word_b, image_a, image_b, example_variety = examples.get(get_language(), examples['fr'])
     form = DemoPracticeForm(request.POST if request.method == 'POST' else None)
     summary = None
     if request.method == 'POST' and form.is_valid():
@@ -51,7 +55,10 @@ def demo_activity(request):
             'parent_report': dict(form.fields['parent_report'].choices)[form.cleaned_data['parent_report']],
             'answer': _('Stopped · no answer counted') if form.cleaned_data['completion'] == 'stopped' else _('Matching picture selected') if form.cleaned_data['answer'] == 'a' else _('A different picture selected'),
         }
-    response = render(request, 'demo_activity.html', {'form': form, 'summary': summary, 'word_a': word_a, 'word_b': word_b})
+    from catalog.content_catalog import public_example
+    example = public_example(get_language()) or {}
+    guide = example.get('practice_guide', {}).get(get_language(), {})
+    response = render(request, 'demo_activity.html', {'form': form, 'summary': summary, 'word_a': word_a, 'word_b': word_b, 'image_a': f'editorial/{image_a}.svg', 'image_b': f'editorial/{image_b}.svg', 'example_variety': example_variety, 'sample_guide': guide, 'sample_sources': example.get('evidence_sources', [])})
     from django.utils.cache import patch_cache_control
     patch_cache_control(response, no_store=True)
     return response
@@ -231,9 +238,11 @@ def invite(request, token):
 
 @login_required
 def library(request):
+    from catalog.content_catalog import current_catalog
     qs = Activity.objects.filter(state='published').select_related('variety')
     if not settings.DEMO_MODE:
         qs = qs.filter(is_demo=False)
+    qs = current_catalog(qs)
     language = request.GET.get('content_language', '')
     if language in dict(settings.LANGUAGES):
         qs = qs.filter(variety__language=language)

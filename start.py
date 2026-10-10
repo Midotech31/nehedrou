@@ -30,10 +30,11 @@ if not env.get('DEMO_PASSWORD'):
             password_file.chmod(0o600)
         except OSError:
             pass
-for command in [['migrate', '--noinput'], ['seed_demo'], ['seed_candidates', '--demo-copies']]:
+for command in [['migrate', '--noinput'], ['seed_demo_roles']]:
     subprocess.run([str(python), 'manage.py', *command], env=env, check=True)
 print('\nNehdrou: http://127.0.0.1:8000/fr/', flush=True)
-print('Accounts: praticien, famille, autre_praticien, editorial', flush=True)
+print('Demo roles: responsable, orthophoniste, accompagnant, editeur, relecteur_clinique, relecteur_linguistique, gestionnaire', flush=True)
+print('Historical accounts: praticien, famille, autre_praticien, editorial', flush=True)
 print('Local demo password:', env['DEMO_PASSWORD'], flush=True)
 print('Existing passwords are never reset. Ctrl+C stops the server.', flush=True)
 try:

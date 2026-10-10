@@ -1,0 +1,186 @@
+[
+  {
+    "series": "e0247156-b55e-571e-90d1-6a6674f5b506",
+    "variety_code": "fr-fr-pilot",
+    "word_a": "pot",
+    "word_b": "peau",
+    "reason": "Homophones /po/ : aucun contraste phonémique. Ne pas présenter comme paire minimale.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "93e3d911-4ce2-524f-83ab-681071b8f679",
+    "variety_code": "en-us-general-pilot",
+    "word_a": "mouse",
+    "word_b": "mouth",
+    "reason": "Les références image ne correspondent pas exactement aux mots ; nouveau média et relecture nécessaires.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "bbae106f-6fa1-5a95-b30c-321b5953ad16",
+    "variety_code": "en-us-general-pilot",
+    "word_a": "sun",
+    "word_b": "bun",
+    "reason": "Les références image ne correspondent pas exactement aux mots ; nouveau média et relecture nécessaires.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "cc38bb1d-ecaf-53d4-a490-1c306c9ced04",
+    "variety_code": "en-us-general-pilot",
+    "word_a": "log",
+    "word_b": "dog",
+    "reason": "Les voyelles peuvent différer selon la variété américaine. Une seule substitution consonantique n’est pas garantie.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "339e316c-c940-52df-b06c-76abcbc78f21",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "بيت",
+    "word_b": "بيض",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "1504d71e-733d-5ca4-8e79-141dccc8ab87",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "راس",
+    "word_b": "كاس",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "9647674c-9ba3-55a5-b506-ca3d3ab4d728",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "توت",
+    "word_b": "حوت",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "465df4b9-a0ad-51bc-8fd6-ef5e9df4ef97",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "فيل",
+    "word_b": "فول",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "0d8bacef-807f-50a3-b5c3-f4b2eaeea3eb",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "نور",
+    "word_b": "سور",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "769693ef-0e75-5e7a-9927-6c7204f3c969",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "دار",
+    "word_b": "جار",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "5b27f129-e15d-5102-95e7-366a0e7bcc98",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "طين",
+    "word_b": "تين",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "a78456cc-e033-5005-be4f-7ec37354a7dc",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "باب",
+    "word_b": "ناب",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "dc68ea38-6db1-5849-80c0-85bd7f69af1f",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "دود",
+    "word_b": "عود",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "30f707eb-234e-58f6-8a1b-79547b937c6f",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "ثوم",
+    "word_b": "يوم",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "323179e2-8214-58a0-b6c4-289a66e655da",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "خيط",
+    "word_b": "حيط",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "34568c3c-677a-560b-be67-84cc30eba77a",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "رمل",
+    "word_b": "نمل",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "e4bc8400-c133-5b9c-9cf3-ccf04c8b2bac",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "قلم",
+    "word_b": "علم",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "72b9879c-7c3d-5820-bc7c-7e2adee00939",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "سيف",
+    "word_b": "صيف",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "23165bbe-544d-518b-b168-fd2929cbc85c",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "فم",
+    "word_b": "دم",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "90ff8407-8967-502f-b270-11881db6dce1",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "شمعة",
+    "word_b": "دمعة",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "2fe34dff-57df-5d14-8465-63a6eef82a2f",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "بطّة",
+    "word_b": "قطّة",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "e55ca003-637a-5afd-8c62-3ea3ca21aa0e",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "وردة",
+    "word_b": "ورقة",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  },
+  {
+    "series": "4fa3dea9-b2af-5a8e-bb71-bab478ddd838",
+    "variety_code": "ar-dz-pilot",
+    "word_a": "كاس",
+    "word_b": "فاس",
+    "reason": "Attestation locale et analyse du contraste insuffisantes. Les formes standard ou isolées ne prouvent pas une paire en darja.",
+    "action": "Hold outside the active v2 corpus. Preserve historical v1 content."
+  }
+]

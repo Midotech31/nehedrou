@@ -1827,3 +1827,78 @@ msgstr "matching records"
 
 msgid "Test space: use fictional data only. Changes may disappear after a restart."
 msgstr "Test space: use fictional data only. Changes may disappear after a restart."
+
+msgid "Activity purpose and guidance"
+msgstr "Activity purpose and guidance"
+
+msgid "Algerian Darja · local proposal awaiting review"
+msgstr "Algerian Darja · local proposal awaiting review"
+
+msgid "English · illustrative contrast"
+msgstr "English · illustrative contrast"
+
+msgid "French · illustrative contrast"
+msgstr "French · illustrative contrast"
+
+msgid "Each guide needs an objective, audience, three steps, support, limits and review notes."
+msgstr "Each guide needs an objective, audience, three steps, support, limits and review notes."
+
+msgid "Each guide section needs one to eight non-empty text instructions."
+msgstr "Each guide section needs one to eight non-empty text instructions."
+
+msgid "Each proposed activity explains its purpose, introduces the words, guides a picture task and suggests an exchange under the clinician's instructions."
+msgstr "Each proposed activity explains its purpose, introduces the words, guides a picture task and suggests an exchange under the clinician's instructions."
+
+msgid "Each source needs a title, an HTTPS URL and a statement of what it supports."
+msgstr "Each source needs a title, an HTTPS URL and a statement of what it supports."
+
+msgid "Guide text must be non-empty and shorter than 2000 characters."
+msgstr "Guide text must be non-empty and shorter than 2000 characters."
+
+msgid "Intended audience"
+msgstr "Intended audience"
+
+msgid "Linguistic points to review"
+msgstr "Linguistic points to review"
+
+msgid "Meaningful words, guidance for the caregiver"
+msgstr "Meaningful words, guidance for the caregiver"
+
+msgid "Platform management"
+msgstr "Platform management"
+
+msgid "Purpose, support and references"
+msgstr "Purpose, support and references"
+
+msgid "References must be a list of up to twelve sources."
+msgstr "References must be a list of up to twelve sources."
+
+msgid "Sources and their scope"
+msgstr "Sources and their scope"
+
+msgid "Sources describe methods and language facts; Nehedrou has not been clinically evaluated."
+msgstr "Sources describe methods and language facts; Nehedrou has not been clinically evaluated."
+
+msgid "Structured activity guide"
+msgstr "Structured activity guide"
+
+msgid "Support without pressure"
+msgstr "Support without pressure"
+
+msgid "The clinician selects the approach, target words and practice rhythm. These reading notes support a conversation with your clinician."
+msgstr "The clinician selects the approach, target words and practice rhythm. These reading notes support a conversation with your clinician."
+
+msgid "The structured guide must use supported language codes."
+msgstr "The structured guide must use supported language codes."
+
+msgid "These sources describe approaches or language facts. They do not validate this activity or the application."
+msgstr "These sources describe approaches or language facts. They do not validate this activity or the application."
+
+msgid "Understand the activities and sources"
+msgstr "Understand the activities and sources"
+
+msgid "Understanding the activities"
+msgstr "Understanding the activities"
+
+msgid "Algerian Darja · local pilot"
+msgstr "Algerian Darja · local pilot"

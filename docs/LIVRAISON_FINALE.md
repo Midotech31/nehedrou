@@ -2,7 +2,7 @@
 
 ## Verdict
 
-Version fonctionnelle et présentable avec des dossiers fictifs. La vente pour un usage clinique réel et une commercialisation internationale restent non qualifiées : aucun exercice ni modèle audio clinique approuvé n'est fourni. Les 60 candidats sont à faire valider. La note de 9,5/10 n'est pas attribuée artificiellement ; les dimensions et critères figurent dans QUALIFICATION_COMMERCIALE.md.
+Version fonctionnelle et présentable avec des dossiers fictifs. La vente pour un usage clinique réel et une commercialisation internationale restent non qualifiées : aucun exercice ni modèle audio clinique approuvé n'est fourni. Le corpus actif comprend 37 fiches v2 à relire ; les 60 propositions v1 restent archivées. Les changements scientifiques sont documentés dans RECHERCHE_CONTENUS_2026.md. La note de 9,5/10 n'est pas attribuée artificiellement ; les dimensions et critères figurent dans QUALIFICATION_COMMERCIALE.md.
 
 ## Utiliser le projet sur E:
 

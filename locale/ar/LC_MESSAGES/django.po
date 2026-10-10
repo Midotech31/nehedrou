@@ -1827,3 +1827,78 @@ msgstr "سجلات مطابقة"
 
 msgid "Test space: use fictional data only. Changes may disappear after a restart."
 msgstr "مساحة تجريبية: استخدموا بيانات وهمية فقط. قد تختفي التغييرات بعد إعادة التشغيل."
+
+msgid "Activity purpose and guidance"
+msgstr "هدف النشاط وكيفية ممارسته"
+
+msgid "Algerian Darja · local proposal awaiting review"
+msgstr "الدارجة الجزائرية · اقتراح محلي ينتظر المراجعة"
+
+msgid "English · illustrative contrast"
+msgstr "الإنجليزية · مثال توضيحي على تقابل صوتي"
+
+msgid "French · illustrative contrast"
+msgstr "الفرنسية · مثال توضيحي على تقابل صوتي"
+
+msgid "Each guide needs an objective, audience, three steps, support, limits and review notes."
+msgstr "يجب أن يوضح كل دليل الهدف والفئة المعنية والمراحل الثلاث والمساعدة والحدود ونقاط المراجعة."
+
+msgid "Each guide section needs one to eight non-empty text instructions."
+msgstr "يجب أن يحتوي كل قسم على تعليمة إلى ثماني تعليمات نصية غير فارغة."
+
+msgid "Each proposed activity explains its purpose, introduces the words, guides a picture task and suggests an exchange under the clinician's instructions."
+msgstr "يوضح كل نشاط مقترح هدفه ويقدم الكلمات ويرشد إلى اختيار صورة ويقترح حوارًا وفق تعليمات المختص في علاج النطق."
+
+msgid "Each source needs a title, an HTTPS URL and a statement of what it supports."
+msgstr "يجب أن يتضمن كل مرجع عنوانًا ورابط HTTPS وتوضيحًا لما يدعمه."
+
+msgid "Guide text must be non-empty and shorter than 2000 characters."
+msgstr "يجب ألا يكون نص الدليل فارغًا وأن يكون أقصر من ٢٠٠٠ حرف."
+
+msgid "Intended audience"
+msgstr "الفئة المعنية"
+
+msgid "Linguistic points to review"
+msgstr "نقاط لغوية للمراجعة"
+
+msgid "Meaningful words, guidance for the caregiver"
+msgstr "كلمات ذات معنى وإرشادات للمرافق"
+
+msgid "Platform management"
+msgstr "إدارة المنصة"
+
+msgid "Purpose, support and references"
+msgstr "الهدف والمساعدة والمراجع"
+
+msgid "References must be a list of up to twelve sources."
+msgstr "يجب أن تكون المراجع قائمة لا تتجاوز اثني عشر مصدرًا."
+
+msgid "Sources and their scope"
+msgstr "المراجع ونطاق الأدلة"
+
+msgid "Sources describe methods and language facts; Nehedrou has not been clinically evaluated."
+msgstr "توثق المراجع طرقًا وحقائق لغوية؛ لم تخضع نهدروا لتقييم سريري."
+
+msgid "Structured activity guide"
+msgstr "دليل منظم للنشاط"
+
+msgid "Support without pressure"
+msgstr "المساعدة دون ضغط"
+
+msgid "The clinician selects the approach, target words and practice rhythm. These reading notes support a conversation with your clinician."
+msgstr "يختار المختص المنهج والكلمات المستهدفة ووتيرة الممارسة. تساعد هذه المعلومات على الحوار معه."
+
+msgid "The structured guide must use supported language codes."
+msgstr "يجب أن يستخدم الدليل المنظم رموز اللغات المدعومة."
+
+msgid "These sources describe approaches or language facts. They do not validate this activity or the application."
+msgstr "تصف هذه المراجع مناهج أو حقائق لغوية. وهي لا تثبت صلاحية هذا النشاط أو التطبيق سريريًا."
+
+msgid "Understand the activities and sources"
+msgstr "فهم الأنشطة ومراجعها"
+
+msgid "Understanding the activities"
+msgstr "فهم الأنشطة"
+
+msgid "Algerian Darja · local pilot"
+msgstr "الدارجة الجزائرية · تجربة محلية"

@@ -6,7 +6,7 @@ class PublicDemonstrationTests(SimpleTestCase):
     # SQL access is forbidden in this test class: the public preview must never
     # read child records or persist practice sessions.
     def test_preview_renders_in_all_interface_languages(self):
-        for language, word in [('fr', 'chat'), ('en', 'cat'), ('ar', 'قِطّ')]:
+        for language, word in [('fr', 'chat'), ('en', 'coat'), ('ar', 'دار')]:
             response = self.client.get(f'/{language}/try/')
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, f'lang="{language}"')

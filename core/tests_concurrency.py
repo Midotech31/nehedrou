@@ -61,15 +61,43 @@ class ConcurrentQualificationTests(TransactionTestCase):
         self.assertEqual(PracticeSession.objects.count(),0)
 
     def test_assignment_waits_for_withdrawal_then_refuses(self):
+        import time
+        from catalog.content_catalog import current_catalog
+        source = self.item.activity
+        activity = Activity.objects.create(
+            variety=source.variety, series=uuid.uuid4(), title='Fictional row-lock example',
+            contrast=source.contrast, word_a=source.word_a, word_b=source.word_b,
+            image_a=source.image_a, image_b=source.image_b, instructions=source.instructions,
+            rights=source.rights, population='Fictional concurrency fixture only.',
+            limitations='Test data, not clinically reviewed content.', is_demo=True, state='published')
+        self.assertTrue(activity.usable)
+        self.assertTrue(current_catalog(Activity.objects.filter(pk=activity.pk)).exists())
         started=threading.Event()
+        worker_pid = []
         def assign():
-            return create_program(self.pro,self.child,dict(title='Concurrent program',variety=self.program.variety,activities=[self.item.activity],guidance='',schedule=''))
+            with connection.cursor() as cursor:
+                cursor.execute('SELECT pg_backend_pid()')
+                worker_pid.append(cursor.fetchone()[0])
+            return create_program(self.pro,self.child,dict(title='Concurrent program',variety=self.program.variety,activities=[activity],guidance='',schedule=''))
         with ThreadPoolExecutor(max_workers=1) as pool:
             with transaction.atomic():
-                Activity.objects.select_for_update().get(pk=self.item.activity_id)
-                Activity.objects.filter(pk=self.item.activity_id).update(state='withdrawn')
+                Activity.objects.select_for_update().get(pk=activity.pk)
+                Activity.objects.filter(pk=activity.pk).update(state='withdrawn')
                 future=pool.submit(self.worker,assign,started)
                 self.assertTrue(started.wait(3))
+                with connection.cursor() as cursor:
+                    cursor.execute('SELECT pg_backend_pid()')
+                    blocking_pid = cursor.fetchone()[0]
+                    deadline = time.monotonic() + 3
+                    blocked = False
+                    while time.monotonic() < deadline:
+                        if worker_pid:
+                            cursor.execute('SELECT %s = ANY(pg_blocking_pids(%s))', [blocking_pid, worker_pid[0]])
+                            blocked = cursor.fetchone()[0]
+                            if blocked:
+                                break
+                        time.sleep(0.01)
+                self.assertTrue(blocked, 'Assignment must wait for the Activity withdrawal transaction.')
                 self.assertFalse(future.done())
             self.assertEqual(future.result(timeout=8),'refused')
         self.assertFalse(Program.objects.filter(title='Concurrent program').exists())

@@ -12,5 +12,5 @@ def navigation(request):
         return common
     from catalog.models import EditorialGrant
     member = membership(request)
-    common['space_label'] = _('YOUR SPACE') if member else _('Editorial workspace') if EditorialGrant.objects.filter(user=request.user).exists() else _('Family space')
+    common['space_label'] = _('YOUR SPACE') if member else _('Editorial workspace') if EditorialGrant.objects.filter(user=request.user).exists() else _('Platform management') if request.user.has_perm('core.manage_entitlements') else _('Family space')
     return {**common, 'has_editorial_access': request.user.is_superuser or EditorialGrant.objects.filter(user=request.user).exists(), 'current_membership': member, 'memberships': Membership.objects.filter(user=request.user, active=True).select_related('organization')}

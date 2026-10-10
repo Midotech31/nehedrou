@@ -2,9 +2,11 @@
 
 Application Django de pratique à domicile choisie par un orthophoniste et accompagnée par la famille. Interface FR/EN/AR, Tajawal locale et RTL pour l’arabe. Le premier module vise les enfants de 4–7 ans déjà évalués par un professionnel.
 
-**État : démonstration fonctionnelle avec données fictives, sans feu vert pour la vente clinique.** Les 60 contenus candidats attendent la validation professionnelle ; aucun modèle audio clinique approuvé n’est livré. Voir [la qualification commerciale](docs/QUALIFICATION_COMMERCIALE.md), [la recherche produit](docs/RECHERCHE_PRODUIT.md) et [les conditions de lancement](docs/LANCEMENT.md).
+**État : démonstration fonctionnelle avec données fictives, sans feu vert pour la vente clinique.** Le corpus actif compte 37 fiches v2 à relire (19 françaises, 17 anglaises, une proposition locale en darja). Vingt-trois propositions initiales sont mises en attente, avec motifs documentés ; les anciennes versions restent conservées. Aucun modèle audio clinique approuvé n’est livré. Voir [les contenus et leur statut](docs/CONTENUS_A_VALIDER.md), [les références scientifiques](docs/RECHERCHE_CONTENUS_2026.md) et [les conditions de lancement](docs/LANCEMENT.md).
 
 **Démonstration publiée sur Render :** [français](https://nehedrou-demo.onrender.com/fr/), [anglais](https://nehedrou-demo.onrender.com/en/), [arabe](https://nehedrou-demo.onrender.com/ar/). Les accès aux comptes fictifs sont livrés séparément dans un document local privé. Le service gratuit emploie une base temporaire : utilisez uniquement des données fictives. Voir [la recette de publication](docs/DEPLOIEMENT_RENDER.md).
+
+[Livraison des quatre améliorations urgentes](docs/AMELIORATIONS_URGENTES.md) : logo de l’enfant parlant, guides étayés avec statuts explicites, sept rôles séparés et crédit de conception dans les trois langues.
 
 ## Dossier actif et démarrage sur E:
 
@@ -16,7 +18,7 @@ Ouvrir le lanceur, puis http://127.0.0.1:8000/fr/. Les versions anglaise et arab
 
 **Découvrir sans compte :** /fr/try/, /en/try/ ou /ar/try/. L’exemple guidé présente les images, le choix et une synthèse fictive. Il ne consulte pas de dossier, ne sauvegarde pas de rapport et est désactivé hors mode démonstration.
 
-Les comptes locaux sont `praticien`, `famille`, `autre_praticien` et `editorial`. Le mot de passe de démonstration se trouve localement dans `.demo-password` ; start.py l’affiche au démarrage. Les comptes existants ne sont pas réinitialisés. Secrets et base fictive sont exclus de l’archive.
+Sept comptes distincts permettent de tester les droits : `responsable`, `orthophoniste`, `accompagnant`, `editeur`, `relecteur_clinique`, `relecteur_linguistique` et `gestionnaire`. Les comptes historiques `praticien`, `famille`, `autre_praticien` et `editorial` restent disponibles. Les [rôles et leurs restrictions](docs/ROLES_DEMONSTRATION.md) sont documentés sans mot de passe. Le mot de passe local par défaut se trouve dans `.demo-password` ; les sept secrets hébergés sont distincts et transmis dans un document privé. Les comptes existants ne sont pas réinitialisés. Secrets et bases sont exclus du dépôt et de l’archive.
 
 ## Parcours et fonctions
 
@@ -30,7 +32,7 @@ La langue de l’interface, celle des consignes et la variété parlée sont dis
 
 ## Vérifications de la qualification 6
 
-102 tests réussis sur PostgreSQL 17.11, aucun ignoré ; SQLite : 96 réussis et 6 cas de concurrence explicitement ignorés. Restauration locale isolée réussie sur 36 tables, avec exports et permissions recontrôlés. 609 messages par langue ; 574 clés d'interface, zéro manque. Contrôles Django/migrations et syntaxe JavaScript réussis. La recette Chrome sur ordinateur, tablette et mobile a identifié puis permis de corriger un blocage CSRF réel. Voir [la qualification](docs/QUALIFICATION_COMMERCIALE.md) et [la recette navigateur](docs/RECETTE_NAVIGATEUR.md) pour les périmètres et limites ; aucune validation clinique, relecture native ou certification WCAG n'est revendiquée.
+Les tests couvrent les parcours, l’isolation des dossiers, les permissions, la pratique avec reprise, les relectures, l’intégrité des versions et le démarrage hébergé. Les cas de concurrence exigent PostgreSQL et sont explicitement ignorés sous SQLite. Les rapports des livraisons précédentes restent dans la [qualification](docs/QUALIFICATION_COMMERCIALE.md) et la [recette navigateur](docs/RECETTE_NAVIGATEUR.md). Les vérifications logicielles ne constituent ni une validation clinique, ni une relecture native, ni une certification d’accessibilité.
 
 ## Installation sur une autre machine
 

@@ -291,9 +291,16 @@ class WorkflowTests(TestCase):
     @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
     def test_full_creation_invitation_practice_and_export_workflow(self):
         from django.core import mail
+        from catalog.content_catalog import current_catalog
+        # New assignments use the current catalogue; the original item remains
+        # unchanged for the historical-program regressions in this class.
+        call_command('seed_candidates', demo_copies=True, verbosity=0)
+        activity = current_catalog(Activity.objects.filter(variety=self.program.variety, is_demo=True, state='published', version=2)).order_by('series').first()
+        self.assertIsNotNone(activity)
+        self.assertTrue(activity.practice_guide)
         self.assertEqual(self.client.post(reverse('child_create'), {'code': 'Workflow fictif', 'age_years': 5, 'varieties': [self.program.variety_id]}).status_code, 302)
         child = Child.objects.get(code='Workflow fictif')
-        self.assertEqual(self.client.post(reverse('program_create', args=[child.pk]), {'title': 'Workflow', 'variety': self.program.variety_id, 'activities': [self.item.activity_id], 'guidance': 'Fictional guidance', 'schedule': 'Clinician chosen'}).status_code, 302)
+        self.assertEqual(self.client.post(reverse('program_create', args=[child.pk]), {'title': 'Workflow', 'variety': self.program.variety_id, 'activities': [activity.pk], 'guidance': 'Fictional guidance', 'schedule': 'Clinician chosen'}).status_code, 302)
         program = child.programs.get()
         self.assertEqual(self.client.post(reverse('child_detail', args=[child.pk]), {'email': 'workflow@demo.example'}).status_code, 302)
         self.assertEqual(len(mail.outbox), 1)

@@ -34,12 +34,17 @@ def index(request):
     if variety:
         qs = qs.filter(variety__code=variety)
     from django.core.paginator import Paginator
-    return render(request, 'editorial/index.html', {'page': Paginator(qs.order_by('variety__label', 'title', '-version'), 20).get_page(request.GET.get('page')), 'states': Activity._meta.get_field('state').choices, 'varieties': Variety.objects.all(), 'selected_state': state, 'selected': variety})
+    return render(request, 'editorial/index.html', {'page': Paginator(qs.order_by('variety__label', 'title', '-version'), 20).get_page(request.GET.get('page')), 'states': Activity._meta.get_field('state').choices, 'varieties': Variety.objects.all(), 'selected_state': state, 'selected': variety, 'can_create': request.user.is_superuser or EditorialGrant.objects.filter(user=request.user, edit=True).exists()})
 
 @login_required
 def detail(request, pk):
     activity = get_object_or_404(editorial_activities(request.user).select_related('variety'), pk=pk)
-    form = ReviewForm(request.POST or None, instance=None)
+    review_kinds = [kind for kind, capability in [('clinical', 'clinical_review'), ('linguistic', 'linguistic_review')]
+                    if allowed(request.user, activity.variety, capability)]
+    can_review = bool(review_kinds) and activity.state in ['review', 'approved']
+    if request.method == 'POST' and (not can_review or request.POST.get('kind') not in review_kinds):
+        raise PermissionDenied
+    form = ReviewForm(request.POST or None, instance=None, allowed_kinds=review_kinds)
     if request.method == 'POST' and form.is_valid():
         try:
             review_version(request.user, activity, form.cleaned_data['kind'], form.cleaned_data['approved'], form.cleaned_data['note'])
@@ -51,7 +56,7 @@ def detail(request, pk):
     for field in ['rights', 'population', 'image_a', 'image_b', 'audio_a', 'audio_b', 'transcription_a', 'transcription_b']:
         if not getattr(activity, field):
             issues.append(checklist_labels[field])
-    return render(request, 'editorial/detail.html', {'activity': activity, 'form': form, 'issues': issues, 'can_edit': allowed(request.user, activity.variety, 'edit'), 'can_publish': allowed(request.user, activity.variety, 'publish'), 'reviews': activity.reviews.select_related('reviewer'), 'affected': ProgramItem.objects.filter(activity=activity).count()})
+    return render(request, 'editorial/detail.html', {'activity': activity, 'form': form, 'issues': issues, 'can_edit': allowed(request.user, activity.variety, 'edit'), 'can_publish': allowed(request.user, activity.variety, 'publish'), 'can_review': can_review, 'reviews': activity.reviews.select_related('reviewer'), 'affected': ProgramItem.objects.filter(activity=activity).count()})
 
 @login_required
 def edit(request, pk=None):

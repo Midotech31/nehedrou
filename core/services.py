@@ -119,7 +119,8 @@ def create_program(actor, child, data):
         raise ValidationError(_('This profile is archived. Existing records remain accessible.'))
     check_entitlement(org)
     selected = list(data['activities'])
-    locked = {a.pk: a for a in Activity.objects.select_for_update().filter(pk__in=[a.pk for a in selected]).order_by('pk')}
+    from catalog.content_catalog import current_catalog
+    locked = {a.pk: a for a in current_catalog(Activity.objects.select_for_update().filter(pk__in=[a.pk for a in selected])).order_by('pk')}
     if not selected or len(locked) != len(selected) or not child.varieties.filter(pk=data['variety'].pk).exists():
         raise ValidationError(_('All activities must match the selected variety.'))
     activities = [locked[a.pk] for a in selected]

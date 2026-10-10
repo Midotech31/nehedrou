@@ -162,8 +162,12 @@ class QualificationTests(TestCase):
         obj.refresh_from_db(); self.assertEqual(obj.status,'pending')
 
     def test_program_preview_creates_nothing_and_order_is_validated(self):
-        copy=self.item.activity
-        other=Activity.objects.create(variety=copy.variety,series=uuid.uuid4(),title='Second example',contrast='demo',word_a='a',word_b='b',image_a=copy.image_a,image_b=copy.image_b,instructions=copy.instructions,rights=copy.rights,population='Fictional',state='published')
+        from django.core.management import call_command
+        from catalog.content_catalog import current_catalog
+        call_command('seed_candidates', demo_copies=True, verbosity=0)
+        copy, other = list(current_catalog(Activity.objects.filter(variety=self.program.variety, is_demo=True, state='published', version=2)).order_by('series')[:2])
+        self.assertTrue(copy.practice_guide)
+        self.assertTrue(other.practice_guide)
         data={'title':'Ordered program','variety':copy.variety_id,'activities':[str(copy.pk),str(other.pk)],'activity_order':str(other.pk)+','+str(copy.pk),'goal':'Example goal','guidance':'Example guidance','schedule':'Chosen routine','action':'preview'}
         response=self.client.post(reverse('program_create',args=[self.child.pk]),data)
         self.assertEqual(response.status_code,200); self.assertIsNotNone(response.context['preview'])

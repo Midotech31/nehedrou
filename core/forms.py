@@ -45,6 +45,8 @@ class ProgramForm(forms.Form):
         qs = Activity.objects.filter(state='published', variety__in=child.varieties.all())
         if not settings.DEMO_MODE:
             qs = qs.filter(is_demo=False)
+        from catalog.content_catalog import current_catalog
+        qs = current_catalog(qs)
         self.fields['activities'].queryset = qs.select_related('variety').order_by('title', 'pk')
     def clean(self):
         data = super().clean()

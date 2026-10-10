@@ -9,10 +9,10 @@ class ActivityForm(forms.ModelForm):
     instructions_ar = forms.CharField(label=_('Arabic caregiver instructions'), widget=forms.Textarea)
     class Meta:
         model = Activity
-        fields = ['variety', 'title', 'contrast', 'word_a', 'word_b', 'transcription_a', 'transcription_b', 'image_a', 'image_b', 'audio_a', 'audio_b', 'population', 'limitations', 'rights', 'is_demo']
+        fields = ['variety', 'title', 'contrast', 'word_a', 'word_b', 'transcription_a', 'transcription_b', 'image_a', 'image_b', 'audio_a', 'audio_b', 'population', 'limitations', 'practice_guide', 'evidence_sources', 'rights', 'is_demo']
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        labels = {'variety': _('Spoken variety'), 'title': _('Activity title'), 'contrast': _('Phonological contrast'), 'word_a': _('First word'), 'word_b': _('Second word'), 'transcription_a': _('First word transcription'), 'transcription_b': _('Second word transcription'), 'image_a': _('First illustration reference'), 'image_b': _('Second illustration reference'), 'audio_a': _('First audio URL'), 'audio_b': _('Second audio URL'), 'population': _('Intended population'), 'limitations': _('Limits and precautions'), 'rights': _('Usage rights'), 'is_demo': _('Demonstration content')}
+        labels = {'variety': _('Spoken variety'), 'title': _('Activity title'), 'contrast': _('Phonological contrast'), 'word_a': _('First word'), 'word_b': _('Second word'), 'transcription_a': _('First word transcription'), 'transcription_b': _('Second word transcription'), 'image_a': _('First illustration reference'), 'image_b': _('Second illustration reference'), 'audio_a': _('First audio URL'), 'audio_b': _('Second audio URL'), 'population': _('Intended population'), 'limitations': _('Limits and precautions'), 'practice_guide': _('Structured activity guide'), 'evidence_sources': _('Sources and their scope'), 'rights': _('Usage rights'), 'is_demo': _('Demonstration content')}
         for name, label in labels.items():
             self.fields[name].label = label
         for code in ['fr', 'en', 'ar']:
@@ -28,6 +28,11 @@ class ActivityForm(forms.ModelForm):
         return data
 
 class ReviewForm(forms.ModelForm):
+    def __init__(self, *args, allowed_kinds=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if allowed_kinds is not None:
+            self.fields['kind'].choices = [(code, label) for code, label in self.fields['kind'].choices if code in allowed_kinds]
+
     class Meta:
         model = Review
         fields = ['kind', 'approved', 'note']

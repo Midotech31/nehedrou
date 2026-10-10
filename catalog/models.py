@@ -14,7 +14,7 @@ class Variety(CheckedModel):
     scope = models.TextField(blank=True)
     @property
     def display_label(self):
-        labels = {'fr-fr-pilot': _('French · France (pilot)'), 'en-us-general-pilot': _('English · United States (pilot)'), 'ar-dz-pilot': _('Arabic · Algeria (pilot)')}
+        labels = {'fr-fr-pilot': _('French · France (pilot)'), 'en-us-general-pilot': _('English · United States (pilot)'), 'ar-dz-pilot': _('Algerian Darja · local pilot')}
         return labels.get(self.code, self.label)
     def __str__(self):
         return str(self.display_label)
@@ -34,6 +34,8 @@ class Activity(CheckedModel):
     audio_a = models.URLField(blank=True)
     audio_b = models.URLField(blank=True)
     instructions = models.JSONField(default=dict)
+    practice_guide = models.JSONField(default=dict, blank=True)
+    evidence_sources = models.JSONField(default=list, blank=True)
     rights = models.TextField(blank=True)
     population = models.TextField(blank=True)
     limitations = models.TextField(blank=True)
@@ -48,6 +50,11 @@ class Activity(CheckedModel):
         return f'{self.title} · v{self.version}'
     def fingerprint(self):
         values = {field.attname: getattr(self, field.attname) for field in self._meta.concrete_fields if field.name not in ['id', 'state', 'created_at']}
+        # Empty additive fields preserve pre-guide digests and historical reviews.
+        # Any actual guide/reference change is part of the reviewed content.
+        for field in ['practice_guide', 'evidence_sources']:
+            if not values.get(field):
+                values.pop(field, None)
         return hashlib.sha256(json.dumps(values, sort_keys=True, default=str, ensure_ascii=False).encode()).hexdigest()
     def has_current_reviews(self):
         # The latest decision of each discipline for this exact version prevails.
@@ -83,6 +90,8 @@ class Activity(CheckedModel):
         return (all(self.image_available(ref) for ref in [self.image_a, self.image_b])
                 and (self.is_demo or all(self.audio_available(ref) for ref in [self.audio_a, self.audio_b])))
     def clean(self):
+        from .content_validation import validate_content_guide
+        validate_content_guide(self.practice_guide, self.evidence_sources)
         if Activity.objects.filter(series=self.series).exclude(pk=self.pk).exclude(variety_id=self.variety_id).exists():
             raise ValidationError(_('A content series must keep the same spoken variety.'))
         if not isinstance(self.instructions, dict) or any(k not in dict(settings.LANGUAGES) or not isinstance(v, str) for k, v in self.instructions.items()):

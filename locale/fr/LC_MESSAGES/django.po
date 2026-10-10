@@ -1827,3 +1827,78 @@ msgstr "résultats correspondants"
 
 msgid "Test space: use fictional data only. Changes may disappear after a restart."
 msgstr "Espace de test : données fictives uniquement. Les modifications peuvent disparaître au redémarrage."
+
+msgid "Activity purpose and guidance"
+msgstr "Objectif et déroulement de l’activité"
+
+msgid "Algerian Darja · local proposal awaiting review"
+msgstr "Darja algérienne · proposition locale à relire"
+
+msgid "English · illustrative contrast"
+msgstr "Anglais · contraste illustratif"
+
+msgid "French · illustrative contrast"
+msgstr "Français · contraste illustratif"
+
+msgid "Each guide needs an objective, audience, three steps, support, limits and review notes."
+msgstr "Chaque fiche doit préciser l’objectif, le public, les trois étapes, les aides, les limites et les points à relire."
+
+msgid "Each guide section needs one to eight non-empty text instructions."
+msgstr "Chaque section doit contenir une à huit consignes textuelles non vides."
+
+msgid "Each proposed activity explains its purpose, introduces the words, guides a picture task and suggests an exchange under the clinician's instructions."
+msgstr "Chaque activité proposée précise son objectif, présente les mots, guide un choix d’image et suggère un échange suivant les consignes de l’orthophoniste."
+
+msgid "Each source needs a title, an HTTPS URL and a statement of what it supports."
+msgstr "Chaque référence doit avoir un titre, un lien HTTPS et une explication de ce qu’elle étaye."
+
+msgid "Guide text must be non-empty and shorter than 2000 characters."
+msgstr "Le texte de la fiche ne peut pas être vide et doit compter moins de 2 000 caractères."
+
+msgid "Intended audience"
+msgstr "Public concerné"
+
+msgid "Linguistic points to review"
+msgstr "Points linguistiques à relire"
+
+msgid "Meaningful words, guidance for the caregiver"
+msgstr "Des mots qui ont du sens, des repères pour l’accompagnant"
+
+msgid "Platform management"
+msgstr "Gestion de la plateforme"
+
+msgid "Purpose, support and references"
+msgstr "Objectif, aides et références"
+
+msgid "References must be a list of up to twelve sources."
+msgstr "Les références doivent former une liste de douze sources au maximum."
+
+msgid "Sources and their scope"
+msgstr "Références et portée des preuves"
+
+msgid "Sources describe methods and language facts; Nehedrou has not been clinically evaluated."
+msgstr "Les références documentent des méthodes et des faits linguistiques ; Nehedrou n’a pas été évaluée cliniquement."
+
+msgid "Structured activity guide"
+msgstr "Fiche structurée de l’activité"
+
+msgid "Support without pressure"
+msgstr "Accompagner sans pression"
+
+msgid "The clinician selects the approach, target words and practice rhythm. These reading notes support a conversation with your clinician."
+msgstr "L’orthophoniste choisit l’approche, les mots cibles et le rythme de pratique. Ces repères alimentent votre échange avec lui."
+
+msgid "The structured guide must use supported language codes."
+msgstr "La fiche structurée doit utiliser les codes des langues prises en charge."
+
+msgid "These sources describe approaches or language facts. They do not validate this activity or the application."
+msgstr "Ces références décrivent des approches ou des faits linguistiques. Elles ne valident ni cette activité ni l’application."
+
+msgid "Understand the activities and sources"
+msgstr "Comprendre les activités et leurs références"
+
+msgid "Understanding the activities"
+msgstr "Comprendre les activités"
+
+msgid "Algerian Darja · local pilot"
+msgstr "Darja algérienne · pilote local"
