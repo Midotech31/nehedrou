@@ -26,8 +26,10 @@ Les mots de passe hébergés sont distincts, dans l’environnement privé Rende
 
 ## Vérifications et publication
 
-Les vérifications comprennent Django, absence de migration manquante, compilation des langues, statiques avec manifest, suites SQLite/PostgreSQL, démarrage hébergé, HTTPS, permissions des sept profils et rendu responsive FR/EN/AR. Les preuves de publication distante sont remises séparément après déploiement ; les rapports historiques ne doivent pas être confondus avec cette recette.
+Les vérifications comprennent Django, absence de migration manquante, compilation des langues, statiques avec manifest, suites SQLite/PostgreSQL, démarrage hébergé, HTTPS, permissions des sept profils et rendu responsive FR/EN/AR. Les preuves actuelles sont remises séparément ; les rapports historiques ne doivent pas être confondus avec cette recette.
 
 Avant publication : 137 tests découverts sous SQLite, 131 réussis et six cas réservés à PostgreSQL ignorés ; 137 tests réussis sous PostgreSQL, aucun ignoré. Les 635 messages par langue couvrent 599 clés d’interface, sans manque. Les neuf rendus locaux FR/EN/AR à 320, 768 et 1280 pixels présentent le logo chargé à ses proportions et le crédit exact sans débordement horizontal. Ces contrôles ne constituent pas des essais cliniques.
+
+Le déploiement `dep-db5bav7lk1mc739d8djg` du commit `2acbb16c18726fb8831634dcb699e32bb50b4d9e` est live depuis 22:02:50 UTC. La recette distante passe 101 contrôles HTTPS, 170 contrôles des sept rôles et 24 contrôles navigateur, dont neuf affichages responsive et un parcours arabe réellement enregistré. Un contrôle PostgreSQL complémentaire prouve le verrouillage et le refus d’attribution après retrait d’une activité. Aucun résultat de ces vérifications techniques n’est une validation clinique.
 
 Le service de test est [Nehedrou sur Render](https://nehedrou-demo.onrender.com/ar/), dans le dépôt [Midotech31/nehedrou](https://github.com/Midotech31/nehedrou). Le stockage de démonstration est temporaire et réservé aux données fictives. Les contenus/audio, la relecture locale et une évaluation clinique de l’application restent des étapes distinctes à réaliser.

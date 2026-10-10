@@ -12,13 +12,13 @@ Le plan gratuit peut se mettre en veille : la première ouverture peut être len
 
 Les contrôles locaux et, après déploiement, les vérifications HTTPS du site sont consignés dans les preuves de livraison. Un statut de construction réussi ne remplace pas une connexion et une soumission réelles sur le site publié.
 
-## Vérifications avant publication
+## Vérifications historiques de la première publication
 
 108 tests découverts : 102 réussis et six ignorés, réservés à PostgreSQL ; 81,579 s. Trente contrôles isolés supplémentaires passent avec DEBUG désactivé : pages publiques FR/EN/AR, avertissement temporaire, statiques avec manifest, logo original, connexion HTTPS, cookies sécurisés, changement de langue, refus des origines externe/nulle et déconnexion. 575 clés d’interface, aucune manquante. Ces preuves locales ne sont pas une vérification du site distant.
 
 Le Blueprint demande de saisir une clé aléatoire privée d’au moins 50 caractères ; son générateur court n’est pas utilisé. Le déploiement direct fournit une clé dédiée de 86 caractères.
 
-## Résultat vérifié sur le site publié
+## Première version publiée — historique
 
 Le déploiement `dep-db5ajdh42hec7389hdm0` du service `srv-db5afol9fdbs73c62t10` est **live** depuis le 10 octobre 2026 à 21:12:10 UTC. Le code exécuté correspond au commit `cfc3639d2fa013c7a3c8089e171f13df3e70b1ef`. Le script de démarrage ajoute explicitement la racine du projet au chemin d’import Python ; sept tests de déploiement passent après correction, dont le lancement réel du script depuis un dossier extérieur avec migrations et initialisation fictive. Seule la remise finale à Gunicorn est remplacée dans ce test Windows ; Gunicorn a démarré réellement sur Linux chez Render.
 
@@ -27,6 +27,18 @@ La recette HTTPS distante réussit **89 contrôles** : FR/EN/AR, statiques et em
 La recette dans le navigateur intégré réussit **18 contrôles** sur le site distant, avec JavaScript réellement exécuté : arabe RTL et Tajawal à 360 × 800, changements de langue, validation sans réponse, choix conservé au clavier, arrêt qui efface le choix, connexion familiale, pause/reprise, cible conservée après rechargement, enregistrement du rapport et changement de langue conservant son identifiant. Les captures et preuves JSON sont livrées séparément. Aucun avertissement ni erreur de console n’a été observé durant ces parcours ; aucun journal Render de niveau erreur n’a été relevé depuis le passage live jusqu’à 21:20:42 UTC. Ces observations ne remplacent pas une recette multi-navigateurs, des essais utilisateurs ou une validation clinique.
 
 Le service a été créé directement : son champ de sonde HTTP est vide. `/healthz/` a bien répondu en HTTPS avec une lecture de base réussie, dans la recette distante ; `render.yaml` prévoit cette route pour une création par Blueprint.
+
+## Quatre améliorations publiées et vérifiées
+
+Le déploiement `dep-db5bav7lk1mc739d8djg` est **live** depuis le 10 octobre 2026 à 22:02:50 UTC. Le code exécuté correspond au commit `2acbb16c18726fb8831634dcb699e32bb50b4d9e`. La mise à jour de l’environnement a ajouté sept mots de passe de rôle distincts sans remplacer les clés existantes ; aucune valeur de secret ne figure dans ce document.
+
+La recette réelle HTTPS passe **101 contrôles** avec les quatre comptes historiques : langues, nouveau logo et son empreinte, crédit, contenus publics adaptés, santé, protections HTTPS/CSRF, parcours, rapports, exports et isolation. La recette des sept nouveaux rôles passe **170 contrôles**, zéro échec et zéro cas non évalué : connexions, périmètres de dossiers, lectures et écritures interdites, relectures et édition. Deux avis demandant des modifications et un clone édité sont exclusivement fictifs ; aucun contenu clinique n’a été approuvé ou publié par la recette. Les comptes et leurs mots de passe historiques sont préservés.
+
+La recette dans le navigateur intégré passe **24 contrôles** : neuf affichages FR/EN/AR à 320, 768 et 1280 pixels, démonstrations interactives adaptées, guides, connexion du nouvel accompagnant, consignes arabes, pratique attribuée en darja, retour enregistré, rechargement et changements FR/EN conservant le même rapport. Aucune erreur de console n’a été observée durant ces vues ; la requête de journaux Render de niveau erreur entre le passage live et 22:08:03 UTC n’a retourné aucun événement. Ces contrôles ne certifient ni tous les navigateurs, ni une conformité intégrale d’accessibilité, ni une efficacité clinique.
+
+Les suites locales passent : **137 tests sous PostgreSQL**, zéro ignoré ; **131 réussis sur 137 sous SQLite**, avec six cas réservés à PostgreSQL ignorés. Un contrôle PostgreSQL ciblé supplémentaire prouve l’attente du verrou d’activité puis le refus d’une attribution après retrait. Django, migrations, statiques et traductions passent : 635 messages par langue, 599 clés d’interface, aucun manque.
+
+Les preuves actuelles sont `VERIFICATION_RENDER_DISTANTE.json`, `RECETTE_ROLES_RENDER.json`, `RECETTE_AMELIORATIONS_NAVIGATEUR.json` et `DEPLOIEMENT_AMELIORATIONS_ETAT.json`, remises hors du code. Le tableau privé `ACCES_ROLES_RENDER.md` contient les accès opérationnels et reste exclu du dépôt, des pages et de l’archive. Le corpus actif contient 37 propositions v2 et leurs copies fictives ; il attend toujours les relectures professionnelles et les modèles audio cliniques. Voir [les améliorations](AMELIORATIONS_URGENTES.md).
 
 ### Republier une modification
 
