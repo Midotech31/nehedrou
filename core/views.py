@@ -24,6 +24,7 @@ from .access import membership, manager, visible_children, visible_programs, cli
 from .forms import SignupForm, InviteSignupForm, ChildForm, ProgramForm, InvitationForm, PracticeForm, ObservationForm, PreferencesForm, DemoPracticeForm, FamilyFeedbackForm, HistoryFilterForm
 from .models import Organization, Membership, Entitlement, Invitation, PrivacyRequest
 from .services import audit, check_entitlement, create_program, accept_invitation, record_practice, issue_and_deliver_invitation, lock_clinical_child, publish_feedback
+from .reserves import activity_is_reserved, reserved_activity_ids, family_catalog_exclusions
 
 def home(request):
     return render(request, 'home.html')
@@ -93,6 +94,7 @@ def dashboard(request):
         programs = programs.filter(organization=member.organization)
         children = children.filter(organization=member.organization)
     sessions = PracticeSession.objects.filter(item__program__in=programs).select_related('item__program__child', 'user')
+    sessions = sessions.exclude(item__activity_id__in=family_catalog_exclusions(request.user, Activity.objects.all()))
     today = timezone.localdate()
     start = today - timedelta(days=6)
     daily = dict(sessions.filter(created_at__date__gte=start).annotate(day=TruncDate('created_at')).values('day').annotate(total=Count('pk')).values_list('day', 'total'))
@@ -105,11 +107,12 @@ def dashboard(request):
         available = program.items.filter(activity__state='published').select_related('activity')
         if not settings.DEMO_MODE:
             available = available.filter(activity__is_demo=False)
-        program.first_available = next((item for item in available if item.activity.usable and item.activity.instructions.get(request.user.instruction_language)), None)
+        reserved = reserved_activity_ids(program.child, [i.activity for i in available])
+        program.first_available = next((item for item in available if item.activity.usable and item.activity_id not in reserved and item.activity.instructions.get(request.user.instruction_language)), None)
         program.last_report = sessions.filter(item__program=program).order_by('-created_at').first()
         program.latest_feedback = program.family_feedback.select_related('author').first()
         program.current_run = program.practice_runs.filter(user=request.user, state='active').first()
-        program.run_available = all(i.activity.usable and i.activity.instructions.get(request.user.instruction_language) for i in program.items.select_related('activity')) and program.items.exists()
+        program.run_available = not reserved and all(i.activity.usable and i.activity.instructions.get(request.user.instruction_language) for i in program.items.select_related('activity')) and program.items.exists()
     weekly = sessions.filter(created_at__date__gte=start)
     attention = list(active.annotate(help_count=Count('items__sessions', filter=Q(items__sessions__created_at__date__gte=start) & ~Q(items__sessions__parent_report='easy'), distinct=True), stopped_count=Count('items__sessions', filter=Q(items__sessions__created_at__date__gte=start, items__sessions__completion='stopped'), distinct=True)).filter(Q(help_count__gt=0) | Q(stopped_count__gt=0)).order_by('-help_count')[:6]) if member else []
     return render(request, 'dashboard.html', {'first_child': children.filter(active=True).order_by('created_at').first(), 'children_count': children.filter(active=True).count(), 'program_count': active.count(), 'sessions_count': sessions.count(), 'programs': cards, 'recent_sessions': sessions.order_by('-created_at')[:6], 'week': week, 'week_total': sum(daily.values()), 'weekly_help': weekly.exclude(parent_report='easy').count(), 'weekly_stopped': weekly.filter(completion='stopped').count(), 'attention_programs': attention, 'waiting_count': waiting, 'today': today})
@@ -243,6 +246,7 @@ def library(request):
     if not settings.DEMO_MODE:
         qs = qs.filter(is_demo=False)
     qs = current_catalog(qs)
+    qs = qs.exclude(pk__in=family_catalog_exclusions(request.user, qs))
     language = request.GET.get('content_language', '')
     if language in dict(settings.LANGUAGES):
         qs = qs.filter(variety__language=language)
@@ -259,6 +263,8 @@ def library(request):
 def activity_detail(request, pk):
     activity = get_object_or_404(Activity.objects.select_related('variety'), pk=pk, state='published')
     if activity.is_demo and not settings.DEMO_MODE:
+        raise Http404
+    if activity.pk in family_catalog_exclusions(request.user, [activity]):
         raise Http404
     return render(request, 'activity_detail.html', {'activity': activity, 'instruction': activity.instructions.get(request.user.instruction_language), 'missing_instruction': not activity.instructions.get(request.user.instruction_language)})
 
@@ -301,14 +307,18 @@ def program_detail(request, pk):
     sessions = PracticeSession.objects.filter(item__program=program).select_related('user', 'item__activity').order_by('-created_at', '-pk')
     stats = sessions.aggregate(attempts=Count('pk'), answered=Count('pk', filter=Q(correct__isnull=False)), correct=Count('pk', filter=Q(correct=True)), stopped=Count('pk', filter=Q(completion='stopped')))
     items = list(program.items.select_related('activity'))
+    blocked_ids = reserved_activity_ids(program.child, [i.activity for i in items])
+    if not professional:
+        items = [i for i in items if i.activity_id not in blocked_ids]
+        sessions = sessions.exclude(item__activity_id__in=blocked_ids)
     for item in items:
-        item.usable = item.activity.usable
+        item.usable = item.activity.usable and item.activity_id not in blocked_ids
     runs = program.practice_runs.select_related('user').annotate(task_count=Count('tasks', distinct=True), reported_count=Count('tasks__report', distinct=True))
     if not professional:
         runs = runs.filter(user=request.user)
     return render(request, 'program_detail.html', {'program': program, 'items': items, 'sessions': sessions[:6], 'stats': stats, 'professional': professional, 'observations': program.observations.select_related('author') if professional else [], 'form': form,
         'family_feedback': program.family_feedback.select_related('author')[:3], 'practice_runs': runs.order_by('-started_at', '-pk')[:5], 'current_run': program.practice_runs.filter(user=request.user, state='active').first(),
-        'run_available': bool(items) and program.child.active and program.state == 'active' and all(i.usable and i.activity.instructions.get(request.user.instruction_language) for i in items)})
+        'run_available': bool(items) and not blocked_ids and program.child.active and program.state == 'active' and all(i.usable and i.activity.instructions.get(request.user.instruction_language) for i in items)})
 
 @login_required
 def family_feedback_create(request, pk):
@@ -350,6 +360,8 @@ def program_history(request, pk):
         date_field, state_field = 'created_at', None
     else:
         records = PracticeSession.objects.filter(item__program=program).select_related('user', 'item__activity')
+        if not professional:
+            records = records.exclude(item__activity_id__in=reserved_activity_ids(program.child, [i.activity for i in program.items.select_related('activity')]))
         date_field, state_field = 'created_at', 'completion'
     unfiltered_count = records.count()
     if valid:
@@ -371,6 +383,8 @@ def program_history(request, pk):
 def report_detail(request, pk):
     report = get_object_or_404(PracticeSession.objects.select_related('item__program__child', 'item__program__variety', 'item__activity', 'user'), pk=pk, item__program__in=visible_programs(request.user))
     professional = professional_children(request.user).filter(pk=report.item.program.child_id).exists()
+    if not professional and activity_is_reserved(report.item.program.child, report.item.activity):
+        return render(request, 'notice.html', {'title': _('Activity unavailable'), 'body': _('Contact your clinician to adjust the program.')}, status=403)
     return render(request, 'report_detail.html', {'report':report, 'professional':professional,
         'feedback':report.clinician_feedback.select_related('author'), 'own_report':report.user_id == request.user.pk})
 
@@ -392,6 +406,8 @@ def practice_run_detail(request, pk):
     run = get_object_or_404(PracticeRun.objects.select_related('program__child', 'program__variety', 'user'), pk=pk, program__in=visible_programs(request.user))
     if run.user_id != request.user.pk and not professional_children(request.user).filter(pk=run.program.child_id).exists():
         raise Http404
+    if not professional_children(request.user).filter(pk=run.program.child_id).exists() and reserved_activity_ids(run.program.child, [t.item.activity for t in run.tasks.select_related('item__activity')]):
+        return render(request, 'notice.html', {'title': _('Activity unavailable'), 'body': _('Contact your clinician to adjust the program.')}, status=403)
     return render(request, 'practice_run.html', run_summary(run, request.user))
 
 @login_required
@@ -421,6 +437,8 @@ def finish_program(request, pk):
 def practice(request, pk):
     from .practice_runs import task_ticket
     item = get_object_or_404(ProgramItem.objects.select_related('activity', 'program__child'), pk=pk, program__in=visible_programs(request.user))
+    if activity_is_reserved(item.program.child, item.activity):
+        return render(request, 'notice.html', {'title': _('Activity unavailable'), 'body': _('Contact your clinician to adjust the program.')}, status=410)
     if (not item.program.child.active or not item.activity.usable or item.program.state != 'active') and (request.method != 'POST' or not request.POST.get('ticket')):
         return render(request, 'notice.html', {'title': _('Activity unavailable'), 'body': _('Contact your clinician to adjust the program.')}, status=410)
     task = None
@@ -477,6 +495,8 @@ def practice(request, pk):
 def practice_report(request, pk):
     from .practice_runs import run_summary
     report = get_object_or_404(PracticeSession.objects.select_related('item__activity', 'item__program__child', 'run_task__run__program__child'), pk=pk, user=request.user, item__program__in=visible_programs(request.user))
+    if not professional_children(request.user).filter(pk=report.item.program.child_id).exists() and activity_is_reserved(report.item.program.child, report.item.activity):
+        return render(request, 'notice.html', {'title': _('Activity unavailable'), 'body': _('Contact your clinician to adjust the program.')}, status=403)
     context = {'report': report, 'next_item': None}
     if report.run_task_id:
         summary = run_summary(report.run_task.run, request.user)
@@ -484,7 +504,7 @@ def practice_report(request, pk):
     else:
         # Legacy reports keep their history; never skip a withdrawn next assignment.
         candidate = report.item.program.items.filter(position__gt=report.item.position).select_related('activity').order_by('position').first()
-        if candidate and candidate.activity.usable and report.item.program.state == 'active' and report.item.program.child.active and report.completion == 'completed':
+        if candidate and candidate.activity.usable and not activity_is_reserved(report.item.program.child, candidate.activity) and report.item.program.state == 'active' and report.item.program.child.active and report.completion == 'completed':
             context['next_item'] = candidate
     return render(request, 'practice_report.html', context)
 
@@ -492,8 +512,11 @@ def practice_report(request, pk):
 def print_program(request, pk):
     program = get_object_or_404(visible_programs(request.user), pk=pk)
     items = list(program.items.select_related('activity'))
+    blocked_ids = reserved_activity_ids(program.child, [i.activity for i in items])
+    if not professional_children(request.user).filter(pk=program.child_id).exists():
+        items = [i for i in items if i.activity_id not in blocked_ids]
     for item in items:
-        item.usable = item.activity.usable
+        item.usable = item.activity.usable and item.activity_id not in blocked_ids
         item.instruction = item.activity.instructions.get(request.user.instruction_language)
     return render(request, 'print.html', {'program': program, 'items': items, 'instruction_language': request.user.instruction_language})
 
@@ -507,12 +530,16 @@ def export_child(request, pk):
         runs = runs.filter(user=request.user)
     feedback = ProgramFeedback.objects.select_related('author').order_by('created_at','pk')
     for program in child.programs.select_related('variety').prefetch_related('items__activity', 'items__sessions', 'observations', Prefetch('practice_runs', queryset=runs, to_attr='export_runs'), Prefetch('family_feedback', queryset=feedback, to_attr='export_feedback')):
+        blocked_ids = set() if professional else reserved_activity_ids(child, [i.activity for i in program.items.all()])
+        hidden_item_ids = {i.pk for i in program.items.all() if i.activity_id in blocked_ids}
         visible_task_ids = {t.pk for run in program.export_runs for t in run.tasks.all()}
         row = {'id': str(program.pk), 'title': program.title, 'goal': program.goal, 'variety': program.variety.code, 'state': program.state, 'schedule': program.schedule, 'guidance': program.guidance, 'items': []}
         for item in program.items.all():
-            row['items'].append({'id': str(item.pk), 'position':item.position, 'activity_id': str(item.activity_id), 'version': item.activity.version, 'title': item.activity.title, 'sessions': [{'id':str(s.pk), 'run_task_id':str(s.run_task_id) if s.run_task_id in visible_task_ids else None, 'at': s.created_at.isoformat(), 'completion': s.completion, 'closed_task_correct': s.correct, 'reporter_role': s.reporter_role, 'parent_report': s.parent_report, 'parent_comment': s.comment} for s in item.sessions.all()]})
+            if item.activity_id in blocked_ids:
+                continue
+            row['items'].append({'id': str(item.pk), 'position':item.position, 'activity_id': str(item.activity_id), 'version': item.activity.version, 'title': item.activity.title, 'sessions': [{'id':str(s.pk), 'run_task_id':str(s.run_task_id) if s.run_task_id in visible_task_ids else None, 'at': s.created_at.isoformat(), 'completion': s.completion, 'closed_task_correct': s.correct, 'reporter_role': s.reporter_role, 'parent_report': s.parent_report, 'parent_comment': s.comment, 'declared_support': s.support_used, 'declared_stop_reason': s.stop_reason} for s in item.sessions.all()]})
         row['practice_runs'] = [{'id': str(run.pk), 'state': run.state, 'started_at': run.started_at.isoformat(), 'finished_at': run.finished_at.isoformat() if run.finished_at else None,
-            'tasks': [{'id':str(t.pk), 'position': t.position, 'item_id': str(t.item_id), 'report_id': str(t.report.pk) if getattr(t, 'report', None) else None} for t in run.tasks.all()]} for run in program.export_runs]
+            'tasks': [{'id':str(t.pk), 'position': t.position, 'item_id': str(t.item_id), 'report_id': str(t.report.pk) if getattr(t, 'report', None) else None} for t in run.tasks.all() if t.item_id not in hidden_item_ids]} for run in program.export_runs]
         row['family_feedback'] = [{'id':str(f.pk), 'source_report_id':str(f.source_report_id) if f.source_report_id else None, 'at':f.created_at.isoformat(), 'text':f.text, 'author':f.author.username} for f in program.export_feedback]
         if professional:
             row['professional_observations'] = [{'text':o.text, 'created_at':o.created_at} for o in program.observations.all()]

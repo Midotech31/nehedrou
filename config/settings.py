@@ -21,7 +21,7 @@ if RENDER_HOSTNAME:
     if not RENDER_HOSTNAME.endswith('.onrender.com') or '/' in RENDER_HOSTNAME or ':' in RENDER_HOSTNAME:
         raise ImproperlyConfigured('Invalid Render hostname.')
     ALLOWED_HOSTS.append(RENDER_HOSTNAME)
-INSTALLED_APPS = ['django.contrib.admin', 'django.contrib.auth', 'django.contrib.contenttypes', 'django.contrib.sessions', 'django.contrib.messages', 'django.contrib.staticfiles', 'core', 'catalog', 'care']
+INSTALLED_APPS = ['django.contrib.admin', 'django.contrib.auth', 'django.contrib.contenttypes', 'django.contrib.sessions', 'django.contrib.messages', 'django.contrib.staticfiles', 'core', 'catalog', 'care', 'followup', 'qualification']
 INSTALLED_APPS += ['django_otp', 'django_otp.plugins.otp_totp']
 MFA_REQUIRED = os.getenv('MFA_REQUIRED', '0' if DEMO_MODE else '1') == '1'
 PRODUCT_NAME = 'Nehedrou'
@@ -42,7 +42,8 @@ else:
     if not DEBUG and not (DEMO_MODE and DEMO_EPHEMERAL):
         raise ImproperlyConfigured('Production requires PostgreSQL.')
     demo_database = Path(os.environ['DEMO_DATABASE_PATH']) if DEMO_EPHEMERAL and os.getenv('DEMO_DATABASE_PATH') else BASE_DIR / 'demo.sqlite3'
-    DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': demo_database, 'OPTIONS': {'timeout': 20}}}
+    # Acquire the write reservation before reads, avoiding DEFERRED lock upgrades.
+    DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': demo_database, 'OPTIONS': {'timeout': 20, 'transaction_mode': 'IMMEDIATE'}}}
 AUTH_USER_MODEL = 'core.User'
 AUTH_PASSWORD_VALIDATORS = [{'NAME': 'django.contrib.auth.password_validation.' + name} for name in ['UserAttributeSimilarityValidator', 'MinimumLengthValidator', 'CommonPasswordValidator', 'NumericPasswordValidator']]
 LANGUAGE_CODE = 'fr'

@@ -70,6 +70,8 @@ def resolve_privacy(actor, request_id, data):
         if retention_anchor(child) + timezone.timedelta(days=org.retention_days) > timezone.now():
             raise ValidationError(_('The configured retention period has not elapsed. Retain with a documented reason.'))
         audit(actor, 'child.erased', child, org)
+        from followup.services import erase_child_followup
+        erase_child_followup(child)
         ProgramFeedback.objects.filter(program__child=child).delete()
         PracticeSession.objects.filter(item__program__child=child).delete()
         PracticeRun.objects.filter(program__child=child).delete()
@@ -126,6 +128,16 @@ def create_program(actor, child, data):
     activities = [locked[a.pk] for a in selected]
     if any(not a.usable or a.variety_id != data['variety'].pk for a in activities):
         raise ValidationError(_('This activity is no longer available. Contact your clinician.'))
+    from followup.services import reserved_words_for, word_key
+    reserved = reserved_words_for(child, data['variety'])
+    if any(word_key(word) in reserved for a in activities for word in [a.word_a, a.word_b]):
+        raise ValidationError(_('Reserve items belong to professional follow-up and cannot be assigned to family games.'))
+    if not settings.DEMO_MODE:
+        from qualification.services import availability_for
+        for activity in activities:
+            decision = availability_for('practice', activity.variety, activity.fingerprint())
+            if not decision['available']:
+                raise ValidationError(decision['reasons'])
     program = Program.objects.create(organization=org, child=child, variety=data['variety'], created_by=actor, title=data['title'], goal=data.get('goal', ''), guidance=data['guidance'], schedule=data['schedule'])
     for index, activity in enumerate(activities, 1):
         ProgramItem.objects.create(program=program, activity=activity, position=index)
@@ -196,6 +208,8 @@ def record_practice(actor, item, payload, ticket):
     if not visible_programs(actor).filter(pk=item.program_id).exists():
         raise ValidationError(_('Access is no longer available.'))
     body = {k: payload.get(k, '') for k in ['answer', 'completion', 'parent_report', 'comment']}
+    # Empty new declarations preserve digests of historical submissions.
+    body.update({k: payload[k] for k in ['support_used', 'stop_reason'] if payload.get(k)})
     body.update(item=str(item.pk), target=ticket['target'])
     task = None
     run = None
@@ -213,6 +227,9 @@ def record_practice(actor, item, payload, ticket):
         return existing
     if not item.program.child.active or item.program.state != 'active' or not item.activity.usable:
         raise ValidationError(_('This activity is no longer available. Contact your clinician.'))
+    from followup.services import reserved_words_for, word_key
+    if any(word_key(word) in reserved_words_for(item.program.child, item.program.variety) for word in [item.activity.word_a, item.activity.word_b]):
+        raise ValidationError(_('Reserve items belong to professional follow-up and cannot be assigned to family games.'))
     if run:
         pending = run.tasks.filter(report__isnull=True).order_by('position').first()
         if run.state != 'active' or not pending or pending.pk != task.pk:
@@ -220,7 +237,9 @@ def record_practice(actor, item, payload, ticket):
         if not item.activity.instructions.get(actor.instruction_language):
             raise ValidationError(_('Choose another instruction language in your preferences or contact your clinician.'))
     reporter_role = 'caregiver' if FamilyLink.objects.filter(child=item.program.child, user=actor, active=True).exists() else 'clinician'
-    session = PracticeSession.objects.create(organization=item.program.organization, item=item, user=actor, run_task=task, reporter_role=reporter_role, idempotency_key=ticket['key'], payload_digest=digest, answer=body['answer'], target=ticket['target'], completion=body['completion'], correct=(body['answer'] == ticket['target']) if body['completion'] == 'completed' else None, parent_report=body['parent_report'], comment=body['comment'])
+    session = PracticeSession.objects.create(organization=item.program.organization, item=item, user=actor, run_task=task, reporter_role=reporter_role, idempotency_key=ticket['key'], payload_digest=digest, answer=body['answer'], target=ticket['target'], completion=body['completion'], correct=(body['answer'] == ticket['target']) if body['completion'] == 'completed' else None, parent_report=body['parent_report'], comment=body['comment'], support_used=body.get('support_used', ''), stop_reason=body.get('stop_reason', ''))
+    from followup.services import record_practice_exposure
+    record_practice_exposure(actor, session)
     if run and (body['completion'] == 'stopped' or not run.tasks.filter(report__isnull=True).exists()):
         run.state = 'stopped' if body['completion'] == 'stopped' else 'completed'
         run.finished_at = timezone.now()

@@ -9,10 +9,10 @@ class ActivityForm(forms.ModelForm):
     instructions_ar = forms.CharField(label=_('Arabic caregiver instructions'), widget=forms.Textarea)
     class Meta:
         model = Activity
-        fields = ['variety', 'title', 'contrast', 'word_a', 'word_b', 'transcription_a', 'transcription_b', 'image_a', 'image_b', 'audio_a', 'audio_b', 'population', 'limitations', 'practice_guide', 'evidence_sources', 'rights', 'is_demo']
+        fields = ['variety', 'title', 'contrast', 'word_a', 'word_b', 'transcription_a', 'transcription_b', 'image_a', 'image_b', 'audio_a', 'audio_b', 'population', 'limitations', 'practice_guide', 'evidence_sources', 'item_metadata', 'rights', 'is_demo']
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        labels = {'variety': _('Spoken variety'), 'title': _('Activity title'), 'contrast': _('Phonological contrast'), 'word_a': _('First word'), 'word_b': _('Second word'), 'transcription_a': _('First word transcription'), 'transcription_b': _('Second word transcription'), 'image_a': _('First illustration reference'), 'image_b': _('Second illustration reference'), 'audio_a': _('First audio URL'), 'audio_b': _('Second audio URL'), 'population': _('Intended population'), 'limitations': _('Limits and precautions'), 'practice_guide': _('Structured activity guide'), 'evidence_sources': _('Sources and their scope'), 'rights': _('Usage rights'), 'is_demo': _('Demonstration content')}
+        labels = {'variety': _('Spoken variety'), 'title': _('Activity title'), 'contrast': _('Phonological contrast'), 'word_a': _('First word'), 'word_b': _('Second word'), 'transcription_a': _('First word transcription'), 'transcription_b': _('Second word transcription'), 'image_a': _('First illustration reference'), 'image_b': _('Second illustration reference'), 'audio_a': _('First audio URL'), 'audio_b': _('Second audio URL'), 'population': _('Intended population'), 'limitations': _('Limits and precautions'), 'practice_guide': _('Structured activity guide'), 'evidence_sources': _('Sources and their scope'), 'item_metadata': _('Word meanings, segments, occurrences, variants and familiarity'), 'rights': _('Usage rights'), 'is_demo': _('Demonstration content')}
         for name, label in labels.items():
             self.fields[name].label = label
         for code in ['fr', 'en', 'ar']:
@@ -41,8 +41,8 @@ class ReviewForm(forms.ModelForm):
 class MediaForm(forms.ModelForm):
     class Meta:
         model = MediaAsset
-        fields = ['file', 'kind', 'rights']
-        labels = {'file': _('File'), 'kind': _('Media type'), 'rights': _('Usage rights')}
+        fields = ['file', 'kind', 'rights', 'rights_status', 'provenance', 'rights_evidence']
+        labels = {'file': _('File'), 'kind': _('Media type'), 'rights': _('Usage rights'), 'rights_status': _('Rights status'), 'provenance': _('Rights holder, licence, scope, attribution and adult speaker permission'), 'rights_evidence': _('Private rights evidence')}
     def clean_file(self):
         file = self.cleaned_data['file']
         if file.size > 15 * 1024 * 1024:
@@ -56,6 +56,10 @@ class MediaForm(forms.ModelForm):
         return file
     def clean(self):
         data = super().clean()
+        # Optional JSON input must keep the model's empty-object default.
+        # This does not qualify an upload: documented rights still require proof.
+        if data.get('provenance') is None:
+            data['provenance'] = {}
         ext = getattr(self, '_extension', '')
         if data.get('kind') and bool(ext in ['png', 'jpg', 'jpeg']) != (data['kind'] == 'image'):
             raise forms.ValidationError(_('The file type must match the selected media kind.'))

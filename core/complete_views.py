@@ -28,6 +28,9 @@ def child_edit(request, pk):
                 active_varieties = locked.programs.filter(state='active').values_list('variety_id', flat=True)
                 if any(pk not in chosen.values_list('pk', flat=True) for pk in active_varieties):
                     raise ValidationError(_('Keep the varieties of active programs or complete those programs first.'))
+                from followup.models import ClinicalGoal
+                if ClinicalGoal.objects.filter(child=locked, active=True).exclude(variety__in=chosen).exists():
+                    raise ValidationError(_('Keep the varieties of active clinical goals or close those goals first.'))
                 locked.code = form.cleaned_data['code']
                 locked.age_years = form.cleaned_data['age_years']
                 locked.save()
@@ -114,6 +117,9 @@ def retention_anchor(child):
     if last_finish: dates.append(last_finish.finished_at)
     feedback = ProgramFeedback.objects.filter(program__child=child).order_by('-created_at').first()
     if feedback: dates.append(feedback.created_at)
+    from followup.services import retention_date
+    followup_date = retention_date(child)
+    if followup_date: dates.append(followup_date)
     return max(dates)
 
 @login_required

@@ -1,0 +1,586 @@
+{
+  "A clinical goal cannot be reassigned.": {
+    "fr": "Un objectif clinique ne peut pas être réattribué.",
+    "ar": "لا يمكن إعادة إسناد الهدف السريري."
+  },
+  "A complete published protocol with current reviews is required.": {
+    "fr": "Un protocole publié complet avec des relectures actuelles est requis.",
+    "ar": "يلزم بروتوكول منشور ومكتمل بمراجعات سارية."
+  },
+  "A contract or exact commercial-compatible licence reference is missing.": {
+    "fr": "Il manque un contrat ou la référence exacte d’une licence compatible avec l’usage commercial.",
+    "ar": "ينقص عقد أو مرجع دقيق لرخصة تسمح بالاستخدام التجاري."
+  },
+  "A correction needs a reason and a complete human rating.": {
+    "fr": "Une correction exige un motif et une cotation humaine complète.",
+    "ar": "يتطلب التصحيح سببًا وتقييمًا بشريًا كاملًا."
+  },
+  "A current competence declaration for this variety is required.": {
+    "fr": "Une déclaration de compétence actuelle pour cette variété est requise.",
+    "ar": "يلزم تصريح سارٍ بالكفاءة في هذا التنوع اللغوي."
+  },
+  "A demonstration remains an unapproved simulation.": {
+    "fr": "Une démonstration reste une simulation non approuvée.",
+    "ar": "يبقى العرض التجريبي محاكاة غير معتمدة."
+  },
+  "A finalized observation cannot acquire new occurrences.": {
+    "fr": "Une observation finalisée ne peut pas recevoir de nouvelles occurrences.",
+    "ar": "لا يمكن إضافة مواضع جديدة إلى ملاحظة أُغلقت."
+  },
+  "A practice declaration cannot be dated in the future.": {
+    "fr": "Une pratique déclarée ne peut pas être datée dans le futur.",
+    "ar": "لا يمكن تأريخ الممارسة المبلغ عنها في المستقبل."
+  },
+  "A protocol needs one to sixty explicit items.": {
+    "fr": "Un protocole exige un à soixante items explicites.",
+    "ar": "يتطلب البروتوكول من عنصر واحد إلى ستين عنصرًا محددًا."
+  },
+  "A protocol series must retain its spoken variety.": {
+    "fr": "Une série de protocoles doit conserver sa variété orale.",
+    "ar": "يجب أن تحتفظ سلسلة البروتوكولات بتنوعها اللغوي المنطوق."
+  },
+  "A protocol version cannot be repeated in the source file.": {
+    "fr": "Une version de protocole ne peut pas être répétée dans le fichier source.",
+    "ar": "لا يمكن تكرار إصدار البروتوكول في الملف المصدر."
+  },
+  "A protocol version cannot change its demonstration identity.": {
+    "fr": "Une version de protocole ne peut pas changer son statut de démonstration.",
+    "ar": "لا يمكن تغيير صفة العرض التجريبي لإصدار البروتوكول."
+  },
+  "A published protocol cannot return to draft.": {
+    "fr": "Un protocole publié ne peut pas redevenir un brouillon.",
+    "ar": "لا يمكن إعادة البروتوكول المنشور إلى حالة المسودة."
+  },
+  "A scorable response requires an audible expected word and an identifiable target.": {
+    "fr": "Une réponse cotable exige une tentative audible du mot attendu et une cible identifiable.",
+    "ar": "يتطلب التقييم محاولة مسموعة للكلمة المتوقعة وموضعًا مستهدفًا قابلًا للتحديد."
+  },
+  "A withdrawn protocol cannot start a new observation.": {
+    "fr": "Un protocole retiré ne peut pas démarrer une nouvelle observation.",
+    "ar": "لا يمكن بدء ملاحظة جديدة ببروتوكول مسحوب."
+  },
+  "Accepted variants must be a bounded list.": {
+    "fr": "Les variantes admises doivent former une liste limitée.",
+    "ar": "يجب أن تكون البدائل المقبولة في قائمة محدودة."
+  },
+  "Administration conditions and version snapshots are immutable.": {
+    "fr": "Les conditions de passation et les versions figées ne peuvent pas être modifiées.",
+    "ar": "لا يمكن تعديل ظروف التطبيق أو نسخة الإصدار المحفوظة."
+  },
+  "An accepted variant belongs only to the variant rating.": {
+    "fr": "Une variante admise s’utilise uniquement avec la cotation de variante.",
+    "ar": "يُستخدم البديل المقبول فقط مع تقييم البديل."
+  },
+  "An audible error needs its error type; refusal is unscorable.": {
+    "fr": "Une erreur audible exige son type ; un refus est non cotable.",
+    "ar": "يجب تحديد نوع الخطأ المسموع؛ الرفض غير قابل للتقييم."
+  },
+  "An exposure cannot occur in the future.": {
+    "fr": "Une exposition ne peut pas être datée dans le futur.",
+    "ar": "لا يمكن تأريخ التعرض للكلمة في المستقبل."
+  },
+  "An unpresented item cannot contain an observed production.": {
+    "fr": "Un item non présenté ne peut pas contenir une production observée.",
+    "ar": "لا يمكن تسجيل إنتاج ملاحظ لعنصر لم يُعرض."
+  },
+  "Archived profiles cannot acquire a new clinical goal.": {
+    "fr": "Un dossier archivé ne peut pas recevoir un nouvel objectif clinique.",
+    "ar": "لا يمكن إضافة هدف سريري إلى ملف مؤرشف."
+  },
+  "Archived profiles cannot acquire new coaching.": {
+    "fr": "Un dossier archivé ne peut pas recevoir de nouveaux conseils.",
+    "ar": "لا يمكن إضافة إرشادات جديدة إلى ملف مؤرشف."
+  },
+  "Check familiarity for every protocol item.": {
+    "fr": "Vérifiez la familiarité de chaque item du protocole.",
+    "ar": "تحققوا من معرفة الطفل بكل عنصر في البروتوكول."
+  },
+  "Coaching must belong to the child practice.": {
+    "fr": "Les conseils doivent appartenir au cabinet de l’enfant.",
+    "ar": "يجب أن تتبع الإرشادات عيادة الطفل."
+  },
+  "Conditions must be bounded text.": {
+    "fr": "Les conditions doivent être renseignées sous forme de texte limité.",
+    "ar": "يجب وصف الظروف بنص محدود الطول."
+  },
+  "Confirm the external evaluation and all item familiarity before real use.": {
+    "fr": "Confirmez l’évaluation externe et la familiarité de tous les items avant un usage réel.",
+    "ar": "أكدوا التقييم الخارجي ومعرفة الطفل بجميع العناصر قبل الاستخدام الفعلي."
+  },
+  "Corrections are append-only.": {
+    "fr": "Les corrections s’ajoutent à l’historique sans le modifier.",
+    "ar": "تُضاف التصحيحات إلى السجل دون تعديل ما سبق."
+  },
+  "Create a new protocol version to change frozen content.": {
+    "fr": "Créez une nouvelle version pour modifier un protocole figé.",
+    "ar": "أنشئوا إصدارًا جديدًا لتعديل محتوى بروتوكول محفوظ."
+  },
+  "Declare the scope of competence for this spoken variety.": {
+    "fr": "Déclarez votre champ de compétence pour cette variété orale.",
+    "ar": "صرّحوا بنطاق كفاءتكم في هذا التنوع اللغوي المنطوق."
+  },
+  "Define the retained-attempt rule before observing.": {
+    "fr": "Définissez la règle de tentative retenue avant l’observation.",
+    "ar": "حددوا قاعدة المحاولة المعتمدة قبل الملاحظة."
+  },
+  "Demonstration protocols cannot be qualified for real use.": {
+    "fr": "Les protocoles de démonstration ne sont pas qualifiés pour un usage réel.",
+    "ar": "بروتوكولات العرض التجريبي غير مؤهلة للاستخدام الفعلي."
+  },
+  "Distinguish trained, reserved and uncertain item plans.": {
+    "fr": "Distinguez les items entraînés, réservés et d’exposition incertaine.",
+    "ar": "ميزوا بين عناصر التدريب والعناصر المحجوزة والعناصر ذات التعرض غير المؤكد."
+  },
+  "Document the protocol rights and their evidence.": {
+    "fr": "Documentez les droits du protocole et leurs justificatifs.",
+    "ar": "وثقوا حقوق البروتوكول ومستنداتها."
+  },
+  "Document whether the expected word and target were audible.": {
+    "fr": "Indiquez si le mot attendu et la cible étaient audibles.",
+    "ar": "وضحوا إن كانت الكلمة المتوقعة والموضع المستهدف مسموعين."
+  },
+  "Each item needs an id, word, proposed IPA and target definition.": {
+    "fr": "Chaque item exige un identifiant, un mot, une IPA proposée et une cible définie.",
+    "ar": "يتطلب كل عنصر معرّفًا وكلمة ونسخًا صوتيًا مقترحًا وتعريفًا للموضع المستهدف."
+  },
+  "Each protocol item must be an object.": {
+    "fr": "Chaque item doit avoir une structure explicite.",
+    "ar": "يجب أن يكون لكل عنصر بنية محددة."
+  },
+  "Each variant needs an explicit id and label.": {
+    "fr": "Chaque variante exige un identifiant et un libellé explicites.",
+    "ar": "يتطلب كل بديل معرّفًا ووصفًا واضحين."
+  },
+  "Error type is reserved for scorable target errors.": {
+    "fr": "Le type d’erreur concerne uniquement les erreurs de cible cotables.",
+    "ar": "يخص نوع الخطأ الأخطاء القابلة للتقييم في الموضع المستهدف فقط."
+  },
+  "Exact reviewed image/audio files with rights are missing or changed.": {
+    "fr": "Les fichiers image/audio exacts, relus avec leurs droits, sont manquants ou modifiés.",
+    "ar": "ملفات الصور والصوت التي روجعت بحقوقها مفقودة أو تغيرت."
+  },
+  "Expected the original, unapproved conception-1 protocol contract.": {
+    "fr": "Le contrat original conception-1 non approuvé est attendu.",
+    "ar": "يلزم ملف التصميم الأصلي conception-1 غير المعتمد."
+  },
+  "Explain a correction; the previous rating is retained.": {
+    "fr": "Expliquez la correction ; la cotation précédente sera conservée.",
+    "ar": "وضحوا سبب التصحيح؛ سيُحفظ التقييم السابق."
+  },
+  "Explain a stopped practice so the professional can respond.": {
+    "fr": "Expliquez l’arrêt pour permettre au professionnel d’adapter son aide.",
+    "ar": "وضحوا سبب التوقف لكي يتمكن الأخصائي من تكييف المساعدة."
+  },
+  "Explain an unscorable response, including refusal or interruption.": {
+    "fr": "Expliquez la réponse non cotable, notamment un refus ou une interruption.",
+    "ar": "وضحوا سبب تعذر تقييم الإجابة، مثل الرفض أو الانقطاع."
+  },
+  "Exposure history is append-only.": {
+    "fr": "L’historique des expositions ne peut pas être réécrit.",
+    "ar": "لا يمكن إعادة كتابة سجل التعرض للكلمات."
+  },
+  "Finalization requires a professional and date.": {
+    "fr": "La finalisation exige un professionnel et une date.",
+    "ar": "يتطلب إغلاق الملاحظة أخصائيًا وتاريخًا."
+  },
+  "Finalized observations cannot be rewritten.": {
+    "fr": "Les observations finalisées ne peuvent pas être réécrites.",
+    "ar": "لا يمكن إعادة كتابة الملاحظات المغلقة."
+  },
+  "Home-practice declarations are append-only.": {
+    "fr": "Les pratiques déclarées s’ajoutent à l’historique sans le modifier.",
+    "ar": "تُضاف تقارير الممارسة المنزلية إلى السجل دون تعديل ما سبق."
+  },
+  "Human item familiarity and linguistic review evidence are missing.": {
+    "fr": "Il manque les preuves humaines de familiarité et de relecture linguistique des items.",
+    "ar": "تنقص مستندات التحقق البشري من معرفة العناصر ومراجعتها لغويًا."
+  },
+  "Identify the predetermined retained attempt.": {
+    "fr": "Identifiez la tentative retenue, définie à l’avance.",
+    "ar": "حددوا المحاولة المعتمدة التي تقررت مسبقًا."
+  },
+  "Identify the target occurrence explicitly.": {
+    "fr": "Identifiez explicitement l’occurrence cible.",
+    "ar": "حددوا موضع الصوت المستهدف بوضوح."
+  },
+  "Keep the attempt predetermined by this protocol version.": {
+    "fr": "Conservez la tentative prédéfinie par cette version du protocole.",
+    "ar": "التزموا بالمحاولة المحددة مسبقًا في هذا الإصدار."
+  },
+  "Name a variant documented before the observation.": {
+    "fr": "Nommez une variante documentée avant l’observation.",
+    "ar": "حددوا بديلًا موثقًا قبل الملاحظة."
+  },
+  "Only a finalized observation can be expressly shared.": {
+    "fr": "Seule une observation finalisée peut être expressément partagée.",
+    "ar": "يمكن مشاركة ملخص الملاحظة المغلقة فقط، بقرار صريح."
+  },
+  "Only unapproved, non-normed drafts without supplied media can be imported.": {
+    "fr": "Seuls des brouillons non approuvés, non normés et sans médias fournis peuvent être importés.",
+    "ar": "يمكن استيراد مسودات غير معتمدة وغير مقننة وبدون وسائط مرفقة فقط."
+  },
+  "Protocol evidence must be an object.": {
+    "fr": "Les preuves du protocole doivent être structurées.",
+    "ar": "يجب تنظيم مستندات البروتوكول في بنية واضحة."
+  },
+  "Protocol item identifiers must be unique.": {
+    "fr": "Les identifiants des items doivent être uniques.",
+    "ar": "يجب أن تكون معرّفات العناصر فريدة."
+  },
+  "Protocol version identity cannot be changed.": {
+    "fr": "L’identité d’une version de protocole ne peut pas être modifiée.",
+    "ar": "لا يمكن تغيير هوية إصدار البروتوكول."
+  },
+  "Publish a new coaching instruction to retain the previous version.": {
+    "fr": "Publiez un nouveau conseil pour conserver l’instruction précédente.",
+    "ar": "أضيفوا إرشادًا جديدًا للحفاظ على النسخة السابقة."
+  },
+  "Rate every planned occurrence, explicitly marking unpresented items.": {
+    "fr": "Cotez chaque occurrence prévue et indiquez explicitement les items non présentés.",
+    "ar": "قيّموا كل موضع مقرر وحددوا بوضوح العناصر التي لم تُعرض."
+  },
+  "Rating notes must be bounded text.": {
+    "fr": "Les notes de cotation doivent rester limitées en longueur.",
+    "ar": "يجب أن تكون ملاحظات التقييم محدودة الطول."
+  },
+  "Ratings are immutable; append a reasoned correction.": {
+    "fr": "Les cotations sont conservées ; ajoutez une correction motivée.",
+    "ar": "تُحفظ التقييمات السابقة؛ أضيفوا تصحيحًا مع بيان السبب."
+  },
+  "Record item familiarity and uncertainty explicitly.": {
+    "fr": "Documentez explicitement la familiarité et les incertitudes.",
+    "ar": "وثقوا معرفة الطفل بالعناصر وما لم يتأكد منها."
+  },
+  "Review a submitted protocol version.": {
+    "fr": "Relisez une version soumise du protocole.",
+    "ar": "راجعوا إصدارًا مقدمًا من البروتوكول."
+  },
+  "Review and finalize the observation before sharing a summary.": {
+    "fr": "Relisez et finalisez l’observation avant de partager un résumé.",
+    "ar": "راجعوا الملاحظة وأغلقوها قبل مشاركة الملخص."
+  },
+  "Review decisions are append-only.": {
+    "fr": "Les décisions de relecture s’ajoutent sans remplacer l’historique.",
+    "ar": "تُضاف قرارات المراجعة دون استبدال السجل."
+  },
+  "Select a supported human rating and actual elicitation.": {
+    "fr": "Choisissez une cotation humaine proposée et l’élicitation réellement utilisée.",
+    "ar": "اختاروا التقييم البشري وطريقة استدعاء الإجابة المستخدمة فعليًا."
+  },
+  "Simulation protocols require demonstration mode and an explicitly fictitious child.": {
+    "fr": "Une simulation exige le mode démonstration et un dossier explicitement fictif.",
+    "ar": "تتطلب المحاكاة وضع العرض التجريبي وملف طفل افتراضيًا معلنًا."
+  },
+  "The administration must match its goal, child, practice and variety.": {
+    "fr": "La passation doit correspondre à son objectif, enfant, cabinet et variété.",
+    "ar": "يجب أن يتوافق التطبيق مع الهدف والطفل والعيادة والتنوع اللغوي."
+  },
+  "The contract needs explicit draft examples.": {
+    "fr": "Le contrat exige des exemples de brouillons explicites.",
+    "ar": "يتطلب ملف التصميم أمثلة واضحة في حالة المسودة."
+  },
+  "The existing protocol version differs; import an explicit new version instead of overwriting history.": {
+    "fr": "La version existante diffère ; importez une nouvelle version explicite pour préserver l’historique.",
+    "ar": "يختلف الإصدار الموجود؛ استوردوا إصدارًا جديدًا صريحًا للحفاظ على السجل."
+  },
+  "The exposure must match its source child.": {
+    "fr": "L’exposition doit correspondre à l’enfant de la pratique source.",
+    "ar": "يجب أن يطابق التعرض الطفل المرتبط بالممارسة المصدر."
+  },
+  "The exposure variety must be recorded for this child.": {
+    "fr": "La variété d’exposition doit être enregistrée pour cet enfant.",
+    "ar": "يجب تسجيل التنوع اللغوي للتعرض في ملف هذا الطفل."
+  },
+  "The goal and child must belong to the same practice.": {
+    "fr": "L’objectif et l’enfant doivent appartenir au même cabinet.",
+    "ar": "يجب أن يتبع الهدف والطفل العيادة نفسها."
+  },
+  "The item is not part of this frozen protocol.": {
+    "fr": "L’item ne fait pas partie du protocole figé.",
+    "ar": "العنصر ليس ضمن نسخة البروتوكول المحفوظة."
+  },
+  "The linked protocol must use the same spoken variety.": {
+    "fr": "Le protocole lié doit utiliser la même variété orale.",
+    "ar": "يجب أن يستخدم البروتوكول المرتبط التنوع اللغوي المنطوق نفسه."
+  },
+  "The occurrence must belong to the frozen protocol.": {
+    "fr": "L’occurrence doit appartenir au protocole figé.",
+    "ar": "يجب أن يكون الموضع ضمن نسخة البروتوكول المحفوظة."
+  },
+  "The profile is archived; existing observations remain available.": {
+    "fr": "Le dossier est archivé ; les observations existantes restent accessibles.",
+    "ar": "الملف مؤرشف؛ تبقى الملاحظات السابقة متاحة."
+  },
+  "The protocol and goal must use the same spoken variety.": {
+    "fr": "Le protocole et l’objectif doivent utiliser la même variété orale.",
+    "ar": "يجب أن يستخدم البروتوكول والهدف التنوع اللغوي المنطوق نفسه."
+  },
+  "The retained attempt must be defined before administration.": {
+    "fr": "La tentative retenue doit être définie avant la passation.",
+    "ar": "يجب تحديد المحاولة المعتمدة قبل التطبيق."
+  },
+  "The return must match its shared coaching instruction.": {
+    "fr": "Le retour doit correspondre aux conseils partagés concernés.",
+    "ar": "يجب أن يطابق التقرير الإرشادات المشتركة المعنية."
+  },
+  "This administration key was already used with different conditions.": {
+    "fr": "Cette clé de passation a déjà été utilisée avec d’autres conditions.",
+    "ar": "استُخدم معرّف التطبيق هذا سابقًا بظروف مختلفة."
+  },
+  "This protocol transition is not allowed.": {
+    "fr": "Ce changement d’état du protocole n’est pas autorisé.",
+    "ar": "تغيير حالة البروتوكول هذا غير مسموح."
+  },
+  "This return key was already used with different observations.": {
+    "fr": "Cette clé de retour a déjà été utilisée avec d’autres observations.",
+    "ar": "استُخدم معرّف التقرير هذا سابقًا بملاحظات مختلفة."
+  },
+  "Two current, distinct clinical and linguistic human reviewers with declared competence are required.": {
+    "fr": "Deux relecteurs humains distincts, clinique et linguistique, avec compétence déclarée et décisions actuelles sont requis.",
+    "ar": "يلزم مراجعان بشريان مختلفان، سريري ولغوي، بكفاءة معلنة وقرارات سارية."
+  },
+  "Two distinct, current human reviews are required.": {
+    "fr": "Deux relectures humaines distinctes et actuelles sont requises.",
+    "ar": "يلزم قرارا مراجعة بشريان مختلفان وساريان."
+  },
+  "Use a spoken variety recorded for this child.": {
+    "fr": "Utilisez une variété orale enregistrée pour cet enfant.",
+    "ar": "استخدموا تنوعًا لغويًا منطوقًا مسجلًا لهذا الطفل."
+  },
+  "Use the documented observation conditions.": {
+    "fr": "Utilisez les conditions d’observation documentées.",
+    "ar": "استخدموا ظروف الملاحظة الموثقة."
+  },
+  "Variant identifiers must be unique and text bounded.": {
+    "fr": "Les identifiants de variante doivent être uniques et leurs textes limités.",
+    "ar": "يجب أن تكون معرّفات البدائل فريدة ونصوصها محدودة."
+  },
+  "Exact intact rights, familiarity and linguistic evidence is required for this protocol version.": {
+    "fr": "Cette version exige les justificatifs exacts et intacts des droits, de familiarité et de relecture linguistique.",
+    "ar": "يتطلب هذا الإصدار مستندات مطابقة وسليمة للحقوق ومعرفة العناصر والمراجعة اللغوية."
+  },
+  "Review permission for this discipline and variety is required.": {
+    "fr": "Le droit de relecture pour cette discipline et cette variété est requis.",
+    "ar": "يلزم حق المراجعة في هذا التخصص وهذا التنوع اللغوي."
+  },
+  "The protocol target must match the clinical goal target.": {
+    "fr": "La cible du protocole doit correspondre à celle de l’objectif clinique.",
+    "ar": "يجب أن يطابق هدف البروتوكول الهدف السريري."
+  },
+  "Professional observation summary": {
+    "fr": "Résumé de l’observation professionnelle",
+    "ar": "ملخص الملاحظة المهنية"
+  },
+  "Already assessed by the responsible professional": {
+    "fr": "Évaluation déjà réalisée par le professionnel responsable",
+    "ar": "سبق إجراء التقييم لدى المختص المسؤول"
+  },
+  "Approved": {
+    "fr": "Approuvé",
+    "ar": "موافق عليه"
+  },
+  "Arabic": {
+    "fr": "Arabe",
+    "ar": "العربية"
+  },
+  "Audible target omission": {
+    "fr": "Omission audible de la cible",
+    "ar": "حذف مسموع للصوت المستهدف"
+  },
+  "Choose the caregiver instruction language explicitly.": {
+    "fr": "Choisissez explicitement la langue des consignes destinées à l’accompagnant.",
+    "ar": "حدّد صراحةً لغة الإرشادات الموجّهة للمرافق."
+  },
+  "Clinical review": {
+    "fr": "Relecture clinique",
+    "ar": "مراجعة سريرية"
+  },
+  "Comfortable": {
+    "fr": "À l’aise",
+    "ar": "مريح"
+  },
+  "Completed": {
+    "fr": "Terminé",
+    "ar": "مكتمل"
+  },
+  "Difficult": {
+    "fr": "Difficile",
+    "ar": "صعب"
+  },
+  "Distortion": {
+    "fr": "Distorsion",
+    "ar": "تشويه صوتي"
+  },
+  "Documentation missing": {
+    "fr": "Documentation manquante",
+    "ar": "التوثيق مفقود"
+  },
+  "Documented compatible open licence": {
+    "fr": "Licence ouverte compatible documentée",
+    "ar": "ترخيص مفتوح متوافق وموثّق"
+  },
+  "Documented occurrence descriptions must be bounded text.": {
+    "fr": "Les descriptions des occurrences documentées doivent être des textes de longueur limitée.",
+    "ar": "يجب أن تكون أوصاف المواضع الموثّقة نصوصًا محدودة الطول."
+  },
+  "Documented occurrence indices must identify distinct phonemic segments.": {
+    "fr": "Les indices des occurrences documentées doivent identifier des segments phonémiques distincts.",
+    "ar": "يجب أن تحدّد فهارس المواضع الموثّقة وحدات فونيمية متمايزة."
+  },
+  "Documented occurrences must be a bounded list.": {
+    "fr": "Les occurrences documentées doivent former une liste de longueur limitée.",
+    "ar": "يجب أن تكون المواضع الموثّقة قائمة محدودة الطول."
+  },
+  "Documented variant acceptable": {
+    "fr": "Variante documentée acceptable",
+    "ar": "بديل موثّق مقبول"
+  },
+  "Draft": {
+    "fr": "Brouillon",
+    "ar": "مسودة"
+  },
+  "Each documented occurrence needs a segment index and phoneme.": {
+    "fr": "Chaque occurrence documentée doit préciser un indice de segment et un phonème.",
+    "ar": "يحتاج كل موضع موثّق إلى فهرس وحدة صوتية وفونيم."
+  },
+  "English": {
+    "fr": "Anglais",
+    "ar": "الإنجليزية"
+  },
+  "Excluded from use": {
+    "fr": "Exclu de l’utilisation",
+    "ar": "مستبعد من الاستخدام"
+  },
+  "Exposure uncertain": {
+    "fr": "Exposition incertaine",
+    "ar": "التعرّض غير مؤكد"
+  },
+  "Finalized": {
+    "fr": "Finalisé",
+    "ar": "مكتمل"
+  },
+  "French": {
+    "fr": "Français",
+    "ar": "الفرنسية"
+  },
+  "Imitation": {
+    "fr": "Imitation",
+    "ar": "التكرار بعد نموذج"
+  },
+  "In review": {
+    "fr": "En relecture",
+    "ar": "قيد المراجعة"
+  },
+  "Item meaning must be bounded text.": {
+    "fr": "Le sens de l’item doit être un texte de longueur limitée.",
+    "ar": "يجب أن يكون معنى المفردة نصًا محدود الطول."
+  },
+  "Lexical choice": {
+    "fr": "Choix lexical",
+    "ar": "اختيار معجمي"
+  },
+  "Linguistic review": {
+    "fr": "Relecture linguistique",
+    "ar": "مراجعة لغوية"
+  },
+  "Needed support": {
+    "fr": "Aide nécessaire",
+    "ar": "مساعدة مطلوبة"
+  },
+  "Not presented": {
+    "fr": "Non présenté",
+    "ar": "لم يُعرض"
+  },
+  "Not recorded": {
+    "fr": "Non renseigné",
+    "ar": "غير مسجل"
+  },
+  "Not scorable": {
+    "fr": "Non cotable",
+    "ar": "غير قابل للتقييم"
+  },
+  "Original material with documented rights": {
+    "fr": "Matériel original avec droits documentés",
+    "ar": "مادة أصلية بحقوق موثقة"
+  },
+  "Other scorable error": {
+    "fr": "Autre erreur cotable",
+    "ar": "خطأ آخر قابل للتقييم"
+  },
+  "Partial": {
+    "fr": "Partiel",
+    "ar": "جزئي"
+  },
+  "Pending": {
+    "fr": "En attente",
+    "ar": "قيد الانتظار"
+  },
+  "Permission required": {
+    "fr": "Autorisation requise",
+    "ar": "يلزم إذن"
+  },
+  "Phonemic segments must be an explicit bounded list, not IPA characters.": {
+    "fr": "Les segments phonémiques doivent former une liste explicite de longueur limitée ; ne découpez pas l’API en caractères.",
+    "ar": "يجب أن تكون الوحدات الفونيمية قائمة صريحة محدودة الطول، وليست محارف الأبجدية الصوتية الدولية."
+  },
+  "Picture naming": {
+    "fr": "Dénomination d’image",
+    "ar": "تسمية الصورة"
+  },
+  "Published": {
+    "fr": "Publié",
+    "ar": "منشور"
+  },
+  "Real use requires a documented meaning and phonemic segmentation with a target index matching the protocol phoneme.": {
+    "fr": "L’utilisation réelle exige un sens et une segmentation phonémique documentés, avec un indice ciblant le phonème du protocole.",
+    "ar": "يتطلّب الاستخدام الحقيقي معنى وتقسيمًا فونيميًا موثّقين، مع فهرس يستهدف فونيم البروتوكول."
+  },
+  "Semantic cue": {
+    "fr": "Indice sémantique",
+    "ar": "تلميح دلالي"
+  },
+  "Stopped": {
+    "fr": "Interrompu",
+    "ar": "متوقف"
+  },
+  "Substitution": {
+    "fr": "Substitution",
+    "ar": "إبدال"
+  },
+  "Target acceptable": {
+    "fr": "Cible acceptable",
+    "ar": "إنتاج الصوت المستهدف مقبول"
+  },
+  "Target incorrect in an audible attempt": {
+    "fr": "Cible incorrecte dans une tentative audible",
+    "ar": "إنتاج الصوت المستهدف غير صحيح في محاولة مسموعة"
+  },
+  "The intended scope has not been released for real use.": {
+    "fr": "Le périmètre prévu n’a pas été autorisé pour l’utilisation réelle.",
+    "ar": "لم يُصرَّح بعد بالاستخدام الحقيقي ضمن النطاق المقصود."
+  },
+  "The occurrence phoneme must match its documented segment.": {
+    "fr": "Le phonème de l’occurrence doit correspondre au segment documenté.",
+    "ar": "يجب أن يتوافق فونيم الموضع مع وحدته الصوتية الموثّقة."
+  },
+  "The target index must identify a documented phonemic segment.": {
+    "fr": "L’indice cible doit identifier un segment phonémique documenté.",
+    "ar": "يجب أن يحدّد الفهرس المستهدف وحدة فونيمية موثّقة."
+  },
+  "Trained": {
+    "fr": "Entraîné",
+    "ar": "مدرّب"
+  },
+  "Untrained": {
+    "fr": "Non entraîné",
+    "ar": "غير مدرّب"
+  },
+  "Withdrawn": {
+    "fr": "Retiré",
+    "ar": "مسحوب"
+  },
+  "Variant identifiers shared by the goal and an item must have identical definitions.": {
+    "fr": "Les identifiants de variantes communs à l’objectif et à un item doivent avoir des définitions identiques.",
+    "ar": "يجب أن تكون تعريفات معرّفات التنوعات المشتركة بين الهدف والمفردة متطابقة."
+  }
+}

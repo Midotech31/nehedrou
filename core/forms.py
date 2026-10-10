@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
 from .models import User
-from care.models import Child, Observation
+from care.models import Child, Observation, PracticeSession
 from catalog.models import Variety
 
 class SignupForm(UserCreationForm):
@@ -47,6 +47,8 @@ class ProgramForm(forms.Form):
             qs = qs.filter(is_demo=False)
         from catalog.content_catalog import current_catalog
         qs = current_catalog(qs)
+        from .reserves import reserved_activity_ids
+        qs = qs.exclude(pk__in=reserved_activity_ids(child, qs.select_related('variety')))
         self.fields['activities'].queryset = qs.select_related('variety').order_by('title', 'pk')
     def clean(self):
         data = super().clean()
@@ -69,6 +71,8 @@ class PracticeForm(forms.Form):
     answer = forms.ChoiceField(label=_('Choose the matching image'), choices=[('', '—'), ('a', 'A'), ('b', 'B')], required=False, widget=forms.RadioSelect)
     completion = forms.ChoiceField(label=_('Participation'), choices=[('', _('Choose a response')), ('completed', _('Completed')), ('stopped', _('Stopped'))])
     parent_report = forms.ChoiceField(label=_('Parent report'), choices=[('', _('Choose a response')), ('easy', _('Comfortable')), ('help', _('Needed help')), ('difficult', _('Difficult'))])
+    support_used = forms.ChoiceField(label=_('Support reported by the caregiver'), choices=PracticeSession._meta.get_field('support_used').choices, required=False)
+    stop_reason = forms.ChoiceField(label=_('Reason for stopping (optional)'), choices=PracticeSession._meta.get_field('stop_reason').choices, required=False)
     comment = forms.CharField(label=_('Parent comment'), widget=forms.Textarea, required=False, max_length=2000)
     def clean(self):
         data = super().clean()
@@ -76,6 +80,8 @@ class PracticeForm(forms.Form):
             self.add_error('answer', _('Choose an answer or stop the activity.'))
         if data.get('completion') == 'stopped':
             data['answer'] = ''
+        elif data.get('stop_reason'):
+            self.add_error('stop_reason', _('A stopping reason belongs to a stopped practice only.'))
         return data
 
 class DemoPracticeForm(PracticeForm):
@@ -84,6 +90,8 @@ class DemoPracticeForm(PracticeForm):
         super().__init__(*args, **kwargs)
         del self.fields['ticket']
         del self.fields['comment']
+        del self.fields['support_used']
+        del self.fields['stop_reason']
 
 class ObservationForm(forms.ModelForm):
     class Meta:

@@ -1,0 +1,1202 @@
+{
+  "1. Your clinician’s instructions": {
+    "fr": "1. Les consignes de votre orthophoniste",
+    "ar": "١. إرشادات أخصائي النطق"
+  },
+  "2. Example shown together": {
+    "fr": "2. Un exemple montré ensemble",
+    "ar": "٢. مثال يُعرض معًا"
+  },
+  "3. Accompanied trial": {
+    "fr": "3. Un essai accompagné",
+    "ar": "٣. تجربة بمرافقة الأخصائي"
+  },
+  "4. Understanding checked by the clinician": {
+    "fr": "4. Compréhension vérifiée par l’orthophoniste",
+    "ar": "٤. يتحقق الأخصائي من فهم المرافق"
+  },
+  "A fictitious protocol can only be used with fictional demonstration profiles.": {
+    "fr": "Un protocole fictif s’utilise uniquement avec des profils fictifs de démonstration.",
+    "ar": "لا يُستخدم البروتوكول الوهمي إلا مع ملفات العرض التجريبي الوهمية."
+  },
+  "Acceptable / scorable": {
+    "fr": "Acceptables / cotables",
+    "ar": "مقبول / قابل للتقييم"
+  },
+  "Accompanied practice trial": {
+    "fr": "Essai de pratique accompagné",
+    "ar": "تجربة تدريب بمرافقة الأخصائي"
+  },
+  "Active goal": {
+    "fr": "Objectif actif",
+    "ar": "هدف نشط"
+  },
+  "Actual elicitation": {
+    "fr": "Élicitation réellement utilisée",
+    "ar": "طريقة استثارة الاستجابة المستخدمة فعليًا"
+  },
+  "Adult instruction language": {
+    "fr": "Langue des consignes pour l’adulte",
+    "ar": "لغة الإرشادات الموجّهة للبالغ"
+  },
+  "All": {
+    "fr": "Tous",
+    "ar": "الكل"
+  },
+  "Already assessed by the responsible professional": {
+    "fr": "Évaluation déjà réalisée par le professionnel responsable",
+    "ar": "سبق إجراء التقييم لدى المختص المسؤول"
+  },
+  "An audible target omission is a scorable error. Refusal, another word or an inaudible response is not a phonological omission. No immediate teaching correction is given during a probe.": {
+    "fr": "Une omission audible de la cible est une erreur cotable. Un refus, un autre mot ou une réponse inaudible ne constituent pas une omission phonologique. La sonde ne fournit pas de correction pédagogique immédiate.",
+    "ar": "حذف الصوت المستهدف المسموع خطأ قابل للتقييم. أما الرفض أو قول كلمة أخرى أو الاستجابة غير المسموعة فلا تُعد حذفًا فونولوجيًا. لا يُقدَّم تصحيح تعليمي فوري أثناء الملاحظة."
+  },
+  "Apply transition": {
+    "fr": "Appliquer la transition",
+    "ar": "تطبيق الانتقال"
+  },
+  "Assessment context": {
+    "fr": "Contexte de l’évaluation",
+    "ar": "سياق التقييم"
+  },
+  "Attempt retained before administration": {
+    "fr": "Tentative retenue avant la passation",
+    "ar": "المحاولة المحددة قبل إجراء الملاحظة"
+  },
+  "Attempt retained, decided before presentation": {
+    "fr": "Tentative retenue, décidée avant la présentation",
+    "ar": "المحاولة المحتسبة، وتُحدَّد قبل عرض المادة"
+  },
+  "Audible target omission": {
+    "fr": "Omission audible de la cible",
+    "ar": "حذف مسموع للصوت المستهدف"
+  },
+  "Audio equipment, if used": {
+    "fr": "Matériel audio, s’il est utilisé",
+    "ar": "التجهيزات الصوتية، إن استُخدمت"
+  },
+  "Audio media reference": {
+    "fr": "Référence du média audio",
+    "ar": "مرجع الملف الصوتي"
+  },
+  "Back": {
+    "fr": "Retour",
+    "ar": "رجوع"
+  },
+  "CAREGIVER MICRO-TRAINING": {
+    "fr": "MICRO-FORMATION PARENTALE",
+    "ar": "تدريب موجز للمرافق"
+  },
+  "Caregiver declarations describe participation and support, not pronunciation accuracy.": {
+    "fr": "Les déclarations parentales décrivent la participation et les aides ; elles ne cotent pas la prononciation.",
+    "ar": "تصف إفادات المرافق المشاركة والمساعدة، ولا تقيّم دقة النطق."
+  },
+  "Caregiver micro-training": {
+    "fr": "Micro-formation parentale",
+    "ar": "تدريب موجز للمرافق"
+  },
+  "Changes requested": {
+    "fr": "Modifications demandées",
+    "ar": "تعديلات مطلوبة"
+  },
+  "Changing an existing rating requires a reason and preserves its history.": {
+    "fr": "Toute correction d’une cotation existante exige un motif et conserve l’historique.",
+    "ar": "يتطلب تعديل تقييم سابق ذكر السبب مع الاحتفاظ بسجله."
+  },
+  "Check every image and word before presentation": {
+    "fr": "Vérifier chaque image et chaque mot avant présentation",
+    "ar": "تحقق من كل صورة وكلمة قبل عرضها"
+  },
+  "Check every occurrence. Finalization preserves the original summary; later corrections retain their reasons and dates.": {
+    "fr": "Vérifiez chaque occurrence. La finalisation conserve le bilan d’origine ; les corrections ultérieures gardent leurs motifs et leurs dates.",
+    "ar": "تحقق من كل ورود للصوت المستهدف. يُحفظ الملخص الأصلي عند الإنهاء، وتبقى أسباب التصحيحات اللاحقة وتواريخها مسجلة."
+  },
+  "Choose an existing image. Upload and document its rights in the editorial media library first.": {
+    "fr": "Choisissez une image existante. Déposez-la et documentez d’abord ses droits dans la médiathèque éditoriale.",
+    "ar": "اختر صورة موجودة. ارفعها ووثّق حقوق استخدامها أولًا في مكتبة الوسائط التحريرية."
+  },
+  "Choose exactly what to share with the family": {
+    "fr": "Choisir précisément le texte partagé avec la famille",
+    "ar": "حدد بدقة النص الذي ستشاركه مع الأسرة"
+  },
+  "Choose family summary text": {
+    "fr": "Choisir le texte du compte rendu familial",
+    "ar": "اختيار نص الملخص الموجّه للأسرة"
+  },
+  "Choose the exact version first": {
+    "fr": "Choisir d’abord la version exacte",
+    "ar": "اختر الإصدار المحدد أولًا"
+  },
+  "Choose the target after the external assessment. Interface language does not change the treatment variety.": {
+    "fr": "Choisissez la cible après l’évaluation externe. La langue de l’interface ne change pas la variété travaillée.",
+    "ar": "اختر الهدف بعد التقييم الخارجي. لا يغيّر تبديل لغة الواجهة التنوع اللغوي المستخدم في العمل العلاجي."
+  },
+  "Choosing a protocol reserves its untrained words before family practice. It does not authorize real administration.": {
+    "fr": "Le choix d’un protocole réserve ses mots non entraînés avant la pratique familiale. Il n’autorise pas une passation réelle.",
+    "ar": "اختيار بروتوكول يحجز كلماته غير المتدرَّب عليها قبل الممارسة الأسرية، ولا يمنح إذنًا بإجراء ملاحظة سريرية فعلية."
+  },
+  "Clinical goal recorded at observation time": {
+    "fr": "Objectif clinique figé au moment de l’observation",
+    "ar": "الهدف السريري الموثّق وقت الملاحظة"
+  },
+  "Clinical goals": {
+    "fr": "Objectifs cliniques",
+    "ar": "الأهداف السريرية"
+  },
+  "Clinical rationale": {
+    "fr": "Justification clinique",
+    "ar": "المبرر السريري"
+  },
+  "Clinical review": {
+    "fr": "Relecture clinique",
+    "ar": "مراجعة سريرية"
+  },
+  "Close goal": {
+    "fr": "Clore l’objectif",
+    "ar": "إغلاق الهدف"
+  },
+  "Closed goal": {
+    "fr": "Objectif clos",
+    "ar": "هدف مغلق"
+  },
+  "Closing this goal prevents new observations. Recorded observations and their reserved words remain protected.": {
+    "fr": "Clore cet objectif empêche de nouvelles observations. Les observations enregistrées et leurs mots réservés restent protégés.",
+    "ar": "يمنع إغلاق هذا الهدف إنشاء ملاحظات جديدة. وتبقى الملاحظات المسجّلة وكلماتها المحجوزة محمية."
+  },
+  "Code": {
+    "fr": "Code",
+    "ar": "الرمز"
+  },
+  "Comfortable": {
+    "fr": "À l’aise",
+    "ar": "مريح"
+  },
+  "Completed": {
+    "fr": "Terminé",
+    "ar": "مكتمل"
+  },
+  "Conditions": {
+    "fr": "Conditions",
+    "ar": "الظروف"
+  },
+  "Content checks are present. Intended-use release is checked separately before real administration.": {
+    "fr": "Les contrôles du contenu sont présents. L’autorisation de l’usage prévu est vérifiée séparément avant une passation réelle.",
+    "ar": "توجد فحوص المحتوى. ويُتحقق بصورة مستقلة من السماح بنطاق الاستخدام المقصود قبل الإجراء الفعلي."
+  },
+  "Contrast, when relevant": {
+    "fr": "Contraste, si pertinent",
+    "ar": "التقابل الصوتي، عند الحاجة"
+  },
+  "Correction date": {
+    "fr": "Date de correction",
+    "ar": "تاريخ التصحيح"
+  },
+  "Correction history": {
+    "fr": "Historique des corrections",
+    "ar": "سجل التصحيحات"
+  },
+  "Create a clinical follow-up goal": {
+    "fr": "Créer un objectif de suivi clinique",
+    "ar": "إنشاء هدف للمتابعة السريرية"
+  },
+  "Create a follow-up goal": {
+    "fr": "Créer un objectif de suivi",
+    "ar": "إنشاء هدف للمتابعة"
+  },
+  "Create a goal after the external assessment to organize follow-up.": {
+    "fr": "Créez un objectif après l’évaluation externe pour organiser le suivi.",
+    "ar": "أنشئ هدفًا بعد التقييم الخارجي لتنظيم المتابعة."
+  },
+  "Create a new version": {
+    "fr": "Créer une nouvelle version",
+    "ar": "إنشاء إصدار جديد"
+  },
+  "DESCRIPTIVE PRODUCTION FOLLOW-UP": {
+    "fr": "SUIVI DESCRIPTIF DE PRODUCTION",
+    "ar": "متابعة وصفية لإنتاج الأصوات"
+  },
+  "Date": {
+    "fr": "Date",
+    "ar": "التاريخ"
+  },
+  "Declared competence for this spoken variety": {
+    "fr": "Compétence déclarée pour cette variété orale",
+    "ar": "الكفاءة المُعلنة في هذا التنوع اللغوي المنطوق"
+  },
+  "Declared off-screen practice": {
+    "fr": "Pratique hors écran déclarée",
+    "ar": "الممارسة خارج الشاشة المُبلّغ عنها"
+  },
+  "Denominator": {
+    "fr": "Dénominateur",
+    "ar": "المقام"
+  },
+  "Describe participation and the support used. A practice declaration is separate from a clinician-rated production observation.": {
+    "fr": "Décrivez la participation et les aides utilisées. Cette déclaration reste distincte d’une observation de production cotée par l’orthophoniste.",
+    "ar": "صف المشاركة والمساعدة المستخدمة. تبقى إفادة الممارسة منفصلة عن ملاحظة إنتاج الأصوات التي يقيّمها أخصائي النطق."
+  },
+  "Descriptive report": {
+    "fr": "Rapport descriptif",
+    "ar": "تقرير وصفي"
+  },
+  "Descriptive results": {
+    "fr": "Résultats descriptifs",
+    "ar": "نتائج وصفية"
+  },
+  "Descriptive results by target, exposure and support": {
+    "fr": "Résultats descriptifs par cible, exposition et aide",
+    "ar": "نتائج وصفية بحسب الهدف والتعرّض والمساعدة"
+  },
+  "Descriptive target ratio": {
+    "fr": "Ratio descriptif de la cible",
+    "ar": "النسبة الوصفية للصوت المستهدف"
+  },
+  "Design a draft protocol": {
+    "fr": "Concevoir un protocole brouillon",
+    "ar": "تصميم مسودة بروتوكول"
+  },
+  "Design an original probe protocol": {
+    "fr": "Concevoir un protocole original de sonde",
+    "ar": "تصميم بروتوكول أصلي لملاحظة المتابعة"
+  },
+  "Design draft: unavailable for real administration": {
+    "fr": "Brouillon de conception : indisponible en passation réelle",
+    "ar": "مسودة تصميم: غير متاحة للإجراء السريري الفعلي"
+  },
+  "Design drafts remain blocked for real administration.": {
+    "fr": "Les brouillons de conception restent bloqués pour les passations réelles.",
+    "ar": "تبقى مسودات التصميم محجوبة عن الاستخدام السريري الفعلي."
+  },
+  "Difficult": {
+    "fr": "Difficile",
+    "ar": "صعب"
+  },
+  "Difficulty reported by the caregiver": {
+    "fr": "Difficulté rapportée par l’accompagnant",
+    "ar": "الصعوبة التي أبلغ عنها المرافق"
+  },
+  "Distortion": {
+    "fr": "Distorsion",
+    "ar": "تشويه صوتي"
+  },
+  "Document practice outside the application, its source and its date. An untrained or uncertain declaration does not erase known training. Reserved-word practice is shown in the observation history.": {
+    "fr": "Documentez la pratique hors application, sa source et sa date. Une déclaration « non entraîné » ou « incertain » n’efface pas un entraînement connu. La pratique des mots réservés apparaît dans l’historique d’observation.",
+    "ar": "وثّق الممارسة خارج التطبيق ومصدرها وتاريخها. لا تمحو إفادة «لم يُدرَّب» أو «غير مؤكّد» تدريبًا معروفًا. وتظهر ممارسة الكلمات المحجوزة في سجل الملاحظة."
+  },
+  "Document the assessment context without copying protected test items.": {
+    "fr": "Documentez le contexte de l’évaluation sans copier les items d’un test protégé.",
+    "ar": "وثّق سياق التقييم دون نسخ بنود اختبارات محمية."
+  },
+  "Documentation missing": {
+    "fr": "Documentation manquante",
+    "ar": "التوثيق مفقود"
+  },
+  "Documented acceptable variants": {
+    "fr": "Variantes admises documentées",
+    "ar": "البدائل المقبولة الموثقة"
+  },
+  "Documented compatible open licence": {
+    "fr": "Licence ouverte compatible documentée",
+    "ar": "ترخيص مفتوح متوافق وموثّق"
+  },
+  "Documented model audio": {
+    "fr": "Modèle audio documenté",
+    "ar": "نموذج صوتي موثّق"
+  },
+  "Documented target occurrences": {
+    "fr": "Occurrences cibles documentées",
+    "ar": "المواضع المستهدفة الموثّقة"
+  },
+  "Documented variant": {
+    "fr": "Variante documentée",
+    "ar": "بديل موثّق"
+  },
+  "Documented variant acceptable": {
+    "fr": "Variante documentée acceptable",
+    "ar": "بديل موثّق مقبول"
+  },
+  "Draft": {
+    "fr": "Brouillon",
+    "ar": "مسودة"
+  },
+  "Drafts are design material. They do not authorize real clinical administration. Reserve words remain outside family practice.": {
+    "fr": "Les brouillons servent à la conception. Ils n’autorisent pas une passation clinique réelle. Les mots de réserve restent hors de la pratique familiale.",
+    "ar": "المسودات مواد للتصميم ولا تسمح بإجراء سريري فعلي. تبقى الكلمات المحجوزة خارج الممارسة الأسرية."
+  },
+  "Each variant needs a unique identifier and a description.": {
+    "fr": "Chaque variante exige un identifiant unique et une description.",
+    "ar": "يلزم لكل بديل معرّف فريد ووصف."
+  },
+  "Edit draft": {
+    "fr": "Modifier le brouillon",
+    "ar": "تعديل المسودة"
+  },
+  "Editorial workflow": {
+    "fr": "Circuit éditorial",
+    "ar": "مسار التحرير والمراجعة"
+  },
+  "Elicitation task": {
+    "fr": "Tâche d’élicitation",
+    "ar": "مهمة استثارة الاستجابة"
+  },
+  "Empty extra rows are ignored. Reserved words never enter the family practice cards.": {
+    "fr": "Les lignes supplémentaires vides sont ignorées. Les mots de réserve n’entrent jamais dans les cartes de pratique familiale.",
+    "ar": "تُتجاهل الصفوف الإضافية الفارغة. لا تدخل الكلمات المحجوزة في بطاقات الممارسة الأسرية."
+  },
+  "Encourage participation. Use only the support shown by your clinician. Pause if the child is tired or upset and report the difficulty.": {
+    "fr": "Encouragez la participation. Utilisez uniquement les aides montrées par l’orthophoniste. Faites une pause si l’enfant est fatigué ou contrarié et signalez la difficulté.",
+    "ar": "شجّعوا المشاركة، واستخدموا فقط وسائل المساعدة التي عرضها الأخصائي. خذوا استراحة إذا تعب الطفل أو انزعج، وأبلغوا عن الصعوبة."
+  },
+  "Enter one phoneme per line, in order. A multicharacter IPA phoneme remains one segment. Do not split the IPA string automatically.": {
+    "fr": "Saisissez un phonème par ligne, dans l’ordre. Un phonème API représenté par plusieurs caractères reste un seul segment. Ne découpez pas automatiquement la transcription API.",
+    "ar": "أدخل فونيمًا واحدًا في كل سطر حسب الترتيب. ويبقى الفونيم الممثّل بعدة محارف في الأبجدية الصوتية الدولية وحدة فونيمية واحدة. لا تقسّم سلسلة الرموز آليًا."
+  },
+  "Error type": {
+    "fr": "Type d’erreur",
+    "ar": "نوع الخطأ"
+  },
+  "Exact protocol version": {
+    "fr": "Version exacte du protocole",
+    "ar": "الإصدار المحدد من البروتوكول"
+  },
+  "Exact target occurrence": {
+    "fr": "Occurrence cible précisément définie",
+    "ar": "الورود المحدد بدقة للصوت المستهدف"
+  },
+  "Example shown by the clinician": {
+    "fr": "Exemple montré par l’orthophoniste",
+    "ar": "المثال الذي عرضه الأخصائي"
+  },
+  "Excluded": {
+    "fr": "Exclus",
+    "ar": "مستبعد"
+  },
+  "Excluded from use": {
+    "fr": "Exclu de l’utilisation",
+    "ar": "مستبعد من الاستخدام"
+  },
+  "Exclusion reason": {
+    "fr": "Motif d’exclusion",
+    "ar": "سبب الاستبعاد"
+  },
+  "Expected realization": {
+    "fr": "Réalisation attendue",
+    "ar": "الإنتاج الصوتي المتوقع"
+  },
+  "Explain why practice stopped.": {
+    "fr": "Précisez pourquoi la pratique s’est arrêtée.",
+    "ar": "اذكر سبب توقف الممارسة."
+  },
+  "Explicit phonemic segments": {
+    "fr": "Segments phonémiques explicites",
+    "ar": "التقسيم الفونيمي الصريح"
+  },
+  "Explicitly shared summaries": {
+    "fr": "Comptes rendus expressément partagés",
+    "ar": "الملخصات التي تمت مشاركتها صراحةً"
+  },
+  "Export detailed CSV": {
+    "fr": "Exporter le CSV détaillé",
+    "ar": "تصدير ملف CSV تفصيلي"
+  },
+  "Exposure": {
+    "fr": "Exposition",
+    "ar": "التعرّض للكلمة"
+  },
+  "Exposure context and source": {
+    "fr": "Contexte et source de l’exposition",
+    "ar": "سياق التعرّض للكلمة ومصدره"
+  },
+  "Exposure date and time": {
+    "fr": "Date et heure de l’exposition",
+    "ar": "تاريخ التعرّض للكلمة ووقته"
+  },
+  "Exposure uncertain": {
+    "fr": "Exposition incertaine",
+    "ar": "التعرّض غير مؤكد"
+  },
+  "External assessment status": {
+    "fr": "Statut de l’évaluation externe",
+    "ar": "حالة التقييم الخارجي"
+  },
+  "External word exposure": {
+    "fr": "Exposition du mot hors application",
+    "ar": "التعرّض للكلمة خارج التطبيق"
+  },
+  "Familiarity evidence and limitations": {
+    "fr": "Preuves de familiarité et limites",
+    "ar": "أدلة الألفة بالكلمة والصورة وحدودها"
+  },
+  "Familiarity note": {
+    "fr": "Note de familiarité",
+    "ar": "ملاحظة حول الألفة بالكلمة"
+  },
+  "Fatigue and wellbeing": {
+    "fr": "Fatigue et disponibilité de l’enfant",
+    "ar": "التعب وراحة الطفل"
+  },
+  "Fictitious demonstration protocol": {
+    "fr": "Protocole de démonstration fictif",
+    "ar": "بروتوكول عرض تجريبي وهمي"
+  },
+  "Fictitious simulation only": {
+    "fr": "Simulation fictive uniquement",
+    "ar": "محاكاة وهمية فقط"
+  },
+  "Fictitious simulation only. No clinical approval or real patient use.": {
+    "fr": "Simulation fictive uniquement. Aucune approbation clinique ni utilisation avec des patients réels.",
+    "ar": "محاكاة وهمية فقط. لا تتضمن اعتمادًا سريريًا ولا تُستخدم مع مرضى فعليين."
+  },
+  "Filter": {
+    "fr": "Filtrer",
+    "ar": "تصفية"
+  },
+  "Finalized": {
+    "fr": "Finalisé",
+    "ar": "مكتمل"
+  },
+  "Functional goal": {
+    "fr": "Objectif fonctionnel",
+    "ar": "الهدف الوظيفي"
+  },
+  "Guided off-screen practice": {
+    "fr": "Pratique guidée hors écran",
+    "ar": "ممارسة موجّهة خارج الشاشة"
+  },
+  "Guided practice, caregiver declarations and professional observations are distinct.": {
+    "fr": "La pratique guidée, les déclarations parentales et les observations professionnelles restent distinctes.",
+    "ar": "تبقى الممارسة الموجّهة وإفادات المرافق والملاحظات المهنية منفصلة."
+  },
+  "Help needed": {
+    "fr": "Aide nécessaire",
+    "ar": "تحتاج إلى مساعدة"
+  },
+  "Human linguistic item review documented": {
+    "fr": "Relecture linguistique humaine de l’item documentée",
+    "ar": "توثيق المراجعة اللغوية البشرية للمفردة"
+  },
+  "Human version reviews": {
+    "fr": "Relectures humaines de la version",
+    "ar": "مراجعات بشرية للإصدار"
+  },
+  "Human word and image familiarity documented": {
+    "fr": "Familiarité avec le mot et l’image documentée humainement",
+    "ar": "توثيق بشري للألفة بالكلمة والصورة"
+  },
+  "I checked the scope and content of this family summary": {
+    "fr": "J’ai vérifié la portée et le contenu de ce compte rendu familial",
+    "ar": "تحققت من نطاق هذا الملخص الأسري ومحتواه"
+  },
+  "I reviewed the retained attempts, support, exclusions and conditions": {
+    "fr": "J’ai revu les tentatives retenues, les aides, les exclusions et les conditions",
+    "ar": "راجعت المحاولات المحددة والمساعدة والاستبعادات والظروف"
+  },
+  "IPA transcription proposed for review": {
+    "fr": "Transcription IPA proposée à relecture",
+    "ar": "نسخ صوتي بالأبجدية الدولية مقترح للمراجعة"
+  },
+  "Image and word understood: %(word)s": {
+    "fr": "Image reconnue et mot compris : %(word)s",
+    "ar": "التعرّف على الصورة وفهم الكلمة: %(word)s"
+  },
+  "Image media reference": {
+    "fr": "Référence du média image",
+    "ar": "مرجع ملف الصورة"
+  },
+  "Image not supplied for this draft": {
+    "fr": "Image absente de ce brouillon",
+    "ar": "لم تُرفق صورة بهذه المسودة"
+  },
+  "Image recognized and word understood": {
+    "fr": "Image reconnue et mot compris",
+    "ar": "الصورة معروفة والكلمة مفهومة"
+  },
+  "Imitation": {
+    "fr": "Imitation",
+    "ar": "التكرار بعد نموذج"
+  },
+  "In review": {
+    "fr": "En relecture",
+    "ar": "قيد المراجعة"
+  },
+  "Include an example, an accompanied trial and a clinician check of understanding. Write a new instruction to preserve the previous version.": {
+    "fr": "Incluez un exemple, un essai accompagné et une vérification de compréhension par l’orthophoniste. Créez une nouvelle consigne pour conserver la version précédente.",
+    "ar": "أضف مثالًا وتجربة بمرافقة الأخصائي وتحققًا من فهم المرافق. أنشئ إرشادًا جديدًا للحفاظ على الإصدار السابق."
+  },
+  "Instruction language not recorded": {
+    "fr": "Langue des consignes non renseignée",
+    "ar": "لغة الإرشادات غير مسجّلة"
+  },
+  "Instructions given at the start": {
+    "fr": "Consignes données au début",
+    "ar": "الإرشادات المقدمة في البداية"
+  },
+  "Instructions, example and accompanied trial": {
+    "fr": "Consignes, exemple et essai accompagné",
+    "ar": "إرشادات ومثال وتجربة بمرافقة الأخصائي"
+  },
+  "Internal review accepted": {
+    "fr": "Relecture interne acceptée",
+    "ar": "المراجعة الداخلية مقبولة"
+  },
+  "Internal review accepted for this exact version": {
+    "fr": "Relecture interne acceptée pour cette version exacte",
+    "ar": "قبول المراجعة الداخلية لهذا الإصدار المحدد"
+  },
+  "Internally reviewed": {
+    "fr": "Relu en interne",
+    "ar": "تمت مراجعته داخليًا"
+  },
+  "Interruption or stopping conditions": {
+    "fr": "Conditions d’interruption ou d’arrêt",
+    "ar": "ظروف المقاطعة أو التوقف"
+  },
+  "Item": {
+    "fr": "Item",
+    "ar": "بند"
+  },
+  "Item review evidence and limitations": {
+    "fr": "Preuves de relecture de l’item et limites",
+    "ar": "أدلة مراجعة المفردة وحدودها"
+  },
+  "Later exposure of reserved words": {
+    "fr": "Exposition ultérieure des mots de réserve",
+    "ar": "التعرّض اللاحق للكلمات المحجوزة"
+  },
+  "Later practice does not rewrite the exposure recorded at observation time.": {
+    "fr": "Une pratique ultérieure ne réécrit pas l’exposition enregistrée lors de la passation.",
+    "ar": "لا تعيد الممارسة اللاحقة كتابة التعرّض المسجّل وقت الملاحظة."
+  },
+  "Leave empty to record the current time.": {
+    "fr": "Laissez vide pour enregistrer l’heure actuelle.",
+    "ar": "اتركه فارغًا لتسجيل الوقت الحالي."
+  },
+  "Lexical and communicative context": {
+    "fr": "Contexte lexical et communicatif",
+    "ar": "السياق المعجمي والتواصلي"
+  },
+  "Lexical choice": {
+    "fr": "Choix lexical",
+    "ar": "اختيار معجمي"
+  },
+  "Linguistic review": {
+    "fr": "Relecture linguistique",
+    "ar": "مراجعة لغوية"
+  },
+  "Meaning and intended image interpretation": {
+    "fr": "Sens du mot et interprétation attendue de l’image",
+    "ar": "معنى الكلمة والتفسير المقصود للصورة"
+  },
+  "Model audio not supplied for this draft": {
+    "fr": "Modèle audio absent de ce brouillon",
+    "ar": "لم يُرفق نموذج صوتي بهذه المسودة"
+  },
+  "Naming with semantic cue": {
+    "fr": "Dénomination avec indice sémantique",
+    "ar": "تسمية مع تلميح دلالي"
+  },
+  "Next professional review": {
+    "fr": "Prochaine revue professionnelle",
+    "ar": "المراجعة المهنية القادمة"
+  },
+  "Next review": {
+    "fr": "Prochaine revue",
+    "ar": "المراجعة القادمة"
+  },
+  "Next state": {
+    "fr": "État suivant",
+    "ar": "الحالة التالية"
+  },
+  "No accessible protocol version.": {
+    "fr": "Aucune version de protocole accessible.",
+    "ar": "لا يوجد إصدار بروتوكول متاح لك."
+  },
+  "No authorized child profiles.": {
+    "fr": "Aucun profil enfant autorisé.",
+    "ar": "لا توجد ملفات أطفال مصرح لك بالوصول إليها."
+  },
+  "No caregiver guide yet.": {
+    "fr": "Aucun guide parental pour le moment.",
+    "ar": "لا يوجد دليل للمرافق حتى الآن."
+  },
+  "No directly comparable previous observation is established. Version, task, conditions or support may differ.": {
+    "fr": "Aucune passation antérieure directement comparable n’est établie. La version, la tâche, les conditions ou les aides peuvent différer.",
+    "ar": "لم تُثبت قابلية المقارنة المباشرة مع ملاحظة سابقة؛ فقد يختلف الإصدار أو المهمة أو الظروف أو المساعدة."
+  },
+  "No practice declaration yet.": {
+    "fr": "Aucune déclaration de pratique pour le moment.",
+    "ar": "لا توجد إفادة ممارسة حتى الآن."
+  },
+  "No professional observations yet.": {
+    "fr": "Aucune observation professionnelle pour le moment.",
+    "ar": "لا توجد ملاحظات مهنية حتى الآن."
+  },
+  "No rated occurrence yet.": {
+    "fr": "Aucune occurrence cotée pour le moment.",
+    "ar": "لم يُقيّم أي ورود للصوت المستهدف بعد."
+  },
+  "Noise and listening conditions": {
+    "fr": "Bruit et conditions d’écoute",
+    "ar": "الضوضاء وظروف الاستماع"
+  },
+  "Not calculable": {
+    "fr": "Non calculable",
+    "ar": "غير قابل للحساب"
+  },
+  "Not presented": {
+    "fr": "Non présenté",
+    "ar": "لم يُعرض"
+  },
+  "Not recorded": {
+    "fr": "Non renseigné",
+    "ar": "غير مسجل"
+  },
+  "Not scorable": {
+    "fr": "Non cotable",
+    "ar": "غير قابل للتقييم"
+  },
+  "Not yet confirmed": {
+    "fr": "Pas encore confirmé",
+    "ar": "لم يُؤكَّد بعد"
+  },
+  "Numerator": {
+    "fr": "Numérateur",
+    "ar": "البسط"
+  },
+  "ORIGINAL PROTOCOLS": {
+    "fr": "PROTOCOLES ORIGINAUX",
+    "ar": "بروتوكولات أصلية"
+  },
+  "Observation conditions": {
+    "fr": "Conditions de passation",
+    "ar": "ظروف إجراء الملاحظة"
+  },
+  "Observation date": {
+    "fr": "Date de passation",
+    "ar": "تاريخ إجراء الملاحظة"
+  },
+  "Observer": {
+    "fr": "Observateur",
+    "ar": "القائم بالملاحظة"
+  },
+  "Occurrence": {
+    "fr": "Occurrence",
+    "ar": "ورود الصوت المستهدف"
+  },
+  "Occurrence index, starting at zero": {
+    "fr": "Indice d’occurrence, à partir de zéro",
+    "ar": "فهرس ورود الصوت، ابتداءً من الصفر"
+  },
+  "Occurrence rating": {
+    "fr": "Cotation d’occurrence",
+    "ar": "تقييم ورود الصوت المستهدف"
+  },
+  "Occurrence records — professional access only": {
+    "fr": "Cotations d’occurrence — accès professionnel uniquement",
+    "ar": "سجلات تقييم ورود الصوت — وصول مهني فقط"
+  },
+  "One documented variant per line: identifier | description | IPA (optional). Leave empty when none are admitted.": {
+    "fr": "Une variante documentée par ligne : identifiant | description | IPA facultatif. Laissez vide si aucune variante n’est admise.",
+    "ar": "بديل موثّق واحد في كل سطر: معرّف | وصف | نسخ صوتي اختياري. اترك الحقل فارغًا إن لم تُعتمد بدائل."
+  },
+  "Only summaries expressly shared by your clinician appear here.": {
+    "fr": "Seuls les comptes rendus expressément partagés par votre orthophoniste apparaissent ici.",
+    "ar": "تظهر هنا فقط الملخصات التي شاركها أخصائي النطق صراحةً."
+  },
+  "Only this text is shared. Do not include reserved words, raw ratings or private notes.": {
+    "fr": "Seul ce texte est partagé. N’incluez aucun mot de réserve, cotation brute ou note privée.",
+    "ar": "يُشارك هذا النص فقط. لا تُدرج الكلمات المحجوزة أو التقييمات الخام أو الملاحظات الخاصة."
+  },
+  "Open a version below before checking familiarity. Real use requires a complete published protocol and qualified intended-use scope.": {
+    "fr": "Ouvrez une version ci-dessous avant de vérifier la familiarité. L’usage réel exige un protocole complet publié et une qualification de son usage prévu.",
+    "ar": "افتح أحد الإصدارات أدناه قبل التحقق من الألفة. يتطلب الاستخدام الفعلي بروتوكولًا مكتملًا ومنشورًا ونطاق استخدام مقصودًا مؤهلًا."
+  },
+  "Optional production transcription": {
+    "fr": "Transcription facultative de la production",
+    "ar": "نسخ صوتي اختياري للإنتاج"
+  },
+  "Original exposure": {
+    "fr": "Exposition d’origine",
+    "ar": "التعرّض المسجل أصلًا"
+  },
+  "Original finalized summary": {
+    "fr": "Bilan finalisé d’origine",
+    "ar": "الملخص الأصلي المكتمل"
+  },
+  "Original material with documented rights": {
+    "fr": "Matériel original avec droits documentés",
+    "ar": "مادة أصلية بحقوق موثقة"
+  },
+  "Original probe protocols": {
+    "fr": "Protocoles originaux de sondes",
+    "ar": "بروتوكولات أصلية لملاحظات المتابعة"
+  },
+  "Original protocol and permitted support": {
+    "fr": "Protocole original et aides permises",
+    "ar": "البروتوكول الأصلي والمساعدة المسموح بها"
+  },
+  "Other information for the clinician": {
+    "fr": "Autres informations pour l’orthophoniste",
+    "ar": "معلومات أخرى للأخصائي"
+  },
+  "Other scorable error": {
+    "fr": "Autre erreur cotable",
+    "ar": "خطأ آخر قابل للتقييم"
+  },
+  "PRODUCTION FOLLOW-UP": {
+    "fr": "SUIVI DE PRODUCTION",
+    "ar": "متابعة إنتاج الأصوات"
+  },
+  "Parent instructions": {
+    "fr": "Consignes parentales",
+    "ar": "إرشادات للمرافق"
+  },
+  "Partial": {
+    "fr": "Partiel",
+    "ar": "جزئي"
+  },
+  "Participation": {
+    "fr": "Participation",
+    "ar": "المشاركة"
+  },
+  "Pending": {
+    "fr": "En attente",
+    "ar": "قيد الانتظار"
+  },
+  "Permission required": {
+    "fr": "Autorisation requise",
+    "ar": "يلزم إذن"
+  },
+  "Picture naming": {
+    "fr": "Dénomination d’image",
+    "ar": "تسمية الصورة"
+  },
+  "Pieces still required for real use": {
+    "fr": "Pièces encore requises pour l’usage réel",
+    "ar": "المستندات والمتطلبات الناقصة للاستخدام الفعلي"
+  },
+  "Planned exposure": {
+    "fr": "Exposition prévue",
+    "ar": "التعرّض المخطط"
+  },
+  "Planned task": {
+    "fr": "Tâche prévue",
+    "ar": "المهمة المخططة"
+  },
+  "Practice variety": {
+    "fr": "Variété de pratique",
+    "ar": "التنوع اللغوي للممارسة"
+  },
+  "Predetermined observation conditions": {
+    "fr": "Conditions de passation définies à l’avance",
+    "ar": "ظروف الملاحظة المحددة مسبقًا"
+  },
+  "Prepare an observation": {
+    "fr": "Préparer une passation",
+    "ar": "التحضير لملاحظة"
+  },
+  "Prepare caregiver micro-training": {
+    "fr": "Préparer la micro-formation parentale",
+    "ar": "إعداد تدريب موجز للمرافق"
+  },
+  "Printable parent guide": {
+    "fr": "Guide parental imprimable",
+    "ar": "دليل للمرافق قابل للطباعة"
+  },
+  "Printable report": {
+    "fr": "Rapport imprimable",
+    "ar": "تقرير قابل للطباعة"
+  },
+  "Private clinician note": {
+    "fr": "Note privée de l’orthophoniste",
+    "ar": "ملاحظة خاصة بالأخصائي"
+  },
+  "Production follow-up": {
+    "fr": "Suivi de production",
+    "ar": "متابعة إنتاج الأصوات"
+  },
+  "Production observation": {
+    "fr": "Observation de production",
+    "ar": "ملاحظة إنتاج الأصوات"
+  },
+  "Production transcription": {
+    "fr": "Transcription de la production",
+    "ar": "النسخ الصوتي للإنتاج"
+  },
+  "Professional JSON list: [{\"index\": 0, \"phoneme\": \"p\", \"position\": \"initial\", \"context\": \"...\"}]. The index refers to the explicit segment list. Leave empty while the draft awaits human documentation.": {
+    "fr": "Liste JSON professionnelle : [{\"index\": 0, \"phoneme\": \"p\", \"position\": \"initial\", \"context\": \"...\"}]. L’indice désigne la liste explicite des segments. Laissez vide tant que le brouillon attend la documentation humaine.",
+    "ar": "قائمة JSON مخصّصة للمختص: [{\"index\": 0, \"phoneme\": \"p\", \"position\": \"initial\", \"context\": \"...\"}]. يشير الفهرس إلى قائمة الفونيمات الصريحة. اتركها فارغة ما دامت المسودة تنتظر التوثيق البشري."
+  },
+  "Professional JSON object. Keep rights_evidence, familiarity_evidence and linguistic_evidence as objects containing the exact document id and sha256. Missing evidence keeps real use blocked.": {
+    "fr": "Objet JSON professionnel. Conservez rights_evidence, familiarity_evidence et linguistic_evidence sous forme d’objets contenant l’identifiant exact du document et son sha256. L’absence de preuves bloque l’utilisation réelle.",
+    "ar": "كائن JSON مخصّص للمختص. احتفظ بالمفاتيح rights_evidence وfamiliarity_evidence وlinguistic_evidence ككائنات تتضمن المعرّف الدقيق للوثيقة وبصمة sha256. يظل الاستخدام الحقيقي محظورًا عند غياب الأدلة."
+  },
+  "Professional goal": {
+    "fr": "Objectif professionnel",
+    "ar": "الهدف المهني"
+  },
+  "Professional goal and rationale": {
+    "fr": "Objectif professionnel et justification",
+    "ar": "الهدف المهني ومبرراته"
+  },
+  "Professional observation": {
+    "fr": "Observation professionnelle",
+    "ar": "ملاحظة المختص"
+  },
+  "Professional observations": {
+    "fr": "Observations professionnelles",
+    "ar": "ملاحظات المختص"
+  },
+  "Professional production observations": {
+    "fr": "Observations professionnelles de production",
+    "ar": "ملاحظات مهنية لإنتاج الأصوات"
+  },
+  "Protocol evidence must be a JSON object.": {
+    "fr": "Les preuves du protocole doivent former un objet JSON.",
+    "ar": "يجب أن تكون أدلة البروتوكول كائن JSON."
+  },
+  "Protocol evidence references": {
+    "fr": "Références des preuves du protocole",
+    "ar": "مراجع أدلة البروتوكول"
+  },
+  "Protocol items": {
+    "fr": "Items du protocole",
+    "ar": "بنود البروتوكول"
+  },
+  "Protocol items — professional access only": {
+    "fr": "Items du protocole — accès professionnel uniquement",
+    "ar": "بنود البروتوكول — وصول مهني فقط"
+  },
+  "Protocol title": {
+    "fr": "Titre du protocole",
+    "ar": "عنوان البروتوكول"
+  },
+  "Protocol version": {
+    "fr": "Version du protocole",
+    "ar": "إصدار البروتوكول"
+  },
+  "Protocol version to reserve for follow-up": {
+    "fr": "Version du protocole à réserver au suivi",
+    "ar": "إصدار البروتوكول المراد حجزه للمتابعة"
+  },
+  "Provide at least one item, with a unique identifier for every item.": {
+    "fr": "Renseignez au moins un item, avec un identifiant unique pour chacun.",
+    "ar": "أدخل بندًا واحدًا على الأقل مع معرّف فريد لكل بند."
+  },
+  "Publish revised instructions": {
+    "fr": "Créer des consignes révisées",
+    "ar": "إنشاء إرشادات منقحة"
+  },
+  "Published": {
+    "fr": "Publié",
+    "ar": "منشور"
+  },
+  "Rate the specified target occurrence": {
+    "fr": "Coter l’occurrence cible désignée",
+    "ar": "تقييم الورود المحدد للصوت المستهدف"
+  },
+  "Reason for correction": {
+    "fr": "Motif de correction",
+    "ar": "سبب التصحيح"
+  },
+  "Reason for exclusion": {
+    "fr": "Motif d’exclusion",
+    "ar": "سبب الاستبعاد"
+  },
+  "Reason for stopping": {
+    "fr": "Raison de l’arrêt",
+    "ar": "سبب التوقف"
+  },
+  "Recent professional observations": {
+    "fr": "Observations professionnelles récentes",
+    "ar": "الملاحظات المهنية الأخيرة"
+  },
+  "Record external word exposure": {
+    "fr": "Déclarer une exposition hors application",
+    "ar": "تسجيل التعرّض للكلمة خارج التطبيق"
+  },
+  "Record occurrence": {
+    "fr": "Saisir la cotation d’occurrence",
+    "ar": "تسجيل تقييم ورود الصوت"
+  },
+  "Report off-screen practice": {
+    "fr": "Déclarer une pratique hors écran",
+    "ar": "الإبلاغ عن ممارسة خارج الشاشة"
+  },
+  "Reserved words": {
+    "fr": "Mots de réserve",
+    "ar": "كلمات محجوزة للمتابعة"
+  },
+  "Reserved, untrained word": {
+    "fr": "Mot de réserve non entraîné",
+    "ar": "كلمة محجوزة غير متدرَّب عليها"
+  },
+  "Retained attempt": {
+    "fr": "Tentative retenue",
+    "ar": "المحاولة المحتسبة"
+  },
+  "Retained attempt number": {
+    "fr": "Numéro de la tentative retenue",
+    "ar": "رقم المحاولة المحتسبة"
+  },
+  "Review and finalize": {
+    "fr": "Revoir et finaliser",
+    "ar": "مراجعة وإنهاء"
+  },
+  "Review and finalize this observation": {
+    "fr": "Revoir et finaliser cette passation",
+    "ar": "مراجعة هذه الملاحظة وإنهاؤها"
+  },
+  "Review discipline": {
+    "fr": "Discipline de relecture",
+    "ar": "تخصص المراجعة"
+  },
+  "Review note and limitations": {
+    "fr": "Note de relecture et limites",
+    "ar": "ملاحظة المراجعة والحدود"
+  },
+  "Review or correct with a reason": {
+    "fr": "Revoir ou corriger avec un motif",
+    "ar": "مراجعة أو تصحيح مع ذكر السبب"
+  },
+  "Revoke family sharing": {
+    "fr": "Révoquer le partage familial",
+    "ar": "إلغاء المشاركة مع الأسرة"
+  },
+  "Rights and provenance documentation": {
+    "fr": "Documentation des droits et de la provenance",
+    "ar": "توثيق الحقوق والمصدر"
+  },
+  "Rights status": {
+    "fr": "Statut des droits",
+    "ar": "حالة الحقوق"
+  },
+  "Save": {
+    "fr": "Enregistrer",
+    "ar": "حفظ"
+  },
+  "Semantic cue": {
+    "fr": "Indice sémantique",
+    "ar": "تلميح دلالي"
+  },
+  "Setting": {
+    "fr": "Lieu et contexte",
+    "ar": "المكان والسياق"
+  },
+  "Software permissions do not establish clinical competence or effectiveness.": {
+    "fr": "Les droits logiciels n’établissent ni compétence clinique ni efficacité.",
+    "ar": "لا تثبت صلاحيات البرنامج الكفاءة السريرية أو الفعالية."
+  },
+  "Specify the retained attempt in advance. Do not retrospectively choose the best response.": {
+    "fr": "Définissez la tentative retenue à l’avance. Ne choisissez pas rétrospectivement la meilleure réponse.",
+    "ar": "حدّد المحاولة المحتسبة مسبقًا. لا تختر أفضل استجابة بأثر رجعي."
+  },
+  "Spoken variety": {
+    "fr": "Variété parlée",
+    "ar": "التنوع اللغوي المنطوق"
+  },
+  "Stable item identifier": {
+    "fr": "Identifiant stable de l’item",
+    "ar": "معرّف ثابت للبند"
+  },
+  "Start professional observation": {
+    "fr": "Démarrer la passation professionnelle",
+    "ar": "بدء الملاحظة المهنية"
+  },
+  "Status": {
+    "fr": "État",
+    "ar": "الحالة"
+  },
+  "Stopped": {
+    "fr": "Interrompu",
+    "ar": "متوقف"
+  },
+  "Submit review": {
+    "fr": "Enregistrer la relecture",
+    "ar": "تسجيل المراجعة"
+  },
+  "Substitution": {
+    "fr": "Substitution",
+    "ar": "إبدال"
+  },
+  "Summary expressly shared by your clinician": {
+    "fr": "Compte rendu expressément partagé par votre orthophoniste",
+    "ar": "ملخص شاركه أخصائي النطق صراحةً"
+  },
+  "Support": {
+    "fr": "Aide",
+    "ar": "المساعدة"
+  },
+  "Support actually provided": {
+    "fr": "Aide réellement apportée",
+    "ar": "المساعدة المقدمة فعليًا"
+  },
+  "Support used during practice": {
+    "fr": "Aides utilisées pendant la pratique",
+    "ar": "المساعدة المستخدمة أثناء الممارسة"
+  },
+  "Target": {
+    "fr": "Cible",
+    "ar": "الهدف الصوتي"
+  },
+  "Target acceptable": {
+    "fr": "Cible acceptable",
+    "ar": "إنتاج الصوت المستهدف مقبول"
+  },
+  "Target incorrect in an audible attempt": {
+    "fr": "Cible incorrecte dans une tentative audible",
+    "ar": "إنتاج الصوت المستهدف غير صحيح في محاولة مسموعة"
+  },
+  "Target occurrences must be a JSON list.": {
+    "fr": "Les occurrences cibles doivent former une liste JSON.",
+    "ar": "يجب أن تكون المواضع المستهدفة قائمة JSON."
+  },
+  "Target phoneme": {
+    "fr": "Phonème cible",
+    "ar": "الفونيم المستهدف"
+  },
+  "Target position": {
+    "fr": "Position de la cible",
+    "ar": "موضع الصوت المستهدف"
+  },
+  "Target ratios describe rated occurrences. They are not a diagnosis, a percentile or global speech accuracy. Languages and support levels are kept separate.": {
+    "fr": "Les ratios décrivent les occurrences cotées. Ce ne sont ni un diagnostic, ni un percentile, ni une précision globale de la parole. Les langues et les niveaux d’aide restent séparés.",
+    "ar": "تصف النسب ورود الأصوات التي جرى تقييمها، ولا تمثل تشخيصًا أو رتبة مئينية أو دقة عامة للكلام. تبقى اللغات ومستويات المساعدة منفصلة."
+  },
+  "Tell your clinician about off-screen practice": {
+    "fr": "Informer l’orthophoniste de la pratique hors écran",
+    "ar": "أبلغ الأخصائي عن الممارسة خارج الشاشة"
+  },
+  "Text explicitly shared with the family": {
+    "fr": "Texte expressément partagé avec la famille",
+    "ar": "النص المشارك صراحةً مع الأسرة"
+  },
+  "The clinician checked caregiver understanding": {
+    "fr": "L’orthophoniste a vérifié la compréhension de l’accompagnant",
+    "ar": "تحقق الأخصائي من فهم المرافق"
+  },
+  "The clinician writes the instructions in this language. Changing interface language does not translate free-text clinical instructions.": {
+    "fr": "L’orthophoniste rédige les consignes dans cette langue. Changer la langue de l’interface ne traduit pas les consignes cliniques rédigées librement.",
+    "ar": "يكتب الأخصائي الإرشادات بهذه اللغة. وتغيير لغة الواجهة لا يترجم الإرشادات السريرية المكتوبة كنص حر."
+  },
+  "The expected word was audibly attempted": {
+    "fr": "Le mot attendu a été tenté de façon audible",
+    "ar": "حاول الطفل نطق الكلمة المتوقعة بصورة مسموعة"
+  },
+  "The external exposure record has been saved. Previous observation exposure remains unchanged.": {
+    "fr": "L’exposition hors application a été enregistrée. L’exposition figée lors des observations précédentes reste inchangée.",
+    "ar": "حُفظ سجل التعرّض خارج التطبيق. ولا يتغيّر التعرّض الموثّق في الملاحظات السابقة."
+  },
+  "The family receives only the text below. Raw item ratings, reserved words, private observations and detailed exports remain professional.": {
+    "fr": "La famille reçoit uniquement le texte ci-dessous. Les cotations brutes, mots de réserve, observations privées et exports détaillés restent professionnels.",
+    "ar": "تتلقى الأسرة النص أدناه فقط. وتبقى تقييمات البنود الخام والكلمات المحجوزة والملاحظات الخاصة والتصديرات التفصيلية ضمن الوصول المهني."
+  },
+  "The goal has been closed. Its observations and history remain available.": {
+    "fr": "L’objectif est clos. Ses observations et son historique restent disponibles.",
+    "ar": "أُغلق الهدف. وتبقى ملاحظاته وسجله متاحين."
+  },
+  "The original finalized summary is retained; corrected records are shown separately.": {
+    "fr": "Le bilan finalisé d’origine est conservé ; les cotations corrigées sont présentées séparément.",
+    "ar": "يُحتفظ بالملخص الأصلي المكتمل، وتُعرض السجلات المصححة بصورة منفصلة."
+  },
+  "The protocol and goal must use the same spoken variety.": {
+    "fr": "Le protocole et l’objectif doivent utiliser la même variété orale.",
+    "ar": "يجب أن يستخدم البروتوكول والهدف التنوع اللغوي المنطوق نفسه."
+  },
+  "The responsible clinician recorded a check of caregiver understanding.": {
+    "fr": "L’orthophoniste responsable a consigné une vérification de la compréhension de l’accompagnant.",
+    "ar": "سجّل الأخصائي المسؤول أنه تحقق من فهم المرافق."
+  },
+  "The target is identifiable and scorable": {
+    "fr": "La cible est identifiable et cotable",
+    "ar": "يمكن تحديد الصوت المستهدف وتقييمه"
+  },
+  "These clinician-written instructions use another language. Ask your clinician for a guide in your preferred language; free text is not translated automatically.": {
+    "fr": "Ces consignes rédigées par l’orthophoniste sont dans une autre langue. Demandez-lui un guide dans la langue souhaitée ; les textes libres ne sont pas traduits automatiquement.",
+    "ar": "كُتبت إرشادات الأخصائي بلغة أخرى. اطلب منه دليلًا بلغتك المفضلة؛ فالنصوص الحرة لا تُترجم آليًا."
+  },
+  "This is recorded by the responsible clinician after checking; it is not a caregiver self-approval.": {
+    "fr": "L’orthophoniste responsable le consigne après vérification ; ce n’est pas une auto-validation parentale.",
+    "ar": "يسجل الأخصائي المسؤول ذلك بعد التحقق، وليس اعتمادًا ذاتيًا من المرافق."
+  },
+  "This page contains only the text your clinician chose to share.": {
+    "fr": "Cette page contient uniquement le texte choisi pour le partage par votre orthophoniste.",
+    "ar": "تحتوي هذه الصفحة فقط على النص الذي اختار الأخصائي مشاركته."
+  },
+  "Trained word": {
+    "fr": "Mot entraîné",
+    "ar": "كلمة متدرَّب عليها"
+  },
+  "Trained words": {
+    "fr": "Mots entraînés",
+    "ar": "كلمات متدرَّب عليها"
+  },
+  "Treatment variety": {
+    "fr": "Variété de traitement",
+    "ar": "التنوع اللغوي المستخدم في العمل العلاجي"
+  },
+  "Understanding has not yet been recorded as checked. Ask your clinician to demonstrate the support before using it independently.": {
+    "fr": "La vérification de compréhension n’est pas encore consignée. Demandez à l’orthophoniste de montrer les aides avant de les utiliser de façon autonome.",
+    "ar": "لم يُسجّل التحقق من الفهم بعد. اطلب من الأخصائي عرض وسائل المساعدة قبل استخدامها بصورة مستقلة."
+  },
+  "Unfamiliar vocabulary is not a production error. Unknown items require replacement or separate documentation.": {
+    "fr": "Un vocabulaire inconnu n’est pas une erreur de production. Les items inconnus exigent un remplacement ou une documentation séparée.",
+    "ar": "عدم معرفة الكلمة ليس خطأ في إنتاج الأصوات. يلزم استبدال البنود غير المعروفة أو توثيقها بصورة منفصلة."
+  },
+  "Unfamiliar; replace or document separately": {
+    "fr": "Inconnu : remplacer ou documenter séparément",
+    "ar": "غير مألوف: يُستبدل أو يُوثّق بصورة منفصلة"
+  },
+  "Untrained word": {
+    "fr": "Mot non entraîné",
+    "ar": "كلمة لم تُدرَّب"
+  },
+  "Untrained words": {
+    "fr": "Mots non entraînés",
+    "ar": "كلمات غير متدرَّب عليها"
+  },
+  "Upload editorial media": {
+    "fr": "Ajouter un média éditorial",
+    "ar": "رفع وسائط للمحتوى"
+  },
+  "Use your browser’s Print command to print or save this parent guide as a PDF.": {
+    "fr": "Utilisez la commande Imprimer du navigateur pour imprimer ce guide parental ou l’enregistrer en PDF.",
+    "ar": "استخدم أمر الطباعة في المتصفح لطباعة دليل المرافق أو حفظه بصيغة PDF."
+  },
+  "Use your browser’s Print command to print or save this professional report as a PDF.": {
+    "fr": "Utilisez la commande Imprimer du navigateur pour imprimer ce rapport professionnel ou l’enregistrer en PDF.",
+    "ar": "استخدم أمر الطباعة في المتصفح لطباعة التقرير المهني أو حفظه بصيغة PDF."
+  },
+  "Variant": {
+    "fr": "Variante",
+    "ar": "بديل"
+  },
+  "Versioned design material, separate from protected assessment instruments and family games.": {
+    "fr": "Matériel de conception versionné, distinct des outils d’évaluation protégés et des jeux familiaux.",
+    "ar": "مواد تصميم ذات إصدارات محفوظة، منفصلة عن أدوات التقييم المحمية والألعاب الأسرية."
+  },
+  "Withdrawn": {
+    "fr": "Retiré",
+    "ar": "مسحوب"
+  },
+  "Word": {
+    "fr": "Mot",
+    "ar": "الكلمة"
+  },
+  "Your clinician’s caregiver guide will appear here.": {
+    "fr": "Le guide parental préparé par votre orthophoniste apparaîtra ici.",
+    "ar": "سيظهر هنا دليل المرافق الذي أعدّه أخصائي النطق."
+  },
+  "Your clinician’s guidance": {
+    "fr": "Les consignes de votre orthophoniste",
+    "ar": "إرشادات المختص"
+  },
+  "Your practice declaration has been saved for your clinician. It does not rate pronunciation.": {
+    "fr": "Votre déclaration de pratique a été enregistrée pour l’orthophoniste. Elle ne cote pas la prononciation.",
+    "ar": "حُفظت إفادة الممارسة ليطّلع عليها الأخصائي. وهي لا تقيّم النطق."
+  },
+  "planned occurrences documented": {
+    "fr": "occurrences prévues documentées",
+    "ar": "مواضع صوتية مخططة وموثقة"
+  }
+}

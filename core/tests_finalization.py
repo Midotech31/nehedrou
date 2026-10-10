@@ -152,7 +152,10 @@ class FinalizationTests(TestCase):
 class MediaValidationTests(TestCase):
     setUpTestData = classmethod(original_tests.WorkflowTests.setUpTestData.__func__)
     def form(self,name,data,kind):
-        return MediaForm(data={'kind':kind,'rights':'Fictional owned fixture'},files={'file':SimpleUploadedFile(name,data)})
+        from qualification.test_support import evidence_fixture
+        evidence=evidence_fixture(self.item.activity.variety,self.pro,'rights')
+        provenance={key:'Fictional test permission only' for key in ['holder','licence','permitted_use','territory','duration','attribution','adult_speaker_permission']}
+        return MediaForm(data={'kind':kind,'rights':'Fictional owned fixture','rights_status':'original_documented','provenance':provenance,'rights_evidence':str(evidence.pk)},files={'file':SimpleUploadedFile(name,data)},instance=MediaAsset(uploaded_by=self.pro))
     def image(self,format='PNG',size=(8,8)):
         buffer=io.BytesIO();Image.new('RGB',size,'teal').save(buffer,format=format);return buffer.getvalue()
     def test_header_only_and_truncated_media_are_rejected(self):
@@ -162,7 +165,22 @@ class MediaValidationTests(TestCase):
         for name,data,kind,format in [('valid.png',self.image(),'image','PNG'),('valid.jpg',self.image('JPEG'),'image','JPEG'),('valid.wav',pcm_fixture(),'audio','WAV')]:
             file=SimpleUploadedFile(name,data);meta=validate_media(file,kind)
             self.assertEqual(meta['format'],format);self.assertEqual(meta['bytes'],len(data));self.assertEqual(file.tell(),0)
-            self.assertTrue(self.form(name,data,kind).is_valid())
+            form=self.form(name,data,kind)
+            self.assertTrue(form.is_valid(),form.errors)
+            asset=form.save()
+            self.assertTrue(asset.documented)
+            self.assertEqual(asset.technical_metadata['format'],format)
+    def test_upload_rights_status_must_be_explicit_and_unverified_rights_stay_unqualified(self):
+        data={'kind':'image','rights':'Fictional rights assertion only'}
+        incomplete=MediaForm(data=data,files={'file':SimpleUploadedFile('rights.png',self.image())},instance=MediaAsset(uploaded_by=self.pro))
+        self.assertFalse(incomplete.is_valid())
+        self.assertIn('rights_status',incomplete.errors)
+        unverified=MediaForm(data={**data,'rights_status':'unknown','provenance':{}},files={'file':SimpleUploadedFile('rights.png',self.image())},instance=MediaAsset(uploaded_by=self.pro))
+        self.assertTrue(unverified.is_valid(),unverified.errors)
+        asset=unverified.save()
+        self.assertTrue(asset.intact)
+        self.assertFalse(asset.documented)
+
     def test_kind_extension_and_dimensions_must_match(self):
         self.assertFalse(self.form('wrong.png',self.image(),'audio').is_valid())
         self.assertFalse(self.form('wrong.jpg',self.image(),'image').is_valid())

@@ -35,12 +35,14 @@ class ContentQualificationTests(TestCase):
         activity.practice_guide, activity.evidence_sources, activity.state = {}, [], 'review'
         activity.save()
         legacy = {field.attname: getattr(activity, field.attname) for field in activity._meta.concrete_fields
-                  if field.name not in ['id', 'state', 'created_at', 'practice_guide', 'evidence_sources']}
+                  if field.name not in ['id', 'state', 'created_at', 'practice_guide', 'evidence_sources', 'item_metadata', 'media_manifest']}
         digest = hashlib.sha256(json.dumps(legacy, sort_keys=True, default=str, ensure_ascii=False).encode()).hexdigest()
         self.assertEqual(activity.fingerprint(), digest)
+        # Historical review rows are retained, not upgraded into qualified approvals.
         for kind in ['clinical', 'linguistic']:
-            Review.objects.create(activity=activity, reviewer=self.editor, kind=kind, approved=True, note='Fictional regression decision')
-        self.assertTrue(activity.has_current_reviews())
+            Review.objects.create(activity=activity, reviewer=self.editor, kind=kind, approved=False, note='Fictional regression decision')
+        self.assertFalse(activity.has_current_reviews())
+        self.assertEqual(list(activity.reviews.values_list('content_digest', flat=True)), [digest, digest])
         activity.practice_guide = public_example('fr')['practice_guide']
         activity.save()
         self.assertFalse(activity.has_current_reviews())
@@ -115,6 +117,17 @@ class ContentQualificationTests(TestCase):
         self.assertEqual(Review.objects.count(), 0)
         self.assertEqual(response.status_code, 403)
         self.assertEqual(self.client.get(reverse('editorial_upload')).status_code, 403)
+
+    def test_review_form_requires_bound_actor_and_activity_before_model_validation(self):
+        from catalog.forms import ReviewForm
+        self.candidate.state='review';self.candidate.save()
+        data={'kind':'clinical','note':'Fictional changes requested'}
+        incomplete=ReviewForm(data,allowed_kinds=['clinical'])
+        self.assertFalse(incomplete.is_valid())
+        self.assertTrue(incomplete.non_field_errors())
+        bound=ReviewForm(data,instance=Review(activity=self.candidate,reviewer=self.editor),allowed_kinds=['clinical'])
+        self.assertTrue(bound.is_valid(),bound.errors)
+        self.assertEqual(Review.objects.count(),0)
 
     def test_plain_editor_does_not_get_review_submission(self):
         editor = User.objects.create_user(username='draft-only', email='draft@example.test')

@@ -16,6 +16,7 @@ from .models import User, Invitation, AuditEvent, Membership, PrivacyRequest
 from .services import create_program, record_practice, issue_and_deliver_invitation, resolve_privacy
 from . import tests as original_tests
 from .testing import pcm_fixture
+from qualification.test_support import prepare_activity_fixture, availability_fixture, competence_fixture
 
 
 @override_settings(DEMO_MODE=True, MFA_REQUIRED=False, STORAGES={'default': {'BACKEND': 'django.core.files.storage.InMemoryStorage'}, 'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'}})
@@ -36,16 +37,10 @@ class QualificationTests(TestCase):
     def candidate(self):
         return Activity.objects.create(variety=self.program.variety, series=uuid.uuid4(), title='Publication fixture', contrast='x', word_a='a', word_b='b', transcription_a='/a/', transcription_b='/b/', image_a='editorial/hat.svg', image_b='editorial/boat.svg', rights='Test fixture only', population='Fictional', instructions={'fr':'x','en':'x','ar':'x'}, is_demo=False, state='review')
 
-    def attach_audio(self, activity):
-        # Technical file fixture; never a clinical recording or deliverable.
-        for field in ['audio_a', 'audio_b']:
-            asset = MediaAsset.objects.create(file=ContentFile(pcm_fixture(), name=uuid.uuid4().hex+'.wav'), kind='audio', rights='Test fixture only', uploaded_by=self.pro)
-            setattr(activity, field, settings.PUBLIC_ORIGIN + reverse('editorial_media', args=[asset.pk]))
-        activity.save()
-
     def reviews(self, activity):
-        for kind in ['clinical','linguistic']:
-            Review.objects.create(activity=activity, reviewer=self.pro, kind=kind, approved=True, note='Test fixture only')
+        # Exact-byte media, documentary evidence and two independent reviewers.
+        self.linguistic_reviewer = prepare_activity_fixture(activity, self.pro)
+        availability_fixture('practice', activity.variety, activity.fingerprint(), self.pro)
 
     def test_stale_assignment_rejects_archived_withdrawn_or_transferred(self):
         Child.objects.filter(pk=self.child.pk).update(active=False)
@@ -85,10 +80,10 @@ class QualificationTests(TestCase):
 
     def test_external_missing_or_wrong_kind_audio_cannot_publish(self):
         activity=self.candidate()
-        activity.audio_a=activity.audio_b='https://unavailable.invalid/a.wav'; activity.save(); self.reviews(activity)
+        activity.audio_a=activity.audio_b='https://unavailable.invalid/a.wav'; activity.save()
         activity.state='published'
         with self.assertRaises(ValidationError): activity.save()
-        activity.state='review'; self.attach_audio(activity); self.reviews(activity)
+        activity.state='review'; self.reviews(activity)
         asset=MediaAsset.objects.get(pk=activity.audio_a.rstrip('/').split('/')[-1])
         MediaAsset.objects.filter(pk=asset.pk).update(kind='image')
         activity.state='published'
@@ -97,8 +92,9 @@ class QualificationTests(TestCase):
         with self.assertRaises(ValidationError): activity.save()
 
     def test_current_rejection_blocks_approval_and_publication(self):
-        activity=self.candidate(); self.attach_audio(activity); self.reviews(activity)
+        activity=self.candidate(); self.reviews(activity)
         publisher=User.objects.get(username='editorial')
+        competence_fixture(publisher,activity.variety,'clinical')
         transition(publisher,activity.pk,'approved')
         review_version(publisher,activity,'clinical',False,'Rejected fixture')
         with self.assertRaises(ValidationError): transition(publisher,activity.pk,'published')
@@ -108,7 +104,7 @@ class QualificationTests(TestCase):
 
     @override_settings(DEMO_MODE=False)
     def test_missing_published_audio_refuses_new_practice_and_assignment(self):
-        activity=self.candidate(); self.attach_audio(activity); self.reviews(activity)
+        activity=self.candidate(); self.reviews(activity)
         activity.state='published';activity.save()
         item=ProgramItem.objects.create(program=self.program,activity=activity,position=2)
         asset=MediaAsset.objects.get(pk=activity.audio_a.rstrip('/').split('/')[-1])

@@ -1,0 +1,594 @@
+{
+  "A document records provenance. Uploading it does not approve its rights or clinical conclusions.": {
+    "fr": "Un document décrit sa provenance. Son dépôt n'approuve ni ses droits ni ses conclusions cliniques.",
+    "ar": "توثّق الوثيقة مصدرها. ولا يعني رفعها اعتماد حقوقها أو استنتاجاتها السريرية."
+  },
+  "A revocation reason is required.": {
+    "fr": "Indiquez le motif du retrait.",
+    "ar": "يرجى تحديد سبب السحب."
+  },
+  "Add a lexical candidate": {
+    "fr": "Ajouter un mot candidat",
+    "ar": "إضافة كلمة مقترحة"
+  },
+  "Admissible variants and reasons": {
+    "fr": "Variantes recevables et justifications",
+    "ar": "النطق المقبول البديل وأسبابه"
+  },
+  "Admissible variants need an IPA form and an explicit reason.": {
+    "fr": "Chaque variante recevable nécessite une transcription API et une justification explicite.",
+    "ar": "يتطلب كل نطق بديل مقبول كتابة صوتية دولية وسببًا واضحًا."
+  },
+  "Alternative names must be a text list without participant identities.": {
+    "fr": "Les noms alternatifs doivent former une liste de textes sans identité des participants.",
+    "ar": "يجب أن تكون التسميات البديلة قائمة نصية دون هويات المشاركين."
+  },
+  "Alternative names, without identities": {
+    "fr": "Noms alternatifs, sans identités",
+    "ar": "التسميات البديلة دون هويات"
+  },
+  "An intact familiarity evidence document for this variety is required.": {
+    "fr": "Une preuve intacte de familiarité pour cette variété est nécessaire.",
+    "ar": "يلزم دليل سليم على معرفة الكلمات والصور في هذا التنوع اللغوي."
+  },
+  "An item definition must be an object.": {
+    "fr": "La définition d'un mot doit être structurée.",
+    "ar": "يجب تنظيم تعريف الكلمة في بنية محددة."
+  },
+  "Approval requires a declared competence for this discipline and variety.": {
+    "fr": "L'approbation nécessite une compétence déclarée dans cette discipline et cette variété.",
+    "ar": "يتطلب الاعتماد كفاءة مصرّحًا بها في هذا الاختصاص والتنوع اللغوي."
+  },
+  "Assessed profiles and proposed contrasts": {
+    "fr": "Profils évalués et contrastes proposés",
+    "ar": "الملفات التي جرى تقييمها والتقابلات المقترحة"
+  },
+  "Audio": {
+    "fr": "Audio",
+    "ar": "صوت"
+  },
+  "Author, date and document scope": {
+    "fr": "Auteur, date et portée du document",
+    "ar": "مؤلف الوثيقة وتاريخها ونطاقها"
+  },
+  "Authorised purpose and data governance": {
+    "fr": "Finalité autorisée et gouvernance des données",
+    "ar": "الغرض المصرّح به وإدارة البيانات"
+  },
+  "Authorised purpose, countries and limits": {
+    "fr": "Finalité autorisée, pays et limites",
+    "ar": "الغرض المصرّح به والبلدان والحدود"
+  },
+  "Availability concerns one module, one variety and one content fingerprint. A later revocation or missing evidence blocks new real use.": {
+    "fr": "La disponibilité concerne un module, une variété et une empreinte précise du contenu. Un retrait ultérieur ou une preuve manquante bloque tout nouvel usage réel.",
+    "ar": "تخص الإتاحة وحدة واحدة وتنوعًا لغويًا واحدًا وبصمة محددة للمحتوى. ويمنع السحب اللاحق أو نقص الأدلة أي استخدام فعلي جديد."
+  },
+  "Availability evidence must be a category-indexed document manifest.": {
+    "fr": "Les preuves de disponibilité doivent être classées par catégorie.",
+    "ar": "يجب تصنيف أدلة الإتاحة حسب الفئة."
+  },
+  "Availability requires publishing permission and declared clinical competence.": {
+    "fr": "La disponibilité nécessite un droit de publication et une compétence clinique déclarée.",
+    "ar": "تتطلب الإتاحة صلاحية نشر وكفاءة سريرية مصرّحًا بها."
+  },
+  "Available within the documented scope": {
+    "fr": "Disponible dans le périmètre documenté",
+    "ar": "متاح ضمن النطاق الموثّق"
+  },
+  "Candidate changes require a draft pack version.": {
+    "fr": "La modification des mots nécessite une version du pack en brouillon.",
+    "ar": "يتطلب تعديل الكلمات نسخة مسودة من الحزمة."
+  },
+  "Candidate word": {
+    "fr": "Mot candidat",
+    "ar": "كلمة مقترحة"
+  },
+  "Clinical and linguistic approval must come from two different people.": {
+    "fr": "Les approbations clinique et linguistique doivent provenir de deux personnes différentes.",
+    "ar": "يجب أن يصدر الاعتماد السريري واللغوي عن شخصين مختلفين."
+  },
+  "Clinical content review": {
+    "fr": "Relecture clinique du contenu",
+    "ar": "مراجعة سريرية للمحتوى"
+  },
+  "Compatible commercial licence": {
+    "fr": "Licence compatible avec un usage commercial",
+    "ar": "ترخيص متوافق مع الاستخدام التجاري"
+  },
+  "Content qualification workspace": {
+    "fr": "Espace de qualification des contenus",
+    "ar": "مساحة تأهيل المحتوى"
+  },
+  "Counts must satisfy 0 ≤ recognised ≤ observations, with at least one observation.": {
+    "fr": "Le nombre reconnu doit être compris entre 0 et le nombre d'observations, avec au moins une observation.",
+    "ar": "يجب أن يكون عدد الحالات المعروفة بين صفر وعدد الملاحظات، مع ملاحظة واحدة على الأقل."
+  },
+  "Decision and justification": {
+    "fr": "Décision et justification",
+    "ar": "القرار ومبرراته"
+  },
+  "Decisions are immutable. Record a new decision or revocation.": {
+    "fr": "Les décisions sont conservées. Enregistrez une nouvelle décision ou un retrait.",
+    "ar": "تُحفظ القرارات دون تعديل. سجّلوا قرارًا جديدًا أو سحبًا."
+  },
+  "Declare reviewer experience": {
+    "fr": "Déclarer son expérience de relecture",
+    "ar": "التصريح بخبرة المراجعة"
+  },
+  "Declared professional role": {
+    "fr": "Rôle professionnel déclaré",
+    "ar": "الدور المهني المصرّح به"
+  },
+  "Declared reviewer experience": {
+    "fr": "Expérience de relecture déclarée",
+    "ar": "خبرة المراجعة المصرّح بها"
+  },
+  "Define a region, collect candidate names and document exploratory familiarity before independent clinical and linguistic review.": {
+    "fr": "Définissez une région, recueillez des mots candidats et documentez leur familiarité exploratoire avant les relectures clinique et linguistique indépendantes.",
+    "ar": "حدّدوا منطقة واجمعوا كلمات مقترحة ووثّقوا المعرفة بها بصورة استكشافية قبل المراجعتين السريرية واللغوية المستقلتين."
+  },
+  "Define a regional lexical pack": {
+    "fr": "Définir un pack lexical régional",
+    "ar": "تحديد حزمة مفردات إقليمية"
+  },
+  "Descriptive production follow-up": {
+    "fr": "Suivi descriptif de la production",
+    "ar": "متابعة وصفية للنطق"
+  },
+  "Document a lexical candidate": {
+    "fr": "Documenter un mot candidat",
+    "ar": "توثيق كلمة مقترحة"
+  },
+  "Document both words using the keys a and b.": {
+    "fr": "Documentez les deux mots avec les clés a et b.",
+    "ar": "وثّقوا الكلمتين باستخدام المفتاحين a وb."
+  },
+  "Document exploratory word and image familiarity": {
+    "fr": "Documenter la familiarité exploratoire des mots et images",
+    "ar": "توثيق معرفة الكلمات والصور بصورة استكشافية"
+  },
+  "Document human decisions, exact versions and private evidence. No declaration certifies clinical efficacy.": {
+    "fr": "Documentez les décisions humaines, les versions exactes et les pièces privées. Aucune déclaration ne certifie l'efficacité clinique.",
+    "ar": "وثّقوا القرارات البشرية والنسخ الدقيقة والأدلة الخاصة. لا يصادق أي تصريح على الفعالية السريرية."
+  },
+  "Documented original rights": {
+    "fr": "Droits originaux documentés",
+    "ar": "حقوق أصلية موثّقة"
+  },
+  "Download private evidence": {
+    "fr": "Télécharger la pièce privée",
+    "ar": "تنزيل الدليل الخاص"
+  },
+  "Each target occurrence needs an index, phoneme and position.": {
+    "fr": "Chaque occurrence cible nécessite un indice, un phonème et une position.",
+    "ar": "يتطلب كل موضع للصوت المستهدف مؤشرًا وصوتًا وموقعًا."
+  },
+  "Edit": {
+    "fr": "Modifier",
+    "ar": "تعديل"
+  },
+  "Editorial permission allows an action. Declared experience describes the reviewer; it is not verified certification.": {
+    "fr": "Le droit éditorial autorise une action. L'expérience déclarée décrit le relecteur ; elle ne constitue pas une certification vérifiée.",
+    "ar": "تسمح الصلاحية التحريرية بإجراء معين. وتصف الخبرة المصرّح بها المراجع؛ ولا تُعد شهادة مهنية متحققًا منها."
+  },
+  "Evidence cannot be replaced or silently reinstated.": {
+    "fr": "Une pièce ne peut pas être remplacée ou rétablie sans nouvelle trace.",
+    "ar": "لا يمكن استبدال الدليل أو إعادة تفعيله دون توثيق جديد."
+  },
+  "Evidence is immutable. Upload a new document.": {
+    "fr": "Les pièces sont conservées. Déposez un nouveau document.",
+    "ar": "تُحفظ الأدلة دون تعديل. ارفعوا وثيقة جديدة."
+  },
+  "Evidence must concern the same spoken variety.": {
+    "fr": "La preuve doit concerner la même variété orale.",
+    "ar": "يجب أن يخص الدليل التنوع اللغوي المحكي نفسه."
+  },
+  "Evidence title": {
+    "fr": "Titre de la pièce justificative",
+    "ar": "عنوان الوثيقة الداعمة"
+  },
+  "Exact content SHA-256": {
+    "fr": "Empreinte SHA-256 du contenu exact",
+    "ar": "بصمة SHA-256 للمحتوى المحدد"
+  },
+  "Exact content fingerprint": {
+    "fr": "Empreinte du contenu exact",
+    "ar": "بصمة المحتوى المحدد"
+  },
+  "Excluded": {
+    "fr": "Exclu",
+    "ar": "مستبعد"
+  },
+  "Experience in this spoken variety": {
+    "fr": "Expérience dans cette variété orale",
+    "ar": "الخبرة في هذا التنوع اللغوي المحكي"
+  },
+  "Exploratory method and exposure context": {
+    "fr": "Méthode exploratoire et contexte d'exposition",
+    "ar": "المنهج الاستكشافي وسياق التعرض اللغوي"
+  },
+  "Familiarity changes require a draft pack version.": {
+    "fr": "La modification de la familiarité nécessite une version du pack en brouillon.",
+    "ar": "يتطلب تعديل بيانات معرفة الكلمات نسخة مسودة من الحزمة."
+  },
+  "Familiarity has not been documented.": {
+    "fr": "La familiarité n'est pas documentée.",
+    "ar": "لم تُوثّق معرفة الكلمات والصور بعد."
+  },
+  "Guided family practice": {
+    "fr": "Pratique familiale accompagnée",
+    "ar": "ممارسة عائلية موجّهة"
+  },
+  "I declare this experience honestly; this declaration is not a professional certification.": {
+    "fr": "Je déclare cette expérience sincèrement ; cette déclaration n'est pas une certification professionnelle.",
+    "ar": "أصرّح بهذه الخبرة بصدق؛ ولا يُعد هذا التصريح شهادة مهنية."
+  },
+  "I take responsibility for this exact version and documented scope.": {
+    "fr": "J'assume la responsabilité de cette version exacte et du périmètre documenté.",
+    "ar": "أتحمل المسؤولية عن هذه النسخة المحددة والنطاق الموثّق."
+  },
+  "Identify at least one target occurrence.": {
+    "fr": "Identifiez au moins une occurrence cible.",
+    "ar": "حدّدوا موضعًا واحدًا على الأقل للصوت المستهدف."
+  },
+  "Image": {
+    "fr": "Image",
+    "ar": "صورة"
+  },
+  "Incomplete phonetic definition: %(word)s.": {
+    "fr": "Définition phonétique incomplète : %(word)s.",
+    "ar": "التعريف الصوتي غير مكتمل: %(word)s."
+  },
+  "Independent human reviews": {
+    "fr": "Relectures humaines indépendantes",
+    "ar": "مراجعات بشرية مستقلة"
+  },
+  "Item metadata must be an object indexed by a and b.": {
+    "fr": "Les métadonnées doivent documenter les mots a et b.",
+    "ar": "يجب تنظيم بيانات الكلمتين بالمفتاحين a وb."
+  },
+  "Lexical candidates and exploratory familiarity": {
+    "fr": "Mots candidats et familiarité exploratoire",
+    "ar": "الكلمات المقترحة والمعرفة الاستكشافية بها"
+  },
+  "Lexical source, region and uncertainty": {
+    "fr": "Source lexicale, région et incertitude",
+    "ar": "المصدر المعجمي والمنطقة ومواضع عدم اليقين"
+  },
+  "Meaning and intended image": {
+    "fr": "Sens et image prévue",
+    "ar": "المعنى والصورة المقصودة"
+  },
+  "Media provenance must be an object.": {
+    "fr": "La provenance du média doit être structurée.",
+    "ar": "يجب توثيق مصدر الوسائط في بنية منظمة."
+  },
+  "Missing IPA transcription: %(word)s.": {
+    "fr": "Transcription API manquante : %(word)s.",
+    "ar": "الكتابة الصوتية الدولية مفقودة: %(word)s."
+  },
+  "Missing intact exploratory familiarity evidence: %(word)s.": {
+    "fr": "Preuve intacte de familiarité exploratoire manquante : %(word)s.",
+    "ar": "دليل سليم على المعرفة الاستكشافية بالكلمة مفقود: %(word)s."
+  },
+  "Missing intact media and documented rights: %(word)s / %(kind)s.": {
+    "fr": "Média intact et droits documentés manquants : %(word)s / %(kind)s.",
+    "ar": "وسائط سليمة وحقوق موثّقة مفقودة: %(word)s / %(kind)s."
+  },
+  "Missing intact word and image familiarity evidence: %(word)s.": {
+    "fr": "Preuve intacte de familiarité du mot et de l'image manquante : %(word)s.",
+    "ar": "دليل سليم على معرفة الكلمة والصورة مفقود: %(word)s."
+  },
+  "Missing or revoked availability evidence: %(category)s.": {
+    "fr": "Preuve de disponibilité manquante ou retirée : %(category)s.",
+    "ar": "دليل الإتاحة مفقود أو مسحوب: %(category)s."
+  },
+  "Missing, changed or revoked evidence": {
+    "fr": "Pièce manquante, modifiée ou retirée",
+    "ar": "دليل مفقود أو متغير أو مسحوب"
+  },
+  "Module availability decisions": {
+    "fr": "Décisions de disponibilité des modules",
+    "ar": "قرارات إتاحة الوحدات"
+  },
+  "No availability decision has been recorded.": {
+    "fr": "Aucune décision de disponibilité n'est enregistrée.",
+    "ar": "لم يُسجّل أي قرار إتاحة."
+  },
+  "No current authorised availability decision for this exact version.": {
+    "fr": "Aucune décision actuelle de disponibilité autorisée pour cette version exacte.",
+    "ar": "لا يوجد قرار إتاحة مصرّح به وساري لهذه النسخة المحددة."
+  },
+  "No declared experience yet.": {
+    "fr": "Aucune expérience déclarée.",
+    "ar": "لم تُصرّح أي خبرة بعد."
+  },
+  "No evidence has been supplied.": {
+    "fr": "Aucune pièce justificative fournie.",
+    "ar": "لم تُقدّم أي وثيقة داعمة."
+  },
+  "No regional pack has been created.": {
+    "fr": "Aucun pack régional créé.",
+    "ar": "لم تُنشأ أي حزمة إقليمية."
+  },
+  "Number of observations": {
+    "fr": "Nombre d'observations",
+    "ar": "عدد الملاحظات"
+  },
+  "Observation counts describe this collection only. They are not developmental norms or proof of treatment efficacy. Do not enter names or recordings of children.": {
+    "fr": "Les observations décrivent uniquement cette collecte. Elles ne constituent ni normes développementales ni preuve d'efficacité thérapeutique. Ne saisissez pas de noms ou d'enregistrements d'enfants.",
+    "ar": "تصف أعداد الملاحظات هذه المجموعة فقط. ولا تمثل معايير نمائية أو دليلًا على فعالية العلاج. لا تدخلوا أسماء الأطفال أو تسجيلاتهم."
+  },
+  "Ordered phoneme segments": {
+    "fr": "Segments phonémiques dans l'ordre",
+    "ar": "الأصوات مرتبة حسب تسلسلها"
+  },
+  "Pending requirements": {
+    "fr": "Prérequis en attente",
+    "ar": "متطلبات معلّقة"
+  },
+  "Permission required": {
+    "fr": "Autorisation nécessaire",
+    "ar": "يلزم إذن"
+  },
+  "Private evidence documents for the five required categories": {
+    "fr": "Pièces privées des cinq catégories requises",
+    "ar": "الأدلة الخاصة للفئات الخمس المطلوبة"
+  },
+  "Private rights evidence": {
+    "fr": "Preuve privée des droits",
+    "ar": "دليل خاص على الحقوق"
+  },
+  "Private supporting documents": {
+    "fr": "Pièces justificatives privées",
+    "ar": "وثائق داعمة خاصة"
+  },
+  "Professional reference, if applicable": {
+    "fr": "Référence professionnelle, le cas échéant",
+    "ar": "المرجع المهني إن وجد"
+  },
+  "Record a human decision": {
+    "fr": "Enregistrer une décision humaine",
+    "ar": "تسجيل قرار بشري"
+  },
+  "Region and speaker community": {
+    "fr": "Région et communauté de locuteurs",
+    "ar": "المنطقة ومجتمع المتحدثين"
+  },
+  "Regional lexical packs": {
+    "fr": "Packs lexicaux régionaux",
+    "ar": "حزم مفردات إقليمية"
+  },
+  "Regional pack title": {
+    "fr": "Titre du pack régional",
+    "ar": "عنوان الحزمة الإقليمية"
+  },
+  "Required evidence: content review, commercial rights, authorised purpose and data governance, supervised usability pilot, storage and support.": {
+    "fr": "Pièces requises : relecture du contenu, droits commerciaux, finalité autorisée et gouvernance des données, pilote d'usage supervisé, stockage et support.",
+    "ar": "الأدلة المطلوبة: مراجعة المحتوى والحقوق التجارية والغرض المصرّح به وإدارة البيانات وتجربة استخدام بإشراف والتخزين والدعم."
+  },
+  "Review permission for this discipline and variety is required.": {
+    "fr": "Un droit de relecture pour cette discipline et cette variété est nécessaire.",
+    "ar": "يلزم إذن مراجعة لهذا الاختصاص والتنوع اللغوي."
+  },
+  "Reviews are immutable. Record a new decision.": {
+    "fr": "Les avis sont conservés. Enregistrez une nouvelle décision.",
+    "ar": "تُحفظ المراجعات دون تعديل. سجّلوا قرارًا جديدًا."
+  },
+  "Revocation reason": {
+    "fr": "Motif du retrait",
+    "ar": "سبب السحب"
+  },
+  "Revoke evidence": {
+    "fr": "Retirer cette preuve",
+    "ar": "سحب هذا الدليل"
+  },
+  "Rights holder, licence, scope, attribution and adult speaker permission": {
+    "fr": "Titulaire des droits, licence, portée, attribution et accord du locuteur adulte",
+    "ar": "صاحب الحقوق والترخيص والنطاق والنسبة إلى المصدر وموافقة المتحدث البالغ"
+  },
+  "Rights status": {
+    "fr": "Statut des droits",
+    "ar": "حالة الحقوق"
+  },
+  "Segments must be an ordered list of phonemes.": {
+    "fr": "Les segments doivent être une liste ordonnée de phonèmes.",
+    "ar": "يجب أن تكون المقاطع قائمة مرتبة من الأصوات."
+  },
+  "Segments, targets and admissible variants": {
+    "fr": "Segments, cibles et variantes recevables",
+    "ar": "الأصوات والأهداف والنطق البديل المقبول"
+  },
+  "Select one document for each required availability category.": {
+    "fr": "Sélectionnez une pièce pour chaque catégorie de disponibilité requise.",
+    "ar": "اختاروا وثيقة واحدة لكل فئة مطلوبة لإتاحة الوحدة."
+  },
+  "Source URL": {
+    "fr": "Lien de la source",
+    "ar": "رابط المصدر"
+  },
+  "Spoken variety and scope": {
+    "fr": "Variété orale et périmètre",
+    "ar": "التنوع اللغوي المحكي والنطاق"
+  },
+  "Spontaneous alternative names": {
+    "fr": "Noms alternatifs spontanés",
+    "ar": "التسميات البديلة التلقائية"
+  },
+  "Spontaneous intended names": {
+    "fr": "Noms attendus donnés spontanément",
+    "ar": "التسميات المقصودة التي قيلت تلقائيًا"
+  },
+  "Storage, support and restoration": {
+    "fr": "Stockage, support et restauration",
+    "ar": "التخزين والدعم والاستعادة"
+  },
+  "Supervised usability and procedure pilot": {
+    "fr": "Pilote supervisé d'usage et de procédure",
+    "ar": "تجربة استخدام وإجراءات بإشراف"
+  },
+  "Target indices must identify unique matching phoneme segments and a position.": {
+    "fr": "Les indices cibles doivent désigner des segments phonémiques uniques et concordants, avec leur position.",
+    "ar": "يجب أن تحدد مؤشرات الأهداف أصواتًا منفردة ومتطابقة مع موقعها."
+  },
+  "Target occurrences and positions": {
+    "fr": "Occurrences cibles et positions",
+    "ar": "مواضع الأصوات المستهدفة ومواقعها"
+  },
+  "The availability decision owner no longer has the required authority or declaration.": {
+    "fr": "Le responsable de la décision de disponibilité ne possède plus l'autorité ou la déclaration requise.",
+    "ar": "لم يعد صاحب قرار الإتاحة يملك الصلاحية أو التصريح المطلوب."
+  },
+  "The exact media and commercial rights manifest is missing, changed or revoked.": {
+    "fr": "Le manifeste exact des médias et des droits commerciaux est manquant, modifié ou retiré.",
+    "ar": "سجل الوسائط المحددة والحقوق التجارية مفقود أو متغير أو مسحوب."
+  },
+  "The intended meaning is required.": {
+    "fr": "Indiquez le sens prévu.",
+    "ar": "يرجى تحديد المعنى المقصود."
+  },
+  "The regional pack has no lexical candidates.": {
+    "fr": "Le pack régional ne contient aucun mot candidat.",
+    "ar": "لا تحتوي الحزمة الإقليمية على كلمات مقترحة."
+  },
+  "Training candidate": {
+    "fr": "Candidat à l'entraînement",
+    "ar": "كلمة مقترحة للتدريب"
+  },
+  "Two current approvals by distinct competent reviewers are required.": {
+    "fr": "Deux approbations actuelles de relecteurs compétents distincts sont nécessaires.",
+    "ar": "يلزم اعتمادان ساريان من مراجعين مختلفين ذوي كفاءة مصرّح بها."
+  },
+  "Two different people with declared clinical and linguistic experience must review this exact version. Review does not establish the efficacy of Nehedrou.": {
+    "fr": "Deux personnes différentes ayant déclaré leur expérience clinique et linguistique doivent relire cette version exacte. La relecture ne démontre pas l'efficacité de Nehedrou.",
+    "ar": "يجب أن يراجع هذه النسخة المحددة شخصان مختلفان صرّحا بخبرتهما السريرية واللغوية. ولا تثبت المراجعة فعالية نهدروا."
+  },
+  "Unknown": {
+    "fr": "Inconnu",
+    "ar": "غير معروف"
+  },
+  "Untrained reserve": {
+    "fr": "Réserve non entraînée",
+    "ar": "كلمات احتياطية غير مدرّبة"
+  },
+  "Upload private evidence": {
+    "fr": "Déposer une pièce privée",
+    "ar": "رفع دليل خاص"
+  },
+  "Use an evidence document under 15 MB: PDF, text, CSV, JSON or image.": {
+    "fr": "Utilisez une pièce de moins de 15 Mo : PDF, texte, CSV, JSON ou image.",
+    "ar": "استخدموا وثيقة أصغر من 15 ميغابايت: PDF أو نص أو CSV أو JSON أو صورة."
+  },
+  "Use the SHA-256 of the exact reviewed content.": {
+    "fr": "Utilisez l'empreinte SHA-256 du contenu exact relu.",
+    "ar": "استخدموا بصمة SHA-256 للمحتوى المحدد الذي جرت مراجعته."
+  },
+  "Word and image familiarity": {
+    "fr": "Familiarité des mots et images",
+    "ar": "معرفة الكلمات والصور"
+  },
+  "Word meanings, segments, occurrences, variants and familiarity": {
+    "fr": "Sens, segments, occurrences, variantes et familiarité des mots",
+    "ar": "معاني الكلمات وأصواتها ومواضعها وبدائل نطقها والمعرفة بها"
+  },
+  "Working IPA transcription": {
+    "fr": "Transcription API de travail",
+    "ar": "كتابة صوتية دولية أولية"
+  },
+  "Publishing permission for this variety is required.": {
+    "fr": "Un droit de publication pour cette variété est nécessaire.",
+    "ar": "يلزم إذن نشر لهذا التنوع اللغوي."
+  },
+  "Evidence category": {
+    "fr": "Catégorie de preuve",
+    "ar": "فئة الدليل"
+  },
+  "Private supporting document": {
+    "fr": "Pièce justificative privée",
+    "ar": "وثيقة داعمة خاصة"
+  },
+  "Declaration remains active": {
+    "fr": "La déclaration reste active",
+    "ar": "التصريح ما زال ساريًا"
+  },
+  "Module": {
+    "fr": "Module",
+    "ar": "وحدة"
+  },
+  "Decision status": {
+    "fr": "Statut de la décision",
+    "ar": "حالة القرار"
+  },
+  "Real use requires exact media, documented rights, word definitions, two competent reviewers and an availability decision.": {
+    "fr": "L'usage réel nécessite des médias exacts, des droits documentés, la définition des mots, deux relecteurs compétents et une décision de disponibilité.",
+    "ar": "يتطلب الاستخدام الفعلي وسائط محددة وحقوقًا موثّقة وتعريفات للكلمات ومراجعين ذوي كفاءة مصرّح بها وقرار إتاحة."
+  },
+  "Phonemes in order": {
+    "fr": "Phonèmes dans l’ordre",
+    "ar": "الأصوات حسب ترتيبها"
+  },
+  "Separate phonemes with spaces. Example: d a r.": {
+    "fr": "Séparez les phonèmes par des espaces. Exemple : d a r.",
+    "ar": "افصلوا بين الأصوات بمسافات. مثال: d a r."
+  },
+  "Target occurrences": {
+    "fr": "Occurrences cibles",
+    "ar": "مواضع الأصوات المستهدفة"
+  },
+  "One target per line: segment number ; phoneme ; initial, medial, final or other. Segment numbering starts at 1.": {
+    "fr": "Une cible par ligne : numéro du segment ; phonème ; initial, medial, final ou other. La numérotation commence à 1.",
+    "ar": "هدف واحد في كل سطر: رقم الصوت ; الصوت ; initial أو medial أو final أو other. يبدأ الترقيم من 1."
+  },
+  "One variant per line: IPA form ; reason. Leave empty when no alternative is admitted.": {
+    "fr": "Une variante par ligne : forme API ; justification. Laissez vide si aucune variante n’est admise.",
+    "ar": "نطق بديل واحد في كل سطر: الكتابة الصوتية الدولية ; السبب. اتركوه فارغًا إذا لم يُقبل أي بديل."
+  },
+  "One name per line, without participant identities.": {
+    "fr": "Un nom par ligne, sans identité des participants.",
+    "ar": "تسمية واحدة في كل سطر دون هويات المشاركين."
+  },
+  "Training or untrained reserve": {
+    "fr": "Entraînement ou réserve non entraînée",
+    "ar": "تدريب أو كلمات احتياطية غير مدرّبة"
+  },
+  "Use segment number ; phoneme ; position for every target.": {
+    "fr": "Pour chaque cible, utilisez : numéro du segment ; phonème ; position.",
+    "ar": "استخدموا لكل هدف: رقم الصوت ; الصوت ; الموقع."
+  },
+  "Use IPA form ; reason for every variant.": {
+    "fr": "Pour chaque variante, utilisez : forme API ; justification.",
+    "ar": "استخدموا لكل نطق بديل: الكتابة الصوتية الدولية ; السبب."
+  },
+  "Module and variety availability": {
+    "fr": "Disponibilité par module et variété",
+    "ar": "الإتاحة حسب الوحدة والتنوع اللغوي"
+  },
+  "Software functionality, reviewed content and authorised real use are distinct. This summary contains no private evidence or clinical records.": {
+    "fr": "Les fonctions du logiciel, les contenus relus et l’usage réel autorisé sont distincts. Cette synthèse ne contient aucune preuve privée ni dossier clinique.",
+    "ar": "وظائف البرنامج والمحتوى المراجع والاستخدام الفعلي المصرّح به أمور مختلفة. لا يتضمن هذا الملخص أدلة خاصة أو ملفات سريرية."
+  },
+  "Fictional demonstrations let you explore the workflows. Draft material requires human review, appropriate media and documented conditions before real use.": {
+    "fr": "Les démonstrations fictives permettent d’explorer les parcours. Avant l’usage réel, les brouillons nécessitent une relecture humaine, des médias adaptés et des conditions documentées.",
+    "ar": "تتيح العروض الوهمية تجربة المسارات. وقبل الاستخدام الفعلي، تتطلب المسودات مراجعة بشرية ووسائط مناسبة وشروطًا موثّقة."
+  },
+  "Software workflow": {
+    "fr": "Parcours du logiciel",
+    "ar": "مسار البرنامج"
+  },
+  "Design drafts": {
+    "fr": "Brouillons de conception",
+    "ar": "مسودات التصميم"
+  },
+  "Authorised content versions": {
+    "fr": "Versions de contenu autorisées",
+    "ar": "نسخ المحتوى المصرّح بها"
+  },
+  "Implemented for demonstration and qualification": {
+    "fr": "Implémenté pour la démonstration et la qualification",
+    "ar": "مُنفّذ للتجربة والتأهيل"
+  },
+  "No content authorised for real use": {
+    "fr": "Aucun contenu autorisé pour l’usage réel",
+    "ar": "لا يوجد محتوى مصرّح به للاستخدام الفعلي"
+  }
+}

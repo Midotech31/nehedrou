@@ -68,6 +68,8 @@ urlpatterns += i18n_patterns(
     path('billing/<uuid:pk>/invoice/', complete_views.invoice_create, name='invoice_create'),
     path('members/invitations/<uuid:pk>/revoke/', complete_views.revoke_member_invitation, name='revoke_member_invitation'),
     path('editorial/', editorial_views.index, name='editorial_index'),
+    path('followup/', include('followup.urls')),
+    path('qualification/', include('qualification.urls')),
     path('editorial/new/', editorial_views.edit, name='editorial_create'),
     path('editorial/<uuid:pk>/', editorial_views.detail, name='editorial_detail'),
     path('editorial/<uuid:pk>/edit/', editorial_views.edit, name='editorial_edit'),

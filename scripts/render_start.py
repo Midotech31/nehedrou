@@ -22,6 +22,7 @@ if settings.DEMO_EPHEMERAL and not settings.DEMO_MODE:
 subprocess.run([sys.executable, 'manage.py', 'migrate', '--noinput'], check=True)
 if settings.DEMO_MODE:
     subprocess.run([sys.executable, 'manage.py', 'seed_demo_roles'], check=True)
+    subprocess.run([sys.executable, 'manage.py', 'seed_followup_demo'], check=True)
 
 port = int(os.getenv('PORT', '10000'))
 if not 1 <= port <= 65535:

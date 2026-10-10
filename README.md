@@ -8,6 +8,8 @@ Application Django de pratique à domicile choisie par un orthophoniste et accom
 
 [Livraison des quatre améliorations urgentes](docs/AMELIORATIONS_URGENTES.md) : logo de l’enfant parlant, guides étayés avec statuts explicites, sept rôles séparés et crédit de conception dans les trois langues.
 
+[Suivi descriptif professionnel](docs/SUIVI_CLINIQUE.md) : objectifs cliniques, sondes originales versionnées, cotations humaines, rapports privés CSV/imprimables, corrections motivées et partage textuel révocable. Deux protocoles FR/EN de conception restent en brouillon ; des copies fictives et six fiches parentales FR/EN/AR permettent la recette. Le [registre des contenus et droits](docs/CONTENUS_ET_DROITS.md) et la [liste précise des pièces manquantes](docs/PIECES_MANQUANTES.md) séparent développement, relecture, pilote, autorisation d'usage et efficacité.
+
 ## Dossier actif et démarrage sur E:
 
 - Projet : `E:\LocalCoderWorkspace\Nehdrou\outputs\nehdrou`
@@ -22,7 +24,7 @@ Sept comptes distincts permettent de tester les droits : `responsable`, `orthoph
 
 ## Parcours et fonctions
 
-Le praticien crée un profil minimal, choisit la variété parlée, attribue un programme et invite la famille. La famille pratique avec les consignes choisies et rapporte participation/difficultés. Le praticien retrouve les rapports, publie des conseils partagés à la famille et conserve des observations privées distinctes. L’application ne note pas la prononciation et n’enregistre pas la voix des enfants.
+Le praticien crée un profil minimal, choisit la variété parlée, attribue un programme et invite la famille. La famille pratique avec les consignes choisies et rapporte participation/difficultés. Le praticien retrouve les rapports, publie des conseils partagés à la famille et conserve des observations privées distinctes. L’application ne calcule pas automatiquement la qualité de la prononciation et n’enregistre pas la voix des enfants. Le module de suivi recueille séparément les cotations descriptives saisies par le professionnel responsable.
 
 Nouveautés : retour partagé du praticien, historique complet filtrable/paginé, rapports lisibles, médias vérifiés et immuables, export schéma 2 ; parcours ordonné avec reprise, essai conservé après rechargement, bilan partagé et clôture sans rapport fictif ; objectif du programme, ordre réglable et synthèse avant attribution, accueil familial direct, arrêt précoce, réponses explicites et revue hebdomadaire des difficultés. Voir [le parcours de pratique](docs/PARCOURS_PRATIQUE.md) et [les fonctions finalisées](docs/FINALISATION_FONCTIONNELLE.md).
 

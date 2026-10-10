@@ -1902,3 +1902,1650 @@ msgstr "Comprendre les activités"
 
 msgid "Algerian Darja · local pilot"
 msgstr "Darja algérienne · pilote local"
+
+msgid "Keep the varieties of active clinical goals or close those goals first."
+msgstr "Conservez les variétés des objectifs cliniques actifs ou clôturez d’abord ces objectifs."
+
+msgid "Content and rights"
+msgstr "Contenus et droits"
+
+msgid "Probe protocols"
+msgstr "Protocoles de sondes"
+
+msgid "Availability by module and variety"
+msgstr "Disponibilité par module et variété"
+
+msgid "A stopping reason belongs to a stopped practice only."
+msgstr "Le motif d’arrêt concerne uniquement une pratique arrêtée."
+
+msgid "Support reported by the caregiver"
+msgstr "Aide déclarée par l’accompagnant"
+
+msgid "Reason for stopping (optional)"
+msgstr "Motif d’arrêt (facultatif)"
+
+msgid "Reason for stopping"
+msgstr "Motif d’arrêt"
+
+msgid "Not recorded"
+msgstr "Non renseigné"
+
+msgid "No support reported"
+msgstr "Aucune aide déclarée"
+
+msgid "Clinician-taught word model"
+msgstr "Modèle du mot enseigné par l’orthophoniste"
+
+msgid "Gesture"
+msgstr "Geste"
+
+msgid "Repeated instructions"
+msgstr "Consigne répétée"
+
+msgid "Several supports"
+msgstr "Plusieurs aides"
+
+msgid "Unsure about the support"
+msgstr "Aide non précisée"
+
+msgid "Fatigue"
+msgstr "Fatigue"
+
+msgid "Upset"
+msgstr "Enfant contrarié"
+
+msgid "Task not understood"
+msgstr "Tâche non comprise"
+
+msgid "Another reason"
+msgstr "Autre motif"
+
+msgid "A reserved probe word cannot be assigned for family practice."
+msgstr "Un mot de réserve de sonde ne peut pas être affecté à la pratique familiale."
+
+msgid "This word is reserved for professional observation. Contact your clinician."
+msgstr "Ce mot est réservé à l’observation professionnelle. Contactez votre orthophoniste."
+
+msgid "A document records provenance. Uploading it does not approve its rights or clinical conclusions."
+msgstr "Un document décrit sa provenance. Son dépôt n'approuve ni ses droits ni ses conclusions cliniques."
+
+msgid "A revocation reason is required."
+msgstr "Indiquez le motif du retrait."
+
+msgid "Add a lexical candidate"
+msgstr "Ajouter un mot candidat"
+
+msgid "Admissible variants and reasons"
+msgstr "Variantes recevables et justifications"
+
+msgid "Admissible variants need an IPA form and an explicit reason."
+msgstr "Chaque variante recevable nécessite une transcription API et une justification explicite."
+
+msgid "Alternative names must be a text list without participant identities."
+msgstr "Les noms alternatifs doivent former une liste de textes sans identité des participants."
+
+msgid "Alternative names, without identities"
+msgstr "Noms alternatifs, sans identités"
+
+msgid "An intact familiarity evidence document for this variety is required."
+msgstr "Une preuve intacte de familiarité pour cette variété est nécessaire."
+
+msgid "An item definition must be an object."
+msgstr "La définition d'un mot doit être structurée."
+
+msgid "Approval requires a declared competence for this discipline and variety."
+msgstr "L'approbation nécessite une compétence déclarée dans cette discipline et cette variété."
+
+msgid "Assessed profiles and proposed contrasts"
+msgstr "Profils évalués et contrastes proposés"
+
+msgid "Author, date and document scope"
+msgstr "Auteur, date et portée du document"
+
+msgid "Authorised purpose and data governance"
+msgstr "Finalité autorisée et gouvernance des données"
+
+msgid "Authorised purpose, countries and limits"
+msgstr "Finalité autorisée, pays et limites"
+
+msgid "Availability concerns one module, one variety and one content fingerprint. A later revocation or missing evidence blocks new real use."
+msgstr "La disponibilité concerne un module, une variété et une empreinte précise du contenu. Un retrait ultérieur ou une preuve manquante bloque tout nouvel usage réel."
+
+msgid "Availability evidence must be a category-indexed document manifest."
+msgstr "Les preuves de disponibilité doivent être classées par catégorie."
+
+msgid "Availability requires publishing permission and declared clinical competence."
+msgstr "La disponibilité nécessite un droit de publication et une compétence clinique déclarée."
+
+msgid "Available within the documented scope"
+msgstr "Disponible dans le périmètre documenté"
+
+msgid "Candidate changes require a draft pack version."
+msgstr "La modification des mots nécessite une version du pack en brouillon."
+
+msgid "Candidate word"
+msgstr "Mot candidat"
+
+msgid "Clinical and linguistic approval must come from two different people."
+msgstr "Les approbations clinique et linguistique doivent provenir de deux personnes différentes."
+
+msgid "Clinical content review"
+msgstr "Relecture clinique du contenu"
+
+msgid "Compatible commercial licence"
+msgstr "Licence compatible avec un usage commercial"
+
+msgid "Content qualification workspace"
+msgstr "Espace de qualification des contenus"
+
+msgid "Counts must satisfy 0 ≤ recognised ≤ observations, with at least one observation."
+msgstr "Le nombre reconnu doit être compris entre 0 et le nombre d'observations, avec au moins une observation."
+
+msgid "Decision and justification"
+msgstr "Décision et justification"
+
+msgid "Decisions are immutable. Record a new decision or revocation."
+msgstr "Les décisions sont conservées. Enregistrez une nouvelle décision ou un retrait."
+
+msgid "Declare reviewer experience"
+msgstr "Déclarer son expérience de relecture"
+
+msgid "Declared professional role"
+msgstr "Rôle professionnel déclaré"
+
+msgid "Declared reviewer experience"
+msgstr "Expérience de relecture déclarée"
+
+msgid "Define a region, collect candidate names and document exploratory familiarity before independent clinical and linguistic review."
+msgstr "Définissez une région, recueillez des mots candidats et documentez leur familiarité exploratoire avant les relectures clinique et linguistique indépendantes."
+
+msgid "Define a regional lexical pack"
+msgstr "Définir un pack lexical régional"
+
+msgid "Descriptive production follow-up"
+msgstr "Suivi descriptif de la production"
+
+msgid "Document a lexical candidate"
+msgstr "Documenter un mot candidat"
+
+msgid "Document both words using the keys a and b."
+msgstr "Documentez les deux mots avec les clés a et b."
+
+msgid "Document exploratory word and image familiarity"
+msgstr "Documenter la familiarité exploratoire des mots et images"
+
+msgid "Document human decisions, exact versions and private evidence. No declaration certifies clinical efficacy."
+msgstr "Documentez les décisions humaines, les versions exactes et les pièces privées. Aucune déclaration ne certifie l'efficacité clinique."
+
+msgid "Documented original rights"
+msgstr "Droits originaux documentés"
+
+msgid "Download private evidence"
+msgstr "Télécharger la pièce privée"
+
+msgid "Each target occurrence needs an index, phoneme and position."
+msgstr "Chaque occurrence cible nécessite un indice, un phonème et une position."
+
+msgid "Edit"
+msgstr "Modifier"
+
+msgid "Editorial permission allows an action. Declared experience describes the reviewer; it is not verified certification."
+msgstr "Le droit éditorial autorise une action. L'expérience déclarée décrit le relecteur ; elle ne constitue pas une certification vérifiée."
+
+msgid "Evidence cannot be replaced or silently reinstated."
+msgstr "Une pièce ne peut pas être remplacée ou rétablie sans nouvelle trace."
+
+msgid "Evidence is immutable. Upload a new document."
+msgstr "Les pièces sont conservées. Déposez un nouveau document."
+
+msgid "Evidence must concern the same spoken variety."
+msgstr "La preuve doit concerner la même variété orale."
+
+msgid "Evidence title"
+msgstr "Titre de la pièce justificative"
+
+msgid "Exact content SHA-256"
+msgstr "Empreinte SHA-256 du contenu exact"
+
+msgid "Exact content fingerprint"
+msgstr "Empreinte du contenu exact"
+
+msgid "Excluded"
+msgstr "Exclu"
+
+msgid "Experience in this spoken variety"
+msgstr "Expérience dans cette variété orale"
+
+msgid "Exploratory method and exposure context"
+msgstr "Méthode exploratoire et contexte d'exposition"
+
+msgid "Familiarity changes require a draft pack version."
+msgstr "La modification de la familiarité nécessite une version du pack en brouillon."
+
+msgid "Familiarity has not been documented."
+msgstr "La familiarité n'est pas documentée."
+
+msgid "Guided family practice"
+msgstr "Pratique familiale accompagnée"
+
+msgid "I declare this experience honestly; this declaration is not a professional certification."
+msgstr "Je déclare cette expérience sincèrement ; cette déclaration n'est pas une certification professionnelle."
+
+msgid "I take responsibility for this exact version and documented scope."
+msgstr "J'assume la responsabilité de cette version exacte et du périmètre documenté."
+
+msgid "Identify at least one target occurrence."
+msgstr "Identifiez au moins une occurrence cible."
+
+msgid "Incomplete phonetic definition: %(word)s."
+msgstr "Définition phonétique incomplète : %(word)s."
+
+msgid "Independent human reviews"
+msgstr "Relectures humaines indépendantes"
+
+msgid "Item metadata must be an object indexed by a and b."
+msgstr "Les métadonnées doivent documenter les mots a et b."
+
+msgid "Lexical candidates and exploratory familiarity"
+msgstr "Mots candidats et familiarité exploratoire"
+
+msgid "Lexical source, region and uncertainty"
+msgstr "Source lexicale, région et incertitude"
+
+msgid "Meaning and intended image"
+msgstr "Sens et image prévue"
+
+msgid "Media provenance must be an object."
+msgstr "La provenance du média doit être structurée."
+
+msgid "Missing IPA transcription: %(word)s."
+msgstr "Transcription API manquante : %(word)s."
+
+msgid "Missing intact exploratory familiarity evidence: %(word)s."
+msgstr "Preuve intacte de familiarité exploratoire manquante : %(word)s."
+
+msgid "Missing intact media and documented rights: %(word)s / %(kind)s."
+msgstr "Média intact et droits documentés manquants : %(word)s / %(kind)s."
+
+msgid "Missing intact word and image familiarity evidence: %(word)s."
+msgstr "Preuve intacte de familiarité du mot et de l'image manquante : %(word)s."
+
+msgid "Missing or revoked availability evidence: %(category)s."
+msgstr "Preuve de disponibilité manquante ou retirée : %(category)s."
+
+msgid "Missing, changed or revoked evidence"
+msgstr "Pièce manquante, modifiée ou retirée"
+
+msgid "Module availability decisions"
+msgstr "Décisions de disponibilité des modules"
+
+msgid "No availability decision has been recorded."
+msgstr "Aucune décision de disponibilité n'est enregistrée."
+
+msgid "No current authorised availability decision for this exact version."
+msgstr "Aucune décision actuelle de disponibilité autorisée pour cette version exacte."
+
+msgid "No declared experience yet."
+msgstr "Aucune expérience déclarée."
+
+msgid "No evidence has been supplied."
+msgstr "Aucune pièce justificative fournie."
+
+msgid "No regional pack has been created."
+msgstr "Aucun pack régional créé."
+
+msgid "Number of observations"
+msgstr "Nombre d'observations"
+
+msgid "Observation counts describe this collection only. They are not developmental norms or proof of treatment efficacy. Do not enter names or recordings of children."
+msgstr "Les observations décrivent uniquement cette collecte. Elles ne constituent ni normes développementales ni preuve d'efficacité thérapeutique. Ne saisissez pas de noms ou d'enregistrements d'enfants."
+
+msgid "Ordered phoneme segments"
+msgstr "Segments phonémiques dans l'ordre"
+
+msgid "Pending requirements"
+msgstr "Prérequis en attente"
+
+msgid "Permission required"
+msgstr "Autorisation requise"
+
+msgid "Private evidence documents for the five required categories"
+msgstr "Pièces privées des cinq catégories requises"
+
+msgid "Private rights evidence"
+msgstr "Preuve privée des droits"
+
+msgid "Private supporting documents"
+msgstr "Pièces justificatives privées"
+
+msgid "Professional reference, if applicable"
+msgstr "Référence professionnelle, le cas échéant"
+
+msgid "Record a human decision"
+msgstr "Enregistrer une décision humaine"
+
+msgid "Region and speaker community"
+msgstr "Région et communauté de locuteurs"
+
+msgid "Regional lexical packs"
+msgstr "Packs lexicaux régionaux"
+
+msgid "Regional pack title"
+msgstr "Titre du pack régional"
+
+msgid "Required evidence: content review, commercial rights, authorised purpose and data governance, supervised usability pilot, storage and support."
+msgstr "Pièces requises : relecture du contenu, droits commerciaux, finalité autorisée et gouvernance des données, pilote d'usage supervisé, stockage et support."
+
+msgid "Review permission for this discipline and variety is required."
+msgstr "Le droit de relecture pour cette discipline et cette variété est requis."
+
+msgid "Reviews are immutable. Record a new decision."
+msgstr "Les avis sont conservés. Enregistrez une nouvelle décision."
+
+msgid "Revocation reason"
+msgstr "Motif du retrait"
+
+msgid "Revoke evidence"
+msgstr "Retirer cette preuve"
+
+msgid "Rights holder, licence, scope, attribution and adult speaker permission"
+msgstr "Titulaire des droits, licence, portée, attribution et accord du locuteur adulte"
+
+msgid "Rights status"
+msgstr "Statut des droits"
+
+msgid "Segments must be an ordered list of phonemes."
+msgstr "Les segments doivent être une liste ordonnée de phonèmes."
+
+msgid "Segments, targets and admissible variants"
+msgstr "Segments, cibles et variantes recevables"
+
+msgid "Select one document for each required availability category."
+msgstr "Sélectionnez une pièce pour chaque catégorie de disponibilité requise."
+
+msgid "Source URL"
+msgstr "Lien de la source"
+
+msgid "Spoken variety and scope"
+msgstr "Variété orale et périmètre"
+
+msgid "Spontaneous alternative names"
+msgstr "Noms alternatifs spontanés"
+
+msgid "Spontaneous intended names"
+msgstr "Noms attendus donnés spontanément"
+
+msgid "Storage, support and restoration"
+msgstr "Stockage, support et restauration"
+
+msgid "Supervised usability and procedure pilot"
+msgstr "Pilote supervisé d'usage et de procédure"
+
+msgid "Target indices must identify unique matching phoneme segments and a position."
+msgstr "Les indices cibles doivent désigner des segments phonémiques uniques et concordants, avec leur position."
+
+msgid "Target occurrences and positions"
+msgstr "Occurrences cibles et positions"
+
+msgid "The availability decision owner no longer has the required authority or declaration."
+msgstr "Le responsable de la décision de disponibilité ne possède plus l'autorité ou la déclaration requise."
+
+msgid "The exact media and commercial rights manifest is missing, changed or revoked."
+msgstr "Le manifeste exact des médias et des droits commerciaux est manquant, modifié ou retiré."
+
+msgid "The intended meaning is required."
+msgstr "Indiquez le sens prévu."
+
+msgid "The regional pack has no lexical candidates."
+msgstr "Le pack régional ne contient aucun mot candidat."
+
+msgid "Training candidate"
+msgstr "Candidat à l'entraînement"
+
+msgid "Two current approvals by distinct competent reviewers are required."
+msgstr "Deux approbations actuelles de relecteurs compétents distincts sont nécessaires."
+
+msgid "Two different people with declared clinical and linguistic experience must review this exact version. Review does not establish the efficacy of Nehedrou."
+msgstr "Deux personnes différentes ayant déclaré leur expérience clinique et linguistique doivent relire cette version exacte. La relecture ne démontre pas l'efficacité de Nehedrou."
+
+msgid "Unknown"
+msgstr "Inconnu"
+
+msgid "Untrained reserve"
+msgstr "Réserve non entraînée"
+
+msgid "Upload private evidence"
+msgstr "Déposer une pièce privée"
+
+msgid "Use an evidence document under 15 MB: PDF, text, CSV, JSON or image."
+msgstr "Utilisez une pièce de moins de 15 Mo : PDF, texte, CSV, JSON ou image."
+
+msgid "Use the SHA-256 of the exact reviewed content."
+msgstr "Utilisez l'empreinte SHA-256 du contenu exact relu."
+
+msgid "Word and image familiarity"
+msgstr "Familiarité des mots et images"
+
+msgid "Word meanings, segments, occurrences, variants and familiarity"
+msgstr "Sens, segments, occurrences, variantes et familiarité des mots"
+
+msgid "Working IPA transcription"
+msgstr "Transcription API de travail"
+
+msgid "Publishing permission for this variety is required."
+msgstr "Un droit de publication pour cette variété est nécessaire."
+
+msgid "Evidence category"
+msgstr "Catégorie de preuve"
+
+msgid "Private supporting document"
+msgstr "Pièce justificative privée"
+
+msgid "Declaration remains active"
+msgstr "La déclaration reste active"
+
+msgid "Module"
+msgstr "Module"
+
+msgid "Decision status"
+msgstr "Statut de la décision"
+
+msgid "Real use requires exact media, documented rights, word definitions, two competent reviewers and an availability decision."
+msgstr "L'usage réel nécessite des médias exacts, des droits documentés, la définition des mots, deux relecteurs compétents et une décision de disponibilité."
+
+msgid "Phonemes in order"
+msgstr "Phonèmes dans l’ordre"
+
+msgid "Separate phonemes with spaces. Example: d a r."
+msgstr "Séparez les phonèmes par des espaces. Exemple : d a r."
+
+msgid "Target occurrences"
+msgstr "Occurrences cibles"
+
+msgid "One target per line: segment number ; phoneme ; initial, medial, final or other. Segment numbering starts at 1."
+msgstr "Une cible par ligne : numéro du segment ; phonème ; initial, medial, final ou other. La numérotation commence à 1."
+
+msgid "One variant per line: IPA form ; reason. Leave empty when no alternative is admitted."
+msgstr "Une variante par ligne : forme API ; justification. Laissez vide si aucune variante n’est admise."
+
+msgid "One name per line, without participant identities."
+msgstr "Un nom par ligne, sans identité des participants."
+
+msgid "Training or untrained reserve"
+msgstr "Entraînement ou réserve non entraînée"
+
+msgid "Use segment number ; phoneme ; position for every target."
+msgstr "Pour chaque cible, utilisez : numéro du segment ; phonème ; position."
+
+msgid "Use IPA form ; reason for every variant."
+msgstr "Pour chaque variante, utilisez : forme API ; justification."
+
+msgid "Module and variety availability"
+msgstr "Disponibilité par module et variété"
+
+msgid "Software functionality, reviewed content and authorised real use are distinct. This summary contains no private evidence or clinical records."
+msgstr "Les fonctions du logiciel, les contenus relus et l’usage réel autorisé sont distincts. Cette synthèse ne contient aucune preuve privée ni dossier clinique."
+
+msgid "Fictional demonstrations let you explore the workflows. Draft material requires human review, appropriate media and documented conditions before real use."
+msgstr "Les démonstrations fictives permettent d’explorer les parcours. Avant l’usage réel, les brouillons nécessitent une relecture humaine, des médias adaptés et des conditions documentées."
+
+msgid "Software workflow"
+msgstr "Parcours du logiciel"
+
+msgid "Design drafts"
+msgstr "Brouillons de conception"
+
+msgid "Authorised content versions"
+msgstr "Versions de contenu autorisées"
+
+msgid "Implemented for demonstration and qualification"
+msgstr "Implémenté pour la démonstration et la qualification"
+
+msgid "No content authorised for real use"
+msgstr "Aucun contenu autorisé pour l’usage réel"
+
+msgid "A clinical goal cannot be reassigned."
+msgstr "Un objectif clinique ne peut pas être réattribué."
+
+msgid "A complete published protocol with current reviews is required."
+msgstr "Un protocole publié complet avec des relectures actuelles est requis."
+
+msgid "A contract or exact commercial-compatible licence reference is missing."
+msgstr "Il manque un contrat ou la référence exacte d’une licence compatible avec l’usage commercial."
+
+msgid "A correction needs a reason and a complete human rating."
+msgstr "Une correction exige un motif et une cotation humaine complète."
+
+msgid "A current competence declaration for this variety is required."
+msgstr "Une déclaration de compétence actuelle pour cette variété est requise."
+
+msgid "A demonstration remains an unapproved simulation."
+msgstr "Une démonstration reste une simulation non approuvée."
+
+msgid "A finalized observation cannot acquire new occurrences."
+msgstr "Une observation finalisée ne peut pas recevoir de nouvelles occurrences."
+
+msgid "A practice declaration cannot be dated in the future."
+msgstr "Une pratique déclarée ne peut pas être datée dans le futur."
+
+msgid "A protocol needs one to sixty explicit items."
+msgstr "Un protocole exige un à soixante items explicites."
+
+msgid "A protocol series must retain its spoken variety."
+msgstr "Une série de protocoles doit conserver sa variété orale."
+
+msgid "A protocol version cannot be repeated in the source file."
+msgstr "Une version de protocole ne peut pas être répétée dans le fichier source."
+
+msgid "A protocol version cannot change its demonstration identity."
+msgstr "Une version de protocole ne peut pas changer son statut de démonstration."
+
+msgid "A published protocol cannot return to draft."
+msgstr "Un protocole publié ne peut pas redevenir un brouillon."
+
+msgid "A scorable response requires an audible expected word and an identifiable target."
+msgstr "Une réponse cotable exige une tentative audible du mot attendu et une cible identifiable."
+
+msgid "A withdrawn protocol cannot start a new observation."
+msgstr "Un protocole retiré ne peut pas démarrer une nouvelle observation."
+
+msgid "Accepted variants must be a bounded list."
+msgstr "Les variantes admises doivent former une liste limitée."
+
+msgid "Administration conditions and version snapshots are immutable."
+msgstr "Les conditions de passation et les versions figées ne peuvent pas être modifiées."
+
+msgid "An accepted variant belongs only to the variant rating."
+msgstr "Une variante admise s’utilise uniquement avec la cotation de variante."
+
+msgid "An audible error needs its error type; refusal is unscorable."
+msgstr "Une erreur audible exige son type ; un refus est non cotable."
+
+msgid "An exposure cannot occur in the future."
+msgstr "Une exposition ne peut pas être datée dans le futur."
+
+msgid "An unpresented item cannot contain an observed production."
+msgstr "Un item non présenté ne peut pas contenir une production observée."
+
+msgid "Archived profiles cannot acquire a new clinical goal."
+msgstr "Un dossier archivé ne peut pas recevoir un nouvel objectif clinique."
+
+msgid "Archived profiles cannot acquire new coaching."
+msgstr "Un dossier archivé ne peut pas recevoir de nouveaux conseils."
+
+msgid "Check familiarity for every protocol item."
+msgstr "Vérifiez la familiarité de chaque item du protocole."
+
+msgid "Coaching must belong to the child practice."
+msgstr "Les conseils doivent appartenir au cabinet de l’enfant."
+
+msgid "Conditions must be bounded text."
+msgstr "Les conditions doivent être renseignées sous forme de texte limité."
+
+msgid "Confirm the external evaluation and all item familiarity before real use."
+msgstr "Confirmez l’évaluation externe et la familiarité de tous les items avant un usage réel."
+
+msgid "Corrections are append-only."
+msgstr "Les corrections s’ajoutent à l’historique sans le modifier."
+
+msgid "Create a new protocol version to change frozen content."
+msgstr "Créez une nouvelle version pour modifier un protocole figé."
+
+msgid "Declare the scope of competence for this spoken variety."
+msgstr "Déclarez votre champ de compétence pour cette variété orale."
+
+msgid "Define the retained-attempt rule before observing."
+msgstr "Définissez la règle de tentative retenue avant l’observation."
+
+msgid "Demonstration protocols cannot be qualified for real use."
+msgstr "Les protocoles de démonstration ne sont pas qualifiés pour un usage réel."
+
+msgid "Distinguish trained, reserved and uncertain item plans."
+msgstr "Distinguez les items entraînés, réservés et d’exposition incertaine."
+
+msgid "Document the protocol rights and their evidence."
+msgstr "Documentez les droits du protocole et leurs justificatifs."
+
+msgid "Document whether the expected word and target were audible."
+msgstr "Indiquez si le mot attendu et la cible étaient audibles."
+
+msgid "Each item needs an id, word, proposed IPA and target definition."
+msgstr "Chaque item exige un identifiant, un mot, une IPA proposée et une cible définie."
+
+msgid "Each protocol item must be an object."
+msgstr "Chaque item doit avoir une structure explicite."
+
+msgid "Each variant needs an explicit id and label."
+msgstr "Chaque variante exige un identifiant et un libellé explicites."
+
+msgid "Error type is reserved for scorable target errors."
+msgstr "Le type d’erreur concerne uniquement les erreurs de cible cotables."
+
+msgid "Exact reviewed image/audio files with rights are missing or changed."
+msgstr "Les fichiers image/audio exacts, relus avec leurs droits, sont manquants ou modifiés."
+
+msgid "Expected the original, unapproved conception-1 protocol contract."
+msgstr "Le contrat original conception-1 non approuvé est attendu."
+
+msgid "Explain a correction; the previous rating is retained."
+msgstr "Expliquez la correction ; la cotation précédente sera conservée."
+
+msgid "Explain a stopped practice so the professional can respond."
+msgstr "Expliquez l’arrêt pour permettre au professionnel d’adapter son aide."
+
+msgid "Explain an unscorable response, including refusal or interruption."
+msgstr "Expliquez la réponse non cotable, notamment un refus ou une interruption."
+
+msgid "Exposure history is append-only."
+msgstr "L’historique des expositions ne peut pas être réécrit."
+
+msgid "Finalization requires a professional and date."
+msgstr "La finalisation exige un professionnel et une date."
+
+msgid "Finalized observations cannot be rewritten."
+msgstr "Les observations finalisées ne peuvent pas être réécrites."
+
+msgid "Home-practice declarations are append-only."
+msgstr "Les pratiques déclarées s’ajoutent à l’historique sans le modifier."
+
+msgid "Human item familiarity and linguistic review evidence are missing."
+msgstr "Il manque les preuves humaines de familiarité et de relecture linguistique des items."
+
+msgid "Identify the predetermined retained attempt."
+msgstr "Identifiez la tentative retenue, définie à l’avance."
+
+msgid "Identify the target occurrence explicitly."
+msgstr "Identifiez explicitement l’occurrence cible."
+
+msgid "Keep the attempt predetermined by this protocol version."
+msgstr "Conservez la tentative prédéfinie par cette version du protocole."
+
+msgid "Name a variant documented before the observation."
+msgstr "Nommez une variante documentée avant l’observation."
+
+msgid "Only a finalized observation can be expressly shared."
+msgstr "Seule une observation finalisée peut être expressément partagée."
+
+msgid "Only unapproved, non-normed drafts without supplied media can be imported."
+msgstr "Seuls des brouillons non approuvés, non normés et sans médias fournis peuvent être importés."
+
+msgid "Protocol evidence must be an object."
+msgstr "Les preuves du protocole doivent être structurées."
+
+msgid "Protocol item identifiers must be unique."
+msgstr "Les identifiants des items doivent être uniques."
+
+msgid "Protocol version identity cannot be changed."
+msgstr "L’identité d’une version de protocole ne peut pas être modifiée."
+
+msgid "Publish a new coaching instruction to retain the previous version."
+msgstr "Publiez un nouveau conseil pour conserver l’instruction précédente."
+
+msgid "Rate every planned occurrence, explicitly marking unpresented items."
+msgstr "Cotez chaque occurrence prévue et indiquez explicitement les items non présentés."
+
+msgid "Rating notes must be bounded text."
+msgstr "Les notes de cotation doivent rester limitées en longueur."
+
+msgid "Ratings are immutable; append a reasoned correction."
+msgstr "Les cotations sont conservées ; ajoutez une correction motivée."
+
+msgid "Record item familiarity and uncertainty explicitly."
+msgstr "Documentez explicitement la familiarité et les incertitudes."
+
+msgid "Review a submitted protocol version."
+msgstr "Relisez une version soumise du protocole."
+
+msgid "Review and finalize the observation before sharing a summary."
+msgstr "Relisez et finalisez l’observation avant de partager un résumé."
+
+msgid "Review decisions are append-only."
+msgstr "Les décisions de relecture s’ajoutent sans remplacer l’historique."
+
+msgid "Select a supported human rating and actual elicitation."
+msgstr "Choisissez une cotation humaine proposée et l’élicitation réellement utilisée."
+
+msgid "Simulation protocols require demonstration mode and an explicitly fictitious child."
+msgstr "Une simulation exige le mode démonstration et un dossier explicitement fictif."
+
+msgid "The administration must match its goal, child, practice and variety."
+msgstr "La passation doit correspondre à son objectif, enfant, cabinet et variété."
+
+msgid "The contract needs explicit draft examples."
+msgstr "Le contrat exige des exemples de brouillons explicites."
+
+msgid "The existing protocol version differs; import an explicit new version instead of overwriting history."
+msgstr "La version existante diffère ; importez une nouvelle version explicite pour préserver l’historique."
+
+msgid "The exposure must match its source child."
+msgstr "L’exposition doit correspondre à l’enfant de la pratique source."
+
+msgid "The exposure variety must be recorded for this child."
+msgstr "La variété d’exposition doit être enregistrée pour cet enfant."
+
+msgid "The goal and child must belong to the same practice."
+msgstr "L’objectif et l’enfant doivent appartenir au même cabinet."
+
+msgid "The item is not part of this frozen protocol."
+msgstr "L’item ne fait pas partie du protocole figé."
+
+msgid "The linked protocol must use the same spoken variety."
+msgstr "Le protocole lié doit utiliser la même variété orale."
+
+msgid "The occurrence must belong to the frozen protocol."
+msgstr "L’occurrence doit appartenir au protocole figé."
+
+msgid "The profile is archived; existing observations remain available."
+msgstr "Le dossier est archivé ; les observations existantes restent accessibles."
+
+msgid "The protocol and goal must use the same spoken variety."
+msgstr "Le protocole et l’objectif doivent utiliser la même variété orale."
+
+msgid "The retained attempt must be defined before administration."
+msgstr "La tentative retenue doit être définie avant la passation."
+
+msgid "The return must match its shared coaching instruction."
+msgstr "Le retour doit correspondre aux conseils partagés concernés."
+
+msgid "This administration key was already used with different conditions."
+msgstr "Cette clé de passation a déjà été utilisée avec d’autres conditions."
+
+msgid "This protocol transition is not allowed."
+msgstr "Ce changement d’état du protocole n’est pas autorisé."
+
+msgid "This return key was already used with different observations."
+msgstr "Cette clé de retour a déjà été utilisée avec d’autres observations."
+
+msgid "Two current, distinct clinical and linguistic human reviewers with declared competence are required."
+msgstr "Deux relecteurs humains distincts, clinique et linguistique, avec compétence déclarée et décisions actuelles sont requis."
+
+msgid "Two distinct, current human reviews are required."
+msgstr "Deux relectures humaines distinctes et actuelles sont requises."
+
+msgid "Use a spoken variety recorded for this child."
+msgstr "Utilisez une variété orale enregistrée pour cet enfant."
+
+msgid "Use the documented observation conditions."
+msgstr "Utilisez les conditions d’observation documentées."
+
+msgid "Variant identifiers must be unique and text bounded."
+msgstr "Les identifiants de variante doivent être uniques et leurs textes limités."
+
+msgid "Exact intact rights, familiarity and linguistic evidence is required for this protocol version."
+msgstr "Cette version exige les justificatifs exacts et intacts des droits, de familiarité et de relecture linguistique."
+
+msgid "The protocol target must match the clinical goal target."
+msgstr "La cible du protocole doit correspondre à celle de l’objectif clinique."
+
+msgid "Professional observation summary"
+msgstr "Résumé de l’observation professionnelle"
+
+msgid "Already assessed by the responsible professional"
+msgstr "Évaluation déjà réalisée par le professionnel responsable"
+
+msgid "Arabic"
+msgstr "Arabe"
+
+msgid "Audible target omission"
+msgstr "Omission audible de la cible"
+
+msgid "Choose the caregiver instruction language explicitly."
+msgstr "Choisissez explicitement la langue des consignes destinées à l’accompagnant."
+
+msgid "Clinical review"
+msgstr "Relecture clinique"
+
+msgid "Distortion"
+msgstr "Distorsion"
+
+msgid "Documentation missing"
+msgstr "Documentation manquante"
+
+msgid "Documented compatible open licence"
+msgstr "Licence ouverte compatible documentée"
+
+msgid "Documented occurrence descriptions must be bounded text."
+msgstr "Les descriptions des occurrences documentées doivent être des textes de longueur limitée."
+
+msgid "Documented occurrence indices must identify distinct phonemic segments."
+msgstr "Les indices des occurrences documentées doivent identifier des segments phonémiques distincts."
+
+msgid "Documented occurrences must be a bounded list."
+msgstr "Les occurrences documentées doivent former une liste de longueur limitée."
+
+msgid "Documented variant acceptable"
+msgstr "Variante documentée acceptable"
+
+msgid "Each documented occurrence needs a segment index and phoneme."
+msgstr "Chaque occurrence documentée doit préciser un indice de segment et un phonème."
+
+msgid "English"
+msgstr "Anglais"
+
+msgid "Excluded from use"
+msgstr "Exclu de l’utilisation"
+
+msgid "Exposure uncertain"
+msgstr "Exposition incertaine"
+
+msgid "Finalized"
+msgstr "Finalisé"
+
+msgid "French"
+msgstr "Français"
+
+msgid "Imitation"
+msgstr "Imitation"
+
+msgid "Item meaning must be bounded text."
+msgstr "Le sens de l’item doit être un texte de longueur limitée."
+
+msgid "Lexical choice"
+msgstr "Choix lexical"
+
+msgid "Linguistic review"
+msgstr "Relecture linguistique"
+
+msgid "Needed support"
+msgstr "Aide nécessaire"
+
+msgid "Not presented"
+msgstr "Non présenté"
+
+msgid "Not scorable"
+msgstr "Non cotable"
+
+msgid "Original material with documented rights"
+msgstr "Matériel original avec droits documentés"
+
+msgid "Other scorable error"
+msgstr "Autre erreur cotable"
+
+msgid "Partial"
+msgstr "Partiel"
+
+msgid "Phonemic segments must be an explicit bounded list, not IPA characters."
+msgstr "Les segments phonémiques doivent former une liste explicite de longueur limitée ; ne découpez pas l’API en caractères."
+
+msgid "Picture naming"
+msgstr "Dénomination d’image"
+
+msgid "Real use requires a documented meaning and phonemic segmentation with a target index matching the protocol phoneme."
+msgstr "L’utilisation réelle exige un sens et une segmentation phonémique documentés, avec un indice ciblant le phonème du protocole."
+
+msgid "Semantic cue"
+msgstr "Indice sémantique"
+
+msgid "Substitution"
+msgstr "Substitution"
+
+msgid "Target acceptable"
+msgstr "Cible acceptable"
+
+msgid "Target incorrect in an audible attempt"
+msgstr "Cible incorrecte dans une tentative audible"
+
+msgid "The intended scope has not been released for real use."
+msgstr "Le périmètre prévu n’a pas été autorisé pour l’utilisation réelle."
+
+msgid "The occurrence phoneme must match its documented segment."
+msgstr "Le phonème de l’occurrence doit correspondre au segment documenté."
+
+msgid "The target index must identify a documented phonemic segment."
+msgstr "L’indice cible doit identifier un segment phonémique documenté."
+
+msgid "Trained"
+msgstr "Entraîné"
+
+msgid "Untrained"
+msgstr "Non entraîné"
+
+msgid "1. Your clinician’s instructions"
+msgstr "1. Les consignes de votre orthophoniste"
+
+msgid "2. Example shown together"
+msgstr "2. Un exemple montré ensemble"
+
+msgid "3. Accompanied trial"
+msgstr "3. Un essai accompagné"
+
+msgid "4. Understanding checked by the clinician"
+msgstr "4. Compréhension vérifiée par l’orthophoniste"
+
+msgid "A fictitious protocol can only be used with fictional demonstration profiles."
+msgstr "Un protocole fictif s’utilise uniquement avec des profils fictifs de démonstration."
+
+msgid "Acceptable / scorable"
+msgstr "Acceptables / cotables"
+
+msgid "Accompanied practice trial"
+msgstr "Essai de pratique accompagné"
+
+msgid "Active goal"
+msgstr "Objectif actif"
+
+msgid "Actual elicitation"
+msgstr "Élicitation réellement utilisée"
+
+msgid "Adult instruction language"
+msgstr "Langue des consignes pour l’adulte"
+
+msgid "An audible target omission is a scorable error. Refusal, another word or an inaudible response is not a phonological omission. No immediate teaching correction is given during a probe."
+msgstr "Une omission audible de la cible est une erreur cotable. Un refus, un autre mot ou une réponse inaudible ne constituent pas une omission phonologique. La sonde ne fournit pas de correction pédagogique immédiate."
+
+msgid "Assessment context"
+msgstr "Contexte de l’évaluation"
+
+msgid "Attempt retained before administration"
+msgstr "Tentative retenue avant la passation"
+
+msgid "Attempt retained, decided before presentation"
+msgstr "Tentative retenue, décidée avant la présentation"
+
+msgid "Audio equipment, if used"
+msgstr "Matériel audio, s’il est utilisé"
+
+msgid "Audio media reference"
+msgstr "Référence du média audio"
+
+msgid "Back"
+msgstr "Retour"
+
+msgid "CAREGIVER MICRO-TRAINING"
+msgstr "MICRO-FORMATION PARENTALE"
+
+msgid "Caregiver declarations describe participation and support, not pronunciation accuracy."
+msgstr "Les déclarations parentales décrivent la participation et les aides ; elles ne cotent pas la prononciation."
+
+msgid "Caregiver micro-training"
+msgstr "Micro-formation parentale"
+
+msgid "Changing an existing rating requires a reason and preserves its history."
+msgstr "Toute correction d’une cotation existante exige un motif et conserve l’historique."
+
+msgid "Check every image and word before presentation"
+msgstr "Vérifier chaque image et chaque mot avant présentation"
+
+msgid "Check every occurrence. Finalization preserves the original summary; later corrections retain their reasons and dates."
+msgstr "Vérifiez chaque occurrence. La finalisation conserve le bilan d’origine ; les corrections ultérieures gardent leurs motifs et leurs dates."
+
+msgid "Choose an existing image. Upload and document its rights in the editorial media library first."
+msgstr "Choisissez une image existante. Déposez-la et documentez d’abord ses droits dans la médiathèque éditoriale."
+
+msgid "Choose exactly what to share with the family"
+msgstr "Choisir précisément le texte partagé avec la famille"
+
+msgid "Choose family summary text"
+msgstr "Choisir le texte du compte rendu familial"
+
+msgid "Choose the exact version first"
+msgstr "Choisir d’abord la version exacte"
+
+msgid "Choose the target after the external assessment. Interface language does not change the treatment variety."
+msgstr "Choisissez la cible après l’évaluation externe. La langue de l’interface ne change pas la variété travaillée."
+
+msgid "Choosing a protocol reserves its untrained words before family practice. It does not authorize real administration."
+msgstr "Le choix d’un protocole réserve ses mots non entraînés avant la pratique familiale. Il n’autorise pas une passation réelle."
+
+msgid "Clinical goal recorded at observation time"
+msgstr "Objectif clinique figé au moment de l’observation"
+
+msgid "Clinical goals"
+msgstr "Objectifs cliniques"
+
+msgid "Clinical rationale"
+msgstr "Justification clinique"
+
+msgid "Close goal"
+msgstr "Clore l’objectif"
+
+msgid "Closed goal"
+msgstr "Objectif clos"
+
+msgid "Closing this goal prevents new observations. Recorded observations and their reserved words remain protected."
+msgstr "Clore cet objectif empêche de nouvelles observations. Les observations enregistrées et leurs mots réservés restent protégés."
+
+msgid "Code"
+msgstr "Code"
+
+msgid "Conditions"
+msgstr "Conditions"
+
+msgid "Content checks are present. Intended-use release is checked separately before real administration."
+msgstr "Les contrôles du contenu sont présents. L’autorisation de l’usage prévu est vérifiée séparément avant une passation réelle."
+
+msgid "Contrast, when relevant"
+msgstr "Contraste, si pertinent"
+
+msgid "Correction date"
+msgstr "Date de correction"
+
+msgid "Correction history"
+msgstr "Historique des corrections"
+
+msgid "Create a clinical follow-up goal"
+msgstr "Créer un objectif de suivi clinique"
+
+msgid "Create a follow-up goal"
+msgstr "Créer un objectif de suivi"
+
+msgid "Create a goal after the external assessment to organize follow-up."
+msgstr "Créez un objectif après l’évaluation externe pour organiser le suivi."
+
+msgid "Create a new version"
+msgstr "Créer une nouvelle version"
+
+msgid "DESCRIPTIVE PRODUCTION FOLLOW-UP"
+msgstr "SUIVI DESCRIPTIF DE PRODUCTION"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Declared competence for this spoken variety"
+msgstr "Compétence déclarée pour cette variété orale"
+
+msgid "Declared off-screen practice"
+msgstr "Pratique hors écran déclarée"
+
+msgid "Denominator"
+msgstr "Dénominateur"
+
+msgid "Describe participation and the support used. A practice declaration is separate from a clinician-rated production observation."
+msgstr "Décrivez la participation et les aides utilisées. Cette déclaration reste distincte d’une observation de production cotée par l’orthophoniste."
+
+msgid "Descriptive report"
+msgstr "Rapport descriptif"
+
+msgid "Descriptive results"
+msgstr "Résultats descriptifs"
+
+msgid "Descriptive results by target, exposure and support"
+msgstr "Résultats descriptifs par cible, exposition et aide"
+
+msgid "Descriptive target ratio"
+msgstr "Ratio descriptif de la cible"
+
+msgid "Design a draft protocol"
+msgstr "Concevoir un protocole brouillon"
+
+msgid "Design an original probe protocol"
+msgstr "Concevoir un protocole original de sonde"
+
+msgid "Design draft: unavailable for real administration"
+msgstr "Brouillon de conception : indisponible en passation réelle"
+
+msgid "Design drafts remain blocked for real administration."
+msgstr "Les brouillons de conception restent bloqués pour les passations réelles."
+
+msgid "Difficulty reported by the caregiver"
+msgstr "Difficulté rapportée par l’accompagnant"
+
+msgid "Document practice outside the application, its source and its date. An untrained or uncertain declaration does not erase known training. Reserved-word practice is shown in the observation history."
+msgstr "Documentez la pratique hors application, sa source et sa date. Une déclaration « non entraîné » ou « incertain » n’efface pas un entraînement connu. La pratique des mots réservés apparaît dans l’historique d’observation."
+
+msgid "Document the assessment context without copying protected test items."
+msgstr "Documentez le contexte de l’évaluation sans copier les items d’un test protégé."
+
+msgid "Documented acceptable variants"
+msgstr "Variantes admises documentées"
+
+msgid "Documented model audio"
+msgstr "Modèle audio documenté"
+
+msgid "Documented target occurrences"
+msgstr "Occurrences cibles documentées"
+
+msgid "Documented variant"
+msgstr "Variante documentée"
+
+msgid "Drafts are design material. They do not authorize real clinical administration. Reserve words remain outside family practice."
+msgstr "Les brouillons servent à la conception. Ils n’autorisent pas une passation clinique réelle. Les mots de réserve restent hors de la pratique familiale."
+
+msgid "Each variant needs a unique identifier and a description."
+msgstr "Chaque variante exige un identifiant unique et une description."
+
+msgid "Edit draft"
+msgstr "Modifier le brouillon"
+
+msgid "Editorial workflow"
+msgstr "Circuit éditorial"
+
+msgid "Elicitation task"
+msgstr "Tâche d’élicitation"
+
+msgid "Empty extra rows are ignored. Reserved words never enter the family practice cards."
+msgstr "Les lignes supplémentaires vides sont ignorées. Les mots de réserve n’entrent jamais dans les cartes de pratique familiale."
+
+msgid "Encourage participation. Use only the support shown by your clinician. Pause if the child is tired or upset and report the difficulty."
+msgstr "Encouragez la participation. Utilisez uniquement les aides montrées par l’orthophoniste. Faites une pause si l’enfant est fatigué ou contrarié et signalez la difficulté."
+
+msgid "Enter one phoneme per line, in order. A multicharacter IPA phoneme remains one segment. Do not split the IPA string automatically."
+msgstr "Saisissez un phonème par ligne, dans l’ordre. Un phonème API représenté par plusieurs caractères reste un seul segment. Ne découpez pas automatiquement la transcription API."
+
+msgid "Error type"
+msgstr "Type d’erreur"
+
+msgid "Exact protocol version"
+msgstr "Version exacte du protocole"
+
+msgid "Exact target occurrence"
+msgstr "Occurrence cible précisément définie"
+
+msgid "Example shown by the clinician"
+msgstr "Exemple montré par l’orthophoniste"
+
+msgid "Exclusion reason"
+msgstr "Motif d’exclusion"
+
+msgid "Expected realization"
+msgstr "Réalisation attendue"
+
+msgid "Explain why practice stopped."
+msgstr "Précisez pourquoi la pratique s’est arrêtée."
+
+msgid "Explicit phonemic segments"
+msgstr "Segments phonémiques explicites"
+
+msgid "Explicitly shared summaries"
+msgstr "Comptes rendus expressément partagés"
+
+msgid "Export detailed CSV"
+msgstr "Exporter le CSV détaillé"
+
+msgid "Exposure"
+msgstr "Exposition"
+
+msgid "Exposure context and source"
+msgstr "Contexte et source de l’exposition"
+
+msgid "Exposure date and time"
+msgstr "Date et heure de l’exposition"
+
+msgid "External assessment status"
+msgstr "Statut de l’évaluation externe"
+
+msgid "External word exposure"
+msgstr "Exposition du mot hors application"
+
+msgid "Familiarity evidence and limitations"
+msgstr "Preuves de familiarité et limites"
+
+msgid "Familiarity note"
+msgstr "Note de familiarité"
+
+msgid "Fatigue and wellbeing"
+msgstr "Fatigue et disponibilité de l’enfant"
+
+msgid "Fictitious demonstration protocol"
+msgstr "Protocole de démonstration fictif"
+
+msgid "Fictitious simulation only"
+msgstr "Simulation fictive uniquement"
+
+msgid "Fictitious simulation only. No clinical approval or real patient use."
+msgstr "Simulation fictive uniquement. Aucune approbation clinique ni utilisation avec des patients réels."
+
+msgid "Functional goal"
+msgstr "Objectif fonctionnel"
+
+msgid "Guided off-screen practice"
+msgstr "Pratique guidée hors écran"
+
+msgid "Guided practice, caregiver declarations and professional observations are distinct."
+msgstr "La pratique guidée, les déclarations parentales et les observations professionnelles restent distinctes."
+
+msgid "Help needed"
+msgstr "Aide nécessaire"
+
+msgid "Human linguistic item review documented"
+msgstr "Relecture linguistique humaine de l’item documentée"
+
+msgid "Human version reviews"
+msgstr "Relectures humaines de la version"
+
+msgid "Human word and image familiarity documented"
+msgstr "Familiarité avec le mot et l’image documentée humainement"
+
+msgid "I checked the scope and content of this family summary"
+msgstr "J’ai vérifié la portée et le contenu de ce compte rendu familial"
+
+msgid "I reviewed the retained attempts, support, exclusions and conditions"
+msgstr "J’ai revu les tentatives retenues, les aides, les exclusions et les conditions"
+
+msgid "IPA transcription proposed for review"
+msgstr "Transcription IPA proposée à relecture"
+
+msgid "Image and word understood: %(word)s"
+msgstr "Image reconnue et mot compris : %(word)s"
+
+msgid "Image media reference"
+msgstr "Référence du média image"
+
+msgid "Image not supplied for this draft"
+msgstr "Image absente de ce brouillon"
+
+msgid "Image recognized and word understood"
+msgstr "Image reconnue et mot compris"
+
+msgid "Include an example, an accompanied trial and a clinician check of understanding. Write a new instruction to preserve the previous version."
+msgstr "Incluez un exemple, un essai accompagné et une vérification de compréhension par l’orthophoniste. Créez une nouvelle consigne pour conserver la version précédente."
+
+msgid "Instruction language not recorded"
+msgstr "Langue des consignes non renseignée"
+
+msgid "Instructions given at the start"
+msgstr "Consignes données au début"
+
+msgid "Instructions, example and accompanied trial"
+msgstr "Consignes, exemple et essai accompagné"
+
+msgid "Internal review accepted"
+msgstr "Relecture interne acceptée"
+
+msgid "Internal review accepted for this exact version"
+msgstr "Relecture interne acceptée pour cette version exacte"
+
+msgid "Internally reviewed"
+msgstr "Relu en interne"
+
+msgid "Interruption or stopping conditions"
+msgstr "Conditions d’interruption ou d’arrêt"
+
+msgid "Item"
+msgstr "Item"
+
+msgid "Item review evidence and limitations"
+msgstr "Preuves de relecture de l’item et limites"
+
+msgid "Later exposure of reserved words"
+msgstr "Exposition ultérieure des mots de réserve"
+
+msgid "Later practice does not rewrite the exposure recorded at observation time."
+msgstr "Une pratique ultérieure ne réécrit pas l’exposition enregistrée lors de la passation."
+
+msgid "Leave empty to record the current time."
+msgstr "Laissez vide pour enregistrer l’heure actuelle."
+
+msgid "Lexical and communicative context"
+msgstr "Contexte lexical et communicatif"
+
+msgid "Meaning and intended image interpretation"
+msgstr "Sens du mot et interprétation attendue de l’image"
+
+msgid "Model audio not supplied for this draft"
+msgstr "Modèle audio absent de ce brouillon"
+
+msgid "Naming with semantic cue"
+msgstr "Dénomination avec indice sémantique"
+
+msgid "Next professional review"
+msgstr "Prochaine revue professionnelle"
+
+msgid "Next review"
+msgstr "Prochaine revue"
+
+msgid "No accessible protocol version."
+msgstr "Aucune version de protocole accessible."
+
+msgid "No authorized child profiles."
+msgstr "Aucun profil enfant autorisé."
+
+msgid "No caregiver guide yet."
+msgstr "Aucun guide parental pour le moment."
+
+msgid "No directly comparable previous observation is established. Version, task, conditions or support may differ."
+msgstr "Aucune passation antérieure directement comparable n’est établie. La version, la tâche, les conditions ou les aides peuvent différer."
+
+msgid "No practice declaration yet."
+msgstr "Aucune déclaration de pratique pour le moment."
+
+msgid "No professional observations yet."
+msgstr "Aucune observation professionnelle pour le moment."
+
+msgid "No rated occurrence yet."
+msgstr "Aucune occurrence cotée pour le moment."
+
+msgid "Noise and listening conditions"
+msgstr "Bruit et conditions d’écoute"
+
+msgid "Not calculable"
+msgstr "Non calculable"
+
+msgid "Not yet confirmed"
+msgstr "Pas encore confirmé"
+
+msgid "Numerator"
+msgstr "Numérateur"
+
+msgid "ORIGINAL PROTOCOLS"
+msgstr "PROTOCOLES ORIGINAUX"
+
+msgid "Observation conditions"
+msgstr "Conditions de passation"
+
+msgid "Observation date"
+msgstr "Date de passation"
+
+msgid "Observer"
+msgstr "Observateur"
+
+msgid "Occurrence"
+msgstr "Occurrence"
+
+msgid "Occurrence index, starting at zero"
+msgstr "Indice d’occurrence, à partir de zéro"
+
+msgid "Occurrence rating"
+msgstr "Cotation d’occurrence"
+
+msgid "Occurrence records — professional access only"
+msgstr "Cotations d’occurrence — accès professionnel uniquement"
+
+msgid "One documented variant per line: identifier | description | IPA (optional). Leave empty when none are admitted."
+msgstr "Une variante documentée par ligne : identifiant | description | IPA facultatif. Laissez vide si aucune variante n’est admise."
+
+msgid "Only summaries expressly shared by your clinician appear here."
+msgstr "Seuls les comptes rendus expressément partagés par votre orthophoniste apparaissent ici."
+
+msgid "Only this text is shared. Do not include reserved words, raw ratings or private notes."
+msgstr "Seul ce texte est partagé. N’incluez aucun mot de réserve, cotation brute ou note privée."
+
+msgid "Open a version below before checking familiarity. Real use requires a complete published protocol and qualified intended-use scope."
+msgstr "Ouvrez une version ci-dessous avant de vérifier la familiarité. L’usage réel exige un protocole complet publié et une qualification de son usage prévu."
+
+msgid "Optional production transcription"
+msgstr "Transcription facultative de la production"
+
+msgid "Original exposure"
+msgstr "Exposition d’origine"
+
+msgid "Original finalized summary"
+msgstr "Bilan finalisé d’origine"
+
+msgid "Original probe protocols"
+msgstr "Protocoles originaux de sondes"
+
+msgid "Original protocol and permitted support"
+msgstr "Protocole original et aides permises"
+
+msgid "Other information for the clinician"
+msgstr "Autres informations pour l’orthophoniste"
+
+msgid "PRODUCTION FOLLOW-UP"
+msgstr "SUIVI DE PRODUCTION"
+
+msgid "Parent instructions"
+msgstr "Consignes parentales"
+
+msgid "Pieces still required for real use"
+msgstr "Pièces encore requises pour l’usage réel"
+
+msgid "Planned exposure"
+msgstr "Exposition prévue"
+
+msgid "Planned task"
+msgstr "Tâche prévue"
+
+msgid "Practice variety"
+msgstr "Variété de pratique"
+
+msgid "Predetermined observation conditions"
+msgstr "Conditions de passation définies à l’avance"
+
+msgid "Prepare an observation"
+msgstr "Préparer une passation"
+
+msgid "Prepare caregiver micro-training"
+msgstr "Préparer la micro-formation parentale"
+
+msgid "Printable parent guide"
+msgstr "Guide parental imprimable"
+
+msgid "Printable report"
+msgstr "Rapport imprimable"
+
+msgid "Private clinician note"
+msgstr "Note privée de l’orthophoniste"
+
+msgid "Production follow-up"
+msgstr "Suivi de production"
+
+msgid "Production observation"
+msgstr "Observation de production"
+
+msgid "Production transcription"
+msgstr "Transcription de la production"
+
+msgid "Professional JSON list: [{\"index\": 0, \"phoneme\": \"p\", \"position\": \"initial\", \"context\": \"...\"}]. The index refers to the explicit segment list. Leave empty while the draft awaits human documentation."
+msgstr "Liste JSON professionnelle : [{\"index\": 0, \"phoneme\": \"p\", \"position\": \"initial\", \"context\": \"...\"}]. L’indice désigne la liste explicite des segments. Laissez vide tant que le brouillon attend la documentation humaine."
+
+msgid "Professional JSON object. Keep rights_evidence, familiarity_evidence and linguistic_evidence as objects containing the exact document id and sha256. Missing evidence keeps real use blocked."
+msgstr "Objet JSON professionnel. Conservez rights_evidence, familiarity_evidence et linguistic_evidence sous forme d’objets contenant l’identifiant exact du document et son sha256. L’absence de preuves bloque l’utilisation réelle."
+
+msgid "Professional goal"
+msgstr "Objectif professionnel"
+
+msgid "Professional goal and rationale"
+msgstr "Objectif professionnel et justification"
+
+msgid "Professional production observations"
+msgstr "Observations professionnelles de production"
+
+msgid "Protocol evidence must be a JSON object."
+msgstr "Les preuves du protocole doivent former un objet JSON."
+
+msgid "Protocol evidence references"
+msgstr "Références des preuves du protocole"
+
+msgid "Protocol items"
+msgstr "Items du protocole"
+
+msgid "Protocol items — professional access only"
+msgstr "Items du protocole — accès professionnel uniquement"
+
+msgid "Protocol title"
+msgstr "Titre du protocole"
+
+msgid "Protocol version"
+msgstr "Version du protocole"
+
+msgid "Protocol version to reserve for follow-up"
+msgstr "Version du protocole à réserver au suivi"
+
+msgid "Provide at least one item, with a unique identifier for every item."
+msgstr "Renseignez au moins un item, avec un identifiant unique pour chacun."
+
+msgid "Publish revised instructions"
+msgstr "Créer des consignes révisées"
+
+msgid "Rate the specified target occurrence"
+msgstr "Coter l’occurrence cible désignée"
+
+msgid "Reason for correction"
+msgstr "Motif de correction"
+
+msgid "Reason for exclusion"
+msgstr "Motif d’exclusion"
+
+msgid "Recent professional observations"
+msgstr "Observations professionnelles récentes"
+
+msgid "Record external word exposure"
+msgstr "Déclarer une exposition hors application"
+
+msgid "Record occurrence"
+msgstr "Saisir la cotation d’occurrence"
+
+msgid "Report off-screen practice"
+msgstr "Déclarer une pratique hors écran"
+
+msgid "Reserved words"
+msgstr "Mots de réserve"
+
+msgid "Reserved, untrained word"
+msgstr "Mot de réserve non entraîné"
+
+msgid "Retained attempt"
+msgstr "Tentative retenue"
+
+msgid "Retained attempt number"
+msgstr "Numéro de la tentative retenue"
+
+msgid "Review and finalize"
+msgstr "Revoir et finaliser"
+
+msgid "Review and finalize this observation"
+msgstr "Revoir et finaliser cette passation"
+
+msgid "Review discipline"
+msgstr "Discipline de relecture"
+
+msgid "Review note and limitations"
+msgstr "Note de relecture et limites"
+
+msgid "Review or correct with a reason"
+msgstr "Revoir ou corriger avec un motif"
+
+msgid "Revoke family sharing"
+msgstr "Révoquer le partage familial"
+
+msgid "Rights and provenance documentation"
+msgstr "Documentation des droits et de la provenance"
+
+msgid "Setting"
+msgstr "Lieu et contexte"
+
+msgid "Software permissions do not establish clinical competence or effectiveness."
+msgstr "Les droits logiciels n’établissent ni compétence clinique ni efficacité."
+
+msgid "Specify the retained attempt in advance. Do not retrospectively choose the best response."
+msgstr "Définissez la tentative retenue à l’avance. Ne choisissez pas rétrospectivement la meilleure réponse."
+
+msgid "Stable item identifier"
+msgstr "Identifiant stable de l’item"
+
+msgid "Start professional observation"
+msgstr "Démarrer la passation professionnelle"
+
+msgid "Summary expressly shared by your clinician"
+msgstr "Compte rendu expressément partagé par votre orthophoniste"
+
+msgid "Support"
+msgstr "Aide"
+
+msgid "Support actually provided"
+msgstr "Aide réellement apportée"
+
+msgid "Support used during practice"
+msgstr "Aides utilisées pendant la pratique"
+
+msgid "Target"
+msgstr "Cible"
+
+msgid "Target occurrences must be a JSON list."
+msgstr "Les occurrences cibles doivent former une liste JSON."
+
+msgid "Target phoneme"
+msgstr "Phonème cible"
+
+msgid "Target position"
+msgstr "Position de la cible"
+
+msgid "Target ratios describe rated occurrences. They are not a diagnosis, a percentile or global speech accuracy. Languages and support levels are kept separate."
+msgstr "Les ratios décrivent les occurrences cotées. Ce ne sont ni un diagnostic, ni un percentile, ni une précision globale de la parole. Les langues et les niveaux d’aide restent séparés."
+
+msgid "Tell your clinician about off-screen practice"
+msgstr "Informer l’orthophoniste de la pratique hors écran"
+
+msgid "Text explicitly shared with the family"
+msgstr "Texte expressément partagé avec la famille"
+
+msgid "The clinician checked caregiver understanding"
+msgstr "L’orthophoniste a vérifié la compréhension de l’accompagnant"
+
+msgid "The clinician writes the instructions in this language. Changing interface language does not translate free-text clinical instructions."
+msgstr "L’orthophoniste rédige les consignes dans cette langue. Changer la langue de l’interface ne traduit pas les consignes cliniques rédigées librement."
+
+msgid "The expected word was audibly attempted"
+msgstr "Le mot attendu a été tenté de façon audible"
+
+msgid "The external exposure record has been saved. Previous observation exposure remains unchanged."
+msgstr "L’exposition hors application a été enregistrée. L’exposition figée lors des observations précédentes reste inchangée."
+
+msgid "The family receives only the text below. Raw item ratings, reserved words, private observations and detailed exports remain professional."
+msgstr "La famille reçoit uniquement le texte ci-dessous. Les cotations brutes, mots de réserve, observations privées et exports détaillés restent professionnels."
+
+msgid "The goal has been closed. Its observations and history remain available."
+msgstr "L’objectif est clos. Ses observations et son historique restent disponibles."
+
+msgid "The original finalized summary is retained; corrected records are shown separately."
+msgstr "Le bilan finalisé d’origine est conservé ; les cotations corrigées sont présentées séparément."
+
+msgid "The responsible clinician recorded a check of caregiver understanding."
+msgstr "L’orthophoniste responsable a consigné une vérification de la compréhension de l’accompagnant."
+
+msgid "The target is identifiable and scorable"
+msgstr "La cible est identifiable et cotable"
+
+msgid "These clinician-written instructions use another language. Ask your clinician for a guide in your preferred language; free text is not translated automatically."
+msgstr "Ces consignes rédigées par l’orthophoniste sont dans une autre langue. Demandez-lui un guide dans la langue souhaitée ; les textes libres ne sont pas traduits automatiquement."
+
+msgid "This is recorded by the responsible clinician after checking; it is not a caregiver self-approval."
+msgstr "L’orthophoniste responsable le consigne après vérification ; ce n’est pas une auto-validation parentale."
+
+msgid "This page contains only the text your clinician chose to share."
+msgstr "Cette page contient uniquement le texte choisi pour le partage par votre orthophoniste."
+
+msgid "Trained word"
+msgstr "Mot entraîné"
+
+msgid "Trained words"
+msgstr "Mots entraînés"
+
+msgid "Treatment variety"
+msgstr "Variété de traitement"
+
+msgid "Understanding has not yet been recorded as checked. Ask your clinician to demonstrate the support before using it independently."
+msgstr "La vérification de compréhension n’est pas encore consignée. Demandez à l’orthophoniste de montrer les aides avant de les utiliser de façon autonome."
+
+msgid "Unfamiliar vocabulary is not a production error. Unknown items require replacement or separate documentation."
+msgstr "Un vocabulaire inconnu n’est pas une erreur de production. Les items inconnus exigent un remplacement ou une documentation séparée."
+
+msgid "Unfamiliar; replace or document separately"
+msgstr "Inconnu : remplacer ou documenter séparément"
+
+msgid "Untrained word"
+msgstr "Mot non entraîné"
+
+msgid "Untrained words"
+msgstr "Mots non entraînés"
+
+msgid "Use your browser’s Print command to print or save this parent guide as a PDF."
+msgstr "Utilisez la commande Imprimer du navigateur pour imprimer ce guide parental ou l’enregistrer en PDF."
+
+msgid "Use your browser’s Print command to print or save this professional report as a PDF."
+msgstr "Utilisez la commande Imprimer du navigateur pour imprimer ce rapport professionnel ou l’enregistrer en PDF."
+
+msgid "Variant"
+msgstr "Variante"
+
+msgid "Versioned design material, separate from protected assessment instruments and family games."
+msgstr "Matériel de conception versionné, distinct des outils d’évaluation protégés et des jeux familiaux."
+
+msgid "Word"
+msgstr "Mot"
+
+msgid "Your clinician’s caregiver guide will appear here."
+msgstr "Le guide parental préparé par votre orthophoniste apparaîtra ici."
+
+msgid "Your practice declaration has been saved for your clinician. It does not rate pronunciation."
+msgstr "Votre déclaration de pratique a été enregistrée pour l’orthophoniste. Elle ne cote pas la prononciation."
+
+msgid "planned occurrences documented"
+msgstr "occurrences prévues documentées"
+
+msgid "Reserve items belong to professional follow-up and cannot be assigned to family games."
+msgstr "Les mots de réserve sont destinés au suivi professionnel et ne peuvent pas être affectés aux jeux familiaux."
+
+msgid "Variant identifiers shared by the goal and an item must have identical definitions."
+msgstr "Les identifiants de variantes communs à l’objectif et à un item doivent avoir des définitions identiques."

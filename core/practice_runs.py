@@ -45,6 +45,9 @@ def start_run(actor, reference):
     activities = {a.pk: a for a in Activity.objects.select_for_update().filter(pk__in=[i.activity_id for i in items]).order_by('pk')}
     if not items or any(not activities[i.activity_id].usable for i in items):
         raise ValidationError(_('This activity is no longer available. Contact your clinician.'))
+    from .reserves import reserved_activity_ids
+    if reserved_activity_ids(program.child, activities.values()):
+        raise ValidationError(_('This activity is no longer available. Contact your clinician.'))
     if any(not activities[i.activity_id].instructions.get(actor.instruction_language) for i in items):
         raise ValidationError(_('Choose another instruction language in your preferences or contact your clinician.'))
     # Assignment identity is immutable; these rows are the ordered snapshot.
@@ -84,7 +87,8 @@ def run_summary(run, actor):
     own = run.user_id == actor.pk
     blocked = None
     if run.state == 'active' and pending:
-        if not run.program.child.active or run.program.state != 'active' or not pending.item.activity.usable:
+        from .reserves import activity_is_reserved
+        if not run.program.child.active or run.program.state != 'active' or not pending.item.activity.usable or activity_is_reserved(run.program.child, pending.item.activity):
             blocked = _('This activity is no longer available. Contact your clinician.')
         elif not pending.item.activity.instructions.get(actor.instruction_language):
             blocked = _('Choose another instruction language in your preferences or contact your clinician.')

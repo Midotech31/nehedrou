@@ -6,7 +6,7 @@ from pathlib import Path
 
 root = Path(__file__).resolve().parent.parent
 keys = set()
-for folder in ['core', 'care', 'catalog']:
+for folder in ['core', 'care', 'catalog', 'followup', 'qualification']:
     for path in (root / folder).rglob('*.py'):
         if 'migrations' in path.parts:
             continue

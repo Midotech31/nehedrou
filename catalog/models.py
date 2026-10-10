@@ -36,6 +36,8 @@ class Activity(CheckedModel):
     instructions = models.JSONField(default=dict)
     practice_guide = models.JSONField(default=dict, blank=True)
     evidence_sources = models.JSONField(default=list, blank=True)
+    item_metadata = models.JSONField(default=dict, blank=True, verbose_name=_('Word meanings, segments, occurrences, variants and familiarity'))
+    media_manifest = models.JSONField(default=dict, blank=True, editable=False)
     rights = models.TextField(blank=True)
     population = models.TextField(blank=True)
     limitations = models.TextField(blank=True)
@@ -52,15 +54,29 @@ class Activity(CheckedModel):
         values = {field.attname: getattr(self, field.attname) for field in self._meta.concrete_fields if field.name not in ['id', 'state', 'created_at']}
         # Empty additive fields preserve pre-guide digests and historical reviews.
         # Any actual guide/reference change is part of the reviewed content.
-        for field in ['practice_guide', 'evidence_sources']:
+        for field in ['practice_guide', 'evidence_sources', 'item_metadata', 'media_manifest']:
             if not values.get(field):
                 values.pop(field, None)
+        if self.media_manifest:
+            from .readiness import snapshot_media
+            values['current_media_manifest'] = snapshot_media(self)
         return hashlib.sha256(json.dumps(values, sort_keys=True, default=str, ensure_ascii=False).encode()).hexdigest()
     def has_current_reviews(self):
-        # The latest decision of each discipline for this exact version prevails.
-        reviews = self.reviews.filter(content_digest=self.fingerprint())
-        return all((decision := reviews.filter(kind=kind).order_by('-created_at', '-pk').first())
-                   and decision.approved for kind in ['clinical', 'linguistic'])
+        # Latest decisions prevail. A single person cannot supply both approvals.
+        from qualification.services import has_competence
+        from .services import allowed
+        from .readiness import media_binding_current
+        if not self.is_demo and not media_binding_current(self):
+            return False
+        decisions = []
+        for kind in ['clinical', 'linguistic']:
+            decision = self.reviews.filter(content_digest=self.fingerprint(), kind=kind).order_by('-created_at', '-pk').first()
+            capability = 'clinical_review' if kind == 'clinical' else 'linguistic_review'
+            if not decision or not decision.approved or not allowed(decision.reviewer, self.variety, capability) or not has_competence(decision.reviewer, self.variety, kind):
+                return False
+            decisions.append(decision)
+        return decisions[0].reviewer_id != decisions[1].reviewer_id
+
     def audio_available(self, reference):
         from urllib.parse import urlsplit
         from uuid import UUID
@@ -87,11 +103,15 @@ class Activity(CheckedModel):
     def usable(self):
         if self.state != 'published' or (self.is_demo and not settings.DEMO_MODE):
             return False
+        if not self.is_demo:
+            from .readiness import activity_readiness
+            return activity_readiness(self, require_availability=True)['ready']
         return (all(self.image_available(ref) for ref in [self.image_a, self.image_b])
                 and (self.is_demo or all(self.audio_available(ref) for ref in [self.audio_a, self.audio_b])))
     def clean(self):
-        from .content_validation import validate_content_guide
+        from .content_validation import validate_content_guide, validate_item_metadata
         validate_content_guide(self.practice_guide, self.evidence_sources)
+        validate_item_metadata(self.item_metadata)
         if Activity.objects.filter(series=self.series).exclude(pk=self.pk).exclude(variety_id=self.variety_id).exists():
             raise ValidationError(_('A content series must keep the same spoken variety.'))
         if not isinstance(self.instructions, dict) or any(k not in dict(settings.LANGUAGES) or not isinstance(v, str) for k, v in self.instructions.items()):
@@ -112,6 +132,10 @@ class Activity(CheckedModel):
             if not all(self.image_available(media) for media in [self.image_a, self.image_b]):
                 raise ValidationError(_('Publication requires available editorial images.'))
             if not self.is_demo:
+                from .readiness import activity_readiness
+                readiness = activity_readiness(self, require_availability=False)
+                if not readiness['ready']:
+                    raise ValidationError(readiness['reasons'])
                 if not self.audio_a or not self.audio_b or not self.transcription_a or not self.transcription_b:
                     raise ValidationError(_('Reviewed audio and transcription are required.'))
                 if not all(self.audio_available(media) for media in [self.audio_a, self.audio_b]):
@@ -128,8 +152,25 @@ class Review(CheckedModel):
     content_digest = models.CharField(max_length=64, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     def clean(self):
-        if self.activity_id and self.activity.state not in ['review', 'approved']:
+        from qualification.services import has_competence
+        from .services import allowed
+        from .readiness import activity_content_reasons
+        if Review.objects.filter(pk=self.pk).exists():
+            raise ValidationError(_('Reviews are immutable. Record a new decision.'))
+        if not self.reviewer_id or not self.activity_id:
+            raise ValidationError(_('Review permission for this discipline and variety is required.'))
+        if self.activity.state not in ['review', 'approved']:
             raise ValidationError(_('Reviews require a submitted content version.'))
+        capability = 'clinical_review' if self.kind == 'clinical' else 'linguistic_review'
+        if not allowed(self.reviewer, self.activity.variety, capability):
+            raise ValidationError(_('Review permission for this discipline and variety is required.'))
+        if self.approved:
+            if not has_competence(self.reviewer, self.activity.variety, self.kind):
+                raise ValidationError(_('Approval requires a declared competence for this discipline and variety.'))
+            if not self.activity.is_demo:
+                reasons = activity_content_reasons(self.activity)
+                if reasons:
+                    raise ValidationError(reasons)
     def save(self, *args, **kwargs):
         self.content_digest = self.activity.fingerprint()
         return super().save(*args, **kwargs)
@@ -148,10 +189,44 @@ class MediaAsset(CheckedModel):
     file = models.FileField(upload_to='editorial/%Y/%m/')
     kind = models.CharField(max_length=8, choices=[('image', _('Image')), ('audio', _('Audio'))])
     rights = models.TextField()
+    rights_status = models.CharField(max_length=28, default='unknown', choices=[('original_documented', _('Documented original rights')), ('open_commercial_compatible', _('Compatible commercial licence')), ('permission_required', _('Permission required')), ('unknown', _('Unknown')), ('excluded', _('Excluded'))])
+    provenance = models.JSONField(default=dict, blank=True, verbose_name=_('Rights holder, licence, scope, attribution and adult speaker permission'))
+    rights_evidence = models.ForeignKey('qualification.EvidenceDocument', on_delete=models.PROTECT, null=True, blank=True, related_name='media_assets')
     uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
     technical_metadata = models.JSONField(default=dict, blank=True, editable=False)
+    def manifest_fingerprint(self):
+        from qualification.models import digest_file, digest_value
+        evidence = self.rights_evidence if self.rights_evidence_id else None
+        evidence_actual_sha256 = digest_file(evidence.file) if evidence else ''
+        return digest_value({
+            'asset': str(self.pk), 'kind': self.kind,
+            'sha256': self.technical_metadata.get('sha256', ''),
+            'actual_file_sha256': digest_file(self.file),
+            'rights': self.rights, 'rights_status': self.rights_status,
+            'provenance': self.provenance,
+            'evidence_id': str(self.rights_evidence_id or ''),
+            'evidence_sha256': evidence.sha256 if evidence else '',
+            'evidence_actual_sha256': evidence_actual_sha256,
+            'evidence_revoked': evidence.revoked if evidence else False,
+            'evidence_intact': bool(evidence and not evidence.revoked and evidence.sha256 and evidence.sha256 == evidence_actual_sha256),
+        })
+
+    @property
+    def intact(self):
+        from qualification.models import digest_file
+        return bool(self.technical_metadata.get('sha256')) and digest_file(self.file) == self.technical_metadata['sha256']
+
+    @property
+    def documented(self):
+        required = ['holder','licence','permitted_use','territory','duration','attribution']
+        if self.kind == 'audio':
+            required += ['adult_speaker_permission']
+        return bool(self.intact and self.rights.strip() and self.rights_status in ['original_documented','open_commercial_compatible'] and self.rights_evidence_id and self.rights_evidence.category == 'rights' and self.rights_evidence.intact and isinstance(self.provenance,dict) and all(isinstance(self.provenance.get(key),str) and self.provenance[key].strip() for key in required))
+
     def clean(self):
+        if not isinstance(self.provenance, dict):
+            raise ValidationError(_('Media provenance must be an object.'))
         old = MediaAsset.objects.filter(pk=self.pk).first()
         if old:
             if not self.file._committed or old.file.name != self.file.name or old.kind != self.kind or old.technical_metadata != self.technical_metadata:

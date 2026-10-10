@@ -227,13 +227,9 @@ class WorkflowTests(TestCase):
 
     @override_settings(STORAGES={'default': {'BACKEND': 'django.core.files.storage.InMemoryStorage'}, 'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'}})
     def test_reviews_are_bound_to_the_exact_content(self):
-        from catalog.models import MediaAsset
-        from django.core.files.base import ContentFile
-        asset = MediaAsset.objects.create(file=ContentFile(pcm_fixture(), name='fixture.wav'), kind='audio', rights='Test fixture', uploaded_by=self.pro)
-        audio = settings.PUBLIC_ORIGIN + reverse('editorial_media', args=[asset.pk])
-        activity = Activity.objects.create(variety=self.program.variety, series=uuid.uuid4(), title='Review fixture', contrast='example', word_a='a', word_b='b', transcription_a='/a/', transcription_b='/b/', image_a='editorial/hat.svg', image_b='editorial/boat.svg', audio_a=audio, audio_b=audio, rights='Test only', population='Fictional', instructions={'fr': 'x', 'en': 'x', 'ar': 'x'}, is_demo=False, state='review')
-        for kind in ['clinical', 'linguistic']:
-            Review.objects.create(activity=activity, reviewer=self.pro, kind=kind, approved=True, note='Test only')
+        from qualification.test_support import prepare_activity_fixture
+        activity = Activity.objects.create(variety=self.program.variety, series=uuid.uuid4(), title='Review fixture', contrast='example', word_a='a', word_b='b', transcription_a='/a/', transcription_b='/b/', rights='Test only', population='Fictional', instructions={'fr': 'x', 'en': 'x', 'ar': 'x'}, is_demo=False, state='review')
+        prepare_activity_fixture(activity,self.pro)
         activity.word_a = 'changed'
         activity.state = 'published'
         with self.assertRaises(ValidationError):

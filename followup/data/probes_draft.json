@@ -1,0 +1,226 @@
+{
+  "schema_version": "conception-1",
+  "not_importable_by": "catalog.import_catalog",
+  "purpose": "Original non-normed follow-up specification; unpublished drafts",
+  "clinical_validation": false,
+  "examples": [
+    {
+      "id": "nehdrou-fr-fr-pilot-p-initial-draft",
+      "version": 1,
+      "state": "draft",
+      "normed": false,
+      "variety": "fr-fr-pilot",
+      "population": "4–7 ans, déjà évalué ; choix et familiarité confirmés par clinicien",
+      "target_phoneme_proposed": "p",
+      "target_position": "first_consonant",
+      "indication": "Exemple de mesure d’une cible /p/ initiale ; choix professionnel, pas prescription du contraste /p-b/",
+      "task": "picture_naming_then_documented_cues_if_needed",
+      "scoring": "clinician_only_target_occurrence",
+      "audio_supplied": false,
+      "approvals_supplied": false,
+      "publication_allowed": false,
+      "limitations": "IPA et mots provisoires à relire ; complexité variable. Aucune comparabilité psychométrique entre listes ou langues. Réserve non entraînée seulement si jamais utilisée en pratique.",
+      "items": [
+        {
+          "id": "fr-fr-pilot-p-01",
+          "word": "pain",
+          "ipa_proposed": "/pɛ̃/",
+          "target_occurrence_index": 0,
+          "target_definition": "première consonne /p/ du mot ; autres occurrences non cotées",
+          "exposure_plan": "trained_candidate",
+          "image_asset": null,
+          "audio_asset": null,
+          "familiarity_verified": false,
+          "accepted_variants": [],
+          "review_state": "pending"
+        },
+        {
+          "id": "fr-fr-pilot-p-02",
+          "word": "poule",
+          "ipa_proposed": "/pul/",
+          "target_occurrence_index": 0,
+          "target_definition": "première consonne /p/ du mot ; autres occurrences non cotées",
+          "exposure_plan": "trained_candidate",
+          "image_asset": null,
+          "audio_asset": null,
+          "familiarity_verified": false,
+          "accepted_variants": [],
+          "review_state": "pending"
+        },
+        {
+          "id": "fr-fr-pilot-p-03",
+          "word": "pomme",
+          "ipa_proposed": "/pɔm/",
+          "target_occurrence_index": 0,
+          "target_definition": "première consonne /p/ du mot ; autres occurrences non cotées",
+          "exposure_plan": "reserved_candidate",
+          "image_asset": null,
+          "audio_asset": null,
+          "familiarity_verified": false,
+          "accepted_variants": [],
+          "review_state": "pending"
+        },
+        {
+          "id": "fr-fr-pilot-p-04",
+          "word": "porte",
+          "ipa_proposed": "/pɔʁt/",
+          "target_occurrence_index": 0,
+          "target_definition": "première consonne /p/ du mot ; autres occurrences non cotées",
+          "exposure_plan": "reserved_candidate",
+          "image_asset": null,
+          "audio_asset": null,
+          "familiarity_verified": false,
+          "accepted_variants": [],
+          "review_state": "pending"
+        },
+        {
+          "id": "fr-fr-pilot-p-05",
+          "word": "poupée",
+          "ipa_proposed": "/pupe/",
+          "target_occurrence_index": 0,
+          "target_definition": "première consonne /p/ du mot ; autres occurrences non cotées",
+          "exposure_plan": "reserved_candidate",
+          "image_asset": null,
+          "audio_asset": null,
+          "familiarity_verified": false,
+          "accepted_variants": [],
+          "review_state": "pending"
+        },
+        {
+          "id": "fr-fr-pilot-p-06",
+          "word": "papillon",
+          "ipa_proposed": "/papijɔ̃/",
+          "target_occurrence_index": 0,
+          "target_definition": "première consonne /p/ du mot ; autres occurrences non cotées",
+          "exposure_plan": "reserved_candidate",
+          "image_asset": null,
+          "audio_asset": null,
+          "familiarity_verified": false,
+          "accepted_variants": [],
+          "review_state": "pending"
+        }
+      ]
+    },
+    {
+      "id": "nehdrou-en-us-general-pilot-p-initial-draft",
+      "version": 1,
+      "state": "draft",
+      "normed": false,
+      "variety": "en-us-general-pilot",
+      "population": "4–7 ans, déjà évalué ; choix et familiarité confirmés par clinicien",
+      "target_phoneme_proposed": "p",
+      "target_position": "first_consonant",
+      "indication": "Exemple de mesure d’une cible /p/ initiale ; choix professionnel, pas prescription du contraste /p-b/",
+      "task": "picture_naming_then_documented_cues_if_needed",
+      "scoring": "clinician_only_target_occurrence",
+      "audio_supplied": false,
+      "approvals_supplied": false,
+      "publication_allowed": false,
+      "limitations": "IPA et mots provisoires à relire ; complexité variable. Aucune comparabilité psychométrique entre listes ou langues. Réserve non entraînée seulement si jamais utilisée en pratique.",
+      "items": [
+        {
+          "id": "en-us-general-pilot-p-01",
+          "word": "pea",
+          "ipa_proposed": "/pi/",
+          "target_occurrence_index": 0,
+          "target_definition": "première consonne /p/ du mot ; autres occurrences non cotées",
+          "exposure_plan": "trained_candidate",
+          "image_asset": null,
+          "audio_asset": null,
+          "familiarity_verified": false,
+          "accepted_variants": [],
+          "review_state": "pending"
+        },
+        {
+          "id": "en-us-general-pilot-p-02",
+          "word": "pear",
+          "ipa_proposed": "/pɛɹ/",
+          "target_occurrence_index": 0,
+          "target_definition": "première consonne /p/ du mot ; autres occurrences non cotées",
+          "exposure_plan": "trained_candidate",
+          "image_asset": null,
+          "audio_asset": null,
+          "familiarity_verified": false,
+          "accepted_variants": [],
+          "review_state": "pending"
+        },
+        {
+          "id": "en-us-general-pilot-p-03",
+          "word": "pin",
+          "ipa_proposed": "/pɪn/",
+          "target_occurrence_index": 0,
+          "target_definition": "première consonne /p/ du mot ; autres occurrences non cotées",
+          "exposure_plan": "trained_candidate",
+          "image_asset": null,
+          "audio_asset": null,
+          "familiarity_verified": false,
+          "accepted_variants": [],
+          "review_state": "pending"
+        },
+        {
+          "id": "en-us-general-pilot-p-04",
+          "word": "pig",
+          "ipa_proposed": "/pɪɡ/",
+          "target_occurrence_index": 0,
+          "target_definition": "première consonne /p/ du mot ; autres occurrences non cotées",
+          "exposure_plan": "reserved_candidate",
+          "image_asset": null,
+          "audio_asset": null,
+          "familiarity_verified": false,
+          "accepted_variants": [],
+          "review_state": "pending"
+        },
+        {
+          "id": "en-us-general-pilot-p-05",
+          "word": "pan",
+          "ipa_proposed": "/pæn/",
+          "target_occurrence_index": 0,
+          "target_definition": "première consonne /p/ du mot ; autres occurrences non cotées",
+          "exposure_plan": "reserved_candidate",
+          "image_asset": null,
+          "audio_asset": null,
+          "familiarity_verified": false,
+          "accepted_variants": [],
+          "review_state": "pending"
+        },
+        {
+          "id": "en-us-general-pilot-p-06",
+          "word": "pen",
+          "ipa_proposed": "/pɛn/",
+          "target_occurrence_index": 0,
+          "target_definition": "première consonne /p/ du mot ; autres occurrences non cotées",
+          "exposure_plan": "reserved_candidate",
+          "image_asset": null,
+          "audio_asset": null,
+          "familiarity_verified": false,
+          "accepted_variants": [],
+          "review_state": "pending"
+        }
+      ]
+    }
+  ],
+  "arabic_pack": {
+    "state": "not_defined",
+    "reason": "Définir variété, lexique, IPA et contenu humain avant création du pack",
+    "workplan": "annexes/07_Chantier_arabe.md"
+  },
+  "codes": [
+    "TARGET_ACCEPTABLE",
+    "VARIANT_ACCEPTABLE",
+    "TARGET_INCORRECT",
+    "NOT_SCORABLE",
+    "NOT_PRESENTED"
+  ],
+  "ratio": {
+    "numerator": [
+      "TARGET_ACCEPTABLE",
+      "VARIANT_ACCEPTABLE"
+    ],
+    "denominator": [
+      "TARGET_ACCEPTABLE",
+      "VARIANT_ACCEPTABLE",
+      "TARGET_INCORRECT"
+    ],
+    "zero_denominator": "not_calculable"
+  }
+}

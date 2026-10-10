@@ -116,6 +116,8 @@ class PracticeSession(CheckedModel):
     correct = models.BooleanField(null=True, blank=True)
     completion = models.CharField(max_length=12, choices=[('completed', _('Completed')), ('stopped', _('Stopped'))])
     parent_report = models.CharField(max_length=20, choices=[('easy', _('Comfortable')), ('help', _('Needed help')), ('difficult', _('Difficult'))])
+    support_used = models.CharField(max_length=20, blank=True, default='', choices=[('', _('Not recorded')), ('none', _('No support reported')), ('model', _('Clinician-taught word model')), ('gesture', _('Gesture')), ('instructions', _('Repeated instructions')), ('multiple', _('Several supports')), ('unsure', _('Unsure about the support'))])
+    stop_reason = models.CharField(max_length=20, blank=True, default='', choices=[('', _('Not recorded')), ('fatigue', _('Fatigue')), ('upset', _('Upset')), ('understanding', _('Task not understood')), ('other', _('Another reason'))])
     comment = models.TextField(blank=True, max_length=2000)
     created_at = models.DateTimeField(auto_now_add=True)
     class Meta:
@@ -130,6 +132,8 @@ class PracticeSession(CheckedModel):
             raise ValidationError(_('Stopped attempts do not count as incorrect answers.'))
         if self.completion == 'completed' and not self.answer:
             raise ValidationError(_('Choose an answer or stop the activity.'))
+        if self.stop_reason and self.completion != 'stopped':
+            raise ValidationError(_('A stopping reason belongs to a stopped practice only.'))
 
 class Observation(CheckedModel):
     program = models.ForeignKey(Program, on_delete=models.CASCADE, related_name='observations')

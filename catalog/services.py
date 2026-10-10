@@ -3,7 +3,7 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.utils.translation import gettext as _
 from core.services import audit
-from .models import Activity, EditorialGrant, Review
+from .models import Activity, EditorialGrant, Review, Variety
 
 def allowed(user, variety, capability):
     return user.is_superuser or EditorialGrant.objects.filter(user=user, variety=variety, **{capability: True}).exists()
@@ -20,6 +20,9 @@ def transition(actor, activity_id, target):
     if target == 'approved' and not activity.is_demo:
         if not activity.has_current_reviews():
             raise ValidationError(_('Clinical and linguistic reviews are required.'))
+    if target == 'review' and not activity.is_demo:
+        from .readiness import snapshot_media
+        activity.media_manifest = snapshot_media(activity)
     activity.state = target
     activity.save()
     audit(actor, 'catalog.' + target, activity)
@@ -27,6 +30,8 @@ def transition(actor, activity_id, target):
 
 @transaction.atomic
 def clone_version(actor, source):
+    # Lock the stable variety before the series, also when different versions are cloned.
+    Variety.objects.select_for_update().get(pk=source.variety_id)
     source = Activity.objects.select_for_update().get(pk=source.pk)
     if not allowed(actor, source.variety, 'edit'):
         raise PermissionDenied
@@ -40,6 +45,8 @@ def clone_version(actor, source):
 @transaction.atomic
 def review_version(actor, activity, kind, approved, note):
     activity = Activity.objects.select_for_update().get(pk=activity.pk)
+    if kind not in ['clinical', 'linguistic']:
+        raise PermissionDenied
     capability = 'clinical_review' if kind == 'clinical' else 'linguistic_review'
     if not allowed(actor, activity.variety, capability):
         raise PermissionDenied

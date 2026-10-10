@@ -40,6 +40,15 @@ class Command(BaseCommand):
             'manual_gates_required': ['professional_content_and_audio_validation', 'native_language_review', 'browser_and_accessibility_acceptance', 'backup_restore_and_concurrency_acceptance', 'applicable_launch_obligations', 'clinical_effectiveness_claims_require_separate_evidence'],
             'scope': 'A technical report, never clinical validation or commercial approval.',
         }
+        from followup.models import ProbeDefinition
+        from qualification.services import availability_for
+        probes = ProbeDefinition.objects.filter(is_demo=False, organization__isnull=True)
+        report['production_followup'] = {
+            'original_drafts': probes.filter(state='draft').count(),
+            'published_versions': probes.filter(state='published').count(),
+            'available_versions': sum(p.ready and availability_for('production_followup', p.variety, p.fingerprint())['available'] for p in probes.filter(state='published')),
+            'scope': 'Availability is specific to module, spoken variety and exact content SHA-256. Interface languages do not approve oral content.',
+        }
         if options['json']:
             self.stdout.write(json.dumps(report, ensure_ascii=True, indent=2))
         else:

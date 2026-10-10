@@ -10,7 +10,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from care.models import ProgramItem
 from core.access import visible_programs
-from .models import Activity, EditorialGrant, Variety, MediaAsset
+from .models import Activity, EditorialGrant, Variety, MediaAsset, Review
 from .forms import ActivityForm, ReviewForm, MediaForm
 from .services import allowed, transition, clone_version, review_version
 
@@ -44,19 +44,21 @@ def detail(request, pk):
     can_review = bool(review_kinds) and activity.state in ['review', 'approved']
     if request.method == 'POST' and (not can_review or request.POST.get('kind') not in review_kinds):
         raise PermissionDenied
-    form = ReviewForm(request.POST or None, instance=None, allowed_kinds=review_kinds)
+    form = ReviewForm(request.POST or None, instance=Review(activity=activity, reviewer=request.user), allowed_kinds=review_kinds)
     if request.method == 'POST' and form.is_valid():
         try:
             review_version(request.user, activity, form.cleaned_data['kind'], form.cleaned_data['approved'], form.cleaned_data['note'])
             return redirect('editorial_detail', pk=pk)
         except ValidationError as error:
             form.add_error(None, error)
+    from .readiness import activity_readiness
+    readiness = activity_readiness(activity, require_availability=True) if not activity.is_demo else {'ready': True, 'reasons': []}
     checklist_labels = {'rights': _('Usage rights'), 'population': _('Intended population'), 'image_a': _('First illustration reference'), 'image_b': _('Second illustration reference'), 'audio_a': _('First audio URL'), 'audio_b': _('Second audio URL'), 'transcription_a': _('First word transcription'), 'transcription_b': _('Second word transcription')}
     issues = []
     for field in ['rights', 'population', 'image_a', 'image_b', 'audio_a', 'audio_b', 'transcription_a', 'transcription_b']:
         if not getattr(activity, field):
             issues.append(checklist_labels[field])
-    return render(request, 'editorial/detail.html', {'activity': activity, 'form': form, 'issues': issues, 'can_edit': allowed(request.user, activity.variety, 'edit'), 'can_publish': allowed(request.user, activity.variety, 'publish'), 'can_review': can_review, 'reviews': activity.reviews.select_related('reviewer'), 'affected': ProgramItem.objects.filter(activity=activity).count()})
+    return render(request, 'editorial/detail.html', {'activity': activity, 'form': form, 'issues': issues, 'can_edit': allowed(request.user, activity.variety, 'edit'), 'can_publish': allowed(request.user, activity.variety, 'publish'), 'can_review': can_review, 'reviews': activity.reviews.select_related('reviewer'), 'affected': ProgramItem.objects.filter(activity=activity).count(), 'readiness': readiness, 'content_digest': activity.fingerprint()})
 
 @login_required
 def edit(request, pk=None):
@@ -98,6 +100,8 @@ def upload(request):
     if not request.user.is_superuser and not EditorialGrant.objects.filter(user=request.user, edit=True).exists():
         raise PermissionDenied
     form = MediaForm(request.POST or None, request.FILES or None, instance=MediaAsset(uploaded_by=request.user))
+    from qualification.models import EvidenceDocument
+    form.fields['rights_evidence'].queryset = EvidenceDocument.objects.filter(category='rights', revoked=False) if request.user.is_superuser else EvidenceDocument.objects.filter(category='rights', revoked=False, variety__editorialgrant__user=request.user).distinct()
     if request.method == 'POST' and form.is_valid():
         asset = form.save()
         from core.services import audit
@@ -115,10 +119,15 @@ def media(request, pk):
     available = activities.filter(state='published')
     if not settings.DEMO_MODE:
         available = available.filter(is_demo=False)
+    if not editorial:
+        from core.reserves import family_catalog_exclusions
+        available = available.exclude(pk__in=family_catalog_exclusions(request.user, available))
     public_catalog = available.exists()
     assigned = ProgramItem.objects.filter(activity__in=available, program__in=visible_programs(request.user)).exists()
     if not editorial and not public_catalog and not assigned:
         raise Http404
-    if not asset.file.storage.exists(asset.file.name):
+    if not asset.intact:
+        raise Http404
+    if not editorial and not any(activity.usable for activity in available):
         raise Http404
     return FileResponse(asset.file.open('rb'), content_type=mimetypes.guess_type(asset.file.name)[0] or 'application/octet-stream')
