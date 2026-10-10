@@ -4,6 +4,8 @@ Application Django de pratique à domicile choisie par un orthophoniste et accom
 
 **État : démonstration fonctionnelle avec données fictives, sans feu vert pour la vente clinique.** Les 60 contenus candidats attendent la validation professionnelle ; aucun modèle audio clinique approuvé n’est livré. Voir [la qualification commerciale](docs/QUALIFICATION_COMMERCIALE.md), [la recherche produit](docs/RECHERCHE_PRODUIT.md) et [les conditions de lancement](docs/LANCEMENT.md).
 
+**Démonstration publiée sur Render :** [français](https://nehedrou-demo.onrender.com/fr/), [anglais](https://nehedrou-demo.onrender.com/en/), [arabe](https://nehedrou-demo.onrender.com/ar/). Les accès aux comptes fictifs sont livrés séparément dans un document local privé. Le service gratuit emploie une base temporaire : utilisez uniquement des données fictives. Voir [la recette de publication](docs/DEPLOIEMENT_RENDER.md).
+
 ## Dossier actif et démarrage sur E:
 
 - Projet : `E:\LocalCoderWorkspace\Nehdrou\outputs\nehdrou`

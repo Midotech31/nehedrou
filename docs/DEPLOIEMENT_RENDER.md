@@ -17,3 +17,17 @@ Les contrôles locaux et, après déploiement, les vérifications HTTPS du site 
 108 tests découverts : 102 réussis et six ignorés, réservés à PostgreSQL ; 81,579 s. Trente contrôles isolés supplémentaires passent avec DEBUG désactivé : pages publiques FR/EN/AR, avertissement temporaire, statiques avec manifest, logo original, connexion HTTPS, cookies sécurisés, changement de langue, refus des origines externe/nulle et déconnexion. 575 clés d’interface, aucune manquante. Ces preuves locales ne sont pas une vérification du site distant.
 
 Le Blueprint demande de saisir une clé aléatoire privée d’au moins 50 caractères ; son générateur court n’est pas utilisé. Le déploiement direct fournit une clé dédiée de 86 caractères.
+
+## Résultat vérifié sur le site publié
+
+Le déploiement `dep-db5ajdh42hec7389hdm0` du service `srv-db5afol9fdbs73c62t10` est **live** depuis le 10 octobre 2026 à 21:12:10 UTC. Le code exécuté correspond au commit `cfc3639d2fa013c7a3c8089e171f13df3e70b1ef`. Le script de démarrage ajoute explicitement la racine du projet au chemin d’import Python ; sept tests de déploiement passent après correction, dont le lancement réel du script depuis un dossier extérieur avec migrations et initialisation fictive. Seule la remise finale à Gunicorn est remplacée dans ce test Windows ; Gunicorn a démarré réellement sur Linux chez Render.
+
+La recette HTTPS distante réussit **89 contrôles** : FR/EN/AR, statiques et empreinte du logo, santé de la base, redirection HTTPS, cookies, CSRF, connexions des quatre comptes fictifs, reprises, démarrages et rapports sans doublons, clôture sans rapport inventé, retours familiaux et observations privées séparés, historiques, exports, impression et refus de lecture/écriture entre cabinets. Les doubles soumissions testées sont séquentielles : cette recette ne certifie pas la concurrence SQLite.
+
+La recette dans le navigateur intégré réussit **18 contrôles** sur le site distant, avec JavaScript réellement exécuté : arabe RTL et Tajawal à 360 × 800, changements de langue, validation sans réponse, choix conservé au clavier, arrêt qui efface le choix, connexion familiale, pause/reprise, cible conservée après rechargement, enregistrement du rapport et changement de langue conservant son identifiant. Les captures et preuves JSON sont livrées séparément. Aucun avertissement ni erreur de console n’a été observé durant ces parcours ; aucun journal Render de niveau erreur n’a été relevé depuis le passage live jusqu’à 21:20:42 UTC. Ces observations ne remplacent pas une recette multi-navigateurs, des essais utilisateurs ou une validation clinique.
+
+Le service a été créé directement : son champ de sonde HTTP est vide. `/healthz/` a bien répondu en HTTPS avec une lecture de base réussie, dans la recette distante ; `render.yaml` prévoit cette route pour une création par Blueprint.
+
+### Republier une modification
+
+Le service clone l’URL publique du dépôt, sans connexion du fournisseur Git. Malgré le drapeau d’auto-déploiement exposé par l’API, aucun webhook Git n’est établi dans cette configuration. Après avoir vérifié, commité et poussé le code, ouvrir [le service Render](https://dashboard.render.com/web/srv-db5afol9fdbs73c62t10) et choisir **Manual Deploy → Deploy latest commit**, puis attendre `live` et recontrôler `/healthz/` et les parcours. C’est le fonctionnement documenté pour [les dépôts Git publics sans connexion](https://render.com/docs/deploys#automatic-deploys). Le redéploiement peut réinitialiser les données fictives temporaires.
