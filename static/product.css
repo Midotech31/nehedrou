@@ -387,3 +387,5 @@ html:lang(ar) :is(.helptext,.program-meta,.report-row small,footer,.sidebar-note
 .author-source[hidden]{display:none!important}.author-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.author-actions p{font-size:.85rem;flex:1;min-width:200px}.author-actions button{white-space:nowrap}
 
 .inline-form{display:inline-flex;margin-inline-start:12px;vertical-align:middle}
+
+.password-control{display:flex;align-items:stretch;gap:8px;max-width:100%;margin-block:6px}.password-control>input{flex:1;min-width:0}.password-toggle{flex:0 0 auto;background:#fff;color:var(--primary);border:1px solid #77929e;border-radius:9px;padding:8px 12px;min-height:46px;white-space:nowrap}.password-toggle:hover{background:var(--tint)}

@@ -4287,3 +4287,15 @@ msgstr "You have 30 active working copies. Save an activity or set a copy aside 
 
 msgid "Recording prompts are proposals: an adult native speaker and the reviewers must confirm meaning, regional usage, phonemes, consent and rights before recording and release. Blank decisions are not approvals."
 msgstr "Recording prompts are proposals: an adult native speaker and the reviewers must confirm meaning, regional usage, phonemes, consent and rights before recording and release. Blank decisions are not approvals."
+
+msgid "Show"
+msgstr "Show"
+
+msgid "Hide"
+msgstr "Hide"
+
+msgid "Show password"
+msgstr "Show password"
+
+msgid "Hide password"
+msgstr "Hide password"
