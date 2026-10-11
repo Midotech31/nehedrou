@@ -54,7 +54,9 @@ def start_run(actor, reference):
     list(ProgramItem.objects.select_for_update().filter(pk__in=[i.pk for i in items]).order_by('pk'))
     run = PracticeRun.objects.create(program=program, user=actor)
     for position, item in enumerate(items, 1):
-        PracticeRunTask.objects.create(run=run, item=item, position=position, target=secrets.choice(['a', 'b']))
+        activity = activities[item.activity_id]
+        requested_target = activity.requested_target if activity.response_mode == 'matching' else ''
+        PracticeRunTask.objects.create(run=run, item=item, position=position, target=requested_target or secrets.choice(['a', 'b']))
     audit(actor, 'practice_run.started', run, program.organization)
     return run
 

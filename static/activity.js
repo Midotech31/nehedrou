@@ -35,6 +35,7 @@
   label.setAttribute('aria-live', 'polite');
   function show(index, focus = true) {
     current = index;
+    if (form.querySelector('[data-device-voice]') && window.speechSynthesis) window.speechSynthesis.cancel();
     sections.forEach((section,i) => {
       section.hidden = i !== current;
       if (section.hidden) section.querySelectorAll('audio').forEach(audio => audio.pause());
@@ -52,7 +53,7 @@
   back.addEventListener('click', () => show(Math.max(0, current - 1)));
   next.addEventListener('click', () => show(Math.min(sections.length - 1, current + 1)));
   form.addEventListener('submit', event => {
-    if (form.elements.completion.value === 'completed' && !form.querySelector('input[name=answer]:checked')) {
+    if (form.dataset.responseMode !== 'observation' && form.elements.completion.value === 'completed' && !form.querySelector('input[name=answer]:checked')) {
       event.preventDefault();
       show(1);
       const radio = form.querySelector('input[name=answer]');

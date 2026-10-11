@@ -5,7 +5,7 @@
 <p dir="auto"><strong>{{ guide.objective }}</strong></p>
 {% if not hide_scope %}<h3>{% translate "Intended audience" %}</h3><p dir="auto">{{ guide.audience }}</p>{% endif %}
 <h3>{% translate "Discover the words" %}</h3><ol>{% for text in guide.discover %}<li dir="auto">{{ text }}</li>{% endfor %}</ol>
-<h3>{% translate "Listen and choose" %}</h3><ol>{% for text in guide.listen %}<li dir="auto">{{ text }}</li>{% endfor %}</ol>
+<h3>{% if activity.response_mode == 'observation' or item.activity.response_mode == 'observation' %}{% translate "Observe and play together" %}{% elif activity.response_mode == 'free' or item.activity.response_mode == 'free' %}{% translate "Make a choice together" %}{% else %}{% translate "Listen and choose" %}{% endif %}</h3><ol>{% for text in guide.listen %}<li dir="auto">{{ text }}</li>{% endfor %}</ol>
 <h3>{% translate "A short exchange" %}</h3><ol>{% for text in guide.exchange %}<li dir="auto">{{ text }}</li>{% endfor %}</ol>
 <h3>{% translate "Support without pressure" %}</h3><ul>{% for text in guide.support %}<li dir="auto">{{ text }}</li>{% endfor %}</ul>
 {% if not hide_scope %}<h3>{% translate "Scope and limitations" %}</h3><ul>{% for text in guide.limits %}<li dir="auto">{{ text }}</li>{% endfor %}</ul>{% endif %}

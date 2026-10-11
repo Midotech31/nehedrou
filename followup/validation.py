@@ -1,6 +1,7 @@
 from django.utils.translation import gettext as _
 """Structural safeguards for human observation; no phonetic certification."""
 import unicodedata
+import re
 from django.core.exceptions import ValidationError
 
 CODES = ('TARGET_ACCEPTABLE', 'VARIANT_ACCEPTABLE', 'TARGET_INCORRECT', 'NOT_SCORABLE', 'NOT_PRESENTED')
@@ -11,6 +12,19 @@ CONDITION_KEYS = {'place', 'task', 'fatigue', 'noise', 'interruption', 'instruct
 
 def word_key(word):
     return ' '.join(unicodedata.normalize('NFC', word).casefold().split())
+
+
+def reserve_word_key(word, variety):
+    """Conservative spelling comparison, never a clinical lexeme/IPA rewrite.
+
+    Arabic marks can distinguish meanings. Treating their omission as a match
+    prevents an uncertain spelling from establishing non-exposure or bypassing
+    a family reserve; it does not certify that two productions are equivalent.
+    """
+    key = word_key(word)
+    if variety.language == 'ar':
+        key = re.sub(r'[\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06ed\u0640]', '', key)
+    return key
 
 
 def phoneme_key(value):

@@ -9,10 +9,10 @@ class ActivityForm(forms.ModelForm):
     instructions_ar = forms.CharField(label=_('Arabic caregiver instructions'), widget=forms.Textarea)
     class Meta:
         model = Activity
-        fields = ['variety', 'title', 'contrast', 'word_a', 'word_b', 'transcription_a', 'transcription_b', 'image_a', 'image_b', 'audio_a', 'audio_b', 'population', 'limitations', 'practice_guide', 'evidence_sources', 'item_metadata', 'rights', 'is_demo']
+        fields = ['variety', 'title', 'kind', 'theme', 'response_mode', 'requested_target', 'contrast', 'word_a', 'word_b', 'transcription_a', 'transcription_b', 'image_a', 'image_b', 'audio_a', 'audio_b', 'population', 'limitations', 'practice_guide', 'evidence_sources', 'item_metadata', 'rights', 'is_demo']
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        labels = {'variety': _('Spoken variety'), 'title': _('Activity title'), 'contrast': _('Phonological contrast'), 'word_a': _('First word'), 'word_b': _('Second word'), 'transcription_a': _('First word transcription'), 'transcription_b': _('Second word transcription'), 'image_a': _('First illustration reference'), 'image_b': _('Second illustration reference'), 'audio_a': _('First audio URL'), 'audio_b': _('Second audio URL'), 'population': _('Intended population'), 'limitations': _('Limits and precautions'), 'practice_guide': _('Structured activity guide'), 'evidence_sources': _('Sources and their scope'), 'item_metadata': _('Word meanings, segments, occurrences, variants and familiarity'), 'rights': _('Usage rights'), 'is_demo': _('Demonstration content')}
+        labels = {'requested_target': _('Requested picture target'), 'kind': _('Activity type'), 'theme': _('Theme'), 'response_mode': _('Response mode'), 'variety': _('Spoken variety'), 'title': _('Activity title'), 'contrast': _('Phonological contrast'), 'word_a': _('First word'), 'word_b': _('Second word'), 'transcription_a': _('First word transcription'), 'transcription_b': _('Second word transcription'), 'image_a': _('First illustration reference'), 'image_b': _('Second illustration reference'), 'audio_a': _('First audio URL'), 'audio_b': _('Second audio URL'), 'population': _('Intended population'), 'limitations': _('Limits and precautions'), 'practice_guide': _('Structured activity guide'), 'evidence_sources': _('Sources and their scope'), 'item_metadata': _('Word meanings, segments, occurrences, variants and familiarity'), 'rights': _('Usage rights'), 'is_demo': _('Demonstration content')}
         for name, label in labels.items():
             self.fields[name].label = label
         for code in ['fr', 'en', 'ar']:
@@ -36,7 +36,7 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['kind', 'approved', 'note']
-        labels = {'kind': _('Review type'), 'approved': _('Approved'), 'note': _('Review notes')}
+        labels = {'requested_target': _('Requested picture target'), 'kind': _('Review type'), 'approved': _('Approved'), 'note': _('Review notes')}
 
 class MediaForm(forms.ModelForm):
     class Meta:

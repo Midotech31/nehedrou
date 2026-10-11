@@ -14,7 +14,7 @@ class Variety(CheckedModel):
     scope = models.TextField(blank=True)
     @property
     def display_label(self):
-        labels = {'fr-fr-pilot': _('French · France (pilot)'), 'en-us-general-pilot': _('English · United States (pilot)'), 'ar-dz-pilot': _('Algerian Darja · local pilot')}
+        labels = {'fr-fr-pilot': _('French · France (pilot)'), 'en-us-general-pilot': _('English · United States (pilot)'), 'ar-dz-pilot': _('Algerian Darja · local pilot'), 'ar-msa-pilot': _('Standard Arabic · educational pilot')}
         return labels.get(self.code, self.label)
     def __str__(self):
         return str(self.display_label)
@@ -25,6 +25,22 @@ class Activity(CheckedModel):
     version = models.PositiveIntegerField(default=1)
     title = models.CharField(max_length=160)
     contrast = models.CharField(max_length=60)
+    KIND_CHOICES = [('word_pair', _('Word exploration')), ('phonological_contrast', _('Phonological contrast')),
+                    ('vocabulary', _('Vocabulary and comprehension')), ('requests', _('Requests and choices')),
+                    ('categories', _('Categories and associations')), ('actions', _('Actions and verbs')),
+                    ('relations', _('Spatial relations')), ('routines', _('Daily routines')),
+                    ('storytelling', _('Short stories and conversation'))]
+    THEME_CHOICES = [('', _('All themes')), ('home', _('Home')), ('food', _('Food')),
+                     ('animals', _('Animals')), ('body', _('Body')), ('clothing', _('Clothing')),
+                     ('travel', _('Travel')), ('play', _('Play')), ('daily_life', _('Everyday life')),
+                     ('school', _('School')), ('nature', _('Nature')), ('sounds', _('Sounds'))]
+    RESPONSE_CHOICES = [('matching', _('Requested picture choice')), ('free', _('Free choice without a correctness score')),
+                        ('observation', _('Shared observation without a picture answer'))]
+    kind = models.CharField(max_length=24, default='word_pair', choices=KIND_CHOICES)
+    theme = models.CharField(max_length=20, blank=True, default='', choices=THEME_CHOICES)
+    response_mode = models.CharField(max_length=12, default='matching', choices=RESPONSE_CHOICES)
+    requested_target = models.CharField(max_length=1, blank=True, default='', choices=[('', _('Either word as requested')), ('a', _('First word')), ('b', _('Second word'))])
+    search_text = models.TextField(blank=True, default='', editable=False)
     word_a = models.CharField(max_length=80)
     word_b = models.CharField(max_length=80)
     transcription_a = models.CharField(max_length=100, blank=True)
@@ -51,11 +67,14 @@ class Activity(CheckedModel):
     def __str__(self):
         return f'{self.title} · v{self.version}'
     def fingerprint(self):
-        values = {field.attname: getattr(self, field.attname) for field in self._meta.concrete_fields if field.name not in ['id', 'state', 'created_at']}
+        values = {field.attname: getattr(self, field.attname) for field in self._meta.concrete_fields if field.name not in ['id', 'state', 'created_at', 'search_text']}
         # Empty additive fields preserve pre-guide digests and historical reviews.
         # Any actual guide/reference change is part of the reviewed content.
         for field in ['practice_guide', 'evidence_sources', 'item_metadata', 'media_manifest']:
             if not values.get(field):
+                values.pop(field, None)
+        for field, default in [('kind', 'word_pair'), ('theme', ''), ('response_mode', 'matching'), ('requested_target', '')]:
+            if values.get(field) == default:
                 values.pop(field, None)
         if self.media_manifest:
             from .readiness import snapshot_media
@@ -76,6 +95,12 @@ class Activity(CheckedModel):
                 return False
             decisions.append(decision)
         return decisions[0].reviewer_id != decisions[1].reviewer_id
+
+    @property
+    def device_voice_allowed(self):
+        # Unreviewed synthesis is confined to fictional, non-phonological MSA.
+        return bool(settings.DEMO_MODE and self.is_demo and self.variety.code == 'ar-msa-pilot'
+                    and self.kind not in ['word_pair', 'phonological_contrast'])
 
     def audio_available(self, reference):
         from urllib.parse import urlsplit
@@ -108,10 +133,22 @@ class Activity(CheckedModel):
             return activity_readiness(self, require_availability=True)['ready']
         return (all(self.image_available(ref) for ref in [self.image_a, self.image_b])
                 and (self.is_demo or all(self.audio_available(ref) for ref in [self.audio_a, self.audio_b])))
+    def save(self, *args, **kwargs):
+        from .search import activity_search_text
+        self.search_text = activity_search_text(self)
+        if kwargs.get('update_fields') is not None:
+            kwargs['update_fields'] = set(kwargs['update_fields']) | {'search_text'}
+        return super().save(*args, **kwargs)
+
     def clean(self):
         from .content_validation import validate_content_guide, validate_item_metadata
         validate_content_guide(self.practice_guide, self.evidence_sources)
         validate_item_metadata(self.item_metadata)
+        if self.response_mode != 'matching' and self.requested_target:
+            raise ValidationError(_('A free choice or observation cannot impose a requested picture.'))
+        if self.kind == 'phonological_contrast':
+            from .content_validation import validate_minimal_pair
+            validate_minimal_pair(self.item_metadata, self.response_mode)
         if Activity.objects.filter(series=self.series).exclude(pk=self.pk).exclude(variety_id=self.variety_id).exists():
             raise ValidationError(_('A content series must keep the same spoken variety.'))
         if not isinstance(self.instructions, dict) or any(k not in dict(settings.LANGUAGES) or not isinstance(v, str) for k, v in self.instructions.items()):
@@ -122,7 +159,7 @@ class Activity(CheckedModel):
         old = Activity.objects.filter(pk=self.pk).first()
         if old and old.state in ['published', 'withdrawn']:
             for field in self._meta.concrete_fields:
-                if field.name != 'state' and getattr(self, field.attname) != getattr(old, field.attname):
+                if field.name not in ['state', 'search_text'] and getattr(self, field.attname) != getattr(old, field.attname):
                     raise ValidationError(_('Create a new version to change published content.'))
             if self.state not in [old.state, 'withdrawn']:
                 raise ValidationError(_('A published version cannot return to draft.'))

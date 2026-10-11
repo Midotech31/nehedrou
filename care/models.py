@@ -113,6 +113,7 @@ class PracticeSession(CheckedModel):
     payload_digest = models.CharField(max_length=64)
     answer = models.CharField(max_length=1, blank=True, choices=[('a', 'A'), ('b', 'B')])
     target = models.CharField(max_length=1, choices=[('a', 'A'), ('b', 'B')])
+    response_mode = models.CharField(max_length=12, default='matching', choices=[('matching', _('Matching picture')), ('free', _('Free picture choice')), ('observation', _('Shared observation'))])
     correct = models.BooleanField(null=True, blank=True)
     completion = models.CharField(max_length=12, choices=[('completed', _('Completed')), ('stopped', _('Stopped'))])
     parent_report = models.CharField(max_length=20, choices=[('easy', _('Comfortable')), ('help', _('Needed help')), ('difficult', _('Difficult'))])
@@ -128,9 +129,15 @@ class PracticeSession(CheckedModel):
             raise ValidationError(_('The report must match its practice run step.'))
         if self.item_id and self.item.program.organization_id != self.organization_id:
             raise ValidationError(_('The session must belong to the program practice.'))
+        if self.item_id and self.response_mode != self.item.activity.response_mode:
+            raise ValidationError(_('The response mode must match the assigned content version.'))
         if self.completion == 'stopped' and (self.answer or self.correct is not None):
             raise ValidationError(_('Stopped attempts do not count as incorrect answers.'))
-        if self.completion == 'completed' and not self.answer:
+        if self.response_mode != 'matching' and self.correct is not None:
+            raise ValidationError(_('Free choice and observation do not count as scored answers.'))
+        if self.response_mode == 'observation' and self.answer:
+            raise ValidationError(_('Shared observation does not record a picture answer.'))
+        if self.completion == 'completed' and self.response_mode != 'observation' and not self.answer:
             raise ValidationError(_('Choose an answer or stop the activity.'))
         if self.stop_reason and self.completion != 'stopped':
             raise ValidationError(_('A stopping reason belongs to a stopped practice only.'))

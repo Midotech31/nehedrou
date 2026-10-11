@@ -74,13 +74,20 @@ class PracticeForm(forms.Form):
     support_used = forms.ChoiceField(label=_('Support reported by the caregiver'), choices=PracticeSession._meta.get_field('support_used').choices, required=False)
     stop_reason = forms.ChoiceField(label=_('Reason for stopping (optional)'), choices=PracticeSession._meta.get_field('stop_reason').choices, required=False)
     comment = forms.CharField(label=_('Parent comment'), widget=forms.Textarea, required=False, max_length=2000)
+    def __init__(self, *args, response_mode='matching', **kwargs):
+        super().__init__(*args, **kwargs)
+        self.response_mode = response_mode
+        if response_mode == 'free':
+            self.fields['answer'].label = _('Choose a picture freely')
+        elif response_mode == 'observation':
+            del self.fields['answer']
     def clean(self):
         data = super().clean()
-        if data.get('completion') == 'completed' and not data.get('answer'):
+        if data.get('completion') == 'completed' and self.response_mode != 'observation' and not data.get('answer'):
             self.add_error('answer', _('Choose an answer or stop the activity.'))
-        if data.get('completion') == 'stopped':
+        if self.response_mode == 'observation' or data.get('completion') == 'stopped':
             data['answer'] = ''
-        elif data.get('stop_reason'):
+        if data.get('completion') != 'stopped' and data.get('stop_reason'):
             self.add_error('stop_reason', _('A stopping reason belongs to a stopped practice only.'))
         return data
 

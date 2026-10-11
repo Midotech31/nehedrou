@@ -3549,3 +3549,195 @@ msgstr "Reserve items belong to professional follow-up and cannot be assigned to
 
 msgid "Variant identifiers shared by the goal and an item must have identical definitions."
 msgstr "Variant identifiers shared by the goal and an item must have identical definitions."
+
+msgid "A free choice or observation cannot impose a requested picture."
+msgstr "A free choice or observation cannot impose a requested picture."
+
+msgid "A proposed minimal pair must differ in exactly one phoneme."
+msgstr "A proposed minimal pair must differ in exactly one phoneme."
+
+msgid "A proposed minimal pair needs matching tasks and aligned phoneme sequences."
+msgstr "A proposed minimal pair needs matching tasks and aligned phoneme sequences."
+
+msgid "ARABIC AT HOME"
+msgstr "ARABIC AT HOME"
+
+msgid "Actions and verbs"
+msgstr "Actions and verbs"
+
+msgid "Activity response"
+msgstr "Activity response"
+
+msgid "Activity type"
+msgstr "Activity type"
+
+msgid "All activity types"
+msgstr "All activity types"
+
+msgid "All themes"
+msgstr "All themes"
+
+msgid "Animals"
+msgstr "Animals"
+
+msgid "Body"
+msgstr "Body"
+
+msgid "Categories and associations"
+msgstr "Categories and associations"
+
+msgid "Choose a picture freely"
+msgstr "Choose a picture freely"
+
+msgid "Choose any picture that interests the child. Both choices are welcome."
+msgstr "Choose any picture that interests the child. Both choices are welcome."
+
+msgid "Choose the variety the child uses. Standard Arabic words are not substituted for the family's Darja."
+msgstr "Choose the variety the child uses. Standard Arabic words are not substituted for the family's Darja."
+
+msgid "Clothing"
+msgstr "Clothing"
+
+msgid "Daily routines"
+msgstr "Daily routines"
+
+msgid "Either word as requested"
+msgstr "Either word as requested"
+
+msgid "Everyday life"
+msgstr "Everyday life"
+
+msgid "Explore the words or act out a short scene together. Record participation when you finish."
+msgstr "Explore the words or act out a short scene together. Record participation when you finish."
+
+msgid "Food"
+msgstr "Food"
+
+msgid "Free choice and observation do not count as scored answers."
+msgstr "Free choice and observation do not count as scored answers."
+
+msgid "Free choice without a correctness score"
+msgstr "Free choice without a correctness score"
+
+msgid "Free picture choice"
+msgstr "Free picture choice"
+
+msgid "Home"
+msgstr "Home"
+
+msgid "Identify the differing phoneme as a target in both words."
+msgstr "Identify the differing phoneme as a target in both words."
+
+msgid "Illustrated demonstrations and editorial proposals. Human linguistic and clinical review is still required."
+msgstr "Illustrated demonstrations and editorial proposals. Human linguistic and clinical review is still required."
+
+msgid "Make a choice together"
+msgstr "Make a choice together"
+
+msgid "Matching picture"
+msgstr "Matching picture"
+
+msgid "Nature"
+msgstr "Nature"
+
+msgid "No scored answer recorded"
+msgstr "No scored answer recorded"
+
+msgid "Observe and play together"
+msgstr "Observe and play together"
+
+msgid "Picture selected freely · no scored answer"
+msgstr "Picture selected freely · no scored answer"
+
+msgid "Play"
+msgstr "Play"
+
+msgid "Play together"
+msgstr "Play together"
+
+msgid "Requested picture choice"
+msgstr "Requested picture choice"
+
+msgid "Requested picture target"
+msgstr "Requested picture target"
+
+msgid "Requests and choices"
+msgstr "Requests and choices"
+
+msgid "Response mode"
+msgstr "Response mode"
+
+msgid "School"
+msgstr "School"
+
+msgid "Shared activity reported · no picture answer scored"
+msgstr "Shared activity reported · no picture answer scored"
+
+msgid "Shared observation"
+msgstr "Shared observation"
+
+msgid "Shared observation does not record a picture answer."
+msgstr "Shared observation does not record a picture answer."
+
+msgid "Shared observation without a picture answer"
+msgstr "Shared observation without a picture answer"
+
+msgid "Short stories and conversation"
+msgstr "Short stories and conversation"
+
+msgid "Sounds"
+msgstr "Sounds"
+
+msgid "Spatial relations"
+msgstr "Spatial relations"
+
+msgid "Standard Arabic and Algerian Darja"
+msgstr "Standard Arabic and Algerian Darja"
+
+msgid "Standard Arabic · educational pilot"
+msgstr "Standard Arabic · educational pilot"
+
+msgid "The requested picture must match this activity’s instruction."
+msgstr "The requested picture must match this activity’s instruction."
+
+msgid "The response mode must match the assigned content version."
+msgstr "The response mode must match the assigned content version."
+
+msgid "Theme"
+msgstr "Theme"
+
+msgid "Travel"
+msgstr "Travel"
+
+msgid "Unvalidated example. Follow the caregiver guide; this activity does not score a picture answer."
+msgstr "Unvalidated example. Follow the caregiver guide; this activity does not score a picture answer."
+
+msgid "Vocabulary and comprehension"
+msgstr "Vocabulary and comprehension"
+
+msgid "Word exploration"
+msgstr "Word exploration"
+
+msgid "Word, meaning or activity"
+msgstr "Word, meaning or activity"
+
+msgid "Listen with a device voice"
+msgstr "Listen with a device voice"
+
+msgid "Synthetic device voice · unreviewed"
+msgstr "Synthetic device voice · unreviewed"
+
+msgid "This optional device voice is a demonstration aid. It is not a reviewed pronunciation model. A caregiver can read the word instead."
+msgstr "This optional device voice is a demonstration aid. It is not a reviewed pronunciation model. A caregiver can read the word instead."
+
+msgid "No Arabic device voice is available. A caregiver can read the word."
+msgstr "No Arabic device voice is available. A caregiver can read the word."
+
+msgid "Playing device voice"
+msgstr "Playing device voice"
+
+msgid "Device voice could not play. A caregiver can read the word."
+msgstr "Device voice could not play. A caregiver can read the word."
+
+msgid "Device voice ready"
+msgstr "Device voice ready"

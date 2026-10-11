@@ -128,9 +128,8 @@ def create_program(actor, child, data):
     activities = [locked[a.pk] for a in selected]
     if any(not a.usable or a.variety_id != data['variety'].pk for a in activities):
         raise ValidationError(_('This activity is no longer available. Contact your clinician.'))
-    from followup.services import reserved_words_for, word_key
-    reserved = reserved_words_for(child, data['variety'])
-    if any(word_key(word) in reserved for a in activities for word in [a.word_a, a.word_b]):
+    from .reserves import reserved_activity_ids
+    if reserved_activity_ids(child, activities):
         raise ValidationError(_('Reserve items belong to professional follow-up and cannot be assigned to family games.'))
     if not settings.DEMO_MODE:
         from qualification.services import availability_for
@@ -208,6 +207,11 @@ def record_practice(actor, item, payload, ticket):
     if not visible_programs(actor).filter(pk=item.program_id).exists():
         raise ValidationError(_('Access is no longer available.'))
     body = {k: payload.get(k, '') for k in ['answer', 'completion', 'parent_report', 'comment']}
+    response_mode = item.activity.response_mode
+    if response_mode != 'matching':
+        body['response_mode'] = response_mode
+    if response_mode == 'observation' or body['completion'] == 'stopped':
+        body['answer'] = ''
     # Empty new declarations preserve digests of historical submissions.
     body.update({k: payload[k] for k in ['support_used', 'stop_reason'] if payload.get(k)})
     body.update(item=str(item.pk), target=ticket['target'])
@@ -225,10 +229,12 @@ def record_practice(actor, item, payload, ticket):
         if existing.payload_digest != digest:
             raise ValidationError(_('This submission key was already used with different answers.'))
         return existing
+    if response_mode == 'matching' and item.activity.requested_target and ticket['target'] != item.activity.requested_target:
+        raise ValidationError(_('The requested picture must match this activity’s instruction.'))
     if not item.program.child.active or item.program.state != 'active' or not item.activity.usable:
         raise ValidationError(_('This activity is no longer available. Contact your clinician.'))
-    from followup.services import reserved_words_for, word_key
-    if any(word_key(word) in reserved_words_for(item.program.child, item.program.variety) for word in [item.activity.word_a, item.activity.word_b]):
+    from .reserves import activity_is_reserved
+    if activity_is_reserved(item.program.child, item.activity):
         raise ValidationError(_('Reserve items belong to professional follow-up and cannot be assigned to family games.'))
     if run:
         pending = run.tasks.filter(report__isnull=True).order_by('position').first()
@@ -237,7 +243,7 @@ def record_practice(actor, item, payload, ticket):
         if not item.activity.instructions.get(actor.instruction_language):
             raise ValidationError(_('Choose another instruction language in your preferences or contact your clinician.'))
     reporter_role = 'caregiver' if FamilyLink.objects.filter(child=item.program.child, user=actor, active=True).exists() else 'clinician'
-    session = PracticeSession.objects.create(organization=item.program.organization, item=item, user=actor, run_task=task, reporter_role=reporter_role, idempotency_key=ticket['key'], payload_digest=digest, answer=body['answer'], target=ticket['target'], completion=body['completion'], correct=(body['answer'] == ticket['target']) if body['completion'] == 'completed' else None, parent_report=body['parent_report'], comment=body['comment'], support_used=body.get('support_used', ''), stop_reason=body.get('stop_reason', ''))
+    session = PracticeSession.objects.create(organization=item.program.organization, item=item, user=actor, run_task=task, reporter_role=reporter_role, idempotency_key=ticket['key'], payload_digest=digest, answer=body['answer'], target=ticket['target'], response_mode=response_mode, completion=body['completion'], correct=(body['answer'] == ticket['target']) if body['completion'] == 'completed' and response_mode == 'matching' else None, parent_report=body['parent_report'], comment=body['comment'], support_used=body.get('support_used', ''), stop_reason=body.get('stop_reason', ''))
     from followup.services import record_practice_exposure
     record_practice_exposure(actor, session)
     if run and (body['completion'] == 'stopped' or not run.tasks.filter(report__isnull=True).exists()):

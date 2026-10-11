@@ -253,11 +253,33 @@ def library(request):
     code = request.GET.get('variety', '')
     if code:
         qs = qs.filter(variety__code=code)
+    kind = request.GET.get('kind', '')
+    theme = request.GET.get('theme', '')
+    if kind not in dict(Activity.KIND_CHOICES):
+        kind = ''
+    if theme not in dict(Activity.THEME_CHOICES):
+        theme = ''
+    if kind:
+        qs = qs.filter(kind=kind)
+    if theme:
+        qs = qs.filter(theme=theme)
     query = request.GET.get('q', '').strip()[:100]
     if query:
-        qs = qs.filter(Q(title__icontains=query) | Q(contrast__icontains=query))
+        from catalog.search import search_key
+        normalized = search_key(query)
+        qs = qs.filter(Q(search_text__contains=normalized) | Q(title__icontains=query) | Q(contrast__icontains=query)) if normalized else qs.none()
     from django.core.paginator import Paginator
-    return render(request, 'library.html', {'page': Paginator(qs.order_by('title'), 12).get_page(request.GET.get('page')), 'varieties': Variety.objects.all(), 'selected': code, 'query': query, 'content_language': language, 'result_count': qs.count()})
+    arabic_base = current_catalog(Activity.objects.filter(state='published', variety__language='ar').select_related('variety'))
+    if not settings.DEMO_MODE:
+        arabic_base = arabic_base.filter(is_demo=False)
+    arabic_base = arabic_base.exclude(pk__in=family_catalog_exclusions(request.user, arabic_base))
+    collections = [{'code': v.code, 'label': v.display_label, 'count': arabic_base.filter(variety=v).count()}
+                   for v in Variety.objects.filter(code__in=['ar-msa-pilot', 'ar-dz-pilot']).order_by('-code')]
+    return render(request, 'library.html', {'page': Paginator(qs.order_by('title', 'pk'), 12).get_page(request.GET.get('page')),
+        'varieties': Variety.objects.filter(language=language) if language in dict(settings.LANGUAGES) else Variety.objects.all(),
+        'selected': code, 'query': query, 'content_language': language, 'result_count': qs.count(),
+        'kinds': Activity.KIND_CHOICES, 'themes': Activity.THEME_CHOICES, 'selected_kind': kind, 'selected_theme': theme,
+        'arabic_collections': collections, 'arabic_context': language == 'ar' or code.startswith('ar-')})
 
 @login_required
 def activity_detail(request, pk):
@@ -454,9 +476,10 @@ def practice(request, pk):
             pending = task.run.tasks.filter(report__isnull=True).order_by('position').first()
             if task.run.state != 'active' or not pending or pending.pk != task.pk:
                 return redirect('practice_run_detail', pk=task.run_id)
-    ticket_data = task_ticket(task) if task else {'user': request.user.pk, 'item': str(item.pk), 'key': str(uuid.uuid4()), 'target': secrets.choice(['a', 'b'])}
+    requested_target = item.activity.requested_target if item.activity.response_mode == 'matching' else ''
+    ticket_data = task_ticket(task) if task else {'user': request.user.pk, 'item': str(item.pk), 'key': str(uuid.uuid4()), 'target': requested_target or secrets.choice(['a', 'b'])}
     ticket = signing.dumps(ticket_data, salt='practice')
-    form = PracticeForm(request.POST or None, initial={'ticket': ticket})
+    form = PracticeForm(request.POST or None, initial={'ticket': ticket}, response_mode=item.activity.response_mode)
     def read_ticket(raw):
         loaded = signing.loads(raw, salt='practice', max_age=7200)
         if not isinstance(loaded, dict) or loaded.get('user') != request.user.pk or loaded.get('item') != str(item.pk) or loaded.get('run_task') != (str(task.pk) if task else None) or loaded.get('target') not in ['a', 'b']:
@@ -487,9 +510,10 @@ def practice(request, pk):
     instruction = item.activity.instructions.get(request.user.instruction_language)
     if not instruction:
         return render(request, 'notice.html', {'title': _('Instructions unavailable'), 'body': _('Choose another instruction language in your preferences or contact your clinician.')}, status=409)
-    target = item.activity.word_a if ticket_data['target'] == 'a' else item.activity.word_b
-    audio = item.activity.audio_a if ticket_data['target'] == 'a' else item.activity.audio_b
-    return render(request, 'practice.html', {'item': item, 'form': form, 'instruction': instruction, 'target': target, 'audio': audio, 'run_task': task, 'run_count': task.run.tasks.count() if task else None})
+    target = (item.activity.word_a if ticket_data['target'] == 'a' else item.activity.word_b) if item.activity.response_mode == 'matching' else ''
+    audio = (item.activity.audio_a if ticket_data['target'] == 'a' else item.activity.audio_b) if item.activity.response_mode == 'matching' else ''
+    step_two_title = {'matching': _('Listen and choose'), 'free': _('Choose a picture freely'), 'observation': _('Play together')}[item.activity.response_mode]
+    return render(request, 'practice.html', {'item': item, 'form': form, 'instruction': instruction, 'target': target, 'audio': audio, 'response_mode': item.activity.response_mode, 'step_two_title': step_two_title, 'run_task': task, 'run_count': task.run.tasks.count() if task else None})
 
 @login_required
 def practice_report(request, pk):
@@ -537,7 +561,7 @@ def export_child(request, pk):
         for item in program.items.all():
             if item.activity_id in blocked_ids:
                 continue
-            row['items'].append({'id': str(item.pk), 'position':item.position, 'activity_id': str(item.activity_id), 'version': item.activity.version, 'title': item.activity.title, 'sessions': [{'id':str(s.pk), 'run_task_id':str(s.run_task_id) if s.run_task_id in visible_task_ids else None, 'at': s.created_at.isoformat(), 'completion': s.completion, 'closed_task_correct': s.correct, 'reporter_role': s.reporter_role, 'parent_report': s.parent_report, 'parent_comment': s.comment, 'declared_support': s.support_used, 'declared_stop_reason': s.stop_reason} for s in item.sessions.all()]})
+            row['items'].append({'id': str(item.pk), 'position':item.position, 'activity_id': str(item.activity_id), 'version': item.activity.version, 'title': item.activity.title, 'sessions': [{'id':str(s.pk), 'run_task_id':str(s.run_task_id) if s.run_task_id in visible_task_ids else None, 'at': s.created_at.isoformat(), 'completion': s.completion, 'response_mode': s.response_mode, 'closed_task_correct': s.correct, 'reporter_role': s.reporter_role, 'parent_report': s.parent_report, 'parent_comment': s.comment, 'declared_support': s.support_used, 'declared_stop_reason': s.stop_reason} for s in item.sessions.all()]})
         row['practice_runs'] = [{'id': str(run.pk), 'state': run.state, 'started_at': run.started_at.isoformat(), 'finished_at': run.finished_at.isoformat() if run.finished_at else None,
             'tasks': [{'id':str(t.pk), 'position': t.position, 'item_id': str(t.item_id), 'report_id': str(t.report.pk) if getattr(t, 'report', None) else None} for t in run.tasks.all() if t.item_id not in hidden_item_ids]} for run in program.export_runs]
         row['family_feedback'] = [{'id':str(f.pk), 'source_report_id':str(f.source_report_id) if f.source_report_id else None, 'at':f.created_at.isoformat(), 'text':f.text, 'author':f.author.username} for f in program.export_feedback]

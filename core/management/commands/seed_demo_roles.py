@@ -52,6 +52,7 @@ class Command(BaseCommand):
 
         call_command('seed_demo', stdout=self.stdout, verbosity=options['verbosity'])
         call_command('seed_candidates', demo_copies=True, stdout=self.stdout, verbosity=options['verbosity'])
+        call_command('seed_arabic_library', demo_copies=True, stdout=self.stdout, verbosity=options['verbosity'])
         accounts = {}
         new_accounts = set()
         for name in ROLE_USERNAMES:
@@ -87,7 +88,7 @@ class Command(BaseCommand):
                     raise CommandError('A current, guided demonstration is required to create role programs.')
                 child = Child.objects.create(pk=ROLE_CHILD_IDS[name], organization=organization, code=code,
                                              age_years=5, responsible=accounts[name])
-                child.varieties.add(*varieties)
+                child.varieties.add(*varieties, *Variety.objects.filter(code='ar-msa-pilot'))
             elif child.organization_id != organization.pk or not child.code.endswith('· fictif'):
                 raise CommandError('A reserved role profile is not explicitly fictional.')
             if name == 'orthophoniste' and (child_created or 'accompagnant' in new_accounts):
@@ -105,8 +106,9 @@ class Command(BaseCommand):
                 if created:
                     ProgramItem.objects.create(program=program, position=1, activity=activity)
 
+        editorial_varieties = varieties + list(Variety.objects.filter(code='ar-msa-pilot'))
         for name, capabilities in EDITORIAL_CAPABILITIES.items():
-            for variety in varieties:
+            for variety in editorial_varieties:
                 EditorialGrant.objects.get_or_create(user=accounts[name], variety=variety, defaults=capabilities)
         accounts['gestionnaire'].user_permissions.add(
             Permission.objects.get(content_type__app_label='core', codename='manage_entitlements'))

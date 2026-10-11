@@ -44,7 +44,7 @@ def activity_content_reasons(activity):
     from qualification.models import EvidenceDocument
     reasons = []
     try:
-        validate_item_metadata(activity.item_metadata,required=True)
+        validate_item_metadata(activity.item_metadata,required=True,require_targets=activity.kind in ['word_pair','phonological_contrast'])
     except ValidationError as exc:
         reasons.extend(exc.messages)
     for key in ['a','b']:

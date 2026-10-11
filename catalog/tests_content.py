@@ -35,7 +35,7 @@ class ContentQualificationTests(TestCase):
         activity.practice_guide, activity.evidence_sources, activity.state = {}, [], 'review'
         activity.save()
         legacy = {field.attname: getattr(activity, field.attname) for field in activity._meta.concrete_fields
-                  if field.name not in ['id', 'state', 'created_at', 'practice_guide', 'evidence_sources', 'item_metadata', 'media_manifest']}
+                  if field.name not in ['id', 'state', 'created_at', 'practice_guide', 'evidence_sources', 'item_metadata', 'media_manifest', 'search_text', 'kind', 'theme', 'response_mode', 'requested_target']}
         digest = hashlib.sha256(json.dumps(legacy, sort_keys=True, default=str, ensure_ascii=False).encode()).hexdigest()
         self.assertEqual(activity.fingerprint(), digest)
         # Historical review rows are retained, not upgraded into qualified approvals.

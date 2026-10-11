@@ -29,7 +29,7 @@ def validate_content_guide(guide, references):
         validate_url(reference['url'])
 
 
-def validate_item_definition(data, required=False):
+def validate_item_definition(data, required=False, require_targets=True):
     """Validate structure only: no IPA validity, indication or familiarity is inferred."""
     if not isinstance(data, dict):
         raise ValidationError(_('An item definition must be an object.'))
@@ -40,7 +40,7 @@ def validate_item_definition(data, required=False):
     variants = data.get('accepted_variants', [])
     if not isinstance(segments, list) or any(not isinstance(s, str) or not s.strip() for s in segments) or (required and not segments):
         raise ValidationError(_('Segments must be an ordered list of phonemes.'))
-    if not isinstance(occurrences, list) or (required and not occurrences):
+    if not isinstance(occurrences, list) or (required and require_targets and not occurrences):
         raise ValidationError(_('Identify at least one target occurrence.'))
     indices = set()
     for occurrence in occurrences:
@@ -53,7 +53,7 @@ def validate_item_definition(data, required=False):
     if not isinstance(variants, list) or any(not isinstance(v, dict) or not isinstance(v.get('ipa'),str) or not v['ipa'].strip() or not isinstance(v.get('reason'),str) or not v['reason'].strip() for v in variants):
         raise ValidationError(_('Admissible variants need an IPA form and an explicit reason.'))
 
-def validate_item_metadata(metadata, required=False):
+def validate_item_metadata(metadata, required=False, require_targets=True):
     if not isinstance(metadata, dict):
         raise ValidationError(_('Item metadata must be an object indexed by a and b.'))
     if not metadata and not required:
@@ -61,4 +61,19 @@ def validate_item_metadata(metadata, required=False):
     if set(metadata) != {'a','b'}:
         raise ValidationError(_('Document both words using the keys a and b.'))
     for data in metadata.values():
-        validate_item_definition(data, required=required)
+        validate_item_definition(data, required=required, require_targets=require_targets)
+
+
+def validate_minimal_pair(metadata, response_mode):
+    # A structural safeguard, not a linguistic attestation or clinical approval.
+    validate_item_metadata(metadata, required=True)
+    first, second = metadata['a']['segments'], metadata['b']['segments']
+    if response_mode != 'matching' or len(first) != len(second):
+        raise ValidationError(_('A proposed minimal pair needs matching tasks and aligned phoneme sequences.'))
+    changed = [index for index, (a, b) in enumerate(zip(first, second)) if a != b]
+    if len(changed) != 1:
+        raise ValidationError(_('A proposed minimal pair must differ in exactly one phoneme.'))
+    index = changed[0]
+    for entry in metadata.values():
+        if not any(occurrence['index'] == index for occurrence in entry['target_occurrences']):
+            raise ValidationError(_('Identify the differing phoneme as a target in both words.'))

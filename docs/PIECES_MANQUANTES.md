@@ -41,3 +41,7 @@ Pour poupée et papillon, seul le /p/ initial proposé est une occurrence cible 
 ## Démonstration publiée
 
 Le service Render public reste une démonstration fictive, avec stockage éphémère pouvant être réinitialisé. Les mots de passe de recette sont communiqués dans un fichier privé, séparément du dépôt et des pages. Aucun dossier réel ne doit être introduit sur ce service. Les brouillons et simulations disponibles permettent de tester les fonctionnalités en attendant les pièces humaines et les médias, sans masquer les limites.
+
+## Extension arabe du 11 octobre 2026
+
+74 nouvelles fiches originales non approuvées : 42 arabe standard, 32 darja. 148 nouveaux emplacements audio vides ; familiarité, adéquation sémantique des illustrations, variantes, relectures compétentes, dossiers médias et disponibilité réelle restent à qualifier. Les 37 propositions historiques ne sont pas remplacées. Voir [ACTIVITES_ARABES.md](ACTIVITES_ARABES.md) et le corpus `arabic-library-v1.json`. Aucun avis ou compte réel n’est modifié.

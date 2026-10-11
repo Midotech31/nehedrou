@@ -3549,3 +3549,195 @@ msgstr "Les mots de réserve sont destinés au suivi professionnel et ne peuvent
 
 msgid "Variant identifiers shared by the goal and an item must have identical definitions."
 msgstr "Les identifiants de variantes communs à l’objectif et à un item doivent avoir des définitions identiques."
+
+msgid "A free choice or observation cannot impose a requested picture."
+msgstr "Un choix libre ou une observation ne peut pas imposer une image demandée."
+
+msgid "A proposed minimal pair must differ in exactly one phoneme."
+msgstr "Une paire minimale proposée doit différer par exactement un phonème."
+
+msgid "A proposed minimal pair needs matching tasks and aligned phoneme sequences."
+msgstr "Une paire minimale proposée exige une tâche de choix ciblé et des séquences phonémiques alignées."
+
+msgid "ARABIC AT HOME"
+msgstr "L’ARABE À LA MAISON"
+
+msgid "Actions and verbs"
+msgstr "Actions et verbes"
+
+msgid "Activity response"
+msgstr "Réponse à l’activité"
+
+msgid "Activity type"
+msgstr "Type d’activité"
+
+msgid "All activity types"
+msgstr "Tous les types d’activités"
+
+msgid "All themes"
+msgstr "Tous les thèmes"
+
+msgid "Animals"
+msgstr "Animaux"
+
+msgid "Body"
+msgstr "Corps"
+
+msgid "Categories and associations"
+msgstr "Catégories et associations"
+
+msgid "Choose a picture freely"
+msgstr "Choisissez librement une image"
+
+msgid "Choose any picture that interests the child. Both choices are welcome."
+msgstr "Choisissez l’image qui intéresse l’enfant. Les deux choix sont acceptés."
+
+msgid "Choose the variety the child uses. Standard Arabic words are not substituted for the family's Darja."
+msgstr "Choisissez la variété que l’enfant utilise. Les mots en arabe standard ne remplacent pas la darija de la famille."
+
+msgid "Clothing"
+msgstr "Vêtements"
+
+msgid "Daily routines"
+msgstr "Routines quotidiennes"
+
+msgid "Either word as requested"
+msgstr "L’un ou l’autre mot selon la demande"
+
+msgid "Everyday life"
+msgstr "Vie quotidienne"
+
+msgid "Explore the words or act out a short scene together. Record participation when you finish."
+msgstr "Découvrez les mots ou jouez une courte scène ensemble. Déclarez la participation à la fin."
+
+msgid "Food"
+msgstr "Alimentation"
+
+msgid "Free choice and observation do not count as scored answers."
+msgstr "Les choix libres et les observations ne sont pas comptés comme des réponses notées."
+
+msgid "Free choice without a correctness score"
+msgstr "Choix libre sans score de justesse"
+
+msgid "Free picture choice"
+msgstr "Choix libre d’une image"
+
+msgid "Home"
+msgstr "Maison"
+
+msgid "Identify the differing phoneme as a target in both words."
+msgstr "Identifiez le phonème différent comme cible dans chacun des deux mots."
+
+msgid "Illustrated demonstrations and editorial proposals. Human linguistic and clinical review is still required."
+msgstr "Démonstrations illustrées et propositions éditoriales. Une relecture linguistique et clinique humaine reste nécessaire."
+
+msgid "Make a choice together"
+msgstr "Choisissez ensemble"
+
+msgid "Matching picture"
+msgstr "Image correspondante"
+
+msgid "Nature"
+msgstr "Nature"
+
+msgid "No scored answer recorded"
+msgstr "Aucune réponse notée enregistrée"
+
+msgid "Observe and play together"
+msgstr "Observez et jouez ensemble"
+
+msgid "Picture selected freely · no scored answer"
+msgstr "Image choisie librement · aucune réponse notée"
+
+msgid "Play"
+msgstr "Jeu"
+
+msgid "Play together"
+msgstr "Jouez ensemble"
+
+msgid "Requested picture choice"
+msgstr "Choix de l’image demandée"
+
+msgid "Requested picture target"
+msgstr "Image demandée"
+
+msgid "Requests and choices"
+msgstr "Demandes et choix"
+
+msgid "Response mode"
+msgstr "Mode de réponse"
+
+msgid "School"
+msgstr "École"
+
+msgid "Shared activity reported · no picture answer scored"
+msgstr "Activité partagée déclarée · aucun choix d’image noté"
+
+msgid "Shared observation"
+msgstr "Observation partagée"
+
+msgid "Shared observation does not record a picture answer."
+msgstr "L’observation partagée n’enregistre pas de réponse par image."
+
+msgid "Shared observation without a picture answer"
+msgstr "Observation partagée sans réponse par image"
+
+msgid "Short stories and conversation"
+msgstr "Petites histoires et échanges"
+
+msgid "Sounds"
+msgstr "Sons"
+
+msgid "Spatial relations"
+msgstr "Relations spatiales"
+
+msgid "Standard Arabic and Algerian Darja"
+msgstr "Arabe standard et darija algérienne"
+
+msgid "Standard Arabic · educational pilot"
+msgstr "Arabe standard · pilote éducatif"
+
+msgid "The requested picture must match this activity’s instruction."
+msgstr "L’image demandée doit correspondre à la consigne de cette activité."
+
+msgid "The response mode must match the assigned content version."
+msgstr "Le mode de réponse doit correspondre à la version du contenu affecté."
+
+msgid "Theme"
+msgstr "Thème"
+
+msgid "Travel"
+msgstr "Déplacements"
+
+msgid "Unvalidated example. Follow the caregiver guide; this activity does not score a picture answer."
+msgstr "Exemple non validé. Suivez le guide de l’accompagnant ; cette activité ne note pas de choix d’image."
+
+msgid "Vocabulary and comprehension"
+msgstr "Vocabulaire et compréhension"
+
+msgid "Word exploration"
+msgstr "Découverte de mots"
+
+msgid "Word, meaning or activity"
+msgstr "Mot, sens ou activité"
+
+msgid "Listen with a device voice"
+msgstr "Écouter avec une voix de l’appareil"
+
+msgid "Synthetic device voice · unreviewed"
+msgstr "Voix synthétique de l’appareil · non vérifiée"
+
+msgid "This optional device voice is a demonstration aid. It is not a reviewed pronunciation model. A caregiver can read the word instead."
+msgstr "Cette voix facultative de l’appareil aide à explorer la démonstration. Ce n’est pas un modèle de prononciation vérifié. Un adulte accompagnant peut lire le mot à la place."
+
+msgid "No Arabic device voice is available. A caregiver can read the word."
+msgstr "Aucune voix arabe n’est disponible sur l’appareil. Un adulte accompagnant peut lire le mot."
+
+msgid "Playing device voice"
+msgstr "Lecture avec la voix de l’appareil"
+
+msgid "Device voice could not play. A caregiver can read the word."
+msgstr "La voix de l’appareil n’a pas pu lire le mot. Un adulte accompagnant peut le lire."
+
+msgid "Device voice ready"
+msgstr "Voix de l’appareil prête"

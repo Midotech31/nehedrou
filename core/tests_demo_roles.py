@@ -158,7 +158,7 @@ class DemoRoleWorkflowTests(TestCase):
             self.assertFalse(user.is_superuser)
         for username, capabilities in expected.items():
             grants = EditorialGrant.objects.filter(user__username=username)
-            self.assertEqual(grants.count(), 3)
+            self.assertEqual(grants.count(), 4)
             self.assertEqual(set(grants.values_list('edit', 'clinical_review', 'linguistic_review', 'publish')), {capabilities})
         operator = User.objects.get(username='gestionnaire')
         self.assertEqual(operator.get_all_permissions(), {'core.manage_entitlements'})

@@ -18,7 +18,7 @@ from catalog.models import MediaAsset
 from catalog.services import allowed
 from .models import (ClinicalGoal, ProbeDefinition, ProbeReview, ProbeAdministration, ProbeRating,
                      ProbeRatingRevision, ProbeExposure, ParentCoaching, HomePracticeFeedback, RATING_FIELDS)
-from .validation import validate_items, validate_conditions, validate_variants, validate_rating, word_key, phoneme_key
+from .validation import validate_items, validate_conditions, validate_variants, validate_rating, word_key, phoneme_key, reserve_word_key
 
 DEFINITION_FIELDS = ['variety', 'title', 'protocol', 'task', 'target_phoneme', 'target_position', 'items', 'rights', 'rights_status', 'evidence', 'is_demo']
 GOAL_FIELDS = ['variety', 'target_phoneme', 'contrast', 'target_position', 'context', 'rationale', 'expected_realization', 'accepted_variants', 'functional_goal', 'review_date', 'external_assessment_status', 'external_assessment_note', 'probe_definition']
@@ -273,16 +273,28 @@ def transition_definition(actor, definition, target):
 
 
 def _exposure_status(child, variety, word, at):
-    events = ProbeExposure.objects.filter(child=child, variety=variety, normalized_word=word_key(word), occurred_at__lte=at)
-    if events.filter(status='trained').exists():
-        return 'trained'
     from care.models import PracticeSession
+    events = ProbeExposure.objects.filter(child=child, variety=variety, occurred_at__lte=at)
     history = PracticeSession.objects.filter(item__program__child=child, item__program__variety=variety,
-        created_at__lte=at, completion='completed').filter(
-        Q(item__activity__word_a__iexact=word) | Q(item__activity__word_b__iexact=word))
-    if history.exists():
-        return 'trained'
-    latest = events.order_by('-occurred_at', '-created_at', '-pk').first()
+        created_at__lte=at, completion='completed')
+    if variety.language == 'ar':
+        key = reserve_word_key(word, variety)
+        # Read conservative aliases without changing append-only events or snapshots.
+        matching_events = [event for event in events.order_by('-occurred_at', '-created_at', '-pk')
+                           if reserve_word_key(event.normalized_word, variety) == key]
+        if any(event.status == 'trained' for event in matching_events):
+            return 'trained'
+        if any(any(reserve_word_key(value, variety) == key for value in pair)
+               for pair in history.values_list('item__activity__word_a', 'item__activity__word_b').iterator()):
+            return 'trained'
+        latest = matching_events[0] if matching_events else None
+    else:
+        events = events.filter(normalized_word=word_key(word))
+        if events.filter(status='trained').exists():
+            return 'trained'
+        if history.filter(Q(item__activity__word_a__iexact=word) | Q(item__activity__word_b__iexact=word)).exists():
+            return 'trained'
+        latest = events.order_by('-occurred_at', '-created_at', '-pk').first()
     if latest:
         return latest.status
     # Assignment alone does not establish actual training or non-exposure.
@@ -456,8 +468,14 @@ def professional_report(actor, administration):
     contamination = []
     for item in admin.snapshot['items']:
         if item['exposure_plan'] == 'reserved':
-            future = ProbeExposure.objects.filter(child=admin.child, variety=admin.definition.variety,
-                normalized_word=word_key(item['word']), status='trained', occurred_at__gt=admin.started_at).order_by('occurred_at').first()
+            events = ProbeExposure.objects.filter(child=admin.child, variety=admin.definition.variety,
+                status='trained', occurred_at__gt=admin.started_at).order_by('occurred_at', 'pk')
+            if admin.definition.variety.language == 'ar':
+                key = reserve_word_key(item['word'], admin.definition.variety)
+                future = next((event for event in events.iterator()
+                    if reserve_word_key(event.normalized_word, admin.definition.variety) == key), None)
+            else:
+                future = events.filter(normalized_word=word_key(item['word'])).first()
             if future:
                 contamination.append({'item_key': item['id'], 'word': item['word'], 'at': future.occurred_at.isoformat(),
                     'original_exposure': item['exposure_at_start']})

@@ -1,5 +1,6 @@
 """Protect probe words from structured family-facing practice material."""
-from followup.services import reserved_words_for, word_key
+from followup.services import reserved_words_for
+from followup.validation import reserve_word_key
 
 
 def reserved_activity_ids(child, activities):
@@ -7,9 +8,10 @@ def reserved_activity_ids(child, activities):
     blocked = set()
     for activity in activities:
         if activity.variety_id not in by_variety:
-            by_variety[activity.variety_id] = reserved_words_for(child, activity.variety)
+            by_variety[activity.variety_id] = {reserve_word_key(word, activity.variety)
+                for word in reserved_words_for(child, activity.variety)}
         reserved = by_variety[activity.variety_id]
-        if any(word_key(word) in reserved for word in (activity.word_a, activity.word_b)):
+        if any(reserve_word_key(word, activity.variety) in reserved for word in (activity.word_a, activity.word_b)):
             blocked.add(activity.pk)
     return blocked
 

@@ -3549,3 +3549,195 @@ msgstr "الكلمات الاحتياطية مخصصة للمتابعة المه
 
 msgid "Variant identifiers shared by the goal and an item must have identical definitions."
 msgstr "يجب أن تكون تعريفات معرّفات التنوعات المشتركة بين الهدف والمفردة متطابقة."
+
+msgid "A free choice or observation cannot impose a requested picture."
+msgstr "لا يمكن فرض صورة مطلوبة في الاختيار الحر أو الملاحظة."
+
+msgid "A proposed minimal pair must differ in exactly one phoneme."
+msgstr "يجب أن يختلف الزوج الأدنى المقترح في فونيم واحد فقط."
+
+msgid "A proposed minimal pair needs matching tasks and aligned phoneme sequences."
+msgstr "يتطلّب الزوج الأدنى المقترح مهمة اختيار صورة مطلوبة وتسلسلات فونيمية متحاذية."
+
+msgid "ARABIC AT HOME"
+msgstr "العربية في المنزل"
+
+msgid "Actions and verbs"
+msgstr "الأفعال والحركات"
+
+msgid "Activity response"
+msgstr "استجابة النشاط"
+
+msgid "Activity type"
+msgstr "نوع النشاط"
+
+msgid "All activity types"
+msgstr "كل أنواع الأنشطة"
+
+msgid "All themes"
+msgstr "كل المواضيع"
+
+msgid "Animals"
+msgstr "الحيوانات"
+
+msgid "Body"
+msgstr "الجسم"
+
+msgid "Categories and associations"
+msgstr "الفئات والروابط"
+
+msgid "Choose a picture freely"
+msgstr "اختر صورة بحرية"
+
+msgid "Choose any picture that interests the child. Both choices are welcome."
+msgstr "اختر أي صورة تهمّ الطفل. كلا الخيارين مقبول."
+
+msgid "Choose the variety the child uses. Standard Arabic words are not substituted for the family's Darja."
+msgstr "اختر التنوع اللغوي الذي يستخدمه الطفل. لا تُستبدل دارجة الأسرة بكلمات عربية فصحى."
+
+msgid "Clothing"
+msgstr "الملابس"
+
+msgid "Daily routines"
+msgstr "الروتين اليومي"
+
+msgid "Either word as requested"
+msgstr "إحدى الكلمتين حسب الطلب"
+
+msgid "Everyday life"
+msgstr "الحياة اليومية"
+
+msgid "Explore the words or act out a short scene together. Record participation when you finish."
+msgstr "اكتشفوا الكلمات أو مثّلوا مشهدًا قصيرًا معًا. سجّلوا المشاركة عند الانتهاء."
+
+msgid "Food"
+msgstr "الطعام"
+
+msgid "Free choice and observation do not count as scored answers."
+msgstr "لا تُحتسب الاختيارات الحرة والملاحظات كإجابات مُقيَّمة."
+
+msgid "Free choice without a correctness score"
+msgstr "اختيار حر دون درجة للصواب"
+
+msgid "Free picture choice"
+msgstr "اختيار صورة بحرية"
+
+msgid "Home"
+msgstr "المنزل"
+
+msgid "Identify the differing phoneme as a target in both words."
+msgstr "حدّد الفونيم المختلف بوصفه هدفًا في كلتا الكلمتين."
+
+msgid "Illustrated demonstrations and editorial proposals. Human linguistic and clinical review is still required."
+msgstr "عروض توضيحية مصوّرة ومقترحات تحريرية. ما تزال المراجعة اللغوية والسريرية البشرية مطلوبة."
+
+msgid "Make a choice together"
+msgstr "اختاروا معًا"
+
+msgid "Matching picture"
+msgstr "الصورة المطابقة"
+
+msgid "Nature"
+msgstr "الطبيعة"
+
+msgid "No scored answer recorded"
+msgstr "لم تُسجّل إجابة مُقيَّمة"
+
+msgid "Observe and play together"
+msgstr "لاحظوا والعبوا معًا"
+
+msgid "Picture selected freely · no scored answer"
+msgstr "صورة اختيرت بحرية · لا توجد إجابة مُقيَّمة"
+
+msgid "Play"
+msgstr "اللعب"
+
+msgid "Play together"
+msgstr "العبوا معًا"
+
+msgid "Requested picture choice"
+msgstr "اختيار الصورة المطلوبة"
+
+msgid "Requested picture target"
+msgstr "الصورة المطلوبة"
+
+msgid "Requests and choices"
+msgstr "الطلبات والاختيارات"
+
+msgid "Response mode"
+msgstr "نمط الاستجابة"
+
+msgid "School"
+msgstr "المدرسة"
+
+msgid "Shared activity reported · no picture answer scored"
+msgstr "نشاط مشترك مسجّل · لم يُقيَّم اختيار صورة"
+
+msgid "Shared observation"
+msgstr "ملاحظة مشتركة"
+
+msgid "Shared observation does not record a picture answer."
+msgstr "لا تسجّل الملاحظة المشتركة إجابة بصورة."
+
+msgid "Shared observation without a picture answer"
+msgstr "ملاحظة مشتركة دون إجابة بصورة"
+
+msgid "Short stories and conversation"
+msgstr "قصص قصيرة وحوار"
+
+msgid "Sounds"
+msgstr "الأصوات"
+
+msgid "Spatial relations"
+msgstr "العلاقات المكانية"
+
+msgid "Standard Arabic and Algerian Darja"
+msgstr "العربية الفصحى والدارجة الجزائرية"
+
+msgid "Standard Arabic · educational pilot"
+msgstr "العربية الفصحى · تجربة تعليمية"
+
+msgid "The requested picture must match this activity’s instruction."
+msgstr "يجب أن تتوافق الصورة المطلوبة مع تعليمات هذا النشاط."
+
+msgid "The response mode must match the assigned content version."
+msgstr "يجب أن يتوافق نمط الاستجابة مع إصدار المحتوى المخصّص."
+
+msgid "Theme"
+msgstr "الموضوع"
+
+msgid "Travel"
+msgstr "التنقّل"
+
+msgid "Unvalidated example. Follow the caregiver guide; this activity does not score a picture answer."
+msgstr "مثال غير معتمد. اتبع دليل المرافق؛ لا يقيّم هذا النشاط إجابة باختيار صورة."
+
+msgid "Vocabulary and comprehension"
+msgstr "المفردات والفهم"
+
+msgid "Word exploration"
+msgstr "اكتشاف الكلمات"
+
+msgid "Word, meaning or activity"
+msgstr "كلمة أو معنى أو نشاط"
+
+msgid "Listen with a device voice"
+msgstr "الاستماع بصوت الجهاز"
+
+msgid "Synthetic device voice · unreviewed"
+msgstr "صوت اصطناعي من الجهاز · غير مُراجع"
+
+msgid "This optional device voice is a demonstration aid. It is not a reviewed pronunciation model. A caregiver can read the word instead."
+msgstr "هذا الصوت الاختياري من الجهاز وسيلة مساعدة في العرض التجريبي. وهو ليس نموذجًا للنطق تمت مراجعته. يمكن للشخص المرافق قراءة الكلمة بدلًا منه."
+
+msgid "No Arabic device voice is available. A caregiver can read the word."
+msgstr "لا يتوفر صوت عربي على الجهاز. يمكن للشخص المرافق قراءة الكلمة."
+
+msgid "Playing device voice"
+msgstr "جارٍ تشغيل صوت الجهاز"
+
+msgid "Device voice could not play. A caregiver can read the word."
+msgstr "تعذّر تشغيل صوت الجهاز. يمكن للشخص المرافق قراءة الكلمة."
+
+msgid "Device voice ready"
+msgstr "صوت الجهاز جاهز"
