@@ -154,9 +154,9 @@ class OriginalActivityAuthoringTests(TestCase):
         buffer = io.BytesIO()
         with wave.open(buffer, 'wb') as file:
             file.setnchannels(1); file.setsampwidth(2); file.setframerate(8000)
-            file.writeframes(b'\0\0' * 800)
+            file.writeframes(__import__('core.testing',fromlist=['pcm_fixture']).pcm_fixture()[44:])
         with TemporaryDirectory() as directory, override_settings(MEDIA_ROOT=directory, PUBLIC_ORIGIN='https://demo.example'):
-            asset = MediaAsset.objects.create(uploaded_by=self.author, file=ContentFile(buffer.getvalue(), name='synthetic-silence-test.wav'), kind='audio', rights='Synthetic software fixture, not a speech model')
+            asset = MediaAsset.objects.create(uploaded_by=self.author, file=ContentFile(buffer.getvalue(), name='synthetic-tone-test.wav'), kind='audio', rights='Synthetic software fixture, not a speech model')
             form = self.form(self.basic(choose_audio_a=str(asset.pk)))
             self.assertTrue(form.is_valid(), form.errors)
             activity = form.save()

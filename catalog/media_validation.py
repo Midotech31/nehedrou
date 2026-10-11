@@ -52,6 +52,8 @@ def validate_media(file, kind):
                 if not 0.05 <= duration <= 60 or not 8000 <= rate <= 96000:
                     raise ValidationError(_('Audio models must last between 0.05 and 60 seconds, with a supported sample rate.'))
                 metadata.update(format='WAV', seconds=round(duration, 4), channels=channels, sample_rate=rate)
+                from .audio_signal import pcm_levels
+                metadata['signal'] = pcm_levels(data, width, channels)
         else:
             info = MP3(io.BytesIO(data)).info
             if info.sketchy or info.channels not in [1, 2] or not 8000 <= info.sample_rate <= 96000:

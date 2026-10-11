@@ -332,3 +332,19 @@ class FollowupViewTests(TestCase):
         response = self.client.get(self.url('definition_detail', probe.pk))
         self.assertNotContains(response, url)
         self.assertContains(response, self.url('definition_clone', probe.pk))
+
+
+    def test_audio_models_support_ranges_without_family_access(self):
+        from core.testing import pcm_fixture
+        data=pcm_fixture()
+        with tempfile.TemporaryDirectory() as media_root, override_settings(MEDIA_ROOT=media_root):
+            asset=MediaAsset.objects.create(file=ContentFile(data,name='technical-tone.wav'),kind='audio',rights='Software fixture only',uploaded_by=self.pro)
+            items=copy.deepcopy(self.probe.items);items[0]['audio_asset']=str(asset.pk)
+            probe=create_definition(self.pro, {'variety':self.variety,'title':'Audio range fixture','protocol':'Fictional only','task':'naming','target_phoneme':'p','target_position':'initial','items':items,'is_demo':True})
+            objective=goal(self,probe);admin=start(self,probe,objective)
+            for url in [self.url('administration_media',admin.pk,items[0]['id'],'audio'),self.url('definition_media',probe.pk,items[0]['id'],'audio')]:
+                self.client.force_login(self.pro)
+                response=self.client.get(url,HTTP_RANGE='bytes=0-43')
+                self.assertEqual(response.status_code,206);self.assertEqual(response.content,data[:44])
+                self.client.force_login(self.family)
+                self.assertEqual(self.client.get(url,HTTP_RANGE='bytes=0-43').status_code,404)

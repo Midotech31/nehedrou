@@ -184,16 +184,19 @@ def definition_detail(request, pk):
     return render(request, 'followup/definition.html', {'definition': definition, 'state_label': STATE_LABELS[definition.state], 'can_edit': can_edit, 'can_clone': can_clone, 'can_edit_content': can_edit and definition.state == 'draft' and not definition.administrations.exists() and not definition.clinicalgoal_set.exists(), 'can_publish': can_publish, 'can_review': can_review, 'review_form': form, 'reviews': definition.reviews.select_related('author').order_by('-created_at'), 'readiness_reasons': services.readiness_reasons(definition)})
 
 
-def item_media_response(item, kind, frozen_media=None):
+def item_media_response(item, kind, frozen_media=None, request=None):
     if kind not in ['image', 'audio'] or not item.get(kind + '_asset'):
         raise Http404
     asset = get_object_or_404(MediaAsset, pk=item[kind + '_asset'], kind=kind)
-    if not asset.intact:
+    if kind != 'audio' and not asset.intact:
         raise Http404
     if frozen_media is not None:
         entry = frozen_media.get(item['id'] + ':' + kind + '_asset', {})
         if str(entry.get('reference')) != str(asset.pk) or entry.get('sha256') != asset.technical_metadata.get('sha256'):
             raise Http404
+    if kind == 'audio':
+        from catalog.audio_delivery import protected_media_response
+        return protected_media_response(request, asset)
     response = FileResponse(asset.file.open('rb'), content_type=mimetypes.guess_type(asset.file.name)[0] or 'application/octet-stream')
     response['Cache-Control'] = 'private, no-store'
     response['X-Content-Type-Options'] = 'nosniff'
@@ -207,7 +210,7 @@ def definition_media(request, pk, item_key, kind):
     item = next((row for row in definition.items if row['id'] == item_key), None)
     if not item:
         raise Http404
-    return item_media_response(item, kind)
+    return item_media_response(item, kind, request=request)
 
 
 @login_required
@@ -216,7 +219,7 @@ def administration_media(request, pk, item_key, kind):
     item = next((row for row in admin.snapshot['items'] if row['id'] == item_key), None)
     if not item:
         raise Http404
-    return item_media_response(item, kind, admin.snapshot.get('media', {}))
+    return item_media_response(item, kind, admin.snapshot.get('media', {}), request=request)
 
 
 @login_required

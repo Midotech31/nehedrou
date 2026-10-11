@@ -124,6 +124,7 @@ def edit(request, pk=None):
         'resume_url':recover_url(working) if working else '', 'revision':working.revision if working else 0, 'activity':str(activity.pk) if pk else '',
         'base_digest':base_digest, 'language':request.LANGUAGE_CODE,
         'images': {str(asset.pk):reverse('editorial_media', args=[asset.pk]) for asset in form.fields['choose_image_a'].queryset} if not advanced else {},
+        'audios': {str(asset.pk): reverse('editorial_media', args=[asset.pk]) for asset in form.fields['choose_audio_a'].queryset} if not advanced else {},
         'starters':starting_structures(request.LANGUAGE_CODE),
         'labels': {'step':_('Step'), 'empty_word':_('Your word or prompt'), 'empty_instruction':_('Your family instruction will appear here.'),
                    'essentials':_('Essentials completed'), 'saving':_('Saving your working copy…'), 'saved':_('Working copy saved. The activity is not published.'),
@@ -166,14 +167,21 @@ def upload(request):
         if not allowed(request.user, draft.variety, 'edit'): raise PermissionDenied
     from .media_authoring import MediaAuthoringForm
     media_form = MediaForm if 'provenance' in request.POST or request.GET.get('advanced') == '1' else MediaAuthoringForm
-    form = media_form(request.POST or None, request.FILES or None, instance=MediaAsset(uploaded_by=request.user))
+    form = media_form(request.POST or None, request.FILES or None, instance=MediaAsset(uploaded_by=request.user), **({'actor': request.user} if media_form is MediaAuthoringForm else {}))
     from qualification.models import EvidenceDocument
     form.fields['rights_evidence'].queryset = EvidenceDocument.objects.filter(category='rights', revoked=False) if request.user.is_superuser else EvidenceDocument.objects.filter(category='rights', revoked=False, variety__editorialgrant__user=request.user).distinct()
     if request.method == 'POST' and form.is_valid():
-        asset = form.save()
-        from core.services import audit
-        audit(request.user, 'catalog.media_uploaded', asset)
-        return render(request, 'editorial/media.html', {'asset': asset, 'draft': draft})
+        try:
+            asset = form.save()
+        except Exception as error:
+            from botocore.exceptions import BotoCoreError, ClientError
+            if not isinstance(error, (OSError, BotoCoreError, ClientError)):
+                raise
+            form.add_error(None, _('Media storage is temporarily unavailable. Keep your local file and try again.'))
+        else:
+            from core.services import audit
+            audit(request.user, 'catalog.media_uploaded', asset)
+            return render(request, 'editorial/media.html', {'asset': asset, 'draft': draft})
     return render(request, 'editorial/upload.html', {'form': form, 'draft': draft})
 
 @login_required
@@ -193,8 +201,7 @@ def media(request, pk):
     assigned = ProgramItem.objects.filter(activity__in=available, program__in=visible_programs(request.user)).exists()
     if not editorial and not public_catalog and not assigned:
         raise Http404
-    if not asset.intact:
-        raise Http404
     if not editorial and not any(activity.usable for activity in available):
         raise Http404
-    return FileResponse(asset.file.open('rb'), content_type=mimetypes.guess_type(asset.file.name)[0] or 'application/octet-stream')
+    from .audio_delivery import protected_media_response
+    return protected_media_response(request, asset)

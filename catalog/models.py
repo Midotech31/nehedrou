@@ -99,9 +99,13 @@ class Activity(CheckedModel):
 
     @property
     def device_voice_allowed(self):
-        # Unreviewed synthesis is confined to fictional, non-phonological MSA.
-        return bool(settings.DEMO_MODE and self.is_demo and self.variety.code == 'ar-msa-pilot'
+        # Device synthesis is an explicitly unreviewed lexical aid, never Darja.
+        return bool(settings.DEMO_MODE and self.is_demo and self.variety.code in ['fr-fr-pilot', 'en-us-general-pilot', 'ar-msa-pilot']
                     and self.kind not in ['word_pair', 'phonological_contrast'])
+
+    @property
+    def device_voice_language(self):
+        return {'fr-fr-pilot': 'fr-FR', 'en-us-general-pilot': 'en-US', 'ar-msa-pilot': 'ar-SA'}.get(self.variety.code, '')
 
     def audio_available(self, reference):
         from urllib.parse import urlsplit
@@ -260,11 +264,25 @@ class MediaAsset(CheckedModel):
         required = ['holder','licence','permitted_use','territory','duration','attribution']
         if self.kind == 'audio':
             required += ['adult_speaker_permission']
+            if self.technical_metadata.get('signal', {}).get('silent'):
+                return False
+            profile = self.provenance.get('audio', {})
+            if profile and (not isinstance(profile, dict) or profile.get('source') not in ['human', 'synthetic'] or not profile.get('text') or not profile.get('variety')):
+                return False
         return bool(self.intact and self.rights.strip() and self.rights_status in ['original_documented','open_commercial_compatible'] and self.rights_evidence_id and self.rights_evidence.category == 'rights' and self.rights_evidence.intact and isinstance(self.provenance,dict) and all(isinstance(self.provenance.get(key),str) and self.provenance[key].strip() for key in required))
 
     def clean(self):
         if not isinstance(self.provenance, dict):
             raise ValidationError(_('Media provenance must be an object.'))
+        profile = self.provenance.get('audio')
+        if profile is not None:
+            valid = (isinstance(profile, dict) and self.kind == 'audio'
+                     and profile.get('source') in ['human', 'synthetic', 'unspecified']
+                     and isinstance(profile.get('text'), str) and 0 < len(profile['text'].strip()) <= 160
+                     and isinstance(profile.get('variety'), str) and 0 < len(profile['variety']) <= 64
+                     and isinstance(profile.get('region', ''), str) and len(profile.get('region', '')) <= 300)
+            if not valid:
+                raise ValidationError(_('Audio provenance must specify a valid voice source, exact text and spoken variety.'))
         old = MediaAsset.objects.filter(pk=self.pk).first()
         if old:
             if not self.file._committed or old.file.name != self.file.name or old.kind != self.kind or old.technical_metadata != self.technical_metadata:

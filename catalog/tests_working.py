@@ -183,7 +183,7 @@ class WorkingCopyAndQualityTests(TestCase):
         with tempfile.TemporaryDirectory() as directory, override_settings(MEDIA_ROOT=directory):
             response=self.client.post('/fr/editorial/upload/',{'file':SimpleUploadedFile('fixture.wav',audio.getvalue(),content_type='audio/wav'),
                 'kind':'audio','rights':'Fictional recording for a software test','rights_status':'unknown','rights_holder':'Fictional adult',
-                'rights_licence':'Unreviewed permission','rights_adult_speaker_permission':'Pending actual consent'})
+                'rights_licence':'Unreviewed permission','rights_adult_speaker_permission':'Pending actual consent','audio_variety':str(self.variety.pk),'audio_text':'دار','audio_source':'human'})
             self.assertEqual(response.status_code,200)
             asset=MediaAsset.objects.get()
             self.assertEqual(asset.provenance['holder'],'Fictional adult')

@@ -44,6 +44,15 @@
       const url = config.images[value('choose_image_' + side)];
       image.hidden = !url;
       if (url) image.src = url; else image.removeAttribute('src');
+      const audio = document.getElementById('preview-audio-' + side);
+      const audioURL = (config.audios || {})[value('choose_audio_' + side)];
+      audio.hidden = !audioURL;
+      if (audio.getAttribute('src') !== (audioURL || null)) {
+        audio.pause();
+        if (audioURL) audio.src = audioURL; else audio.removeAttribute('src');
+        audio.load();
+      }
+
     });
     document.getElementById('preview-instruction').textContent = value('instructions_' + config.language) || config.labels.empty_instruction;
     const required = ['title','variety','word_a','word_b','contrast'];

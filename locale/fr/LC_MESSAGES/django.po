@@ -4299,3 +4299,210 @@ msgstr "Afficher le mot de passe"
 
 msgid "Hide password"
 msgstr "Masquer le mot de passe"
+
+msgid "Media storage is temporarily unavailable. Keep your local file and try again."
+msgstr "Le stockage des médias est temporairement indisponible. Conservez votre fichier et réessayez."
+
+msgid "Adult voice · requires human review"
+msgstr "Voix adulte · relecture humaine requise"
+
+msgid "Synthetic voice · unreviewed demonstration"
+msgstr "Voix de synthèse · démonstration non relue"
+
+msgid "Voice source not documented"
+msgstr "Origine de la voix non documentée"
+
+msgid "This recording is silent. Record or upload a new file."
+msgstr "Cet enregistrement est silencieux. Enregistrez ou importez un nouveau fichier."
+
+msgid "The recording is very quiet. Check it before use."
+msgstr "Le volume est très faible. Vérifiez l’enregistrement avant utilisation."
+
+msgid "Possible saturation: record again further from the microphone."
+msgstr "Saturation possible : réenregistrez en vous éloignant du microphone."
+
+msgid "The recording variety differs from this activity."
+msgstr "La variété de l’enregistrement diffère de celle de cette activité."
+
+msgid "The recorded text differs from this word."
+msgstr "Le texte enregistré diffère de ce mot."
+
+msgid "Audio unavailable. Check your connection or sign in again; a caregiver can read the word."
+msgstr "Audio indisponible. Vérifiez la connexion ou reconnectez-vous ; l’accompagnant peut lire le mot."
+
+msgid "Playing"
+msgstr "Lecture en cours"
+
+msgid "Paused"
+msgstr "En pause"
+
+msgid "Ready to listen"
+msgstr "Prêt pour l’écoute"
+
+msgid "Audio preview"
+msgstr "Aperçu audio"
+
+msgid "Listen to the recording"
+msgstr "Écouter l’enregistrement"
+
+msgid "Listen again"
+msgstr "Réécouter"
+
+msgid "Playback speed"
+msgstr "Vitesse de lecture"
+
+msgid "Original"
+msgstr "Originale"
+
+msgid "Use original speed to assess speech sounds. Slower playback changes the timing of speech."
+msgstr "Utilisez la vitesse originale pour examiner les sons. La lecture ralentie modifie les durées de la parole."
+
+msgid "No protected recording is linked. A caregiver can read the word."
+msgstr "Aucun enregistrement protégé n’est associé. L’accompagnant peut lire le mot."
+
+msgid "Recording language and variety"
+msgstr "Langue et variété de l’enregistrement"
+
+msgid "Exact spoken word or phrase"
+msgstr "Mot ou phrase prononcée exactement"
+
+msgid "Voice source"
+msgstr "Origine de la voix"
+
+msgid "Select voice source"
+msgstr "Choisir l’origine de la voix"
+
+msgid "Adult human recording"
+msgstr "Enregistrement d’une voix adulte"
+
+msgid "Synthetic speech"
+msgstr "Synthèse vocale"
+
+msgid "Source to document"
+msgstr "Origine à documenter"
+
+msgid "Regional variety or accent notes"
+msgstr "Précisions régionales ou sur l’accent"
+
+msgid "Document the variety, exact spoken text and voice source before saving audio."
+msgstr "Précisez la variété, le texte prononcé et l’origine de la voix avant d’enregistrer le média."
+
+msgid "Record one word or short phrase in a quiet room, in the exact variety of the activity. Leave a short silence before and after, then listen at original speed."
+msgstr "Dans une pièce calme, enregistrez un mot ou une courte phrase dans la variété exacte de l’activité. Gardez un bref silence avant et après, puis écoutez à vitesse originale."
+
+msgid "File and speech information"
+msgstr "Fichier et informations vocales"
+
+msgid "Recording is unavailable in this browser. Import a WAV or MP3 file instead."
+msgstr "L’enregistrement est indisponible dans ce navigateur. Importez un fichier WAV ou MP3."
+
+msgid "Your microphone opens only when you press Record. Nothing is uploaded until you save the form."
+msgstr "Le microphone s’ouvre uniquement après un clic sur Enregistrer. Aucun fichier n’est envoyé avant de sauvegarder le formulaire."
+
+msgid "Waiting for microphone permission…"
+msgstr "En attente de l’autorisation du microphone…"
+
+msgid "Recording… maximum 45 seconds"
+msgstr "Enregistrement… 45 secondes maximum"
+
+msgid "Preparing your WAV recording…"
+msgstr "Préparation du fichier WAV…"
+
+msgid "Listen, then choose Use this recording. It remains on this device until you save."
+msgstr "Écoutez, puis choisissez Utiliser cet enregistrement. Il reste sur cet appareil jusqu’à la sauvegarde."
+
+msgid "Could not record. Check microphone permission or import a WAV or MP3 file."
+msgstr "Enregistrement impossible. Vérifiez l’autorisation du microphone ou importez un fichier WAV ou MP3."
+
+msgid "Recording cancelled. The microphone is off."
+msgstr "Enregistrement annulé. Le microphone est fermé."
+
+msgid "WAV attached to the form. Complete the speech information and rights, then save."
+msgstr "Fichier WAV ajouté au formulaire. Complétez les informations vocales et les droits, puis sauvegardez."
+
+msgid "Download the WAV, then select it in the file field."
+msgstr "Téléchargez le WAV, puis sélectionnez-le dans le champ fichier."
+
+msgid "Confirm that you are recording an adult with permission."
+msgstr "Confirmez que vous enregistrez un adulte avec son autorisation."
+
+msgid "The recording is empty or too long. Try again."
+msgstr "L’enregistrement est vide ou trop long. Réessayez."
+
+msgid "Record an adult voice"
+msgstr "Enregistrer une voix adulte"
+
+msgid "I am recording an adult who has agreed to this recording and its intended use."
+msgstr "J’enregistre un adulte ayant accepté l’enregistrement et l’usage prévu."
+
+msgid "Record"
+msgstr "Enregistrer la voix"
+
+msgid "Stop recording"
+msgstr "Arrêter l’enregistrement"
+
+msgid "Cancel recording"
+msgstr "Annuler l’enregistrement"
+
+msgid "Recording duration"
+msgstr "Durée de l’enregistrement"
+
+msgid "Listen to your recording before uploading"
+msgstr "Écouter votre enregistrement avant l’envoi"
+
+msgid "Use this recording"
+msgstr "Utiliser cet enregistrement"
+
+msgid "Download WAV"
+msgstr "Télécharger le WAV"
+
+msgid "Recording permission does not replace a documented licence or clinical and linguistic review. Never record a child here."
+msgstr "L’accord d’enregistrement ne remplace ni les droits documentés ni les relectures clinique et linguistique. N’enregistrez jamais un enfant ici."
+
+msgid "Recording needs JavaScript. File import remains available."
+msgstr "L’enregistrement nécessite JavaScript. L’import de fichier reste disponible."
+
+msgid "Rights and permissions"
+msgstr "Droits et autorisations"
+
+msgid "Save media"
+msgstr "Sauvegarder le média"
+
+msgid "No matching voice is installed on this device. A caregiver can read the word."
+msgstr "Aucune voix de la langue demandée n’est installée sur cet appareil. L’accompagnant peut lire le mot."
+
+msgid "Matching device voice available"
+msgstr "Voix de la langue demandée disponible"
+
+msgid "Microphone access is limited to the editorial recorder."
+msgstr "L’accès au microphone est limité à l’enregistreur éditorial."
+
+msgid "Listen with device voice"
+msgstr "Écouter la voix de l’appareil"
+
+msgid "Playing a synthetic demonstration voice"
+msgstr "Lecture d’une voix de synthèse de démonstration"
+
+msgid "The device voice could not play. A caregiver can read the word."
+msgstr "La voix de l’appareil ne peut pas être lue. L’accompagnant peut lire le mot."
+
+msgid "The recording must match the exact word and spoken variety of the activity."
+msgstr "L’enregistrement doit correspondre au mot exact et à la variété linguistique de l’activité."
+
+msgid "A silent recording cannot be used as a speech model."
+msgstr "Un enregistrement silencieux ne peut pas servir de modèle de parole."
+
+msgid "Listening and adult voice recording"
+msgstr "Écoute et enregistrement d’une voix adulte"
+
+msgid "In an activity, use the recording player when your clinician has linked a model. Listen again at original speed; stop or take a break whenever needed. If no recording is supplied, follow the caregiver instructions."
+msgstr "Dans une activité, utilisez le lecteur si votre orthophoniste a associé un modèle. Réécoutez à vitesse originale et faites une pause dès que nécessaire. En l’absence de fichier, suivez les consignes destinées à l’accompagnant."
+
+msgid "Device speech is available only for unreviewed lexical demonstrations in a matching language. It is never an Algerian Darja pronunciation model or a phonological contrast model."
+msgstr "La voix de l’appareil est proposée uniquement pour des démonstrations lexicales non relues, dans la langue correspondante. Elle ne sert ni de modèle de prononciation en darja algérienne ni de modèle de contraste phonologique."
+
+msgid "Editors can record an adult voice or import WAV/MP3, document the exact word, variety and rights, and select it in a draft. For Darja, specify the region and local pronunciation. Published content needs a new version before audio changes."
+msgstr "Les éditeurs peuvent enregistrer une voix adulte ou importer un WAV/MP3, préciser le mot, la variété et les droits, puis le choisir dans un brouillon. Pour la darja, indiquez la région et la prononciation locale. Un contenu publié nécessite une nouvelle version pour changer son audio."
+
+msgid "Audio provenance must specify a valid voice source, exact text and spoken variety."
+msgstr "La provenance audio doit préciser une origine vocale valide, le texte exact et la variété linguistique."

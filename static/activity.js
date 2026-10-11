@@ -34,6 +34,7 @@
   }
   label.setAttribute('aria-live', 'polite');
   function show(index, focus = true) {
+    document.dispatchEvent(new Event('nehedrou:stop-audio'));
     current = index;
     if (form.querySelector('[data-device-voice]') && window.speechSynthesis) window.speechSynthesis.cancel();
     sections.forEach((section,i) => {
@@ -53,6 +54,7 @@
   back.addEventListener('click', () => show(Math.max(0, current - 1)));
   next.addEventListener('click', () => show(Math.min(sections.length - 1, current + 1)));
   form.addEventListener('submit', event => {
+    document.dispatchEvent(new Event('nehedrou:stop-audio'));
     if (form.dataset.responseMode !== 'observation' && form.elements.completion.value === 'completed' && !form.querySelector('input[name=answer]:checked')) {
       event.preventDefault();
       show(1);

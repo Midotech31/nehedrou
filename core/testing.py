@@ -8,5 +8,6 @@ def pcm_fixture():
         stream.setnchannels(1)
         stream.setsampwidth(2)
         stream.setframerate(8000)
-        stream.writeframes(b'\x00\x00' * 800)
+        import math, struct
+        stream.writeframes(b''.join(struct.pack('<h', int(5000 * math.sin(2 * math.pi * 220 * i / 8000))) for i in range(800)))
     return output.getvalue()

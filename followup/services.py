@@ -134,6 +134,12 @@ def content_reasons(definition):
             reasons.append(_('Real use requires a documented meaning and phonemic segmentation with a target index matching the protocol phoneme.'))
             break
     manifest = media_manifest(definition.items)
+    from catalog.audio_checks import audio_binding_errors
+    for item in definition.items:
+        if item.get('audio_asset'):
+            asset = MediaAsset.objects.filter(pk=item['audio_asset'], kind='audio').first()
+            if asset:
+                reasons.extend(audio_binding_errors(asset, item.get('word', ''), definition.variety))
     if any(not row['available'] for row in manifest.values()):
         reasons.append(_('Exact reviewed image/audio files with rights are missing or changed.'))
     return reasons

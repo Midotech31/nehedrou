@@ -38,6 +38,10 @@ def media_binding_current(activity):
         asset = referenced_asset(getattr(activity,key),kind)
         if not asset or not asset.documented or asset.rights_evidence.variety_id != activity.variety_id:
             return False
+        if kind == 'audio':
+            from .audio_checks import audio_binding_errors
+            if audio_binding_errors(asset, getattr(activity, 'word_' + key[-1]), activity.variety):
+                return False
     return activity.media_manifest == snapshot_media(activity)
 
 def activity_content_reasons(activity):

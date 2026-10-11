@@ -4299,3 +4299,210 @@ msgstr "إظهار كلمة المرور"
 
 msgid "Hide password"
 msgstr "إخفاء كلمة المرور"
+
+msgid "Media storage is temporarily unavailable. Keep your local file and try again."
+msgstr "تخزين الوسائط غير متاح مؤقتًا. احتفظوا بالملف وحاولوا مجددًا."
+
+msgid "Adult voice · requires human review"
+msgstr "صوت بالغ · يتطلب مراجعة بشرية"
+
+msgid "Synthetic voice · unreviewed demonstration"
+msgstr "صوت اصطناعي · عرض تجريبي لم يُراجع"
+
+msgid "Voice source not documented"
+msgstr "مصدر الصوت غير موثّق"
+
+msgid "This recording is silent. Record or upload a new file."
+msgstr "هذا التسجيل صامت. سجّلوا أو ارفعوا ملفًا جديدًا."
+
+msgid "The recording is very quiet. Check it before use."
+msgstr "مستوى الصوت منخفض جدًا. تحققوا من التسجيل قبل استخدامه."
+
+msgid "Possible saturation: record again further from the microphone."
+msgstr "احتمال تشوّه الصوت: أعيدوا التسجيل بعيدًا قليلًا عن الميكروفون."
+
+msgid "The recording variety differs from this activity."
+msgstr "التنوّع اللغوي للتسجيل يختلف عن النشاط."
+
+msgid "The recorded text differs from this word."
+msgstr "النص المسجّل يختلف عن هذه الكلمة."
+
+msgid "Audio unavailable. Check your connection or sign in again; a caregiver can read the word."
+msgstr "الصوت غير متاح. تحققوا من الاتصال أو سجّلوا الدخول مجددًا؛ يمكن للمرافق قراءة الكلمة."
+
+msgid "Playing"
+msgstr "جارٍ التشغيل"
+
+msgid "Paused"
+msgstr "متوقف مؤقتًا"
+
+msgid "Ready to listen"
+msgstr "جاهز للاستماع"
+
+msgid "Audio preview"
+msgstr "معاينة الصوت"
+
+msgid "Listen to the recording"
+msgstr "الاستماع إلى التسجيل"
+
+msgid "Listen again"
+msgstr "الاستماع مجددًا"
+
+msgid "Playback speed"
+msgstr "سرعة التشغيل"
+
+msgid "Original"
+msgstr "الأصلية"
+
+msgid "Use original speed to assess speech sounds. Slower playback changes the timing of speech."
+msgstr "استخدموا السرعة الأصلية لفحص أصوات الكلام. التشغيل البطيء يغيّر مدد النطق."
+
+msgid "No protected recording is linked. A caregiver can read the word."
+msgstr "لا يوجد تسجيل محمي مرتبط. يمكن للمرافق قراءة الكلمة."
+
+msgid "Recording language and variety"
+msgstr "لغة التسجيل وتنوّعه اللغوي"
+
+msgid "Exact spoken word or phrase"
+msgstr "الكلمة أو العبارة المنطوقة بالضبط"
+
+msgid "Voice source"
+msgstr "مصدر الصوت"
+
+msgid "Select voice source"
+msgstr "اختيار مصدر الصوت"
+
+msgid "Adult human recording"
+msgstr "تسجيل صوت إنسان بالغ"
+
+msgid "Synthetic speech"
+msgstr "كلام اصطناعي"
+
+msgid "Source to document"
+msgstr "مصدر يحتاج إلى توثيق"
+
+msgid "Regional variety or accent notes"
+msgstr "ملاحظات عن المنطقة أو اللكنة"
+
+msgid "Document the variety, exact spoken text and voice source before saving audio."
+msgstr "حددوا التنوّع اللغوي والنص المنطوق ومصدر الصوت قبل حفظ الوسيط."
+
+msgid "Record one word or short phrase in a quiet room, in the exact variety of the activity. Leave a short silence before and after, then listen at original speed."
+msgstr "في غرفة هادئة، سجّلوا كلمة أو عبارة قصيرة بالتنوّع اللغوي المحدد للنشاط. اتركوا صمتًا قصيرًا قبلها وبعدها، ثم استمعوا بالسرعة الأصلية."
+
+msgid "File and speech information"
+msgstr "الملف ومعلومات النطق"
+
+msgid "Recording is unavailable in this browser. Import a WAV or MP3 file instead."
+msgstr "التسجيل غير متاح في هذا المتصفح. ارفعوا ملف WAV أو MP3."
+
+msgid "Your microphone opens only when you press Record. Nothing is uploaded until you save the form."
+msgstr "يُفتح الميكروفون فقط عند الضغط على التسجيل. لا يُرفع أي ملف حتى تحفظوا النموذج."
+
+msgid "Waiting for microphone permission…"
+msgstr "في انتظار إذن الميكروفون…"
+
+msgid "Recording… maximum 45 seconds"
+msgstr "جارٍ التسجيل… 45 ثانية كحد أقصى"
+
+msgid "Preparing your WAV recording…"
+msgstr "جارٍ تحضير تسجيل WAV…"
+
+msgid "Listen, then choose Use this recording. It remains on this device until you save."
+msgstr "استمعوا، ثم اختاروا استخدام هذا التسجيل. يبقى على الجهاز حتى الحفظ."
+
+msgid "Could not record. Check microphone permission or import a WAV or MP3 file."
+msgstr "تعذّر التسجيل. تحققوا من إذن الميكروفون أو ارفعوا ملف WAV أو MP3."
+
+msgid "Recording cancelled. The microphone is off."
+msgstr "أُلغي التسجيل. الميكروفون مغلق."
+
+msgid "WAV attached to the form. Complete the speech information and rights, then save."
+msgstr "أُضيف ملف WAV إلى النموذج. أكملوا معلومات النطق والحقوق، ثم احفظوا."
+
+msgid "Download the WAV, then select it in the file field."
+msgstr "نزّلوا ملف WAV، ثم اختاروه في خانة الملف."
+
+msgid "Confirm that you are recording an adult with permission."
+msgstr "أكدوا أنكم تسجّلون صوت شخص بالغ بإذنه."
+
+msgid "The recording is empty or too long. Try again."
+msgstr "التسجيل فارغ أو طويل جدًا. حاولوا مجددًا."
+
+msgid "Record an adult voice"
+msgstr "تسجيل صوت شخص بالغ"
+
+msgid "I am recording an adult who has agreed to this recording and its intended use."
+msgstr "أسجّل صوت شخص بالغ وافق على التسجيل والاستخدام المقصود."
+
+msgid "Record"
+msgstr "تسجيل الصوت"
+
+msgid "Stop recording"
+msgstr "إيقاف التسجيل"
+
+msgid "Cancel recording"
+msgstr "إلغاء التسجيل"
+
+msgid "Recording duration"
+msgstr "مدة التسجيل"
+
+msgid "Listen to your recording before uploading"
+msgstr "الاستماع إلى التسجيل قبل رفعه"
+
+msgid "Use this recording"
+msgstr "استخدام هذا التسجيل"
+
+msgid "Download WAV"
+msgstr "تنزيل WAV"
+
+msgid "Recording permission does not replace a documented licence or clinical and linguistic review. Never record a child here."
+msgstr "إذن التسجيل لا يغني عن توثيق الحقوق أو المراجعة السريرية واللغوية. لا تسجّلوا صوت طفل هنا."
+
+msgid "Recording needs JavaScript. File import remains available."
+msgstr "يتطلب التسجيل JavaScript. يبقى رفع الملفات متاحًا."
+
+msgid "Rights and permissions"
+msgstr "الحقوق والأذونات"
+
+msgid "Save media"
+msgstr "حفظ الوسيط"
+
+msgid "No matching voice is installed on this device. A caregiver can read the word."
+msgstr "لا يوجد صوت للغة المطلوبة على هذا الجهاز. يمكن للمرافق قراءة الكلمة."
+
+msgid "Matching device voice available"
+msgstr "صوت للغة المطلوبة متاح"
+
+msgid "Microphone access is limited to the editorial recorder."
+msgstr "الوصول إلى الميكروفون مقتصر على التسجيل التحريري."
+
+msgid "Listen with device voice"
+msgstr "الاستماع بصوت الجهاز"
+
+msgid "Playing a synthetic demonstration voice"
+msgstr "جارٍ تشغيل صوت اصطناعي تجريبي"
+
+msgid "The device voice could not play. A caregiver can read the word."
+msgstr "تعذّر تشغيل صوت الجهاز. يمكن للمرافق قراءة الكلمة."
+
+msgid "The recording must match the exact word and spoken variety of the activity."
+msgstr "يجب أن يطابق التسجيل الكلمة المحددة والتنوّع اللغوي للنشاط."
+
+msgid "A silent recording cannot be used as a speech model."
+msgstr "لا يمكن استخدام تسجيل صامت كنموذج للنطق."
+
+msgid "Listening and adult voice recording"
+msgstr "الاستماع وتسجيل صوت بالغ"
+
+msgid "In an activity, use the recording player when your clinician has linked a model. Listen again at original speed; stop or take a break whenever needed. If no recording is supplied, follow the caregiver instructions."
+msgstr "داخل النشاط، استخدموا المشغّل إذا أضاف المختص نموذجًا صوتيًا. أعيدوا الاستماع بالسرعة الأصلية وخذوا استراحة عند الحاجة. إذا لم يوجد تسجيل، اتبعوا تعليمات المرافق."
+
+msgid "Device speech is available only for unreviewed lexical demonstrations in a matching language. It is never an Algerian Darja pronunciation model or a phonological contrast model."
+msgstr "صوت الجهاز متاح فقط للعروض التجريبية المعجمية غير المراجعة وباللغة المناسبة. لا يُستخدم كنموذج للنطق بالدارجة الجزائرية أو للتباينات الفونولوجية."
+
+msgid "Editors can record an adult voice or import WAV/MP3, document the exact word, variety and rights, and select it in a draft. For Darja, specify the region and local pronunciation. Published content needs a new version before audio changes."
+msgstr "يمكن للمحررين تسجيل صوت بالغ أو رفع WAV/MP3، وتوثيق الكلمة والتنوّع اللغوي والحقوق، ثم اختياره في مسودة. للدارجة، حددوا المنطقة والنطق المحلي. يتطلب تغيير صوت محتوى منشور إنشاء نسخة جديدة."
+
+msgid "Audio provenance must specify a valid voice source, exact text and spoken variety."
+msgstr "يجب أن تتضمن بيانات الصوت مصدرًا صحيحًا ونصًا محددًا وتنوّعًا لغويًا."

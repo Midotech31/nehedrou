@@ -65,7 +65,8 @@ class ActivityAuthoringForm(forms.ModelForm):
             self.fields['choose_audio_' + side] = forms.ModelChoiceField(
                 label=_('Choose an uploaded audio'), queryset=media.filter(kind='audio').order_by('-created_at'), required=False)
             for media_kind in ['image', 'audio']:
-                self.fields[f'choose_{media_kind}_{side}'].label_from_instance = lambda asset: asset.created_at.strftime('%Y-%m-%d') + ' · ' + asset.rights[:80] + ' · ' + str(asset.pk)[:8]
+                from .audio_presentation import media_choice_label
+                self.fields[f'choose_{media_kind}_{side}'].label_from_instance = media_choice_label
             for key, label in [('meaning', _('Intended meaning')), ('segments', _('Ordered phonemes')), ('targets', _('Target phoneme indices')), ('familiarity', _('Familiarity in the child’s environment'))]:
                 initial = self.instance.item_metadata.get(side, {})
                 value = initial.get(key, '')
@@ -158,6 +159,9 @@ class ActivityAuthoringForm(forms.ModelForm):
             image, audio = data.get('choose_image_' + side), data.get('choose_audio_' + side)
             if image: data['image_' + side] = 'editorial/asset-' + str(image.pk)
             if audio:
+                from .audio_checks import audio_binding_errors
+                for reason in audio_binding_errors(audio, data.get('word_' + side, ''), data.get('variety')):
+                    self.add_error('choose_audio_' + side, reason)
                 from django.urls import reverse
                 data['audio_' + side] = settings.PUBLIC_ORIGIN.rstrip('/') + reverse('editorial_media', args=[audio.pk])
         return data

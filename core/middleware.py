@@ -25,8 +25,10 @@ class AccessMiddleware:
             if window.count > 15:
                 return HttpResponse(_('Too many attempts. Try again in 15 minutes.'), status=429)
         response = self.get_response(request)
+        recorder = request.path.endswith('/editorial/upload/') and request.user.is_authenticated
+        response.headers['Permissions-Policy'] = ('microphone=(self)' if recorder else 'microphone=()') + ', camera=(), geolocation=()'
         response.headers['Referrer-Policy'] = 'same-origin'
-        response.headers['Content-Security-Policy'] = "default-src 'self'; img-src 'self'; media-src 'self' https:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
+        response.headers['Content-Security-Policy'] = "default-src 'self'; img-src 'self'; media-src 'self' blob: https:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
         if request.user.is_authenticated or '/invite/' in request.path:
             patch_cache_control(response, private=True, no_store=True)
             # Preserve same-origin POST Origin for CSRF; never send paths cross-origin.

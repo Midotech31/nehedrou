@@ -17,7 +17,7 @@ class DeviceVoiceGatingTests(TestCase):
         cls.msa=Variety.objects.create(code='ar-msa-pilot',language='ar',label='Fictional MSA')
         values={field.attname:getattr(cls.item.activity,field.attname) for field in Activity._meta.concrete_fields if field.name not in ['id','created_at','series','variety','title']}
         cls.lexical=Activity.objects.create(**dict(values,series=uuid.uuid4(),variety=cls.msa,title='Fictional word',kind='vocabulary'))
-    def test_only_fictional_msa_lexical_activities_allow_device_voice(self):
+    def test_only_fictional_lexical_activities_allow_matching_device_voice(self):
         self.assertTrue(self.lexical.device_voice_allowed)
         self.assertFalse(self.item.activity.device_voice_allowed)
         with override_settings(DEMO_MODE=False):

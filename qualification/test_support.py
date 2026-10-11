@@ -25,7 +25,7 @@ def media_fixture(variety,user,kind,rights=None):
         Image.new('RGB',(20,20),'teal').save(stream,format='PNG'); extension='png'
     else:
         with wave.open(stream,'wb') as audio:
-            audio.setnchannels(1);audio.setsampwidth(2);audio.setframerate(8000);audio.writeframes(b'\x00\x00'*800)
+            audio.setnchannels(1);audio.setsampwidth(2);audio.setframerate(8000);audio.writeframes(__import__('core.testing',fromlist=['pcm_fixture']).pcm_fixture()[44:])
         extension='wav'
     provenance={key:'Fictional test only' for key in ['holder','licence','permitted_use','territory','duration','attribution','adult_speaker_permission']}
     return MediaAsset.objects.create(uploaded_by=user,kind=kind,file=SimpleUploadedFile(uuid.uuid4().hex+'.'+extension,stream.getvalue()),rights='Fictional test rights only',rights_status='original_documented',rights_evidence=rights,provenance=provenance)
