@@ -2,7 +2,7 @@
 
 Application Django de pratique à domicile choisie par un orthophoniste et accompagnée par la famille. Interface FR/EN/AR, Tajawal locale et RTL pour l’arabe. Le premier module vise les enfants de 4–7 ans déjà évalués par un professionnel.
 
-**État : démonstration fonctionnelle avec données fictives, sans feu vert pour la vente clinique.** Le corpus actif compte 37 fiches v2 à relire (19 françaises, 17 anglaises, une proposition locale en darja). Vingt-trois propositions initiales sont mises en attente, avec motifs documentés ; les anciennes versions restent conservées. Aucun modèle audio clinique approuvé n’est livré. Voir [les contenus et leur statut](docs/CONTENUS_A_VALIDER.md), [les références scientifiques](docs/RECHERCHE_CONTENUS_2026.md) et [les conditions de lancement](docs/LANCEMENT.md).
+**État : démonstration fonctionnelle avec données fictives, sans feu vert pour la vente clinique.** Le corpus actif compte 111 activités de démonstration : 19 françaises, 17 anglaises, 42 en arabe standard et 33 en darja algérienne. Les 74 nouvelles fiches et les 37 propositions historiques restent à qualifier par des professionnels compétents. Vingt-trois propositions initiales sont mises en attente, avec motifs documentés ; les anciennes versions restent conservées. Aucun modèle audio clinique approuvé n’est livré. Voir [les contenus et leur statut](docs/CONTENUS_A_VALIDER.md), [les références scientifiques](docs/RECHERCHE_CONTENUS_2026.md) et [les conditions de lancement](docs/LANCEMENT.md).
 
 **Démonstration publiée sur Render :** [français](https://nehedrou-demo.onrender.com/fr/), [anglais](https://nehedrou-demo.onrender.com/en/), [arabe](https://nehedrou-demo.onrender.com/ar/). Les accès aux comptes fictifs sont livrés séparément dans un document local privé. Le service gratuit emploie une base temporaire : utilisez uniquement des données fictives. Voir [la recette de publication](docs/DEPLOIEMENT_RENDER.md).
 
@@ -21,6 +21,10 @@ Ouvrir le lanceur, puis http://127.0.0.1:8000/fr/. Les versions anglaise et arab
 **Découvrir sans compte :** /fr/try/, /en/try/ ou /ar/try/. L’exemple guidé présente les images, le choix et une synthèse fictive. Il ne consulte pas de dossier, ne sauvegarde pas de rapport et est désactivé hors mode démonstration.
 
 Sept comptes distincts permettent de tester les droits : `responsable`, `orthophoniste`, `accompagnant`, `editeur`, `relecteur_clinique`, `relecteur_linguistique` et `gestionnaire`. Les comptes historiques `praticien`, `famille`, `autre_praticien` et `editorial` restent disponibles. Les [rôles et leurs restrictions](docs/ROLES_DEMONSTRATION.md) sont documentés sans mot de passe. Le mot de passe local par défaut se trouve dans `.demo-password` ; les sept secrets hébergés sont distincts et transmis dans un document privé. Les comptes existants ne sont pas réinitialisés. Secrets et bases sont exclus du dépôt et de l’archive.
+
+## Audit et parcours complétés
+
+Voir [l’audit comparatif du 11 octobre 2026](docs/AUDIT_COMPARATIF_20261011.md). La préparation de programme permet désormais de filtrer par objectif, thème et mode de réponse, de rechercher les mots et d’ouvrir les consignes sans perdre la sélection. Le professionnel peut définir un calendrier facultatif ; la famille voit les prochaines dates et peut télécharger un agenda générique sans nom d’enfant. Le bilan par activité distingue participation, demandes d’aide et réponses aux tâches fermées.
 
 ## Parcours et fonctions
 
@@ -53,3 +57,9 @@ Docker Compose est prévu pour le développement avec PostgreSQL 17. Définir le
 La vente clinique demande encore les contenus/audio approuvés, la relecture native et les essais avec familles/praticiens, une recette multi-navigateurs et avec utilisateurs réels, un déploiement HTTPS/SMTP opérationnel, une sauvegarde/restauration de production et des conditions d’exploitation/offre définies. Aucun tarif, témoignage ou résultat thérapeutique n’est inventé.
 
 Code et illustrations originales sous MIT ; licences des dépendances distinctes. Tajawal sous SIL OFL 1.1, texte inclus dans static/fonts/tajawal/OFL.txt. Le logo fourni par le commanditaire est conservé.
+
+### Création originale dans le CMS
+
+Les éditeurs autorisés peuvent ouvrir **Espace éditorial → Créer une activité de zéro**, renseigner une fiche vide, enregistrer le brouillon et compléter consignes, guides, sources et médias. Les instructions peuvent commencer dans une langue ; un guide ajouté doit inclure ses objectifs, public, étapes, aides et limites. Les détails phonologiques restent soumis aux contrôles structurels et à la relecture humaine. Les médias téléversés sont sélectionnables dans la fiche. L’éditeur avancé conserve l’accès aux métadonnées complètes et variantes.
+
+En démo uniquement, la variable privée facultative `DEMO_PASSWORD_PITOU` (20 caractères minimum) permet à `seed_pitou_demo` d’initialiser le compte fictif explicitement demandé. Il a un rôle de praticien et le droit d’éditer les brouillons des quatre variétés, sans publication ni relecture approuvante. Aucun mot de passe existant, compte réel ou droit révoqué n’est remplacé. Hors démo, les comptes et attributions sont administrés explicitement ; cet initialiseur est interdit.

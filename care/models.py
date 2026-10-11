@@ -39,9 +39,15 @@ class Program(CheckedModel):
     goal = models.CharField(max_length=240, blank=True)
     guidance = models.TextField(blank=True, verbose_name=_('Personal instructions'))
     schedule = models.CharField(max_length=160, blank=True, verbose_name=_('Frequency and duration chosen by clinician'))
+    practice_start = models.DateField(null=True, blank=True)
+    practice_end = models.DateField(null=True, blank=True)
+    practice_days = models.JSONField(default=list, blank=True)
+    practice_minutes = models.PositiveSmallIntegerField(null=True, blank=True)
     state = models.CharField(max_length=12, default='active', choices=[('active', _('Active')), ('completed', _('Completed'))])
     created_at = models.DateTimeField(auto_now_add=True)
     def clean(self):
+        from core.planning import validate_plan
+        validate_plan(self.practice_start, self.practice_end, self.practice_days, self.practice_minutes)
         if self.child_id and self.child.organization_id != self.organization_id:
             raise ValidationError(_('The child must belong to this practice.'))
         old = Program.objects.filter(pk=self.pk).first()

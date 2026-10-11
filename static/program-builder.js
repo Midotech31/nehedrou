@@ -10,10 +10,12 @@
   let order = orderField.value.split(',').filter(Boolean);
   form.querySelector('.builder-search').hidden = false;
   form.querySelector('.selection-order').hidden = false;
+  const filters = [...form.querySelectorAll('[data-builder-filter]')];
+  const normalize = value => value.normalize('NFKC').toLocaleLowerCase().replace(/[\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06ed\u0640]/g,'').replace(/[أإآٱ]/g,'ا').replace(/\s+/g,' ').trim();
   function update() {
-    const query = search.value.trim().toLocaleLowerCase();
+    const query = normalize(search.value);
     choices.forEach(choice => {
-      choice.hidden = Boolean((variety.value && choice.dataset.variety !== variety.value) || !choice.dataset.title.toLocaleLowerCase().includes(query));
+      choice.hidden = Boolean((variety.value && choice.dataset.variety !== variety.value) || !normalize(choice.dataset.search || choice.dataset.title).includes(query) || filters.some(filter => filter.value && choice.dataset[filter.dataset.builderFilter] !== filter.value));
     });
     const selected = choices.filter(choice => choice.querySelector('input').checked);
     const ids = selected.map(choice => choice.querySelector('input').value);
@@ -56,7 +58,11 @@
     dirty(); update();
   });
   search.addEventListener('input', update);
+  filters.forEach(filter => filter.addEventListener('change', update));
+  form.querySelector('[data-builder-reset]').addEventListener('click', () => {search.value = ''; filters.forEach(filter => filter.value = ''); update(); search.focus();});
+  form.querySelectorAll('.builder-guide').forEach(detail => detail.addEventListener('click', event => event.stopPropagation()));
   choices.forEach(choice => choice.querySelector('input').addEventListener('change', () => { dirty(); update(); }));
-  ['title','goal','guidance','schedule'].forEach(name => form.elements[name].addEventListener('input', dirty));
+  ['title','goal','guidance','schedule','practice_start','practice_end','practice_minutes'].forEach(name => form.elements[name].addEventListener('input', dirty));
+  form.querySelectorAll('[name=practice_days]').forEach(input => input.addEventListener('change', dirty));
   update();
 })();

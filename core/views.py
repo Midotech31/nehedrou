@@ -25,6 +25,8 @@ from .forms import SignupForm, InviteSignupForm, ChildForm, ProgramForm, Invitat
 from .models import Organization, Membership, Entitlement, Invitation, PrivacyRequest
 from .services import audit, check_entitlement, create_program, accept_invitation, record_practice, issue_and_deliver_invitation, lock_clinical_child, publish_feedback
 from .reserves import activity_is_reserved, reserved_activity_ids, family_catalog_exclusions
+from .product_views import program_calendar
+from .planning import decorate_plan, activity_overview
 
 def home(request):
     return render(request, 'home.html')
@@ -104,10 +106,14 @@ def dashboard(request):
     waiting = active.filter(report_count=0).count()
     cards = list(active.order_by('-created_at')[:6])
     for program in cards:
+        decorate_plan(program, today=today)
         available = program.items.filter(activity__state='published').select_related('activity')
         if not settings.DEMO_MODE:
             available = available.filter(activity__is_demo=False)
         reserved = reserved_activity_ids(program.child, [i.activity for i in available])
+        if not professional_children(request.user).filter(pk=program.child_id).exists():
+            program.activity_count = program.items.exclude(activity_id__in=reserved).count()
+            program.report_count = sessions.filter(item__program=program).exclude(item__activity_id__in=reserved).count()
         program.first_available = next((item for item in available if item.activity.usable and item.activity_id not in reserved and item.activity.instructions.get(request.user.instruction_language)), None)
         program.last_report = sessions.filter(item__program=program).order_by('-created_at').first()
         program.latest_feedback = program.family_feedback.select_related('author').first()
@@ -327,18 +333,20 @@ def program_detail(request, pk):
             except ValidationError as error:
                 form.add_error(None, error)
     sessions = PracticeSession.objects.filter(item__program=program).select_related('user', 'item__activity').order_by('-created_at', '-pk')
-    stats = sessions.aggregate(attempts=Count('pk'), answered=Count('pk', filter=Q(correct__isnull=False)), correct=Count('pk', filter=Q(correct=True)), stopped=Count('pk', filter=Q(completion='stopped')))
     items = list(program.items.select_related('activity'))
     blocked_ids = reserved_activity_ids(program.child, [i.activity for i in items])
     if not professional:
         items = [i for i in items if i.activity_id not in blocked_ids]
         sessions = sessions.exclude(item__activity_id__in=blocked_ids)
+    stats = sessions.aggregate(attempts=Count('pk'), answered=Count('pk', filter=Q(correct__isnull=False)), correct=Count('pk', filter=Q(correct=True)), stopped=Count('pk', filter=Q(completion='stopped')))
+    activity_summary = activity_overview(items, sessions)
+    decorate_plan(program)
     for item in items:
         item.usable = item.activity.usable and item.activity_id not in blocked_ids
     runs = program.practice_runs.select_related('user').annotate(task_count=Count('tasks', distinct=True), reported_count=Count('tasks__report', distinct=True))
     if not professional:
         runs = runs.filter(user=request.user)
-    return render(request, 'program_detail.html', {'program': program, 'items': items, 'sessions': sessions[:6], 'stats': stats, 'professional': professional, 'observations': program.observations.select_related('author') if professional else [], 'form': form,
+    return render(request, 'program_detail.html', {'program': program, 'items': items, 'sessions': sessions[:6], 'stats': stats, 'activity_summary': activity_summary, 'professional': professional, 'observations': program.observations.select_related('author') if professional else [], 'form': form,
         'family_feedback': program.family_feedback.select_related('author')[:3], 'practice_runs': runs.order_by('-started_at', '-pk')[:5], 'current_run': program.practice_runs.filter(user=request.user, state='active').first(),
         'run_available': bool(items) and not blocked_ids and program.child.active and program.state == 'active' and all(i.usable and i.activity.instructions.get(request.user.instruction_language) for i in items)})
 
@@ -542,6 +550,7 @@ def print_program(request, pk):
     for item in items:
         item.usable = item.activity.usable and item.activity_id not in blocked_ids
         item.instruction = item.activity.instructions.get(request.user.instruction_language)
+    decorate_plan(program)
     return render(request, 'print.html', {'program': program, 'items': items, 'instruction_language': request.user.instruction_language})
 
 @login_required
@@ -557,7 +566,7 @@ def export_child(request, pk):
         blocked_ids = set() if professional else reserved_activity_ids(child, [i.activity for i in program.items.all()])
         hidden_item_ids = {i.pk for i in program.items.all() if i.activity_id in blocked_ids}
         visible_task_ids = {t.pk for run in program.export_runs for t in run.tasks.all()}
-        row = {'id': str(program.pk), 'title': program.title, 'goal': program.goal, 'variety': program.variety.code, 'state': program.state, 'schedule': program.schedule, 'guidance': program.guidance, 'items': []}
+        row = {'id': str(program.pk), 'title': program.title, 'goal': program.goal, 'variety': program.variety.code, 'state': program.state, 'schedule': program.schedule, 'practice_plan': {field: getattr(program, field) for field in ['practice_start', 'practice_end', 'practice_days', 'practice_minutes']}, 'guidance': program.guidance, 'items': []}
         for item in program.items.all():
             if item.activity_id in blocked_ids:
                 continue

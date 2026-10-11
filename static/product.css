@@ -356,3 +356,25 @@ html:lang(ar) :is(.helptext,.program-meta,.report-row small,footer,.sidebar-note
 @media(max-width:900px){.arabic-collection-panel{grid-template-columns:1fr}.collection-links{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:500px){.collection-links{grid-template-columns:1fr}.arabic-collection-panel{padding:18px}.collection-link{padding:14px}}
 
 .device-voice{display:flex;flex-direction:column;gap:8px;margin-top:12px;max-width:100%;text-align:start}.device-voice .button{font-size:.85rem;white-space:normal;padding:10px 12px}.device-voice small{line-height:1.5;color:var(--muted)}
+
+/* Clinician-selected practice plan and contextual activity selection. */
+.builder-filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-block:20px}.builder-filters label{display:block;font-weight:600}.builder-filters input,.builder-filters select{width:100%;min-width:0}.builder-filters .button{justify-self:start}.builder-option>label{display:flex;flex-direction:column;gap:10px;cursor:pointer}.builder-option .activity-tags{font-size:12px;margin-block:12px}.builder-guide{border-block-start:1px solid var(--line);padding-block-start:12px}.builder-guide summary{cursor:pointer}.builder-guide h3{font-size:15px}.builder-option[hidden]{display:none!important}.plan-fields{border:1px solid var(--line);border-radius:14px;padding:20px;margin-block:22px}.plan-fields>legend{padding-inline:8px;font-weight:700}.plan-days{border:0;padding:0}.plan-days>div{display:flex;flex-wrap:wrap;gap:10px 18px}.plan-days label{display:flex;align-items:center;gap:8px;min-height:44px}.plan-days input{width:20px;height:20px}.plan-date-list{display:flex;flex-wrap:wrap;gap:10px;list-style:none;padding:0}.plan-date-list li{padding:8px 12px;border:1px solid var(--line);border-radius:9px;background:#edf5f4}.instruction-language{font-size:14px;line-height:1.7;margin-block:22px}.caregiver-checklist{margin-block:18px;padding:12px;background:#edf5f4;border-radius:10px}.caregiver-checklist summary{cursor:pointer;font-weight:600}.activity-overview,.practice-plan{margin-block:24px}.activity-overview th[scope=row]{min-width:160px}.activity-overview .table-scroll{max-width:100%;overflow-x:auto}.plan-next{margin-block:16px}
+@media(max-width:700px){.builder-filters{grid-template-columns:1fr}.plan-fields{padding:14px}.plan-date-list{font-size:14px}}
+@media print{.practice-plan{break-inside:avoid}.instruction-language{font-size:10pt}}
+
+.builder-option:has(.builder-guide[open]){grid-column:1/-1;align-items:stretch;text-align:start}.builder-option:has(.builder-guide[open])>label{align-items:center}.builder-guide .content-guide{margin-block:12px}.builder-guide li{line-height:1.7}
+
+/* Guided CMS authoring, including Arabic and narrow screens. */
+.author-form {display:grid;gap:1.2rem;max-width:1100px;margin-inline:auto}
+.author-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem}
+.author-field {min-width:0;margin-block:1rem}
+.author-field label {display:block;font-weight:700;margin-block-end:.4rem}
+.author-field input:not([type=checkbox]),.author-field select,.author-field textarea {width:100%;max-width:100%;box-sizing:border-box}
+.author-field textarea {resize:vertical;min-height:5.5rem}
+.author-field input[type=checkbox] {width:1.2rem;height:1.2rem}
+.author-field .field-help {font-size:.9rem;margin-block:.4rem;color:var(--muted,#536577)}
+.author-form details {padding:1rem;border:1px solid var(--line,#d6e1e5);border-radius:.75rem;margin-block:1rem}
+.author-form summary {font-weight:700;cursor:pointer;line-height:1.6}
+.author-actions {display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+.author-actions p {flex-basis:100%;margin:0}
+@media(max-width:700px) {.author-grid {grid-template-columns:1fr}.author-form details {padding:.8rem}.author-form .card {min-width:0}}

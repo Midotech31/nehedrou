@@ -3741,3 +3741,264 @@ msgstr "Device voice could not play. A caregiver can read the word."
 
 msgid "Device voice ready"
 msgstr "Device voice ready"
+
+msgid "Practice plan starts"
+msgstr "Practice plan starts"
+
+msgid "Practice plan ends"
+msgstr "Practice plan ends"
+
+msgid "Days agreed with the family"
+msgstr "Days agreed with the family"
+
+msgid "Planned minutes (optional)"
+msgstr "Planned minutes (optional)"
+
+msgid "Monday"
+msgstr "Monday"
+
+msgid "Tuesday"
+msgstr "Tuesday"
+
+msgid "Wednesday"
+msgstr "Wednesday"
+
+msgid "Thursday"
+msgstr "Thursday"
+
+msgid "Friday"
+msgstr "Friday"
+
+msgid "Saturday"
+msgstr "Saturday"
+
+msgid "Sunday"
+msgstr "Sunday"
+
+msgid "Choose each practice day only once."
+msgstr "Choose each practice day only once."
+
+msgid "Enter planned minutes between 1 and 120."
+msgstr "Enter planned minutes between 1 and 120."
+
+msgid "Choose a start date for the practice plan."
+msgstr "Choose a start date for the practice plan."
+
+msgid "Choose an end date for the practice plan."
+msgstr "Choose an end date for the practice plan."
+
+msgid "Choose at least one agreed day."
+msgstr "Choose at least one agreed day."
+
+msgid "The plan must end on or after its start date."
+msgstr "The plan must end on or after its start date."
+
+msgid "No agreed day occurs within these dates."
+msgstr "No agreed day occurs within these dates."
+
+msgid "Optional practice calendar"
+msgstr "Optional practice calendar"
+
+msgid "Agree the dates and rhythm with the family. Leave blank to keep written guidance only; the application does not prescribe a dose."
+msgstr "Agree the dates and rhythm with the family. Leave blank to keep written guidance only; the application does not prescribe a dose."
+
+msgid "Practice calendar"
+msgstr "Practice calendar"
+
+msgid "Planned today"
+msgstr "Planned today"
+
+msgid "minutes planned"
+msgstr "minutes planned"
+
+msgid "Next planned practice"
+msgstr "Next planned practice"
+
+msgid "Next planned dates"
+msgstr "Next planned dates"
+
+msgid "Download practice dates"
+msgstr "Download practice dates"
+
+msgid "The calendar contains generic dates for the next 28 days, without the child’s name or clinical notes. No notification is sent by Nehedrou."
+msgstr "The calendar contains generic dates for the next 28 days, without the child’s name or clinical notes. No notification is sent by Nehedrou."
+
+msgid "This program is closed; its plan remains in the history."
+msgstr "This program is closed; its plan remains in the history."
+
+msgid "This plan has ended. Ask your clinician whether to adjust it."
+msgstr "This plan has ended. Ask your clinician whether to adjust it."
+
+msgid "No planned dates in the next 28 days."
+msgstr "No planned dates in the next 28 days."
+
+msgid "These dates are a shared plan, not an obligation. Pause if the child is uncomfortable and tell your clinician."
+msgstr "These dates are a shared plan, not an obligation. Pause if the child is uncomfortable and tell your clinician."
+
+msgid "Participation by activity"
+msgstr "Participation by activity"
+
+msgid "Use these reports to prepare a discussion with your clinician. Participation and picture choices do not establish pronunciation progress."
+msgstr "Use these reports to prepare a discussion with your clinician. Participation and picture choices do not establish pronunciation progress."
+
+msgid "Needed help or difficult"
+msgstr "Needed help or difficult"
+
+msgid "All response modes"
+msgstr "All response modes"
+
+msgid "Filters do not clear selected activities. Changing the spoken variety does."
+msgstr "Filters do not clear selected activities. Changing the spoken variety does."
+
+msgid "The interface language and the caregiver instruction language can differ. The clinician’s personal notes stay in the language they were written."
+msgstr "The interface language and the caregiver instruction language can differ. The clinician’s personal notes stay in the language they were written."
+
+msgid "Prepare a comfortable moment together"
+msgstr "Prepare a comfortable moment together"
+
+msgid "Read the goal and personal guidance. Ask your clinician if the requested model or words are unclear."
+msgstr "Read the goal and personal guidance. Ask your clinician if the requested model or words are unclear."
+
+msgid "Use words familiar to the child in the assigned variety, without forcing a repetition."
+msgstr "Use words familiar to the child in the assigned variety, without forcing a repetition."
+
+msgid "Stop when needed. Record the help used or the difficulty to prepare the next appointment."
+msgstr "Stop when needed. Record the help used or the difficulty to prepare the next appointment."
+
+msgid "Program and reports"
+msgstr "Program and reports"
+
+msgid "Child profile"
+msgstr "Child profile"
+
+msgid "Activity"
+msgstr "Activity"
+
+msgid "Change instruction language"
+msgstr "Change instruction language"
+
+msgid "Activity objective"
+msgstr "Activity objective"
+
+msgid "Who this activity is for"
+msgstr "Who this activity is for"
+
+msgid "Discover together"
+msgstr "Discover together"
+
+msgid "Listening instructions"
+msgstr "Listening instructions"
+
+msgid "Interaction and practice"
+msgstr "Interaction and practice"
+
+msgid "Possible help"
+msgstr "Possible help"
+
+msgid "Limits of this activity"
+msgstr "Limits of this activity"
+
+msgid "Points for professional review"
+msgstr "Points for professional review"
+
+msgid "For vocabulary or conversation, describe the theme; do not claim a minimal pair."
+msgstr "For vocabulary or conversation, describe the theme; do not claim a minimal pair."
+
+msgid "Choose an uploaded illustration"
+msgstr "Choose an uploaded illustration"
+
+msgid "Choose an uploaded audio"
+msgstr "Choose an uploaded audio"
+
+msgid "Intended meaning"
+msgstr "Intended meaning"
+
+msgid "Ordered phonemes"
+msgstr "Ordered phonemes"
+
+msgid "Target phoneme indices"
+msgstr "Target phoneme indices"
+
+msgid "Familiarity in the child’s environment"
+msgstr "Familiarity in the child’s environment"
+
+msgid "Separate phonemes with spaces, for example k a t. This does not verify the transcription."
+msgstr "Separate phonemes with spaces, for example k a t. This does not verify the transcription."
+
+msgid "Indices start at 0; separate multiple indices with commas. Example: 0 for the first phoneme."
+msgstr "Indices start at 0; separate multiple indices with commas. Example: 0 for the first phoneme."
+
+msgid "One instruction per line; up to eight lines."
+msgstr "One instruction per line; up to eight lines."
+
+msgid "Source title"
+msgstr "Source title"
+
+msgid "Source HTTPS link"
+msgstr "Source HTTPS link"
+
+msgid "What this source supports"
+msgstr "What this source supports"
+
+msgid "Complete each guide section in this language, or leave this entire guide blank."
+msgstr "Complete each guide section in this language, or leave this entire guide blank."
+
+msgid "Complete the title, HTTPS link and scope of each source."
+msgstr "Complete the title, HTTPS link and scope of each source."
+
+msgid "Use an HTTPS source link."
+msgstr "Use an HTTPS source link."
+
+msgid "Use unique indices that exist in the ordered phoneme list."
+msgstr "Use unique indices that exist in the ordered phoneme list."
+
+msgid "Create an activity from scratch"
+msgstr "Create an activity from scratch"
+
+msgid "Build an original activity from a blank form. Save a draft, then complete its guides and media before review."
+msgstr "Build an original activity from a blank form. Save a draft, then complete its guides and media before review."
+
+msgid "Activity essentials"
+msgstr "Activity essentials"
+
+msgid "The title, spoken variety and two words or prompts are required to save. The contrast field describes the target or theme."
+msgstr "The title, spoken variety and two words or prompts are required to save. The contrast field describes the target or theme."
+
+msgid "Words, prompts and media"
+msgstr "Words, prompts and media"
+
+msgid "Upload your illustrations or adult voice recordings in the media workspace, then select them here. Save your draft before opening the upload page."
+msgstr "Upload your illustrations or adult voice recordings in the media workspace, then select them here. Save your draft before opening the upload page."
+
+msgid "Media references and phonological details"
+msgstr "Media references and phonological details"
+
+msgid "A phonological contrast needs aligned phoneme lists differing at one target only. Familiarity, dialect suitability and clinical indication still require human review."
+msgstr "A phonological contrast needs aligned phoneme lists differing at one target only. Familiarity, dialect suitability and clinical indication still require human review."
+
+msgid "Population and precautions"
+msgstr "Population and precautions"
+
+msgid "Instructions and structured guides"
+msgstr "Instructions and structured guides"
+
+msgid "You can save instructions in one language first. A structured guide is optional in a draft; complete all its sections when adding it. Publication keeps the existing review requirements."
+msgstr "You can save instructions in one language first. A structured guide is optional in a draft; complete all its sections when adding it. Publication keeps the existing review requirements."
+
+msgid "Document what each source supports. Evidence for an approach does not validate Nehedrou or this activity."
+msgstr "Document what each source supports. Evidence for an approach does not validate Nehedrou or this activity."
+
+msgid "Source"
+msgstr "Source"
+
+msgid "Saving creates an unpublished draft. It neither approves the activity nor assigns it to a child."
+msgstr "Saving creates an unpublished draft. It neither approves the activity nor assigns it to a child."
+
+msgid "Save draft"
+msgstr "Save draft"
+
+msgid "Advanced structured data editor"
+msgstr "Advanced structured data editor"
+
+msgid "Return to your draft"
+msgstr "Return to your draft"

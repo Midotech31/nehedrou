@@ -1,0 +1,1 @@
+<div class="author-field{% if field.errors %} field-error{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>{{ field }}{% if field.help_text %}<p class="field-help" id="{{ field.id_for_label }}_helptext">{{ field.help_text }}</p>{% endif %}{{ field.errors }}</div>

@@ -137,7 +137,7 @@ def create_program(actor, child, data):
             decision = availability_for('practice', activity.variety, activity.fingerprint())
             if not decision['available']:
                 raise ValidationError(decision['reasons'])
-    program = Program.objects.create(organization=org, child=child, variety=data['variety'], created_by=actor, title=data['title'], goal=data.get('goal', ''), guidance=data['guidance'], schedule=data['schedule'])
+    program = Program.objects.create(organization=org, child=child, variety=data['variety'], created_by=actor, title=data['title'], goal=data.get('goal', ''), guidance=data['guidance'], schedule=data['schedule'], **{field: data.get(field, [] if field == 'practice_days' else None) for field in ['practice_start', 'practice_end', 'practice_days', 'practice_minutes']})
     for index, activity in enumerate(activities, 1):
         ProgramItem.objects.create(program=program, activity=activity, position=index)
     audit(actor, 'program.created', program, org)

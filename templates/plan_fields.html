@@ -1,0 +1,4 @@
+{% load i18n %}
+<fieldset class="plan-fields"><legend>{% translate 'Optional practice calendar' %}</legend><p class="muted">{% translate 'Agree the dates and rhythm with the family. Leave blank to keep written guidance only; the application does not prescribe a dose.' %}</p>
+<div class="grid two"><p>{{ form.practice_start.label_tag }}{{ form.practice_start }}{{ form.practice_start.errors }}</p><p>{{ form.practice_end.label_tag }}{{ form.practice_end }}{{ form.practice_end.errors }}</p></div>
+<fieldset class="plan-days"><legend>{{ form.practice_days.label }}</legend>{{ form.practice_days }}{{ form.practice_days.errors }}</fieldset><p>{{ form.practice_minutes.label_tag }}{{ form.practice_minutes }}{{ form.practice_minutes.errors }}</p></fieldset>

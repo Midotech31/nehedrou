@@ -66,7 +66,15 @@ def edit(request, pk=None):
     activity = get_object_or_404(editorial_activities(request.user), pk=pk) if pk else Activity()
     if pk and (activity.state != 'draft' or not allowed(request.user, activity.variety, 'edit')):
         raise PermissionDenied
-    form = ActivityForm(request.POST or None, instance=activity)
+    if not request.user.is_superuser and not EditorialGrant.objects.filter(user=request.user, edit=True).exists():
+        raise PermissionDenied
+    advanced = request.GET.get('advanced') == '1'
+    if advanced:
+        form = ActivityForm(request.POST or None, instance=activity)
+    else:
+        from .authoring import ActivityAuthoringForm
+        form = ActivityAuthoringForm(request.POST or None, instance=activity, actor=request.user)
+        form.language_sections.sort(key=lambda section: section['code'] != request.LANGUAGE_CODE)
     form.fields['variety'].queryset = Variety.objects.all() if request.user.is_superuser else Variety.objects.filter(editorialgrant__user=request.user, editorialgrant__edit=True)
     if request.method == 'POST' and form.is_valid():
         if not allowed(request.user, form.cleaned_data['variety'], 'edit'):
@@ -75,7 +83,11 @@ def edit(request, pk=None):
         from core.services import audit
         audit(request.user, 'catalog.draft_saved', activity)
         return redirect('editorial_detail', pk=activity.pk)
-    return render(request, 'form.html', {'title': _('Edit content draft'), 'form': form, 'submit': _('Save')})
+    if not advanced:
+        for section in form.language_sections:
+            section['has_errors'] = bool(section['instructions'].errors or any(field.errors for field in section['fields']))
+        form.source_errors = [index for index, row in enumerate(form.source_rows) if any(field.errors for field in row)]
+    return render(request, 'form.html' if advanced else 'editorial/author.html', {'title': _('Edit content draft') if pk else _('Create an activity from scratch'), 'form': form, 'submit': _('Save draft'), 'activity': activity, 'activity_add': not pk})
 
 @login_required
 @require_POST
@@ -99,6 +111,14 @@ def upload(request):
     editor(request.user)
     if not request.user.is_superuser and not EditorialGrant.objects.filter(user=request.user, edit=True).exists():
         raise PermissionDenied
+    draft = None
+    draft_id = request.GET.get('draft') or request.POST.get('draft')
+    if draft_id:
+        from uuid import UUID
+        try: draft_id = UUID(draft_id)
+        except ValueError: raise Http404
+        draft = get_object_or_404(editorial_activities(request.user), pk=draft_id, state='draft')
+        if not allowed(request.user, draft.variety, 'edit'): raise PermissionDenied
     form = MediaForm(request.POST or None, request.FILES or None, instance=MediaAsset(uploaded_by=request.user))
     from qualification.models import EvidenceDocument
     form.fields['rights_evidence'].queryset = EvidenceDocument.objects.filter(category='rights', revoked=False) if request.user.is_superuser else EvidenceDocument.objects.filter(category='rights', revoked=False, variety__editorialgrant__user=request.user).distinct()
@@ -106,8 +126,8 @@ def upload(request):
         asset = form.save()
         from core.services import audit
         audit(request.user, 'catalog.media_uploaded', asset)
-        return render(request, 'editorial/media.html', {'asset': asset})
-    return render(request, 'editorial/upload.html', {'form': form})
+        return render(request, 'editorial/media.html', {'asset': asset, 'draft': draft})
+    return render(request, 'editorial/upload.html', {'form': form, 'draft': draft})
 
 @login_required
 def media(request, pk):

@@ -35,6 +35,10 @@ class ProgramForm(forms.Form):
     activity_order = forms.CharField(required=False, widget=forms.HiddenInput, max_length=8000)
     guidance = forms.CharField(label=_('Personal instructions'), widget=forms.Textarea, required=False, max_length=2000)
     schedule = forms.CharField(label=_('Frequency and duration chosen by clinician'), required=False, max_length=160)
+    practice_start = forms.DateField(label=_('Practice plan starts'), required=False, widget=forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'), input_formats=['%Y-%m-%d'])
+    practice_end = forms.DateField(label=_('Practice plan ends'), required=False, widget=forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'), input_formats=['%Y-%m-%d'])
+    practice_days = forms.MultipleChoiceField(label=_('Days agreed with the family'), required=False, choices=[('0', _('Monday')), ('1', _('Tuesday')), ('2', _('Wednesday')), ('3', _('Thursday')), ('4', _('Friday')), ('5', _('Saturday')), ('6', _('Sunday'))], widget=forms.CheckboxSelectMultiple)
+    practice_minutes = forms.IntegerField(label=_('Planned minutes (optional)'), required=False, min_value=1, max_value=120)
     def __init__(self, *args, child, **kwargs):
         from catalog.models import Activity
         from django.conf import settings
@@ -61,6 +65,10 @@ class ProgramForm(forms.Form):
                 self.add_error('activity_order', _('The activity order does not match the selection.'))
             else:
                 data['activities'] = [selected[pk] for pk in order]
+        from .planning import validate_plan
+        data['practice_days'] = [int(day) for day in data.get('practice_days', [])]
+        if not any(field in self.errors for field in ['practice_start', 'practice_end', 'practice_days', 'practice_minutes']):
+            validate_plan(data.get('practice_start'), data.get('practice_end'), data['practice_days'], data.get('practice_minutes'))
         return data
 
 class InvitationForm(forms.Form):

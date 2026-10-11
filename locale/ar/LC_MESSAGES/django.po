@@ -3741,3 +3741,264 @@ msgstr "تعذّر تشغيل صوت الجهاز. يمكن للشخص المر�
 
 msgid "Device voice ready"
 msgstr "صوت الجهاز جاهز"
+
+msgid "Practice plan starts"
+msgstr "بداية جدول الممارسة"
+
+msgid "Practice plan ends"
+msgstr "نهاية جدول الممارسة"
+
+msgid "Days agreed with the family"
+msgstr "الأيام المتفق عليها مع الأسرة"
+
+msgid "Planned minutes (optional)"
+msgstr "الدقائق المقررة (اختياري)"
+
+msgid "Monday"
+msgstr "الإثنين"
+
+msgid "Tuesday"
+msgstr "الثلاثاء"
+
+msgid "Wednesday"
+msgstr "الأربعاء"
+
+msgid "Thursday"
+msgstr "الخميس"
+
+msgid "Friday"
+msgstr "الجمعة"
+
+msgid "Saturday"
+msgstr "السبت"
+
+msgid "Sunday"
+msgstr "الأحد"
+
+msgid "Choose each practice day only once."
+msgstr "اختاروا كل يوم للممارسة مرة واحدة فقط."
+
+msgid "Enter planned minutes between 1 and 120."
+msgstr "أدخلوا مدة مقررة بين دقيقة و١٢٠ دقيقة."
+
+msgid "Choose a start date for the practice plan."
+msgstr "اختاروا تاريخ بداية الجدول."
+
+msgid "Choose an end date for the practice plan."
+msgstr "اختاروا تاريخ نهاية الجدول."
+
+msgid "Choose at least one agreed day."
+msgstr "اختاروا يومًا واحدًا متفقًا عليه على الأقل."
+
+msgid "The plan must end on or after its start date."
+msgstr "يجب أن يكون تاريخ النهاية بعد تاريخ البداية أو مساويًا له."
+
+msgid "No agreed day occurs within these dates."
+msgstr "لا يوجد يوم متفق عليه ضمن هذه الفترة."
+
+msgid "Optional practice calendar"
+msgstr "جدول ممارسة اختياري"
+
+msgid "Agree the dates and rhythm with the family. Leave blank to keep written guidance only; the application does not prescribe a dose."
+msgstr "اتفقوا على التواريخ والوتيرة مع الأسرة. اتركوا الحقول فارغة للاكتفاء بالإرشادات المكتوبة؛ التطبيق لا يحدد جرعة تدريبية."
+
+msgid "Practice calendar"
+msgstr "جدول الممارسة"
+
+msgid "Planned today"
+msgstr "مقرر اليوم"
+
+msgid "minutes planned"
+msgstr "دقائق مقررة"
+
+msgid "Next planned practice"
+msgstr "الممارسة المقررة القادمة"
+
+msgid "Next planned dates"
+msgstr "التواريخ القادمة المقررة"
+
+msgid "Download practice dates"
+msgstr "تنزيل تواريخ الممارسة"
+
+msgid "The calendar contains generic dates for the next 28 days, without the child’s name or clinical notes. No notification is sent by Nehedrou."
+msgstr "يتضمن التقويم تواريخ عامة للأيام الـ٢٨ القادمة، دون اسم الطفل أو ملاحظات سريرية. لا يرسل نهدروا أي إشعار."
+
+msgid "This program is closed; its plan remains in the history."
+msgstr "هذا البرنامج مغلق؛ يبقى جدوله في السجل."
+
+msgid "This plan has ended. Ask your clinician whether to adjust it."
+msgstr "انتهى هذا الجدول. اسألوا أخصائيكم عن الحاجة إلى تعديله."
+
+msgid "No planned dates in the next 28 days."
+msgstr "لا توجد تواريخ مقررة خلال الأيام الـ٢٨ القادمة."
+
+msgid "These dates are a shared plan, not an obligation. Pause if the child is uncomfortable and tell your clinician."
+msgstr "هذه التواريخ خطة مشتركة وليست إلزامًا. توقفوا مؤقتًا إذا شعر الطفل بعدم الارتياح وأخبروا الأخصائي."
+
+msgid "Participation by activity"
+msgstr "المشاركة حسب النشاط"
+
+msgid "Use these reports to prepare a discussion with your clinician. Participation and picture choices do not establish pronunciation progress."
+msgstr "استخدموا هذه التقارير للتحضير للنقاش مع الأخصائي. المشاركة واختيار الصور لا يثبتان تقدمًا في النطق."
+
+msgid "Needed help or difficult"
+msgstr "حاجة إلى مساعدة أو صعوبة"
+
+msgid "All response modes"
+msgstr "كل أنماط الإجابة"
+
+msgid "Filters do not clear selected activities. Changing the spoken variety does."
+msgstr "المرشحات تُبقي الأنشطة المختارة. تغيير التنوع اللغوي المنطوق يمسح الاختيار."
+
+msgid "The interface language and the caregiver instruction language can differ. The clinician’s personal notes stay in the language they were written."
+msgstr "يمكن أن تختلف لغة الواجهة عن لغة تعليمات المرافق. تبقى ملاحظات الأخصائي الشخصية بلغة كتابتها."
+
+msgid "Prepare a comfortable moment together"
+msgstr "حضّروا وقتًا مريحًا معًا"
+
+msgid "Read the goal and personal guidance. Ask your clinician if the requested model or words are unclear."
+msgstr "اقرؤوا الهدف والإرشادات الشخصية. اسألوا الأخصائي إذا كان النموذج المطلوب أو الكلمات غير واضحة."
+
+msgid "Use words familiar to the child in the assigned variety, without forcing a repetition."
+msgstr "استخدموا كلمات مألوفة للطفل ضمن التنوع اللغوي المحدد، دون إجباره على التكرار."
+
+msgid "Stop when needed. Record the help used or the difficulty to prepare the next appointment."
+msgstr "توقفوا عند الحاجة. سجّلوا المساعدة المستخدمة أو الصعوبة للتحضير للموعد القادم."
+
+msgid "Program and reports"
+msgstr "البرنامج والتقارير"
+
+msgid "Child profile"
+msgstr "ملف الطفل"
+
+msgid "Activity"
+msgstr "النشاط"
+
+msgid "Change instruction language"
+msgstr "تغيير لغة التعليمات"
+
+msgid "Activity objective"
+msgstr "هدف النشاط"
+
+msgid "Who this activity is for"
+msgstr "الفئة المعنية بالنشاط"
+
+msgid "Discover together"
+msgstr "نكتشف معًا"
+
+msgid "Listening instructions"
+msgstr "تعليمات الاستماع"
+
+msgid "Interaction and practice"
+msgstr "التفاعل والممارسة"
+
+msgid "Possible help"
+msgstr "المساعدة الممكنة"
+
+msgid "Limits of this activity"
+msgstr "حدود هذا النشاط"
+
+msgid "Points for professional review"
+msgstr "نقاط للمراجعة المهنية"
+
+msgid "For vocabulary or conversation, describe the theme; do not claim a minimal pair."
+msgstr "للمفردات أو المحادثة، صفوا الموضوع دون اعتباره زوجًا صوتيًا أدنى."
+
+msgid "Choose an uploaded illustration"
+msgstr "اختيار صورة مرفوعة"
+
+msgid "Choose an uploaded audio"
+msgstr "اختيار تسجيل صوتي مرفوع"
+
+msgid "Intended meaning"
+msgstr "المعنى المقصود"
+
+msgid "Ordered phonemes"
+msgstr "الفونيمات بالترتيب"
+
+msgid "Target phoneme indices"
+msgstr "مؤشرات الفونيمات المستهدفة"
+
+msgid "Familiarity in the child’s environment"
+msgstr "مدى الألفة في بيئة الطفل"
+
+msgid "Separate phonemes with spaces, for example k a t. This does not verify the transcription."
+msgstr "افصلوا الفونيمات بمسافات، مثل k a t. هذا لا يتحقق من صحة النسخ الصوتي."
+
+msgid "Indices start at 0; separate multiple indices with commas. Example: 0 for the first phoneme."
+msgstr "تبدأ المؤشرات من 0؛ افصلوا المؤشرات المتعددة بفواصل. مثال: 0 للفونيم الأول."
+
+msgid "One instruction per line; up to eight lines."
+msgstr "تعليمة واحدة في كل سطر؛ حتى ثمانية أسطر."
+
+msgid "Source title"
+msgstr "عنوان المصدر"
+
+msgid "Source HTTPS link"
+msgstr "رابط HTTPS للمصدر"
+
+msgid "What this source supports"
+msgstr "ما الذي يدعمه هذا المصدر"
+
+msgid "Complete each guide section in this language, or leave this entire guide blank."
+msgstr "أكملوا كل أقسام الدليل بهذه اللغة أو اتركوه فارغًا بالكامل."
+
+msgid "Complete the title, HTTPS link and scope of each source."
+msgstr "أكملوا العنوان ورابط HTTPS ونطاق كل مصدر."
+
+msgid "Use an HTTPS source link."
+msgstr "استخدموا رابط مصدر عبر HTTPS."
+
+msgid "Use unique indices that exist in the ordered phoneme list."
+msgstr "استخدموا مؤشرات غير مكررة موجودة في قائمة الفونيمات المرتبة."
+
+msgid "Create an activity from scratch"
+msgstr "إنشاء نشاط من الصفر"
+
+msgid "Build an original activity from a blank form. Save a draft, then complete its guides and media before review."
+msgstr "أنشئوا نشاطًا أصليًا من نموذج فارغ. احفظوا مسودة ثم أكملوا أدلتها ووسائطها قبل المراجعة."
+
+msgid "Activity essentials"
+msgstr "المعلومات الأساسية للنشاط"
+
+msgid "The title, spoken variety and two words or prompts are required to save. The contrast field describes the target or theme."
+msgstr "يلزم العنوان والتنوع اللغوي وكلمتان أو محفزان للحفظ. يصف حقل التقابل الهدف أو الموضوع."
+
+msgid "Words, prompts and media"
+msgstr "الكلمات والمحفزات والوسائط"
+
+msgid "Upload your illustrations or adult voice recordings in the media workspace, then select them here. Save your draft before opening the upload page."
+msgstr "ارفعوا صوركم أو تسجيلات أصوات البالغين في مساحة الوسائط ثم اختاروها هنا. احفظوا المسودة قبل فتح صفحة الرفع."
+
+msgid "Media references and phonological details"
+msgstr "مراجع الوسائط والتفاصيل الفونولوجية"
+
+msgid "A phonological contrast needs aligned phoneme lists differing at one target only. Familiarity, dialect suitability and clinical indication still require human review."
+msgstr "يتطلب التقابل الفونولوجي قائمتين متوازيتين من الفونيمات تختلفان في هدف واحد فقط. تبقى الألفة والملاءمة اللهجية والداعي السريري بحاجة إلى مراجعة بشرية."
+
+msgid "Population and precautions"
+msgstr "الفئة المعنية والاحتياطات"
+
+msgid "Instructions and structured guides"
+msgstr "التعليمات والأدلة المنظمة"
+
+msgid "You can save instructions in one language first. A structured guide is optional in a draft; complete all its sections when adding it. Publication keeps the existing review requirements."
+msgstr "يمكن حفظ التعليمات بلغة واحدة أولًا. الدليل المنظم اختياري في المسودة؛ أكملوا كل أقسامه عند إضافته. تبقى متطلبات المراجعة سارية عند النشر."
+
+msgid "Document what each source supports. Evidence for an approach does not validate Nehedrou or this activity."
+msgstr "وثقوا ما يدعمه كل مصدر. أدلة المقاربة لا تعني اعتماد نهدروا أو هذا النشاط."
+
+msgid "Source"
+msgstr "المصدر"
+
+msgid "Saving creates an unpublished draft. It neither approves the activity nor assigns it to a child."
+msgstr "ينشئ الحفظ مسودة غير منشورة. لا يعتمد النشاط ولا يعيّنه لطفل."
+
+msgid "Save draft"
+msgstr "حفظ المسودة"
+
+msgid "Advanced structured data editor"
+msgstr "محرر البيانات المنظمة المتقدم"
+
+msgid "Return to your draft"
+msgstr "العودة إلى المسودة"

@@ -3741,3 +3741,264 @@ msgstr "La voix de l’appareil n’a pas pu lire le mot. Un adulte accompagnant
 
 msgid "Device voice ready"
 msgstr "Voix de l’appareil prête"
+
+msgid "Practice plan starts"
+msgstr "Début du calendrier de pratique"
+
+msgid "Practice plan ends"
+msgstr "Fin du calendrier de pratique"
+
+msgid "Days agreed with the family"
+msgstr "Jours convenus avec la famille"
+
+msgid "Planned minutes (optional)"
+msgstr "Durée prévue en minutes (facultatif)"
+
+msgid "Monday"
+msgstr "Lundi"
+
+msgid "Tuesday"
+msgstr "Mardi"
+
+msgid "Wednesday"
+msgstr "Mercredi"
+
+msgid "Thursday"
+msgstr "Jeudi"
+
+msgid "Friday"
+msgstr "Vendredi"
+
+msgid "Saturday"
+msgstr "Samedi"
+
+msgid "Sunday"
+msgstr "Dimanche"
+
+msgid "Choose each practice day only once."
+msgstr "Choisissez chaque jour de pratique une seule fois."
+
+msgid "Enter planned minutes between 1 and 120."
+msgstr "Saisissez une durée prévue entre 1 et 120 minutes."
+
+msgid "Choose a start date for the practice plan."
+msgstr "Choisissez une date de début pour le calendrier."
+
+msgid "Choose an end date for the practice plan."
+msgstr "Choisissez une date de fin pour le calendrier."
+
+msgid "Choose at least one agreed day."
+msgstr "Choisissez au moins un jour convenu."
+
+msgid "The plan must end on or after its start date."
+msgstr "La fin du calendrier doit suivre son début ou coïncider avec lui."
+
+msgid "No agreed day occurs within these dates."
+msgstr "Aucun jour convenu ne se trouve dans cette période."
+
+msgid "Optional practice calendar"
+msgstr "Calendrier de pratique facultatif"
+
+msgid "Agree the dates and rhythm with the family. Leave blank to keep written guidance only; the application does not prescribe a dose."
+msgstr "Convenez des dates et du rythme avec la famille. Laissez vide pour conserver seulement les consignes écrites ; l’application ne prescrit pas de dose."
+
+msgid "Practice calendar"
+msgstr "Calendrier de pratique"
+
+msgid "Planned today"
+msgstr "Prévu aujourd’hui"
+
+msgid "minutes planned"
+msgstr "minutes prévues"
+
+msgid "Next planned practice"
+msgstr "Prochaine pratique prévue"
+
+msgid "Next planned dates"
+msgstr "Prochaines dates prévues"
+
+msgid "Download practice dates"
+msgstr "Télécharger les dates de pratique"
+
+msgid "The calendar contains generic dates for the next 28 days, without the child’s name or clinical notes. No notification is sent by Nehedrou."
+msgstr "L’agenda contient des dates génériques pour les 28 prochains jours, sans nom d’enfant ni notes cliniques. Nehedrou n’envoie aucune notification."
+
+msgid "This program is closed; its plan remains in the history."
+msgstr "Ce programme est clôturé ; son calendrier reste dans l’historique."
+
+msgid "This plan has ended. Ask your clinician whether to adjust it."
+msgstr "Ce calendrier est terminé. Demandez à votre orthophoniste s’il faut l’ajuster."
+
+msgid "No planned dates in the next 28 days."
+msgstr "Aucune date prévue dans les 28 prochains jours."
+
+msgid "These dates are a shared plan, not an obligation. Pause if the child is uncomfortable and tell your clinician."
+msgstr "Ces dates sont un calendrier partagé, sans obligation. Faites une pause si l’enfant est mal à l’aise et informez votre orthophoniste."
+
+msgid "Participation by activity"
+msgstr "Participation par activité"
+
+msgid "Use these reports to prepare a discussion with your clinician. Participation and picture choices do not establish pronunciation progress."
+msgstr "Utilisez ces retours pour préparer un échange avec votre orthophoniste. La participation et les choix d’images ne permettent pas de conclure à un progrès de prononciation."
+
+msgid "Needed help or difficult"
+msgstr "Aide nécessaire ou difficulté"
+
+msgid "All response modes"
+msgstr "Tous les modes de réponse"
+
+msgid "Filters do not clear selected activities. Changing the spoken variety does."
+msgstr "Les filtres conservent les activités sélectionnées. Un changement de variété parlée efface la sélection."
+
+msgid "The interface language and the caregiver instruction language can differ. The clinician’s personal notes stay in the language they were written."
+msgstr "La langue de l’interface et celle des consignes peuvent différer. Les notes personnelles de l’orthophoniste restent dans leur langue de rédaction."
+
+msgid "Prepare a comfortable moment together"
+msgstr "Préparer un moment agréable ensemble"
+
+msgid "Read the goal and personal guidance. Ask your clinician if the requested model or words are unclear."
+msgstr "Lisez l’objectif et les consignes personnelles. Interrogez votre orthophoniste si le modèle demandé ou les mots ne sont pas clairs."
+
+msgid "Use words familiar to the child in the assigned variety, without forcing a repetition."
+msgstr "Utilisez des mots familiers à l’enfant dans la variété assignée, sans imposer une répétition."
+
+msgid "Stop when needed. Record the help used or the difficulty to prepare the next appointment."
+msgstr "Arrêtez si nécessaire. Notez l’aide utilisée ou la difficulté pour préparer le prochain rendez-vous."
+
+msgid "Program and reports"
+msgstr "Programme et retours"
+
+msgid "Child profile"
+msgstr "Profil enfant"
+
+msgid "Activity"
+msgstr "Activité"
+
+msgid "Change instruction language"
+msgstr "Changer la langue des consignes"
+
+msgid "Activity objective"
+msgstr "Objectif de l’activité"
+
+msgid "Who this activity is for"
+msgstr "Public concerné"
+
+msgid "Discover together"
+msgstr "Découvrir ensemble"
+
+msgid "Listening instructions"
+msgstr "Consignes d’écoute"
+
+msgid "Interaction and practice"
+msgstr "Échange et pratique"
+
+msgid "Possible help"
+msgstr "Aides possibles"
+
+msgid "Limits of this activity"
+msgstr "Limites de cette activité"
+
+msgid "Points for professional review"
+msgstr "Points à faire relire"
+
+msgid "For vocabulary or conversation, describe the theme; do not claim a minimal pair."
+msgstr "Pour le vocabulaire ou la conversation, décrivez le thème sans affirmer une paire minimale."
+
+msgid "Choose an uploaded illustration"
+msgstr "Choisir une illustration téléversée"
+
+msgid "Choose an uploaded audio"
+msgstr "Choisir un audio téléversé"
+
+msgid "Intended meaning"
+msgstr "Sens visé"
+
+msgid "Ordered phonemes"
+msgstr "Phonèmes dans l’ordre"
+
+msgid "Target phoneme indices"
+msgstr "Indices des phonèmes ciblés"
+
+msgid "Familiarity in the child’s environment"
+msgstr "Familiarité dans l’environnement de l’enfant"
+
+msgid "Separate phonemes with spaces, for example k a t. This does not verify the transcription."
+msgstr "Séparez les phonèmes par des espaces, par exemple k a t. Cela ne vérifie pas la transcription."
+
+msgid "Indices start at 0; separate multiple indices with commas. Example: 0 for the first phoneme."
+msgstr "Les indices commencent à 0 ; séparez-les par des virgules. Exemple : 0 pour le premier phonème."
+
+msgid "One instruction per line; up to eight lines."
+msgstr "Une consigne par ligne ; huit lignes au maximum."
+
+msgid "Source title"
+msgstr "Titre de la source"
+
+msgid "Source HTTPS link"
+msgstr "Lien HTTPS de la source"
+
+msgid "What this source supports"
+msgstr "Ce que cette source étaye"
+
+msgid "Complete each guide section in this language, or leave this entire guide blank."
+msgstr "Complétez chaque section du guide dans cette langue, ou laissez ce guide entièrement vide."
+
+msgid "Complete the title, HTTPS link and scope of each source."
+msgstr "Complétez le titre, le lien HTTPS et la portée de chaque source."
+
+msgid "Use an HTTPS source link."
+msgstr "Utilisez un lien source en HTTPS."
+
+msgid "Use unique indices that exist in the ordered phoneme list."
+msgstr "Utilisez des indices uniques présents dans la liste ordonnée des phonèmes."
+
+msgid "Create an activity from scratch"
+msgstr "Créer une activité de zéro"
+
+msgid "Build an original activity from a blank form. Save a draft, then complete its guides and media before review."
+msgstr "Créez une activité originale depuis une fiche vide. Enregistrez un brouillon, puis complétez ses guides et médias avant relecture."
+
+msgid "Activity essentials"
+msgstr "Fiche de l’activité"
+
+msgid "The title, spoken variety and two words or prompts are required to save. The contrast field describes the target or theme."
+msgstr "Le titre, la variété parlée et les deux mots ou supports sont nécessaires à l’enregistrement. Le champ de contraste décrit la cible ou le thème."
+
+msgid "Words, prompts and media"
+msgstr "Mots, supports et médias"
+
+msgid "Upload your illustrations or adult voice recordings in the media workspace, then select them here. Save your draft before opening the upload page."
+msgstr "Téléversez vos illustrations ou enregistrements de voix adultes dans l’espace médias, puis choisissez-les ici. Enregistrez le brouillon avant d’ouvrir la page de téléversement."
+
+msgid "Media references and phonological details"
+msgstr "Références des médias et détails phonologiques"
+
+msgid "A phonological contrast needs aligned phoneme lists differing at one target only. Familiarity, dialect suitability and clinical indication still require human review."
+msgstr "Un contraste phonologique exige des listes de phonèmes alignées qui diffèrent sur une seule cible. La familiarité, la pertinence dialectale et l’indication clinique exigent une relecture humaine."
+
+msgid "Population and precautions"
+msgstr "Public et précautions"
+
+msgid "Instructions and structured guides"
+msgstr "Consignes et guides structurés"
+
+msgid "You can save instructions in one language first. A structured guide is optional in a draft; complete all its sections when adding it. Publication keeps the existing review requirements."
+msgstr "Vous pouvez d’abord enregistrer les consignes dans une langue. Le guide structuré est facultatif au stade brouillon ; complétez toutes ses sections quand vous l’ajoutez. Les exigences de relecture restent applicables à la publication."
+
+msgid "Document what each source supports. Evidence for an approach does not validate Nehedrou or this activity."
+msgstr "Documentez ce que chaque source étaye. Les preuves d’une approche ne valident ni Nehedrou ni cette activité."
+
+msgid "Source"
+msgstr "Source"
+
+msgid "Saving creates an unpublished draft. It neither approves the activity nor assigns it to a child."
+msgstr "L’enregistrement crée un brouillon non publié. Il n’approuve pas l’activité et ne l’assigne pas à un enfant."
+
+msgid "Save draft"
+msgstr "Enregistrer le brouillon"
+
+msgid "Advanced structured data editor"
+msgstr "Éditeur avancé de données structurées"
+
+msgid "Return to your draft"
+msgstr "Retourner au brouillon"

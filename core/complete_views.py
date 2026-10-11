@@ -77,7 +77,7 @@ def reassign(request, pk):
 @login_required
 def program_replace(request, pk):
     program = get_object_or_404(Program, pk=pk, child__in=professional_children(request.user))
-    form = ProgramForm(request.POST or None, child=program.child, initial={'title': program.title, 'variety': program.variety, 'activities': list(program.items.values_list('activity_id', flat=True)), 'guidance': program.guidance, 'schedule': program.schedule, 'goal': program.goal, 'activity_order': ','.join(str(pk) for pk in program.items.values_list('activity_id', flat=True))})
+    form = ProgramForm(request.POST or None, child=program.child, initial={'title': program.title, 'variety': program.variety, 'activities': list(program.items.values_list('activity_id', flat=True)), 'guidance': program.guidance, 'schedule': program.schedule, 'goal': program.goal, **{field: getattr(program, field) for field in ['practice_start', 'practice_end', 'practice_days', 'practice_minutes']}, 'activity_order': ','.join(str(pk) for pk in program.items.values_list('activity_id', flat=True))})
     preview = None
     if request.method == 'POST' and form.is_valid():
         if request.POST.get('action') == 'preview':

@@ -37,6 +37,7 @@ urlpatterns += i18n_patterns(
     path('library/', views.library, name='library'),
     path('library/<uuid:pk>/', views.activity_detail, name='activity_detail'),
     path('programs/<uuid:pk>/', views.program_detail, name='program_detail'),
+    path('programs/<uuid:pk>/calendar/', views.program_calendar, name='program_calendar'),
     path('programs/<uuid:pk>/history/', views.program_history, name='program_history'),
     path('programs/<uuid:pk>/feedback/', views.family_feedback_create, name='family_feedback_create'),
     path('history/reports/<uuid:pk>/', views.report_detail, name='report_detail'),
