@@ -2,7 +2,7 @@
 <strong dir="auto">{% if word %}{{ word }}{% else %}{% translate 'Audio preview' %}{% endif %}</strong>
 <audio controls preload="none" src="{{ url }}" aria-label="{% translate 'Listen to the recording' %} {{ word }}"></audio>
 <div class="audio-actions"><button type="button" class="text-button" data-audio-replay hidden>{% translate 'Listen again' %}</button><label hidden data-audio-speed-label>{% translate 'Playback speed' %} <select data-audio-speed><option value="1">1× · {% translate 'Original' %}</option><option value="0.85">0.85×</option></select></label></div>
-<small>{{ audio_source }}{% if audio_variety %} · <bdi>{{ audio_variety }}</bdi>{% endif %}{% if seconds %} · <bdi>{{ seconds }} s</bdi>{% endif %}</small>
+<small>{{ audio_source }}{% if audio_variety %} · <bdi>{{ audio_variety }}</bdi>{% endif %}{% if seconds %} · <bdi>{{ seconds|floatformat:1 }} s</bdi>{% endif %}</small>
 <small>{% translate 'Use original speed to assess speech sounds. Slower playback changes the timing of speech.' %}</small>
 <small data-audio-status role="status" aria-live="polite"></small>{% for warning in audio_warnings %}<p class="audio-error" role="status">{{ warning }}</p>{% endfor %}
 </div>{% elif reference_present %}<p class="muted">{% translate 'No protected recording is linked. A caregiver can read the word.' %}</p>{% endif %}
