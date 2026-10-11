@@ -1,3 +1,4 @@
+from core.storage_health import file_exists
 import hashlib
 import json
 from pathlib import Path
@@ -115,14 +116,14 @@ class Activity(CheckedModel):
             asset = MediaAsset.objects.filter(pk=UUID(parts[2]), kind='audio').first()
         except ValueError:
             return False
-        return bool(asset and asset.technical_metadata.get('format') in ['WAV', 'MP3'] and asset.rights.strip() and asset.file.storage.exists(asset.file.name))
+        return bool(asset and asset.technical_metadata.get('format') in ['WAV', 'MP3'] and asset.rights.strip() and file_exists(asset.file))
     def image_available(self, reference):
         if reference.startswith('editorial/asset-'):
             try:
                 asset = MediaAsset.objects.filter(pk=reference[len('editorial/asset-'):], kind='image').first()
             except ValidationError:
                 return False
-            return bool(asset and asset.technical_metadata.get('format') in ['PNG', 'JPEG'] and asset.rights.strip() and asset.file.storage.exists(asset.file.name))
+            return bool(asset and asset.technical_metadata.get('format') in ['PNG', 'JPEG'] and asset.rights.strip() and file_exists(asset.file))
         return bool(reference.startswith('editorial/') and '..' not in reference and (Path(settings.BASE_DIR) / 'static' / reference).is_file())
     @property
     def usable(self):
@@ -271,3 +272,18 @@ class MediaAsset(CheckedModel):
         elif self.file and self.kind:
             from .media_validation import validate_media
             self.technical_metadata = validate_media(self.file, self.kind)
+
+
+class DraftWorkingCopy(CheckedModel):
+    """Personal, incomplete author input. It never enters Activity.usable."""
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE, null=True, blank=True)
+    data = models.JSONField(default=dict, blank=True)
+    base_digest = models.CharField(max_length=64, blank=True)
+    revision = models.PositiveIntegerField(default=0)
+    committed = models.BooleanField(default=False)
+    dismissed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    class Meta:
+        indexes = [models.Index(fields=['owner', 'committed', '-updated_at'])]

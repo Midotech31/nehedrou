@@ -31,6 +31,7 @@ class ActivityAuthoringForm(forms.ModelForm):
             self.fields[name].label = labels.fields[name].label
         for name in ['word_a', 'word_b', 'meaning_a', 'meaning_b']:
             if name in self.fields: self.fields[name].widget.attrs['dir'] = 'auto'
+        self.fields['contrast'].label = _('Target or theme')
         self.fields['contrast'].help_text = _('For vocabulary or conversation, describe the theme; do not claim a minimal pair.')
         self.fields['population'].widget = forms.Textarea(attrs={'rows': 3})
         self.fields['limitations'].widget = forms.Textarea(attrs={'rows': 3})
@@ -68,6 +69,7 @@ class ActivityAuthoringForm(forms.ModelForm):
             for key, label in [('meaning', _('Intended meaning')), ('segments', _('Ordered phonemes')), ('targets', _('Target phoneme indices')), ('familiarity', _('Familiarity in the child’s environment'))]:
                 initial = self.instance.item_metadata.get(side, {})
                 value = initial.get(key, '')
+                if key == 'familiarity' and isinstance(value, dict): value = value.get('note', '')
                 if key == 'segments': value = ' '.join(initial.get('segments', []))
                 if key == 'targets': value = ', '.join(str(x['index']) for x in initial.get('target_occurrences', []))
                 self.fields[f'{key}_{side}'] = forms.CharField(label=label, required=False, initial=value, max_length=2000)
@@ -131,7 +133,10 @@ class ActivityAuthoringForm(forms.ModelForm):
             for side in ['a', 'b']:
                 item = metadata.setdefault(side, {})
                 item['meaning'] = data.get('meaning_' + side, '')
-                item['familiarity'] = data.get('familiarity_' + side, '')
+                if isinstance(item.get('familiarity'), dict):
+                    item['familiarity']['note'] = data.get('familiarity_' + side, '')
+                else:
+                    item['familiarity'] = data.get('familiarity_' + side, '')
                 item['segments'] = data.get('segments_' + side, '').split()
                 targets = data.get('targets_' + side, '').replace(',', ' ').split()
                 occurrences = []

@@ -4002,3 +4002,288 @@ msgstr "Éditeur avancé de données structurées"
 
 msgid "Return to your draft"
 msgstr "Retourner au brouillon"
+
+msgid "Act out an action and invite the child to join or describe what happens."
+msgstr "Mimez une action et invitez l’enfant à participer ou à décrire ce qui se passe."
+
+msgid "Activity creation steps"
+msgstr "Étapes de création de l’activité"
+
+msgid "Add a starting structure"
+msgstr "Ajouter une trame de départ"
+
+msgid "All items"
+msgstr "Tous les éléments"
+
+msgid "Another session or the source changed. Open your saved copy to reconcile changes."
+msgstr "Une autre session ou la fiche d’origine a changé. Ouvrez votre copie enregistrée pour rapprocher les modifications."
+
+msgid "Ask an open question about the pictures. Follow the child’s contribution without requiring one fixed answer."
+msgstr "Posez une question ouverte sur les images. Suivez la contribution de l’enfant sans exiger une réponse unique."
+
+msgid "Ask for one familiar item, then use the word in a short shared exchange."
+msgstr "Demandez un objet familier, puis utilisez le mot dans un bref échange."
+
+msgid "Begin with listening and picture identification. Add spoken practice only as directed by the clinician."
+msgstr "Commencez par l’écoute et la reconnaissance des images. Ajoutez une production orale selon les indications de l’orthophoniste."
+
+msgid "Changes waiting to be saved."
+msgstr "Modifications en attente d’enregistrement."
+
+msgid "Check local vocabulary, image recognition, indication, recordings, variants and rights before clinical use."
+msgstr "Vérifiez le vocabulaire local, la reconnaissance des images, l’indication, les enregistrements, les variantes et les droits avant un usage clinique."
+
+msgid "Completeness helps prepare a review. It does not establish clinical correctness or approve an activity."
+msgstr "La complétude aide à préparer la relecture. Elle ne prouve pas la pertinence clinique et n’approuve pas une activité."
+
+msgid "Content quality and review preparation"
+msgstr "Qualité des contenus et préparation des relectures"
+
+msgid "Darja: document the region and family usage. Do not assume a Standard Arabic word or synthetic voice represents the child’s variety."
+msgstr "Darja : documentez la région et l’usage familial. Un mot d’arabe standard ou une voix synthétique ne représente pas nécessairement la variété de l’enfant."
+
+msgid "Define the activity"
+msgstr "Définir l’activité"
+
+msgid "Describe the child’s needs, familiar words and the clinician-selected goal."
+msgstr "Décrivez les besoins de l’enfant, les mots familiers et l’objectif choisi par l’orthophoniste."
+
+msgid "Discuss how the items relate and look for another example together."
+msgstr "Discutez du lien entre les éléments et cherchez un autre exemple ensemble."
+
+msgid "Documented sources and their scope"
+msgstr "Sources documentées et portée"
+
+msgid "Download the review pack"
+msgstr "Télécharger le dossier de relecture"
+
+msgid "Draft preview"
+msgstr "Aperçu du brouillon"
+
+msgid "Editorial items completed"
+msgstr "Éléments éditoriaux renseignés"
+
+msgid "Enter decisions through the existing review workflow. This exported sheet cannot approve or publish an activity."
+msgstr "Saisissez les décisions dans le parcours de relecture existant. Ce tableau exporté ne peut ni approuver ni publier une activité."
+
+msgid "Essentials completed"
+msgstr "Informations essentielles renseignées"
+
+msgid "Explore a spatial relation using familiar objects."
+msgstr "Explorer une relation spatiale avec des objets familiers."
+
+msgid "Explore a useful relationship between familiar items."
+msgstr "Explorer un lien utile entre des éléments familiers."
+
+msgid "Explore the meaning difference in a clinician-selected phonemic contrast."
+msgstr "Explorer la différence de sens d’un contraste phonémique choisi par l’orthophoniste."
+
+msgid "Explore two familiar words and their meanings."
+msgstr "Explorer deux mots familiers et leur sens."
+
+msgid "Family instructions in the three interface languages"
+msgstr "Consignes familiales dans les trois langues d’interface"
+
+msgid "Fills empty guide fields in the interface language. Edit these proposals for your goal and spoken variety; they are not approved content."
+msgstr "Complète les champs vides du guide dans la langue de l’interface. Adaptez ces propositions à votre objectif et à la variété parlée ; elles ne sont pas approuvées."
+
+msgid "Intended population and precautions"
+msgstr "Public concerné et précautions"
+
+msgid "Items to complete"
+msgstr "Éléments à compléter"
+
+msgid "Make a meaningful request or choice with a communication partner."
+msgstr "Formuler une demande ou un choix utile avec un partenaire de communication."
+
+msgid "Minimal pairs: check phonemic contrast, aligned position and structure, meaningful words and the child’s actual error profile. A spelling difference alone is insufficient."
+msgstr "Paires minimales : vérifiez le contraste phonémique, la position et la structure alignées, le sens des mots et le profil d’erreurs réel de l’enfant. Une différence orthographique seule ne suffit pas."
+
+msgid "Missing adult audio"
+msgstr "Audio adulte manquant"
+
+msgid "Missing structured guide"
+msgstr "Guide structuré manquant"
+
+msgid "Move a real object, describe its position and invite the child to show another position."
+msgstr "Déplacez un objet réel, décrivez sa position et invitez l’enfant à montrer une autre position."
+
+msgid "Next step"
+msgstr "Étape suivante"
+
+msgid "No content matches these filters."
+msgstr "Aucun contenu ne correspond à ces filtres."
+
+msgid "Objective, audience, steps, help and limits in the content language"
+msgstr "Objectif, public, étapes, aides et limites dans la langue du contenu"
+
+msgid "Offer a real choice. Wait, acknowledge any communicative attempt and respond to the request."
+msgstr "Proposez un vrai choix. Attendez, reconnaissez toute tentative de communication et répondez à la demande."
+
+msgid "One structurally aligned phoneme contrast"
+msgstr "Un contraste phonémique structurellement aligné"
+
+msgid "Pause if the child is tired or uncomfortable. Do not diagnose or score pronunciation from a picture choice."
+msgstr "Faites une pause si l’enfant est fatigué ou mal à l’aise. Un choix d’image ne permet pas de diagnostiquer ou de coter la prononciation."
+
+msgid "Prepare human review"
+msgstr "Préparer la relecture humaine"
+
+msgid "Prepare the review"
+msgstr "Préparer la relecture"
+
+msgid "Present"
+msgstr "Renseigné"
+
+msgid "Preview only. No answer is scored and no activity is assigned."
+msgstr "Aperçu uniquement. Aucune réponse n’est cotée et aucune activité n’est assignée."
+
+msgid "Previous step"
+msgstr "Étape précédente"
+
+msgid "Recorded usage rights"
+msgstr "Droits d’utilisation renseignés"
+
+msgid "Resume this working copy"
+msgstr "Reprendre cette copie de travail"
+
+msgid "Resume your work"
+msgstr "Reprendre votre travail"
+
+msgid "Review each exact version: indication, intended meaning, local familiarity, image recognition, recording and transcription, allowable variants, instructions, rights and limits."
+msgstr "Relisez chaque version exacte : indication, sens visé, familiarité locale, reconnaissance des images, enregistrement et transcription, variantes admises, consignes, droits et limites."
+
+msgid "Save working copy now"
+msgstr "Enregistrer la copie de travail"
+
+msgid "Saving your working copy…"
+msgstr "Enregistrement de votre copie de travail…"
+
+msgid "Share a short account with a communication partner."
+msgstr "Partager un bref récit avec un partenaire de communication."
+
+msgid "Show each picture and agree on what it represents before asking for a response."
+msgstr "Montrez chaque image et vérifiez ce qu’elle représente avant de demander une réponse."
+
+msgid "Step"
+msgstr "Étape"
+
+msgid "Support communication during a familiar daily routine."
+msgstr "Soutenir la communication dans une routine quotidienne familière."
+
+msgid "Take turns naming or showing the two words in a meaningful context."
+msgstr "Nommez ou montrez les deux mots à tour de rôle dans un contexte utile."
+
+msgid "These private working copies may be incomplete. They are not published activities."
+msgstr "Ces copies de travail privées peuvent être incomplètes. Ce ne sont pas des activités publiées."
+
+msgid "This draft changed in another session. Open the current version before saving your changes."
+msgstr "Ce brouillon a changé dans une autre session. Ouvrez la version actuelle avant d’enregistrer vos modifications."
+
+msgid "To complete"
+msgstr "À compléter"
+
+msgid "Transcriptions to be checked against the recordings"
+msgstr "Transcriptions à vérifier avec les enregistrements"
+
+msgid "Two available adult audio files"
+msgstr "Deux fichiers audio adultes disponibles"
+
+msgid "Two available illustrations"
+msgstr "Deux illustrations disponibles"
+
+msgid "Two words or prompts and their meanings"
+msgstr "Deux mots ou supports et leurs sens"
+
+msgid "Understand and use two familiar action words."
+msgstr "Comprendre et utiliser deux verbes familiers."
+
+msgid "Understand and use two words selected by the clinician."
+msgstr "Comprendre et utiliser deux mots choisis par l’orthophoniste."
+
+msgid "Untitled working copy"
+msgstr "Copie de travail sans titre"
+
+msgid "Use a gesture, an object or a shorter instruction when helpful. Accept the child’s usual way of communicating."
+msgstr "Utilisez un geste, un objet ou une consigne plus courte si cela aide. Acceptez la façon habituelle de communiquer de l’enfant."
+
+msgid "Use the clinician-approved adult model. Give the child time to listen and respond."
+msgstr "Utilisez le modèle adulte approuvé par l’orthophoniste. Laissez à l’enfant le temps d’écouter et de répondre."
+
+msgid "Use the words during the real routine. Follow the child’s interest and take turns."
+msgstr "Utilisez les mots dans la routine réelle. Suivez l’intérêt de l’enfant et alternez les tours."
+
+msgid "Versions in your editorial scope"
+msgstr "Versions dans votre périmètre éditorial"
+
+msgid "Versions needing adult audio files"
+msgstr "Versions nécessitant des fichiers audio adultes"
+
+msgid "Words and media"
+msgstr "Mots et médias"
+
+msgid "Working copy not saved. Keep this page open and retry."
+msgstr "Copie de travail non enregistrée. Gardez cette page ouverte et réessayez."
+
+msgid "Working copy saved. The activity is not published."
+msgstr "Copie de travail enregistrée. L’activité n’est pas publiée."
+
+msgid "Your family instruction will appear here."
+msgstr "Votre consigne familiale apparaîtra ici."
+
+msgid "Your word or prompt"
+msgstr "Votre mot ou support"
+
+msgid "Target or theme"
+msgstr "Cible ou thème"
+
+msgid "Rights holder"
+msgstr "Titulaire des droits"
+
+msgid "Licence or permission"
+msgstr "Licence ou autorisation"
+
+msgid "Permitted use"
+msgstr "Utilisations autorisées"
+
+msgid "Territory"
+msgstr "Territoire"
+
+msgid "Permission duration"
+msgstr "Durée de l’autorisation"
+
+msgid "Required attribution"
+msgstr "Attribution requise"
+
+msgid "Adult speaker permission"
+msgstr "Autorisation du locuteur adulte"
+
+msgid "For an adult recording, document consent and permitted uses. Upload the supporting rights document through the qualification workspace."
+msgstr "Pour un enregistrement adulte, documentez le consentement et les usages autorisés. Déposez le justificatif dans l’espace de qualification."
+
+msgid "Uploaded illustration preview"
+msgstr "Aperçu de l’illustration téléversée"
+
+msgid "A valid file is not an approved speech model. Complete rights and human review before clinical use."
+msgstr "Un fichier valide ne constitue pas un modèle de parole approuvé. Complétez les droits et la relecture humaine avant un usage clinique."
+
+msgid "No unsaved changes."
+msgstr "Aucune modification en attente."
+
+msgid "Add a source"
+msgstr "Ajouter une source"
+
+msgid "Set aside without deleting"
+msgstr "Mettre de côté sans supprimer"
+
+msgid "Working copies set aside"
+msgstr "Copies de travail mises de côté"
+
+msgid "Restore working copy"
+msgstr "Restaurer la copie de travail"
+
+msgid "You have 30 active working copies. Save an activity or set a copy aside in the editorial workspace."
+msgstr "Vous avez 30 copies de travail actives. Enregistrez une activité ou mettez une copie de côté dans l’espace éditorial."
+
+msgid "Recording prompts are proposals: an adult native speaker and the reviewers must confirm meaning, regional usage, phonemes, consent and rights before recording and release. Blank decisions are not approvals."
+msgstr "Les fiches d’enregistrement sont des propositions : un locuteur adulte natif et les relecteurs doivent confirmer le sens, l’usage régional, les phonèmes, le consentement et les droits avant enregistrement et diffusion. Les décisions vides ne sont pas des approbations."

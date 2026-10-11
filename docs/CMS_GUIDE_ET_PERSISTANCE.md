@@ -1,0 +1,41 @@
+# CMS guidé et conservation de la démonstration — 11 octobre 2026
+
+Pitou peut créer une activité originale en quatre étapes : identité et variété parlée, mots et médias, consignes et guides, population/précautions/sources. Les structures proposées remplissent seulement les champs de guide vides ; elles ne fabriquent ni mots, ni transcription, ni source, ni approbation. Les champs restent éditables. Les consignes de la variété travaillée et celles de l'interface sont deux choses distinctes.
+
+Une copie de travail privée est enregistrée après une modification. Son état est visible : en attente, en cours, enregistré ou à réessayer. Une saisie incomplète se récupère depuis l'espace éditorial. Trente copies actives sont autorisées par auteur ; mettre une copie de côté est réversible et ne supprime pas une activité. Les numéros de révision et l'empreinte du brouillon empêchent une autosauvegarde ancienne de remplacer une saisie récente. Ces protections ne certifient pas l'idempotence de toute soumission de création manuelle.
+
+Le tableau de complétude recense les mots, sens, guides, langues, illustrations, enregistrements, transcriptions, sources et droits. Il indique la présence technique des éléments, jamais leur qualité clinique. Le paquet ZIP de relecture fournit les versions et leurs empreintes, une feuille de décisions et `recording_prompts.csv`. Ce dernier prépare chaque côté de l'activité avec mot, sens proposé, transcription proposée et variété ; les références du locuteur adulte, de la région, du consentement et les décisions restent à remplir. Aucune feuille importée ne publie ni n'approuve un contenu. Un locuteur natif et les relecteurs doivent confirmer les propositions, particulièrement en darja.
+
+Le téléversement d'images et de WAV/MP3 accepte les mêmes fichiers validés qu'avant, avec une description de droits en langage courant et un aperçu. L'audio silencieux de recette est un fichier informatique fictif, sans modèle de parole ; aucun audio clinique natif n'a été inventé. La bibliothèque conserve ses 111 propositions originales courantes : 19 françaises, 17 anglaises, 33 en darja et 42 en arabe standard. Les copies de recette identifiées fictives sont distinctes de ce corpus. Les références documentées soutiennent les approches proposées, pas l'efficacité de Nehedrou. Voir [les recommandations ASHA](https://www.asha.org/practice-portal/clinical-topics/articulation-and-phonology/) et [les recommandations multilingues](https://www.asha.org/practice-portal/professional-issues/multilingual-service-delivery/).
+
+## Hébergement gratuit autorisé
+
+Le projet Neon séparé « Nehedrou Demo », Francfort, utilise PostgreSQL 17 et un bucket S3 privé. Les autres projets sont exclus de cette opération. Les identifiants restent dans les variables privées de Render et dans un fichier privé hors dépôt. Le stockage est authentifié, les URL signées sont courtes, les lectures applicatives restent soumises aux permissions existantes. Les fichiers sont immuables ; aucun lien public permanent n'est créé.
+
+Le budget est de 0 EUR : aucun passage payant n'est autorisé. Les limites de [l'offre gratuite Neon](https://neon.com/pricing) s'appliquent ; un quota atteint peut suspendre le service. [Render gratuit](https://render.com/docs/free) conserve sa veille et ses limites de disponibilité. Un stockage persistant ne constitue pas une offre de production avec SLA ou une qualification pour les données de santé.
+
+Configurer `POSTGRES_HOST` avec l'hôte pooler pour le serveur et `POSTGRES_MIGRATION_HOST` avec l'hôte direct pour les migrations et sauvegardes ; TLS est requis. `DEMO_MODE=1`, `DEMO_EPHEMERAL=0`, `DEMO_SEED_ON_START=0` pour une base déjà initialisée. La désactivation du réensemencement conserve les objets fictifs ajoutés et évite de rejouer les initialisations à chaque démarrage. Ne pas mettre ces drapeaux sur une base vide : initialiser les comptes fictifs séparément avec leurs secrets privés. Le statut durable déclaré est une configuration ; seules les recettes de redémarrage et de restauration en prouvent le comportement dans le périmètre testé.
+
+La base SQLite temporaire précédente ne possède pas de voie d'export intégral disponible sur le service gratuit. La nouvelle base reprend les douze comptes fictifs connus avec les mêmes mots de passe vérifiés et les données de démonstration standard ; ce n'est pas une migration exhaustive de l'ancien état temporaire. Les modifications anciennes non exportées ne sont pas garanties. Aucun dossier réel ne doit être saisi dans cette démonstration.
+
+## Sauvegarde et restauration opérateur
+
+Les commandes `backup_nehedrou` et `restore_nehedrou` produisent une archive Fernet authentifiée de la base et des fichiers privés. La clé `NEHEDROU_BACKUP_KEY` est fournie dans l'environnement privé, conservée séparément et jamais dans une commande, un journal ou le dépôt. Arrêter les écritures et les modifications de fichiers avant `--quiescent` ; cette option est une déclaration opérateur, pas un verrou global. Installer les outils clients de la version PostgreSQL correspondante et définir `NEHEDROU_PG_BIN` si nécessaire. La limite pilote est 64 MiB non compressés et 10000 entrées : prévoir une sauvegarde d'infrastructure en flux au-delà.
+
+Exemples sans secret, chemins privés absolus à adapter :
+
+```text
+python manage.py backup_nehedrou --quiescent --destination E:/SauvegardesPrivees/nehedrou-20261011.nehedrou
+python manage.py restore_nehedrou --source E:/SauvegardesPrivees/nehedrou-20261011.nehedrou --verify-only
+python manage.py restore_nehedrou --source E:/SauvegardesPrivees/nehedrou-20261011.nehedrou --postgres-database nehedrou_restoration_test --media-destination E:/RestaurationsPrivees/medias-test
+```
+
+La cible PostgreSQL doit exister, être vide et être différente de la source et de la base active. Pour SQLite, utiliser `--sqlite-destination` avec un fichier neuf. La commande n'écrase aucun environnement actif. Les fichiers sont restaurés dans un répertoire local neuf ; leur réimportation vers un bucket distant demeure une opération séparée. La restauration base/fichiers n'est pas une transaction commune en cas de panne disque. La sauvegarde hors hébergement et la restauration isolée sont testées avec des données fictives ; leur planification récurrente n'est pas installée.
+
+## Portée des preuves
+
+La suite complète PostgreSQL passe 316 tests ; 31 tests ciblés passent ensuite, dont deux nouveaux cas (kit audio et démarrage sans réensemencement), soit 318 tests distincts couverts. Deux cas exercent réellement les verrous de copie de travail PostgreSQL. Les sauvegardes filesystem et S3, le refus d'une cible active et les archives corrompues sont couverts. La restauration réelle depuis Neon et son bucket privé compare les 53 tables et trois fichiers présents lors de la capture : comptages et octets identiques. Les fichiers ajoutés ensuite par les parcours HTTP ne font pas partie de cette capture historique.
+
+Les recettes HTTPS et les captures de la publication sont livrées séparément et doivent être datées de cette publication. Elles ne certifient pas tous les navigateurs, une conformité intégrale WCAG, une charge de production, une compréhension native ou une efficacité thérapeutique.
+
+La qualité fonctionnelle pilote peut être appréciée séparément de la préparation à une vente clinique. Restent nécessaires : relectures cliniques et linguistiques des versions exactes, enregistrements adultes natifs et droits, essais avec utilisateurs, courriels réellement reçus, exploitation et offre commerciale qualifiées. L'application continue à rendre ces limites visibles.

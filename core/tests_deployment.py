@@ -25,6 +25,16 @@ class DeploymentSettingsTests(SimpleTestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn('STARTUP_VERIFIED', result.stdout)
 
+    def test_disabled_demo_seeding_preserves_initialized_database(self):
+        import runpy
+        from unittest.mock import patch
+        with override_settings(DEBUG=False,DEMO_MODE=True,DEMO_EPHEMERAL=False), patch.dict(os.environ,{'DEMO_SEED_ON_START':'0','POSTGRES_MIGRATION_HOST':'fictional-direct.example.test'}), patch('subprocess.run') as command, patch('os.execvp') as handoff:
+            runpy.run_path(str(settings.BASE_DIR/'scripts/render_start.py'),run_name='__main__')
+        self.assertEqual(command.call_count,1)
+        self.assertEqual(command.call_args.args[0][1:4],['manage.py','migrate','--noinput'])
+        self.assertEqual(command.call_args.kwargs['env']['POSTGRES_HOST'],'fictional-direct.example.test')
+        self.assertEqual(handoff.call_count,1)
+
     def load_settings(self, **values):
         env = {k: v for k, v in os.environ.items() if not k.startswith(('DJANGO_', 'POSTGRES_', 'DEMO_', 'RENDER')) and k not in ('MFA_REQUIRED', 'PUBLIC_ORIGIN')}
         env.update(DJANGO_SECRET_KEY='test-only-' + 'x' * 60, DJANGO_DEBUG='0', DEMO_MODE='0')

@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.db.models import Q
 from django.http import FileResponse, Http404
+from django.db import transaction
+import uuid
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
@@ -34,7 +36,18 @@ def index(request):
     if variety:
         qs = qs.filter(variety__code=variety)
     from django.core.paginator import Paginator
-    return render(request, 'editorial/index.html', {'page': Paginator(qs.order_by('variety__label', 'title', '-version'), 20).get_page(request.GET.get('page')), 'states': Activity._meta.get_field('state').choices, 'varieties': Variety.objects.all(), 'selected_state': state, 'selected': variety, 'can_create': request.user.is_superuser or EditorialGrant.objects.filter(user=request.user, edit=True).exists()})
+    from .models import DraftWorkingCopy
+    from .working import authorize_copy, recover_url
+    recoverable, set_aside = [], []
+    for copy in DraftWorkingCopy.objects.filter(owner=request.user, committed=False).select_related('activity__variety').order_by('-updated_at'):
+        try:
+            authorize_copy(request.user, copy)
+        except (PermissionDenied, Http404):
+            continue
+        if copy.dismissed and len(set_aside) >= 20:
+            continue
+        (set_aside if copy.dismissed else recoverable).append({'id':copy.pk,'title':copy.data.get('title') or _('Untitled working copy'), 'url':recover_url(copy), 'updated_at':copy.updated_at})
+    return render(request, 'editorial/index.html', {'recoverable': recoverable, 'set_aside':set_aside, 'page': Paginator(qs.order_by('variety__label', 'title', '-version'), 20).get_page(request.GET.get('page')), 'states': Activity._meta.get_field('state').choices, 'varieties': Variety.objects.all(), 'selected_state': state, 'selected': variety, 'can_create': request.user.is_superuser or EditorialGrant.objects.filter(user=request.user, edit=True).exists()})
 
 @login_required
 def detail(request, pk):
@@ -69,25 +82,57 @@ def edit(request, pk=None):
     if not request.user.is_superuser and not EditorialGrant.objects.filter(user=request.user, edit=True).exists():
         raise PermissionDenied
     advanced = request.GET.get('advanced') == '1'
+    from .working import resume_copy, recover_url
+    working = resume_copy(request, activity)
+    base_digest = working.base_digest if working else (activity.fingerprint() if pk else '')
     if advanced:
         form = ActivityForm(request.POST or None, instance=activity)
     else:
         from .authoring import ActivityAuthoringForm
         form = ActivityAuthoringForm(request.POST or None, instance=activity, actor=request.user)
         form.language_sections.sort(key=lambda section: section['code'] != request.LANGUAGE_CODE)
+        if working and request.method != 'POST':
+            form.initial.update(working.data)
     form.fields['variety'].queryset = Variety.objects.all() if request.user.is_superuser else Variety.objects.filter(editorialgrant__user=request.user, editorialgrant__edit=True)
     if request.method == 'POST' and form.is_valid():
         if not allowed(request.user, form.cleaned_data['variety'], 'edit'):
             raise PermissionDenied
-        activity = form.save()
-        from core.services import audit
-        audit(request.user, 'catalog.draft_saved', activity)
-        return redirect('editorial_detail', pk=activity.pk)
+        with transaction.atomic():
+            current = Activity.objects.select_for_update().get(pk=pk) if pk else None
+            baseline = request.POST.get('content_baseline')
+            if current and (current.state != 'draft' or (baseline and baseline != current.fingerprint())):
+                form.add_error(None, _('This draft changed in another session. Open the current version before saving your changes.'))
+            else:
+                if not allowed(request.user, form.cleaned_data['variety'], 'edit'):
+                    raise PermissionDenied
+                activity = form.save()
+                from core.services import audit
+                audit(request.user, 'catalog.draft_saved', activity)
+                if working:
+                    working.committed = True
+                    working.save(update_fields=['committed', 'updated_at'])
+                return redirect('editorial_detail', pk=activity.pk)
     if not advanced:
         for section in form.language_sections:
             section['has_errors'] = bool(section['instructions'].errors or any(field.errors for field in section['fields']))
         form.source_errors = [index for index, row in enumerate(form.source_rows) if any(field.errors for field in row)]
-    return render(request, 'form.html' if advanced else 'editorial/author.html', {'title': _('Edit content draft') if pk else _('Create an activity from scratch'), 'form': form, 'submit': _('Save draft'), 'activity': activity, 'activity_add': not pk})
+    from .starters import starting_structures
+    from django.urls import reverse
+    working_id = working.pk if working else uuid.uuid4()
+    config = {
+        'fields':list(form.fields), 'autosave_url':reverse('editorial_autosave', args=[working_id]),
+        'resume_url':recover_url(working) if working else '', 'revision':working.revision if working else 0, 'activity':str(activity.pk) if pk else '',
+        'base_digest':base_digest, 'language':request.LANGUAGE_CODE,
+        'images': {str(asset.pk):reverse('editorial_media', args=[asset.pk]) for asset in form.fields['choose_image_a'].queryset} if not advanced else {},
+        'starters':starting_structures(request.LANGUAGE_CODE),
+        'labels': {'step':_('Step'), 'empty_word':_('Your word or prompt'), 'empty_instruction':_('Your family instruction will appear here.'),
+                   'essentials':_('Essentials completed'), 'saving':_('Saving your working copy…'), 'saved':_('Working copy saved. The activity is not published.'),
+                   'capacity':_('You have 30 active working copies. Save an activity or set a copy aside in the editorial workspace.'), 'unchanged':_('No unsaved changes.'), 'pending':_('Changes waiting to be saved.'), 'failed':_('Working copy not saved. Keep this page open and retry.'),
+                   'conflict':_('Another session or the source changed. Open your saved copy to reconcile changes.')}
+    }
+    response = render(request, 'form.html' if advanced else 'editorial/author.html', {'title': _('Edit content draft') if pk else _('Create an activity from scratch'), 'form': form, 'submit': _('Save draft'), 'activity': activity, 'activity_add': not pk, 'working_id':working_id, 'base_digest':base_digest, 'author_config':config})
+    response['Cache-Control'] = 'private, no-store'
+    return response
 
 @login_required
 @require_POST
@@ -119,7 +164,9 @@ def upload(request):
         except ValueError: raise Http404
         draft = get_object_or_404(editorial_activities(request.user), pk=draft_id, state='draft')
         if not allowed(request.user, draft.variety, 'edit'): raise PermissionDenied
-    form = MediaForm(request.POST or None, request.FILES or None, instance=MediaAsset(uploaded_by=request.user))
+    from .media_authoring import MediaAuthoringForm
+    media_form = MediaForm if 'provenance' in request.POST or request.GET.get('advanced') == '1' else MediaAuthoringForm
+    form = media_form(request.POST or None, request.FILES or None, instance=MediaAsset(uploaded_by=request.user))
     from qualification.models import EvidenceDocument
     form.fields['rights_evidence'].queryset = EvidenceDocument.objects.filter(category='rights', revoked=False) if request.user.is_superuser else EvidenceDocument.objects.filter(category='rights', revoked=False, variety__editorialgrant__user=request.user).distinct()
     if request.method == 'POST' and form.is_valid():

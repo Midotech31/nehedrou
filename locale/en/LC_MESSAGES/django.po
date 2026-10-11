@@ -4002,3 +4002,288 @@ msgstr "Advanced structured data editor"
 
 msgid "Return to your draft"
 msgstr "Return to your draft"
+
+msgid "Act out an action and invite the child to join or describe what happens."
+msgstr "Act out an action and invite the child to join or describe what happens."
+
+msgid "Activity creation steps"
+msgstr "Activity creation steps"
+
+msgid "Add a starting structure"
+msgstr "Add a starting structure"
+
+msgid "All items"
+msgstr "All items"
+
+msgid "Another session or the source changed. Open your saved copy to reconcile changes."
+msgstr "Another session or the source changed. Open your saved copy to reconcile changes."
+
+msgid "Ask an open question about the pictures. Follow the child’s contribution without requiring one fixed answer."
+msgstr "Ask an open question about the pictures. Follow the child’s contribution without requiring one fixed answer."
+
+msgid "Ask for one familiar item, then use the word in a short shared exchange."
+msgstr "Ask for one familiar item, then use the word in a short shared exchange."
+
+msgid "Begin with listening and picture identification. Add spoken practice only as directed by the clinician."
+msgstr "Begin with listening and picture identification. Add spoken practice only as directed by the clinician."
+
+msgid "Changes waiting to be saved."
+msgstr "Changes waiting to be saved."
+
+msgid "Check local vocabulary, image recognition, indication, recordings, variants and rights before clinical use."
+msgstr "Check local vocabulary, image recognition, indication, recordings, variants and rights before clinical use."
+
+msgid "Completeness helps prepare a review. It does not establish clinical correctness or approve an activity."
+msgstr "Completeness helps prepare a review. It does not establish clinical correctness or approve an activity."
+
+msgid "Content quality and review preparation"
+msgstr "Content quality and review preparation"
+
+msgid "Darja: document the region and family usage. Do not assume a Standard Arabic word or synthetic voice represents the child’s variety."
+msgstr "Darja: document the region and family usage. Do not assume a Standard Arabic word or synthetic voice represents the child’s variety."
+
+msgid "Define the activity"
+msgstr "Define the activity"
+
+msgid "Describe the child’s needs, familiar words and the clinician-selected goal."
+msgstr "Describe the child’s needs, familiar words and the clinician-selected goal."
+
+msgid "Discuss how the items relate and look for another example together."
+msgstr "Discuss how the items relate and look for another example together."
+
+msgid "Documented sources and their scope"
+msgstr "Documented sources and their scope"
+
+msgid "Download the review pack"
+msgstr "Download the review pack"
+
+msgid "Draft preview"
+msgstr "Draft preview"
+
+msgid "Editorial items completed"
+msgstr "Editorial items completed"
+
+msgid "Enter decisions through the existing review workflow. This exported sheet cannot approve or publish an activity."
+msgstr "Enter decisions through the existing review workflow. This exported sheet cannot approve or publish an activity."
+
+msgid "Essentials completed"
+msgstr "Essentials completed"
+
+msgid "Explore a spatial relation using familiar objects."
+msgstr "Explore a spatial relation using familiar objects."
+
+msgid "Explore a useful relationship between familiar items."
+msgstr "Explore a useful relationship between familiar items."
+
+msgid "Explore the meaning difference in a clinician-selected phonemic contrast."
+msgstr "Explore the meaning difference in a clinician-selected phonemic contrast."
+
+msgid "Explore two familiar words and their meanings."
+msgstr "Explore two familiar words and their meanings."
+
+msgid "Family instructions in the three interface languages"
+msgstr "Family instructions in the three interface languages"
+
+msgid "Fills empty guide fields in the interface language. Edit these proposals for your goal and spoken variety; they are not approved content."
+msgstr "Fills empty guide fields in the interface language. Edit these proposals for your goal and spoken variety; they are not approved content."
+
+msgid "Intended population and precautions"
+msgstr "Intended population and precautions"
+
+msgid "Items to complete"
+msgstr "Items to complete"
+
+msgid "Make a meaningful request or choice with a communication partner."
+msgstr "Make a meaningful request or choice with a communication partner."
+
+msgid "Minimal pairs: check phonemic contrast, aligned position and structure, meaningful words and the child’s actual error profile. A spelling difference alone is insufficient."
+msgstr "Minimal pairs: check phonemic contrast, aligned position and structure, meaningful words and the child’s actual error profile. A spelling difference alone is insufficient."
+
+msgid "Missing adult audio"
+msgstr "Missing adult audio"
+
+msgid "Missing structured guide"
+msgstr "Missing structured guide"
+
+msgid "Move a real object, describe its position and invite the child to show another position."
+msgstr "Move a real object, describe its position and invite the child to show another position."
+
+msgid "Next step"
+msgstr "Next step"
+
+msgid "No content matches these filters."
+msgstr "No content matches these filters."
+
+msgid "Objective, audience, steps, help and limits in the content language"
+msgstr "Objective, audience, steps, help and limits in the content language"
+
+msgid "Offer a real choice. Wait, acknowledge any communicative attempt and respond to the request."
+msgstr "Offer a real choice. Wait, acknowledge any communicative attempt and respond to the request."
+
+msgid "One structurally aligned phoneme contrast"
+msgstr "One structurally aligned phoneme contrast"
+
+msgid "Pause if the child is tired or uncomfortable. Do not diagnose or score pronunciation from a picture choice."
+msgstr "Pause if the child is tired or uncomfortable. Do not diagnose or score pronunciation from a picture choice."
+
+msgid "Prepare human review"
+msgstr "Prepare human review"
+
+msgid "Prepare the review"
+msgstr "Prepare the review"
+
+msgid "Present"
+msgstr "Present"
+
+msgid "Preview only. No answer is scored and no activity is assigned."
+msgstr "Preview only. No answer is scored and no activity is assigned."
+
+msgid "Previous step"
+msgstr "Previous step"
+
+msgid "Recorded usage rights"
+msgstr "Recorded usage rights"
+
+msgid "Resume this working copy"
+msgstr "Resume this working copy"
+
+msgid "Resume your work"
+msgstr "Resume your work"
+
+msgid "Review each exact version: indication, intended meaning, local familiarity, image recognition, recording and transcription, allowable variants, instructions, rights and limits."
+msgstr "Review each exact version: indication, intended meaning, local familiarity, image recognition, recording and transcription, allowable variants, instructions, rights and limits."
+
+msgid "Save working copy now"
+msgstr "Save working copy now"
+
+msgid "Saving your working copy…"
+msgstr "Saving your working copy…"
+
+msgid "Share a short account with a communication partner."
+msgstr "Share a short account with a communication partner."
+
+msgid "Show each picture and agree on what it represents before asking for a response."
+msgstr "Show each picture and agree on what it represents before asking for a response."
+
+msgid "Step"
+msgstr "Step"
+
+msgid "Support communication during a familiar daily routine."
+msgstr "Support communication during a familiar daily routine."
+
+msgid "Take turns naming or showing the two words in a meaningful context."
+msgstr "Take turns naming or showing the two words in a meaningful context."
+
+msgid "These private working copies may be incomplete. They are not published activities."
+msgstr "These private working copies may be incomplete. They are not published activities."
+
+msgid "This draft changed in another session. Open the current version before saving your changes."
+msgstr "This draft changed in another session. Open the current version before saving your changes."
+
+msgid "To complete"
+msgstr "To complete"
+
+msgid "Transcriptions to be checked against the recordings"
+msgstr "Transcriptions to be checked against the recordings"
+
+msgid "Two available adult audio files"
+msgstr "Two available adult audio files"
+
+msgid "Two available illustrations"
+msgstr "Two available illustrations"
+
+msgid "Two words or prompts and their meanings"
+msgstr "Two words or prompts and their meanings"
+
+msgid "Understand and use two familiar action words."
+msgstr "Understand and use two familiar action words."
+
+msgid "Understand and use two words selected by the clinician."
+msgstr "Understand and use two words selected by the clinician."
+
+msgid "Untitled working copy"
+msgstr "Untitled working copy"
+
+msgid "Use a gesture, an object or a shorter instruction when helpful. Accept the child’s usual way of communicating."
+msgstr "Use a gesture, an object or a shorter instruction when helpful. Accept the child’s usual way of communicating."
+
+msgid "Use the clinician-approved adult model. Give the child time to listen and respond."
+msgstr "Use the clinician-approved adult model. Give the child time to listen and respond."
+
+msgid "Use the words during the real routine. Follow the child’s interest and take turns."
+msgstr "Use the words during the real routine. Follow the child’s interest and take turns."
+
+msgid "Versions in your editorial scope"
+msgstr "Versions in your editorial scope"
+
+msgid "Versions needing adult audio files"
+msgstr "Versions needing adult audio files"
+
+msgid "Words and media"
+msgstr "Words and media"
+
+msgid "Working copy not saved. Keep this page open and retry."
+msgstr "Working copy not saved. Keep this page open and retry."
+
+msgid "Working copy saved. The activity is not published."
+msgstr "Working copy saved. The activity is not published."
+
+msgid "Your family instruction will appear here."
+msgstr "Your family instruction will appear here."
+
+msgid "Your word or prompt"
+msgstr "Your word or prompt"
+
+msgid "Target or theme"
+msgstr "Target or theme"
+
+msgid "Rights holder"
+msgstr "Rights holder"
+
+msgid "Licence or permission"
+msgstr "Licence or permission"
+
+msgid "Permitted use"
+msgstr "Permitted use"
+
+msgid "Territory"
+msgstr "Territory"
+
+msgid "Permission duration"
+msgstr "Permission duration"
+
+msgid "Required attribution"
+msgstr "Required attribution"
+
+msgid "Adult speaker permission"
+msgstr "Adult speaker permission"
+
+msgid "For an adult recording, document consent and permitted uses. Upload the supporting rights document through the qualification workspace."
+msgstr "For an adult recording, document consent and permitted uses. Upload the supporting rights document through the qualification workspace."
+
+msgid "Uploaded illustration preview"
+msgstr "Uploaded illustration preview"
+
+msgid "A valid file is not an approved speech model. Complete rights and human review before clinical use."
+msgstr "A valid file is not an approved speech model. Complete rights and human review before clinical use."
+
+msgid "No unsaved changes."
+msgstr "No unsaved changes."
+
+msgid "Add a source"
+msgstr "Add a source"
+
+msgid "Set aside without deleting"
+msgstr "Set aside without deleting"
+
+msgid "Working copies set aside"
+msgstr "Working copies set aside"
+
+msgid "Restore working copy"
+msgstr "Restore working copy"
+
+msgid "You have 30 active working copies. Save an activity or set a copy aside in the editorial workspace."
+msgstr "You have 30 active working copies. Save an activity or set a copy aside in the editorial workspace."
+
+msgid "Recording prompts are proposals: an adult native speaker and the reviewers must confirm meaning, regional usage, phonemes, consent and rights before recording and release. Blank decisions are not approvals."
+msgstr "Recording prompts are proposals: an adult native speaker and the reviewers must confirm meaning, regional usage, phonemes, consent and rights before recording and release. Blank decisions are not approvals."

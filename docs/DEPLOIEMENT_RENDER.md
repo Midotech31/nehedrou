@@ -1,3 +1,5 @@
+> Mise à jour du 11 octobre 2026 : la nouvelle publication utilise un projet Neon gratuit séparé et un stockage privé persistant. Les passages SQLite temporaire ci-dessous décrivent l'historique. Voir [CMS guidé et persistance](CMS_GUIDE_ET_PERSISTANCE.md) pour la configuration et les limites actuelles.
+
 # Test en ligne sur Render
 
 Publication du 10 octobre 2026. [Dépôt dédié Midotech31/nehedrou](https://github.com/Midotech31/nehedrou), rendu public avec l’accord du propriétaire pour permettre le déploiement. [Adresse de la démonstration](https://nehedrou-demo.onrender.com). Les bases locales, mots de passe, téléversements et environnements ne sont pas versionnés.

@@ -4002,3 +4002,288 @@ msgstr "محرر البيانات المنظمة المتقدم"
 
 msgid "Return to your draft"
 msgstr "العودة إلى المسودة"
+
+msgid "Act out an action and invite the child to join or describe what happens."
+msgstr "مثّلوا فعلًا وادعوا الطفل للمشاركة أو وصف ما يحدث."
+
+msgid "Activity creation steps"
+msgstr "مراحل إنشاء النشاط"
+
+msgid "Add a starting structure"
+msgstr "إضافة إطار أولي"
+
+msgid "All items"
+msgstr "كل العناصر"
+
+msgid "Another session or the source changed. Open your saved copy to reconcile changes."
+msgstr "تغيرت جلسة أخرى أو الفقرة الأصلية. افتحوا النسخة المحفوظة لمراجعة التغييرات."
+
+msgid "Ask an open question about the pictures. Follow the child’s contribution without requiring one fixed answer."
+msgstr "اطرحوا سؤالًا مفتوحًا عن الصور. تابعوا مساهمة الطفل دون اشتراط إجابة واحدة ثابتة."
+
+msgid "Ask for one familiar item, then use the word in a short shared exchange."
+msgstr "اطلبوا شيئًا مألوفًا ثم استخدموا الكلمة في تبادل قصير معًا."
+
+msgid "Begin with listening and picture identification. Add spoken practice only as directed by the clinician."
+msgstr "ابدؤوا بالاستماع والتعرف على الصور. أضيفوا الممارسة اللفظية حسب إرشادات الأخصائي فقط."
+
+msgid "Changes waiting to be saved."
+msgstr "تغييرات تنتظر الحفظ."
+
+msgid "Check local vocabulary, image recognition, indication, recordings, variants and rights before clinical use."
+msgstr "راجعوا المفردات المحلية والتعرف على الصور والداعي السريري والتسجيلات والبدائل والحقوق قبل الاستخدام السريري."
+
+msgid "Completeness helps prepare a review. It does not establish clinical correctness or approve an activity."
+msgstr "يساعد اكتمال العناصر في التحضير للمراجعة، لكنه لا يثبت الملاءمة السريرية ولا يعتمد النشاط."
+
+msgid "Content quality and review preparation"
+msgstr "جودة المحتوى والتحضير للمراجعة"
+
+msgid "Darja: document the region and family usage. Do not assume a Standard Arabic word or synthetic voice represents the child’s variety."
+msgstr "الدارجة: وثقوا المنطقة واستعمال الأسرة. لا تفترضوا أن كلمة فصحى أو صوتًا اصطناعيًا يمثل التنوع اللغوي للطفل."
+
+msgid "Define the activity"
+msgstr "تحديد النشاط"
+
+msgid "Describe the child’s needs, familiar words and the clinician-selected goal."
+msgstr "صفوا احتياجات الطفل والكلمات المألوفة والهدف الذي اختاره الأخصائي."
+
+msgid "Discuss how the items relate and look for another example together."
+msgstr "ناقشوا العلاقة بين العناصر وابحثوا عن مثال آخر معًا."
+
+msgid "Documented sources and their scope"
+msgstr "المصادر الموثقة ونطاقها"
+
+msgid "Download the review pack"
+msgstr "تنزيل ملف المراجعة"
+
+msgid "Draft preview"
+msgstr "معاينة المسودة"
+
+msgid "Editorial items completed"
+msgstr "العناصر التحريرية المكتملة"
+
+msgid "Enter decisions through the existing review workflow. This exported sheet cannot approve or publish an activity."
+msgstr "أدخلوا القرارات عبر مسار المراجعة المعتمد. لا يمكن لهذا الجدول المصدّر اعتماد نشاط أو نشره."
+
+msgid "Essentials completed"
+msgstr "المعلومات الأساسية المكتملة"
+
+msgid "Explore a spatial relation using familiar objects."
+msgstr "استكشاف علاقة مكانية باستخدام أشياء مألوفة."
+
+msgid "Explore a useful relationship between familiar items."
+msgstr "استكشاف علاقة مفيدة بين عناصر مألوفة."
+
+msgid "Explore the meaning difference in a clinician-selected phonemic contrast."
+msgstr "استكشاف اختلاف المعنى في تقابل فونيمي اختاره الأخصائي."
+
+msgid "Explore two familiar words and their meanings."
+msgstr "استكشاف كلمتين مألوفتين ومعناهما."
+
+msgid "Family instructions in the three interface languages"
+msgstr "تعليمات الأسرة بلغات الواجهة الثلاث"
+
+msgid "Fills empty guide fields in the interface language. Edit these proposals for your goal and spoken variety; they are not approved content."
+msgstr "يملأ الحقول الفارغة للدليل بلغة الواجهة. عدّلوا المقترحات حسب الهدف والتنوع اللغوي؛ فهي غير معتمدة."
+
+msgid "Intended population and precautions"
+msgstr "الفئة المعنية والاحتياطات"
+
+msgid "Items to complete"
+msgstr "العناصر المطلوب إكمالها"
+
+msgid "Make a meaningful request or choice with a communication partner."
+msgstr "تقديم طلب أو اختيار ذي معنى مع شريك في التواصل."
+
+msgid "Minimal pairs: check phonemic contrast, aligned position and structure, meaningful words and the child’s actual error profile. A spelling difference alone is insufficient."
+msgstr "الأزواج الدنيا: راجعوا التقابل الفونيمي وتوافق الموضع والبنية ومعنى الكلمات ونمط أخطاء الطفل الفعلي. لا يكفي اختلاف الكتابة وحده."
+
+msgid "Missing adult audio"
+msgstr "تسجيل صوت بالغ غير متوفر"
+
+msgid "Missing structured guide"
+msgstr "دليل منظم غير مكتمل"
+
+msgid "Move a real object, describe its position and invite the child to show another position."
+msgstr "حرّكوا شيئًا حقيقيًا وصفوا موضعه وادعوا الطفل لإظهار موضع آخر."
+
+msgid "Next step"
+msgstr "المرحلة التالية"
+
+msgid "No content matches these filters."
+msgstr "لا يوجد محتوى يطابق هذه المرشحات."
+
+msgid "Objective, audience, steps, help and limits in the content language"
+msgstr "الهدف والفئة والمراحل والمساعدة والحدود بلغة المحتوى"
+
+msgid "Offer a real choice. Wait, acknowledge any communicative attempt and respond to the request."
+msgstr "قدّموا اختيارًا حقيقيًا. انتظروا وتقبلوا كل محاولة تواصل واستجيبوا للطلب."
+
+msgid "One structurally aligned phoneme contrast"
+msgstr "تقابل فونيمي واحد متوافق بنيويًا"
+
+msgid "Pause if the child is tired or uncomfortable. Do not diagnose or score pronunciation from a picture choice."
+msgstr "توقفوا إذا تعب الطفل أو شعر بعدم الراحة. لا تشخّصوا النطق أو تقيّموه انطلاقًا من اختيار صورة."
+
+msgid "Prepare human review"
+msgstr "التحضير للمراجعة البشرية"
+
+msgid "Prepare the review"
+msgstr "التحضير للمراجعة"
+
+msgid "Present"
+msgstr "متوفر"
+
+msgid "Preview only. No answer is scored and no activity is assigned."
+msgstr "معاينة فقط. لا تُقيّم إجابة ولا يُعيّن نشاط."
+
+msgid "Previous step"
+msgstr "المرحلة السابقة"
+
+msgid "Recorded usage rights"
+msgstr "حقوق الاستخدام المسجلة"
+
+msgid "Resume this working copy"
+msgstr "استئناف نسخة العمل هذه"
+
+msgid "Resume your work"
+msgstr "استئناف عملكم"
+
+msgid "Review each exact version: indication, intended meaning, local familiarity, image recognition, recording and transcription, allowable variants, instructions, rights and limits."
+msgstr "راجعوا كل نسخة محددة: الداعي السريري والمعنى المقصود والألفة المحلية والتعرف على الصور والتسجيل والكتابة الصوتية والبدائل المقبولة والتعليمات والحقوق والحدود."
+
+msgid "Save working copy now"
+msgstr "حفظ نسخة العمل الآن"
+
+msgid "Saving your working copy…"
+msgstr "جارٍ حفظ نسخة العمل…"
+
+msgid "Share a short account with a communication partner."
+msgstr "مشاركة سرد قصير مع شريك في التواصل."
+
+msgid "Show each picture and agree on what it represents before asking for a response."
+msgstr "اعرضوا كل صورة واتفقوا على ما تمثله قبل طلب إجابة."
+
+msgid "Step"
+msgstr "المرحلة"
+
+msgid "Support communication during a familiar daily routine."
+msgstr "دعم التواصل خلال روتين يومي مألوف."
+
+msgid "Take turns naming or showing the two words in a meaningful context."
+msgstr "تبادلوا تسمية الكلمتين أو إظهارهما في سياق ذي معنى."
+
+msgid "These private working copies may be incomplete. They are not published activities."
+msgstr "قد تكون نسخ العمل الخاصة هذه غير مكتملة. وهي ليست أنشطة منشورة."
+
+msgid "This draft changed in another session. Open the current version before saving your changes."
+msgstr "تغيرت المسودة في جلسة أخرى. افتحوا النسخة الحالية قبل حفظ تغييراتكم."
+
+msgid "To complete"
+msgstr "للإكمال"
+
+msgid "Transcriptions to be checked against the recordings"
+msgstr "الكتابة الصوتية المطلوب مراجعتها مع التسجيلات"
+
+msgid "Two available adult audio files"
+msgstr "ملفان صوتيان متوفران بصوت بالغ"
+
+msgid "Two available illustrations"
+msgstr "صورتان متوفرتان"
+
+msgid "Two words or prompts and their meanings"
+msgstr "كلمتان أو محفزان ومعناهما"
+
+msgid "Understand and use two familiar action words."
+msgstr "فهم واستخدام كلمتين مألوفتين للأفعال."
+
+msgid "Understand and use two words selected by the clinician."
+msgstr "فهم واستخدام كلمتين اختارهما الأخصائي."
+
+msgid "Untitled working copy"
+msgstr "نسخة عمل دون عنوان"
+
+msgid "Use a gesture, an object or a shorter instruction when helpful. Accept the child’s usual way of communicating."
+msgstr "استعينوا بإشارة أو شيء أو تعليمة أقصر عند الحاجة. تقبلوا طريقة الطفل المعتادة في التواصل."
+
+msgid "Use the clinician-approved adult model. Give the child time to listen and respond."
+msgstr "استخدموا نموذج البالغ الذي اعتمده الأخصائي. امنحوا الطفل وقتًا للاستماع والإجابة."
+
+msgid "Use the words during the real routine. Follow the child’s interest and take turns."
+msgstr "استخدموا الكلمات خلال الروتين الحقيقي. تابعوا اهتمام الطفل وتبادلوا الأدوار."
+
+msgid "Versions in your editorial scope"
+msgstr "النسخ ضمن نطاقكم التحريري"
+
+msgid "Versions needing adult audio files"
+msgstr "النسخ المحتاجة إلى تسجيلات بصوت بالغ"
+
+msgid "Words and media"
+msgstr "الكلمات والوسائط"
+
+msgid "Working copy not saved. Keep this page open and retry."
+msgstr "لم تُحفظ نسخة العمل. أبقوا الصفحة مفتوحة وأعيدوا المحاولة."
+
+msgid "Working copy saved. The activity is not published."
+msgstr "حُفظت نسخة العمل. النشاط غير منشور."
+
+msgid "Your family instruction will appear here."
+msgstr "ستظهر تعليمتكم للأسرة هنا."
+
+msgid "Your word or prompt"
+msgstr "كلمتكم أو محفزكم"
+
+msgid "Target or theme"
+msgstr "الهدف أو الموضوع"
+
+msgid "Rights holder"
+msgstr "صاحب الحقوق"
+
+msgid "Licence or permission"
+msgstr "الترخيص أو الإذن"
+
+msgid "Permitted use"
+msgstr "الاستخدام المسموح"
+
+msgid "Territory"
+msgstr "النطاق الجغرافي"
+
+msgid "Permission duration"
+msgstr "مدة الإذن"
+
+msgid "Required attribution"
+msgstr "نسبة العمل المطلوبة"
+
+msgid "Adult speaker permission"
+msgstr "إذن المتحدث البالغ"
+
+msgid "For an adult recording, document consent and permitted uses. Upload the supporting rights document through the qualification workspace."
+msgstr "للتسجيل بصوت بالغ، وثقوا الموافقة والاستخدامات المسموحة. ارفعوا وثيقة الحقوق الداعمة عبر مساحة التأهيل."
+
+msgid "Uploaded illustration preview"
+msgstr "معاينة الصورة المرفوعة"
+
+msgid "A valid file is not an approved speech model. Complete rights and human review before clinical use."
+msgstr "الملف السليم لا يمثل نموذج كلام معتمدًا. أكملوا الحقوق والمراجعة البشرية قبل الاستخدام السريري."
+
+msgid "No unsaved changes."
+msgstr "لا توجد تغييرات غير محفوظة."
+
+msgid "Add a source"
+msgstr "إضافة مصدر"
+
+msgid "Set aside without deleting"
+msgstr "وضع جانبًا دون حذف"
+
+msgid "Working copies set aside"
+msgstr "نسخ العمل الموضوعة جانبًا"
+
+msgid "Restore working copy"
+msgstr "استعادة نسخة العمل"
+
+msgid "You have 30 active working copies. Save an activity or set a copy aside in the editorial workspace."
+msgstr "لديكم 30 نسخة عمل نشطة. احفظوا نشاطًا أو ضعوا نسخة جانبًا في مساحة التحرير."
+
+msgid "Recording prompts are proposals: an adult native speaker and the reviewers must confirm meaning, regional usage, phonemes, consent and rights before recording and release. Blank decisions are not approvals."
+msgstr "بطاقات التسجيل مقترحات: يجب على متحدث بالغ من أهل التنوع اللغوي والمراجعين تأكيد المعنى والاستعمال المحلي والفونيمات والموافقة والحقوق قبل التسجيل والإتاحة. القرارات الفارغة لا تعني الاعتماد."

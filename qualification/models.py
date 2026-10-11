@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from core.models import CheckedModel
+from core.storage_health import file_exists, STORAGE_ERRORS
 
 DISCIPLINES = [('clinical', _('Clinical')), ('linguistic', _('Linguistic'))]
 MODULES = [('practice', _('Guided family practice')), ('production_followup', _('Descriptive production follow-up'))]
@@ -15,7 +16,7 @@ def digest_value(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, default=str, ensure_ascii=False).encode()).hexdigest()
 
 def digest_file(file):
-    if not file or not file.name or not file.storage.exists(file.name):
+    if not file_exists(file):
         return ''
     result = hashlib.sha256()
     count = 0
@@ -26,7 +27,7 @@ def digest_file(file):
                 if count > 15 * 1024 * 1024:
                     return ''
                 result.update(chunk)
-    except OSError:
+    except STORAGE_ERRORS:
         return ''
     return result.hexdigest()
 

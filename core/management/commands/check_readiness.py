@@ -1,5 +1,6 @@
 """Technical launch gates. These checks never certify clinical effectiveness."""
 import json
+from pathlib import Path
 from urllib.parse import urlsplit
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
@@ -26,6 +27,7 @@ class Command(BaseCommand):
             'demonstration_disabled': not settings.DEMO_MODE,
             'debug_disabled': not settings.DEBUG,
             'postgresql': connection.vendor == 'postgresql',
+            'private_durable_media_configured': settings.MEDIA_STORAGE_DURABLE and not settings.DEMO_EPHEMERAL and (settings.MEDIA_STORAGE_BACKEND == 's3' or not Path(settings.MEDIA_ROOT).resolve().is_relative_to(Path(settings.BASE_DIR).resolve())),
             'privileged_mfa_required': settings.MFA_REQUIRED,
             'public_https_origin': origin.scheme == 'https' and bool(origin.netloc) and not origin.username and not origin.password,
             'smtp_configured': settings.EMAIL_BACKEND.endswith('smtp.EmailBackend') and bool(settings.EMAIL_HOST),
@@ -38,6 +40,7 @@ class Command(BaseCommand):
             'published_nondemo_counts': coverage,
             'versions_with_unavailable_audio_or_reviews': unavailable,
             'manual_gates_required': ['professional_content_and_audio_validation', 'native_language_review', 'browser_and_accessibility_acceptance', 'backup_restore_and_concurrency_acceptance', 'applicable_launch_obligations', 'clinical_effectiveness_claims_require_separate_evidence'],
+            'storage_scope': 'Durability is operator-declared; verify persistence across restart, backup scheduling, off-host retention and restoration before launch.',
             'scope': 'A technical report, never clinical validation or commercial approval.',
         }
         from followup.models import ProbeDefinition

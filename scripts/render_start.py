@@ -19,8 +19,11 @@ if settings.DEBUG:
 if settings.DEMO_EPHEMERAL and not settings.DEMO_MODE:
     raise SystemExit('Temporary storage requires fictional demonstration mode.')
 
-subprocess.run([sys.executable, 'manage.py', 'migrate', '--noinput'], check=True)
-if settings.DEMO_MODE:
+migration_env = dict(os.environ)
+if os.getenv('POSTGRES_MIGRATION_HOST'):
+    migration_env['POSTGRES_HOST'] = os.environ['POSTGRES_MIGRATION_HOST']
+subprocess.run([sys.executable, 'manage.py', 'migrate', '--noinput'], check=True, env=migration_env)
+if settings.DEMO_MODE and os.getenv('DEMO_SEED_ON_START', '1') == '1':
     subprocess.run([sys.executable, 'manage.py', 'seed_demo_roles'], check=True)
     subprocess.run([sys.executable, 'manage.py', 'seed_followup_demo'], check=True)
     if os.getenv('DEMO_PASSWORD_PITOU'):

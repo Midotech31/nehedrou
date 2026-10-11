@@ -7,6 +7,7 @@ from django.urls import path, include
 from core import views
 from core import security, complete_views
 from catalog import views as editorial_views
+from catalog import working, quality
 from core.health import health
 
 urlpatterns = [path('healthz/', health, name='health'), path('i18n/setlang/', switch_language, name='set_language')]
@@ -71,6 +72,10 @@ urlpatterns += i18n_patterns(
     path('editorial/', editorial_views.index, name='editorial_index'),
     path('followup/', include('followup.urls')),
     path('qualification/', include('qualification.urls')),
+    path('editorial/work/<uuid:pk>/set-aside/', working.set_aside, name='editorial_working_status'),
+    path('editorial/work/<uuid:pk>/', working.autosave, name='editorial_autosave'),
+    path('editorial/quality/', quality.dashboard, name='editorial_quality'),
+    path('editorial/quality/export/', quality.review_pack, name='editorial_review_pack'),
     path('editorial/new/', editorial_views.edit, name='editorial_create'),
     path('editorial/<uuid:pk>/', editorial_views.detail, name='editorial_detail'),
     path('editorial/<uuid:pk>/edit/', editorial_views.edit, name='editorial_edit'),
