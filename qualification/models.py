@@ -112,6 +112,7 @@ class AvailabilityDecision(CheckedModel):
     scope = models.TextField(verbose_name=_('Authorised purpose, countries and limits'))
     reason = models.TextField(verbose_name=_('Decision and justification'))
     evidence = models.JSONField(default=dict, blank=True)
+    target_snapshot = models.JSONField(default=dict, blank=True, editable=False)
     decided_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
     class Meta:
@@ -127,6 +128,8 @@ class AvailabilityDecision(CheckedModel):
             raise ValidationError(_('Use the SHA-256 of the exact reviewed content.'))
         if not allowed(self.decided_by, self.variety, 'publish'):
             raise ValidationError(_('Publishing permission for this variety is required.'))
+        from .opening import validate_decision_target
+        validate_decision_target(self)
         if self.status == 'available':
             if not has_competence(self.decided_by, self.variety, 'clinical'):
                 raise ValidationError(_('Availability requires publishing permission and declared clinical competence.'))

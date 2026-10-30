@@ -4,6 +4,7 @@ app_name = 'qualification'
 urlpatterns = [
     path('', views.index, name='index'),
     path('availability/', views.availability, name='availability'),
+    path('availability/<uuid:pk>/revoke/', views.availability_revoke, name='availability_revoke'),
     path('evidence/new/', views.evidence_upload, name='evidence_upload'),
     path('evidence/<uuid:pk>/file/', views.evidence_file, name='evidence_file'),
     path('evidence/<uuid:pk>/revoke/', views.revoke_evidence, name='evidence_revoke'),

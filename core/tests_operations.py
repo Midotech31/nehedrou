@@ -49,6 +49,15 @@ class OperationsConfigurationTests(SimpleTestCase):
         with override_settings(EMAIL_TIMEOUT=None):
             self.assertFalse(smtp_configuration()['configured'])
 
+    @override_settings(**SMTP)
+    def test_reserved_sender_subdomains_never_count_as_mail_configuration(self):
+        for domain in ['example.com', 'outbound.example.com', 'deep.outbound.example.net', 'mail.example.org', 'mail.localhost', 'fictional.invalid']:
+            with self.subTest(domain=domain), override_settings(DEFAULT_FROM_EMAIL='sender@' + domain), patch('smtplib.SMTP') as smtp:
+                report = smtp_configuration()
+            self.assertFalse(report['configured'])
+            self.assertFalse(report['checks']['sender_not_reserved'])
+            smtp.assert_not_called()
+
     def test_readiness_command_reports_missing_email_without_sending(self):
         with override_settings(EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'), patch('smtplib.SMTP') as smtp:
             output = io.StringIO()
@@ -89,6 +98,18 @@ class OperationsConfigurationTests(SimpleTestCase):
                     sample(url)
             run.assert_not_called()
 
+
+    def test_postgres_sslmode_keeps_the_connection_timeout(self):
+        env = {key: value for key, value in os.environ.items() if not key.startswith(('EMAIL_', 'POSTGRES_', 'DJANGO_', 'DEMO_', 'RENDER', 'MFA_', 'NEHEDROU_', 'AWS_'))}
+        env.update(DJANGO_DEBUG='1', DEMO_MODE='1', POSTGRES_HOST='127.0.0.1', POSTGRES_PASSWORD='fictional-setting-only')
+        code = "import json;from config import settings;print(json.dumps(settings.DATABASES['default']['OPTIONS']))"
+        for mode in ['', 'require', 'verify-full']:
+            with self.subTest(mode=mode):
+                result = subprocess.run([sys.executable, '-c', code], cwd=Path(__file__).resolve().parents[1], env={**env, 'POSTGRES_SSLMODE': mode}, capture_output=True, text=True, timeout=20)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                options = json.loads(result.stdout)
+                self.assertEqual(options['connect_timeout'], 5)
+                self.assertEqual(options.get('sslmode', ''), mode)
 
     def test_settings_reject_dual_tls_and_unbounded_timeout_before_smtp_use(self):
         env = {key: value for key, value in os.environ.items() if not key.startswith(('EMAIL_', 'POSTGRES_', 'DJANGO_', 'DEMO_', 'RENDER', 'MFA_', 'NEHEDROU_', 'AWS_'))}

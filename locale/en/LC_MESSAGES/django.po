@@ -4645,3 +4645,321 @@ msgstr "Word medial"
 
 msgid "Your answers remain on this page. Resume when you are ready, or stop for today."
 msgstr "Your answers remain on this page. Resume when you are ready, or stop for today."
+
+msgid "An explicit test executes SELECT 1 on this server. It reads no child profile and does not measure storage performance or cold starts."
+msgstr "An explicit test executes SELECT 1 on this server. It reads no child profile and does not measure storage performance or cold starts."
+
+msgid "Arrange independent clinical and linguistic decisions by two competent people."
+msgstr "Arrange independent clinical and linguistic decisions by two competent people."
+
+msgid "Attach current evidence in this category to the authorised availability decision for this exact fingerprint."
+msgstr "Attach current evidence in this category to the authorised availability decision for this exact fingerprint."
+
+msgid "Attach the supporting evidence for this requirement."
+msgstr "Attach the supporting evidence for this requirement."
+
+msgid "Authorised availability decision"
+msgstr "Authorised availability decision"
+
+msgid "Authorised publisher"
+msgstr "Authorised publisher"
+
+msgid "Availability evidence: %(category)s"
+msgstr "Availability evidence: %(category)s"
+
+msgid "Build commit"
+msgstr "Build commit"
+
+msgid "Canonical HTTPS origin configured"
+msgstr "Canonical HTTPS origin configured"
+
+msgid "Choose an existing real activity or protocol for this decision."
+msgstr "Choose an existing real activity or protocol for this decision."
+
+msgid "Clinical decision"
+msgstr "Clinical decision"
+
+msgid "Clinical reviewer"
+msgstr "Clinical reviewer"
+
+msgid "Collect unprimed naming and recognition observations under a prospectively defined protocol; attach the actual evidence and its fingerprint."
+msgstr "Collect unprimed naming and recognition observations under a prospectively defined protocol; attach the actual evidence and its fingerprint."
+
+msgid "Compare the proposed transcription with the exact recording before recording a linguistic decision."
+msgstr "Compare the proposed transcription with the exact recording before recording a linguistic decision."
+
+msgid "Competent reviewer for this spoken variety"
+msgstr "Competent reviewer for this spoken variety"
+
+msgid "Complete the current media evidence before a review can qualify."
+msgstr "Complete the current media evidence before a review can qualify."
+
+msgid "Complete the media evidence, then submit the draft for review to bind its current media manifest."
+msgstr "Complete the media evidence, then submit the draft for review to bind its current media manifest."
+
+msgid "Complete the structured rights holder, licence, use, territory, duration, attribution and any adult speaker permission."
+msgstr "Complete the structured rights holder, licence, use, territory, duration, attribution and any adult speaker permission."
+
+msgid "Configuration is an observation of this process. It does not establish successful email delivery, backups, restoration or permission for real clinical use."
+msgstr "Configuration is an observation of this process. It does not establish successful email delivery, backups, restoration or permission for real clinical use."
+
+msgid "Configure the hosting HTTP health check at /healthz/. Verify trusted proxies, private storage after restart, scheduled encrypted off-host backups, key custody, recent restoration, alert recipients and email receipt. None of these is marked complete by this report."
+msgstr "Configure the hosting HTTP health check at /healthz/. Verify trusted proxies, private storage after restart, scheduled encrypted off-host backups, key custody, recent restoration, alert recipients and email receipt. None of these is marked complete by this report."
+
+msgid "Configured"
+msgstr "Configured"
+
+msgid "Content editor and rights holder"
+msgstr "Content editor and rights holder"
+
+msgid "Content version to review"
+msgstr "Content version to review"
+
+msgid "Database connection sample"
+msgstr "Database connection sample"
+
+msgid "Database query failed"
+msgstr "Database query failed"
+
+msgid "Database query succeeded"
+msgstr "Database query succeeded"
+
+msgid "Debug disabled"
+msgstr "Debug disabled"
+
+msgid "Demonstration mode"
+msgstr "Demonstration mode"
+
+msgid "Document the meaning, ordered segments, target occurrences and justified variants in a draft."
+msgstr "Document the meaning, ordered segments, target occurrences and justified variants in a draft."
+
+msgid "Document the permission period in the structured validity fields."
+msgstr "Document the permission period in the structured validity fields."
+
+msgid "Download configuration report"
+msgstr "Download configuration report"
+
+msgid "Download this version’s evidence dossier"
+msgstr "Download this version’s evidence dossier"
+
+msgid "Email configuration"
+msgstr "Email configuration"
+
+msgid "Exact media and rights manifest"
+msgstr "Exact media and rights manifest"
+
+msgid "Historical content target unavailable"
+msgstr "Historical content target unavailable"
+
+msgid "Hosting diagnostics"
+msgstr "Hosting diagnostics"
+
+msgid "Human evidence dossier"
+msgstr "Human evidence dossier"
+
+msgid "Illustration: %(word)s"
+msgstr "Illustration: %(word)s"
+
+msgid "Inactive"
+msgstr "Inactive"
+
+msgid "Linguistic decision"
+msgstr "Linguistic decision"
+
+msgid "Local or operator process"
+msgstr "Local or operator process"
+
+msgid "Mail credentials configured"
+msgstr "Mail credentials configured"
+
+msgid "Mail port valid"
+msgstr "Mail port valid"
+
+msgid "Mail server configured"
+msgstr "Mail server configured"
+
+msgid "Mail timeout bounded"
+msgstr "Mail timeout bounded"
+
+msgid "Media durability declared by the operator"
+msgstr "Media durability declared by the operator"
+
+msgid "Missing audio references"
+msgstr "Missing audio references"
+
+msgid "Missing or unsuitable"
+msgstr "Missing or unsuitable"
+
+msgid "No"
+msgstr "No"
+
+msgid "No message is sent by this page. Delivery and receipt still need a separate authorised test."
+msgstr "No message is sent by this page. Delivery and receipt still need a separate authorised test."
+
+msgid "Not supplied by the hosting environment"
+msgstr "Not supplied by the hosting environment"
+
+msgid "Observation time"
+msgstr "Observation time"
+
+msgid "Obtain the actual permissions and valid evidence, then upload documented media; a written rights claim alone is insufficient."
+msgstr "Obtain the actual permissions and valid evidence, then upload documented media; a written rights claim alone is insufficient."
+
+msgid "One encrypted mail transport selected"
+msgstr "One encrypted mail transport selected"
+
+msgid "Operator acceptance still required"
+msgstr "Operator acceptance still required"
+
+msgid "PostgreSQL configured"
+msgstr "PostgreSQL configured"
+
+msgid "Prepare a human decision"
+msgstr "Prepare a human decision"
+
+msgid "Preparing this decision records no approval and does not make the content usable."
+msgstr "Preparing this decision records no approval and does not make the content usable."
+
+msgid "Private remote media configured"
+msgstr "Private remote media configured"
+
+msgid "Privileged MFA required"
+msgstr "Privileged MFA required"
+
+msgid "Process"
+msgstr "Process"
+
+msgid "Read the configuration of the running server without exposing credentials or clinical records."
+msgstr "Read the configuration of the running server without exposing credentials or clinical records."
+
+msgid "Record a new decision for this exact content fingerprint."
+msgstr "Record a new decision for this exact content fingerprint."
+
+msgid "Record an explicit availability decision for the exact version and documented scope after the evidence is reviewed."
+msgstr "Record an explicit availability decision for the exact version and documented scope after the evidence is reviewed."
+
+msgid "Recorded human decisions"
+msgstr "Recorded human decisions"
+
+msgid "Recording: %(word)s"
+msgstr "Recording: %(word)s"
+
+msgid "Requirements needing action"
+msgstr "Requirements needing action"
+
+msgid "Review the current version again"
+msgstr "Review the current version again"
+
+msgid "Review the selected content version"
+msgstr "Review the selected content version"
+
+msgid "Revoke an existing decision without changing its historical target."
+msgstr "Revoke an existing decision without changing its historical target."
+
+msgid "Revoke availability decision"
+msgstr "Revoke availability decision"
+
+msgid "SMTP mail backend selected"
+msgstr "SMTP mail backend selected"
+
+msgid "Sender address uses a non-example domain"
+msgstr "Sender address uses a non-example domain"
+
+msgid "Sender address valid"
+msgstr "Sender address valid"
+
+msgid "Server configuration"
+msgstr "Server configuration"
+
+msgid "Temporary database disabled"
+msgstr "Temporary database disabled"
+
+msgid "Test the database connection"
+msgstr "Test the database connection"
+
+msgid "The checked documentary requirements are recorded. Human judgement and the publication workflow still apply."
+msgstr "The checked documentary requirements are recorded. Human judgement and the publication workflow still apply."
+
+msgid "The content changed. Review the current version before recording a decision."
+msgstr "The content changed. Review the current version before recording a decision."
+
+msgid "The decision must retain the selected module, variety and content version."
+msgstr "The decision must retain the selected module, variety and content version."
+
+msgid "The decision owner no longer has the required permission or current competence declaration."
+msgstr "The decision owner no longer has the required permission or current competence declaration."
+
+msgid "The decision target is no longer accessible."
+msgstr "The decision target is no longer accessible."
+
+msgid "The evidence fingerprint does not match the recorded reference."
+msgstr "The evidence fingerprint does not match the recorded reference."
+
+msgid "The evidence must concern this spoken variety and evidence category."
+msgstr "The evidence must concern this spoken variety and evidence category."
+
+msgid "The latest decision for this exact version requests changes."
+msgstr "The latest decision for this exact version requests changes."
+
+msgid "The media bytes are missing or differ from their recorded fingerprint."
+msgstr "The media bytes are missing or differ from their recorded fingerprint."
+
+msgid "The permission or evidence has expired or lacks a valid expiry date."
+msgstr "The permission or evidence has expired or lacks a valid expiry date."
+
+msgid "The permission or evidence is not yet valid."
+msgstr "The permission or evidence is not yet valid."
+
+msgid "The permission or evidence is revoked."
+msgstr "The permission or evidence is revoked."
+
+msgid "The supporting evidence bytes are missing, changed or revoked."
+msgstr "The supporting evidence bytes are missing, changed or revoked."
+
+msgid "These are documentary gaps for this exact version. Recorded fields do not establish clinical correctness, and this dossier cannot approve or publish content."
+msgstr "These are documentary gaps for this exact version. Recorded fields do not establish clinical correctness, and this dossier cannot approve or publish content."
+
+msgid "This historical fingerprint differs from the current content."
+msgstr "This historical fingerprint differs from the current content."
+
+msgid "Transcription: %(word)s"
+msgstr "Transcription: %(word)s"
+
+msgid "Two distinct reviewers"
+msgstr "Two distinct reviewers"
+
+msgid "Upload and select a protected media asset for this exact word."
+msgstr "Upload and select a protected media asset for this exact word."
+
+msgid "Usage rights are unknown, excluded or still require permission."
+msgstr "Usage rights are unknown, excluded or still require permission."
+
+msgid "Use supporting documents for the selected spoken variety."
+msgstr "Use supporting documents for the selected spoken variety."
+
+msgid "Use the existing review form after checking this exact version; the two approving reviewers must be different people."
+msgstr "Use the existing review form after checking this exact version; the two approving reviewers must be different people."
+
+msgid "Versions on this page needing audio files"
+msgstr "Versions on this page needing audio files"
+
+msgid "View evidence tasks and responsible roles"
+msgstr "View evidence tasks and responsible roles"
+
+msgid "Where this report was produced"
+msgstr "Where this report was produced"
+
+msgid "Withdrawn content cannot receive a new opening decision."
+msgstr "Withdrawn content cannot receive a new opening decision."
+
+msgid "Word and image familiarity: %(word)s"
+msgstr "Word and image familiarity: %(word)s"
+
+msgid "Word definition and phonological context: %(word)s"
+msgstr "Word definition and phonological context: %(word)s"
+
+msgid "Yes"
+msgstr "Yes"
+
+msgid "evidence_tasks.csv lists current unmet requirements with responsible roles and actions. Assignment, evidence and human decisions remain blank. media_requirements.csv identifies the exact media and documentary gaps without exporting contracts or account identities. Recheck the live CMS before recording any decision: this download is a dated snapshot."
+msgstr "evidence_tasks.csv lists current unmet requirements with responsible roles and actions. Assignment, evidence and human decisions remain blank. media_requirements.csv identifies the exact media and documentary gaps without exporting contracts or account identities. Recheck the live CMS before recording any decision: this download is a dated snapshot."

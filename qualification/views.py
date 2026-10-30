@@ -11,7 +11,7 @@ from catalog.services import allowed
 from core.services import audit
 from core.storage_health import STORAGE_ERRORS
 from .models import EvidenceDocument, ReviewerCompetence, AvailabilityDecision, LexicalPack, LexicalCandidate, FamiliarityStudy, PackReview
-from .forms import EvidenceForm, CompetenceForm, AvailabilityForm, PackForm, CandidateForm, FamiliarityForm, PackReviewForm
+from .forms import EvidenceForm, CompetenceForm, AvailabilityForm, PackForm, CandidateForm, FamiliarityForm, PackReviewForm, OpeningTargetForm, AvailabilityRevocationForm
 from .services import change_pack_state, clone_pack, pack_readiness_reasons
 
 def varieties(user, capability=None):
@@ -117,17 +117,54 @@ def availability(request):
                 available_count = sum(1 for content in queryset.filter(state='published') if availability_for(module,variety,content.fingerprint())['available'] and (content.usable if module=='practice' else content.ready))
                 rows.append({'variety':variety,'module_label':label,'draft_count':queryset.exclude(state__in=['published','withdrawn']).count(),'available_count':available_count})
         return render(request,'qualification/status.html',{'rows':rows})
-    form = AvailabilityForm(request.POST or None,instance=AvailabilityDecision(decided_by=request.user))
-    form.fields['variety'].queryset = varieties(request.user,'publish')
-    form.fields['documents'].queryset = private_documents(request.user).filter(revoked=False)
-    if request.method=='POST':
-        if not varieties(request.user,'publish').exists():
-            raise PermissionDenied
-        if form.is_valid():
-            obj = form.save()
-            audit(request.user,'qualification.availability_'+obj.status,obj)
+    from .opening import resolve_target, record_decision, ContentChanged, decision_target_display, target_label, decision_queryset
+    from django.urls import reverse
+    from urllib.parse import urlencode
+    can_publish = varieties(request.user, 'publish').exists()
+    if request.method == 'POST' and not can_publish:
+        raise PermissionDenied
+    picker = OpeningTargetForm(request.POST if request.method == 'POST' else request.GET or None, actor=request.user)
+    form, target_info = None, None
+    status = 200
+    if picker.is_bound and picker.is_valid():
+        key = picker.cleaned_data['target']
+        module, content = resolve_target(request.user, key)
+        form = AvailabilityForm(request.POST if request.method == 'POST' else None,
+            actor=request.user, content=content, module=module)
+        target_info = {'label': target_label(module, content), 'digest': content.fingerprint(),
+            'url': reverse('editorial_detail' if module == 'practice' else 'followup:definition_detail', args=[content.pk]),
+            'prepare_url': reverse('qualification:availability') + '?' + urlencode({'target': key}),
+            'documents': form.fields['documents'].queryset}
+        if request.method == 'POST' and form.is_valid():
+            try:
+                record_decision(request.user, key, form.cleaned_data['expected_version'], form.cleaned_data)
+                return redirect('qualification:availability')
+            except ContentChanged as error:
+                form.add_error(None, error)
+                status = 409
+            except ValidationError as error:
+                form.add_error(None, error)
+    decisions = list(decision_queryset(request.user).select_related('variety', 'decided_by')[:60])
+    for decision in decisions:
+        decision.target_display = decision_target_display(request.user, decision)
+        decision.can_revoke = decision.status != 'revoked' and allowed(request.user, decision.variety, 'publish')
+    return render(request, 'qualification/availability.html', {'form': form, 'picker': picker,
+        'target_info': target_info, 'decisions': decisions, 'can_publish': can_publish}, status=status)
+
+
+@login_required
+@require_POST
+def availability_revoke(request, pk):
+    from .opening import revoke_decision, decision_queryset
+    previous = get_object_or_404(decision_queryset(request.user, publish=True), pk=pk)
+    form = AvailabilityRevocationForm(request.POST)
+    if form.is_valid():
+        try:
+            revoke_decision(request.user, previous.pk, form.cleaned_data['reason'])
             return redirect('qualification:availability')
-    return render(request,'qualification/availability.html',{'form':form,'decisions':AvailabilityDecision.objects.filter(variety__in=varieties(request.user)).select_related('variety','decided_by')[:60], 'can_publish':varieties(request.user,'publish').exists()})
+        except ValidationError as error:
+            form.add_error(None, error)
+    return form_page(request, form, _('Revoke availability decision'))
 
 @login_required
 def pack_edit(request,pk=None):

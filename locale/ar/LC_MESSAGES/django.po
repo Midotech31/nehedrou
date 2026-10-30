@@ -4645,3 +4645,321 @@ msgstr "وسط الكلمة"
 
 msgid "Your answers remain on this page. Resume when you are ready, or stop for today."
 msgstr "تبقى إجاباتكم في هذه الصفحة. استأنفوا عندما تكونون مستعدين، أو توقّفوا لهذا اليوم."
+
+msgid "An explicit test executes SELECT 1 on this server. It reads no child profile and does not measure storage performance or cold starts."
+msgstr "ينفّذ الاختبار الصريح استعلام SELECT 1 على هذا الخادم. لا يقرأ أي ملف طفل ولا يقيس أداء التخزين أو بدء التشغيل البارد."
+
+msgid "Arrange independent clinical and linguistic decisions by two competent people."
+msgstr "تنظيم قرارين مستقلين، سريري ولغوي، يصدرهما شخصان مؤهلان."
+
+msgid "Attach current evidence in this category to the authorised availability decision for this exact fingerprint."
+msgstr "إرفاق أدلة سارية من هذه الفئة بقرار الإتاحة المصرّح به لهذه البصمة الدقيقة."
+
+msgid "Attach the supporting evidence for this requirement."
+msgstr "إرفاق المستند المؤيد لهذا المتطلب."
+
+msgid "Authorised availability decision"
+msgstr "قرار إتاحة مصرّح به"
+
+msgid "Authorised publisher"
+msgstr "مسؤول النشر المخوّل"
+
+msgid "Availability evidence: %(category)s"
+msgstr "دليل الإتاحة: %(category)s"
+
+msgid "Build commit"
+msgstr "مراجعة الشيفرة المنشورة"
+
+msgid "Canonical HTTPS origin configured"
+msgstr "عنوان HTTPS الأساسي مُعدّ"
+
+msgid "Choose an existing real activity or protocol for this decision."
+msgstr "اختر نشاطًا أو بروتوكولًا فعليًا موجودًا لهذا القرار."
+
+msgid "Clinical decision"
+msgstr "القرار السريري"
+
+msgid "Clinical reviewer"
+msgstr "المراجع السريري"
+
+msgid "Collect unprimed naming and recognition observations under a prospectively defined protocol; attach the actual evidence and its fingerprint."
+msgstr "جمع ملاحظات التسمية دون تلقين والتعرّف وفق بروتوكول محدد مسبقًا، وإرفاق الأدلة الفعلية وبصمتها."
+
+msgid "Compare the proposed transcription with the exact recording before recording a linguistic decision."
+msgstr "مقارنة التفريغ الصوتي المقترح بالتسجيل الدقيق قبل تدوين القرار اللغوي."
+
+msgid "Competent reviewer for this spoken variety"
+msgstr "مراجع مؤهل لهذه التنويعة المنطوقة"
+
+msgid "Complete the current media evidence before a review can qualify."
+msgstr "استكمال أدلة الوسائط الحالية قبل اعتماد المراجعة ضمن المتطلبات."
+
+msgid "Complete the media evidence, then submit the draft for review to bind its current media manifest."
+msgstr "استكمال أدلة الوسائط ثم إرسال المسودة للمراجعة لتثبيت بيان وسائطها الحالي."
+
+msgid "Complete the structured rights holder, licence, use, territory, duration, attribution and any adult speaker permission."
+msgstr "استكمال حقول صاحب الحقوق والترخيص والاستخدام والإقليم والمدة ونسبة العمل، وإذن المتحدث البالغ عند الاقتضاء."
+
+msgid "Configuration is an observation of this process. It does not establish successful email delivery, backups, restoration or permission for real clinical use."
+msgstr "تُرصد الإعدادات في هذه العملية. ولا تثبت وصول البريد أو النسخ الاحتياطي أو الاستعادة أو الإذن بالاستخدام السريري الفعلي."
+
+msgid "Configure the hosting HTTP health check at /healthz/. Verify trusted proxies, private storage after restart, scheduled encrypted off-host backups, key custody, recent restoration, alert recipients and email receipt. None of these is marked complete by this report."
+msgstr "اضبطوا فحص HTTP للاستضافة على /healthz/. تحقّقوا من الوكلاء الموثوقين والتخزين الخاص بعد إعادة التشغيل والنسخ الاحتياطية المشفّرة المجدولة خارج الاستضافة وحفظ المفاتيح والاستعادة الحديثة ومستلمي التنبيهات ووصول البريد. لا يعلن هذا التقرير اكتمال أيّ من ذلك."
+
+msgid "Configured"
+msgstr "مُعدّ"
+
+msgid "Content editor and rights holder"
+msgstr "محرر المحتوى وصاحب الحقوق"
+
+msgid "Content version to review"
+msgstr "نسخة المحتوى المطلوب مراجعتها"
+
+msgid "Database connection sample"
+msgstr "قياس آني لاتصال قاعدة البيانات"
+
+msgid "Database query failed"
+msgstr "فشل استعلام قاعدة البيانات"
+
+msgid "Database query succeeded"
+msgstr "نجح استعلام قاعدة البيانات"
+
+msgid "Debug disabled"
+msgstr "تصحيح الأخطاء معطّل"
+
+msgid "Demonstration mode"
+msgstr "وضع العرض التجريبي"
+
+msgid "Document the meaning, ordered segments, target occurrences and justified variants in a draft."
+msgstr "توثيق المعنى والمقاطع الصوتية المرتبة ومواضع الهدف والمتغيرات المعللة في مسودة."
+
+msgid "Document the permission period in the structured validity fields."
+msgstr "توثيق مدة الإذن في حقول الصلاحية المنظمة."
+
+msgid "Download configuration report"
+msgstr "تنزيل تقرير الإعدادات"
+
+msgid "Download this version’s evidence dossier"
+msgstr "تنزيل ملف أدلة هذا الإصدار"
+
+msgid "Email configuration"
+msgstr "إعدادات البريد الإلكتروني"
+
+msgid "Exact media and rights manifest"
+msgstr "البيان الدقيق للوسائط والحقوق"
+
+msgid "Historical content target unavailable"
+msgstr "هدف المحتوى التاريخي غير متاح"
+
+msgid "Hosting diagnostics"
+msgstr "فحص الاستضافة"
+
+msgid "Human evidence dossier"
+msgstr "ملف الأدلة للمراجعة البشرية"
+
+msgid "Illustration: %(word)s"
+msgstr "الرسم التوضيحي: %(word)s"
+
+msgid "Inactive"
+msgstr "غير نشط"
+
+msgid "Linguistic decision"
+msgstr "القرار اللغوي"
+
+msgid "Local or operator process"
+msgstr "عملية محلية أو خاصة بالمشغّل"
+
+msgid "Mail credentials configured"
+msgstr "بيانات اعتماد خدمة البريد مُعدّة"
+
+msgid "Mail port valid"
+msgstr "منفذ البريد صالح"
+
+msgid "Mail server configured"
+msgstr "خادم البريد مُعدّ"
+
+msgid "Mail timeout bounded"
+msgstr "مهلة البريد محدودة"
+
+msgid "Media durability declared by the operator"
+msgstr "المشغّل يصرّح باستدامة حفظ الوسائط"
+
+msgid "Missing audio references"
+msgstr "مراجع صوتية مفقودة"
+
+msgid "Missing or unsuitable"
+msgstr "مفقود أو غير مناسب"
+
+msgid "No"
+msgstr "لا"
+
+msgid "No message is sent by this page. Delivery and receipt still need a separate authorised test."
+msgstr "لا ترسل هذه الصفحة أي رسالة. ما زال الإرسال والاستلام بحاجة إلى اختبار منفصل مأذون به."
+
+msgid "Not supplied by the hosting environment"
+msgstr "لم توفّره بيئة الاستضافة"
+
+msgid "Observation time"
+msgstr "تاريخ الرصد ووقته"
+
+msgid "Obtain the actual permissions and valid evidence, then upload documented media; a written rights claim alone is insufficient."
+msgstr "الحصول على الأذونات الفعلية والأدلة السارية ثم رفع الوسائط الموثقة؛ ولا يكفي ادعاء مكتوب بشأن الحقوق."
+
+msgid "One encrypted mail transport selected"
+msgstr "اختير وضع واحد لتشفير نقل البريد"
+
+msgid "Operator acceptance still required"
+msgstr "ما زال اختبار قبول المشغّل مطلوبًا"
+
+msgid "PostgreSQL configured"
+msgstr "PostgreSQL مُعدّ"
+
+msgid "Prepare a human decision"
+msgstr "إعداد قرار بشري"
+
+msgid "Preparing this decision records no approval and does not make the content usable."
+msgstr "إعداد هذا القرار لا يسجّل أي موافقة ولا يجعل المحتوى متاحًا للاستخدام."
+
+msgid "Private remote media configured"
+msgstr "الوسائط البعيدة الخاصة مُعدّة"
+
+msgid "Privileged MFA required"
+msgstr "التحقّق المتعدد العوامل إلزامي للأدوار ذات الصلاحيات"
+
+msgid "Process"
+msgstr "العملية"
+
+msgid "Read the configuration of the running server without exposing credentials or clinical records."
+msgstr "اطّلعوا على إعدادات الخادم الجاري دون كشف بيانات الاعتماد أو الملفات السريرية."
+
+msgid "Record a new decision for this exact content fingerprint."
+msgstr "تدوين قرار جديد لبصمة المحتوى الدقيقة هذه."
+
+msgid "Record an explicit availability decision for the exact version and documented scope after the evidence is reviewed."
+msgstr "تدوين قرار إتاحة صريح للإصدار الدقيق والنطاق الموثق بعد مراجعة الأدلة."
+
+msgid "Recorded human decisions"
+msgstr "القرارات البشرية المسجّلة"
+
+msgid "Recording: %(word)s"
+msgstr "التسجيل: %(word)s"
+
+msgid "Requirements needing action"
+msgstr "متطلبات تستلزم إجراءً"
+
+msgid "Review the current version again"
+msgstr "مراجعة النسخة الحالية مجددًا"
+
+msgid "Review the selected content version"
+msgstr "مراجعة نسخة المحتوى المحدّدة"
+
+msgid "Revoke an existing decision without changing its historical target."
+msgstr "اسحب قرارًا موجودًا دون تغيير هدفه التاريخي."
+
+msgid "Revoke availability decision"
+msgstr "سحب قرار الإتاحة"
+
+msgid "SMTP mail backend selected"
+msgstr "اختير محرك بريد SMTP"
+
+msgid "Sender address uses a non-example domain"
+msgstr "عنوان المرسل لا يستخدم نطاقًا مخصّصًا للأمثلة"
+
+msgid "Sender address valid"
+msgstr "عنوان المرسل صالح"
+
+msgid "Server configuration"
+msgstr "إعدادات الخادم"
+
+msgid "Temporary database disabled"
+msgstr "قاعدة البيانات المؤقتة معطّلة"
+
+msgid "Test the database connection"
+msgstr "اختبار اتصال قاعدة البيانات"
+
+msgid "The checked documentary requirements are recorded. Human judgement and the publication workflow still apply."
+msgstr "المتطلبات الوثائقية المفحوصة مسجلة. ويبقى الحكم البشري ومسار النشر واجبين."
+
+msgid "The content changed. Review the current version before recording a decision."
+msgstr "تغيّر المحتوى. راجع النسخة الحالية قبل تسجيل أي قرار."
+
+msgid "The decision must retain the selected module, variety and content version."
+msgstr "يجب أن يحتفظ القرار بالوحدة والتنوع اللغوي المنطوق ونسخة المحتوى المحدّدة."
+
+msgid "The decision owner no longer has the required permission or current competence declaration."
+msgstr "لم يعد صاحب القرار يملك الإذن المطلوب أو إقرار كفاءة ساريًا."
+
+msgid "The decision target is no longer accessible."
+msgstr "لم يعد هدف القرار قابلًا للوصول."
+
+msgid "The evidence fingerprint does not match the recorded reference."
+msgstr "بصمة الدليل لا تطابق المرجع المسجل."
+
+msgid "The evidence must concern this spoken variety and evidence category."
+msgstr "يجب أن يتعلق الدليل بهذه التنويعة المنطوقة وفئة الأدلة المطلوبة."
+
+msgid "The latest decision for this exact version requests changes."
+msgstr "يطلب أحدث قرار لهذا الإصدار الدقيق إجراء تعديلات."
+
+msgid "The media bytes are missing or differ from their recorded fingerprint."
+msgstr "بيانات الوسيط مفقودة أو لا تطابق بصمتها المسجلة."
+
+msgid "The permission or evidence has expired or lacks a valid expiry date."
+msgstr "انتهت صلاحية الإذن أو الدليل، أو يفتقر إلى تاريخ انتهاء صالح."
+
+msgid "The permission or evidence is not yet valid."
+msgstr "لم تبدأ صلاحية الإذن أو الدليل بعد."
+
+msgid "The permission or evidence is revoked."
+msgstr "الإذن أو الدليل مسحوب."
+
+msgid "The supporting evidence bytes are missing, changed or revoked."
+msgstr "بيانات المستند المؤيد مفقودة أو معدلة أو مسحوبة."
+
+msgid "These are documentary gaps for this exact version. Recorded fields do not establish clinical correctness, and this dossier cannot approve or publish content."
+msgstr "هذه نواقص وثائقية لهذا الإصدار الدقيق. لا تثبت الحقول المسجلة الصحة السريرية، ولا يمكن لهذا الملف اعتماد المحتوى أو نشره."
+
+msgid "This historical fingerprint differs from the current content."
+msgstr "تختلف هذه البصمة التاريخية عن بصمة المحتوى الحالي."
+
+msgid "Transcription: %(word)s"
+msgstr "التفريغ الصوتي: %(word)s"
+
+msgid "Two distinct reviewers"
+msgstr "مراجعان مختلفان"
+
+msgid "Upload and select a protected media asset for this exact word."
+msgstr "رفع وسيط محمي واختياره لهذه الكلمة الدقيقة."
+
+msgid "Usage rights are unknown, excluded or still require permission."
+msgstr "حقوق الاستخدام غير معروفة أو مستبعدة أو لا تزال تتطلب إذنًا."
+
+msgid "Use supporting documents for the selected spoken variety."
+msgstr "استخدم الوثائق الداعمة الخاصة بالتنوع اللغوي المنطوق المحدّد."
+
+msgid "Use the existing review form after checking this exact version; the two approving reviewers must be different people."
+msgstr "استخدام نموذج المراجعة الحالي بعد فحص هذا الإصدار الدقيق؛ ويجب أن يصدر القراران الموافقان عن شخصين مختلفين."
+
+msgid "Versions on this page needing audio files"
+msgstr "إصدارات هذه الصفحة التي تحتاج إلى ملفات صوتية"
+
+msgid "View evidence tasks and responsible roles"
+msgstr "عرض مهام الأدلة والأدوار المسؤولة"
+
+msgid "Where this report was produced"
+msgstr "مصدر هذا التقرير"
+
+msgid "Withdrawn content cannot receive a new opening decision."
+msgstr "لا يمكن إصدار قرار إتاحة جديد لمحتوى مسحوب."
+
+msgid "Word and image familiarity: %(word)s"
+msgstr "ألفة الكلمة والصورة: %(word)s"
+
+msgid "Word definition and phonological context: %(word)s"
+msgstr "تعريف الكلمة وسياقها الفونولوجي: %(word)s"
+
+msgid "Yes"
+msgstr "نعم"
+
+msgid "evidence_tasks.csv lists current unmet requirements with responsible roles and actions. Assignment, evidence and human decisions remain blank. media_requirements.csv identifies the exact media and documentary gaps without exporting contracts or account identities. Recheck the live CMS before recording any decision: this download is a dated snapshot."
+msgstr "يسرد evidence_tasks.csv المتطلبات الحالية غير المستوفاة والأدوار المسؤولة والإجراءات. وتبقى خانات التكليف والأدلة والقرارات البشرية فارغة. يحدد media_requirements.csv الوسائط الدقيقة والنواقص الوثائقية دون تصدير العقود أو هويات الحسابات. يجب إعادة التحقق من نظام إدارة المحتوى قبل تدوين أي قرار؛ فهذا التنزيل لقطة مؤرخة."

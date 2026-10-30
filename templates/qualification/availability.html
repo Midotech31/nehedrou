@@ -1,1 +1,27 @@
-{% extends 'base.html' %}{% load i18n %}{% block content %}<a href="{% url 'qualification:index' %}">{% translate "Content qualification workspace" %}</a><h1>{% translate "Module availability decisions" %}</h1><section class="card"><p>{% translate "Availability concerns one module, one variety and one content fingerprint. A later revocation or missing evidence blocks new real use." %}</p><p>{% translate "Required evidence: content review, commercial rights, authorised purpose and data governance, supervised usability pilot, storage and support." %}</p>{% if can_publish %}<form method="post">{% csrf_token %}{{ form.as_p }}<button class="button">{% translate "Record a human decision" %}</button></form>{% endif %}</section><section class="card">{% for decision in decisions %}<article class="report-row"><div><strong>{{ decision.get_module_display }} · {{ decision.variety.display_label }}</strong><p>{{ decision.get_status_display }} · {{ decision.created_at|date:'d/m/Y H:i' }} · {{ decision.decided_by.username }}</p><p>{{ decision.scope }}</p><p>{{ decision.reason }}</p><details><summary>{% translate "Exact content fingerprint" %}</summary><code>{{ decision.version }}</code></details></div></article>{% empty %}<p>{% translate "No availability decision has been recorded." %}</p>{% endfor %}</section>{% endblock %}
+{% extends 'base.html' %}{% load i18n %}{% block content %}
+<a href="{% url 'qualification:index' %}">{% translate "Content qualification workspace" %}</a>
+<h1>{% translate "Module availability decisions" %}</h1>
+<section class="card">
+<p>{% translate "Availability concerns one module, one variety and one content fingerprint. A later revocation or missing evidence blocks new real use." %}</p>
+<p>{% translate "Required evidence: content review, commercial rights, authorised purpose and data governance, supervised usability pilot, storage and support." %}</p>
+{% if can_publish %}<form method="get">{{ picker.as_p }}<button class="button secondary">{% translate "Prepare a human decision" %}</button></form>{% endif %}
+</section>
+{% if target_info %}<section class="card">
+<h2>{{ target_info.label }}</h2><a href="{{ target_info.url }}">{% translate "Review the selected content version" %}</a>
+<p>{% translate "Exact content fingerprint" %}</p><code class="content-fingerprint" dir="ltr">{{ target_info.digest }}</code>
+<p>{% translate "Preparing this decision records no approval and does not make the content usable." %}</p>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button class="button">{% translate "Record a human decision" %}</button></form>
+<a href="{{ target_info.prepare_url }}">{% translate "Review the current version again" %}</a>
+<details><summary>{% translate "Private supporting documents" %}</summary>
+{% for document in target_info.documents %}<p>{{ document.get_category_display }} · {{ document.title }} · {{ document.get_validity_display }} · <code class="content-fingerprint" dir="ltr">{{ document.sha256 }}</code> · <a href="{% url 'qualification:evidence_file' document.pk %}">{% translate "Download private evidence" %}</a></p>{% empty %}<p>{% translate "No evidence has been supplied." %}</p>{% endfor %}
+</details></section>{% endif %}
+<section class="card"><h2>{% translate "Recorded human decisions" %}</h2>
+{% for decision in decisions %}<article class="report-row"><div>
+<strong>{{ decision.get_module_display }} · {{ decision.variety.display_label }}</strong>
+<p>{% if decision.target_display.url %}<a href="{{ decision.target_display.url }}">{{ decision.target_display.label }}</a>{% else %}{{ decision.target_display.label }}{% endif %}</p>
+<p>{{ decision.get_status_display }} · {{ decision.created_at|date:'d/m/Y H:i' }} · {{ decision.decided_by.username }}</p>
+<p>{{ decision.scope }}</p><p>{{ decision.reason }}</p>
+<details><summary>{% translate "Exact content fingerprint" %}</summary><code class="content-fingerprint" dir="ltr">{{ decision.version }}</code>{% if decision.target_display.url and not decision.target_display.current %}<p>{% translate "This historical fingerprint differs from the current content." %}</p>{% endif %}</details>
+{% if decision.can_revoke %}<form method="post" action="{% url 'qualification:availability_revoke' decision.pk %}">{% csrf_token %}<label for="reason-{{ decision.pk }}">{% translate "Revocation reason" %}</label><input id="reason-{{ decision.pk }}" name="reason" required maxlength="2000"><button class="button secondary">{% translate "Revoke availability decision" %}</button></form>{% endif %}
+</div></article>{% empty %}<p>{% translate "No availability decision has been recorded." %}</p>{% endfor %}
+</section>{% endblock %}

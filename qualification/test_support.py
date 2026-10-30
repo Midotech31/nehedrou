@@ -54,4 +54,7 @@ def prepare_activity_fixture(activity,clinical,linguistic=None):
 def availability_fixture(module,variety,version,actor):
     competence_fixture(actor,variety,'clinical')
     docs=[evidence_fixture(variety,actor,category) for category in REQUIRED_EVIDENCE]
-    return AvailabilityDecision.objects.create(module=module,variety=variety,version=version,status='available',scope='Fictional test only, no authorised clinical use',reason='Fictional regression fixture',decided_by=actor,evidence=evidence_snapshot(docs))
+    from .opening import target_queryset, target_snapshot
+    target = next((row for row in target_queryset(actor, module).filter(variety=variety) if row.fingerprint() == version), None)
+    assert target is not None, 'Fictional availability fixtures require an actual content target'
+    return AvailabilityDecision.objects.create(module=module,variety=variety,version=version,status='available',scope='Fictional test only, no authorised clinical use',reason='Fictional regression fixture',decided_by=actor,evidence=evidence_snapshot(docs),target_snapshot=target_snapshot(module, target))

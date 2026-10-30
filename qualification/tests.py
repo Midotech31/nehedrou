@@ -83,7 +83,7 @@ class DocumentaryQualificationTests(TestCase):
         activity.refresh_from_db();self.assertEqual(activity.media_manifest,initial_manifest)
 
     def test_availability_requires_five_intact_evidence_and_revocation_prevails(self):
-        version='a'*64
+        version=self.activity().fingerprint()
         self.assertFalse(availability_for('practice',self.variety,version)['available'])
         with self.assertRaises(ValidationError):
             AvailabilityDecision.objects.create(module='practice',variety=self.variety,version=version,status='available',scope='Test',reason='Test',decided_by=self.actor)
@@ -93,7 +93,7 @@ class DocumentaryQualificationTests(TestCase):
         doc=EvidenceDocument.objects.get(pk=decision.evidence['pilot']['id']);doc.revoked=True;doc.revocation_reason='Test revocation';doc.save()
         self.assertFalse(availability_for('practice',self.variety,version)['available'])
         with self.assertRaises(ValidationError): decision.reason='Edit historical decision';decision.save()
-        AvailabilityDecision.objects.create(module='practice',variety=self.variety,version=version,status='revoked',scope='Same test scope',reason='Test revocation',decided_by=self.actor)
+        AvailabilityDecision.objects.create(module='practice',variety=self.variety,version=version,status='revoked',scope='Same test scope',reason='Test revocation',decided_by=self.actor,target_snapshot=decision.target_snapshot)
         self.assertEqual(availability_for('practice',self.variety,version)['decision'].status,'revoked')
 
     def test_publication_and_real_use_are_separate_evidence_gates(self):
@@ -176,7 +176,8 @@ class DocumentaryQualificationTests(TestCase):
 
     def test_noneditor_availability_is_read_only_and_contains_no_private_decisions(self):
         outsider=User.objects.create_user(username='status-family',email='status-family@fictional.example',password='Fictional-Test-2026!')
-        AvailabilityDecision.objects.create(module='practice',variety=self.variety,version='a'*64,status='blocked',scope='PRIVATE-SCOPE-MARKER',reason='PRIVATE-DECISION-MARKER',decided_by=self.actor)
+        # A raw historical row models the pre-binding migration state without inventing a target.
+        AvailabilityDecision.objects.bulk_create([AvailabilityDecision(module='practice',variety=self.variety,version='a'*64,status='blocked',scope='PRIVATE-SCOPE-MARKER',reason='PRIVATE-DECISION-MARKER',decided_by=self.actor)])
         self.client.force_login(outsider)
         response=self.client.get(reverse('qualification:availability'))
         self.assertEqual(response.status_code,200)

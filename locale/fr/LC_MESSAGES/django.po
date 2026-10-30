@@ -4645,3 +4645,321 @@ msgstr "Intérieur du mot"
 
 msgid "Your answers remain on this page. Resume when you are ready, or stop for today."
 msgstr "Vos réponses restent sur cette page. Reprenez quand vous êtes prêts, ou arrêtez pour aujourd’hui."
+
+msgid "An explicit test executes SELECT 1 on this server. It reads no child profile and does not measure storage performance or cold starts."
+msgstr "Ce test explicite exécute SELECT 1 sur ce serveur. Il ne lit aucun dossier enfant et ne mesure ni le stockage ni les démarrages à froid."
+
+msgid "Arrange independent clinical and linguistic decisions by two competent people."
+msgstr "Organiser des avis clinique et linguistique indépendants rendus par deux personnes compétentes."
+
+msgid "Attach current evidence in this category to the authorised availability decision for this exact fingerprint."
+msgstr "Joindre une pièce valide de cette catégorie à la décision de disponibilité autorisée pour cette empreinte exacte."
+
+msgid "Attach the supporting evidence for this requirement."
+msgstr "Joindre la pièce justificative correspondant à cette exigence."
+
+msgid "Authorised availability decision"
+msgstr "Décision de disponibilité autorisée"
+
+msgid "Authorised publisher"
+msgstr "Responsable autorisé de la publication"
+
+msgid "Availability evidence: %(category)s"
+msgstr "Pièce de disponibilité : %(category)s"
+
+msgid "Build commit"
+msgstr "Révision du code déployé"
+
+msgid "Canonical HTTPS origin configured"
+msgstr "Adresse HTTPS canonique configurée"
+
+msgid "Choose an existing real activity or protocol for this decision."
+msgstr "Choisissez une activité ou un protocole réel existant pour cette décision."
+
+msgid "Clinical decision"
+msgstr "Avis clinique"
+
+msgid "Clinical reviewer"
+msgstr "Relecteur clinique"
+
+msgid "Collect unprimed naming and recognition observations under a prospectively defined protocol; attach the actual evidence and its fingerprint."
+msgstr "Recueillir les observations de dénomination sans amorçage et de reconnaissance selon un protocole défini à l’avance ; joindre les preuves réelles et leur empreinte."
+
+msgid "Compare the proposed transcription with the exact recording before recording a linguistic decision."
+msgstr "Comparer la transcription proposée à l’enregistrement exact avant de consigner un avis linguistique."
+
+msgid "Competent reviewer for this spoken variety"
+msgstr "Relecteur compétent pour cette variété parlée"
+
+msgid "Complete the current media evidence before a review can qualify."
+msgstr "Compléter les preuves des médias actuels avant qu’un avis puisse être retenu."
+
+msgid "Complete the media evidence, then submit the draft for review to bind its current media manifest."
+msgstr "Compléter les preuves des médias, puis soumettre le brouillon en relecture pour figer son manifeste de médias actuel."
+
+msgid "Complete the structured rights holder, licence, use, territory, duration, attribution and any adult speaker permission."
+msgstr "Renseigner les champs structurés : titulaire des droits, licence, usage, territoire, durée, attribution et, le cas échéant, autorisation du locuteur adulte."
+
+msgid "Configuration is an observation of this process. It does not establish successful email delivery, backups, restoration or permission for real clinical use."
+msgstr "La configuration est observée dans ce processus. Elle ne prouve ni la réception des courriels, ni les sauvegardes, ni la restauration, ni l’autorisation d’usage clinique réel."
+
+msgid "Configure the hosting HTTP health check at /healthz/. Verify trusted proxies, private storage after restart, scheduled encrypted off-host backups, key custody, recent restoration, alert recipients and email receipt. None of these is marked complete by this report."
+msgstr "Configurez le contrôle HTTP de l’hébergement sur /healthz/. Vérifiez les proxys de confiance, le stockage privé après redémarrage, les sauvegardes chiffrées planifiées hors hébergeur, la garde des clés, une restauration récente, les destinataires des alertes et la réception des courriels. Ce rapport ne déclare aucun de ces points terminé."
+
+msgid "Configured"
+msgstr "Configuré"
+
+msgid "Content editor and rights holder"
+msgstr "Éditeur du contenu et titulaire des droits"
+
+msgid "Content version to review"
+msgstr "Version du contenu à examiner"
+
+msgid "Database connection sample"
+msgstr "Mesure ponctuelle de connexion à la base"
+
+msgid "Database query failed"
+msgstr "Échec de l’interrogation de la base"
+
+msgid "Database query succeeded"
+msgstr "Interrogation de la base réussie"
+
+msgid "Debug disabled"
+msgstr "Débogage désactivé"
+
+msgid "Demonstration mode"
+msgstr "Mode démonstration"
+
+msgid "Document the meaning, ordered segments, target occurrences and justified variants in a draft."
+msgstr "Documenter dans un brouillon le sens, les segments ordonnés, les occurrences cibles et les variantes justifiées."
+
+msgid "Document the permission period in the structured validity fields."
+msgstr "Documenter la période d’autorisation dans les champs structurés de validité."
+
+msgid "Download configuration report"
+msgstr "Télécharger le rapport de configuration"
+
+msgid "Download this version’s evidence dossier"
+msgstr "Télécharger le dossier de preuves de cette version"
+
+msgid "Email configuration"
+msgstr "Configuration des courriels"
+
+msgid "Exact media and rights manifest"
+msgstr "Manifeste exact des médias et des droits"
+
+msgid "Historical content target unavailable"
+msgstr "Cible historique du contenu introuvable"
+
+msgid "Hosting diagnostics"
+msgstr "Diagnostic de l’hébergement"
+
+msgid "Human evidence dossier"
+msgstr "Dossier de preuves pour la relecture humaine"
+
+msgid "Illustration: %(word)s"
+msgstr "Illustration : %(word)s"
+
+msgid "Inactive"
+msgstr "Inactif"
+
+msgid "Linguistic decision"
+msgstr "Avis linguistique"
+
+msgid "Local or operator process"
+msgstr "Processus local ou opérateur"
+
+msgid "Mail credentials configured"
+msgstr "Identifiants du service de courriel configurés"
+
+msgid "Mail port valid"
+msgstr "Port de courriel valide"
+
+msgid "Mail server configured"
+msgstr "Serveur de courriel configuré"
+
+msgid "Mail timeout bounded"
+msgstr "Délai de courriel borné"
+
+msgid "Media durability declared by the operator"
+msgstr "Conservation durable des médias déclarée par l’opérateur"
+
+msgid "Missing audio references"
+msgstr "Références audio manquantes"
+
+msgid "Missing or unsuitable"
+msgstr "Absent ou inadapté"
+
+msgid "No"
+msgstr "Non"
+
+msgid "No message is sent by this page. Delivery and receipt still need a separate authorised test."
+msgstr "Cette page n’envoie aucun message. L’envoi et la réception nécessitent encore un test distinct autorisé."
+
+msgid "Not supplied by the hosting environment"
+msgstr "Non fourni par l’environnement d’hébergement"
+
+msgid "Observation time"
+msgstr "Date et heure du constat"
+
+msgid "Obtain the actual permissions and valid evidence, then upload documented media; a written rights claim alone is insufficient."
+msgstr "Obtenir les autorisations réelles et les preuves valides, puis importer les médias documentés ; une simple déclaration écrite des droits ne suffit pas."
+
+msgid "One encrypted mail transport selected"
+msgstr "Un seul mode de chiffrement du courriel sélectionné"
+
+msgid "Operator acceptance still required"
+msgstr "Recette opérateur encore nécessaire"
+
+msgid "PostgreSQL configured"
+msgstr "PostgreSQL configuré"
+
+msgid "Prepare a human decision"
+msgstr "Préparer une décision humaine"
+
+msgid "Preparing this decision records no approval and does not make the content usable."
+msgstr "La préparation de cette décision n’enregistre aucune approbation et ne rend pas le contenu utilisable."
+
+msgid "Private remote media configured"
+msgstr "Médias privés distants configurés"
+
+msgid "Privileged MFA required"
+msgstr "Double authentification des rôles privilégiés obligatoire"
+
+msgid "Process"
+msgstr "Processus"
+
+msgid "Read the configuration of the running server without exposing credentials or clinical records."
+msgstr "Consultez la configuration du serveur en cours d’exécution sans exposer les identifiants ni les dossiers cliniques."
+
+msgid "Record a new decision for this exact content fingerprint."
+msgstr "Consigner un nouvel avis pour cette empreinte exacte du contenu."
+
+msgid "Record an explicit availability decision for the exact version and documented scope after the evidence is reviewed."
+msgstr "Consigner une décision explicite de disponibilité pour la version exacte et le périmètre documenté après examen des preuves."
+
+msgid "Recorded human decisions"
+msgstr "Décisions humaines enregistrées"
+
+msgid "Recording: %(word)s"
+msgstr "Enregistrement : %(word)s"
+
+msgid "Requirements needing action"
+msgstr "Exigences nécessitant une action"
+
+msgid "Review the current version again"
+msgstr "Réexaminer la version actuelle"
+
+msgid "Review the selected content version"
+msgstr "Examiner la version du contenu sélectionnée"
+
+msgid "Revoke an existing decision without changing its historical target."
+msgstr "Retirez une décision existante sans modifier sa cible historique."
+
+msgid "Revoke availability decision"
+msgstr "Retirer la décision de disponibilité"
+
+msgid "SMTP mail backend selected"
+msgstr "Moteur de courriel SMTP sélectionné"
+
+msgid "Sender address uses a non-example domain"
+msgstr "Adresse d’expéditeur hors domaine d’exemple"
+
+msgid "Sender address valid"
+msgstr "Adresse d’expéditeur valide"
+
+msgid "Server configuration"
+msgstr "Configuration du serveur"
+
+msgid "Temporary database disabled"
+msgstr "Base de données temporaire désactivée"
+
+msgid "Test the database connection"
+msgstr "Tester la connexion à la base"
+
+msgid "The checked documentary requirements are recorded. Human judgement and the publication workflow still apply."
+msgstr "Les exigences documentaires contrôlées sont consignées. Le jugement humain et le circuit de publication restent applicables."
+
+msgid "The content changed. Review the current version before recording a decision."
+msgstr "Le contenu a changé. Examinez la version actuelle avant d’enregistrer une décision."
+
+msgid "The decision must retain the selected module, variety and content version."
+msgstr "La décision doit conserver le module, la variété parlée et la version du contenu sélectionnés."
+
+msgid "The decision owner no longer has the required permission or current competence declaration."
+msgstr "L’auteur de l’avis ne dispose plus de l’autorisation requise ou d’une déclaration de compétence en cours de validité."
+
+msgid "The decision target is no longer accessible."
+msgstr "La cible de la décision n’est plus accessible."
+
+msgid "The evidence fingerprint does not match the recorded reference."
+msgstr "L’empreinte de la pièce ne correspond pas à la référence consignée."
+
+msgid "The evidence must concern this spoken variety and evidence category."
+msgstr "La pièce doit concerner cette variété parlée et cette catégorie de preuve."
+
+msgid "The latest decision for this exact version requests changes."
+msgstr "Le dernier avis sur cette version exacte demande des modifications."
+
+msgid "The media bytes are missing or differ from their recorded fingerprint."
+msgstr "Les octets du média sont absents ou diffèrent de leur empreinte consignée."
+
+msgid "The permission or evidence has expired or lacks a valid expiry date."
+msgstr "L’autorisation ou la pièce a expiré, ou sa date de fin de validité est absente ou invalide."
+
+msgid "The permission or evidence is not yet valid."
+msgstr "L’autorisation ou la pièce n’est pas encore valide."
+
+msgid "The permission or evidence is revoked."
+msgstr "L’autorisation ou la pièce est révoquée."
+
+msgid "The supporting evidence bytes are missing, changed or revoked."
+msgstr "Le contenu de la pièce justificative est absent, modifié ou révoqué."
+
+msgid "These are documentary gaps for this exact version. Recorded fields do not establish clinical correctness, and this dossier cannot approve or publish content."
+msgstr "Il s’agit des manques documentaires de cette version exacte. Les champs renseignés ne prouvent pas la justesse clinique ; ce dossier ne peut ni approuver ni publier le contenu."
+
+msgid "This historical fingerprint differs from the current content."
+msgstr "Cette empreinte historique diffère de celle du contenu actuel."
+
+msgid "Transcription: %(word)s"
+msgstr "Transcription : %(word)s"
+
+msgid "Two distinct reviewers"
+msgstr "Deux relecteurs distincts"
+
+msgid "Upload and select a protected media asset for this exact word."
+msgstr "Importer puis sélectionner un média protégé correspondant à ce mot exact."
+
+msgid "Usage rights are unknown, excluded or still require permission."
+msgstr "Les droits d’usage sont inconnus, exclus ou nécessitent encore une autorisation."
+
+msgid "Use supporting documents for the selected spoken variety."
+msgstr "Utilisez les pièces justificatives de la variété parlée sélectionnée."
+
+msgid "Use the existing review form after checking this exact version; the two approving reviewers must be different people."
+msgstr "Utiliser le formulaire de relecture existant après examen de cette version exacte ; les deux avis favorables doivent provenir de personnes différentes."
+
+msgid "Versions on this page needing audio files"
+msgstr "Versions de cette page nécessitant des fichiers audio"
+
+msgid "View evidence tasks and responsible roles"
+msgstr "Voir les tâches documentaires et les rôles responsables"
+
+msgid "Where this report was produced"
+msgstr "Origine de ce rapport"
+
+msgid "Withdrawn content cannot receive a new opening decision."
+msgstr "Un contenu retiré ne peut pas recevoir une nouvelle décision d’ouverture."
+
+msgid "Word and image familiarity: %(word)s"
+msgstr "Familiarité du mot et de l’image : %(word)s"
+
+msgid "Word definition and phonological context: %(word)s"
+msgstr "Définition du mot et contexte phonologique : %(word)s"
+
+msgid "Yes"
+msgstr "Oui"
+
+msgid "evidence_tasks.csv lists current unmet requirements with responsible roles and actions. Assignment, evidence and human decisions remain blank. media_requirements.csv identifies the exact media and documentary gaps without exporting contracts or account identities. Recheck the live CMS before recording any decision: this download is a dated snapshot."
+msgstr "evidence_tasks.csv recense les exigences actuelles non satisfaites, les rôles responsables et les actions. Les personnes affectées, preuves et décisions humaines restent vierges. media_requirements.csv identifie les médias exacts et leurs manques documentaires sans exporter de contrats ni d’identités de comptes. Vérifier à nouveau le CMS avant toute décision : ce téléchargement est un état daté."

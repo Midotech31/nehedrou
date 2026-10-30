@@ -13,7 +13,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django_otp import login as otp_login, verify_token
 from django_otp.plugins.otp_totp.models import TOTPDevice
-from .models import RecoveryCode, Membership
+from .models import RecoveryCode, Membership, User
 from .services import audit
 from .auth_throttle import authentication_succeeded
 
@@ -42,11 +42,17 @@ class TokenForm(forms.Form):
     token = forms.CharField(label=_('Authenticator code or recovery code'), max_length=64)
 
 @login_required
+@transaction.atomic
 def setup(request):
-    confirmed = TOTPDevice.objects.filter(user=request.user, confirmed=True).first()
+    # django-otp permits duplicate names. Serialize setup for the account so
+    # concurrent first visits cannot create competing provisioning secrets.
+    User.objects.select_for_update().get(pk=request.user.pk)
+    confirmed = TOTPDevice.objects.filter(user=request.user, confirmed=True).order_by('pk').first()
     if confirmed:
         return redirect('mfa_verify') if not request.user.is_verified() else render(request, 'notice.html', {'title': _('Two-factor authentication'), 'body': _('Protection is active. Recovery codes can be regenerated after verification.')})
-    device, _created = TOTPDevice.objects.get_or_create(user=request.user, name='primary', confirmed=False)
+    device = TOTPDevice.objects.filter(user=request.user, name='primary', confirmed=False).order_by('pk').first()
+    if device is None:
+        device = TOTPDevice.objects.create(user=request.user, name='primary', confirmed=False)
     form = SetupForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         if not request.user.check_password(form.cleaned_data['password']):
@@ -71,8 +77,12 @@ def setup(request):
     return render(request, 'security_setup.html', {'form': form, 'secret': b32encode(device.bin_key).decode()})
 
 @login_required
+@transaction.atomic
 def qr(request):
-    device = TOTPDevice.objects.filter(user=request.user, confirmed=False, name='primary').first()
+    User.objects.select_for_update().get(pk=request.user.pk)
+    if TOTPDevice.objects.filter(user=request.user, confirmed=True).exists():
+        return HttpResponse(status=404)
+    device = TOTPDevice.objects.filter(user=request.user, confirmed=False, name='primary').order_by('pk').first()
     if not device:
         return HttpResponse(status=404)
     import segno

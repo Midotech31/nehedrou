@@ -42,6 +42,22 @@ manage.py check_readiness --strict
 
 Pour exercer `core.tests_concurrency`, configurer les variables PostgreSQL décrites dans `.env.example` sur un serveur fonctionnel et lancer la suite. Sous SQLite, les six tests sont explicitement ignorés, jamais comptés comme passés. La qualification 6 a exécuté les six cas sur PostgreSQL 17.11, puis restauré une base fictive dans une base distincte. Les preuves sont dans les journaux finaux et RESTAURATION_POSTGRESQL.json ; cela ne qualifie pas une exploitation de production.
 
+## Couverture des variétés parlées — contrôle du 30 octobre 2026
+
+Les trois langues d’interface (`settings.LANGUAGES` : FR, EN, AR) ne définissent pas l’offre de contenu oral. En particulier, un contenu en arabe standard (MSA) ne couvre pas la Darja algérienne. `check_readiness` conserve `published_nondemo_counts` par langue comme information descriptive, mais son contrôle strict repose désormais sur chaque code exact de variété offerte.
+
+Par défaut, les quatre variétés sont `fr-fr-pilot` (français de France), `en-us-general-pilot` (anglais des États-Unis), `ar-msa-pilot` (arabe standard) et `ar-dz-pilot` (Darja algérienne). L’exploitant peut définir explicitement `OFFERED_CONTENT_VARIETIES` dans sa configuration Django, par exemple :
+
+```python
+OFFERED_CONTENT_VARIETIES = ('fr-fr-pilot', 'en-us-general-pilot', 'ar-msa-pilot', 'ar-dz-pilot')
+```
+
+La configuration doit être une liste ou un tuple non vide de codes uniques déjà connus en base. Un code inconnu, une configuration vide, des doublons ou une chaîne seule provoquent une erreur explicite, y compris sans `--strict` ; aucune variété mal configurée n’est supprimée discrètement du rapport. Restreindre explicitement l’offre ne change aucune publication ni disponibilité et ne modifie pas les langues d’interface.
+
+Le rapport ajoute `offered_content_varieties`, `published_nondemo_counts_by_variety` et `current_available_nondemo_counts_by_variety`. Le contrôle `current_available_nondemo_content_in_each_offered_variety` exige au moins une activité réelle actuellement utilisable dans chaque variété offerte : médias exacts, droits valides, avis courants et décision de disponibilité autorisée. Un brouillon, une copie de démonstration, une simple publication sans disponibilité ou une ancienne version supplantée ne satisfait pas cette couverture. Les comptes publiés conservent les versions historiques pour information ; leur présence ne vaut pas disponibilité actuelle. Le contrôle existant des médias et avis sur l’ensemble des versions publiées reste distinct.
+
+Ce changement ne crée aucune approbation ni aucun contenu, ne transfère aucune qualification entre MSA et Darja et ne certifie pas une couverture clinique suffisante : le minimum informatique d’une version par variété reste un contrôle technique.
+
 ## Positionnement commercial proposé
 
 « Nehedrou aide les praticiens à préparer la pratique à domicile et les familles à suivre les activités attribuées, avec des retours accessibles avant le prochain rendez-vous. »

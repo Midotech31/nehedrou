@@ -1,12 +1,29 @@
 """Technical launch gates. These checks never certify clinical effectiveness."""
 import json
+from collections import Counter
 from pathlib import Path
 from urllib.parse import urlsplit
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.db import connection
-from catalog.models import Activity
+from catalog.models import Activity, Variety
+from catalog.content_catalog import current_catalog
+from catalog.integrity import integrity_scope, prepare_activities
 from core.ops_readiness import smtp_configuration
+
+
+DEFAULT_OFFERED_CONTENT_VARIETIES = ('fr-fr-pilot', 'en-us-general-pilot', 'ar-msa-pilot', 'ar-dz-pilot')
+
+
+def offered_content_varieties():
+    configured = getattr(settings, 'OFFERED_CONTENT_VARIETIES', DEFAULT_OFFERED_CONTENT_VARIETIES)
+    if not isinstance(configured, (tuple, list)) or not configured or any(not isinstance(code, str) or not code or code != code.strip() for code in configured) or len(set(configured)) != len(configured):
+        raise CommandError('OFFERED_CONTENT_VARIETIES must be a nonempty list or tuple of unique exact variety codes.')
+    known = set(Variety.objects.filter(code__in=configured).values_list('code', flat=True))
+    unknown = set(configured) - known
+    if unknown:
+        raise CommandError('Unknown offered content varieties: ' + ', '.join(repr(code) for code in sorted(unknown)))
+    return tuple(configured)
 
 
 class Command(BaseCommand):
@@ -17,12 +34,21 @@ class Command(BaseCommand):
         parser.add_argument('--strict', action='store_true', help='Fail if any technical gate is unmet.')
 
     def handle(self, *args, **options):
-        catalogue = Activity.objects.filter(state='published', is_demo=False)
-        coverage = {}
-        for code, _label in settings.LANGUAGES:
-            coverage[code] = catalogue.filter(variety__language=code).count()
+        offered = offered_content_varieties()
+        published = Activity.objects.filter(state='published', is_demo=False).select_related('variety')
+        current_ids = set(current_catalog(published).values_list('pk', flat=True))
+        # Share byte checks only within this invocation, never with a later run.
+        with integrity_scope():
+            catalogue = prepare_activities(list(published))
+            qualified = {a.pk: bool(a.usable and a.has_current_reviews()) for a in catalogue}
+        languages = Counter(a.variety.language for a in catalogue)
+        coverage = {code: languages[code] for code, _label in settings.LANGUAGES}
+        published_varieties = Counter(a.variety.code for a in catalogue)
+        available_varieties = Counter(a.variety.code for a in catalogue if a.pk in current_ids and qualified[a.pk])
+        published_by_variety = {code: published_varieties[code] for code in offered}
+        available_by_variety = {code: available_varieties[code] for code in offered}
         # Re-check deployment origin and durable media. Published versions are immutable.
-        unavailable = sum(not (a.usable and a.has_current_reviews()) for a in catalogue)
+        unavailable = sum(not qualified[a.pk] for a in catalogue)
         origin = urlsplit(settings.PUBLIC_ORIGIN)
         checks = {
             'demonstration_disabled': not settings.DEMO_MODE,
@@ -32,13 +58,17 @@ class Command(BaseCommand):
             'privileged_mfa_required': settings.MFA_REQUIRED,
             'public_https_origin': origin.scheme == 'https' and bool(origin.netloc) and not origin.username and not origin.password,
             'smtp_configured': smtp_configuration()['configured'],
-            'published_nondemo_content_in_each_offered_language': all(coverage.values()),
-            'published_audio_and_current_reviews_available': bool(catalogue.exists()) and unavailable == 0,
+            'current_available_nondemo_content_in_each_offered_variety': all(available_by_variety.values()),
+            'published_audio_and_current_reviews_available': bool(catalogue) and unavailable == 0,
         }
         report = {
             'technical_gates_passed': all(checks.values()),
             'checks': checks,
             'published_nondemo_counts': coverage,
+            'offered_content_varieties': list(offered),
+            'published_nondemo_counts_by_variety': published_by_variety,
+            'current_available_nondemo_counts_by_variety': available_by_variety,
+            'content_coverage_scope': 'Interface-language counts are descriptive only. Every explicitly offered spoken variety requires its own currently usable non-demo practice version, exact media, current reviews and authorised availability; MSA never covers Algerian Darja.',
             'versions_with_unavailable_audio_or_reviews': unavailable,
             'manual_gates_required': ['professional_content_and_audio_validation', 'native_language_review', 'browser_and_accessibility_acceptance', 'backup_restore_and_concurrency_acceptance', 'applicable_launch_obligations', 'clinical_effectiveness_claims_require_separate_evidence'],
             'storage_scope': 'Durability is operator-declared; verify persistence across restart, backup scheduling, off-host retention and restoration before launch.',

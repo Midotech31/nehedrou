@@ -64,7 +64,7 @@ class DeploymentSettingsTests(SimpleTestCase):
         self.assertEqual(result.returncode,0,result.stderr)
         values = json.loads(result.stdout)
         self.assertEqual(values['engine'],'django.db.backends.postgresql')
-        self.assertEqual(values['options'],{})
+        self.assertEqual(values['options'], {'connect_timeout': 5})
         self.assertEqual(values['connection_age'],60)
         self.assertFalse(values['demo'])
 

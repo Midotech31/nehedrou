@@ -42,12 +42,34 @@ class CompetenceForm(LabelledModelForm):
         model = ReviewerCompetence
         fields = ['variety', 'discipline', 'professional_role', 'experience', 'credential_reference', 'evidence', 'active']
 
-class AvailabilityForm(LabelledModelForm):
+class OpeningTargetForm(forms.Form):
+    target = forms.ChoiceField(label=_('Content version to review'))
+    def __init__(self, *args, actor, **kwargs):
+        from .opening import target_queryset, target_key, target_label
+        from .models import MODULES
+        super().__init__(*args, **kwargs)
+        choices = [('', _('Choose an existing real activity or protocol for this decision.'))]
+        for module, _label in MODULES:
+            choices.extend((target_key(module, row), target_label(module, row))
+                for row in target_queryset(actor, module).select_related('variety').order_by('variety__code', 'title', 'version'))
+        self.fields['target'].choices = choices
+
+
+class AvailabilityForm(forms.Form):
+    target = forms.CharField(widget=forms.HiddenInput)
+    expected_version = forms.CharField(max_length=64, min_length=64, widget=forms.HiddenInput)
+    status = forms.ChoiceField(label=_('Decision status'), choices=[('blocked', _('Pending requirements')), ('available', _('Available within the documented scope'))])
+    scope = forms.CharField(label=_('Authorised purpose, countries and limits'), widget=forms.Textarea)
+    reason = forms.CharField(label=_('Decision and justification'), widget=forms.Textarea)
     documents = forms.ModelMultipleChoiceField(queryset=EvidenceDocument.objects.none(), required=False, label=_('Private evidence documents for the five required categories'))
     acknowledge = forms.BooleanField(label=_('I take responsibility for this exact version and documented scope.'))
-    class Meta:
-        model = AvailabilityDecision
-        fields = ['module','variety','version','status','scope','reason']
+    def __init__(self, *args, actor, content, module, **kwargs):
+        from .opening import target_key
+        super().__init__(*args, **kwargs)
+        self.fields['target'].initial = target_key(module, content)
+        self.fields['expected_version'].initial = content.fingerprint()
+        self.fields['documents'].queryset = EvidenceDocument.objects.filter(variety=content.variety, revoked=False)
+
     def clean(self):
         data = super().clean()
         documents = data.get('documents', [])
@@ -55,8 +77,11 @@ class AvailabilityForm(LabelledModelForm):
             categories = [document.category for document in documents]
             if len(categories) != len(REQUIRED_EVIDENCE) or set(categories) != set(REQUIRED_EVIDENCE):
                 raise ValidationError(_('Select one document for each required availability category.'))
-        self.instance.evidence = evidence_snapshot(documents)
         return data
+
+
+class AvailabilityRevocationForm(forms.Form):
+    reason = forms.CharField(label=_('Revocation reason'), max_length=2000, widget=forms.Textarea)
 
 class PackForm(LabelledModelForm):
     class Meta:

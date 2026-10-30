@@ -9,6 +9,7 @@ from core import security, complete_views
 from catalog import views as editorial_views
 from catalog import working, quality
 from core.health import health
+from core import operations_views
 
 urlpatterns = [path('healthz/', health, name='health'), path('i18n/setlang/', switch_language, name='set_language')]
 urlpatterns += i18n_patterns(
@@ -65,6 +66,7 @@ urlpatterns += i18n_patterns(
     path('requests/<uuid:pk>/', complete_views.resolve_request, name='privacy_resolve'),
     path('information/', complete_views.notice, name='data_notice'),
     path('practice/settings/', complete_views.organization_settings, name='organization_settings'),
+    path('operations/', operations_views.diagnostics, name='operations_diagnostics'),
     path('billing/', complete_views.billing, name='billing_index'),
     path('billing/<uuid:pk>/', complete_views.billing, name='billing_detail'),
     path('billing/<uuid:pk>/invoice/', complete_views.invoice_create, name='invoice_create'),

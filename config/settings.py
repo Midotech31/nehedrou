@@ -44,7 +44,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [{'BACKEND': 'django.template.backends.django.DjangoTemplates', 'DIRS': [BASE_DIR / 'templates'], 'APP_DIRS': True, 'OPTIONS': {'context_processors': ['django.template.context_processors.request', 'django.contrib.auth.context_processors.auth', 'django.contrib.messages.context_processors.messages', 'core.context.navigation']}}]
 WSGI_APPLICATION = 'config.wsgi.application'
 if os.getenv('POSTGRES_HOST'):
-    DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql', 'HOST': os.environ['POSTGRES_HOST'], 'PORT': os.getenv('POSTGRES_PORT', '5432'), 'NAME': os.getenv('POSTGRES_DB', 'nehdrou'), 'USER': os.getenv('POSTGRES_USER', 'nehdrou'), 'PASSWORD': os.environ['POSTGRES_PASSWORD'], 'CONN_MAX_AGE': 60, 'CONN_HEALTH_CHECKS': True, 'DISABLE_SERVER_SIDE_CURSORS': '-pooler.' in os.environ['POSTGRES_HOST']}}
+    DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql', 'HOST': os.environ['POSTGRES_HOST'], 'PORT': os.getenv('POSTGRES_PORT', '5432'), 'NAME': os.getenv('POSTGRES_DB', 'nehdrou'), 'USER': os.getenv('POSTGRES_USER', 'nehdrou'), 'PASSWORD': os.environ['POSTGRES_PASSWORD'], 'CONN_MAX_AGE': 60, 'CONN_HEALTH_CHECKS': True, 'OPTIONS': {'connect_timeout': 5}, 'DISABLE_SERVER_SIDE_CURSORS': '-pooler.' in os.environ['POSTGRES_HOST']}}
 else:
     if not DEBUG and not (DEMO_MODE and DEMO_EPHEMERAL):
         raise ImproperlyConfigured('Production requires PostgreSQL.')
@@ -55,7 +55,7 @@ if os.getenv('POSTGRES_SSLMODE') and DATABASES['default']['ENGINE'].endswith('po
     mode = os.environ['POSTGRES_SSLMODE']
     if mode not in ['require', 'verify-ca', 'verify-full']:
         raise ImproperlyConfigured('Choose an authenticated/encrypted PostgreSQL SSL mode.')
-    DATABASES['default']['OPTIONS'] = {'sslmode':mode}
+    DATABASES['default']['OPTIONS']['sslmode'] = mode
 AUTH_USER_MODEL = 'core.User'
 AUTH_PASSWORD_VALIDATORS = [{'NAME': 'django.contrib.auth.password_validation.' + name} for name in ['UserAttributeSimilarityValidator', 'MinimumLengthValidator', 'CommonPasswordValidator', 'NumericPasswordValidator']]
 LANGUAGE_CODE = 'fr'
