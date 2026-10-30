@@ -43,7 +43,7 @@ class SpokenVarietyReadinessTests(TestCase):
     def report(self, *, strict=False):
         output = io.StringIO()
         # Only deployment configuration is simulated; content gates use real fixtures.
-        with patch('core.management.commands.check_readiness.connection', SimpleNamespace(vendor='postgresql')), patch('core.management.commands.check_readiness.smtp_configuration', return_value={'configured':True}):
+        with patch('core.management.commands.check_readiness.connection', SimpleNamespace(vendor='postgresql')), patch('core.management.commands.check_readiness.smtp_configuration', return_value={'configured':True}), patch('core.management.commands.check_readiness.email_configuration', return_value={'configured':True}):
             call_command('check_readiness', json=True, strict=strict, stdout=output)
         return json.loads(output.getvalue())
 

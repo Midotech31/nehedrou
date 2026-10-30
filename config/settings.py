@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from urllib.parse import urlsplit
 from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -102,7 +103,25 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
-EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+# Console mail is for local development; hosted defaults never log reset/invite tokens.
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend' if DEBUG else 'core.email_backends.DisabledEmailBackend')
+RESEND_ENABLED = os.getenv('RESEND_ENABLED', '0') == '1'
+RESEND_API_KEY = os.getenv('RESEND_API_KEY', '')
+
+
+def _email_http_timeout(name, default, upper):
+    message = f'{name} must be between 1 and {upper} seconds.'
+    try:
+        value = float(os.getenv(name, str(default)))
+    except (TypeError, ValueError):
+        raise ImproperlyConfigured(message) from None
+    if not 1 <= value <= upper:
+        raise ImproperlyConfigured(message)
+    return value
+
+
+EMAIL_HTTP_CONNECT_TIMEOUT = _email_http_timeout('EMAIL_HTTP_CONNECT_TIMEOUT', 5, 15)
+EMAIL_HTTP_READ_TIMEOUT = _email_http_timeout('EMAIL_HTTP_READ_TIMEOUT', 10, 30)
 EMAIL_HOST = os.getenv('EMAIL_HOST', '')
 EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', '1') == '1'
@@ -119,6 +138,21 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'access@nehdrou.example')
 PUBLIC_ORIGIN = os.getenv('PUBLIC_ORIGIN', 'https://' + RENDER_HOSTNAME if RENDER_HOSTNAME else 'http://127.0.0.1:8000')
+# Access links must use one complete operator-controlled origin, never request Host.
+try:
+    _public_origin = urlsplit(PUBLIC_ORIGIN)
+    _origin_port = _public_origin.port
+    _origin_valid = (_public_origin.scheme in ('http', 'https') and bool(_public_origin.hostname)
+        and not _public_origin.username and not _public_origin.password
+        and _public_origin.path in ('', '/') and not _public_origin.query and not _public_origin.fragment
+        and '?' not in PUBLIC_ORIGIN and '#' not in PUBLIC_ORIGIN
+        and (_origin_port is None or 1 <= _origin_port <= 65535)
+        and not any(char.isspace() or ord(char) < 32 or ord(char) == 127 for char in PUBLIC_ORIGIN)
+        and '\\' not in PUBLIC_ORIGIN)
+except (ValueError, TypeError):
+    raise ImproperlyConfigured('PUBLIC_ORIGIN must be a complete HTTP(S) origin without credentials, paths, queries or fragments.') from None
+if not _origin_valid:
+    raise ImproperlyConfigured('PUBLIC_ORIGIN must be a complete HTTP(S) origin without credentials, paths, queries or fragments.')
 if IS_RENDER:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_HTTPONLY = True

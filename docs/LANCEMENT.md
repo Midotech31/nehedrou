@@ -19,7 +19,7 @@ Ces étapes sont un scénario à présenter, pas un procès-verbal de recette na
 | Orthophoniste et expert de chaque variété | Fiches et enregistrements adultes autorisés | Contrastes, transcriptions, images, consignes, population et limites réellement approuvés sur les versions exactes |
 | Relecteurs natifs FR/EN/AR | Corrections du vocabulaire et des consignes | Compréhension testée ; arabe algérien évalué pour la variété visée, indépendamment de l’interface arabe standard |
 | Équipe de recette | Journal desktop, 390 px, 320 px, clavier et zoom | Attribution, invitation, pratique, arrêt, erreurs, relecture et impression vérifiés dans les trois interfaces ; défauts critiques corrigés |
-| Exploitant technique | Environnement PostgreSQL HTTPS, médias et SMTP | Secrets privés, MFA, contrôles d’accès, courriels reçus, supervision et récupération des comptes testés |
+| Exploitant technique | Environnement PostgreSQL HTTPS, médias et transport de courriels | Secrets privés, MFA, contrôles d’accès, courriels reçus, supervision et récupération des comptes testés |
 | Exploitant technique | Sauvegarde restaurée dans une base distincte | Comptages, médias, programmes, historique et permissions vérifiés après restauration ; tests de concurrence terminés sans interblocage |
 | Responsable du service | Offre et exploitation documentées | Périmètre, entité, marché, prix/devise, support, facturation, conservation et obligations applicables définis et relus par les intervenants compétents |
 
@@ -38,7 +38,7 @@ manage.py check_readiness --json
 manage.py check_readiness --strict
 ```
 
-`check_readiness` contrôle configuration, PostgreSQL, MFA, origine HTTPS, SMTP et disponibilité des versions publiées non fictives avec leurs médias et avis courants. `--strict` échoue tant qu’un contrôle technique manque. Un résultat positif ne clôture pas les conditions professionnelles et commerciales du tableau. Le rapport ne contient ni identifiants de personnes ni secrets.
+`check_readiness` contrôle configuration, PostgreSQL, MFA, origine HTTPS, transport de courriels sélectionné et disponibilité des versions publiées non fictives avec leurs médias et avis courants. `--strict` échoue tant qu’un contrôle technique manque. Un résultat positif ne clôture pas les conditions professionnelles et commerciales du tableau. Le rapport ne contient ni identifiants de personnes ni secrets. Le diagnostic distingue SMTP et Resend HTTPS, sans envoi ni preuve de réception ; voir [les transports de courriels](EMAIL_TRANSPORTS.md).
 
 Pour exercer `core.tests_concurrency`, configurer les variables PostgreSQL décrites dans `.env.example` sur un serveur fonctionnel et lancer la suite. Sous SQLite, les six tests sont explicitement ignorés, jamais comptés comme passés. La qualification 6 a exécuté les six cas sur PostgreSQL 17.11, puis restauré une base fictive dans une base distincte. Les preuves sont dans les journaux finaux et RESTAURATION_POSTGRESQL.json ; cela ne qualifie pas une exploitation de production.
 

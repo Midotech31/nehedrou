@@ -3,7 +3,7 @@ import os
 import re
 import time
 from urllib.parse import urlsplit
-from email.utils import parseaddr
+from email.utils import getaddresses
 from django.conf import settings
 from django.utils import timezone
 from django.core.exceptions import ValidationError
@@ -14,7 +14,29 @@ from core.storage_health import STORAGE_ERRORS
 MAX_PROBE_BYTES = 1024 * 1024
 
 
+def sender_checks():
+    checks = {'sender_address': False, 'sender_not_reserved': False}
+    value = settings.DEFAULT_FROM_EMAIL
+    try:
+        if not isinstance(value, str) or any(ord(char) < 32 or ord(char) == 127 for char in value):
+            raise ValidationError('invalid sender')
+        addresses = getaddresses([value])
+        if len(addresses) != 1:
+            raise ValidationError('invalid sender')
+        sender = addresses[0][1]
+        validate_email(sender)
+    except (ValidationError, ValueError):
+        return checks
+    checks['sender_address'] = True
+    domain = sender.rsplit('@', 1)[-1].lower()
+    reserved = ('localhost', 'example.com', 'example.net', 'example.org')
+    checks['sender_not_reserved'] = not (any(domain == item or domain.endswith('.' + item) for item in reserved) or
+        domain.endswith(('.example', '.test', '.invalid', '.localhost')))
+    return checks
+
+
 def smtp_configuration():
+    # Historical v1 section retained, including its explicit backend-selection test.
     checks = {
         'smtp_backend': settings.EMAIL_BACKEND == 'django.core.mail.backends.smtp.EmailBackend',
         'host_present': bool(settings.EMAIL_HOST.strip()),
@@ -22,25 +44,34 @@ def smtp_configuration():
         'one_transport_security_mode': bool(settings.EMAIL_USE_TLS) != bool(getattr(settings, 'EMAIL_USE_SSL', False)),
         'bounded_timeout': isinstance(getattr(settings, 'EMAIL_TIMEOUT', None), (int, float)) and 0 < settings.EMAIL_TIMEOUT <= 60,
         'credentials_present': bool(settings.EMAIL_HOST_USER and settings.EMAIL_HOST_PASSWORD),
-        'sender_address': False,
-        'sender_not_reserved': False,
+        **sender_checks(),
     }
-    try:
-        sender = parseaddr(settings.DEFAULT_FROM_EMAIL)[1]
-        if '\n' in settings.DEFAULT_FROM_EMAIL or '\r' in settings.DEFAULT_FROM_EMAIL:
-            raise ValidationError('invalid sender')
-        validate_email(sender)
-    except ValidationError:
-        pass
-    else:
-        checks['sender_address'] = True
-        domain = sender.rsplit('@', 1)[-1].lower()
-        reserved = ('localhost', 'example.com', 'example.net', 'example.org')
-        checks['sender_not_reserved'] = not (any(domain == value or domain.endswith('.' + value) for value in reserved) or
-            domain.endswith(('.example', '.test', '.invalid', '.localhost')))
     return {'configured': all(checks.values()), 'checks': checks, 'network_attempted': False,
         'delivery_verified': False, 'missing': [name for name, ok in checks.items() if not ok],
         'scope': 'Configuration only. TLS/authentication, DNS sender policy, actual delivery and recovery/invitation receipt require an authorized live acceptance test.'}
+
+
+def email_configuration(*, smtp=None):
+    """Describe the selected supported transport without constructing it or sending mail."""
+    selected = settings.EMAIL_BACKEND
+    if selected == 'django.core.mail.backends.smtp.EmailBackend':
+        legacy = smtp if smtp is not None else smtp_configuration()
+        backend, transport, checks = 'smtp', 'smtp', dict(legacy['checks'])
+    elif selected == 'core.email_backends.ResendEmailBackend':
+        from core.email_backends import resend_configuration_checks
+        declared = resend_configuration_checks()
+        checks = {'resend_backend': True,
+            **{('https_email_enabled' if key == 'enabled' else key): value for key, value in declared.items()}}
+        backend, transport = 'resend', 'https'
+    else:
+        # Never echo an arbitrary backend setting into reports or the UI.
+        backend = {'django.core.mail.backends.console.EmailBackend':'console',
+            'core.email_backends.DisabledEmailBackend':'disabled'}.get(selected, 'unsupported')
+        transport, checks = 'none', {'delivery_backend_selected': False}
+    return {'backend': backend, 'transport': transport, 'configured': all(checks.values()),
+        'checks': checks, 'network_attempted': False, 'delivery_verified': False,
+        'missing': [name for name, ok in checks.items() if not ok],
+        'scope': 'Selected transport configuration only. No network, domain verification, API authentication, message submission or recipient delivery has been tested.'}
 
 
 def database_probe():
@@ -98,8 +129,9 @@ def operations_report(*, probe_database=False, storage_object=None):
         'https_canonical_origin': origin.scheme == 'https' and bool(origin.hostname) and not origin.username and not origin.password and origin.path in ['', '/'] and not origin.query and not origin.fragment,
     }
     smtp = smtp_configuration()
+    email = email_configuration(smtp=smtp)
     return {'schema': 'nehedrou-operations-readiness-v1', 'execution': execution_context(), 'configuration': configuration,
-        'smtp': smtp, 'configuration_ready': all(configuration.values()) and smtp['configured'],
+        'smtp': smtp, 'email': email, 'configuration_ready': all(configuration.values()) and email['configured'],
         'database': database_probe() if probe_database else {'requested': False},
         'storage': storage_probe(storage_object) if storage_object else {'requested': False},
         'scope': 'Technical preparation only. Configuration and timing samples do not establish clinical release, durable operation, an S3 latency benchmark, or verified email delivery.',

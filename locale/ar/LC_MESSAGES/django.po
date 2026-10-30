@@ -4963,3 +4963,33 @@ msgstr "نعم"
 
 msgid "evidence_tasks.csv lists current unmet requirements with responsible roles and actions. Assignment, evidence and human decisions remain blank. media_requirements.csv identifies the exact media and documentary gaps without exporting contracts or account identities. Recheck the live CMS before recording any decision: this download is a dated snapshot."
 msgstr "يسرد evidence_tasks.csv المتطلبات الحالية غير المستوفاة والأدوار المسؤولة والإجراءات. وتبقى خانات التكليف والأدلة والقرارات البشرية فارغة. يحدد media_requirements.csv الوسائط الدقيقة والنواقص الوثائقية دون تصدير العقود أو هويات الحسابات. يجب إعادة التحقق من نظام إدارة المحتوى قبل تدوين أي قرار؛ فهذا التنزيل لقطة مؤرخة."
+
+msgid "Resend HTTPS mail backend selected"
+msgstr "اختيار خلفية البريد Resend عبر HTTPS"
+
+msgid "HTTPS email explicitly enabled"
+msgstr "تفعيل البريد عبر HTTPS صراحةً"
+
+msgid "Email API credential configured"
+msgstr "إعداد بيانات اعتماد واجهة برمجة البريد"
+
+msgid "HTTPS connection timeout bounded"
+msgstr "مهلة اتصال HTTPS محدودة"
+
+msgid "HTTPS response timeout bounded"
+msgstr "مهلة استجابة HTTPS محدودة"
+
+msgid "Supported email delivery backend selected"
+msgstr "اختيار خلفية مدعومة لتسليم البريد"
+
+msgid "Selected email transport"
+msgstr "وسيلة نقل البريد المختارة"
+
+msgid "Resend over HTTPS"
+msgstr "Resend عبر HTTPS"
+
+msgid "No supported email delivery transport selected"
+msgstr "لم تُختر وسيلة مدعومة لتسليم البريد"
+
+msgid "Render Free blocks outbound SMTP ports 25, 465 and 587. A configured transport still needs an authorised delivery test."
+msgstr "تحظر خطة Render Free منافذ SMTP الصادرة 25 و465 و587. وتظل وسيلة النقل المعدّة بحاجة إلى اختبار تسليم مصرّح به."

@@ -4963,3 +4963,33 @@ msgstr "Yes"
 
 msgid "evidence_tasks.csv lists current unmet requirements with responsible roles and actions. Assignment, evidence and human decisions remain blank. media_requirements.csv identifies the exact media and documentary gaps without exporting contracts or account identities. Recheck the live CMS before recording any decision: this download is a dated snapshot."
 msgstr "evidence_tasks.csv lists current unmet requirements with responsible roles and actions. Assignment, evidence and human decisions remain blank. media_requirements.csv identifies the exact media and documentary gaps without exporting contracts or account identities. Recheck the live CMS before recording any decision: this download is a dated snapshot."
+
+msgid "Resend HTTPS mail backend selected"
+msgstr "Resend HTTPS mail backend selected"
+
+msgid "HTTPS email explicitly enabled"
+msgstr "HTTPS email explicitly enabled"
+
+msgid "Email API credential configured"
+msgstr "Email API credential configured"
+
+msgid "HTTPS connection timeout bounded"
+msgstr "HTTPS connection timeout bounded"
+
+msgid "HTTPS response timeout bounded"
+msgstr "HTTPS response timeout bounded"
+
+msgid "Supported email delivery backend selected"
+msgstr "Supported email delivery backend selected"
+
+msgid "Selected email transport"
+msgstr "Selected email transport"
+
+msgid "Resend over HTTPS"
+msgstr "Resend over HTTPS"
+
+msgid "No supported email delivery transport selected"
+msgstr "No supported email delivery transport selected"
+
+msgid "Render Free blocks outbound SMTP ports 25, 465 and 587. A configured transport still needs an authorised delivery test."
+msgstr "Render Free blocks outbound SMTP ports 25, 465 and 587. A configured transport still needs an authorised delivery test."

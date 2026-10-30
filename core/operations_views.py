@@ -26,6 +26,16 @@ SMTP_LABELS = {
     'sender_not_reserved': _('Sender address uses a non-example domain'),
 }
 
+EMAIL_LABELS = {
+    **SMTP_LABELS,
+    'resend_backend': _('Resend HTTPS mail backend selected'),
+    'https_email_enabled': _('HTTPS email explicitly enabled'),
+    'api_key_present': _('Email API credential configured'),
+    'connect_timeout_bounded': _('HTTPS connection timeout bounded'),
+    'read_timeout_bounded': _('HTTPS response timeout bounded'),
+    'delivery_backend_selected': _('Supported email delivery backend selected'),
+}
+
 @login_required
 @permission_required('core.manage_entitlements', raise_exception=True)
 @require_http_methods(['GET', 'HEAD', 'POST'])
@@ -44,6 +54,7 @@ def diagnostics(request):
             'page_title': _('Hosting diagnostics'), 'nav_section': 'operations', 'report': report,
             'configuration_rows': [(CONFIGURATION_LABELS[key], value) for key, value in report['configuration'].items()],
             'smtp_rows': [(SMTP_LABELS[key], value) for key, value in report['smtp']['checks'].items()],
+            'email_rows': [(EMAIL_LABELS[key], value) for key, value in report['email']['checks'].items()],
         })
     response['Cache-Control'] = 'private, no-store'
     response['X-Robots-Tag'] = 'noindex, nofollow'

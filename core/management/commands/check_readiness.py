@@ -9,7 +9,7 @@ from django.db import connection
 from catalog.models import Activity, Variety
 from catalog.content_catalog import current_catalog
 from catalog.integrity import integrity_scope, prepare_activities
-from core.ops_readiness import smtp_configuration
+from core.ops_readiness import smtp_configuration, email_configuration
 
 
 DEFAULT_OFFERED_CONTENT_VARIETIES = ('fr-fr-pilot', 'en-us-general-pilot', 'ar-msa-pilot', 'ar-dz-pilot')
@@ -50,6 +50,8 @@ class Command(BaseCommand):
         # Re-check deployment origin and durable media. Published versions are immutable.
         unavailable = sum(not qualified[a.pk] for a in catalogue)
         origin = urlsplit(settings.PUBLIC_ORIGIN)
+        smtp = smtp_configuration()
+        email = email_configuration(smtp=smtp)
         checks = {
             'demonstration_disabled': not settings.DEMO_MODE,
             'debug_disabled': not settings.DEBUG,
@@ -57,13 +59,15 @@ class Command(BaseCommand):
             'private_durable_media_configured': settings.MEDIA_STORAGE_DURABLE and not settings.DEMO_EPHEMERAL and (settings.MEDIA_STORAGE_BACKEND == 's3' or not Path(settings.MEDIA_ROOT).resolve().is_relative_to(Path(settings.BASE_DIR).resolve())),
             'privileged_mfa_required': settings.MFA_REQUIRED,
             'public_https_origin': origin.scheme == 'https' and bool(origin.netloc) and not origin.username and not origin.password,
-            'smtp_configured': smtp_configuration()['configured'],
+            'email_configured': email['configured'],
             'current_available_nondemo_content_in_each_offered_variety': all(available_by_variety.values()),
             'published_audio_and_current_reviews_available': bool(catalogue) and unavailable == 0,
         }
         report = {
             'technical_gates_passed': all(checks.values()),
             'checks': checks,
+            'smtp': smtp,
+            'email': email,
             'published_nondemo_counts': coverage,
             'offered_content_varieties': list(offered),
             'published_nondemo_counts_by_variety': published_by_variety,
