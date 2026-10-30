@@ -24,6 +24,16 @@ Cette étape poursuit l’objectif d’une version commercialisable. Elle ne le 
 
 Aucun test de mutation n’a utilisé Neon ou le stockage publié. Les journaux complets et observations privées sont conservés sur E:, hors du dépôt public. Ces résultats attestent des comportements logiciels ; ils n’attestent pas l’efficacité clinique ou une autorisation de vente.
 
+## Compatibilité complémentaire du déploiement progressif
+
+Après le point de contrôle global **d099df4 — 490 tests**, une reproduction PostgreSQL fictive a montré que l'ancienne liste de colonnes d'INSERT échouait sur target_snapshot : colonne NOT NULL sans défaut SQL permanent, SQLSTATE 23502. Le défaut Python de la migration 0003 ne protège pas une insertion émise par un processus de l'ancienne version encore actif pendant le remplacement progressif.
+
+La nouvelle migration **0004** conserve un défaut SQL `{}` et le modèle garde son constructeur Python `dict`. **La migration 0003 déjà publiée reste inchangée.** Le champ vide décrit une cible historique non documentée : aucune cible, compétence, preuve ou approbation humaine n'est déduite. Les anciennes empreintes et les restrictions de lecture/retrait restent conservées.
+
+Trois régressions exécutent réellement l'INSERT avec les anciennes colonnes, sa lecture par le code actuel, l'absence de réattribution, l'isolation du propriétaire et son retrait append-only ; elles vérifient aussi que les défauts vides des instances sont indépendants. Le lot affecté qualification/ouverture/livraison passe **38/38 sous PostgreSQL, sans ignoré/échec/erreur, 48,454 s**, et **38/38 sous SQLite, sans ignoré/échec/erreur, 46,792 s**. Django check, absence de dérive des migrations et diff-check réussissent. Journaux privés : `E:\LocalCoderWorkspace\Nehdrou\outputs\OCT30_CORRECTIONS\rolling-default-postgresql.log` et `E:\LocalCoderWorkspace\Nehdrou\outputs\OCT30_CORRECTIONS\rolling-default-sqlite.log` ; résumés privés correspondants avec le suffixe `-summary.json`. Aucun nouveau rapport interne n’est ajouté au dépôt.
+
+Ces deux lots locaux fictifs distincts sont postérieurs au checkpoint d099df4 de 490 tests et le recouvrent ; ils ne sont pas additionnés entre eux ni aux 490 ; **aucune nouvelle exécution globale de 490 tests n'est revendiquée après ce correctif**. Aucun dossier de production n'a été utilisé et aucune migration distante n'a été exécutée par cette vérification.
+
 ## Limites de mise en service
 
 La préparation d’un dossier, une déclaration de compétence, un fichier téléversé, un avis non favorable ou une suite de tests verte ne créent aucune approbation clinique. Les enregistrements natifs, les droits, les relectures clinique et linguistique, la familiarité des images, les pièces d’usage/pilote et les décisions restent à produire réellement. Les interfaces de relecture et d’ouverture servent à consigner ces pièces exactes.

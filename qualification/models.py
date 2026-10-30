@@ -112,7 +112,7 @@ class AvailabilityDecision(CheckedModel):
     scope = models.TextField(verbose_name=_('Authorised purpose, countries and limits'))
     reason = models.TextField(verbose_name=_('Decision and justification'))
     evidence = models.JSONField(default=dict, blank=True)
-    target_snapshot = models.JSONField(default=dict, blank=True, editable=False)
+    target_snapshot = models.JSONField(default=dict, db_default={}, blank=True, editable=False)
     decided_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
     class Meta:
