@@ -83,6 +83,7 @@ urlpatterns += i18n_patterns(
     path('editorial/<uuid:pk>/clone/', editorial_views.clone, name='editorial_clone'),
     path('editorial/upload/', editorial_views.upload, name='editorial_upload'),
     path('media/<uuid:pk>/', editorial_views.media, name='editorial_media'),
+    path('editorial/media/<uuid:pk>/revoke/', editorial_views.revoke_media, name='editorial_media_revoke'),
 )
 # Technical admin remains local; operational production views use scoped permissions and MFA.
 if settings.LOCAL_ADMIN_ENABLED:

@@ -2,9 +2,9 @@
 
 Application Django de pratique à domicile choisie par un orthophoniste et accompagnée par la famille. Interface FR/EN/AR, Tajawal locale et RTL pour l’arabe. Le premier module vise les enfants de 4–7 ans déjà évalués par un professionnel.
 
-**État : démonstration fonctionnelle avec données fictives, sans feu vert pour la vente clinique.** Le corpus actif compte 111 activités de démonstration : 19 françaises, 17 anglaises, 42 en arabe standard et 33 en darja algérienne. Les 74 nouvelles fiches et les 37 propositions historiques restent à qualifier par des professionnels compétents. Vingt-trois propositions initiales sont mises en attente, avec motifs documentés ; les anciennes versions restent conservées. Aucun modèle audio clinique approuvé n’est livré. Voir [les contenus et leur statut](docs/CONTENUS_A_VALIDER.md), [les références scientifiques](docs/RECHERCHE_CONTENUS_2026.md) et [les conditions de lancement](docs/LANCEMENT.md).
+**État : démonstration fonctionnelle avec données fictives, sans décision d'ouverture clinique.** L'audit en lecture seule du **30 octobre 2026**, sur `c92bea8`, rapporte **111 candidats réels en brouillon, zéro activité réelle publiée, zéro approbation positive et zéro décision de disponibilité**. Les copies de démonstration et les anciennes versions sont des objets distincts ; le nombre de fiches ne mesure pas un catalogue clinique qualifié. Cinq entrées audio aux droits inconnus ne constituent pas des modèles approuvés ; les 222 emplacements audio des candidats sources étaient vides. Ces chiffres sont datés, sans actualisation présumée. Générer l'état de la base configurée avec `manage.py content_inventory --json` ; [définitions et portée de l'inventaire](docs/INVENTAIRE_CONTENUS.md). Voir aussi [les pièces manquantes](docs/PIECES_MANQUANTES.md) et [les conditions de lancement](docs/LANCEMENT.md).
 
-**Démonstration publiée sur Render :** [français](https://nehedrou-demo.onrender.com/fr/), [anglais](https://nehedrou-demo.onrender.com/en/), [arabe](https://nehedrou-demo.onrender.com/ar/). Les accès aux comptes fictifs sont livrés séparément dans un document local privé. Le service gratuit emploie une base temporaire : utilisez uniquement des données fictives. Voir [la recette de publication](docs/DEPLOIEMENT_RENDER.md).
+**Démonstration publiée sur Render :** [français](https://nehedrou-demo.onrender.com/fr/), [anglais](https://nehedrou-demo.onrender.com/en/), [arabe](https://nehedrou-demo.onrender.com/ar/). Les accès aux comptes fictifs sont livrés séparément dans un document local privé. La publication utilise la base PostgreSQL Neon dédiée et le stockage S3 privé persistant documentés depuis le 11 octobre 2026 ; le plan Render gratuit conserve sa veille et ses limites. Cette persistance n'autorise aucun dossier réel : utiliser uniquement des données fictives. Voir [la recette de publication](docs/DEPLOIEMENT_RENDER.md).
 
 [Livraison des quatre améliorations urgentes](docs/AMELIORATIONS_URGENTES.md) : logo de l’enfant parlant, guides étayés avec statuts explicites, sept rôles séparés et crédit de conception dans les trois langues.
 
@@ -16,7 +16,7 @@ Application Django de pratique à domicile choisie par un orthophoniste et accom
 - Python préparé : `E:\LocalCoderWorkspace\Nehdrou\work\venv\Scripts\python.exe`
 - Lanceur : `E:\LocalCoderWorkspace\Nehdrou\Demarrer-Nehdrou.cmd`
 
-Ouvrir le lanceur, puis http://127.0.0.1:8000/fr/. Les versions anglaise et arabe sont /en/ et /ar/. Si le serveur est déjà actif, ne pas lancer une seconde instance. Ctrl+C l’arrête. La copie précédente sur C: est conservée.
+Ouvrir le lanceur, puis http://127.0.0.1:8000/fr/. Les versions anglaise et arabe sont /en/ et /ar/. Si le serveur est déjà actif, ne pas lancer une seconde instance. Ctrl+C l’arrête. Le chantier et ses pièces de travail ont été transférés sur E: le 30 octobre 2026, après vérification SHA‑256 ; utiliser exclusivement cette copie active.
 
 **Découvrir sans compte :** /fr/try/, /en/try/ ou /ar/try/. L’exemple guidé présente les images, le choix et une synthèse fictive. Il ne consulte pas de dossier, ne sauvegarde pas de rapport et est désactivé hors mode démonstration.
 
@@ -24,13 +24,15 @@ Sept comptes distincts permettent de tester les droits : `responsable`, `orthoph
 
 ## Audit et parcours complétés
 
+La [checklist A01–A17 du 30 octobre 2026](docs/CORRECTIONS_AUDIT_20261030.md) distingue corrections testées, préparation technique et pièces humaines encore absentes : continuité des dossiers, contextes des sondes, droits/audio, authentification, export v3, langues et pratique guidée. Le [petit pack de six images](docs/GENERATED_IMAGE_REVIEW_PACK_20261030.md) reste à examiner ; [l’offre pilote](docs/OFFRE_PILOTE_A_VALIDER.md) attend les décisions du porteur.
+
 Voir [l’audit comparatif du 11 octobre 2026](docs/AUDIT_COMPARATIF_20261011.md). La préparation de programme permet désormais de filtrer par objectif, thème et mode de réponse, de rechercher les mots et d’ouvrir les consignes sans perdre la sélection. Le professionnel peut définir un calendrier facultatif ; la famille voit les prochaines dates et peut télécharger un agenda générique sans nom d’enfant. Le bilan par activité distingue participation, demandes d’aide et réponses aux tâches fermées.
 
 ## Parcours et fonctions
 
 Le praticien crée un profil minimal, choisit la variété parlée, attribue un programme et invite la famille. La famille pratique avec les consignes choisies et rapporte participation/difficultés. Le praticien retrouve les rapports, publie des conseils partagés à la famille et conserve des observations privées distinctes. L’application ne calcule pas automatiquement la qualité de la prononciation et n’enregistre pas la voix des enfants. Le module de suivi recueille séparément les cotations descriptives saisies par le professionnel responsable.
 
-Nouveautés : retour partagé du praticien, historique complet filtrable/paginé, rapports lisibles, médias vérifiés et immuables, export schéma 2 ; parcours ordonné avec reprise, essai conservé après rechargement, bilan partagé et clôture sans rapport fictif ; objectif du programme, ordre réglable et synthèse avant attribution, accueil familial direct, arrêt précoce, réponses explicites et revue hebdomadaire des difficultés. Voir [le parcours de pratique](docs/PARCOURS_PRATIQUE.md) et [les fonctions finalisées](docs/FINALISATION_FONCTIONNELLE.md).
+Nouveautés : retour partagé du praticien, historique complet filtrable/paginé, rapports lisibles, médias vérifiés et immuables, export professionnel complet et export familial filtré au schéma 3 ; parcours ordonné avec reprise, essai conservé après rechargement, bilan partagé et clôture sans rapport fictif ; objectif du programme, ordre réglable et synthèse avant attribution, accueil familial direct, arrêt précoce, réponses explicites et revue hebdomadaire des difficultés. Voir [le parcours de pratique](docs/PARCOURS_PRATIQUE.md) et [les fonctions finalisées](docs/FINALISATION_FONCTIONNELLE.md).
 
 Fonctions présentes : cabinets et droits par dossier, invitations révocables, MFA TOTP et récupération, catalogue versionné, droits éditoriaux par variété, deux relectures avant publication réelle, médias protégés, programmes ajustables, archivage/réattribution, historique, impression/export, facturation manuelle et demandes d’effacement avec décision documentée.
 
@@ -42,11 +44,11 @@ Les tests couvrent les parcours, l’isolation des dossiers, les permissions, la
 
 ## Installation sur une autre machine
 
-Pour tester en ligne, voir [le déploiement Render](docs/DEPLOIEMENT_RENDER.md) et `render.yaml`. La démonstration gratuite hébergée emploie une base temporaire indépendante ; ses modifications peuvent disparaître. Le mode clinique continue à exiger PostgreSQL.
+Pour tester en ligne, voir [le déploiement Render](docs/DEPLOIEMENT_RENDER.md) et `render.yaml`. Le Blueprint est aligné sur PostgreSQL Neon et un stockage S3 privé durable ; ne pas recréer l'ancienne configuration SQLite temporaire sur le service existant. SQLite reste réservé aux démonstrations locales ou à une option éphémère explicitement choisie. Le mode clinique exige PostgreSQL.
 
 Utiliser une installation Python 3.12 à jour avec pip. Le lanceur portable `python start.py` crée `.venv` si aucun environnement préparé n’est trouvé, installe les versions et empreintes de `requirements.lock`, puis initialise la démonstration. Sous Windows, le Python de l’environnement est `.venv\Scripts\python.exe` ; sous Linux/macOS, `.venv/bin/python`.
 
-Commandes utiles avec le Python de l’environnement : `manage.py check`, `manage.py test`, `manage.py makemigrations --check --dry-run`, `scripts/compile_messages.py`, `scripts/check_translations.py`, `manage.py check_readiness --json` et `manage.py check_readiness --strict`. Pour importer un catalogue : `manage.py import_catalog docs/catalog-example.json`, puis `--apply` après contrôle. Les imports restent des brouillons. Les catalogues PO simples fournis sont compilables sans gettext système ; utiliser GNU gettext pour les entrées plurielles avancées.
+Commandes utiles avec le Python de l’environnement : `manage.py check`, `manage.py test`, `manage.py makemigrations --check --dry-run`, `scripts/compile_messages.py`, `scripts/check_translations.py`, `manage.py check_readiness --json`, `manage.py check_readiness --strict` et `manage.py content_inventory --json`. Pour importer un catalogue : `manage.py import_catalog docs/catalog-example.json`, puis `--apply` après contrôle. Les imports restent des brouillons. Les catalogues PO simples fournis sont compilables sans gettext système ; utiliser GNU gettext pour les entrées plurielles avancées.
 
 Docker Compose est prévu pour le développement avec PostgreSQL 17. Définir les secrets documentés dans `.env.example` ; le fichier n’est pas chargé automatiquement. En configuration réelle, Django refuse SQLite et un secret insuffisant, exige la MFA professionnelle et désactive l’administration technique locale.
 
@@ -56,7 +58,7 @@ Docker Compose est prévu pour le développement avec PostgreSQL 17. Définir le
 
 La vente clinique demande encore les contenus/audio approuvés, la relecture native et les essais avec familles/praticiens, une recette multi-navigateurs et avec utilisateurs réels, un déploiement HTTPS/SMTP opérationnel, une sauvegarde/restauration de production et des conditions d’exploitation/offre définies. Aucun tarif, témoignage ou résultat thérapeutique n’est inventé.
 
-Code et illustrations originales sous MIT ; licences des dépendances distinctes. Tajawal sous SIL OFL 1.1, texte inclus dans static/fonts/tajawal/OFL.txt. Le logo fourni par le commanditaire est conservé.
+Code sous MIT ; les droits des médias dépendent de chaque fichier et de ses justificatifs. Les nouveaux visuels générés restent à examiner ; la licence du code ne qualifie pas leurs droits. Licences des dépendances distinctes. Tajawal sous SIL OFL 1.1, texte inclus dans static/fonts/tajawal/OFL.txt. Le logo fourni par le commanditaire est conservé.
 
 ### Création originale dans le CMS
 

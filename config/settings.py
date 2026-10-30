@@ -30,6 +30,9 @@ MIDDLEWARE = ['django.middleware.security.SecurityMiddleware', 'django.contrib.s
 MIDDLEWARE.insert(MIDDLEWARE.index('core.middleware.AccessMiddleware'), 'django_otp.middleware.OTPMiddleware')
 MIDDLEWARE.insert(MIDDLEWARE.index('core.middleware.AccessMiddleware') + 1, 'core.security.MFAMiddleware')
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+MIDDLEWARE.insert(MIDDLEWARE.index('core.middleware.AccessMiddleware'), 'catalog.integrity.IntegrityMiddleware')
+# Trust forwarded client addresses only from operator-verified proxy networks.
+AUTH_TRUSTED_PROXY_CIDRS = [value.strip() for value in os.getenv('AUTH_TRUSTED_PROXY_CIDRS', '').split(',') if value.strip()]
 MEDIA_ROOT = Path(os.getenv('NEHEDROU_MEDIA_ROOT', str(BASE_DIR / 'editorial_uploads')))
 if not MEDIA_ROOT.is_absolute():
     raise ImproperlyConfigured('NEHEDROU_MEDIA_ROOT must be an absolute private directory.')
@@ -103,6 +106,15 @@ EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.Em
 EMAIL_HOST = os.getenv('EMAIL_HOST', '')
 EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', '1') == '1'
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', '0') == '1'
+if EMAIL_USE_TLS and EMAIL_USE_SSL:
+    raise ImproperlyConfigured('Choose either SMTP STARTTLS or implicit TLS, never both.')
+try:
+    EMAIL_TIMEOUT = float(os.getenv('EMAIL_TIMEOUT', '10'))
+except ValueError:
+    raise ImproperlyConfigured('EMAIL_TIMEOUT must be between 1 and 60 seconds.') from None
+if not 1 <= EMAIL_TIMEOUT <= 60:
+    raise ImproperlyConfigured('EMAIL_TIMEOUT must be between 1 and 60 seconds.')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'access@nehdrou.example')

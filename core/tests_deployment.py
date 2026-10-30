@@ -83,27 +83,29 @@ class DeploymentSettingsTests(SimpleTestCase):
             from django.db import connection,connections,transaction
             from django.http import HttpResponse
             from django.test import RequestFactory
-            from core.middleware import AccessMiddleware
+            from core.auth_throttle import bucket_specs, reserve_attempt
+            from django.urls import resolve
             from core.models import RateWindow
             assert connection.vendor=='sqlite'
             assert str(settings.DATABASES['default']['NAME']).endswith('rate-concurrency.sqlite3')
             with connection.schema_editor() as schema:
                 schema.create_model(RateWindow)
             ip='203.0.113.17'
-            key=hashlib.sha256(ip.encode()).hexdigest()
+            specs=bucket_specs('login','concurrent-user',ip)
+            key=next(key for key,limit,scope in specs if scope=='pair')
             window=RateWindow.objects.create(key=key)
             def post(attempting):
                 connections.close_all()
-                request=RequestFactory().post('/fr/login/',REMOTE_ADDR=ip)
+                request=RequestFactory().post('/fr/login/',{'username':'concurrent-user'},REMOTE_ADDR=ip)
                 request.user=AnonymousUser()
-                middleware=AccessMiddleware(lambda request:HttpResponse(status=204))
+                request.resolver_match=resolve(request.path)
                 attempting.set()
                 try:
-                    return middleware(request).status_code
+                    return 429 if reserve_attempt(request) else 204
                 finally:
                     connections.close_all()
             result=[]
-            for initial in [0,14]:
+            for initial in [0,9]:
                 with ThreadPoolExecutor(max_workers=2) as pool:
                     with transaction.atomic():
                         # Hold a real write reservation while both POSTs begin.
@@ -118,9 +120,9 @@ class DeploymentSettingsTests(SimpleTestCase):
                 window.refresh_from_db()
                 expected=[204,204] if initial==0 else [204,429]
                 assert statuses==expected,(initial,statuses)
-                assert window.count==initial+2,(initial,window.count)
+                assert window.count==min(10,initial+2),(initial,window.count)
                 result.append({'initial':initial,'statuses':statuses,'count':window.count})
-            assert RateWindow.objects.count()==1
+            assert RateWindow.objects.count()==3
             connections.close_all()
             print(json.dumps(result))
         ''')
@@ -129,7 +131,7 @@ class DeploymentSettingsTests(SimpleTestCase):
             env.update(DJANGO_DEBUG='1',DEMO_MODE='1',DEMO_EPHEMERAL='1',DEMO_DATABASE_PATH=str(Path(directory)/'rate-concurrency.sqlite3'))
             result = subprocess.run([sys.executable,'-c',code],cwd=settings.BASE_DIR,env=env,text=True,capture_output=True,timeout=60)
             self.assertEqual(result.returncode,0,result.stderr)
-            self.assertEqual(json.loads(result.stdout),[{'initial':0,'statuses':[204,204],'count':2},{'initial':14,'statuses':[204,429],'count':16}])
+            self.assertEqual(json.loads(result.stdout),[{'initial':0,'statuses':[204,204],'count':2},{'initial':9,'statuses':[204,429],'count':10}])
 
     def test_render_rejects_debug_and_invalid_hostname(self):
         self.assertNotEqual(self.load_settings(DEMO_MODE='1', DEMO_EPHEMERAL='1', RENDER='true', DJANGO_DEBUG='1').returncode, 0)

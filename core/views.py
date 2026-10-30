@@ -60,8 +60,10 @@ def demo_activity(request):
         }
     from catalog.content_catalog import public_example
     example = public_example(get_language()) or {}
-    guide = example.get('practice_guide', {}).get(get_language(), {})
-    response = render(request, 'demo_activity.html', {'form': form, 'summary': summary, 'word_a': word_a, 'word_b': word_b, 'image_a': f'editorial/{image_a}.svg', 'image_b': f'editorial/{image_b}.svg', 'example_variety': example_variety, 'sample_guide': guide, 'sample_sources': example.get('evidence_sources', [])})
+    guide = dict(example.get('practice_guide', {}).get(get_language(), {}))
+    if guide:
+        guide['language'] = get_language()
+    response = render(request, 'demo_activity.html', {'form': form, 'summary': summary, 'word_a': word_a, 'word_b': word_b, 'image_a': f'editorial/{image_a}.svg', 'image_b': f'editorial/{image_b}.svg', 'example_variety': example_variety, 'sample_guide': guide, 'sample_sources': example.get('evidence_sources', []), 'word_language': 'ar-DZ' if get_language() == 'ar' else 'en-US' if get_language() == 'en' else 'fr-FR', 'guide_language': get_language()})
     from django.utils.cache import patch_cache_control
     patch_cache_control(response, no_store=True)
     return response
@@ -157,6 +159,8 @@ def child_create(request):
         try:
             with transaction.atomic():
                 org = Organization.objects.select_for_update().get(pk=member.organization_id)
+                if not Membership.objects.filter(user=request.user, organization=org, active=True).exists():
+                    raise ValidationError(_('Access is no longer available.'))
                 check_entitlement(org, creating_child=True)
                 child = form.save()
                 audit(request.user, 'child.created', child, org)
@@ -333,7 +337,9 @@ def program_detail(request, pk):
             except ValidationError as error:
                 form.add_error(None, error)
     sessions = PracticeSession.objects.filter(item__program=program).select_related('user', 'item__activity').order_by('-created_at', '-pk')
-    items = list(program.items.select_related('activity'))
+    items = list(program.items.select_related('activity__variety'))
+    from catalog.integrity import prepare_activities
+    prepare_activities([item.activity for item in items])
     blocked_ids = reserved_activity_ids(program.child, [i.activity for i in items])
     if not professional:
         items = [i for i in items if i.activity_id not in blocked_ids]
@@ -543,7 +549,9 @@ def practice_report(request, pk):
 @login_required
 def print_program(request, pk):
     program = get_object_or_404(visible_programs(request.user), pk=pk)
-    items = list(program.items.select_related('activity'))
+    items = list(program.items.select_related('activity__variety'))
+    from catalog.integrity import prepare_activities
+    prepare_activities([item.activity for item in items])
     blocked_ids = reserved_activity_ids(program.child, [i.activity for i in items])
     if not professional_children(request.user).filter(pk=program.child_id).exists():
         items = [i for i in items if i.activity_id not in blocked_ids]
@@ -555,9 +563,11 @@ def print_program(request, pk):
 
 @login_required
 def export_child(request, pk):
+    from .dossier_export import dossier_payload, professional_program_details
     child = get_object_or_404(visible_children(request.user), pk=pk)
     professional = professional_children(request.user).filter(pk=pk).exists()
     programs = []
+    withheld_program_items = 0
     runs = PracticeRun.objects.prefetch_related(Prefetch('tasks', queryset=PracticeRunTask.objects.select_related('report').order_by('position'))).order_by('-started_at','-pk')
     if not professional:
         runs = runs.filter(user=request.user)
@@ -565,6 +575,7 @@ def export_child(request, pk):
     for program in child.programs.select_related('variety').prefetch_related('items__activity', 'items__sessions', 'observations', Prefetch('practice_runs', queryset=runs, to_attr='export_runs'), Prefetch('family_feedback', queryset=feedback, to_attr='export_feedback')):
         blocked_ids = set() if professional else reserved_activity_ids(child, [i.activity for i in program.items.all()])
         hidden_item_ids = {i.pk for i in program.items.all() if i.activity_id in blocked_ids}
+        withheld_program_items += len(hidden_item_ids)
         visible_task_ids = {t.pk for run in program.export_runs for t in run.tasks.all()}
         row = {'id': str(program.pk), 'title': program.title, 'goal': program.goal, 'variety': program.variety.code, 'state': program.state, 'schedule': program.schedule, 'practice_plan': {field: getattr(program, field) for field in ['practice_start', 'practice_end', 'practice_days', 'practice_minutes']}, 'guidance': program.guidance, 'items': []}
         for item in program.items.all():
@@ -575,10 +586,11 @@ def export_child(request, pk):
             'tasks': [{'id':str(t.pk), 'position': t.position, 'item_id': str(t.item_id), 'report_id': str(t.report.pk) if getattr(t, 'report', None) else None} for t in run.tasks.all() if t.item_id not in hidden_item_ids]} for run in program.export_runs]
         row['family_feedback'] = [{'id':str(f.pk), 'source_report_id':str(f.source_report_id) if f.source_report_id else None, 'at':f.created_at.isoformat(), 'text':f.text, 'author':f.author.username} for f in program.export_feedback]
         if professional:
-            row['professional_observations'] = [{'text':o.text, 'created_at':o.created_at} for o in program.observations.all()]
+            professional_program_details(program, row)
+            row['professional_observations'] = [{'id': str(o.pk), 'author_id': str(o.author_id), 'text':o.text, 'created_at':o.created_at} for o in program.observations.all()]
         programs.append(row)
     audit(request.user, 'child.exported', child, child.organization)
-    response = JsonResponse({'schema_version':2, 'child': {'code': child.code, 'age_years': child.age_years}, 'programs': programs}, json_dumps_params={'ensure_ascii': False, 'indent': 2})
+    response = JsonResponse(dossier_payload(request.user, child, professional, programs, withheld_program_items=withheld_program_items), json_dumps_params={'ensure_ascii': False, 'indent': 2})
     response['Content-Disposition'] = 'attachment; filename="nehdrou-export.json"'
     return response
 
@@ -628,16 +640,11 @@ def resend_invitation(request, pk):
 def revoke_member(request, pk):
     member = manager(request)
     target = get_object_or_404(Membership, pk=pk, organization=member.organization)
-    if target.user_id == request.user.pk or target.role == 'owner':
-        messages.error(request, _('A practice manager cannot be removed here.'))
-    else:
-        with transaction.atomic():
-            Organization.objects.select_for_update().get(pk=member.organization_id)
-            manager(request)
-            target = Membership.objects.select_for_update().get(pk=target.pk)
-            target.active = False
-            target.save()
-            audit(request.user, 'member.revoked', target, member.organization)
+    try:
+        from .services import revoke_membership
+        revoke_membership(request.user, member.organization, target.pk)
+    except ValidationError as error:
+        messages.error(request, ' '.join(error.messages))
     return redirect('members')
 
 @login_required

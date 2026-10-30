@@ -1,0 +1,495 @@
+{
+  "schema_version": 1,
+  "pack_id": "fr-p-b-initial-review-20261030",
+  "version": 1,
+  "status": "generated_pending_expert_review",
+  "generated_on": "2026-10-30",
+  "tool": "OpenAI built-in image_gen",
+  "external_references": [],
+  "clinical_approval": false,
+  "linguistic_approval": false,
+  "familiarity_trial_performed": false,
+  "rights_status": "unknown",
+  "rights_validity": "unknown",
+  "usage_terms": "Tool generation recorded. Applicable usage terms and rights evidence remain to document; no clinical licence or legal approval asserted.",
+  "shared_prompt": "Use case: scientific-educational. Asset type: single stimulus image for a small draft speech-language practice pack. Make a square educational 2D raster illustration of the subject specified below. Faithful ordinary appearance, whole subject visible, plausible proportions, distinctive silhouette, clean rounded dark outlines, soft flat natural colors with restrained shading. Same simple style and visual weight throughout the pack. Single uniform warm off-white background #FFF9F0. Center subject with regular margins; it should occupy about 75% of the frame and remain recognizable at 120 pixels. No text, letter, phoneme, logo, watermark, label, decorative border, glow, answer cue, invented anatomy or anthropomorphic face added to objects. Do not copy proprietary tests or recognizable copyrighted characters. This is a proposal for human review, not a validated clinical illustration. Subject: ",
+  "concepts": [
+    {
+      "id": "bread-v1",
+      "word": "pain",
+      "ipa": "/pɛ̃/",
+      "subject": "One whole ordinary loaf of bread, oval golden-brown crust with a few natural score marks, visibly bread rather than cake; no knife, plate or other food.",
+      "meaning_fr_proposed": "Pain entier ordinaire, et non gâteau.",
+      "variety": "fr-fr-pilot",
+      "word_language": "fr-FR",
+      "proposed_segments": [
+        "p",
+        "ɛ̃"
+      ],
+      "proposed_target_occurrence": {
+        "index": 0,
+        "phoneme": "p",
+        "position": "initial"
+      },
+      "accepted_variants": [],
+      "variants_status": "Pending competent regional linguistic review; empty list is not an assertion that no variants exist.",
+      "external_references": [],
+      "prompt": "Use case: scientific-educational. Asset type: single stimulus image for a small draft speech-language practice pack. Make a square educational 2D raster illustration of the subject specified below. Faithful ordinary appearance, whole subject visible, plausible proportions, distinctive silhouette, clean rounded dark outlines, soft flat natural colors with restrained shading. Same simple style and visual weight throughout the pack. Single uniform warm off-white background #FFF9F0. Center subject with regular margins; it should occupy about 75% of the frame and remain recognizable at 120 pixels. No text, letter, phoneme, logo, watermark, label, decorative border, glow, answer cue, invented anatomy or anthropomorphic face added to objects. Do not copy proprietary tests or recognizable copyrighted characters. This is a proposal for human review, not a validated clinical illustration. Subject: One whole ordinary loaf of bread, oval golden-brown crust with a few natural score marks, visibly bread rather than cake; no knife, plate or other food.",
+      "tool": "OpenAI built-in image_gen",
+      "generated_on": "2026-10-30",
+      "source": {
+        "file": "exec-8f22129d-cc79-439b-ba52-7fffd295ece0.png",
+        "format": "PNG",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 2067100,
+        "sha256": "d356033f6c608dc3c8a71539b3dd31037635f1272e23af534d94d985caaeba85"
+      },
+      "display_variants": {
+        "512": {
+          "file": "bread-v1-512.webp",
+          "format": "WEBP",
+          "width": 512,
+          "height": 512,
+          "bytes": 48116,
+          "sha256": "0b187410640379f2090ef6f9abd72b399a21f4bad5f83d26364bad0a7b7a7605",
+          "derivation": "Whole square source reduced with Pillow LANCZOS; no crop, added content or semantic retouch."
+        },
+        "256": {
+          "file": "bread-v1-256.webp",
+          "format": "WEBP",
+          "width": 256,
+          "height": 256,
+          "bytes": 13842,
+          "sha256": "fa3d27c176e5002aada26a98710ed4c9e30d00963c10254fcd8714825244521b",
+          "derivation": "Whole square source reduced with Pillow LANCZOS; no crop, added content or semantic retouch."
+        }
+      },
+      "qa": {
+        "agent_visual_inspection": "Reported by generating agent; technical/composition review only, no clinical or native-speaker approval.",
+        "review_flags": [],
+        "recognition_at_120px": "Not tested with children; review required.",
+        "display_derivative_inspection": "Agent inspected the six 256px derivatives as a contact sheet: whole subjects retained, common light background, no written cues observed. Word recognition and naming remain untested."
+      },
+      "reviews": {
+        "clinical": "pending",
+        "linguistic": "pending",
+        "familiarity": "pending",
+        "rights": "pending",
+        "child_naming_trial": "not_performed"
+      }
+    },
+    {
+      "id": "bath-v1",
+      "word": "bain",
+      "ipa": "/bɛ̃/",
+      "subject": "One ordinary white bathtub containing clearly visible blue bathwater and a few small plain soap bubbles. Show the whole bathtub in three-quarter view with its simple faucet. No person, toy, towel or bathroom scenery. This is an image of a prepared bath, not a shower.",
+      "meaning_fr_proposed": "Bain préparé ; vérifier si le dessin évoque plutôt la baignoire.",
+      "variety": "fr-fr-pilot",
+      "word_language": "fr-FR",
+      "proposed_segments": [
+        "b",
+        "ɛ̃"
+      ],
+      "proposed_target_occurrence": {
+        "index": 0,
+        "phoneme": "b",
+        "position": "initial"
+      },
+      "accepted_variants": [],
+      "variants_status": "Pending competent regional linguistic review; empty list is not an assertion that no variants exist.",
+      "external_references": [],
+      "prompt": "Use case: scientific-educational. Asset type: single stimulus image for a small draft speech-language practice pack. Make a square educational 2D raster illustration of the subject specified below. Faithful ordinary appearance, whole subject visible, plausible proportions, distinctive silhouette, clean rounded dark outlines, soft flat natural colors with restrained shading. Same simple style and visual weight throughout the pack. Single uniform warm off-white background #FFF9F0. Center subject with regular margins; it should occupy about 75% of the frame and remain recognizable at 120 pixels. No text, letter, phoneme, logo, watermark, label, decorative border, glow, answer cue, invented anatomy or anthropomorphic face added to objects. Do not copy proprietary tests or recognizable copyrighted characters. This is a proposal for human review, not a validated clinical illustration. Subject: One ordinary white bathtub containing clearly visible blue bathwater and a few small plain soap bubbles. Show the whole bathtub in three-quarter view with its simple faucet. No person, toy, towel or bathroom scenery. This is an image of a prepared bath, not a shower.",
+      "tool": "OpenAI built-in image_gen",
+      "generated_on": "2026-10-30",
+      "source": {
+        "file": "exec-4200f85d-a41f-43f6-8854-7078faf92565.png",
+        "format": "PNG",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 1314447,
+        "sha256": "db95723dc048c72c0431c4410fd4b1c3c0c3565fd831dec9ea43b775ab07c5f4"
+      },
+      "display_variants": {
+        "512": {
+          "file": "bath-v1-512.webp",
+          "format": "WEBP",
+          "width": 512,
+          "height": 512,
+          "bytes": 16200,
+          "sha256": "931c6ae2ffba88ff38dea1076329c3d92ee146050f1a886b60ea400582f2a334",
+          "derivation": "Whole square source reduced with Pillow LANCZOS; no crop, added content or semantic retouch."
+        },
+        "256": {
+          "file": "bath-v1-256.webp",
+          "format": "WEBP",
+          "width": 256,
+          "height": 256,
+          "bytes": 6486,
+          "sha256": "57e89858dbfd200315a8c089b080fca051263ba1aab7434bb54392aa09dcea19",
+          "derivation": "Whole square source reduced with Pillow LANCZOS; no crop, added content or semantic retouch."
+        }
+      },
+      "qa": {
+        "agent_visual_inspection": "Reported by generating agent; technical/composition review only, no clinical or native-speaker approval.",
+        "review_flags": [
+          "May elicit baignoire rather than bain; expert and spontaneous naming review required."
+        ],
+        "recognition_at_120px": "Not tested with children; review required.",
+        "display_derivative_inspection": "Agent inspected the six 256px derivatives as a contact sheet: whole subjects retained, common light background, no written cues observed. Word recognition and naming remain untested."
+      },
+      "reviews": {
+        "clinical": "pending",
+        "linguistic": "pending",
+        "familiarity": "pending",
+        "rights": "pending",
+        "child_naming_trial": "not_performed"
+      }
+    },
+    {
+      "id": "hen-v1",
+      "word": "poule",
+      "ipa": "/pul/",
+      "subject": "One entire ordinary adult brown domestic hen in side three-quarter view, with red comb and wattles, small beak, natural feathered body, two legs with feet, short tail. No eggs, chicks, nest or other animals.",
+      "meaning_fr_proposed": "Poule adulte domestique, et non coq ou poussin.",
+      "variety": "fr-fr-pilot",
+      "word_language": "fr-FR",
+      "proposed_segments": [
+        "p",
+        "u",
+        "l"
+      ],
+      "proposed_target_occurrence": {
+        "index": 0,
+        "phoneme": "p",
+        "position": "initial"
+      },
+      "accepted_variants": [],
+      "variants_status": "Pending competent regional linguistic review; empty list is not an assertion that no variants exist.",
+      "external_references": [],
+      "prompt": "Use case: scientific-educational. Asset type: single stimulus image for a small draft speech-language practice pack. Make a square educational 2D raster illustration of the subject specified below. Faithful ordinary appearance, whole subject visible, plausible proportions, distinctive silhouette, clean rounded dark outlines, soft flat natural colors with restrained shading. Same simple style and visual weight throughout the pack. Single uniform warm off-white background #FFF9F0. Center subject with regular margins; it should occupy about 75% of the frame and remain recognizable at 120 pixels. No text, letter, phoneme, logo, watermark, label, decorative border, glow, answer cue, invented anatomy or anthropomorphic face added to objects. Do not copy proprietary tests or recognizable copyrighted characters. This is a proposal for human review, not a validated clinical illustration. Subject: One entire ordinary adult brown domestic hen in side three-quarter view, with red comb and wattles, small beak, natural feathered body, two legs with feet, short tail. No eggs, chicks, nest or other animals.",
+      "tool": "OpenAI built-in image_gen",
+      "generated_on": "2026-10-30",
+      "source": {
+        "file": "exec-1f97fc0c-3820-4487-9220-18950b435171.png",
+        "format": "PNG",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 1671433,
+        "sha256": "999eba38b601202b0f29946abf00c944d423eebf86422edfb93f8c1707cd9b57"
+      },
+      "display_variants": {
+        "512": {
+          "file": "hen-v1-512.webp",
+          "format": "WEBP",
+          "width": 512,
+          "height": 512,
+          "bytes": 28372,
+          "sha256": "7a472ff293c9059478be429a9c2792bd06d5e8c2a515b3ceea701a3f5f4d83ba",
+          "derivation": "Whole square source reduced with Pillow LANCZOS; no crop, added content or semantic retouch."
+        },
+        "256": {
+          "file": "hen-v1-256.webp",
+          "format": "WEBP",
+          "width": 256,
+          "height": 256,
+          "bytes": 9564,
+          "sha256": "6a06d2b9c11321f7f745e6056993c41223ef00cfed10c283c9393949210a608c",
+          "derivation": "Whole square source reduced with Pillow LANCZOS; no crop, added content or semantic retouch."
+        }
+      },
+      "qa": {
+        "agent_visual_inspection": "Reported by generating agent; technical/composition review only, no clinical or native-speaker approval.",
+        "review_flags": [],
+        "recognition_at_120px": "Not tested with children; review required.",
+        "display_derivative_inspection": "Agent inspected the six 256px derivatives as a contact sheet: whole subjects retained, common light background, no written cues observed. Word recognition and naming remain untested."
+      },
+      "reviews": {
+        "clinical": "pending",
+        "linguistic": "pending",
+        "familiarity": "pending",
+        "rights": "pending",
+        "child_naming_trial": "not_performed"
+      }
+    },
+    {
+      "id": "sphere-v1",
+      "word": "boule",
+      "ipa": "/bul/",
+      "subject": "One ordinary smooth solid round wooden ball, natural light brown wood, completely spherical with a clearly visible curved outline and restrained natural shading. No stripes, lettering, sports pattern, face, hole, string or other object.",
+      "meaning_fr_proposed": "Boule sphérique en bois ; vérifier le nom spontané boule ou balle.",
+      "variety": "fr-fr-pilot",
+      "word_language": "fr-FR",
+      "proposed_segments": [
+        "b",
+        "u",
+        "l"
+      ],
+      "proposed_target_occurrence": {
+        "index": 0,
+        "phoneme": "b",
+        "position": "initial"
+      },
+      "accepted_variants": [],
+      "variants_status": "Pending competent regional linguistic review; empty list is not an assertion that no variants exist.",
+      "external_references": [],
+      "prompt": "Use case: scientific-educational. Asset type: single stimulus image for a small draft speech-language practice pack. Make a square educational 2D raster illustration of the subject specified below. Faithful ordinary appearance, whole subject visible, plausible proportions, distinctive silhouette, clean rounded dark outlines, soft flat natural colors with restrained shading. Same simple style and visual weight throughout the pack. Single uniform warm off-white background #FFF9F0. Center subject with regular margins; it should occupy about 75% of the frame and remain recognizable at 120 pixels. No text, letter, phoneme, logo, watermark, label, decorative border, glow, answer cue, invented anatomy or anthropomorphic face added to objects. Do not copy proprietary tests or recognizable copyrighted characters. This is a proposal for human review, not a validated clinical illustration. Subject: One ordinary smooth solid round wooden ball, natural light brown wood, completely spherical with a clearly visible curved outline and restrained natural shading. No stripes, lettering, sports pattern, face, hole, string or other object.",
+      "tool": "OpenAI built-in image_gen",
+      "generated_on": "2026-10-30",
+      "source": {
+        "file": "exec-ee191115-7e12-4350-9fb1-fbd778de6cb7.png",
+        "format": "PNG",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 1855584,
+        "sha256": "456558a554ae5b9bf694a6ebb5d35ac08de6bec8aa92414de5ab30a44c6c0ef9"
+      },
+      "display_variants": {
+        "512": {
+          "file": "sphere-v1-512.webp",
+          "format": "WEBP",
+          "width": 512,
+          "height": 512,
+          "bytes": 21512,
+          "sha256": "4651c7677cf1d38466233044e7d36adb1d9bf7e106d19f6dcd5b838c0b95d460",
+          "derivation": "Whole square source reduced with Pillow LANCZOS; no crop, added content or semantic retouch."
+        },
+        "256": {
+          "file": "sphere-v1-256.webp",
+          "format": "WEBP",
+          "width": 256,
+          "height": 256,
+          "bytes": 5868,
+          "sha256": "a6405231c34bc3d87edec42c06e3f5b2cdf791e4b7b91bf398ec5d184b53279f",
+          "derivation": "Whole square source reduced with Pillow LANCZOS; no crop, added content or semantic retouch."
+        }
+      },
+      "qa": {
+        "agent_visual_inspection": "Reported by generating agent; technical/composition review only, no clinical or native-speaker approval.",
+        "review_flags": [
+          "May elicit balle rather than boule; expert and spontaneous naming review required."
+        ],
+        "recognition_at_120px": "Not tested with children; review required.",
+        "display_derivative_inspection": "Agent inspected the six 256px derivatives as a contact sheet: whole subjects retained, common light background, no written cues observed. Word recognition and naming remain untested."
+      },
+      "reviews": {
+        "clinical": "pending",
+        "linguistic": "pending",
+        "familiarity": "pending",
+        "rights": "pending",
+        "child_naming_trial": "not_performed"
+      }
+    },
+    {
+      "id": "pear-v1",
+      "word": "poire",
+      "ipa": "/pwaʁ/",
+      "subject": "One entire ordinary ripe green-yellow pear, distinctive narrower neck and wider rounded lower body, short brown stem and subtle natural skin texture. No cut fruit, plate or other fruits.",
+      "meaning_fr_proposed": "Poire entière, et non pomme.",
+      "variety": "fr-fr-pilot",
+      "word_language": "fr-FR",
+      "proposed_segments": [
+        "p",
+        "w",
+        "a",
+        "ʁ"
+      ],
+      "proposed_target_occurrence": {
+        "index": 0,
+        "phoneme": "p",
+        "position": "initial"
+      },
+      "accepted_variants": [],
+      "variants_status": "Pending competent regional linguistic review; empty list is not an assertion that no variants exist.",
+      "external_references": [],
+      "prompt": "Use case: scientific-educational. Asset type: single stimulus image for a small draft speech-language practice pack. Make a square educational 2D raster illustration of the subject specified below. Faithful ordinary appearance, whole subject visible, plausible proportions, distinctive silhouette, clean rounded dark outlines, soft flat natural colors with restrained shading. Same simple style and visual weight throughout the pack. Single uniform warm off-white background #FFF9F0. Center subject with regular margins; it should occupy about 75% of the frame and remain recognizable at 120 pixels. No text, letter, phoneme, logo, watermark, label, decorative border, glow, answer cue, invented anatomy or anthropomorphic face added to objects. Do not copy proprietary tests or recognizable copyrighted characters. This is a proposal for human review, not a validated clinical illustration. Subject: One entire ordinary ripe green-yellow pear, distinctive narrower neck and wider rounded lower body, short brown stem and subtle natural skin texture. No cut fruit, plate or other fruits.",
+      "tool": "OpenAI built-in image_gen",
+      "generated_on": "2026-10-30",
+      "source": {
+        "file": "exec-d7dd7bc2-cc8b-4253-a33e-ec81b0bc48fd.png",
+        "format": "PNG",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 1549345,
+        "sha256": "dc6f613ef67c5d87dbbd33357a021c952a589a7c40dff5485ff5cb1ea7611f8b"
+      },
+      "display_variants": {
+        "512": {
+          "file": "pear-v1-512.webp",
+          "format": "WEBP",
+          "width": 512,
+          "height": 512,
+          "bytes": 23322,
+          "sha256": "2f6402f237ea5af84ab3fc8f05a4d33f31d495cbe3a6320549dfd94a0080e33f",
+          "derivation": "Whole square source reduced with Pillow LANCZOS; no crop, added content or semantic retouch."
+        },
+        "256": {
+          "file": "pear-v1-256.webp",
+          "format": "WEBP",
+          "width": 256,
+          "height": 256,
+          "bytes": 7624,
+          "sha256": "55286820ce31657ddb17d0386f802fa29ecf8d6eec9e1986ecf6ae235fb34f72",
+          "derivation": "Whole square source reduced with Pillow LANCZOS; no crop, added content or semantic retouch."
+        }
+      },
+      "qa": {
+        "agent_visual_inspection": "Reported by generating agent; technical/composition review only, no clinical or native-speaker approval.",
+        "review_flags": [],
+        "recognition_at_120px": "Not tested with children; review required.",
+        "display_derivative_inspection": "Agent inspected the six 256px derivatives as a contact sheet: whole subjects retained, common light background, no written cues observed. Word recognition and naming remain untested."
+      },
+      "reviews": {
+        "clinical": "pending",
+        "linguistic": "pending",
+        "familiarity": "pending",
+        "rights": "pending",
+        "child_naming_trial": "not_performed"
+      }
+    },
+    {
+      "id": "drinking-v1",
+      "word": "boire",
+      "ipa": "/bwaʁ/",
+      "subject": "One fully clothed adult person shown in clear side three-quarter view actively drinking water from a plain transparent glass tilted at their lips. The visible water, glass contact at the mouth, natural bent arm, hand and swallowing pose must make drinking clear. Show the whole person with plausible anatomy and five fingers where visible. No bottle, food, table, other person or setting.",
+      "meaning_fr_proposed": "Action de boire de l’eau dans un verre ; ne pas interpréter comme un nom d’objet.",
+      "variety": "fr-fr-pilot",
+      "word_language": "fr-FR",
+      "proposed_segments": [
+        "b",
+        "w",
+        "a",
+        "ʁ"
+      ],
+      "proposed_target_occurrence": {
+        "index": 0,
+        "phoneme": "b",
+        "position": "initial"
+      },
+      "accepted_variants": [],
+      "variants_status": "Pending competent regional linguistic review; empty list is not an assertion that no variants exist.",
+      "external_references": [],
+      "prompt": "Use case: scientific-educational. Asset type: single stimulus image for a small draft speech-language practice pack. Make a square educational 2D raster illustration of the subject specified below. Faithful ordinary appearance, whole subject visible, plausible proportions, distinctive silhouette, clean rounded dark outlines, soft flat natural colors with restrained shading. Same simple style and visual weight throughout the pack. Single uniform warm off-white background #FFF9F0. Center subject with regular margins; it should occupy about 75% of the frame and remain recognizable at 120 pixels. No text, letter, phoneme, logo, watermark, label, decorative border, glow, answer cue, invented anatomy or anthropomorphic face added to objects. Do not copy proprietary tests or recognizable copyrighted characters. This is a proposal for human review, not a validated clinical illustration. Subject: One fully clothed adult person shown in clear side three-quarter view actively drinking water from a plain transparent glass tilted at their lips. The visible water, glass contact at the mouth, natural bent arm, hand and swallowing pose must make drinking clear. Show the whole person with plausible anatomy and five fingers where visible. No bottle, food, table, other person or setting.",
+      "tool": "OpenAI built-in image_gen",
+      "generated_on": "2026-10-30",
+      "source": {
+        "file": "exec-d6947ae0-8060-43f2-b3f1-f90ade9f24bb.png",
+        "format": "PNG",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 1381414,
+        "sha256": "905b73b198d59d2e2797b0d85ce751669d36f0c718debcaa8b0f02bc87103eec"
+      },
+      "display_variants": {
+        "512": {
+          "file": "drinking-v1-512.webp",
+          "format": "WEBP",
+          "width": 512,
+          "height": 512,
+          "bytes": 15720,
+          "sha256": "0341a8314a09873f9b40e1e5040c1236c03c488e1c0c83a10fc047f71aeea3a2",
+          "derivation": "Whole square source reduced with Pillow LANCZOS; no crop, added content or semantic retouch."
+        },
+        "256": {
+          "file": "drinking-v1-256.webp",
+          "format": "WEBP",
+          "width": 256,
+          "height": 256,
+          "bytes": 5474,
+          "sha256": "e9906161e7129981c4e1e6c4da35275d64856ade82614e5559f73e710314b12c",
+          "derivation": "Whole square source reduced with Pillow LANCZOS; no crop, added content or semantic retouch."
+        }
+      },
+      "qa": {
+        "agent_visual_inspection": "Reported by generating agent; technical/composition review only, no clinical or native-speaker approval.",
+        "review_flags": [
+          "Whole-body framing makes the cup small at 120 px; recognition trial required and later version may be needed."
+        ],
+        "recognition_at_120px": "Not tested with children; review required.",
+        "display_derivative_inspection": "Agent inspected the six 256px derivatives as a contact sheet: whole subjects retained, common light background, no written cues observed. Word recognition and naming remain untested."
+      },
+      "reviews": {
+        "clinical": "pending",
+        "linguistic": "pending",
+        "familiarity": "pending",
+        "rights": "pending",
+        "child_naming_trial": "not_performed"
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "source_series": "079c2cd4-9f70-5831-8455-50d96ba157be",
+      "words": [
+        "pain",
+        "bain"
+      ],
+      "concepts": [
+        "bread-v1",
+        "bath-v1"
+      ],
+      "proposed_target_scope": {
+        "position": "initial",
+        "context": "simple_onset"
+      },
+      "comparison_group": "simple_onset_p_b",
+      "notes": "Working /p/–/b/ initial contrast; meaning/image naming and native audio pending."
+    },
+    {
+      "source_series": "0abbb85f-d015-57da-b6e1-39e6d5f8e680",
+      "words": [
+        "poule",
+        "boule"
+      ],
+      "concepts": [
+        "hen-v1",
+        "sphere-v1"
+      ],
+      "proposed_target_scope": {
+        "position": "initial",
+        "context": "simple_onset"
+      },
+      "comparison_group": "simple_onset_p_b",
+      "notes": "Working /p/–/b/ initial contrast; boule/balle ambiguity requires naming review."
+    },
+    {
+      "source_series": "7da14770-15cc-5c14-9ed6-bcf5cac73bf4",
+      "words": [
+        "poire",
+        "boire"
+      ],
+      "concepts": [
+        "pear-v1",
+        "drinking-v1"
+      ],
+      "proposed_target_scope": {
+        "position": "initial",
+        "context": "complex_onset_pw_bw"
+      },
+      "comparison_group": "complex_onset_pw_bw_not_equivalent_to_simple_onset",
+      "notes": "/pw/–/bw/ onset context and noun/action contrast require separate professional judgement; never automatically pool as an equivalent measure of simple /p/–/b/ onset."
+    }
+  ],
+  "reservation_boundary": {
+    "trained_candidate_words_from_global_fr_probe": [
+      "pain",
+      "poule"
+    ],
+    "held_out_words_not_generated_or_family_assigned": [
+      "pomme",
+      "porte",
+      "poupée",
+      "papillon"
+    ],
+    "rule": "This importer modifies no probe, exposure plan, reserve, programme, review or administration."
+  },
+  "required_reviews": [
+    "clinical",
+    "competent_fr_fr_linguistic",
+    "spontaneous_recognition_naming",
+    "rights_and_usage_scope",
+    "native_adult_audio",
+    "supervised_pilot"
+  ],
+  "extension_rule": "Stop at these six concepts until competent human review of the batch."
+}

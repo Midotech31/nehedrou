@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-30",
+  "started_at_utc": "2026-10-30T17:30:20.967494+00:00",
+  "database": "isolated local PostgreSQL17 on 127.0.0.1:55432; no cloud connection",
+  "modules": [
+    "core.tests_access_auth",
+    "core.tests_transfer_disabled",
+    "core.tests_practice_guidance"
+  ],
+  "exit_code": 0,
+  "discovered_tests": 32,
+  "ran_tests": 32,
+  "test_runtime_seconds": 25.629,
+  "elapsed_seconds": 37.641,
+  "skipped_tests": 0,
+  "failures": 0,
+  "errors": 0
+}

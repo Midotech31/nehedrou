@@ -1,0 +1,59 @@
+{
+  "schema": "nehedrou-monitoring-plan-v1",
+  "enabled": false,
+  "prepared_at": "2026-10-30",
+  "cost_authorized_eur": 0,
+  "health": {
+    "path": "/healthz/",
+    "expected_status": 200,
+    "render_configuration": "healthCheckPath: /healthz/",
+    "external_probe": "python scripts/probe_http.py https://<approved-host>/healthz/ --samples 1",
+    "keep_awake_strategy": false
+  },
+  "proposed_operator_checks": [
+    {
+      "name": "availability",
+      "trigger": "Repeated non-200 or timeout after accounting for explicitly identified free-service wake-up",
+      "cadence": "To be agreed with the existing no-cost monitoring provider; no provider configured",
+      "notification": "State change or failure only; no patient URLs or form data",
+      "owner": "unassigned"
+    },
+    {
+      "name": "latency",
+      "trigger": "Compare measured DNS/TCP/TLS/TTFB/total and Server-Timing app/db; choose thresholds after a representative baseline",
+      "cadence": "After releases/incidents and an operator-approved observation window",
+      "notification": "Sustained deviation against the approved baseline",
+      "owner": "unassigned"
+    },
+    {
+      "name": "backup_age_and_result",
+      "trigger": "Missed approved daily backup window, failed authentication/manifest verification or failed resume hook",
+      "cadence": "Existing private scheduler after acceptance; schedule disabled",
+      "notification": "Existing private alert route required; no automatic external message configured",
+      "owner": "unassigned"
+    },
+    {
+      "name": "restore_freshness",
+      "trigger": "Latest accepted restore exercise exceeds operator-agreed period or data schema changes",
+      "cadence": "Operator-agreed; proposed monthly plus material changes",
+      "notification": "Meaningful failure or required operator action",
+      "owner": "unassigned"
+    },
+    {
+      "name": "email_receipt",
+      "trigger": "Authorized invitation/recovery acceptance fails or reports a provider delivery failure",
+      "cadence": "After approved SMTP changes and during the agreed pilot",
+      "notification": "No addresses, invitation/reset URLs, tokens or message body in monitoring logs",
+      "owner": "unassigned"
+    }
+  ],
+  "unverified": [
+    "operator and recipients",
+    "free provider retention/alert capabilities",
+    "current live healthCheckPath",
+    "SMTP DNS/TLS/authentication/receipt",
+    "off-host destination and key custody",
+    "scheduled execution and retention",
+    "production restore and recovery objectives"
+  ]
+}

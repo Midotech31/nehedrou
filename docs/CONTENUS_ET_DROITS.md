@@ -1,3 +1,5 @@
+> Archive éditoriale du 10 octobre 2026 : les chiffres de corpus ci-dessous décrivent cette livraison. Pour l'état courant, voir [l'inventaire horodaté](INVENTAIRE_CONTENUS.md) et `manage.py content_inventory --json`.
+
 # Contenus, preuves et droits
 
 ## Trois niveaux distincts

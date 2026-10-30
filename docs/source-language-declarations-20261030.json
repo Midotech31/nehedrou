@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "prepared_on": "2026-10-30",
+  "purpose": "Exact language declarations for inspected legacy French scope statements; no clinical or bibliographic endorsement. Unknown or edited text remains undetermined.",
+  "entries": [
+    {
+      "url": "https://aclanthology.org/W15-3208/",
+      "scope": "Proposition de convention d’écriture de l’arabe algérien, utile pour documenter le registre écrit. Ne fournit pas une norme orale, une norme pédiatrique ou une validation de notre lexique.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://andreasmhallberg.github.io/documents/minimal-pairs/",
+      "scope": "Source linguistique pédagogique de l’auteur : présente explicitement تين / طين comme paire minimale en arabe standard. Ne vérifie ni la familiarité chez les enfants, ni l’indication orthophonique, ni l’audio, ni Nehedrou. La transcription IPA proposée ici est notre analyse de travail.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://andreasmhallberg.github.io/documents/minimal-pairs/",
+      "scope": "Source linguistique pédagogique de l’auteur : présente explicitement كلب / قلب comme paire minimale en arabe standard. Ne vérifie ni la familiarité chez les enfants, ni l’indication orthophonique, ni l’audio, ni Nehedrou. La transcription IPA proposée ici est notre analyse de travail.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://corvam.unizar.es/en/localities/oran/",
+      "scope": "Corpus linguistique local d’Oran. Contexte de diversité dialectale, sans norme développementale ni validation des activités de Nehedrou.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://journals.uco.es/edna/article/download/8669/8173",
+      "scope": "Description linguistique locale de Dellys : justifie de conserver la région et les usages familiaux. Ne représente pas toute l’Algérie et n’atteste pas automatiquement nos mots proposés.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/بيت",
+      "scope": "Attestation lexicographique de البَيْت au sens de résidence. Les autres sens du mot ne sont pas retenus. Aucune validation pédiatrique ou thérapeutique.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/جرس",
+      "scope": "Attestation de الجَرَس comme instrument sonore. La forme avec /a/ médian est retenue ; الجَرْس a un autre sens. Aucune indication clinique ou familiarité enfantine établie.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/جمل",
+      "scope": "Attestation lexicographique de الجَمَل au sens de chameau mâle adulte. Le sens animal est retenu, pas les autres acceptions homographes. Aucune validation thérapeutique.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/حمل",
+      "scope": "Attestation de الحَمَل au sens d’agneau. La vocalisation /ħamal/ est essentielle : الحَمْل et الحِمْل ont d’autres sens. La segmentation et le contraste proposés ne sont pas approuvés cliniquement.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/دمع",
+      "scope": "Attestation de دمع, liquide des yeux, et de دمعة comme une goutte de ce liquide. L’IPA isolée et la minimalité sous le même traitement de ة restent des analyses de travail à relire.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/دور",
+      "scope": "Attestation de الدّار parmi les sens de maison habitée. La forme standard est retenue ; aucune attestation d’une réalisation régionale darija de /r/ n’est déduite.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/رمل",
+      "scope": "Attestation lexicographique de الرَّمْل au sens de sable. La vocalisation avec sukūn doit être conservée : الرَّمَل représente d’autres sens. Aucune validation clinique de la paire.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/زيت",
+      "scope": "Attestation lexicographique de الزَّيْت, notamment huile d’olive. L’IPA et la minimalité de la paire sous ces formes isolées sont nos analyses à relire ; aucune validation de l’application.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/فرس",
+      "scope": "Attestation de الفَرَس comme cheval, mâle ou femelle. La transcription avec /dʒ/ pour ج et la minimalité de la paire sont nos propositions MSA à relire.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/نمل",
+      "scope": "Attestation lexicographique de النَّمْل comme collectif dont le singulier est نملة. L’IPA et les segments sont notre analyse MSA de travail, pas une attestation darija ni une approbation thérapeutique.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/نور",
+      "scope": "Attestation de النّار dans le champ du feu et de la flamme. L’analyse de la paire sous /daːr/ et /naːr/ est proposée, sans validation clinique de Nehedrou.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/محرك-البحث/الحوت",
+      "scope": "L’entrée comporte un sens de poisson et un sens de grand cétacé. Le sens baleine est choisi explicitement pour la proposition MSA ; la source ne dit pas que حوت signifie exclusivement baleine. Aucune approbation clinique.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/محرك-البحث/الشَّمْعة?exact_search=true",
+      "scope": "Attestation lexicographique du mot vocalisé الشَّمْعة au sens de bougie. Aucune preuve de familiarité chez les enfants ou d’effet thérapeutique.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/محرك-البحث/تُوتُ?exact_search=true",
+      "scope": "Attestation lexicographique du mûrier cultivé pour ses fruits et ses feuilles ; le sens des fruits de mûrier est retenu pour l’image. Ne documente ni la fréquence de ce mot chez l’enfant ni sa familiarité locale.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/محرك-البحث/معجم/dic-19/قدم",
+      "scope": "Attestation lexicographique de القَدَم au sens de pied humain. L’IPA, la segmentation et le contraste /l/–/d/ sont des propositions de travail à relire, pas une validation de Nehedrou.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.arabicacademy.gov.eg/ar/محرك-البحث/معجم/dic-19/قلم",
+      "scope": "Attestation lexicographique de القَلَم au sens d’instrument d’écriture. Ni analyse clinique de cette paire, ni familiarité enfantine vérifiée, ni enregistrement approuvé.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.asha.org/practice-portal/clinical-topics/articulation-and-phonology/",
+      "scope": "Cadre de sélection individualisée des contrastes phonologiques par un professionnel. Ne constitue pas une preuve de traitement par ces jeux lexicaux ou par l’application.",
+      "scope_language": "fr"
+    },
+    {
+      "url": "https://www.asha.org/practice-portal/professional-issues/multilingual-service-delivery/",
+      "scope": "Cadre professionnel de prise en compte des langues, dialectes et usages familiaux. Ne valide ni ces mots ni les illustrations ni l’efficacité de Nehedrou.",
+      "scope_language": "fr"
+    }
+  ]
+}

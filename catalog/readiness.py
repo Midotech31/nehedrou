@@ -7,7 +7,7 @@ from django.utils.translation import gettext as _
 from .models import MediaAsset
 from .content_validation import validate_item_metadata
 
-def referenced_asset(reference, kind):
+def reference_asset_id(reference, kind):
     try:
         if kind == 'image' and reference.startswith('editorial/asset-'):
             asset_id = UUID(reference[len('editorial/asset-'):])
@@ -21,7 +21,14 @@ def referenced_asset(reference, kind):
             return None
     except (ValueError, AttributeError):
         return None
-    return MediaAsset.objects.select_related('rights_evidence').filter(pk=asset_id,kind=kind).first()
+    return asset_id
+
+def referenced_asset(reference, kind):
+    from .integrity import request_value
+    asset_id = reference_asset_id(reference, kind)
+    if not asset_id:
+        return None
+    return request_value('assets', (asset_id, kind), lambda: MediaAsset.objects.select_related('rights_evidence').filter(pk=asset_id, kind=kind).first())
 
 def snapshot_media(activity):
     snapshot = {}
@@ -55,10 +62,13 @@ def activity_content_reasons(activity):
         entry = (activity.item_metadata or {}).get(key,{})
         proof = entry.get('familiarity',{}) if isinstance(entry,dict) else {}
         try:
-            document = EvidenceDocument.objects.filter(pk=UUID(str(proof.get('evidence',''))),category='familiarity',variety=activity.variety).first()
+            from .integrity import evidence_document
+            document = evidence_document(proof.get('evidence', ''))
+            if document and (document.category != 'familiarity' or document.variety_id != activity.variety_id):
+                document = None
         except (ValueError, AttributeError):
             document = None
-        if not document or proof.get('sha256') != document.sha256 or not document.intact:
+        if not document or proof.get('sha256') != document.sha256 or not document.usable:
             reasons.append(_('Missing intact word and image familiarity evidence: %(word)s.') % {'word':getattr(activity,'word_'+key)})
     if not media_binding_current(activity):
         reasons.append(_('The exact media and commercial rights manifest is missing, changed or revoked.'))

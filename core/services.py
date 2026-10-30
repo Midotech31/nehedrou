@@ -88,6 +88,51 @@ def resolve_privacy(actor, request_id, data):
     obj.save()
     audit(actor, 'privacy.resolved', obj, org)
 
+@transaction.atomic
+def revoke_membership(actor, organization, membership_id):
+    """Use the same practice lock as creation, transfer and clinical mutations."""
+    org = Organization.objects.select_for_update().get(pk=organization.pk)
+    if not Membership.objects.filter(user=actor, organization=org, active=True, role='owner').exists():
+        raise ValidationError(_('Access is no longer available.'))
+    target = Membership.objects.select_for_update().filter(pk=membership_id, organization=org).first()
+    if not target:
+        raise ValidationError(_('Access is no longer available.'))
+    if target.user_id == actor.pk or target.role == 'owner':
+        raise ValidationError(_('A practice manager cannot be removed here.'))
+    # Archived dossiers still hold goals, history, programs and privacy requests.
+    if Child.objects.filter(organization=org, responsible_id=target.user_id).exists():
+        raise ValidationError(_('Transfer all assigned child profiles, including archived profiles, before revoking this practitioner. The responsible clinician must transfer each profile to an active practice member.'))
+    if target.active:
+        target.active = False
+        target.save(update_fields=['active'])
+        audit(actor, 'member.revoked', target, org)
+    return target
+
+
+@transaction.atomic
+def transfer_child(actor, reference, recipient):
+    from .models import ChildResponsibilityTransfer, User
+    child = lock_clinical_child(actor, reference)
+    # Recheck current account and membership after locking: form choices can become stale.
+    recipient = User.objects.select_for_update().filter(pk=recipient.pk, is_active=True).first()
+    if not recipient:
+        raise ValidationError(_('The responsible clinician must be an active practice member.'))
+    membership = Membership.objects.select_for_update().filter(
+        organization_id=child.organization_id, user=recipient, active=True).first()
+    if not membership:
+        raise ValidationError(_('The responsible clinician must be an active practice member.'))
+    if child.responsible_id == recipient.pk:
+        raise ValidationError(_('Choose a different responsible clinician.'))
+    previous = child.responsible_id
+    child.responsible = recipient
+    child.save(update_fields=['responsible'])
+    ChildResponsibilityTransfer.objects.create(
+        organization=child.organization, child=child, previous_clinician_id=previous,
+        new_clinician=recipient, actor=actor)
+    audit(actor, 'child.reassigned', child, child.organization)
+    return child
+
+
 def check_entitlement(organization, creating_child=False):
     # Call within a transaction after locking Organization: serializes quota checks.
     entitlement = Entitlement.objects.filter(organization=organization).first()

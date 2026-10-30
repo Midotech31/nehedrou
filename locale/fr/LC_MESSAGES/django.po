@@ -4506,3 +4506,142 @@ msgstr "Les éditeurs peuvent enregistrer une voix adulte ou importer un WAV/MP3
 
 msgid "Audio provenance must specify a valid voice source, exact text and spoken variety."
 msgstr "La provenance audio doit préciser une origine vocale valide, le texte exact et la variété linguistique."
+
+
+msgid "A limited permission requires an expiry date."
+msgstr "Une autorisation à durée limitée exige une date d’expiration."
+
+msgid "Choose a different responsible clinician."
+msgstr "Choisissez un autre praticien responsable."
+
+msgid "Choose a goal observation or a separate context observation."
+msgstr "Choisissez une observation de l’objectif ou une observation distincte dans un autre contexte."
+
+msgid "Document a structured target position and context."
+msgstr "Renseignez la position du son cible et son contexte dans les champs structurés."
+
+msgid "Document structured target position and context before real use."
+msgstr "Renseignez la position et le contexte structurés du son cible avant tout usage réel."
+
+msgid "Evidence validity"
+msgstr "Validité de la pièce justificative"
+
+msgid "Goal context"
+msgstr "Contexte de l’objectif"
+
+msgid "Legacy scope not recorded"
+msgstr "Portée historique non renseignée"
+
+msgid "Limited period"
+msgstr "Durée limitée"
+
+msgid "Name and justify the alternate context. It will never be automatically compared as an equivalent goal measure."
+msgstr "Nommez et justifiez l’autre contexte. Cette observation ne sera jamais comparée automatiquement comme une mesure équivalente de l’objectif."
+
+msgid "Name and justify this separate context observation."
+msgstr "Nommez et justifiez cette observation dans un contexte distinct."
+
+msgid "Observation context"
+msgstr "Contexte d’observation"
+
+msgid "Observe another context separately"
+msgstr "Observer un autre contexte séparément"
+
+msgid "Only a limited permission may have an expiry date."
+msgstr "Seule une autorisation à durée limitée peut avoir une date d’expiration."
+
+msgid "Only currently qualified real activities with valid rights can be assigned."
+msgstr "Seules les activités réelles actuellement qualifiées et disposant de droits valides peuvent être affectées."
+
+msgid "Pause"
+msgstr "Pause"
+
+msgid "Permission validity"
+msgstr "Validité de l’autorisation"
+
+msgid "Position and context are undocumented; use a named, justified separate observation."
+msgstr "La position et le contexte ne sont pas documentés ; utilisez une observation distincte, nommée et justifiée."
+
+msgid "Real-use audio requires the exact spoken text, spoken variety and a documented human or synthetic source."
+msgstr "Un audio destiné à un usage réel exige le texte prononcé exact, la variété parlée et une source humaine ou synthétique documentée."
+
+msgid "Reason for observing another context"
+msgstr "Motif d’observation d’un autre contexte"
+
+msgid "Resume"
+msgstr "Reprendre"
+
+msgid "Revoke media"
+msgstr "Révoquer le média"
+
+msgid "Revoked media cannot be silently reinstated. Upload a new version."
+msgstr "Un média révoqué ne peut pas être réactivé sans nouvelle version. Téléversez une nouvelle version."
+
+msgid "Selected device voice language"
+msgstr "Langue de la voix sélectionnée sur l’appareil"
+
+msgid "Separate context name"
+msgstr "Nom du contexte distinct"
+
+msgid "Separate context observation"
+msgstr "Observation dans un contexte distinct"
+
+msgid "Separate-context details require the separate observation mode."
+msgstr "Les détails d’un contexte distinct nécessitent le mode d’observation séparée."
+
+msgid "Structured target context"
+msgstr "Contexte structuré du son cible"
+
+msgid "The expiry date cannot precede the validity start date."
+msgstr "La date d’expiration ne peut pas précéder le début de validité."
+
+msgid "The installed voice uses a different regional accent."
+msgstr "La voix installée utilise un autre accent régional."
+
+msgid "The protocol position and context must match the clinical goal."
+msgstr "La position et le contexte du protocole doivent correspondre à l’objectif clinique."
+
+msgid "The protocol target and spoken variety must match the clinical goal."
+msgstr "La cible du protocole et la variété parlée doivent correspondre à l’objectif clinique."
+
+msgid "The structured position must agree with the target position."
+msgstr "La position structurée doit correspondre à celle du son cible."
+
+msgid "Too many attempts. Try again later."
+msgstr "Trop de tentatives. Réessayez plus tard."
+
+msgid "Transfer all assigned child profiles, including archived profiles, before revoking this practitioner. The responsible clinician must transfer each profile to an active practice member."
+msgstr "Réaffectez tous les dossiers de ce praticien, y compris les dossiers archivés, avant de révoquer son accès. Le praticien responsable doit transférer chaque dossier à un membre actif du cabinet."
+
+msgid "Unlimited period"
+msgstr "Durée illimitée"
+
+msgid "Use a PNG, JPEG, WebP, WAV or MP3 file."
+msgstr "Utilisez un fichier PNG, JPEG, WebP, WAV ou MP3."
+
+msgid "Use an explicit stable context identifier, such as isolated_word."
+msgstr "Utilisez un identifiant de contexte explicite et stable, par exemple isolated_word."
+
+msgid "Use the same explicit context identifier for equivalent planned contexts, such as isolated_word or carrier_phrase. Different contexts remain separate observations."
+msgstr "Utilisez le même identifiant explicite pour des contextes planifiés équivalents, par exemple isolated_word ou carrier_phrase. Les contextes différents restent des observations distinctes."
+
+msgid "Valid from (inclusive)"
+msgstr "Valide à partir du (inclus)"
+
+msgid "Valid until (inclusive)"
+msgstr "Valide jusqu’au (inclus)"
+
+msgid "Validity to document"
+msgstr "Validité à documenter"
+
+msgid "Word final"
+msgstr "Fin de mot"
+
+msgid "Word initial"
+msgstr "Début de mot"
+
+msgid "Word medial"
+msgstr "Intérieur du mot"
+
+msgid "Your answers remain on this page. Resume when you are ready, or stop for today."
+msgstr "Vos réponses restent sur cette page. Reprenez quand vous êtes prêts, ou arrêtez pour aujourd’hui."

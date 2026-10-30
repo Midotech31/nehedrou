@@ -1,0 +1,20 @@
+# PREPARATION ONLY: .example files are not installed or enabled.
+# Requires an existing private operator host, off-host mounted destination, reviewed hooks and key custody.
+[Unit]
+Description=Nehedrou private encrypted off-host backup
+OnFailure=nehedrou-backup-alert.service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=nehedrou-backup
+Group=nehedrou-backup
+WorkingDirectory=/srv/nehedrou
+EnvironmentFile=/etc/nehedrou/backup.env
+ExecStart=/srv/nehedrou/venv/bin/python manage.py scheduled_backup
+UMask=0077
+PrivateTmp=true
+NoNewPrivileges=true
+TimeoutStartSec=15min
+# Alert unit and recipient routing must be implemented privately by the operator.

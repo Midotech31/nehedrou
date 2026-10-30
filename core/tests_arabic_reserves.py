@@ -45,7 +45,7 @@ class ArabicReserveTests(TestCase):
     def reserve(self):
         return ClinicalGoal.objects.create(
             organization=self.organization, child=self.child, author=self.pro, variety=self.msa,
-            target_phoneme='b', target_position='initial', rationale='Synthetic reserve test',
+            target_phoneme='b', target_position='initial', target_scope={'position': 'initial', 'context': 'isolated_word'}, rationale='Synthetic reserve test',
             expected_realization='/b/', functional_goal='Synthetic observation', reserved_words=['باب'])
 
     def ticket(self, item):
@@ -64,9 +64,9 @@ class ArabicReserveTests(TestCase):
         probe = create_definition(self.pro, {
             'variety': self.msa, 'title': 'Synthetic MSA observation',
             'protocol': 'Synthetic unapproved protocol', 'task': 'picture_naming',
-            'target_phoneme': 'b', 'target_position': 'initial', 'items': [row], 'is_demo': True})
+            'target_phoneme': 'b', 'target_position': 'initial', 'target_scope': {'position': 'initial', 'context': 'isolated_word'}, 'items': [row], 'is_demo': True})
         goal = create_goal(self.pro, self.child, {
-            'variety': self.msa, 'target_phoneme': 'b', 'target_position': 'initial',
+            'variety': self.msa, 'target_phoneme': 'b', 'target_position': 'initial', 'target_scope': {'position': 'initial', 'context': 'isolated_word'},
             'rationale': 'Synthetic observation', 'expected_realization': '/b/',
             'functional_goal': 'Synthetic follow-up', 'probe_definition': probe})
         admin = start_administration(self.pro, goal, probe,

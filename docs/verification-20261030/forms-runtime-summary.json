@@ -1,0 +1,7 @@
+{
+  "date": "2026-10-30",
+  "scope": "core.tests_forms_runtime; actual forms.js native language submission and existing password controls",
+  "exit_code": 0,
+  "elapsed_seconds": 1.187,
+  "limitations": "Node browser-API fixture executes the actual forms.js; global IAB activation issue is not attributed to the language form."
+}

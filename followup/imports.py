@@ -41,6 +41,7 @@ def import_definitions(data):
             items.append(item)
         values = dict(variety=variety, title=row['id'], protocol=row['indication'] + '\n' + row['limitations'],
             task=row['task'], target_phoneme=row['target_phoneme_proposed'], target_position=row['target_position'],
+            target_scope=copy.deepcopy(row.get('target_scope', {})),
             items=items, rights='Original Nehedrou conception specification; stimulus, media and commercial rights remain to be documented.',
             rights_status='unknown', evidence={'source': 'Paquet_Clinique_Nehedrou_20261010/donnees/12_Sondes_exemples_DRAFT.json',
                 'source_id': row['id'], 'source_digest': hashlib.sha256(json.dumps(row, sort_keys=True, ensure_ascii=False).encode()).hexdigest(),

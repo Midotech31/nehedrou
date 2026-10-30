@@ -1,3 +1,5 @@
+> Archive éditoriale du 10 octobre 2026 : les chiffres de corpus ci-dessous décrivent cette livraison. Pour l'état courant, voir [l'inventaire horodaté](INVENTAIRE_CONTENUS.md) et `manage.py content_inventory --json`.
+
 # Fondements et amélioration des contenus Nehedrou
 
 Recherche vérifiée le **10 octobre 2026**. Sources primaires consultées : textes professionnels, tutoriel original, études originales et description dialectologique. Le corpus actif est une préparation éditoriale ; aucune étude de Nehedrou, validation du corpus ou validation audio n’a été réalisée.

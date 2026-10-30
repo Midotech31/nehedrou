@@ -7,6 +7,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from core.models import CheckedModel
+from qualification.validity import VALIDITY_CHOICES
 
 class Variety(CheckedModel):
     code = models.SlugField(unique=True)
@@ -88,9 +89,12 @@ class Activity(CheckedModel):
         from .readiness import media_binding_current
         if not self.is_demo and not media_binding_current(self):
             return False
+        from .integrity import activity_reviews
+        reviews = activity_reviews(self)
+        digest = self.fingerprint()
         decisions = []
         for kind in ['clinical', 'linguistic']:
-            decision = self.reviews.filter(content_digest=self.fingerprint(), kind=kind).order_by('-created_at', '-pk').first()
+            decision = next((review for review in reviews if review.content_digest == digest and review.kind == kind), None)
             capability = 'clinical_review' if kind == 'clinical' else 'linguistic_review'
             if not decision or not decision.approved or not allowed(decision.reviewer, self.variety, capability) or not has_competence(decision.reviewer, self.variety, kind):
                 return False
@@ -127,7 +131,7 @@ class Activity(CheckedModel):
                 asset = MediaAsset.objects.filter(pk=reference[len('editorial/asset-'):], kind='image').first()
             except ValidationError:
                 return False
-            return bool(asset and asset.technical_metadata.get('format') in ['PNG', 'JPEG'] and asset.rights.strip() and file_exists(asset.file))
+            return bool(asset and asset.technical_metadata.get('format') in ['PNG', 'JPEG', 'WEBP'] and asset.rights.strip() and file_exists(asset.file))
         return bool(reference.startswith('editorial/') and '..' not in reference and (Path(settings.BASE_DIR) / 'static' / reference).is_file())
     @property
     def usable(self):
@@ -233,6 +237,11 @@ class MediaAsset(CheckedModel):
     rights = models.TextField()
     rights_status = models.CharField(max_length=28, default='unknown', choices=[('original_documented', _('Documented original rights')), ('open_commercial_compatible', _('Compatible commercial licence')), ('permission_required', _('Permission required')), ('unknown', _('Unknown')), ('excluded', _('Excluded'))])
     provenance = models.JSONField(default=dict, blank=True, verbose_name=_('Rights holder, licence, scope, attribution and adult speaker permission'))
+    rights_validity = models.CharField(max_length=12, default='unknown', choices=VALIDITY_CHOICES, verbose_name=_('Permission validity'))
+    rights_valid_from = models.DateField(null=True, blank=True, verbose_name=_('Valid from (inclusive)'))
+    rights_valid_until = models.DateField(null=True, blank=True, verbose_name=_('Valid until (inclusive)'))
+    revoked = models.BooleanField(default=False)
+    revocation_reason = models.TextField(blank=True)
     rights_evidence = models.ForeignKey('qualification.EvidenceDocument', on_delete=models.PROTECT, null=True, blank=True, related_name='media_assets')
     uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -247,6 +256,9 @@ class MediaAsset(CheckedModel):
             'actual_file_sha256': digest_file(self.file),
             'rights': self.rights, 'rights_status': self.rights_status,
             'provenance': self.provenance,
+            **({'rights_validity': self.rights_validity, 'rights_valid_from': self.rights_valid_from, 'rights_valid_until': self.rights_valid_until} if self.rights_validity != 'unknown' or self.rights_valid_from or self.rights_valid_until else {}),
+            **({'revoked': True, 'revocation_reason': self.revocation_reason} if self.revoked else {}),
+            **({'evidence_validity': evidence.validity, 'evidence_valid_from': evidence.valid_from, 'evidence_valid_until': evidence.valid_until} if evidence and (evidence.validity != 'unknown' or evidence.valid_from or evidence.valid_until) else {}),
             'evidence_id': str(self.rights_evidence_id or ''),
             'evidence_sha256': evidence.sha256 if evidence else '',
             'evidence_actual_sha256': evidence_actual_sha256,
@@ -260,22 +272,33 @@ class MediaAsset(CheckedModel):
         return bool(self.technical_metadata.get('sha256')) and digest_file(self.file) == self.technical_metadata['sha256']
 
     @property
+    def rights_current(self):
+        from qualification.validity import currently_valid
+        return currently_valid(self.rights_validity, self.rights_valid_from, self.rights_valid_until, self.revoked)
+
+    @property
     def documented(self):
+        if not isinstance(self.provenance, dict) or not self.rights_current:
+            return False
         required = ['holder','licence','permitted_use','territory','duration','attribution']
         if self.kind == 'audio':
             required += ['adult_speaker_permission']
             if self.technical_metadata.get('signal', {}).get('silent'):
                 return False
-            profile = self.provenance.get('audio', {})
-            if profile and (not isinstance(profile, dict) or profile.get('source') not in ['human', 'synthetic'] or not profile.get('text') or not profile.get('variety')):
+            from .audio_checks import valid_audio_profile
+            if not valid_audio_profile(self.provenance.get('audio')):
                 return False
-        return bool(self.intact and self.rights.strip() and self.rights_status in ['original_documented','open_commercial_compatible'] and self.rights_evidence_id and self.rights_evidence.category == 'rights' and self.rights_evidence.intact and isinstance(self.provenance,dict) and all(isinstance(self.provenance.get(key),str) and self.provenance[key].strip() for key in required))
+        return bool(self.intact and self.rights.strip() and self.rights_status in ['original_documented','open_commercial_compatible'] and self.rights_evidence_id and self.rights_evidence.category == 'rights' and self.rights_evidence.usable and isinstance(self.provenance,dict) and all(isinstance(self.provenance.get(key),str) and self.provenance[key].strip() for key in required))
 
     def clean(self):
+        from qualification.validity import validate_validity
+        validate_validity(self.rights_validity, self.rights_valid_from, self.rights_valid_until)
+        if self.revoked and not self.revocation_reason.strip():
+            raise ValidationError(_('A revocation reason is required.'))
         if not isinstance(self.provenance, dict):
             raise ValidationError(_('Media provenance must be an object.'))
         profile = self.provenance.get('audio')
-        if profile is not None:
+        if profile is not None and profile != {}:
             valid = (isinstance(profile, dict) and self.kind == 'audio'
                      and profile.get('source') in ['human', 'synthetic', 'unspecified']
                      and isinstance(profile.get('text'), str) and 0 < len(profile['text'].strip()) <= 160
@@ -285,6 +308,8 @@ class MediaAsset(CheckedModel):
                 raise ValidationError(_('Audio provenance must specify a valid voice source, exact text and spoken variety.'))
         old = MediaAsset.objects.filter(pk=self.pk).first()
         if old:
+            if old.revoked and not self.revoked:
+                raise ValidationError(_('Revoked media cannot be silently reinstated. Upload a new version.'))
             if not self.file._committed or old.file.name != self.file.name or old.kind != self.kind or old.technical_metadata != self.technical_metadata:
                 raise ValidationError(_('Uploaded media cannot be replaced. Upload a new file.'))
         elif self.file and self.kind:
@@ -305,3 +330,19 @@ class DraftWorkingCopy(CheckedModel):
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
         indexes = [models.Index(fields=['owner', 'committed', '-updated_at'])]
+
+
+class GeneratedReviewPackImport(CheckedModel):
+    """Immutable technical import receipt, never a clinical or rights decision."""
+    pack_id = models.SlugField(max_length=100, unique=True)
+    manifest_digest = models.CharField(max_length=64)
+    variety = models.ForeignKey(Variety, on_delete=models.PROTECT)
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    record = models.JSONField(default=dict)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def clean(self):
+        if GeneratedReviewPackImport.objects.filter(pk=self.pk).exists():
+            raise ValidationError('Generated review-pack import receipts are immutable.')
+        if not isinstance(self.record, dict) or len(self.manifest_digest) != 64:
+            raise ValidationError('A named exact manifest and structured import receipt are required.')

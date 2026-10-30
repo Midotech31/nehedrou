@@ -5,7 +5,8 @@ register = template.Library()
 @register.filter
 def guide_language(value, language):
     # Deliberately no language fallback for caregiver instructions.
-    return value.get(language, {}) if isinstance(value, dict) else {}
+    guide = value.get(language, {}) if isinstance(value, dict) else {}
+    return dict(guide, language=language) if isinstance(guide, dict) and guide else {}
 
 
 @register.simple_tag

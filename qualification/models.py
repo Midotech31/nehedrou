@@ -7,6 +7,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from core.models import CheckedModel
 from core.storage_health import file_exists, STORAGE_ERRORS
+from .validity import VALIDITY_CHOICES
 
 DISCIPLINES = [('clinical', _('Clinical')), ('linguistic', _('Linguistic'))]
 MODULES = [('practice', _('Guided family practice')), ('production_followup', _('Descriptive production follow-up'))]
@@ -16,6 +17,10 @@ def digest_value(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, default=str, ensure_ascii=False).encode()).hexdigest()
 
 def digest_file(file):
+    from catalog.integrity import request_value
+    return request_value('file_digests', (id(file.storage), file.name), lambda: _digest_file(file))
+
+def _digest_file(file):
     if not file_exists(file):
         return ''
     result = hashlib.sha256()
@@ -41,6 +46,10 @@ class EvidenceDocument(CheckedModel):
     provenance = models.TextField(verbose_name=_('Author, date and document scope'))
     uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
+    # Unknown on legacy rows: no contract dates or permissions are fabricated.
+    validity = models.CharField(max_length=12, default='unknown', choices=VALIDITY_CHOICES, verbose_name=_('Evidence validity'))
+    valid_from = models.DateField(null=True, blank=True, verbose_name=_('Valid from (inclusive)'))
+    valid_until = models.DateField(null=True, blank=True, verbose_name=_('Valid until (inclusive)'))
     revoked = models.BooleanField(default=False)
     revocation_reason = models.TextField(blank=True)
 
@@ -51,7 +60,14 @@ class EvidenceDocument(CheckedModel):
     def intact(self):
         return not self.revoked and bool(self.sha256) and digest_file(self.file) == self.sha256
 
+    @property
+    def usable(self):
+        from .validity import currently_valid
+        return currently_valid(self.validity, self.valid_from, self.valid_until, self.revoked) and self.intact
+
     def clean(self):
+        from .validity import validate_validity
+        validate_validity(self.validity, self.valid_from, self.valid_until)
         old = EvidenceDocument.objects.filter(pk=self.pk).first()
         if old:
             for field in self._meta.concrete_fields:
@@ -203,7 +219,7 @@ class FamiliarityStudy(CheckedModel):
             raise ValidationError(_('Familiarity changes require a draft pack version.'))
         if not self.participants or self.recognized > self.participants:
             raise ValidationError(_('Counts must satisfy 0 ≤ recognised ≤ observations, with at least one observation.'))
-        if self.evidence_id and (self.evidence.category != 'familiarity' or self.evidence.variety_id != self.candidate.pack.variety_id or not self.evidence.intact):
+        if self.evidence_id and (self.evidence.category != 'familiarity' or self.evidence.variety_id != self.candidate.pack.variety_id or not self.evidence.usable):
             raise ValidationError(_('An intact familiarity evidence document for this variety is required.'))
         if not isinstance(self.alternative_names, list) or any(not isinstance(x, str) for x in self.alternative_names):
             raise ValidationError(_('Alternative names must be a text list without participant identities.'))

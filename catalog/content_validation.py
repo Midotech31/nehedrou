@@ -24,7 +24,12 @@ def validate_content_guide(guide, references):
         raise ValidationError(_('References must be a list of up to twelve sources.'))
     validate_url = URLValidator(schemes=['https'])
     for reference in references:
-        if not isinstance(reference, dict) or set(reference) != {'title', 'url', 'scope'} or any(not isinstance(reference[key], str) or not reference[key].strip() for key in reference):
+        required = {'title', 'url', 'scope'}
+        language_fields = {'title_language', 'scope_language'}
+        if not isinstance(reference, dict) or not required.issubset(reference) or set(reference) - required - language_fields or any(not isinstance(reference[key], str) or not reference[key].strip() for key in required):
+            raise ValidationError(_('Each source needs a title, an HTTPS URL and a statement of what it supports.'))
+        from .templatetags.content_language import valid_language
+        if any(key in reference and valid_language(reference[key]) == 'und' and reference[key] != 'und' for key in language_fields):
             raise ValidationError(_('Each source needs a title, an HTTPS URL and a statement of what it supports.'))
         validate_url(reference['url'])
 

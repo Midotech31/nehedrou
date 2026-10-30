@@ -1,0 +1,12 @@
+# PREPARATION ONLY: do not install/enable before off-host restore and hook acceptance.
+[Unit]
+Description=Proposed daily Nehedrou private backup schedule
+
+[Timer]
+OnCalendar=*-*-* 02:00:00 UTC
+RandomizedDelaySec=5min
+Persistent=true
+Unit=nehedrou-backup.service
+
+[Install]
+WantedBy=timers.target

@@ -19,7 +19,7 @@ def protected_media_response(request, asset):
     if len(data) > MAX_BYTES or hashlib.sha256(data).hexdigest() != asset.technical_metadata.get('sha256'):
         raise Http404
     size = len(data)
-    content_types = {'WAV': 'audio/wav', 'MP3': 'audio/mpeg', 'PNG': 'image/png', 'JPEG': 'image/jpeg'}
+    content_types = {'WAV': 'audio/wav', 'MP3': 'audio/mpeg', 'PNG': 'image/png', 'JPEG': 'image/jpeg', 'WEBP': 'image/webp'}
     headers = {'Accept-Ranges': 'bytes', 'Cache-Control': 'private, no-store',
                'X-Content-Type-Options': 'nosniff', 'Content-Length': str(size),
                'Content-Disposition': 'inline; filename="model.' + Path(asset.file.name).suffix.lstrip('.') + '"'}

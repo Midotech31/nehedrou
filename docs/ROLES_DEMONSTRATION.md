@@ -1,6 +1,6 @@
 # Comptes fictifs et recette par rôle
 
-Les identifiants ci-dessous correspondent à des droits réellement disponibles. Les mots de passe sont livrés séparément dans un document privé ; ce fichier, le dépôt et l’archive n’en contiennent aucun. Utiliser seulement des données fictives. La démonstration hébergée emploie un stockage temporaire et ne qualifie pas un usage clinique.
+Les identifiants ci-dessous correspondent à des droits réellement disponibles. Les mots de passe sont livrés séparément dans un document privé ; ce fichier, le dépôt et l’archive n’en contiennent aucun. Utiliser seulement des données fictives. La publication utilise PostgreSQL Neon et un stockage S3 privé persistant depuis la livraison du 11 octobre 2026 ; cette persistance ne qualifie pas un usage clinique.
 
 | Identifiant | Profil disponible | Point d’entrée après connexion | Périmètre |
 |---|---|---|---|

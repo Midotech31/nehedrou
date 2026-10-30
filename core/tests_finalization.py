@@ -116,7 +116,7 @@ class FinalizationTests(TestCase):
             run=start_run(self.family,self.program);stop_run(self.family,run)
         with CaptureQueriesContext(connection) as second: response=self.client.get(url)
         self.assertEqual(len(first),len(second))
-        data=response.json();self.assertEqual(data['schema_version'],2)
+        data=response.json();self.assertEqual(data['schema_version'],3)
         program=data['programs'][0];reports={s['id']:s for item in program['items'] for s in item['sessions']}
         tasks={t['id']:t for run in program['practice_runs'] for t in run['tasks']}
         for report in reports.values():
@@ -155,7 +155,8 @@ class MediaValidationTests(TestCase):
         from qualification.test_support import evidence_fixture
         evidence=evidence_fixture(self.item.activity.variety,self.pro,'rights')
         provenance={key:'Fictional test permission only' for key in ['holder','licence','permitted_use','territory','duration','attribution','adult_speaker_permission']}
-        return MediaForm(data={'kind':kind,'rights':'Fictional owned fixture','rights_status':'original_documented','provenance':provenance,'rights_evidence':str(evidence.pk)},files={'file':SimpleUploadedFile(name,data)},instance=MediaAsset(uploaded_by=self.pro))
+        if kind == 'audio': provenance['audio'] = {'text': 'Fictional test word', 'variety': self.item.activity.variety.code, 'source': 'synthetic'}
+        return MediaForm(data={'rights_validity': 'unlimited', 'kind':kind,'rights':'Fictional owned fixture','rights_status':'original_documented','provenance':provenance,'rights_evidence':str(evidence.pk)},files={'file':SimpleUploadedFile(name,data)},instance=MediaAsset(uploaded_by=self.pro))
     def image(self,format='PNG',size=(8,8)):
         buffer=io.BytesIO();Image.new('RGB',size,'teal').save(buffer,format=format);return buffer.getvalue()
     def test_header_only_and_truncated_media_are_rejected(self):

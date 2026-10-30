@@ -4,6 +4,11 @@ from django.forms import formset_factory
 from django.utils.translation import gettext_lazy as _
 from catalog.models import Variety, MediaAsset
 from .models import ProbeDefinition
+from .validation import target_match_errors, validate_observation_target
+from types import SimpleNamespace
+
+POSITION_CHOICES = [('initial', _('Word initial')), ('medial', _('Word medial')), ('final', _('Word final'))]
+CONTEXT_HELP = _('Use the same explicit context identifier for equivalent planned contexts, such as isolated_word or carrier_phrase. Different contexts remain separate observations.')
 
 
 class VariantsField(forms.CharField):
@@ -42,7 +47,8 @@ class GoalForm(forms.Form):
     external_assessment_note = forms.CharField(label=_('Assessment context'), required=False, widget=forms.Textarea(attrs={'rows': 3}), help_text=_('Document the assessment context without copying protected test items.'))
     target_phoneme = forms.CharField(label=_('Target phoneme'), max_length=80, widget=forms.TextInput(attrs={'dir': 'ltr'}))
     contrast = forms.CharField(label=_('Contrast, when relevant'), max_length=100, required=False, widget=forms.TextInput(attrs={'dir': 'ltr'}))
-    target_position = forms.CharField(label=_('Target position'), max_length=100)
+    target_position = forms.ChoiceField(label=_('Target position'), choices=POSITION_CHOICES)
+    context_key = forms.RegexField(label=_('Structured target context'), regex=r'^[a-z0-9][a-z0-9_-]{0,99}$', max_length=100, help_text=CONTEXT_HELP)
     context = forms.CharField(label=_('Lexical and communicative context'), widget=forms.Textarea(attrs={'rows': 2}), required=False)
     rationale = forms.CharField(label=_('Clinical rationale'), widget=forms.Textarea(attrs={'rows': 3}))
     expected_realization = forms.CharField(label=_('Expected realization'), widget=forms.Textarea(attrs={'rows': 2}))
@@ -57,8 +63,12 @@ class GoalForm(forms.Form):
 
     def clean(self):
         data = super().clean()
-        if data.get('probe_definition') and data.get('variety') and data['probe_definition'].variety_id != data['variety'].pk:
-            self.add_error('probe_definition', _('The protocol and goal must use the same spoken variety.'))
+        if data.get('target_position') and data.get('context_key'):
+            data['target_scope'] = {'position': data['target_position'], 'context': data['context_key']}
+        if data.get('probe_definition') and data.get('variety') and data.get('target_phoneme') and data.get('target_scope'):
+            objective = SimpleNamespace(variety_id=data['variety'].pk, target_phoneme=data['target_phoneme'], target_scope=data['target_scope'])
+            for error in target_match_errors(objective, data['probe_definition']):
+                self.add_error('probe_definition', error)
         return data
 
 
@@ -71,7 +81,8 @@ class DefinitionForm(forms.Form):
     protocol = forms.CharField(label=_('Original protocol and permitted support'), widget=forms.Textarea(attrs={'rows': 4}))
     task = forms.CharField(label=_('Elicitation task'), max_length=160)
     target_phoneme = forms.CharField(label=_('Target phoneme'), max_length=80, widget=forms.TextInput(attrs={'dir': 'ltr'}))
-    target_position = forms.CharField(label=_('Target position'), max_length=100)
+    target_position = forms.ChoiceField(label=_('Target position'), choices=POSITION_CHOICES)
+    context_key = forms.RegexField(label=_('Structured target context'), regex=r'^[a-z0-9][a-z0-9_-]{0,99}$', max_length=100, help_text=CONTEXT_HELP)
     rights = forms.CharField(label=_('Rights and provenance documentation'), required=False, widget=forms.Textarea(attrs={'rows': 3}))
     rights_status = forms.ChoiceField(label=_('Rights status'), choices=RIGHTS_CHOICES)
     evidence = forms.JSONField(label=_('Protocol evidence references'), required=False, initial=dict, widget=forms.Textarea(attrs={'rows': 4, 'dir': 'ltr'}), help_text=_('Professional JSON object. Keep rights_evidence, familiarity_evidence and linguistic_evidence as objects containing the exact document id and sha256. Missing evidence keeps real use blocked.'))
@@ -79,11 +90,17 @@ class DefinitionForm(forms.Form):
 
     def __init__(self, *args, definition=None, **kwargs):
         if definition:
-            kwargs.setdefault('initial', {name: getattr(definition, name) for name in self.base_fields})
+            kwargs.setdefault('initial', {name: (definition.target_scope.get('context', '') if name == 'context_key' else getattr(definition, name)) for name in self.base_fields})
         super().__init__(*args, **kwargs)
         if definition:
             self.fields['variety'].disabled = True
             self.fields['is_demo'].disabled = True
+
+    def clean(self):
+        data = super().clean()
+        if data.get('target_position') and data.get('context_key'):
+            data['target_scope'] = {'position': data['target_position'], 'context': data['context_key']}
+        return data
 
     def clean_evidence(self):
         evidence = self.cleaned_data['evidence'] or {}
@@ -174,6 +191,9 @@ class ReviewForm(forms.Form):
 
 class ConditionsForm(forms.Form):
     definition = forms.ModelChoiceField(queryset=ProbeDefinition.objects.none(), label=_('Exact protocol version'))
+    observation_scope = forms.ChoiceField(label=_('Observation context'), choices=[('goal', _('Goal context')), ('alternate_context', _('Separate context observation'))])
+    alternate_context_label = forms.CharField(label=_('Separate context name'), max_length=160, required=False)
+    alternate_context_reason = forms.CharField(label=_('Reason for observing another context'), max_length=2000, required=False, widget=forms.Textarea(attrs={'rows': 2}))
     place = forms.CharField(label=_('Setting'), required=False)
     task = forms.ChoiceField(label=_('Planned task'), choices=[('naming', _('Picture naming')), ('semantic_cue', _('Naming with semantic cue')), ('lexical_choice', _('Lexical choice')), ('imitation', _('Imitation'))])
     fatigue = forms.CharField(label=_('Fatigue and wellbeing'), required=False)
@@ -184,9 +204,16 @@ class ConditionsForm(forms.Form):
     attempt_rule = forms.CharField(label=_('Attempt retained, decided before presentation'), help_text=_('Specify the retained attempt in advance. Do not retrospectively choose the best response.'))
     key = forms.UUIDField(widget=forms.HiddenInput)
 
-    def __init__(self, *args, definitions, **kwargs):
+    def __init__(self, *args, definitions, goal=None, **kwargs):
         super().__init__(*args, **kwargs)
+        self.goal = goal
         self.fields['definition'].queryset = definitions
+
+    def clean(self):
+        data = super().clean()
+        if self.goal and data.get('definition') and data.get('observation_scope'):
+            validate_observation_target(self.goal, data['definition'], data['observation_scope'], data.get('alternate_context_label', ''), data.get('alternate_context_reason', ''))
+        return data
 
 
 class FamiliarityForm(forms.Form):

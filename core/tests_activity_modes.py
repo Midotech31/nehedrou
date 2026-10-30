@@ -210,7 +210,7 @@ class ActivityModeTests(TestCase):
                 record_practice(self.other, item, self.payload(), self.ticket_for(item))
         ClinicalGoal.objects.create(
             organization=self.org, child=self.child, author=self.pro, variety=self.program.variety,
-            target_phoneme='/p/', target_position='initial', rationale='Fictional mode regression',
+            target_phoneme='/p/', target_position='initial', target_scope={'position': 'initial', 'context': 'isolated_word'}, rationale='Fictional mode regression',
             expected_realization='Fictional target', functional_goal='Fictional goal',
             reserved_words=[self.item.activity.word_a.casefold()])
         for item in self.mode_items.values():

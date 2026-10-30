@@ -139,7 +139,7 @@ class ReassignForm(forms.Form):
     responsible = forms.ModelChoiceField(queryset=User.objects.none(), label=_('New responsible clinician'))
     def __init__(self, *args, organization, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['responsible'].queryset = User.objects.filter(membership__organization=organization, membership__active=True).distinct()
+        self.fields['responsible'].queryset = User.objects.filter(is_active=True, membership__organization=organization, membership__active=True).distinct()
 
 class PrivacyDecisionForm(forms.Form):
     decision = forms.ChoiceField(label=_('Decision'), choices=[('erase', _('Erase the child record')), ('retain', _('Retain with documented reason'))])

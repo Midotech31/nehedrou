@@ -1,4 +1,8 @@
-# Fictional test deployment. Temporary SQLite is not a clinical production database.
+# Durable demonstration configuration, prepared 2026-10-30.
+# The existing service uses external Neon PostgreSQL and private object storage.
+# Review the exact existing service and environment before any manual sync.
+# sync:false prompts only at initial Blueprint creation; it does not fill new keys on an existing service.
+# No database, disk, cron service or paid resource is created by this file.
 services:
   - type: web
     name: nehedrou-demo
@@ -6,6 +10,7 @@ services:
     plan: free
     region: frankfurt
     branch: main
+    autoDeployTrigger: "off"
     buildCommand: python scripts/render_build.py
     startCommand: python scripts/render_start.py
     healthCheckPath: /healthz/
@@ -17,14 +22,42 @@ services:
       - key: DEMO_MODE
         value: "1"
       - key: DEMO_EPHEMERAL
-        value: "1"
-      - key: DEMO_DATABASE_PATH
-        value: /tmp/nehedrou-demo.sqlite3
-      - key: MFA_REQUIRED
         value: "0"
+      - key: DEMO_SEED_ON_START
+        value: "0"
+      - key: POSTGRES_SSLMODE
+        value: require
+      - key: NEHEDROU_MEDIA_BACKEND
+        value: s3
+      - key: NEHEDROU_MEDIA_DURABLE
+        value: "1"
       - key: DJANGO_SECRET_KEY
-        sync: false # Supply a private random value of at least 50 characters.
-      - key: DEMO_PASSWORD
+        sync: false
+      - key: POSTGRES_HOST
+        sync: false
+      - key: POSTGRES_MIGRATION_HOST
+        sync: false
+      - key: POSTGRES_PORT
+        sync: false
+      - key: POSTGRES_DB
+        sync: false
+      - key: POSTGRES_USER
+        sync: false
+      - key: POSTGRES_PASSWORD
+        sync: false
+      - key: NEHEDROU_S3_BUCKET
+        sync: false
+      - key: AWS_ENDPOINT_URL_S3
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_REGION
+        sync: false
+      - key: MFA_REQUIRED
         sync: false
       - key: EMAIL_BACKEND
-        value: django.core.mail.backends.console.EmailBackend
+        sync: false
+# Existing environment keys omitted here are retained by Blueprint sync.
+# SMTP values and backup credentials belong in separately reviewed private operator configuration.

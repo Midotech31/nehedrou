@@ -1,3 +1,5 @@
+> Historique du déploiement du 11 octobre 2026. Pour la préparation actuelle du 30 octobre (PostgreSQL externe, stockage privé, supervision et sauvegardes), consulter [EXPLOITATION.md](EXPLOITATION.md). Les états et résultats ci-dessous restent ceux de leur date.
+
 > Mise à jour du 11 octobre 2026 : la nouvelle publication utilise un projet Neon gratuit séparé et un stockage privé persistant. Les passages SQLite temporaire ci-dessous décrivent l'historique. Voir [CMS guidé et persistance](CMS_GUIDE_ET_PERSISTANCE.md) pour la configuration et les limites actuelles.
 
 # Test en ligne sur Render

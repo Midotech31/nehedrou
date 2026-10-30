@@ -10,6 +10,49 @@ RIGHTS_STATUSES = ('unknown', 'original_documented', 'open_commercial_compatible
 CONDITION_KEYS = {'place', 'task', 'fatigue', 'noise', 'interruption', 'instructions', 'audio_equipment', 'attempt_rule'}
 
 
+TARGET_POSITIONS = ('initial', 'medial', 'final')
+
+
+def validate_target_scope(scope):
+    # Empty remains explicitly undocumented; migrations never infer a context.
+    if scope == {}:
+        return
+    if not isinstance(scope, dict) or set(scope) != {'position', 'context'} or scope.get('position') not in TARGET_POSITIONS:
+        raise ValidationError(_('Document a structured target position and context.'))
+    if not isinstance(scope.get('context'), str) or not re.fullmatch(r'[a-z0-9][a-z0-9_-]{0,99}', scope['context']):
+        raise ValidationError(_('Use an explicit stable context identifier, such as isolated_word.'))
+
+
+def target_match_errors(goal, definition):
+    errors = []
+    if goal.variety_id != definition.variety_id:
+        errors.append(_('The protocol and goal must use the same spoken variety.'))
+    if phoneme_key(goal.target_phoneme) != phoneme_key(definition.target_phoneme):
+        errors.append(_('The protocol target must match the clinical goal target.'))
+    if not goal.target_scope or not definition.target_scope:
+        errors.append(_('Position and context are undocumented; use a named, justified separate observation.'))
+    elif goal.target_scope != definition.target_scope:
+        errors.append(_('The protocol position and context must match the clinical goal.'))
+    return errors
+
+
+def validate_observation_target(goal, definition, scope='goal', label='', reason=''):
+    if scope not in ['goal', 'alternate_context']:
+        raise ValidationError(_('Choose a goal observation or a separate context observation.'))
+    # An alternate context never bypasses phoneme or variety identity.
+    if goal.variety_id != definition.variety_id or phoneme_key(goal.target_phoneme) != phoneme_key(definition.target_phoneme):
+        raise ValidationError(_('The protocol target and spoken variety must match the clinical goal.'))
+    if scope == 'alternate_context':
+        if not isinstance(label, str) or not label.strip() or len(label) > 160 or not isinstance(reason, str) or not reason.strip() or len(reason) > 2000:
+            raise ValidationError(_('Name and justify this separate context observation.'))
+    else:
+        errors = target_match_errors(goal, definition)
+        if errors:
+            raise ValidationError(errors)
+        if label or reason:
+            raise ValidationError(_('Separate-context details require the separate observation mode.'))
+
+
 def word_key(word):
     return ' '.join(unicodedata.normalize('NFC', word).casefold().split())
 

@@ -1,0 +1,8 @@
+{
+  "schema_source": "https://render.com/schema/render.yaml.json",
+  "schema_sha256": "8a3fb8da6b4f55fe686fbefa790e011d3dd7895f013f355953c572a21ab6494a",
+  "blueprint_sha256": "ac381b85fdc46b950772275fcf7411449f8a7eea8ff2c55a5f4e764a50758d1c",
+  "valid": true,
+  "validation": "Official public JSON Schema; no Render service sync or environment mutation",
+  "errors": []
+}

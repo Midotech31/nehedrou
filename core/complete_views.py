@@ -64,11 +64,8 @@ def reassign(request, pk):
     form = ReassignForm(request.POST or None, organization=child.organization)
     if request.method == 'POST' and form.is_valid():
         try:
-            with transaction.atomic():
-                child = lock_clinical_child(request.user, child)
-                child.responsible = form.cleaned_data['responsible']
-                child.save()
-                audit(request.user, 'child.reassigned', child, child.organization)
+            from .services import transfer_child
+            transfer_child(request.user, child, form.cleaned_data['responsible'])
             return redirect('children')
         except ValidationError as error:
             form.add_error(None, error)

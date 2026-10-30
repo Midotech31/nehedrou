@@ -1,3 +1,5 @@
+> Archive éditoriale du 9 octobre 2026 : les chiffres de corpus ci-dessous décrivent cette livraison. Pour l'état courant, voir [l'inventaire horodaté](INVENTAIRE_CONTENUS.md) et `manage.py content_inventory --json`.
+
 # Nehdrou — recherche produit, concurrence et économie
 
 **Recherche et rédaction : 9 octobre 2026.** Rapport distinct de la recherche existante, fondé sur des recommandations professionnelles, des publications primaires et des pages officielles d’éditeurs. Aucun entretien client, essai clinique de Nehdrou, achat concurrent ou audit de certification n’a été réalisé.

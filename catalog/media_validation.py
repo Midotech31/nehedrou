@@ -17,9 +17,9 @@ def validate_media(file, kind):
     if kind not in ['image', 'audio']:
         raise ValidationError(_('The file type must match the selected media kind.'))
     extension = file.name.rsplit('.', 1)[-1].lower()
-    if extension not in ['png', 'jpg', 'jpeg', 'wav', 'mp3']:
-        raise ValidationError(_('Use a PNG, JPEG, WAV or MP3 file.'))
-    if (extension in ['png', 'jpg', 'jpeg']) != (kind == 'image'):
+    if extension not in ['png', 'jpg', 'jpeg', 'webp', 'wav', 'mp3']:
+        raise ValidationError(_('Use a PNG, JPEG, WebP, WAV or MP3 file.'))
+    if (extension in ['png', 'jpg', 'jpeg', 'webp']) != (kind == 'image'):
         raise ValidationError(_('The file type must match the selected media kind.'))
     try:
         file.seek(0)
@@ -31,7 +31,7 @@ def validate_media(file, kind):
     metadata = {'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()}
     try:
         if kind == 'image':
-            expected = 'PNG' if extension == 'png' else 'JPEG'
+            expected = {'png': 'PNG', 'webp': 'WEBP'}.get(extension, 'JPEG')
             with warnings.catch_warnings():
                 warnings.simplefilter('error', Image.DecompressionBombWarning)
                 with Image.open(io.BytesIO(data), formats=[expected]) as image:

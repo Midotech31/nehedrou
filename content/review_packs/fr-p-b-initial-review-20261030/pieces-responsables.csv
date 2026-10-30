@@ -1,0 +1,9 @@
+piece_id,responsible_role,named_person_to_assign,required_piece,status,evidence_reference,decision_date
+clinical-linguistic-meaning,Orthophoniste compétent + locuteur compétent fr-FR,,"Sens exact, IPA/segments/positions de travail, variantes et ambiguïtés, contexte simple/complexe",À attribuer; à réaliser,,
+familiarity-naming,Équipe clinique et responsable familiarité/pilote,,"Protocole préspécifié, critères locaux, observations spontanées sans amorçage puis décisions motivées",À attribuer; aucun essai réalisé,,
+rights-tool,Responsable des droits du projet,,"Conditions applicables de génération/utilisation, éventuelles références et pièce de droits sur chaque version",À attribuer; droits et validité inconnus,,
+native-audio,Adulte modèle vocal natif/compétent + responsable des permissions,,"Texte exact et variété, source, audio de chaque mot, permission adulte et relectures adaptées",À attribuer; aucun audio produit,,
+use-governance,Responsable du cadre d’usage et des données,,"Population/finalité/pays, informations et permissions nécessaires, conservation, périmètre de pilote",À attribuer; cadre non approuvé,,
+technical-media,Opérateur autorisé du projet,,"Sources/variantes/empreintes, import privé, URLs protégées, RTL/LTR et taille téléphone",Opération technique préparée; import explicite restant,,
+independent-reviews,Deux relecteurs humains compétents distincts clinique et linguistique,,Décisions sur la version exacte après toutes les pièces requises,À attribuer; aucune approbation,,
+opening,Responsable habilité de la décision d’ouverture,,"Portée d’usage documentée, pièces, limites et décision de disponibilité séparée",À attribuer; aucune décision,,

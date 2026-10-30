@@ -12,13 +12,13 @@ from .models import EvidenceDocument, ReviewerCompetence, AvailabilityDecision
 from .services import evidence_snapshot, REQUIRED_EVIDENCE
 
 def evidence_fixture(variety,user,category):
-    return EvidenceDocument.objects.create(variety=variety,uploaded_by=user,title='Fictional '+category,category=category,provenance='Fictional regression fixture, no real authorisation',file=SimpleUploadedFile(uuid.uuid4().hex+'.txt',b'Fictional test evidence only'))
+    return EvidenceDocument.objects.create(variety=variety,uploaded_by=user,title='Fictional '+category,category=category,provenance='Fictional regression fixture, no real authorisation',validity='unlimited',file=SimpleUploadedFile(uuid.uuid4().hex+'.txt',b'Fictional test evidence only'))
 
 def competence_fixture(user,variety,discipline):
     EditorialGrant.objects.update_or_create(user=user,variety=variety,defaults={'edit':True,'clinical_review':True,'linguistic_review':True,'publish':True})
     ReviewerCompetence.objects.update_or_create(user=user,variety=variety,discipline=discipline,defaults={'professional_role':'Fictional reviewer','experience':'Fictional test declaration','active':True})
 
-def media_fixture(variety,user,kind,rights=None):
+def media_fixture(variety,user,kind,rights=None,word='دار'):
     rights = rights or evidence_fixture(variety,user,'rights')
     stream=io.BytesIO()
     if kind=='image':
@@ -28,7 +28,8 @@ def media_fixture(variety,user,kind,rights=None):
             audio.setnchannels(1);audio.setsampwidth(2);audio.setframerate(8000);audio.writeframes(__import__('core.testing',fromlist=['pcm_fixture']).pcm_fixture()[44:])
         extension='wav'
     provenance={key:'Fictional test only' for key in ['holder','licence','permitted_use','territory','duration','attribution','adult_speaker_permission']}
-    return MediaAsset.objects.create(uploaded_by=user,kind=kind,file=SimpleUploadedFile(uuid.uuid4().hex+'.'+extension,stream.getvalue()),rights='Fictional test rights only',rights_status='original_documented',rights_evidence=rights,provenance=provenance)
+    if kind == 'audio': provenance['audio'] = {'text': word, 'variety': variety.code, 'source': 'synthetic'}
+    return MediaAsset.objects.create(rights_validity='unlimited',uploaded_by=user,kind=kind,file=SimpleUploadedFile(uuid.uuid4().hex+'.'+extension,stream.getvalue()),rights='Fictional test rights only',rights_status='original_documented',rights_evidence=rights,provenance=provenance)
 
 def prepare_activity_fixture(activity,clinical,linguistic=None):
     if linguistic is None:
@@ -38,7 +39,7 @@ def prepare_activity_fixture(activity,clinical,linguistic=None):
     rights=evidence_fixture(variety,clinical,'rights')
     familiar=evidence_fixture(variety,clinical,'familiarity')
     for key,kind in [('image_a','image'),('image_b','image'),('audio_a','audio'),('audio_b','audio')]:
-        asset=media_fixture(variety,clinical,kind,rights)
+        asset=media_fixture(variety,clinical,kind,rights,word=getattr(activity, 'word_' + key[-1]))
         ref='editorial/asset-'+str(asset.pk) if kind=='image' else settings.PUBLIC_ORIGIN+'/fr/media/'+str(asset.pk)+'/'
         setattr(activity,key,ref)
     activity.item_metadata={key:{'meaning':'Fictional word definition','segments':['p','a'],'target_occurrences':[{'index':0,'phoneme':'p','position':'initial'}],'accepted_variants':[],'familiarity':{'evidence':str(familiar.pk),'sha256':familiar.sha256}} for key in ['a','b']}

@@ -18,10 +18,10 @@ from catalog.models import MediaAsset
 from catalog.services import allowed
 from .models import (ClinicalGoal, ProbeDefinition, ProbeReview, ProbeAdministration, ProbeRating,
                      ProbeRatingRevision, ProbeExposure, ParentCoaching, HomePracticeFeedback, RATING_FIELDS)
-from .validation import validate_items, validate_conditions, validate_variants, validate_rating, word_key, phoneme_key, reserve_word_key
+from .validation import validate_items, validate_conditions, validate_variants, validate_rating, word_key, phoneme_key, reserve_word_key, target_match_errors, validate_observation_target
 
-DEFINITION_FIELDS = ['variety', 'title', 'protocol', 'task', 'target_phoneme', 'target_position', 'items', 'rights', 'rights_status', 'evidence', 'is_demo']
-GOAL_FIELDS = ['variety', 'target_phoneme', 'contrast', 'target_position', 'context', 'rationale', 'expected_realization', 'accepted_variants', 'functional_goal', 'review_date', 'external_assessment_status', 'external_assessment_note', 'probe_definition']
+DEFINITION_FIELDS = ['variety', 'title', 'protocol', 'task', 'target_phoneme', 'target_position', 'target_scope', 'items', 'rights', 'rights_status', 'evidence', 'is_demo']
+GOAL_FIELDS = ['variety', 'target_phoneme', 'contrast', 'target_position', 'target_scope', 'context', 'rationale', 'expected_realization', 'accepted_variants', 'functional_goal', 'review_date', 'external_assessment_status', 'external_assessment_note', 'probe_definition']
 
 
 def _digest(value):
@@ -72,11 +72,13 @@ def media_manifest(items):
                     entry.update(sha256=asset.technical_metadata.get('sha256'), rights=asset.rights,
                         metadata=asset.technical_metadata, file=asset.file.name)
                     # Include structured evidence when the catalog supplies it.
-                    for field in ['rights_status', 'provenance']:
+                    for field in ['rights_status', 'provenance', 'rights_validity', 'rights_valid_from', 'rights_valid_until', 'revoked', 'revocation_reason']:
                         if hasattr(asset, field):
-                            entry[field] = getattr(asset, field)
+                            entry[field] = str(getattr(asset, field)) if field in ['rights_valid_from', 'rights_valid_until'] and getattr(asset, field) else getattr(asset, field)
                     proof = asset.rights_evidence if asset.rights_evidence_id else None
-                    entry['rights_evidence'] = {'id': str(proof.pk), 'sha256': proof.sha256, 'intact': proof.intact, 'revoked': proof.revoked} if proof else None
+                    entry['rights_evidence'] = {'id': str(proof.pk), 'sha256': proof.sha256, 'intact': proof.intact, 'revoked': proof.revoked,
+                        'validity': proof.validity, 'valid_from': str(proof.valid_from) if proof.valid_from else None,
+                        'valid_until': str(proof.valid_until) if proof.valid_until else None, 'usable': proof.usable} if proof else None
                     if asset.file.storage.exists(asset.file.name):
                         with asset.file.open('rb') as stream:
                             actual = hashlib.sha256(stream.read(15 * 1024 * 1024 + 1)).hexdigest()
@@ -109,6 +111,8 @@ def content_reasons(definition):
     reasons = []
     if definition.is_demo:
         reasons.append(_('Demonstration protocols cannot be qualified for real use.'))
+    if not definition.target_scope:
+        reasons.append(_('Document structured target position and context before real use.'))
     if definition.rights_status not in ['original_documented', 'open_commercial_compatible'] or not definition.rights.strip():
         reasons.append(_('Document the protocol rights and their evidence.'))
     from qualification.models import EvidenceDocument
@@ -120,7 +124,7 @@ def content_reasons(definition):
                 proof = EvidenceDocument.objects.filter(pk=uuid.UUID(str(evidence.get('id'))), variety=definition.variety, category=category).first()
             except (ValueError, TypeError):
                 pass
-        if not proof or proof.sha256 != evidence.get('sha256') or not proof.intact:
+        if not proof or proof.sha256 != evidence.get('sha256') or not proof.usable:
             reasons.append(_('Exact intact rights, familiarity and linguistic evidence is required for this protocol version.'))
             break
     if any(not item.get('familiarity_verified') or not item.get('reviewed') for item in definition.items):
@@ -129,17 +133,23 @@ def content_reasons(definition):
         segments = item.get('segments', [])
         index = item['target_occurrence_index']
         occurrences = item.get('target_occurrences', [])
-        documented_target = any(o['index'] == index and phoneme_key(o['phoneme']) == phoneme_key(definition.target_phoneme) for o in occurrences)
+        documented_target = any(o['index'] == index and phoneme_key(o['phoneme']) == phoneme_key(definition.target_phoneme)
+            and (not definition.target_scope or o.get('position') == definition.target_scope['position']) for o in occurrences)
         if not item.get('meaning', '').strip() or not segments or index >= len(segments) or phoneme_key(segments[index]) != phoneme_key(definition.target_phoneme) or not documented_target:
             reasons.append(_('Real use requires a documented meaning and phonemic segmentation with a target index matching the protocol phoneme.'))
             break
     manifest = media_manifest(definition.items)
     from catalog.audio_checks import audio_binding_errors
     for item in definition.items:
-        if item.get('audio_asset'):
-            asset = MediaAsset.objects.filter(pk=item['audio_asset'], kind='audio').first()
+        for field, kind in [('image_asset', 'image'), ('audio_asset', 'audio')]:
+            if not item.get(field):
+                continue
+            asset = MediaAsset.objects.select_related('rights_evidence').filter(pk=item[field], kind=kind).first()
             if asset:
-                reasons.extend(audio_binding_errors(asset, item.get('word', ''), definition.variety))
+                if not asset.rights_evidence_id or asset.rights_evidence.variety_id != definition.variety_id:
+                    reasons.append(_('Exact reviewed image/audio files with rights are missing or changed.'))
+                if kind == 'audio':
+                    reasons.extend(audio_binding_errors(asset, item.get('word', ''), definition.variety))
     if any(not row['available'] for row in manifest.values()):
         reasons.append(_('Exact reviewed image/audio files with rights are missing or changed.'))
     return reasons
@@ -308,7 +318,7 @@ def _exposure_status(child, variety, word, at):
 
 
 @transaction.atomic
-def start_administration(actor, goal, definition, conditions=None, familiarity=None, key=None):
+def start_administration(actor, goal, definition, conditions=None, familiarity=None, key=None, *, observation_scope='goal', alternate_context_label='', alternate_context_reason=''):
     child = lock_clinical_child(actor, goal.child)
     User.objects.select_for_update().get(pk=actor.pk)
     goal = ClinicalGoal.objects.select_for_update().get(pk=goal.pk, child=child)
@@ -324,12 +334,10 @@ def start_administration(actor, goal, definition, conditions=None, familiarity=N
     for value in familiarity.values():
         if not isinstance(value, dict) or set(value) - {'familiar', 'note'} or not isinstance(value.get('familiar'), bool) or not isinstance(value.get('note', ''), str) or len(value.get('note', '')) > 2000:
             raise ValidationError(_('Record item familiarity and uncertainty explicitly.'))
-    if definition.variety_id != goal.variety_id:
-        raise ValidationError(_('The protocol and goal must use the same spoken variety.'))
-    if phoneme_key(definition.target_phoneme) != phoneme_key(goal.target_phoneme):
-        raise ValidationError(_('The protocol target must match the clinical goal target.'))
+    validate_observation_target(goal, definition, observation_scope, alternate_context_label, alternate_context_reason)
     key = uuid.UUID(str(key)) if key else uuid.uuid4()
-    body = {'goal': str(goal.pk), 'definition': str(definition.pk), 'conditions': conditions, 'familiarity': familiarity}
+    body = {'goal': str(goal.pk), 'definition': str(definition.pk), 'conditions': conditions, 'familiarity': familiarity,
+        'observation_scope': observation_scope, 'alternate_context_label': alternate_context_label, 'alternate_context_reason': alternate_context_reason}
     digest = _digest(body)
     existing = ProbeAdministration.objects.filter(professional=actor, idempotency_key=key).first()
     if existing:
@@ -358,18 +366,21 @@ def start_administration(actor, goal, definition, conditions=None, familiarity=N
     items = copy.deepcopy(definition.items)
     for item in items:
         item['exposure_at_start'] = _exposure_status(child, definition.variety, item['word'], at)
-    snapshot = {'schema_version': 1, 'definition_id': str(definition.pk), 'series': str(definition.series),
+    snapshot = {'schema_version': 2, 'definition_id': str(definition.pk), 'series': str(definition.series),
         'version': definition.version, 'digest': definition.fingerprint(), 'title': definition.title,
         'variety': definition.variety.code, 'target': definition.target_phoneme, 'target_position': definition.target_position,
+        'target_scope': copy.deepcopy(definition.target_scope), 'observation_scope': observation_scope,
+        'alternate_context_label': alternate_context_label, 'alternate_context_reason': alternate_context_reason,
         'protocol': definition.protocol, 'task': definition.task, 'is_demo': definition.is_demo, 'items': items,
         'media': media_manifest(definition.items),
         'reserved_words': [word_key(i['word']) for i in items if i['exposure_plan'] == 'reserved'],
-        'goal': {k: copy.deepcopy(getattr(goal, k)) for k in ['target_phoneme', 'target_position', 'contrast', 'context', 'rationale',
+        'goal': {k: copy.deepcopy(getattr(goal, k)) for k in ['target_phoneme', 'target_position', 'target_scope', 'contrast', 'context', 'rationale',
             'expected_realization', 'accepted_variants', 'functional_goal', 'external_assessment_status', 'external_assessment_note']}}
     snapshot['goal'].update(author_id=str(goal.author_id), review_date=goal.review_date.isoformat() if goal.review_date else None)
     admin = ProbeAdministration.objects.create(child=child, organization=child.organization, goal=goal,
         definition=definition, professional=actor, idempotency_key=key, payload_digest=digest, conditions=conditions,
-        familiarity=familiarity, snapshot=snapshot, started_at=at)
+        familiarity=familiarity, snapshot=snapshot, started_at=at, observation_scope=observation_scope,
+        alternate_context_label=alternate_context_label, alternate_context_reason=alternate_context_reason)
     audit(actor, 'followup.observation_started', admin, child.organization)
     return admin
 
@@ -486,7 +497,9 @@ def professional_report(actor, administration):
                 contamination.append({'item_key': item['id'], 'word': item['word'], 'at': future.occurred_at.isoformat(),
                     'original_exposure': item['exposure_at_start']})
     previous = professional_administrations(actor).filter(goal=admin.goal, status='finalized', started_at__lt=admin.started_at).order_by('-started_at').first()
-    comparable = bool(previous and _comparison_context(previous) == _comparison_context(admin))
+    comparable = bool(previous and admin.observation_scope == previous.observation_scope == 'goal'
+        and admin.snapshot.get('target_scope') and previous.snapshot.get('target_scope')
+        and _comparison_context(previous) == _comparison_context(admin))
     return {'administration': admin, 'goal': admin.goal, 'snapshot': copy.deepcopy(admin.snapshot), 'groups': _groups(admin),
         'ratings': ratings, 'corrections': corrections, 'contamination': contamination, 'original_groups': admin.summary_snapshot,
         'clinical_goal_snapshot': copy.deepcopy(admin.snapshot['goal']),

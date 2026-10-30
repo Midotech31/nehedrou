@@ -1,3 +1,5 @@
+> Archive éditoriale du 9 octobre 2026 : les chiffres de corpus ci-dessous décrivent cette livraison. Pour l'état courant, voir [l'inventaire horodaté](INVENTAIRE_CONTENUS.md) et `manage.py content_inventory --json`.
+
 # Recherche et décisions produit — Nehdrou
 
 Recherche documentaire du 9 octobre 2026. Sources primaires : recommandations professionnelles, articles de recherche et pages officielles des produits comparés. Aucun entretien utilisateur, essai clinique de Nehdrou ou audit indépendant de certification n’a été réalisé. Les décisions ci-dessous sont des inférences de conception, à confronter à un pilote terrain.

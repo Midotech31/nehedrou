@@ -1,15 +1,17 @@
-{% load i18n %}
+{% load i18n content_language %}
+{% with text_language=guide.language|default:"und" %}
 {% if guide %}
 <section class="card">
 <h2>{% translate "Activity purpose and guidance" %}</h2>
-<p dir="auto"><strong>{{ guide.objective }}</strong></p>
-{% if not hide_scope %}<h3>{% translate "Intended audience" %}</h3><p dir="auto">{{ guide.audience }}</p>{% endif %}
-<h3>{% translate "Discover the words" %}</h3><ol>{% for text in guide.discover %}<li dir="auto">{{ text }}</li>{% endfor %}</ol>
-<h3>{% if activity.response_mode == 'observation' or item.activity.response_mode == 'observation' %}{% translate "Observe and play together" %}{% elif activity.response_mode == 'free' or item.activity.response_mode == 'free' %}{% translate "Make a choice together" %}{% else %}{% translate "Listen and choose" %}{% endif %}</h3><ol>{% for text in guide.listen %}<li dir="auto">{{ text }}</li>{% endfor %}</ol>
-<h3>{% translate "A short exchange" %}</h3><ol>{% for text in guide.exchange %}<li dir="auto">{{ text }}</li>{% endfor %}</ol>
-<h3>{% translate "Support without pressure" %}</h3><ul>{% for text in guide.support %}<li dir="auto">{{ text }}</li>{% endfor %}</ul>
-{% if not hide_scope %}<h3>{% translate "Scope and limitations" %}</h3><ul>{% for text in guide.limits %}<li dir="auto">{{ text }}</li>{% endfor %}</ul>{% endif %}
-<details><summary>{% translate "Linguistic points to review" %}</summary><p dir="auto">{{ guide.review_notes }}</p></details>
+<p lang="{{ text_language }}" dir="{{ text_language|language_direction }}"><strong>{{ guide.objective }}</strong></p>
+{% if not hide_scope %}<h3>{% translate "Intended audience" %}</h3><p lang="{{ text_language }}" dir="{{ text_language|language_direction }}">{{ guide.audience }}</p>{% endif %}
+<h3>{% translate "Discover the words" %}</h3><ol>{% for text in guide.discover %}<li lang="{{ text_language }}" dir="{{ text_language|language_direction }}">{{ text }}</li>{% endfor %}</ol>
+<h3>{% if activity.response_mode == 'observation' or item.activity.response_mode == 'observation' %}{% translate "Observe and play together" %}{% elif activity.response_mode == 'free' or item.activity.response_mode == 'free' %}{% translate "Make a choice together" %}{% else %}{% translate "Listen and choose" %}{% endif %}</h3><ol>{% for text in guide.listen %}<li lang="{{ text_language }}" dir="{{ text_language|language_direction }}">{{ text }}</li>{% endfor %}</ol>
+<h3>{% translate "A short exchange" %}</h3><ol>{% for text in guide.exchange %}<li lang="{{ text_language }}" dir="{{ text_language|language_direction }}">{{ text }}</li>{% endfor %}</ol>
+<h3>{% translate "Support without pressure" %}</h3><ul>{% for text in guide.support %}<li lang="{{ text_language }}" dir="{{ text_language|language_direction }}">{{ text }}</li>{% endfor %}</ul>
+{% if not hide_scope %}<h3>{% translate "Scope and limitations" %}</h3><ul>{% for text in guide.limits %}<li lang="{{ text_language }}" dir="{{ text_language|language_direction }}">{{ text }}</li>{% endfor %}</ul>{% endif %}
+<details><summary>{% translate "Linguistic points to review" %}</summary><p lang="{{ text_language }}" dir="{{ text_language|language_direction }}">{{ guide.review_notes }}</p></details>
 </section>
 {% endif %}
-{% if sources %}<section class="card"><h2>{% translate "Sources and their scope" %}</h2><p>{% translate "These sources describe approaches or language facts. They do not validate this activity or the application." %}</p><ul>{% for source in sources %}<li><a href="{{ source.url }}" rel="noreferrer">{{ source.title }}</a><p dir="auto">{{ source.scope }}</p></li>{% endfor %}</ul></section>{% endif %}
+{% endwith %}
+{% if sources %}<section class="card"><h2>{% translate "Sources and their scope" %}</h2><p>{% translate "These sources describe approaches or language facts. They do not validate this activity or the application." %}</p><ul>{% for source in sources %}<li><a href="{{ source.url }}" rel="noreferrer" lang="{{ source|source_title_language }}" dir="{{ source|source_title_language|language_direction }}">{{ source.title }}</a><p lang="{{ source|source_scope_language }}" dir="{{ source|source_scope_language|language_direction }}">{{ source.scope }}</p></li>{% endfor %}</ul></section>{% endif %}

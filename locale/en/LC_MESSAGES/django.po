@@ -4506,3 +4506,142 @@ msgstr "Editors can record an adult voice or import WAV/MP3, document the exact 
 
 msgid "Audio provenance must specify a valid voice source, exact text and spoken variety."
 msgstr "Audio provenance must specify a valid voice source, exact text and spoken variety."
+
+
+msgid "A limited permission requires an expiry date."
+msgstr "A limited permission requires an expiry date."
+
+msgid "Choose a different responsible clinician."
+msgstr "Choose a different responsible clinician."
+
+msgid "Choose a goal observation or a separate context observation."
+msgstr "Choose a goal observation or a separate context observation."
+
+msgid "Document a structured target position and context."
+msgstr "Document a structured target position and context."
+
+msgid "Document structured target position and context before real use."
+msgstr "Document structured target position and context before real use."
+
+msgid "Evidence validity"
+msgstr "Evidence validity"
+
+msgid "Goal context"
+msgstr "Goal context"
+
+msgid "Legacy scope not recorded"
+msgstr "Legacy scope not recorded"
+
+msgid "Limited period"
+msgstr "Limited period"
+
+msgid "Name and justify the alternate context. It will never be automatically compared as an equivalent goal measure."
+msgstr "Name and justify the alternate context. It will never be automatically compared as an equivalent goal measure."
+
+msgid "Name and justify this separate context observation."
+msgstr "Name and justify this separate context observation."
+
+msgid "Observation context"
+msgstr "Observation context"
+
+msgid "Observe another context separately"
+msgstr "Observe another context separately"
+
+msgid "Only a limited permission may have an expiry date."
+msgstr "Only a limited permission may have an expiry date."
+
+msgid "Only currently qualified real activities with valid rights can be assigned."
+msgstr "Only currently qualified real activities with valid rights can be assigned."
+
+msgid "Pause"
+msgstr "Pause"
+
+msgid "Permission validity"
+msgstr "Permission validity"
+
+msgid "Position and context are undocumented; use a named, justified separate observation."
+msgstr "Position and context are undocumented; use a named, justified separate observation."
+
+msgid "Real-use audio requires the exact spoken text, spoken variety and a documented human or synthetic source."
+msgstr "Real-use audio requires the exact spoken text, spoken variety and a documented human or synthetic source."
+
+msgid "Reason for observing another context"
+msgstr "Reason for observing another context"
+
+msgid "Resume"
+msgstr "Resume"
+
+msgid "Revoke media"
+msgstr "Revoke media"
+
+msgid "Revoked media cannot be silently reinstated. Upload a new version."
+msgstr "Revoked media cannot be silently reinstated. Upload a new version."
+
+msgid "Selected device voice language"
+msgstr "Selected device voice language"
+
+msgid "Separate context name"
+msgstr "Separate context name"
+
+msgid "Separate context observation"
+msgstr "Separate context observation"
+
+msgid "Separate-context details require the separate observation mode."
+msgstr "Separate-context details require the separate observation mode."
+
+msgid "Structured target context"
+msgstr "Structured target context"
+
+msgid "The expiry date cannot precede the validity start date."
+msgstr "The expiry date cannot precede the validity start date."
+
+msgid "The installed voice uses a different regional accent."
+msgstr "The installed voice uses a different regional accent."
+
+msgid "The protocol position and context must match the clinical goal."
+msgstr "The protocol position and context must match the clinical goal."
+
+msgid "The protocol target and spoken variety must match the clinical goal."
+msgstr "The protocol target and spoken variety must match the clinical goal."
+
+msgid "The structured position must agree with the target position."
+msgstr "The structured position must agree with the target position."
+
+msgid "Too many attempts. Try again later."
+msgstr "Too many attempts. Try again later."
+
+msgid "Transfer all assigned child profiles, including archived profiles, before revoking this practitioner. The responsible clinician must transfer each profile to an active practice member."
+msgstr "Transfer all assigned child profiles, including archived profiles, before revoking this practitioner. The responsible clinician must transfer each profile to an active practice member."
+
+msgid "Unlimited period"
+msgstr "Unlimited period"
+
+msgid "Use a PNG, JPEG, WebP, WAV or MP3 file."
+msgstr "Use a PNG, JPEG, WebP, WAV or MP3 file."
+
+msgid "Use an explicit stable context identifier, such as isolated_word."
+msgstr "Use an explicit stable context identifier, such as isolated_word."
+
+msgid "Use the same explicit context identifier for equivalent planned contexts, such as isolated_word or carrier_phrase. Different contexts remain separate observations."
+msgstr "Use the same explicit context identifier for equivalent planned contexts, such as isolated_word or carrier_phrase. Different contexts remain separate observations."
+
+msgid "Valid from (inclusive)"
+msgstr "Valid from (inclusive)"
+
+msgid "Valid until (inclusive)"
+msgstr "Valid until (inclusive)"
+
+msgid "Validity to document"
+msgstr "Validity to document"
+
+msgid "Word final"
+msgstr "Word final"
+
+msgid "Word initial"
+msgstr "Word initial"
+
+msgid "Word medial"
+msgstr "Word medial"
+
+msgid "Your answers remain on this page. Resume when you are ready, or stop for today."
+msgstr "Your answers remain on this page. Resume when you are ready, or stop for today."

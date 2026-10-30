@@ -6,7 +6,11 @@ from core.services import audit
 from .models import Activity, EditorialGrant, Review, Variety
 
 def allowed(user, variety, capability):
-    return user.is_superuser or EditorialGrant.objects.filter(user=user, variety=variety, **{capability: True}).exists()
+    if user.is_superuser:
+        return True
+    from .integrity import request_value
+    grant = request_value('grants', (user.pk, variety.pk), lambda: EditorialGrant.objects.filter(user=user, variety=variety).first())
+    return bool(grant and getattr(grant, capability, False))
 
 @transaction.atomic
 def transition(actor, activity_id, target):

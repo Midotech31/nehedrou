@@ -76,6 +76,8 @@ class ProgramItem(CheckedModel):
                 raise ValidationError(_('Only published activities can be assigned.'))
             if self.activity.is_demo and not settings.DEMO_MODE:
                 raise ValidationError(_('Demo content cannot be assigned outside demonstration mode.'))
+            if not old and not self.activity.is_demo and not self.activity.usable:
+                raise ValidationError(_('Only currently qualified real activities with valid rights can be assigned.'))
 
 class PracticeRun(CheckedModel):
     program = models.ForeignKey(Program, on_delete=models.CASCADE, related_name='practice_runs')

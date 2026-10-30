@@ -12,7 +12,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from care.models import ProgramItem
 from core.access import visible_programs
-from .models import Activity, EditorialGrant, Variety, MediaAsset, Review
+from .models import Activity, EditorialGrant, Variety, MediaAsset, Review, GeneratedReviewPackImport
 from .forms import ActivityForm, ReviewForm, MediaForm
 from .services import allowed, transition, clone_version, review_version
 
@@ -185,12 +185,35 @@ def upload(request):
     return render(request, 'editorial/upload.html', {'form': form, 'draft': draft})
 
 @login_required
+@require_POST
+def revoke_media(request, pk):
+    asset = get_object_or_404(MediaAsset.objects.select_related('rights_evidence__variety'), pk=pk)
+    if not (request.user.is_superuser or asset.uploaded_by_id == request.user.pk
+            or (asset.rights_evidence_id and allowed(request.user, asset.rights_evidence.variety, 'publish'))):
+        raise PermissionDenied
+    asset.revoked = True
+    asset.revocation_reason = request.POST.get('reason', '').strip()
+    try:
+        asset.save()
+        from core.services import audit
+        audit(request.user, 'catalog.media_revoked', asset)
+    except ValidationError as error:
+        messages.error(request, ' '.join(error.messages))
+    return redirect('editorial_index')
+
+
+@login_required
 def media(request, pk):
-    asset = get_object_or_404(MediaAsset, pk=pk)
+    asset = get_object_or_404(MediaAsset.objects.select_related('rights_evidence'), pk=pk)
     reference = 'editorial/asset-' + str(asset.pk)
     audio_suffix = '/media/' + str(asset.pk) + '/'
     activities = Activity.objects.filter(Q(image_a=reference) | Q(image_b=reference) | Q(audio_a__endswith=audio_suffix) | Q(audio_b__endswith=audio_suffix))
     editorial = request.user.is_superuser or EditorialGrant.objects.filter(user=request.user, variety__activity__in=activities).exists() or asset.uploaded_by_id == request.user.pk
+    generation = asset.provenance.get('generation', {}) if isinstance(asset.provenance, dict) else {}
+    if not editorial and isinstance(generation, dict) and generation.get('pack_id'):
+        receipt = GeneratedReviewPackImport.objects.filter(pack_id=generation['pack_id']).first()
+        editorial = bool(receipt and str(asset.pk) in receipt.record.get('media_ids', [])
+            and EditorialGrant.objects.filter(user=request.user, variety_id=receipt.variety_id).exists())
     available = activities.filter(state='published')
     if not settings.DEMO_MODE:
         available = available.filter(is_demo=False)
@@ -201,7 +224,11 @@ def media(request, pk):
     assigned = ProgramItem.objects.filter(activity__in=available, program__in=visible_programs(request.user)).exists()
     if not editorial and not public_catalog and not assigned:
         raise Http404
-    if not editorial and not any(activity.usable for activity in available):
+    from .integrity import prepare_activities
+    available = prepare_activities(available.select_related('variety'))
+    # Incomplete legacy audio may be inspected in an explicit demonstration.
+    # Real activities still require documented rights through both gates.
+    if not editorial and (asset.revoked or not any(activity.usable and (activity.is_demo or asset.documented) for activity in available)):
         raise Http404
     from .audio_delivery import protected_media_response
     return protected_media_response(request, asset)

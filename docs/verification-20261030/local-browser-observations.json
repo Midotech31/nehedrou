@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-30",
+  "environment": "Local isolated SQLite preview at 127.0.0.1:8030; fictional accounts only",
+  "browser": "Codex in-app browser desktop renderer",
+  "observations": [
+    {
+      "locale": "ar",
+      "path": "/ar/try/",
+      "case": "Next without answer at choice stage",
+      "result": "remains step2, inline error visible, focus on radio named answer"
+    },
+    {
+      "locale": "ar",
+      "case": "Pause and Resume",
+      "result": "pause panel, resumes step2 without submitting"
+    },
+    {
+      "locale": "ar",
+      "case": "Stop without answer and caregiver report",
+      "result": "step3 accepts stop without picture answer; fictional summary says stopped/not scored"
+    },
+    {
+      "locale": "ar",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "result": "RTL layout, two stimuli visible, pause/stop available; screenshot inspected"
+    },
+    {
+      "locale": "fr",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "result": "page width375 <= viewport390; all images loaded"
+    },
+    {
+      "locale": "fr",
+      "case": "Keyboard Enter on Next; Space on focused radio",
+      "result": "inline error/focus on missing answer, Space selects answer"
+    },
+    {
+      "locale": "fr",
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "result": "page width305 <= viewport320; choices and controls readable; screenshot inspected"
+    },
+    {
+      "locale": "en",
+      "case": "Desktop public sample",
+      "result": "translated sample renders"
+    },
+    {
+      "locale": "fr",
+      "case": "Local editorial generated images",
+      "result": "scoped fictional editorial login, pain/bain v3 images delivered and unapproved status displayed; inherited MIT text discovered and importer code fixed subsequently, old fixture retained"
+    }
+  ],
+  "not_verified": [
+    "200% browser zoom: keyboard shortcut had no effect, not claimed",
+    "Physical phones or tablets",
+    "Assistive technologies/screen reader",
+    "Clinical or linguistic approval",
+    "Production private dossier mutation/export"
+  ],
+  "viewport_override_reset": true
+}

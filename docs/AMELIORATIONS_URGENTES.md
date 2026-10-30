@@ -1,3 +1,5 @@
+> Livraison historique du 10 octobre 2026 : corpus, stockage et schéma d'export ci-dessous sont datés. Voir [l'inventaire courant](INVENTAIRE_CONTENUS.md), [la persistance depuis le 11 octobre](CMS_GUIDE_ET_PERSISTANCE.md) et [l'export schéma 3](dossier-export-v3.md).
+
 # Quatre améliorations — 10 octobre 2026
 
 Cette livraison renforce la démonstration fonctionnelle de Nehedrou : pratique à domicile accompagnée, objectifs et activités choisis par l’orthophoniste. Elle ne délivre pas une validation clinique de l’application.

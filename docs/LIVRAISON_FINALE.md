@@ -1,3 +1,5 @@
+> Archive éditoriale du 9 octobre 2026, version 6 : les chiffres de corpus ci-dessous décrivent cette livraison. Pour l'état courant, voir [l'inventaire horodaté](INVENTAIRE_CONTENUS.md) et `manage.py content_inventory --json`.
+
 # Livraison finale — Nehedrou, version 6
 
 ## Verdict

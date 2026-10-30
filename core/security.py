@@ -15,6 +15,7 @@ from django_otp import login as otp_login, verify_token
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from .models import RecoveryCode, Membership
 from .services import audit
+from .auth_throttle import authentication_succeeded
 
 class MFAMiddleware:
     def __init__(self, get_response):
@@ -62,6 +63,7 @@ def setup(request):
                     for code in codes:
                         RecoveryCode.objects.create(user=request.user, digest=hashlib.sha256(code.encode()).hexdigest())
                     otp_login(request, device)
+                    authentication_succeeded(request)
                     audit(request.user, 'security.mfa_enabled', request.user)
             if valid:
                 return render(request, 'security_codes.html', {'codes': codes})
@@ -98,6 +100,7 @@ def verify(request):
                     audit(request.user, 'security.recovery_used', request.user)
         if verified:
             otp_login(request, verified)
+            authentication_succeeded(request)
             return redirect('dashboard')
         form.add_error('token', _('Invalid or already used code.'))
     return render(request, 'form.html', {'title': _('Verify your identity'), 'form': form, 'submit': _('Verify')})
@@ -120,5 +123,6 @@ def recovery_codes(request):
                 for code in codes:
                     RecoveryCode.objects.create(user=request.user, digest=hashlib.sha256(code.encode()).hexdigest())
                 audit(request.user, 'security.recovery_regenerated', request.user)
+            authentication_succeeded(request)
             return render(request, 'security_codes.html', {'codes': codes})
     return render(request, 'form.html', {'title': _('Regenerate recovery codes'), 'form': form, 'submit': _('Regenerate')})

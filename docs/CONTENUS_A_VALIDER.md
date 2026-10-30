@@ -1,3 +1,5 @@
+> Archive éditoriale du 10 octobre 2026 : les chiffres de corpus ci-dessous décrivent cette livraison. Pour l'état courant, voir [l'inventaire horodaté](INVENTAIRE_CONTENUS.md) et `manage.py content_inventory --json`.
+
 # Contenus à valider — corpus v2
 
 Mise à jour du 10 octobre 2026. Source active : catalog-candidates.json, **37 fiches candidates v2 : 19 FR, 17 EN, 1 darja**. Aucune approbation clinique ou linguistique n’est fournie, aucun audio clinique validé n’est livré. Les transcriptions FR/EN sont des propositions de travail à relire ; la fiche darja laisse volontairement les transcriptions vides.

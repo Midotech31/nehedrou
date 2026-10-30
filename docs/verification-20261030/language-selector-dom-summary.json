@@ -1,0 +1,7 @@
+{
+  "date": "2026-10-30",
+  "scope": "core.tests_languages; includes native submit/current-language DOM contract for FR/EN/AR",
+  "exit_code": 0,
+  "elapsed_seconds": 2.156,
+  "limitations": "Server-rendered DOM and existing POST contracts only. Browser bridge activation checked separately by root; ARIA cause not inferred."
+}

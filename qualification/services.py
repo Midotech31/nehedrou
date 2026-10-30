@@ -13,8 +13,9 @@ REQUIRED_EVIDENCE = ('clinical_content', 'rights', 'governance', 'pilot', 'opera
 def has_competence(user, variety, discipline):
     if not user.is_active:
         return False
-    competence = ReviewerCompetence.objects.filter(user=user, variety=variety, discipline=discipline, active=True).select_related('evidence').first()
-    return bool(competence and competence.professional_role.strip() and competence.experience.strip() and (not competence.evidence_id or competence.evidence.intact))
+    from catalog.integrity import request_value
+    competence = request_value('competences', (user.pk, variety.pk, discipline), lambda: ReviewerCompetence.objects.filter(user=user, variety=variety, discipline=discipline, active=True).select_related('evidence').first())
+    return bool(competence and competence.professional_role.strip() and competence.experience.strip() and (not competence.evidence_id or competence.evidence.usable))
 
 def evidence_snapshot(documents):
     return {document.category: {'id': str(document.pk), 'sha256': document.sha256} for document in documents}
@@ -26,15 +27,17 @@ def decision_evidence_reasons(decision):
     for category in REQUIRED_EVIDENCE:
         entry = decision.evidence.get(category, {})
         try:
-            document = EvidenceDocument.objects.filter(pk=uuid.UUID(str(entry.get('id', '')))).first()
+            from catalog.integrity import evidence_document
+            document = evidence_document(entry.get('id', '')) if isinstance(entry, dict) else None
         except (ValueError, AttributeError):
             document = None
-        if not document or document.variety_id != decision.variety_id or document.category != category or entry.get('sha256') != document.sha256 or not document.intact:
+        if not document or document.variety_id != decision.variety_id or document.category != category or entry.get('sha256') != document.sha256 or not document.usable:
             reasons.append(_('Missing or revoked availability evidence: %(category)s.') % {'category': category})
     return reasons
 
 def availability_for(module, variety, version):
-    decision = AvailabilityDecision.objects.filter(module=module, variety=variety, version=version).select_related('decided_by', 'variety').first()
+    from catalog.integrity import request_value
+    decision = request_value('availability', (module, variety.pk, version), lambda: AvailabilityDecision.objects.filter(module=module, variety=variety, version=version).select_related('decided_by', 'variety').first())
     reasons = []
     if not decision or decision.status != 'available':
         reasons.append(_('No current authorised availability decision for this exact version.'))
@@ -59,10 +62,13 @@ def pack_content_reasons(pack):
             reasons.append(_('Missing IPA transcription: %(word)s.') % {'word': candidate.word})
         for kind in ['image', 'audio']:
             asset = getattr(candidate, kind)
-            if not asset or asset.kind != kind or not asset.documented:
+            if not asset or asset.kind != kind or not asset.documented or asset.rights_evidence.variety_id != pack.variety_id:
                 reasons.append(_('Missing intact media and documented rights: %(word)s / %(kind)s.') % {'word': candidate.word, 'kind': kind})
+        if candidate.audio:
+            from catalog.audio_checks import audio_binding_errors
+            reasons.extend(audio_binding_errors(candidate.audio, candidate.word, pack.variety))
         studies = list(candidate.familiarity.select_related('evidence'))
-        if not studies or any(not study.evidence.intact for study in studies):
+        if not studies or any(not study.evidence.usable for study in studies):
             reasons.append(_('Missing intact exploratory familiarity evidence: %(word)s.') % {'word': candidate.word})
     return reasons
 

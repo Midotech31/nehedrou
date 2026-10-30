@@ -1,0 +1,50 @@
+/* Stimuli first; caregiver context stays available below the task. */
+.practice-workspace { max-inline-size: 960px; margin-inline: auto; }
+.practice-page .public-layout main { padding-block: 22px; }
+.practice-heading { margin-block: 12px 16px; }
+.practice-heading h1 { font-size: clamp(24px,2.5vw,32px); margin-block: 6px; }
+.practice-heading p { margin: 0; font-size: 14px; }
+.practice-notice { margin-block: 10px 14px; font-size: 14px; }
+.practice-workspace .activity-progress { padding: 10px 14px; margin-block-end: 14px; }
+.practice-workspace [data-activity-step] { padding: 20px; margin-block-end: 14px; }
+.practice-workspace [data-activity-step]>.step { display: none; }
+.practice-workspace [data-activity-step] h2 { font-size: 21px; margin-block-end: 12px; }
+.practice-workspace .picture-pair { margin-block: 10px; }
+.practice-workspace .picture-pair img { inline-size: clamp(105px,18vw,180px); }
+.practice-workspace .audio-model>strong { display: none; }
+.practice-workspace .audio-model small { font-size: 13px; }
+.practice-workspace .picture-choice { gap: 14px; }
+.practice-workspace .picture-choice legend { padding-block: 4px 12px; }
+.practice-workspace .picture-choice label { padding: 14px; }
+.practice-workspace .target { font-size: 28px; padding: 10px; margin-block: 12px; }
+.practice-workspace .step-help { margin-block-start: 16px; border-block-start: 1px solid var(--line); padding-block-start: 10px; }
+.practice-workspace summary { cursor: pointer; min-block-size: 44px; padding-block: 8px; font-weight: 650; }
+.practice-workspace .step-help :is(ol,ul),.practice-workspace .practice-brief :is(ol,ul) { margin-block: 8px; }
+.practice-workspace .practice-brief { margin-block: 18px; padding: 16px 20px; }
+.practice-workspace .practice-brief>summary { color: var(--primary); }
+.practice-workspace .practice-brief>h2 { font-size: 19px; margin-block-start: 14px; }
+.practice-workspace .guided-controls { position: sticky; bottom: 8px; z-index: 6; padding: 10px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); box-shadow: 0 4px 20px #29334C15; margin-block: 14px; }
+.practice-workspace .guided-controls>* { min-block-size: 44px; }
+.practice-workspace .guided-controls .stop-activity { margin: 0; }
+.practice-workspace [data-pause-panel] { background: var(--tint); padding: 24px; border-radius: 16px; margin-block: 14px; }
+.practice-workspace .choice-error { padding: 12px 14px; background: #FFF0ED; color: var(--error-ink,#993F35); border-inline-start: 3px solid currentColor; border-radius: 8px; margin-block: 10px; }
+.practice-page .run-position { padding: 10px 14px; margin-block: 10px; }
+html:lang(ar) .practice-workspace .audio-model small { font-size: 15px; }
+@media(max-width:700px) {
+  .practice-page main { padding: 16px 14px; }
+  .practice-page .public-layout main { padding-block: 16px; }
+  .practice-page .topbar { padding-block: 8px; }
+  .practice-page .brand-logo { inline-size: 42px; block-size: 42px; }
+  .practice-page .brand-wordmark { font-size: 18px; }
+  .practice-page .demo-band { padding-block: 5px; }
+  .practice-heading { margin-block: 8px 12px; }
+  .practice-heading h1 { font-size: 24px; }
+  .practice-workspace [data-activity-step] { padding: 16px; }
+  .practice-workspace .picture-pair { gap: 10px; }
+  .practice-workspace .picture-pair img { inline-size: clamp(100px,30vw,145px); }
+  .practice-workspace .picture-choice img { inline-size: min(100%,130px); block-size: auto; aspect-ratio: 1; }
+  .practice-workspace .picture-choice label { padding: 10px; }
+  .practice-workspace .guided-controls { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; bottom: 6px; }
+  .practice-workspace .guided-controls .button { padding-inline: 10px; }
+}
+@media print { .practice-workspace .guided-controls { display: none!important; } }

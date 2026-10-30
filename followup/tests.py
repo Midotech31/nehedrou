@@ -56,11 +56,11 @@ def item(index, reserved=False):
 
 def definition(case, count=2):
     return create_definition(case.pro, {'variety': case.variety, 'title': 'Synthetic unapproved protocol', 'protocol': 'Original synthetic protocol, never clinically approved.',
-        'task': 'picture_naming', 'target_phoneme': 'p', 'target_position': 'initial', 'items': [item(i, i % 2 == 1) for i in range(count)], 'is_demo': True})
+        'task': 'picture_naming', 'target_phoneme': 'p', 'target_position': 'initial', 'target_scope': {'position': 'initial', 'context': 'isolated_word'}, 'items': [item(i, i % 2 == 1) for i in range(count)], 'is_demo': True})
 
 
 def goal(case, probe):
-    return create_goal(case.pro, case.child, {'variety': case.variety, 'target_phoneme': 'p', 'target_position': 'initial',
+    return create_goal(case.pro, case.child, {'variety': case.variety, 'target_phoneme': 'p', 'target_position': 'initial', 'target_scope': {'position': 'initial', 'context': 'isolated_word'},
         'rationale': 'Synthetic observation only', 'expected_realization': '/p/', 'functional_goal': 'Observe synthetic responses.',
         'probe_definition': probe})
 
@@ -397,8 +397,8 @@ class FollowupTests(TestCase):
         self.assertNotIn(metadata_reason, content_reasons(probe))
         probe.target_phoneme = 'b'; probe.save()
         self.assertIn(metadata_reason, content_reasons(probe))
-        objective = goal(self, probe)
-        with self.assertRaises(ValidationError): start(self, probe, objective)
+        with self.assertRaises(ValidationError):
+            goal(self, probe)
 
     def test_comparison_tracks_exposure_familiarity_and_frozen_goal(self):
         self.prepare()
@@ -432,12 +432,12 @@ class FollowupTests(TestCase):
             competence_fixture(self.foreign,self.variety,'linguistic')
             proofs = {category:evidence_fixture(self.variety,self.pro,category) for category in ['rights','familiarity','linguistic']}
             image = media_fixture(self.variety,self.pro,'image',proofs['rights'])
-            audio = media_fixture(self.variety,self.pro,'audio',proofs['rights'])
+            audio = media_fixture(self.variety,self.pro,'audio',proofs['rights'],word='mot-0')
             items = [item(0)]
             items[0].update(meaning='Synthetic meaning',segments=['p'],target_occurrences=[{'index':0,'phoneme':'p','position':'initial'}],
                 familiarity_verified=True,reviewed=True,image_asset=str(image.pk),audio_asset=str(audio.pk))
             probe = create_definition(self.editor, {'variety':self.variety,'title':'Synthetic complete fixture','protocol':'Fictional test only',
-                'task':'naming','target_phoneme':'p','target_position':'initial','items':items,'is_demo':False,
+                'task':'naming','target_phoneme':'p','target_position':'initial','target_scope':{'position':'initial','context':'isolated_word'},'items':items,'is_demo':False,
                 'rights':'Fictional test only','rights_status':'original_documented',
                 'evidence':{category+'_evidence':{'id':str(doc.pk),'sha256':doc.sha256} for category,doc in proofs.items()}})
             probe = transition_definition(self.editor,probe,'review')

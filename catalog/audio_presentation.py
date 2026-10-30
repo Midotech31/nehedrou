@@ -2,12 +2,14 @@ from django.urls import reverse
 from django.utils.translation import gettext as _
 
 def audio_context(asset, word='', variety='', reference_present=True):
-    context = {'word': word, 'reference_present': reference_present, 'asset': asset}
+    from .templatetags.content_language import spoken_language
+    context = {'word': word, 'word_language': spoken_language(variety), 'reference_present': reference_present, 'asset': asset}
     if not asset:
         return context
     profile = asset.provenance.get('audio', {})
     if not isinstance(profile, dict): profile = {}
     source = profile.get('source', '')
+    context['word_language'] = spoken_language(variety or profile.get('variety', ''))
     from .models import Variety
     variety_label = str(Variety(code=profile.get('variety', '')).display_label)
     context.update(url=reverse('editorial_media', args=[asset.pk]), seconds=asset.technical_metadata.get('seconds'),

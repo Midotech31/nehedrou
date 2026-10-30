@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-30",
+  "started_at_utc": "2026-10-30T17:30:05.488587+00:00",
+  "database": "isolated local SQLite; fresh explicit demo and test database paths; no cloud connection",
+  "postgres_and_aws_credentials_removed": true,
+  "exit_code": 0,
+  "elapsed_seconds": 364.875,
+  "discovered_tests": 430,
+  "ran_tests": 430,
+  "test_runtime_seconds": 349.405,
+  "skipped_tests": 14,
+  "failure_count": 0,
+  "error_count": 0,
+  "practice_guidance_tests": 11,
+  "generated_image_pack_tests": 9
+}

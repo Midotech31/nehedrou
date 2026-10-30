@@ -1,0 +1,1624 @@
+{
+  "schema_version": 1,
+  "prepared_on": "2026-10-30",
+  "status": "prepared_translations_pending_human_review",
+  "source": "docs/arabic-library-v1.json",
+  "languages": [
+    "fr",
+    "en",
+    "ar"
+  ],
+  "note": "Prepared semantic counterparts for review; no human approval, lexical familiarity, clinical validity or recording rights are inferred.",
+  "base_catalog_mapping": {
+    "source": "docs/catalog-candidates.json",
+    "candidate_count": 37,
+    "matching_msa_series": [],
+    "note": "This 37-entry base catalog contains no matching MSA contrast series. No duplicate candidates or inventory additions were created."
+  },
+  "identity_fields": [
+    "series",
+    "version",
+    "variety_code",
+    "word_a",
+    "word_b",
+    "transcription_a",
+    "transcription_b",
+    "item_metadata",
+    "state",
+    "is_demo",
+    "audio_a",
+    "audio_b"
+  ],
+  "activities": [
+    {
+      "series": "b3fb6f45-1487-5bc5-979d-7d7f6c6ba09e",
+      "version": 1,
+      "words": [
+        "كَلْب",
+        "قَلْب"
+      ],
+      "linguistic_identity_sha256": "335dfe4e45359be90d67e644e26a8f7c1036d18247f0092fa0e55f6935f8a56a",
+      "required_information": [
+        {
+          "id": "individual_selection_familiarity_and_register",
+          "field": "practice_guide.{language}.audience",
+          "prepared_text": {
+            "fr": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+            "en": "Pilot proposal for children aged 4–7, selected individually by the speech and language therapist and accompanied by an adult competent in the chosen spoken variety. The age range is a design indication, not a developmental norm. Check familiarity with both words and recognition of the pictures. The child must already understand Standard Arabic; select the contrast after phonological assessment, never merely because of a dialect difference.",
+            "ar": "اقتراح تجريبي لأطفال عمرهم ٤–٧ سنوات، بعد اختيار فردي من أخصائي النطق واللغة، وبمرافقة بالغ متمكن من التنوع اللغوي المختار. العمر إرشادي في التصميم وليس معيارًا نمائيًا. يجب التحقق من ألفة الكلمتين والتعرف على الصورتين. يجب أن يكون الطفل فاهمًا للفصحى مسبقًا؛ يُختار التقابل بعد تقييم فونولوجي، ولا يُفرض لمجرد اختلاف لهجي."
+          }
+        },
+        {
+          "id": "isolated_forms_and_professional_oral_model",
+          "field": "practice_guide.{language}.listen[1]",
+          "prepared_text": {
+            "fr": "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant.",
+            "en": "Transcription and phonemic segmentation are working analyses. A competent professional must check the oral model, isolated forms without an article or case ending, and their relevance to the child.",
+            "ar": "النسخ الصوتي والتقسيم إلى فونيمات تحليلان أوليان. يجب أن يتحقق مختص مؤهل من النموذج الشفهي والصيغ المعزولة دون أداة تعريف أو نهاية إعرابية ومن ملاءمتها للطفل."
+          }
+        },
+        {
+          "id": "pair_caution_01",
+          "field": "practice_guide.{language}.limits[0]",
+          "prepared_text": {
+            "fr": "Nouvelle proposition MSA non approuvée ; aucun audio clinique approuvé. Indication et familiarité à examiner individuellement par un professionnel compétent.",
+            "en": "New unapproved MSA proposal; no approved clinical audio. A competent professional must assess the indication and word familiarity individually.",
+            "ar": "اقتراح جديد غير معتمد في العربية الفصحى؛ لا يوجد تسجيل صوتي سريري معتمد. يجب أن يراجع مختص مؤهل الملاءمة وألفة الكلمات لكل طفل على حدة."
+          }
+        },
+        {
+          "id": "pair_caution_02",
+          "field": "practice_guide.{language}.limits[1]",
+          "prepared_text": {
+            "fr": "Choisir et faire relire une image du cœur au sens d’organe ; un symbole affectif seul peut induire une autre interprétation.",
+            "en": "Choose and have reviewers examine a picture of the heart as a body organ; an affection symbol alone may suggest another meaning.",
+            "ar": "اختاروا صورة للقلب بوصفه عضوًا في الجسم واعرضوها للمراجعة؛ فقد يوحي رمز المحبة وحده بمعنى آخر."
+          }
+        },
+        {
+          "id": "pair_caution_03",
+          "field": "practice_guide.{language}.limits[2]",
+          "prepared_text": {
+            "fr": "La comparaison porte sur des phonèmes, pas sur l’identité de toutes les réalisations phonétiques des voyelles. Ne pas assimiler une réalisation régionale de ق à une erreur de parole.",
+            "en": "The comparison concerns phonemes, not identical phonetic realizations of every vowel. Do not treat a regional realization of ق as a speech error.",
+            "ar": "تتناول المقارنة الفونيمات، ولا تشترط تطابق جميع التحققات النطقية للحركات. لا تعدّوا نطقًا إقليميًا لحرف ق خطأً في الكلام."
+          }
+        },
+        {
+          "id": "pair_caution_04",
+          "field": "practice_guide.{language}.limits[3]",
+          "prepared_text": {
+            "fr": "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale.",
+            "en": "The single-phoneme difference in our segmentation is a formal check; it is not clinical or dialectal validation.",
+            "ar": "الاختلاف في فونيم واحد في تقسيمنا فحص شكلي؛ ولا يمثل اعتمادًا سريريًا أو تحققًا من صحة شكل لهجي."
+          }
+        }
+      ],
+      "human_reviews": {
+        "fr": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "en": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "ar": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        }
+      },
+      "previous_guide_sha256": "73bf8eb082da72b494fe3dc1727f882a203bce9a30c0d8c4ab8c12109b2534b9",
+      "stimulus_sha256": "e40a544c78c7bee4c3048933f7fdfc764eb79e9509788725e9a1266664147105",
+      "previous_guide": {
+        "fr": {
+          "objective": "Explorer le sens de deux mots standard sous des formes isolées proposées, avec une différence phonémique initiale /k/–/q/. L’indication thérapeutique appartient à l’orthophoniste.",
+          "audience": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+          "discover": [
+            "كَلْب : chien ; قَلْب : cœur, organe",
+            "Reconnaissez chaque image séparément avant la comparaison. Un mot inconnu, un dessin ambigu ou un sens familial différent exige une autre fiche."
+          ],
+          "listen": [
+            "Après avoir vérifié les deux sens, l’adulte nomme uniquement le mot demandé à l’écran et l’enfant peut montrer son image. Aucun score de prononciation ; contraste proposé en arabe standard, à relire.",
+            "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant."
+          ],
+          "exchange": [
+            "Demandez une fois le mot affiché. Acceptez une indication ou un geste. Une répétition orale est facultative et reste non cotée."
+          ],
+          "support": [
+            "Nommez ou représentez les objets si nécessaire, puis notez cette aide. Laissez un temps de réponse ; arrêtez si l’enfant se fatigue ou refuse."
+          ],
+          "limits": [
+            "Nouvelle proposition MSA non approuvée ; aucun audio clinique approuvé. Indication et familiarité à examiner individuellement par un professionnel compétent.",
+            "Choisir et faire relire une image du cœur au sens d’organe ; un symbole affectif seul peut induire une autre interprétation.",
+            "La comparaison porte sur des phonèmes, pas sur l’identité de toutes les réalisations phonétiques des voyelles. Ne pas assimiler une réalisation régionale de ق à une erreur de parole.",
+            "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale."
+          ],
+          "review_notes": "Proposition originale à relire : sens, familiarité familiale, dessin, registre oral, accessibilité et indication individuelle. Les sources documentent un cadre ou des formes lexicales ; elles ne valident pas cette fiche ni les effets de Nehedrou. Aucun enregistrement clinique approuvé."
+        },
+        "en": {
+          "objective": "Explore two proposed isolated Standard Arabic words with one initial phonemic difference /k/–/q/. A therapist must decide any treatment indication.",
+          "audience": "Proposed pilot for children aged 4–7 who already understand this register, selected after individual phonological assessment; no developmental norm or automatic transfer to Darja.",
+          "discover": [
+            "كَلْب: dog; قَلْب: heart: body organ",
+            "Recognize each picture separately first. Use another activity if a word is unfamiliar, a picture ambiguous or the family meaning different."
+          ],
+          "listen": [
+            "After checking both meanings, the adult says only the word requested on screen and the child may point to its picture. No pronunciation score; this proposed Standard Arabic contrast awaits review.",
+            "Transcriptions and segmentation are working analyses. A competent professional must check the oral model and isolated forms without articles or case endings."
+          ],
+          "exchange": [
+            "Ask once for the displayed word. Accept pointing or a gesture. Oral repetition is optional and is not scored."
+          ],
+          "support": [
+            "Name or show objects if needed, record that help and allow response time. Stop if the child is tired or refuses."
+          ],
+          "limits": [
+            "The single-phoneme difference is a formal check on our proposed segmentation, not clinical or dialectal approval.",
+            "Regional realizations, emphatic vowel effects, word meanings and picture familiarity require human review. No approved clinical audio, diagnostic score or measured treatment benefit."
+          ],
+          "review_notes": "Original proposal awaiting human review of meaning, family familiarity, pictures, spoken variety, accessibility and individual suitability. References describe a framework or lexical forms; they do not validate this activity or the effects of Nehedrou. No approved clinical recording."
+        },
+        "ar": {
+          "objective": "استكشاف معنى كَلْب وقَلْب مع فرق صوتي مقترح /k/–/q/. يحدد الأخصائي وحده ملاءمة المقارنة بعد التقييم.",
+          "audience": "اقتراح لعمر ٤–٧ سنوات عند معرفة هذا السجل مسبقًا؛ ليس معيارًا نمائيًا. لا يُفرض نطق الفصحى على طفل يستعمل الدارجة.",
+          "discover": [
+            "كلب: الحيوان",
+            "قلب: العضو داخل الجسم",
+            "تحقق من تعرف الطفل على كل صورة؛ غيّر النشاط إذا كان المعنى أو الرسم غير مألوف."
+          ],
+          "listen": [
+            "بعد التحقق من معنى الكلمتين، يسمّي المرافق الكلمة المطلوبة على الشاشة فقط، ويمكن للطفل أن يشير إلى صورتها. المقارنة مقترحة في الفصحى وليست تقييمًا للنطق؛ تنتظر المراجعة.",
+            "الكتابة الصوتية وتحليل المقاطع الصوتية مقترحان للمراجعة، وليسا نموذجًا سريريًا معتمدًا. الألفاظ هنا معزولة دون أداة تعريف أو نهايات إعرابية."
+          ],
+          "exchange": [
+            "اطلب الكلمة المعروضة مرة واحدة واقبل الإشارة. تكرار الكلمة اختياري ولا تُمنح درجة لنطقها."
+          ],
+          "support": [
+            "عرّف الصورتين أو استخدم أشياء حقيقية عند الحاجة، وسجّل هذه المساعدة. اترك وقتًا للإجابة وتوقف عند التعب أو الرفض."
+          ],
+          "limits": [
+            "الفرق الواحد في تحليلنا الصوتي فحص شكلي فقط، ولا يثبت الملاءمة السريرية أو صحة شكل دارج.",
+            "لا تعتبر نطقًا إقليميًا مختلفًا خطأً. راجع المعنى وألفة الصور والنموذج الشفهي مع مختصين. لا يوجد صوت سريري معتمد أو نتيجة علاجية مثبتة."
+          ],
+          "review_notes": "هذا نص مقترح ينتظر مراجعة بشرية للمعنى وألفة الكلمات والصور والتنوع اللغوي وإمكانية الوصول والملاءمة الفردية. المراجع توثق إطارًا أو ألفاظًا ولا تثبت فعالية النشاط أو التطبيق. لا يوجد تسجيل صوتي سريري معتمد."
+        }
+      }
+    },
+    {
+      "series": "ec802c42-59b0-54c8-8159-39f4d7393754",
+      "version": 1,
+      "words": [
+        "تِين",
+        "طِين"
+      ],
+      "linguistic_identity_sha256": "82c72529bf956b50575d6f4080fa0f7bdf5e4b77ae9de148f9db531c94e5d795",
+      "required_information": [
+        {
+          "id": "individual_selection_familiarity_and_register",
+          "field": "practice_guide.{language}.audience",
+          "prepared_text": {
+            "fr": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+            "en": "Pilot proposal for children aged 4–7, selected individually by the speech and language therapist and accompanied by an adult competent in the chosen spoken variety. The age range is a design indication, not a developmental norm. Check familiarity with both words and recognition of the pictures. The child must already understand Standard Arabic; select the contrast after phonological assessment, never merely because of a dialect difference.",
+            "ar": "اقتراح تجريبي لأطفال عمرهم ٤–٧ سنوات، بعد اختيار فردي من أخصائي النطق واللغة، وبمرافقة بالغ متمكن من التنوع اللغوي المختار. العمر إرشادي في التصميم وليس معيارًا نمائيًا. يجب التحقق من ألفة الكلمتين والتعرف على الصورتين. يجب أن يكون الطفل فاهمًا للفصحى مسبقًا؛ يُختار التقابل بعد تقييم فونولوجي، ولا يُفرض لمجرد اختلاف لهجي."
+          }
+        },
+        {
+          "id": "isolated_forms_and_professional_oral_model",
+          "field": "practice_guide.{language}.listen[1]",
+          "prepared_text": {
+            "fr": "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant.",
+            "en": "Transcription and phonemic segmentation are working analyses. A competent professional must check the oral model, isolated forms without an article or case ending, and their relevance to the child.",
+            "ar": "النسخ الصوتي والتقسيم إلى فونيمات تحليلان أوليان. يجب أن يتحقق مختص مؤهل من النموذج الشفهي والصيغ المعزولة دون أداة تعريف أو نهاية إعرابية ومن ملاءمتها للطفل."
+          }
+        },
+        {
+          "id": "pair_caution_01",
+          "field": "practice_guide.{language}.limits[0]",
+          "prepared_text": {
+            "fr": "Nouvelle série MSA non approuvée ; la série darija تين / طين précédemment exclue reste exclue. Aucune attestation dialectale n’est créée par cette proposition standard.",
+            "en": "New unapproved MSA series; the previously excluded Darja تين / طين series remains excluded. This Standard Arabic proposal creates no dialectal attestation.",
+            "ar": "سلسلة جديدة غير معتمدة في العربية الفصحى؛ تظل سلسلة الدارجة تين / طين المستبعدة سابقًا مستبعدة. لا يوثّق هذا الاقتراح الفصيح استعمالًا لهجيًا."
+          }
+        },
+        {
+          "id": "pair_caution_02",
+          "field": "practice_guide.{language}.limits[1]",
+          "prepared_text": {
+            "fr": "Vérifier la reconnaissance de figues et d’argile dans les images et dans la famille ; ne pas remplacer arbitrairement le mot طين par un autre mot pour la boue.",
+            "en": "Check recognition of figs and clay in the pictures and the family vocabulary; do not arbitrarily replace طين with a different word for mud.",
+            "ar": "تحققوا من تعرّف الطفل والأسرة على التين والطين في الصور وعلى تسميتهما؛ لا تستبدلوا كلمة طين اعتباطيًا بكلمة أخرى للوحل."
+          }
+        },
+        {
+          "id": "pair_caution_03",
+          "field": "practice_guide.{language}.limits[2]",
+          "prepared_text": {
+            "fr": "Le phonème emphatique /tˤ/ et la voyelle longue /iː/ comptent chacun comme un segment. Le rayonnement phonétique de l’emphase ne constitue pas ici un second changement phonémique. Aucun audio clinique approuvé.",
+            "en": "The emphatic phoneme /tˤ/ and long vowel /iː/ each count as one segment. Phonetic spread of emphasis does not constitute a second phonemic change here. No approved clinical audio.",
+            "ar": "يُحسب الفونيم المفخم /tˤ/ والصائت الطويل /iː/ كل منهما وحدة فونيمية واحدة. لا يُعدّ انتشار الأثر النطقي للتفخيم تغييرًا فونيميًا ثانيًا هنا. لا يوجد تسجيل صوتي سريري معتمد."
+          }
+        },
+        {
+          "id": "pair_caution_04",
+          "field": "practice_guide.{language}.limits[3]",
+          "prepared_text": {
+            "fr": "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale.",
+            "en": "The single-phoneme difference in our segmentation is a formal check; it is not clinical or dialectal validation.",
+            "ar": "الاختلاف في فونيم واحد في تقسيمنا فحص شكلي؛ ولا يمثل اعتمادًا سريريًا أو تحققًا من صحة شكل لهجي."
+          }
+        }
+      ],
+      "human_reviews": {
+        "fr": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "en": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "ar": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        }
+      },
+      "previous_guide_sha256": "fb9d18dccff835dc17aabdefd0043a4b86e08eed75e8ea7f70d43ca6d38f4274",
+      "stimulus_sha256": "8ceb413f2db0cc20448759fdf6eec0a5ff65e28a90a777c371245d552626865b",
+      "previous_guide": {
+        "fr": {
+          "objective": "Explorer le sens de deux mots standard sous des formes isolées proposées, avec une différence phonémique initiale /t/–/tˤ/. L’indication thérapeutique appartient à l’orthophoniste.",
+          "audience": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+          "discover": [
+            "تِين : figues ; طِين : argile ou terre argileuse",
+            "Reconnaissez chaque image séparément avant la comparaison. Un mot inconnu, un dessin ambigu ou un sens familial différent exige une autre fiche."
+          ],
+          "listen": [
+            "Après avoir vérifié les deux sens, l’adulte nomme uniquement le mot demandé à l’écran et l’enfant peut montrer son image. Aucun score de prononciation ; contraste proposé en arabe standard, à relire.",
+            "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant."
+          ],
+          "exchange": [
+            "Demandez une fois le mot affiché. Acceptez une indication ou un geste. Une répétition orale est facultative et reste non cotée."
+          ],
+          "support": [
+            "Nommez ou représentez les objets si nécessaire, puis notez cette aide. Laissez un temps de réponse ; arrêtez si l’enfant se fatigue ou refuse."
+          ],
+          "limits": [
+            "Nouvelle série MSA non approuvée ; la série darija تين / طين précédemment exclue reste exclue. Aucune attestation dialectale n’est créée par cette proposition standard.",
+            "Vérifier la reconnaissance de figues et d’argile dans les images et dans la famille ; ne pas remplacer arbitrairement le mot طين par un autre mot pour la boue.",
+            "Le phonème emphatique /tˤ/ et la voyelle longue /iː/ comptent chacun comme un segment. Le rayonnement phonétique de l’emphase ne constitue pas ici un second changement phonémique. Aucun audio clinique approuvé.",
+            "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale."
+          ],
+          "review_notes": "Proposition originale à relire : sens, familiarité familiale, dessin, registre oral, accessibilité et indication individuelle. Les sources documentent un cadre ou des formes lexicales ; elles ne valident pas cette fiche ni les effets de Nehedrou. Aucun enregistrement clinique approuvé."
+        },
+        "en": {
+          "objective": "Explore two proposed isolated Standard Arabic words with one initial phonemic difference /t/–/tˤ/. A therapist must decide any treatment indication.",
+          "audience": "Proposed pilot for children aged 4–7 who already understand this register, selected after individual phonological assessment; no developmental norm or automatic transfer to Darja.",
+          "discover": [
+            "تِين: figs; طِين: clay",
+            "Recognize each picture separately first. Use another activity if a word is unfamiliar, a picture ambiguous or the family meaning different."
+          ],
+          "listen": [
+            "After checking both meanings, the adult says only the word requested on screen and the child may point to its picture. No pronunciation score; this proposed Standard Arabic contrast awaits review.",
+            "Transcriptions and segmentation are working analyses. A competent professional must check the oral model and isolated forms without articles or case endings."
+          ],
+          "exchange": [
+            "Ask once for the displayed word. Accept pointing or a gesture. Oral repetition is optional and is not scored."
+          ],
+          "support": [
+            "Name or show objects if needed, record that help and allow response time. Stop if the child is tired or refuses."
+          ],
+          "limits": [
+            "The single-phoneme difference is a formal check on our proposed segmentation, not clinical or dialectal approval.",
+            "Regional realizations, emphatic vowel effects, word meanings and picture familiarity require human review. No approved clinical audio, diagnostic score or measured treatment benefit."
+          ],
+          "review_notes": "Original proposal awaiting human review of meaning, family familiarity, pictures, spoken variety, accessibility and individual suitability. References describe a framework or lexical forms; they do not validate this activity or the effects of Nehedrou. No approved clinical recording."
+        },
+        "ar": {
+          "objective": "استكشاف معنى تِين وطِين مع فرق صوتي مقترح /t/–/tˤ/. يحدد الأخصائي وحده ملاءمة المقارنة بعد التقييم.",
+          "audience": "اقتراح لعمر ٤–٧ سنوات عند معرفة هذا السجل مسبقًا؛ ليس معيارًا نمائيًا. لا يُفرض نطق الفصحى على طفل يستعمل الدارجة.",
+          "discover": [
+            "تين: ثمر شجرة التين",
+            "طين: مادة طينية",
+            "تحقق من تعرف الطفل على كل صورة؛ غيّر النشاط إذا كان المعنى أو الرسم غير مألوف."
+          ],
+          "listen": [
+            "بعد التحقق من معنى الكلمتين، يسمّي المرافق الكلمة المطلوبة على الشاشة فقط، ويمكن للطفل أن يشير إلى صورتها. المقارنة مقترحة في الفصحى وليست تقييمًا للنطق؛ تنتظر المراجعة.",
+            "الكتابة الصوتية وتحليل المقاطع الصوتية مقترحان للمراجعة، وليسا نموذجًا سريريًا معتمدًا. الألفاظ هنا معزولة دون أداة تعريف أو نهايات إعرابية."
+          ],
+          "exchange": [
+            "اطلب الكلمة المعروضة مرة واحدة واقبل الإشارة. تكرار الكلمة اختياري ولا تُمنح درجة لنطقها."
+          ],
+          "support": [
+            "عرّف الصورتين أو استخدم أشياء حقيقية عند الحاجة، وسجّل هذه المساعدة. اترك وقتًا للإجابة وتوقف عند التعب أو الرفض."
+          ],
+          "limits": [
+            "الفرق الواحد في تحليلنا الصوتي فحص شكلي فقط، ولا يثبت الملاءمة السريرية أو صحة شكل دارج.",
+            "لا تعتبر نطقًا إقليميًا مختلفًا خطأً. راجع المعنى وألفة الصور والنموذج الشفهي مع مختصين. لا يوجد صوت سريري معتمد أو نتيجة علاجية مثبتة."
+          ],
+          "review_notes": "هذا نص مقترح ينتظر مراجعة بشرية للمعنى وألفة الكلمات والصور والتنوع اللغوي وإمكانية الوصول والملاءمة الفردية. المراجع توثق إطارًا أو ألفاظًا ولا تثبت فعالية النشاط أو التطبيق. لا يوجد تسجيل صوتي سريري معتمد."
+        }
+      }
+    },
+    {
+      "series": "bad67887-29f9-5247-9a69-ea8ccd04e468",
+      "version": 1,
+      "words": [
+        "قَلَم",
+        "قَدَم"
+      ],
+      "linguistic_identity_sha256": "a4e16c96b56d9fd0cf63dae5d2546f7e67d2a8f034b18bc5f8446dd345b42a84",
+      "required_information": [
+        {
+          "id": "individual_selection_familiarity_and_register",
+          "field": "practice_guide.{language}.audience",
+          "prepared_text": {
+            "fr": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+            "en": "Pilot proposal for children aged 4–7, selected individually by the speech and language therapist and accompanied by an adult competent in the chosen spoken variety. The age range is a design indication, not a developmental norm. Check familiarity with both words and recognition of the pictures. The child must already understand Standard Arabic; select the contrast after phonological assessment, never merely because of a dialect difference.",
+            "ar": "اقتراح تجريبي لأطفال عمرهم ٤–٧ سنوات، بعد اختيار فردي من أخصائي النطق واللغة، وبمرافقة بالغ متمكن من التنوع اللغوي المختار. العمر إرشادي في التصميم وليس معيارًا نمائيًا. يجب التحقق من ألفة الكلمتين والتعرف على الصورتين. يجب أن يكون الطفل فاهمًا للفصحى مسبقًا؛ يُختار التقابل بعد تقييم فونولوجي، ولا يُفرض لمجرد اختلاف لهجي."
+          }
+        },
+        {
+          "id": "isolated_forms_and_professional_oral_model",
+          "field": "practice_guide.{language}.listen[1]",
+          "prepared_text": {
+            "fr": "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant.",
+            "en": "Transcription and phonemic segmentation are working analyses. A competent professional must check the oral model, isolated forms without an article or case ending, and their relevance to the child.",
+            "ar": "النسخ الصوتي والتقسيم إلى فونيمات تحليلان أوليان. يجب أن يتحقق مختص مؤهل من النموذج الشفهي والصيغ المعزولة دون أداة تعريف أو نهاية إعرابية ومن ملاءمتها للطفل."
+          }
+        },
+        {
+          "id": "pair_caution_01",
+          "field": "practice_guide.{language}.limits[0]",
+          "prepared_text": {
+            "fr": "Formes nominales isolées MSA sans article et sans désinence casuelle. L’unique substitution proposée est médiane, à l’indice 2, et non sur le ق initial partagé.",
+            "en": "Isolated MSA noun forms without an article or case ending. The sole proposed substitution is medial, at index 2, not the shared initial ق.",
+            "ar": "صيغتان اسميتان معزولتان في العربية الفصحى، دون أداة تعريف أو نهايات إعرابية. الإبدال الوحيد المقترح وسطي عند الفهرس 2، وليس في ق المشتركة أول الكلمتين."
+          }
+        },
+        {
+          "id": "pair_caution_02",
+          "field": "practice_guide.{language}.limits[1]",
+          "prepared_text": {
+            "fr": "Faire relire le sens et les images : montrer un instrument d’écriture reconnaissable et un pied humain. Vérifier le vocabulaire utilisé par l’enfant.",
+            "en": "Have the meanings and pictures reviewed: show a recognizable writing instrument and a human foot. Check the vocabulary the child uses.",
+            "ar": "اعرضوا المعنيين والصورتين للمراجعة: أداة كتابة واضحة وقَدَم إنسان. تحققوا من المفردات التي يستعملها الطفل."
+          }
+        },
+        {
+          "id": "pair_caution_03",
+          "field": "practice_guide.{language}.limits[2]",
+          "prepared_text": {
+            "fr": "Fiche non approuvée et sans audio clinique approuvé. Ne pas extrapoler les formes à une variété darija locale.",
+            "en": "This activity is unapproved and has no approved clinical audio. Do not extrapolate these forms to a local Darja variety.",
+            "ar": "النشاط غير معتمد ولا يتضمن تسجيلًا صوتيًا سريريًا معتمدًا. لا تعمّموا هذه الصيغ على تنوع محلي من الدارجة."
+          }
+        },
+        {
+          "id": "pair_caution_04",
+          "field": "practice_guide.{language}.limits[3]",
+          "prepared_text": {
+            "fr": "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale.",
+            "en": "The single-phoneme difference in our segmentation is a formal check; it is not clinical or dialectal validation.",
+            "ar": "الاختلاف في فونيم واحد في تقسيمنا فحص شكلي؛ ولا يمثل اعتمادًا سريريًا أو تحققًا من صحة شكل لهجي."
+          }
+        }
+      ],
+      "human_reviews": {
+        "fr": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "en": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "ar": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        }
+      },
+      "previous_guide_sha256": "f9430b93233151042f42c8729f82e3a346aa9012dfeaff5507ab6275b3275ede",
+      "stimulus_sha256": "8e48d77952beb0caaf9f8068634469d2dc7d8ccc87fa7540dce862cf2eae879f",
+      "previous_guide": {
+        "fr": {
+          "objective": "Explorer le sens de deux mots standard sous des formes isolées proposées, avec une différence phonémique médiane /l/–/d/. L’indication thérapeutique appartient à l’orthophoniste.",
+          "audience": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+          "discover": [
+            "قَلَم : stylo ou instrument d’écriture ; قَدَم : pied, partie du corps",
+            "Reconnaissez chaque image séparément avant la comparaison. Un mot inconnu, un dessin ambigu ou un sens familial différent exige une autre fiche."
+          ],
+          "listen": [
+            "Après avoir vérifié les deux sens, l’adulte nomme uniquement le mot demandé à l’écran et l’enfant peut montrer son image. Aucun score de prononciation ; contraste proposé en arabe standard, à relire.",
+            "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant."
+          ],
+          "exchange": [
+            "Demandez une fois le mot affiché. Acceptez une indication ou un geste. Une répétition orale est facultative et reste non cotée."
+          ],
+          "support": [
+            "Nommez ou représentez les objets si nécessaire, puis notez cette aide. Laissez un temps de réponse ; arrêtez si l’enfant se fatigue ou refuse."
+          ],
+          "limits": [
+            "Formes nominales isolées MSA sans article et sans désinence casuelle. L’unique substitution proposée est médiane, à l’indice 2, et non sur le ق initial partagé.",
+            "Faire relire le sens et les images : montrer un instrument d’écriture reconnaissable et un pied humain. Vérifier le vocabulaire utilisé par l’enfant.",
+            "Fiche non approuvée et sans audio clinique approuvé. Ne pas extrapoler les formes à une variété darija locale.",
+            "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale."
+          ],
+          "review_notes": "Proposition originale à relire : sens, familiarité familiale, dessin, registre oral, accessibilité et indication individuelle. Les sources documentent un cadre ou des formes lexicales ; elles ne valident pas cette fiche ni les effets de Nehedrou. Aucun enregistrement clinique approuvé."
+        },
+        "en": {
+          "objective": "Explore two proposed isolated Standard Arabic words with one medial phonemic difference /l/–/d/. A therapist must decide any treatment indication.",
+          "audience": "Proposed pilot for children aged 4–7 who already understand this register, selected after individual phonological assessment; no developmental norm or automatic transfer to Darja.",
+          "discover": [
+            "قَلَم: writing instrument; قَدَم: human foot",
+            "Recognize each picture separately first. Use another activity if a word is unfamiliar, a picture ambiguous or the family meaning different."
+          ],
+          "listen": [
+            "After checking both meanings, the adult says only the word requested on screen and the child may point to its picture. No pronunciation score; this proposed Standard Arabic contrast awaits review.",
+            "Transcriptions and segmentation are working analyses. A competent professional must check the oral model and isolated forms without articles or case endings."
+          ],
+          "exchange": [
+            "Ask once for the displayed word. Accept pointing or a gesture. Oral repetition is optional and is not scored."
+          ],
+          "support": [
+            "Name or show objects if needed, record that help and allow response time. Stop if the child is tired or refuses."
+          ],
+          "limits": [
+            "The single-phoneme difference is a formal check on our proposed segmentation, not clinical or dialectal approval.",
+            "Regional realizations, emphatic vowel effects, word meanings and picture familiarity require human review. No approved clinical audio, diagnostic score or measured treatment benefit."
+          ],
+          "review_notes": "Original proposal awaiting human review of meaning, family familiarity, pictures, spoken variety, accessibility and individual suitability. References describe a framework or lexical forms; they do not validate this activity or the effects of Nehedrou. No approved clinical recording."
+        },
+        "ar": {
+          "objective": "استكشاف معنى قَلَم وقَدَم مع فرق صوتي مقترح /l/–/d/. يحدد الأخصائي وحده ملاءمة المقارنة بعد التقييم.",
+          "audience": "اقتراح لعمر ٤–٧ سنوات عند معرفة هذا السجل مسبقًا؛ ليس معيارًا نمائيًا. لا يُفرض نطق الفصحى على طفل يستعمل الدارجة.",
+          "discover": [
+            "قلم: أداة للكتابة",
+            "قدم: جزء من جسم الإنسان",
+            "تحقق من تعرف الطفل على كل صورة؛ غيّر النشاط إذا كان المعنى أو الرسم غير مألوف."
+          ],
+          "listen": [
+            "بعد التحقق من معنى الكلمتين، يسمّي المرافق الكلمة المطلوبة على الشاشة فقط، ويمكن للطفل أن يشير إلى صورتها. المقارنة مقترحة في الفصحى وليست تقييمًا للنطق؛ تنتظر المراجعة.",
+            "الكتابة الصوتية وتحليل المقاطع الصوتية مقترحان للمراجعة، وليسا نموذجًا سريريًا معتمدًا. الألفاظ هنا معزولة دون أداة تعريف أو نهايات إعرابية."
+          ],
+          "exchange": [
+            "اطلب الكلمة المعروضة مرة واحدة واقبل الإشارة. تكرار الكلمة اختياري ولا تُمنح درجة لنطقها."
+          ],
+          "support": [
+            "عرّف الصورتين أو استخدم أشياء حقيقية عند الحاجة، وسجّل هذه المساعدة. اترك وقتًا للإجابة وتوقف عند التعب أو الرفض."
+          ],
+          "limits": [
+            "الفرق الواحد في تحليلنا الصوتي فحص شكلي فقط، ولا يثبت الملاءمة السريرية أو صحة شكل دارج.",
+            "لا تعتبر نطقًا إقليميًا مختلفًا خطأً. راجع المعنى وألفة الصور والنموذج الشفهي مع مختصين. لا يوجد صوت سريري معتمد أو نتيجة علاجية مثبتة."
+          ],
+          "review_notes": "هذا نص مقترح ينتظر مراجعة بشرية للمعنى وألفة الكلمات والصور والتنوع اللغوي وإمكانية الوصول والملاءمة الفردية. المراجع توثق إطارًا أو ألفاظًا ولا تثبت فعالية النشاط أو التطبيق. لا يوجد تسجيل صوتي سريري معتمد."
+        }
+      }
+    },
+    {
+      "series": "80f8823c-7756-5993-8bcd-e3b4df9ee6df",
+      "version": 1,
+      "words": [
+        "بَيْت",
+        "زَيْت"
+      ],
+      "linguistic_identity_sha256": "1d7b787e6833c988ddaa5e60e19cc3ac14238da38d6e5289b010d0747539c923",
+      "required_information": [
+        {
+          "id": "individual_selection_familiarity_and_register",
+          "field": "practice_guide.{language}.audience",
+          "prepared_text": {
+            "fr": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+            "en": "Pilot proposal for children aged 4–7, selected individually by the speech and language therapist and accompanied by an adult competent in the chosen spoken variety. The age range is a design indication, not a developmental norm. Check familiarity with both words and recognition of the pictures. The child must already understand Standard Arabic; select the contrast after phonological assessment, never merely because of a dialect difference.",
+            "ar": "اقتراح تجريبي لأطفال عمرهم ٤–٧ سنوات، بعد اختيار فردي من أخصائي النطق واللغة، وبمرافقة بالغ متمكن من التنوع اللغوي المختار. العمر إرشادي في التصميم وليس معيارًا نمائيًا. يجب التحقق من ألفة الكلمتين والتعرف على الصورتين. يجب أن يكون الطفل فاهمًا للفصحى مسبقًا؛ يُختار التقابل بعد تقييم فونولوجي، ولا يُفرض لمجرد اختلاف لهجي."
+          }
+        },
+        {
+          "id": "isolated_forms_and_professional_oral_model",
+          "field": "practice_guide.{language}.listen[1]",
+          "prepared_text": {
+            "fr": "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant.",
+            "en": "Transcription and phonemic segmentation are working analyses. A competent professional must check the oral model, isolated forms without an article or case ending, and their relevance to the child.",
+            "ar": "النسخ الصوتي والتقسيم إلى فونيمات تحليلان أوليان. يجب أن يتحقق مختص مؤهل من النموذج الشفهي والصيغ المعزولة دون أداة تعريف أو نهاية إعرابية ومن ملاءمتها للطفل."
+          }
+        },
+        {
+          "id": "pair_caution_01",
+          "field": "practice_guide.{language}.limits[0]",
+          "prepared_text": {
+            "fr": "Segmenter /aj/ en /a/ et /j/ dans les deux mots ; ne pas supprimer une différence vocalique réellement observée chez un locuteur régional.",
+            "en": "Segment /aj/ as /a/ and /j/ in both words; do not erase a vowel difference actually observed in a regional speaker.",
+            "ar": "قسّموا /aj/ إلى /a/ و/j/ في الكلمتين؛ لا تتجاهلوا فرقًا في الصوائت لوحظ فعلًا لدى متحدث من منطقة معينة."
+          }
+        },
+        {
+          "id": "pair_caution_02",
+          "field": "practice_guide.{language}.limits[1]",
+          "prepared_text": {
+            "fr": "L’image d’huile doit être désambiguïsée avec l’adulte : une simple bouteille peut être nommée bouteille. Vérifier le sens retenu avant la comparaison.",
+            "en": "Clarify the oil picture with the adult: a plain bottle may be named bottle. Check the intended meaning before comparison.",
+            "ar": "وضّحوا مع المرافق معنى صورة الزيت: فقد تُسمّى القنينة وحدها قنينة. تحققوا من المعنى المقصود قبل المقارنة."
+          }
+        },
+        {
+          "id": "pair_caution_03",
+          "field": "practice_guide.{language}.limits[2]",
+          "prepared_text": {
+            "fr": "Nouvelle paire MSA non approuvée, sans audio clinique approuvé ; elle ne réhabilite pas la paire darija بيت / بيض exclue.",
+            "en": "New unapproved MSA pair, with no approved clinical audio; it does not reinstate the excluded Darja بيت / بيض pair.",
+            "ar": "زوج جديد غير معتمد في العربية الفصحى، دون تسجيل صوتي سريري معتمد؛ ولا يعيد إتاحة زوج الدارجة بيت / بيض المستبعد."
+          }
+        },
+        {
+          "id": "pair_caution_04",
+          "field": "practice_guide.{language}.limits[3]",
+          "prepared_text": {
+            "fr": "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale.",
+            "en": "The single-phoneme difference in our segmentation is a formal check; it is not clinical or dialectal validation.",
+            "ar": "الاختلاف في فونيم واحد في تقسيمنا فحص شكلي؛ ولا يمثل اعتمادًا سريريًا أو تحققًا من صحة شكل لهجي."
+          }
+        }
+      ],
+      "human_reviews": {
+        "fr": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "en": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "ar": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        }
+      },
+      "previous_guide_sha256": "95c77b02b63e93f7486bd27eefcdbb7221e1c9f97388b31bce7bc60d78982ae3",
+      "stimulus_sha256": "0cd8cca821c326a802154014485e230bf5e920039412a77f7b01428f107195c2",
+      "previous_guide": {
+        "fr": {
+          "objective": "Explorer le sens de deux mots standard sous des formes isolées proposées, avec une différence phonémique initiale /b/–/z/. L’indication thérapeutique appartient à l’orthophoniste.",
+          "audience": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+          "discover": [
+            "بَيْت : maison, habitation ; زَيْت : huile d’olive, sens illustré retenu",
+            "Reconnaissez chaque image séparément avant la comparaison. Un mot inconnu, un dessin ambigu ou un sens familial différent exige une autre fiche."
+          ],
+          "listen": [
+            "Après avoir vérifié les deux sens, l’adulte nomme uniquement le mot demandé à l’écran et l’enfant peut montrer son image. Aucun score de prononciation ; contraste proposé en arabe standard, à relire.",
+            "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant."
+          ],
+          "exchange": [
+            "Demandez une fois le mot affiché. Acceptez une indication ou un geste. Une répétition orale est facultative et reste non cotée."
+          ],
+          "support": [
+            "Nommez ou représentez les objets si nécessaire, puis notez cette aide. Laissez un temps de réponse ; arrêtez si l’enfant se fatigue ou refuse."
+          ],
+          "limits": [
+            "Segmenter /aj/ en /a/ et /j/ dans les deux mots ; ne pas supprimer une différence vocalique réellement observée chez un locuteur régional.",
+            "L’image d’huile doit être désambiguïsée avec l’adulte : une simple bouteille peut être nommée bouteille. Vérifier le sens retenu avant la comparaison.",
+            "Nouvelle paire MSA non approuvée, sans audio clinique approuvé ; elle ne réhabilite pas la paire darija بيت / بيض exclue.",
+            "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale."
+          ],
+          "review_notes": "Proposition originale à relire : sens, familiarité familiale, dessin, registre oral, accessibilité et indication individuelle. Les sources documentent un cadre ou des formes lexicales ; elles ne valident pas cette fiche ni les effets de Nehedrou. Aucun enregistrement clinique approuvé."
+        },
+        "en": {
+          "objective": "Explore two proposed isolated Standard Arabic words with one initial phonemic difference /b/–/z/. A therapist must decide any treatment indication.",
+          "audience": "Proposed pilot for children aged 4–7 who already understand this register, selected after individual phonological assessment; no developmental norm or automatic transfer to Darja.",
+          "discover": [
+            "بَيْت: home; زَيْت: olive oil",
+            "Recognize each picture separately first. Use another activity if a word is unfamiliar, a picture ambiguous or the family meaning different."
+          ],
+          "listen": [
+            "After checking both meanings, the adult says only the word requested on screen and the child may point to its picture. No pronunciation score; this proposed Standard Arabic contrast awaits review.",
+            "Transcriptions and segmentation are working analyses. A competent professional must check the oral model and isolated forms without articles or case endings."
+          ],
+          "exchange": [
+            "Ask once for the displayed word. Accept pointing or a gesture. Oral repetition is optional and is not scored."
+          ],
+          "support": [
+            "Name or show objects if needed, record that help and allow response time. Stop if the child is tired or refuses."
+          ],
+          "limits": [
+            "The single-phoneme difference is a formal check on our proposed segmentation, not clinical or dialectal approval.",
+            "Regional realizations, emphatic vowel effects, word meanings and picture familiarity require human review. No approved clinical audio, diagnostic score or measured treatment benefit."
+          ],
+          "review_notes": "Original proposal awaiting human review of meaning, family familiarity, pictures, spoken variety, accessibility and individual suitability. References describe a framework or lexical forms; they do not validate this activity or the effects of Nehedrou. No approved clinical recording."
+        },
+        "ar": {
+          "objective": "استكشاف معنى بَيْت وزَيْت مع فرق صوتي مقترح /b/–/z/. يحدد الأخصائي وحده ملاءمة المقارنة بعد التقييم.",
+          "audience": "اقتراح لعمر ٤–٧ سنوات عند معرفة هذا السجل مسبقًا؛ ليس معيارًا نمائيًا. لا يُفرض نطق الفصحى على طفل يستعمل الدارجة.",
+          "discover": [
+            "بيت: مسكن",
+            "زيت: زيت الزيتون في الصورة المقترحة",
+            "تحقق من تعرف الطفل على كل صورة؛ غيّر النشاط إذا كان المعنى أو الرسم غير مألوف."
+          ],
+          "listen": [
+            "بعد التحقق من معنى الكلمتين، يسمّي المرافق الكلمة المطلوبة على الشاشة فقط، ويمكن للطفل أن يشير إلى صورتها. المقارنة مقترحة في الفصحى وليست تقييمًا للنطق؛ تنتظر المراجعة.",
+            "الكتابة الصوتية وتحليل المقاطع الصوتية مقترحان للمراجعة، وليسا نموذجًا سريريًا معتمدًا. الألفاظ هنا معزولة دون أداة تعريف أو نهايات إعرابية."
+          ],
+          "exchange": [
+            "اطلب الكلمة المعروضة مرة واحدة واقبل الإشارة. تكرار الكلمة اختياري ولا تُمنح درجة لنطقها."
+          ],
+          "support": [
+            "عرّف الصورتين أو استخدم أشياء حقيقية عند الحاجة، وسجّل هذه المساعدة. اترك وقتًا للإجابة وتوقف عند التعب أو الرفض."
+          ],
+          "limits": [
+            "الفرق الواحد في تحليلنا الصوتي فحص شكلي فقط، ولا يثبت الملاءمة السريرية أو صحة شكل دارج.",
+            "لا تعتبر نطقًا إقليميًا مختلفًا خطأً. راجع المعنى وألفة الصور والنموذج الشفهي مع مختصين. لا يوجد صوت سريري معتمد أو نتيجة علاجية مثبتة."
+          ],
+          "review_notes": "هذا نص مقترح ينتظر مراجعة بشرية للمعنى وألفة الكلمات والصور والتنوع اللغوي وإمكانية الوصول والملاءمة الفردية. المراجع توثق إطارًا أو ألفاظًا ولا تثبت فعالية النشاط أو التطبيق. لا يوجد تسجيل صوتي سريري معتمد."
+        }
+      }
+    },
+    {
+      "series": "b11583cc-aeff-527a-ba5c-725e4f275f55",
+      "version": 1,
+      "words": [
+        "رَمْل",
+        "نَمْل"
+      ],
+      "linguistic_identity_sha256": "fda0757974cc0f8b4a357bc0774a79bd68512667555a4e400acb664207ecfee6",
+      "required_information": [
+        {
+          "id": "individual_selection_familiarity_and_register",
+          "field": "practice_guide.{language}.audience",
+          "prepared_text": {
+            "fr": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+            "en": "Pilot proposal for children aged 4–7, selected individually by the speech and language therapist and accompanied by an adult competent in the chosen spoken variety. The age range is a design indication, not a developmental norm. Check familiarity with both words and recognition of the pictures. The child must already understand Standard Arabic; select the contrast after phonological assessment, never merely because of a dialect difference.",
+            "ar": "اقتراح تجريبي لأطفال عمرهم ٤–٧ سنوات، بعد اختيار فردي من أخصائي النطق واللغة، وبمرافقة بالغ متمكن من التنوع اللغوي المختار. العمر إرشادي في التصميم وليس معيارًا نمائيًا. يجب التحقق من ألفة الكلمتين والتعرف على الصورتين. يجب أن يكون الطفل فاهمًا للفصحى مسبقًا؛ يُختار التقابل بعد تقييم فونولوجي، ولا يُفرض لمجرد اختلاف لهجي."
+          }
+        },
+        {
+          "id": "isolated_forms_and_professional_oral_model",
+          "field": "practice_guide.{language}.listen[1]",
+          "prepared_text": {
+            "fr": "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant.",
+            "en": "Transcription and phonemic segmentation are working analyses. A competent professional must check the oral model, isolated forms without an article or case ending, and their relevance to the child.",
+            "ar": "النسخ الصوتي والتقسيم إلى فونيمات تحليلان أوليان. يجب أن يتحقق مختص مؤهل من النموذج الشفهي والصيغ المعزولة دون أداة تعريف أو نهاية إعرابية ومن ملاءمتها للطفل."
+          }
+        },
+        {
+          "id": "pair_caution_01",
+          "field": "practice_guide.{language}.limits[0]",
+          "prepared_text": {
+            "fr": "Montrer plusieurs fourmis pour favoriser le collectif نمل. Si l’enfant connaît seulement نملة, ne pas considérer ce mot légitime comme une erreur ; adapter l’activité avec le praticien.",
+            "en": "Show several ants to support the collective نمل. If the child only knows نملة, do not treat that legitimate word as an error; adapt the activity with the clinician.",
+            "ar": "اعرضوا عدة نملات لتوضيح الاسم الجمعي نمل. إذا كان الطفل يعرف كلمة نملة فقط، فلا تعدّوا هذه التسمية المشروعة خطأً؛ عدّلوا النشاط مع الأخصائي."
+          }
+        },
+        {
+          "id": "pair_caution_02",
+          "field": "practice_guide.{language}.limits[1]",
+          "prepared_text": {
+            "fr": "La série darija رمل / نمل reste exclue. Cette nouvelle série distincte ne documente que des formes standard proposées.",
+            "en": "The Darja رمل / نمل series remains excluded. This distinct new series documents only proposed Standard Arabic forms.",
+            "ar": "تظل سلسلة الدارجة رمل / نمل مستبعدة. لا توثّق هذه السلسلة الجديدة المستقلة إلا صيغًا فصيحة مقترحة."
+          }
+        },
+        {
+          "id": "pair_caution_03",
+          "field": "practice_guide.{language}.limits[2]",
+          "prepared_text": {
+            "fr": "Familiarité, interprétation des images et pertinence du groupe consonantique final à relire. Fiche non approuvée ; aucun audio clinique approuvé.",
+            "en": "Word familiarity, picture interpretation and suitability of the final consonant cluster require review. This activity is unapproved; no approved clinical audio.",
+            "ar": "تحتاج ألفة الكلمات وتفسير الصور وملاءمة تجمع الصوامت في نهاية الكلمة إلى مراجعة. النشاط غير معتمد؛ ولا يوجد تسجيل صوتي سريري معتمد."
+          }
+        },
+        {
+          "id": "pair_caution_04",
+          "field": "practice_guide.{language}.limits[3]",
+          "prepared_text": {
+            "fr": "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale.",
+            "en": "The single-phoneme difference in our segmentation is a formal check; it is not clinical or dialectal validation.",
+            "ar": "الاختلاف في فونيم واحد في تقسيمنا فحص شكلي؛ ولا يمثل اعتمادًا سريريًا أو تحققًا من صحة شكل لهجي."
+          }
+        }
+      ],
+      "human_reviews": {
+        "fr": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "en": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "ar": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        }
+      },
+      "previous_guide_sha256": "bf01de752c0a2204c530d774f626442c2d2556e4e741581bbf261cece12c846c",
+      "stimulus_sha256": "c46b954cfd7f13234714202703542babf25a7b8405ec6c8ee633f9aa14175740",
+      "previous_guide": {
+        "fr": {
+          "objective": "Explorer le sens de deux mots standard sous des formes isolées proposées, avec une différence phonémique initiale /r/–/n/. L’indication thérapeutique appartient à l’orthophoniste.",
+          "audience": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+          "discover": [
+            "رَمْل : sable ; نَمْل : fourmis, collectif",
+            "Reconnaissez chaque image séparément avant la comparaison. Un mot inconnu, un dessin ambigu ou un sens familial différent exige une autre fiche."
+          ],
+          "listen": [
+            "Après avoir vérifié les deux sens, l’adulte nomme uniquement le mot demandé à l’écran et l’enfant peut montrer son image. Aucun score de prononciation ; contraste proposé en arabe standard, à relire.",
+            "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant."
+          ],
+          "exchange": [
+            "Demandez une fois le mot affiché. Acceptez une indication ou un geste. Une répétition orale est facultative et reste non cotée."
+          ],
+          "support": [
+            "Nommez ou représentez les objets si nécessaire, puis notez cette aide. Laissez un temps de réponse ; arrêtez si l’enfant se fatigue ou refuse."
+          ],
+          "limits": [
+            "Montrer plusieurs fourmis pour favoriser le collectif نمل. Si l’enfant connaît seulement نملة, ne pas considérer ce mot légitime comme une erreur ; adapter l’activité avec le praticien.",
+            "La série darija رمل / نمل reste exclue. Cette nouvelle série distincte ne documente que des formes standard proposées.",
+            "Familiarité, interprétation des images et pertinence du groupe consonantique final à relire. Fiche non approuvée ; aucun audio clinique approuvé.",
+            "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale."
+          ],
+          "review_notes": "Proposition originale à relire : sens, familiarité familiale, dessin, registre oral, accessibilité et indication individuelle. Les sources documentent un cadre ou des formes lexicales ; elles ne valident pas cette fiche ni les effets de Nehedrou. Aucun enregistrement clinique approuvé."
+        },
+        "en": {
+          "objective": "Explore two proposed isolated Standard Arabic words with one initial phonemic difference /r/–/n/. A therapist must decide any treatment indication.",
+          "audience": "Proposed pilot for children aged 4–7 who already understand this register, selected after individual phonological assessment; no developmental norm or automatic transfer to Darja.",
+          "discover": [
+            "رَمْل: sand; نَمْل: ants: collective",
+            "Recognize each picture separately first. Use another activity if a word is unfamiliar, a picture ambiguous or the family meaning different."
+          ],
+          "listen": [
+            "After checking both meanings, the adult says only the word requested on screen and the child may point to its picture. No pronunciation score; this proposed Standard Arabic contrast awaits review.",
+            "Transcriptions and segmentation are working analyses. A competent professional must check the oral model and isolated forms without articles or case endings."
+          ],
+          "exchange": [
+            "Ask once for the displayed word. Accept pointing or a gesture. Oral repetition is optional and is not scored."
+          ],
+          "support": [
+            "Name or show objects if needed, record that help and allow response time. Stop if the child is tired or refuses."
+          ],
+          "limits": [
+            "The single-phoneme difference is a formal check on our proposed segmentation, not clinical or dialectal approval.",
+            "Regional realizations, emphatic vowel effects, word meanings and picture familiarity require human review. No approved clinical audio, diagnostic score or measured treatment benefit."
+          ],
+          "review_notes": "Original proposal awaiting human review of meaning, family familiarity, pictures, spoken variety, accessibility and individual suitability. References describe a framework or lexical forms; they do not validate this activity or the effects of Nehedrou. No approved clinical recording."
+        },
+        "ar": {
+          "objective": "استكشاف معنى رَمْل ونَمْل مع فرق صوتي مقترح /r/–/n/. يحدد الأخصائي وحده ملاءمة المقارنة بعد التقييم.",
+          "audience": "اقتراح لعمر ٤–٧ سنوات عند معرفة هذا السجل مسبقًا؛ ليس معيارًا نمائيًا. لا يُفرض نطق الفصحى على طفل يستعمل الدارجة.",
+          "discover": [
+            "رمل: المادة الرملية",
+            "نمل: مجموعة من النمل",
+            "تحقق من تعرف الطفل على كل صورة؛ غيّر النشاط إذا كان المعنى أو الرسم غير مألوف."
+          ],
+          "listen": [
+            "بعد التحقق من معنى الكلمتين، يسمّي المرافق الكلمة المطلوبة على الشاشة فقط، ويمكن للطفل أن يشير إلى صورتها. المقارنة مقترحة في الفصحى وليست تقييمًا للنطق؛ تنتظر المراجعة.",
+            "الكتابة الصوتية وتحليل المقاطع الصوتية مقترحان للمراجعة، وليسا نموذجًا سريريًا معتمدًا. الألفاظ هنا معزولة دون أداة تعريف أو نهايات إعرابية."
+          ],
+          "exchange": [
+            "اطلب الكلمة المعروضة مرة واحدة واقبل الإشارة. تكرار الكلمة اختياري ولا تُمنح درجة لنطقها."
+          ],
+          "support": [
+            "عرّف الصورتين أو استخدم أشياء حقيقية عند الحاجة، وسجّل هذه المساعدة. اترك وقتًا للإجابة وتوقف عند التعب أو الرفض."
+          ],
+          "limits": [
+            "الفرق الواحد في تحليلنا الصوتي فحص شكلي فقط، ولا يثبت الملاءمة السريرية أو صحة شكل دارج.",
+            "لا تعتبر نطقًا إقليميًا مختلفًا خطأً. راجع المعنى وألفة الصور والنموذج الشفهي مع مختصين. لا يوجد صوت سريري معتمد أو نتيجة علاجية مثبتة."
+          ],
+          "review_notes": "هذا نص مقترح ينتظر مراجعة بشرية للمعنى وألفة الكلمات والصور والتنوع اللغوي وإمكانية الوصول والملاءمة الفردية. المراجع توثق إطارًا أو ألفاظًا ولا تثبت فعالية النشاط أو التطبيق. لا يوجد تسجيل صوتي سريري معتمد."
+        }
+      }
+    },
+    {
+      "series": "0b394b04-e6d4-58ec-8388-81cda6b8da6d",
+      "version": 1,
+      "words": [
+        "شَمْعَة",
+        "دَمْعَة"
+      ],
+      "linguistic_identity_sha256": "16d68512c43ce58575f6ebab79408a63f2139e08f90d73ec44aca49ea17e0805",
+      "required_information": [
+        {
+          "id": "individual_selection_familiarity_and_register",
+          "field": "practice_guide.{language}.audience",
+          "prepared_text": {
+            "fr": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+            "en": "Pilot proposal for children aged 4–7, selected individually by the speech and language therapist and accompanied by an adult competent in the chosen spoken variety. The age range is a design indication, not a developmental norm. Check familiarity with both words and recognition of the pictures. The child must already understand Standard Arabic; select the contrast after phonological assessment, never merely because of a dialect difference.",
+            "ar": "اقتراح تجريبي لأطفال عمرهم ٤–٧ سنوات، بعد اختيار فردي من أخصائي النطق واللغة، وبمرافقة بالغ متمكن من التنوع اللغوي المختار. العمر إرشادي في التصميم وليس معيارًا نمائيًا. يجب التحقق من ألفة الكلمتين والتعرف على الصورتين. يجب أن يكون الطفل فاهمًا للفصحى مسبقًا؛ يُختار التقابل بعد تقييم فونولوجي، ولا يُفرض لمجرد اختلاف لهجي."
+          }
+        },
+        {
+          "id": "isolated_forms_and_professional_oral_model",
+          "field": "practice_guide.{language}.listen[1]",
+          "prepared_text": {
+            "fr": "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant.",
+            "en": "Transcription and phonemic segmentation are working analyses. A competent professional must check the oral model, isolated forms without an article or case ending, and their relevance to the child.",
+            "ar": "النسخ الصوتي والتقسيم إلى فونيمات تحليلان أوليان. يجب أن يتحقق مختص مؤهل من النموذج الشفهي والصيغ المعزولة دون أداة تعريف أو نهاية إعرابية ومن ملاءمتها للطفل."
+          }
+        },
+        {
+          "id": "pair_caution_01",
+          "field": "practice_guide.{language}.limits[0]",
+          "prepared_text": {
+            "fr": "Les deux mots sont présentés à la pause, sans désinence, avec /a/ final. Une réalisation finale [h] éventuelle doit être documentée de façon cohérente dans les deux mots ; ne pas mélanger pause et liaison /at/.",
+            "en": "Both words are presented in pausal form, without a case ending, with final /a/. Any final [h] realization must be documented consistently in both words; do not mix pause with connected /at/ forms.",
+            "ar": "تُقدَّم الكلمتان في صيغة الوقف، دون نهاية إعرابية، مع /a/ نهائية. يجب توثيق أي نطق نهائي [h] باتساق في الكلمتين؛ لا تخلطوا الوقف بصيغ الوصل /at/."
+          }
+        },
+        {
+          "id": "pair_caution_02",
+          "field": "practice_guide.{language}.limits[1]",
+          "prepared_text": {
+            "fr": "Vérifier qu’une image de larme est nommée دمعة et non œil ou tristesse. L’activité utilise des images, sans nécessité d’allumer une vraie bougie.",
+            "en": "Check that the tear picture is named دمعة, rather than eye or sadness. The activity uses pictures; there is no need to light a real candle.",
+            "ar": "تحققوا من تسمية صورة الدمعة دمعة، لا عينًا أو حزنًا. يُستعمل الرسم في النشاط، ولا حاجة إلى إشعال شمعة حقيقية."
+          }
+        },
+        {
+          "id": "pair_caution_03",
+          "field": "practice_guide.{language}.limits[2]",
+          "prepared_text": {
+            "fr": "La série darija شمعة / دمعة reste exclue. Nouvelle série MSA non approuvée et sans audio clinique approuvé.",
+            "en": "The Darja شمعة / دمعة series remains excluded. New unapproved MSA series, without approved clinical audio.",
+            "ar": "تظل سلسلة الدارجة شمعة / دمعة مستبعدة. هذه سلسلة فصيحة جديدة غير معتمدة، دون تسجيل صوتي سريري معتمد."
+          }
+        },
+        {
+          "id": "pair_caution_04",
+          "field": "practice_guide.{language}.limits[3]",
+          "prepared_text": {
+            "fr": "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale.",
+            "en": "The single-phoneme difference in our segmentation is a formal check; it is not clinical or dialectal validation.",
+            "ar": "الاختلاف في فونيم واحد في تقسيمنا فحص شكلي؛ ولا يمثل اعتمادًا سريريًا أو تحققًا من صحة شكل لهجي."
+          }
+        }
+      ],
+      "human_reviews": {
+        "fr": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "en": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "ar": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        }
+      },
+      "previous_guide_sha256": "c882665925a60438d00a9030a2eba96b9b64883ad2c05ef44fe0566a444d344d",
+      "stimulus_sha256": "e870ba5186d28cefeb3c5809a59212c8203394b0f0b5b482ceda700beb4a2292",
+      "previous_guide": {
+        "fr": {
+          "objective": "Explorer le sens de deux mots standard sous des formes isolées proposées, avec une différence phonémique initiale /ʃ/–/d/. L’indication thérapeutique appartient à l’orthophoniste.",
+          "audience": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+          "discover": [
+            "شَمْعَة : bougie ; دَمْعَة : larme",
+            "Reconnaissez chaque image séparément avant la comparaison. Un mot inconnu, un dessin ambigu ou un sens familial différent exige une autre fiche."
+          ],
+          "listen": [
+            "Après avoir vérifié les deux sens, l’adulte nomme uniquement le mot demandé à l’écran et l’enfant peut montrer son image. Aucun score de prononciation ; contraste proposé en arabe standard, à relire.",
+            "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant."
+          ],
+          "exchange": [
+            "Demandez une fois le mot affiché. Acceptez une indication ou un geste. Une répétition orale est facultative et reste non cotée."
+          ],
+          "support": [
+            "Nommez ou représentez les objets si nécessaire, puis notez cette aide. Laissez un temps de réponse ; arrêtez si l’enfant se fatigue ou refuse."
+          ],
+          "limits": [
+            "Les deux mots sont présentés à la pause, sans désinence, avec /a/ final. Une réalisation finale [h] éventuelle doit être documentée de façon cohérente dans les deux mots ; ne pas mélanger pause et liaison /at/.",
+            "Vérifier qu’une image de larme est nommée دمعة et non œil ou tristesse. L’activité utilise des images, sans nécessité d’allumer une vraie bougie.",
+            "La série darija شمعة / دمعة reste exclue. Nouvelle série MSA non approuvée et sans audio clinique approuvé.",
+            "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale."
+          ],
+          "review_notes": "Proposition originale à relire : sens, familiarité familiale, dessin, registre oral, accessibilité et indication individuelle. Les sources documentent un cadre ou des formes lexicales ; elles ne valident pas cette fiche ni les effets de Nehedrou. Aucun enregistrement clinique approuvé."
+        },
+        "en": {
+          "objective": "Explore two proposed isolated Standard Arabic words with one initial phonemic difference /ʃ/–/d/. A therapist must decide any treatment indication.",
+          "audience": "Proposed pilot for children aged 4–7 who already understand this register, selected after individual phonological assessment; no developmental norm or automatic transfer to Darja.",
+          "discover": [
+            "شَمْعَة: candle; دَمْعَة: tear from an eye",
+            "Recognize each picture separately first. Use another activity if a word is unfamiliar, a picture ambiguous or the family meaning different."
+          ],
+          "listen": [
+            "After checking both meanings, the adult says only the word requested on screen and the child may point to its picture. No pronunciation score; this proposed Standard Arabic contrast awaits review.",
+            "Transcriptions and segmentation are working analyses. A competent professional must check the oral model and isolated forms without articles or case endings."
+          ],
+          "exchange": [
+            "Ask once for the displayed word. Accept pointing or a gesture. Oral repetition is optional and is not scored."
+          ],
+          "support": [
+            "Name or show objects if needed, record that help and allow response time. Stop if the child is tired or refuses."
+          ],
+          "limits": [
+            "The single-phoneme difference is a formal check on our proposed segmentation, not clinical or dialectal approval.",
+            "Regional realizations, emphatic vowel effects, word meanings and picture familiarity require human review. No approved clinical audio, diagnostic score or measured treatment benefit."
+          ],
+          "review_notes": "Original proposal awaiting human review of meaning, family familiarity, pictures, spoken variety, accessibility and individual suitability. References describe a framework or lexical forms; they do not validate this activity or the effects of Nehedrou. No approved clinical recording."
+        },
+        "ar": {
+          "objective": "استكشاف معنى شَمْعَة ودَمْعَة مع فرق صوتي مقترح /ʃ/–/d/. يحدد الأخصائي وحده ملاءمة المقارنة بعد التقييم.",
+          "audience": "اقتراح لعمر ٤–٧ سنوات عند معرفة هذا السجل مسبقًا؛ ليس معيارًا نمائيًا. لا يُفرض نطق الفصحى على طفل يستعمل الدارجة.",
+          "discover": [
+            "شمعة: أداة من الشمع للإضاءة",
+            "دمعة: قطرة تخرج من العين",
+            "تحقق من تعرف الطفل على كل صورة؛ غيّر النشاط إذا كان المعنى أو الرسم غير مألوف."
+          ],
+          "listen": [
+            "بعد التحقق من معنى الكلمتين، يسمّي المرافق الكلمة المطلوبة على الشاشة فقط، ويمكن للطفل أن يشير إلى صورتها. المقارنة مقترحة في الفصحى وليست تقييمًا للنطق؛ تنتظر المراجعة.",
+            "الكتابة الصوتية وتحليل المقاطع الصوتية مقترحان للمراجعة، وليسا نموذجًا سريريًا معتمدًا. الألفاظ هنا معزولة دون أداة تعريف أو نهايات إعرابية."
+          ],
+          "exchange": [
+            "اطلب الكلمة المعروضة مرة واحدة واقبل الإشارة. تكرار الكلمة اختياري ولا تُمنح درجة لنطقها."
+          ],
+          "support": [
+            "عرّف الصورتين أو استخدم أشياء حقيقية عند الحاجة، وسجّل هذه المساعدة. اترك وقتًا للإجابة وتوقف عند التعب أو الرفض."
+          ],
+          "limits": [
+            "الفرق الواحد في تحليلنا الصوتي فحص شكلي فقط، ولا يثبت الملاءمة السريرية أو صحة شكل دارج.",
+            "لا تعتبر نطقًا إقليميًا مختلفًا خطأً. راجع المعنى وألفة الصور والنموذج الشفهي مع مختصين. لا يوجد صوت سريري معتمد أو نتيجة علاجية مثبتة."
+          ],
+          "review_notes": "هذا نص مقترح ينتظر مراجعة بشرية للمعنى وألفة الكلمات والصور والتنوع اللغوي وإمكانية الوصول والملاءمة الفردية. المراجع توثق إطارًا أو ألفاظًا ولا تثبت فعالية النشاط أو التطبيق. لا يوجد تسجيل صوتي سريري معتمد."
+        }
+      }
+    },
+    {
+      "series": "820d4343-fc22-5b3a-838d-5a908a760925",
+      "version": 1,
+      "words": [
+        "تُوت",
+        "حُوت"
+      ],
+      "linguistic_identity_sha256": "ff1e447109e11965604ef1e877a78bd1d65c6bc7ebe1ab886aa58f3f869aaf1c",
+      "required_information": [
+        {
+          "id": "individual_selection_familiarity_and_register",
+          "field": "practice_guide.{language}.audience",
+          "prepared_text": {
+            "fr": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+            "en": "Pilot proposal for children aged 4–7, selected individually by the speech and language therapist and accompanied by an adult competent in the chosen spoken variety. The age range is a design indication, not a developmental norm. Check familiarity with both words and recognition of the pictures. The child must already understand Standard Arabic; select the contrast after phonological assessment, never merely because of a dialect difference.",
+            "ar": "اقتراح تجريبي لأطفال عمرهم ٤–٧ سنوات، بعد اختيار فردي من أخصائي النطق واللغة، وبمرافقة بالغ متمكن من التنوع اللغوي المختار. العمر إرشادي في التصميم وليس معيارًا نمائيًا. يجب التحقق من ألفة الكلمتين والتعرف على الصورتين. يجب أن يكون الطفل فاهمًا للفصحى مسبقًا؛ يُختار التقابل بعد تقييم فونولوجي، ولا يُفرض لمجرد اختلاف لهجي."
+          }
+        },
+        {
+          "id": "isolated_forms_and_professional_oral_model",
+          "field": "practice_guide.{language}.listen[1]",
+          "prepared_text": {
+            "fr": "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant.",
+            "en": "Transcription and phonemic segmentation are working analyses. A competent professional must check the oral model, isolated forms without an article or case ending, and their relevance to the child.",
+            "ar": "النسخ الصوتي والتقسيم إلى فونيمات تحليلان أوليان. يجب أن يتحقق مختص مؤهل من النموذج الشفهي والصيغ المعزولة دون أداة تعريف أو نهاية إعرابية ومن ملاءمتها للطفل."
+          }
+        },
+        {
+          "id": "pair_caution_01",
+          "field": "practice_guide.{language}.limits[0]",
+          "prepared_text": {
+            "fr": "Candidat particulièrement dépendant de la familiarité. Montrer des fruits de mûrier, pas des fraises, myrtilles ou mûres de ronce indifférenciées. La reconnaissance du fruit doit être vérifiée.",
+            "en": "This candidate is especially dependent on familiarity. Show mulberry-tree fruit, not strawberries, blueberries or undifferentiated blackberries. Recognition of the fruit must be checked.",
+            "ar": "تعتمد ملاءمة هذا المرشح بدرجة خاصة على الألفة. اعرضوا ثمار شجرة التوت، لا الفراولة أو التوت الأزرق أو ثمار العُلّيق غير المميّزة. يجب التحقق من تعرف الطفل على الثمرة."
+          }
+        },
+        {
+          "id": "pair_caution_02",
+          "field": "practice_guide.{language}.limits[1]",
+          "prepared_text": {
+            "fr": "Une baleine et un poisson peuvent être tous deux compatibles avec des sens de حوت : clarifier le sens retenu et accueillir la dénomination familiale. En darija de Dellys, حوت est attesté comme poisson.",
+            "en": "Both whale and fish may fit meanings of حوت: clarify the selected meaning and accept the family name. In Dellys Darja, حوت is attested as fish.",
+            "ar": "قد يوافق معنى حوت كلًّا من الحوت البحري والسمك: وضّحوا المعنى المختار واقبلوا التسمية العائلية. كلمة حوت موثقة بمعنى السمك في دارجة دلس."
+          }
+        },
+        {
+          "id": "pair_caution_03",
+          "field": "practice_guide.{language}.limits[2]",
+          "prepared_text": {
+            "fr": "La série darija توت / حوت reste exclue. Nouvelle série MSA non approuvée ; la voyelle longue /uː/ est un seul segment. Aucun audio clinique approuvé.",
+            "en": "The Darja توت / حوت series remains excluded. New unapproved MSA series; long /uː/ is one segment. No approved clinical audio.",
+            "ar": "تظل سلسلة الدارجة توت / حوت مستبعدة. هذه سلسلة فصيحة جديدة غير معتمدة؛ ويُحسب الصائت الطويل /uː/ وحدة فونيمية واحدة. لا يوجد تسجيل صوتي سريري معتمد."
+          }
+        },
+        {
+          "id": "pair_caution_04",
+          "field": "practice_guide.{language}.limits[3]",
+          "prepared_text": {
+            "fr": "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale.",
+            "en": "The single-phoneme difference in our segmentation is a formal check; it is not clinical or dialectal validation.",
+            "ar": "الاختلاف في فونيم واحد في تقسيمنا فحص شكلي؛ ولا يمثل اعتمادًا سريريًا أو تحققًا من صحة شكل لهجي."
+          }
+        }
+      ],
+      "human_reviews": {
+        "fr": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "en": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "ar": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        }
+      },
+      "previous_guide_sha256": "7dc76032e19f8f0dfb805fb2c8f4dfdfc5060beb238850f333e7ac675e7eec40",
+      "stimulus_sha256": "70233b899ddeedd1b6752354f2fb07ecbfe38584d3e8581bb34cf5d5baa8cd1c",
+      "previous_guide": {
+        "fr": {
+          "objective": "Explorer le sens de deux mots standard sous des formes isolées proposées, avec une différence phonémique initiale /t/–/ħ/. L’indication thérapeutique appartient à l’orthophoniste.",
+          "audience": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+          "discover": [
+            "تُوت : mûres de mûrier, fruits de l’arbre ; حُوت : baleine, sens choisi parmi les sens du mot",
+            "Reconnaissez chaque image séparément avant la comparaison. Un mot inconnu, un dessin ambigu ou un sens familial différent exige une autre fiche."
+          ],
+          "listen": [
+            "Après avoir vérifié les deux sens, l’adulte nomme uniquement le mot demandé à l’écran et l’enfant peut montrer son image. Aucun score de prononciation ; contraste proposé en arabe standard, à relire.",
+            "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant."
+          ],
+          "exchange": [
+            "Demandez une fois le mot affiché. Acceptez une indication ou un geste. Une répétition orale est facultative et reste non cotée."
+          ],
+          "support": [
+            "Nommez ou représentez les objets si nécessaire, puis notez cette aide. Laissez un temps de réponse ; arrêtez si l’enfant se fatigue ou refuse."
+          ],
+          "limits": [
+            "Candidat particulièrement dépendant de la familiarité. Montrer des fruits de mûrier, pas des fraises, myrtilles ou mûres de ronce indifférenciées. La reconnaissance du fruit doit être vérifiée.",
+            "Une baleine et un poisson peuvent être tous deux compatibles avec des sens de حوت : clarifier le sens retenu et accueillir la dénomination familiale. En darija de Dellys, حوت est attesté comme poisson.",
+            "La série darija توت / حوت reste exclue. Nouvelle série MSA non approuvée ; la voyelle longue /uː/ est un seul segment. Aucun audio clinique approuvé.",
+            "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale."
+          ],
+          "review_notes": "Proposition originale à relire : sens, familiarité familiale, dessin, registre oral, accessibilité et indication individuelle. Les sources documentent un cadre ou des formes lexicales ; elles ne valident pas cette fiche ni les effets de Nehedrou. Aucun enregistrement clinique approuvé."
+        },
+        "en": {
+          "objective": "Explore two proposed isolated Standard Arabic words with one initial phonemic difference /t/–/ħ/. A therapist must decide any treatment indication.",
+          "audience": "Proposed pilot for children aged 4–7 who already understand this register, selected after individual phonological assessment; no developmental norm or automatic transfer to Darja.",
+          "discover": [
+            "تُوت: mulberries; حُوت: whale",
+            "Recognize each picture separately first. Use another activity if a word is unfamiliar, a picture ambiguous or the family meaning different."
+          ],
+          "listen": [
+            "After checking both meanings, the adult says only the word requested on screen and the child may point to its picture. No pronunciation score; this proposed Standard Arabic contrast awaits review.",
+            "Transcriptions and segmentation are working analyses. A competent professional must check the oral model and isolated forms without articles or case endings."
+          ],
+          "exchange": [
+            "Ask once for the displayed word. Accept pointing or a gesture. Oral repetition is optional and is not scored."
+          ],
+          "support": [
+            "Name or show objects if needed, record that help and allow response time. Stop if the child is tired or refuses."
+          ],
+          "limits": [
+            "The single-phoneme difference is a formal check on our proposed segmentation, not clinical or dialectal approval.",
+            "Regional realizations, emphatic vowel effects, word meanings and picture familiarity require human review. No approved clinical audio, diagnostic score or measured treatment benefit."
+          ],
+          "review_notes": "Original proposal awaiting human review of meaning, family familiarity, pictures, spoken variety, accessibility and individual suitability. References describe a framework or lexical forms; they do not validate this activity or the effects of Nehedrou. No approved clinical recording."
+        },
+        "ar": {
+          "objective": "استكشاف معنى تُوت وحُوت مع فرق صوتي مقترح /t/–/ħ/. يحدد الأخصائي وحده ملاءمة المقارنة بعد التقييم.",
+          "audience": "اقتراح لعمر ٤–٧ سنوات عند معرفة هذا السجل مسبقًا؛ ليس معيارًا نمائيًا. لا يُفرض نطق الفصحى على طفل يستعمل الدارجة.",
+          "discover": [
+            "توت: ثمر شجرة التوت",
+            "حوت: الحيوان البحري الكبير من الحيتانيات، المعنى المختار للصورة",
+            "تحقق من تعرف الطفل على كل صورة؛ غيّر النشاط إذا كان المعنى أو الرسم غير مألوف."
+          ],
+          "listen": [
+            "بعد التحقق من معنى الكلمتين، يسمّي المرافق الكلمة المطلوبة على الشاشة فقط، ويمكن للطفل أن يشير إلى صورتها. المقارنة مقترحة في الفصحى وليست تقييمًا للنطق؛ تنتظر المراجعة.",
+            "الكتابة الصوتية وتحليل المقاطع الصوتية مقترحان للمراجعة، وليسا نموذجًا سريريًا معتمدًا. الألفاظ هنا معزولة دون أداة تعريف أو نهايات إعرابية."
+          ],
+          "exchange": [
+            "اطلب الكلمة المعروضة مرة واحدة واقبل الإشارة. تكرار الكلمة اختياري ولا تُمنح درجة لنطقها."
+          ],
+          "support": [
+            "عرّف الصورتين أو استخدم أشياء حقيقية عند الحاجة، وسجّل هذه المساعدة. اترك وقتًا للإجابة وتوقف عند التعب أو الرفض."
+          ],
+          "limits": [
+            "الفرق الواحد في تحليلنا الصوتي فحص شكلي فقط، ولا يثبت الملاءمة السريرية أو صحة شكل دارج.",
+            "لا تعتبر نطقًا إقليميًا مختلفًا خطأً. راجع المعنى وألفة الصور والنموذج الشفهي مع مختصين. لا يوجد صوت سريري معتمد أو نتيجة علاجية مثبتة."
+          ],
+          "review_notes": "هذا نص مقترح ينتظر مراجعة بشرية للمعنى وألفة الكلمات والصور والتنوع اللغوي وإمكانية الوصول والملاءمة الفردية. المراجع توثق إطارًا أو ألفاظًا ولا تثبت فعالية النشاط أو التطبيق. لا يوجد تسجيل صوتي سريري معتمد."
+        }
+      }
+    },
+    {
+      "series": "d446cf50-581d-568b-9d8a-411c7de5a411",
+      "version": 1,
+      "words": [
+        "دَار",
+        "نَار"
+      ],
+      "linguistic_identity_sha256": "beaeb3ca1a5f378dc7ec33c13280226110a96836732db0e9e1d464e8d0e6027f",
+      "required_information": [
+        {
+          "id": "individual_selection_familiarity_and_register",
+          "field": "practice_guide.{language}.audience",
+          "prepared_text": {
+            "fr": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+            "en": "Pilot proposal for children aged 4–7, selected individually by the speech and language therapist and accompanied by an adult competent in the chosen spoken variety. The age range is a design indication, not a developmental norm. Check familiarity with both words and recognition of the pictures. The child must already understand Standard Arabic; select the contrast after phonological assessment, never merely because of a dialect difference.",
+            "ar": "اقتراح تجريبي لأطفال عمرهم ٤–٧ سنوات، بعد اختيار فردي من أخصائي النطق واللغة، وبمرافقة بالغ متمكن من التنوع اللغوي المختار. العمر إرشادي في التصميم وليس معيارًا نمائيًا. يجب التحقق من ألفة الكلمتين والتعرف على الصورتين. يجب أن يكون الطفل فاهمًا للفصحى مسبقًا؛ يُختار التقابل بعد تقييم فونولوجي، ولا يُفرض لمجرد اختلاف لهجي."
+          }
+        },
+        {
+          "id": "isolated_forms_and_professional_oral_model",
+          "field": "practice_guide.{language}.listen[1]",
+          "prepared_text": {
+            "fr": "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant.",
+            "en": "Transcription and phonemic segmentation are working analyses. A competent professional must check the oral model, isolated forms without an article or case ending, and their relevance to the child.",
+            "ar": "النسخ الصوتي والتقسيم إلى فونيمات تحليلان أوليان. يجب أن يتحقق مختص مؤهل من النموذج الشفهي والصيغ المعزولة دون أداة تعريف أو نهاية إعرابية ومن ملاءمتها للطفل."
+          }
+        },
+        {
+          "id": "pair_caution_01",
+          "field": "practice_guide.{language}.limits[0]",
+          "prepared_text": {
+            "fr": "Ne pas copier l’étiquette dialectale de l’exemple public darija vers cette série MSA. À Dellys, le nom de maison peut comporter une réalisation emphatique du r : la transcription standard n’établit pas une paire locale.",
+            "en": "Do not copy the dialect label of the public Darja example to this MSA series. In Dellys, the word for home may have an emphatic r realization: the Standard Arabic transcription does not establish a local pair.",
+            "ar": "لا تنقلوا وسم التنوع اللهجي من مثال الدارجة العام إلى هذه السلسلة الفصيحة. قد تُنطق ر في اسم المسكن مفخّمة في دلس؛ ولا يثبت النسخ الفصيح وجود زوج محلي."
+          }
+        },
+        {
+          "id": "pair_caution_02",
+          "field": "practice_guide.{language}.limits[1]",
+          "prepared_text": {
+            "fr": "Vérifier la reconnaissance des images et le sens habitation ; utiliser une illustration de flamme, sans manipulation de feu réel.",
+            "en": "Check recognition of the pictures and the dwelling meaning; use a flame illustration, without handling real fire.",
+            "ar": "تحققوا من التعرف على الصورتين ومن معنى المسكن؛ استعملوا رسمًا للهب دون التعامل مع نار حقيقية."
+          }
+        },
+        {
+          "id": "pair_caution_03",
+          "field": "practice_guide.{language}.limits[2]",
+          "prepared_text": {
+            "fr": "Fiche MSA non approuvée et sans audio clinique approuvé ; /aː/ compte comme un seul segment.",
+            "en": "Unapproved MSA activity with no approved clinical audio; /aː/ counts as one segment.",
+            "ar": "نشاط فصيح غير معتمد ودون تسجيل صوتي سريري معتمد؛ ويُحسب /aː/ وحدة فونيمية واحدة."
+          }
+        },
+        {
+          "id": "pair_caution_04",
+          "field": "practice_guide.{language}.limits[3]",
+          "prepared_text": {
+            "fr": "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale.",
+            "en": "The single-phoneme difference in our segmentation is a formal check; it is not clinical or dialectal validation.",
+            "ar": "الاختلاف في فونيم واحد في تقسيمنا فحص شكلي؛ ولا يمثل اعتمادًا سريريًا أو تحققًا من صحة شكل لهجي."
+          }
+        }
+      ],
+      "human_reviews": {
+        "fr": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "en": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "ar": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        }
+      },
+      "previous_guide_sha256": "ad559862316574043b9a2eb7e2fd8c90e7e63e565c2dd71227d616d96d9cfabe",
+      "stimulus_sha256": "c80ef80ba0046ed1b8dbe2cb04829ad08cb67c7b21a1881f898bc6c82f859bff",
+      "previous_guide": {
+        "fr": {
+          "objective": "Explorer le sens de deux mots standard sous des formes isolées proposées, avec une différence phonémique initiale /d/–/n/. L’indication thérapeutique appartient à l’orthophoniste.",
+          "audience": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+          "discover": [
+            "دَار : maison, habitation ; نَار : feu, flamme",
+            "Reconnaissez chaque image séparément avant la comparaison. Un mot inconnu, un dessin ambigu ou un sens familial différent exige une autre fiche."
+          ],
+          "listen": [
+            "Après avoir vérifié les deux sens, l’adulte nomme uniquement le mot demandé à l’écran et l’enfant peut montrer son image. Aucun score de prononciation ; contraste proposé en arabe standard, à relire.",
+            "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant."
+          ],
+          "exchange": [
+            "Demandez une fois le mot affiché. Acceptez une indication ou un geste. Une répétition orale est facultative et reste non cotée."
+          ],
+          "support": [
+            "Nommez ou représentez les objets si nécessaire, puis notez cette aide. Laissez un temps de réponse ; arrêtez si l’enfant se fatigue ou refuse."
+          ],
+          "limits": [
+            "Ne pas copier l’étiquette dialectale de l’exemple public darija vers cette série MSA. À Dellys, le nom de maison peut comporter une réalisation emphatique du r : la transcription standard n’établit pas une paire locale.",
+            "Vérifier la reconnaissance des images et le sens habitation ; utiliser une illustration de flamme, sans manipulation de feu réel.",
+            "Fiche MSA non approuvée et sans audio clinique approuvé ; /aː/ compte comme un seul segment.",
+            "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale."
+          ],
+          "review_notes": "Proposition originale à relire : sens, familiarité familiale, dessin, registre oral, accessibilité et indication individuelle. Les sources documentent un cadre ou des formes lexicales ; elles ne valident pas cette fiche ni les effets de Nehedrou. Aucun enregistrement clinique approuvé."
+        },
+        "en": {
+          "objective": "Explore two proposed isolated Standard Arabic words with one initial phonemic difference /d/–/n/. A therapist must decide any treatment indication.",
+          "audience": "Proposed pilot for children aged 4–7 who already understand this register, selected after individual phonological assessment; no developmental norm or automatic transfer to Darja.",
+          "discover": [
+            "دَار: home; نَار: fire",
+            "Recognize each picture separately first. Use another activity if a word is unfamiliar, a picture ambiguous or the family meaning different."
+          ],
+          "listen": [
+            "After checking both meanings, the adult says only the word requested on screen and the child may point to its picture. No pronunciation score; this proposed Standard Arabic contrast awaits review.",
+            "Transcriptions and segmentation are working analyses. A competent professional must check the oral model and isolated forms without articles or case endings."
+          ],
+          "exchange": [
+            "Ask once for the displayed word. Accept pointing or a gesture. Oral repetition is optional and is not scored."
+          ],
+          "support": [
+            "Name or show objects if needed, record that help and allow response time. Stop if the child is tired or refuses."
+          ],
+          "limits": [
+            "The single-phoneme difference is a formal check on our proposed segmentation, not clinical or dialectal approval.",
+            "Regional realizations, emphatic vowel effects, word meanings and picture familiarity require human review. No approved clinical audio, diagnostic score or measured treatment benefit."
+          ],
+          "review_notes": "Original proposal awaiting human review of meaning, family familiarity, pictures, spoken variety, accessibility and individual suitability. References describe a framework or lexical forms; they do not validate this activity or the effects of Nehedrou. No approved clinical recording."
+        },
+        "ar": {
+          "objective": "استكشاف معنى دَار ونَار مع فرق صوتي مقترح /d/–/n/. يحدد الأخصائي وحده ملاءمة المقارنة بعد التقييم.",
+          "audience": "اقتراح لعمر ٤–٧ سنوات عند معرفة هذا السجل مسبقًا؛ ليس معيارًا نمائيًا. لا يُفرض نطق الفصحى على طفل يستعمل الدارجة.",
+          "discover": [
+            "دار: مسكن",
+            "نار: اللهب",
+            "تحقق من تعرف الطفل على كل صورة؛ غيّر النشاط إذا كان المعنى أو الرسم غير مألوف."
+          ],
+          "listen": [
+            "بعد التحقق من معنى الكلمتين، يسمّي المرافق الكلمة المطلوبة على الشاشة فقط، ويمكن للطفل أن يشير إلى صورتها. المقارنة مقترحة في الفصحى وليست تقييمًا للنطق؛ تنتظر المراجعة.",
+            "الكتابة الصوتية وتحليل المقاطع الصوتية مقترحان للمراجعة، وليسا نموذجًا سريريًا معتمدًا. الألفاظ هنا معزولة دون أداة تعريف أو نهايات إعرابية."
+          ],
+          "exchange": [
+            "اطلب الكلمة المعروضة مرة واحدة واقبل الإشارة. تكرار الكلمة اختياري ولا تُمنح درجة لنطقها."
+          ],
+          "support": [
+            "عرّف الصورتين أو استخدم أشياء حقيقية عند الحاجة، وسجّل هذه المساعدة. اترك وقتًا للإجابة وتوقف عند التعب أو الرفض."
+          ],
+          "limits": [
+            "الفرق الواحد في تحليلنا الصوتي فحص شكلي فقط، ولا يثبت الملاءمة السريرية أو صحة شكل دارج.",
+            "لا تعتبر نطقًا إقليميًا مختلفًا خطأً. راجع المعنى وألفة الصور والنموذج الشفهي مع مختصين. لا يوجد صوت سريري معتمد أو نتيجة علاجية مثبتة."
+          ],
+          "review_notes": "هذا نص مقترح ينتظر مراجعة بشرية للمعنى وألفة الكلمات والصور والتنوع اللغوي وإمكانية الوصول والملاءمة الفردية. المراجع توثق إطارًا أو ألفاظًا ولا تثبت فعالية النشاط أو التطبيق. لا يوجد تسجيل صوتي سريري معتمد."
+        }
+      }
+    },
+    {
+      "series": "2854675a-091e-550e-8fe4-2beffd95a3f9",
+      "version": 1,
+      "words": [
+        "جَرَس",
+        "فَرَس"
+      ],
+      "linguistic_identity_sha256": "cdffda0e2f19a64ad70ead386df98ec1f28099e21d29d54ff5a04791a828a9f9",
+      "required_information": [
+        {
+          "id": "individual_selection_familiarity_and_register",
+          "field": "practice_guide.{language}.audience",
+          "prepared_text": {
+            "fr": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+            "en": "Pilot proposal for children aged 4–7, selected individually by the speech and language therapist and accompanied by an adult competent in the chosen spoken variety. The age range is a design indication, not a developmental norm. Check familiarity with both words and recognition of the pictures. The child must already understand Standard Arabic; select the contrast after phonological assessment, never merely because of a dialect difference.",
+            "ar": "اقتراح تجريبي لأطفال عمرهم ٤–٧ سنوات، بعد اختيار فردي من أخصائي النطق واللغة، وبمرافقة بالغ متمكن من التنوع اللغوي المختار. العمر إرشادي في التصميم وليس معيارًا نمائيًا. يجب التحقق من ألفة الكلمتين والتعرف على الصورتين. يجب أن يكون الطفل فاهمًا للفصحى مسبقًا؛ يُختار التقابل بعد تقييم فونولوجي، ولا يُفرض لمجرد اختلاف لهجي."
+          }
+        },
+        {
+          "id": "isolated_forms_and_professional_oral_model",
+          "field": "practice_guide.{language}.listen[1]",
+          "prepared_text": {
+            "fr": "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant.",
+            "en": "Transcription and phonemic segmentation are working analyses. A competent professional must check the oral model, isolated forms without an article or case ending, and their relevance to the child.",
+            "ar": "النسخ الصوتي والتقسيم إلى فونيمات تحليلان أوليان. يجب أن يتحقق مختص مؤهل من النموذج الشفهي والصيغ المعزولة دون أداة تعريف أو نهاية إعرابية ومن ملاءمتها للطفل."
+          }
+        },
+        {
+          "id": "pair_caution_01",
+          "field": "practice_guide.{language}.limits[0]",
+          "prepared_text": {
+            "fr": "فرس peut être moins familier que حصان. Si l’enfant emploie حصان ou un mot local attesté, accueillir ce mot et ne pas imposer فرس pour fabriquer un contraste.",
+            "en": "فرس may be less familiar than حصان. If the child uses حصان or an attested local word, accept it; do not impose فرس to manufacture a contrast.",
+            "ar": "قد تكون كلمة فرس أقل ألفة من حصان. إذا استعمل الطفل حصان أو لفظًا محليًا موثقًا، فاقبلوه؛ ولا تفرضوا فرس لصنع تقابل مصطنع."
+          }
+        },
+        {
+          "id": "pair_caution_02",
+          "field": "practice_guide.{language}.limits[1]",
+          "prepared_text": {
+            "fr": "Le protocole proposé représente ج par /dʒ/, un seul segment. Les réalisations régionales légitimes de ج ne doivent pas être cotées comme des erreurs de parole.",
+            "en": "The proposed protocol represents ج as /dʒ/, one segment. Legitimate regional realizations of ج must not be scored as speech errors.",
+            "ar": "يمثّل البروتوكول المقترح ج بالرمز /dʒ/ بوصفه وحدة فونيمية واحدة. لا تُقيّموا النطق الإقليمي المشروع لحرف ج بوصفه خطأً في الكلام."
+          }
+        },
+        {
+          "id": "pair_caution_03",
+          "field": "practice_guide.{language}.limits[2]",
+          "prepared_text": {
+            "fr": "Montrer un cheval et une cloche reconnaissables. Candidat non approuvé, sans norme d’acquisition d’âge affirmée et sans audio clinique approuvé.",
+            "en": "Show a recognizable horse and bell. The candidate is unapproved, asserts no age-of-acquisition norm and has no approved clinical audio.",
+            "ar": "اعرضوا حصانًا وجرسًا يسهل التعرف عليهما. المرشح غير معتمد، ولا يقرر معيارًا لعمر الاكتساب، ولا يتضمن تسجيلًا صوتيًا سريريًا معتمدًا."
+          }
+        },
+        {
+          "id": "pair_caution_04",
+          "field": "practice_guide.{language}.limits[3]",
+          "prepared_text": {
+            "fr": "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale.",
+            "en": "The single-phoneme difference in our segmentation is a formal check; it is not clinical or dialectal validation.",
+            "ar": "الاختلاف في فونيم واحد في تقسيمنا فحص شكلي؛ ولا يمثل اعتمادًا سريريًا أو تحققًا من صحة شكل لهجي."
+          }
+        }
+      ],
+      "human_reviews": {
+        "fr": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "en": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "ar": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        }
+      },
+      "previous_guide_sha256": "540e927653fcc5e233f5b3959e6be0476c3cbae953205f9294dc3271d88d800a",
+      "stimulus_sha256": "0349998d7de6673d428f0b85998ba12d454c33c4a59254a3ac4b12fb3a338b20",
+      "previous_guide": {
+        "fr": {
+          "objective": "Explorer le sens de deux mots standard sous des formes isolées proposées, avec une différence phonémique initiale /dʒ/–/f/. L’indication thérapeutique appartient à l’orthophoniste.",
+          "audience": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+          "discover": [
+            "جَرَس : cloche ou sonnette, instrument ; فَرَس : cheval",
+            "Reconnaissez chaque image séparément avant la comparaison. Un mot inconnu, un dessin ambigu ou un sens familial différent exige une autre fiche."
+          ],
+          "listen": [
+            "Après avoir vérifié les deux sens, l’adulte nomme uniquement le mot demandé à l’écran et l’enfant peut montrer son image. Aucun score de prononciation ; contraste proposé en arabe standard, à relire.",
+            "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant."
+          ],
+          "exchange": [
+            "Demandez une fois le mot affiché. Acceptez une indication ou un geste. Une répétition orale est facultative et reste non cotée."
+          ],
+          "support": [
+            "Nommez ou représentez les objets si nécessaire, puis notez cette aide. Laissez un temps de réponse ; arrêtez si l’enfant se fatigue ou refuse."
+          ],
+          "limits": [
+            "فرس peut être moins familier que حصان. Si l’enfant emploie حصان ou un mot local attesté, accueillir ce mot et ne pas imposer فرس pour fabriquer un contraste.",
+            "Le protocole proposé représente ج par /dʒ/, un seul segment. Les réalisations régionales légitimes de ج ne doivent pas être cotées comme des erreurs de parole.",
+            "Montrer un cheval et une cloche reconnaissables. Candidat non approuvé, sans norme d’acquisition d’âge affirmée et sans audio clinique approuvé.",
+            "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale."
+          ],
+          "review_notes": "Proposition originale à relire : sens, familiarité familiale, dessin, registre oral, accessibilité et indication individuelle. Les sources documentent un cadre ou des formes lexicales ; elles ne valident pas cette fiche ni les effets de Nehedrou. Aucun enregistrement clinique approuvé."
+        },
+        "en": {
+          "objective": "Explore two proposed isolated Standard Arabic words with one initial phonemic difference /dʒ/–/f/. A therapist must decide any treatment indication.",
+          "audience": "Proposed pilot for children aged 4–7 who already understand this register, selected after individual phonological assessment; no developmental norm or automatic transfer to Darja.",
+          "discover": [
+            "جَرَس: bell; فَرَس: horse",
+            "Recognize each picture separately first. Use another activity if a word is unfamiliar, a picture ambiguous or the family meaning different."
+          ],
+          "listen": [
+            "After checking both meanings, the adult says only the word requested on screen and the child may point to its picture. No pronunciation score; this proposed Standard Arabic contrast awaits review.",
+            "Transcriptions and segmentation are working analyses. A competent professional must check the oral model and isolated forms without articles or case endings."
+          ],
+          "exchange": [
+            "Ask once for the displayed word. Accept pointing or a gesture. Oral repetition is optional and is not scored."
+          ],
+          "support": [
+            "Name or show objects if needed, record that help and allow response time. Stop if the child is tired or refuses."
+          ],
+          "limits": [
+            "The single-phoneme difference is a formal check on our proposed segmentation, not clinical or dialectal approval.",
+            "Regional realizations, emphatic vowel effects, word meanings and picture familiarity require human review. No approved clinical audio, diagnostic score or measured treatment benefit."
+          ],
+          "review_notes": "Original proposal awaiting human review of meaning, family familiarity, pictures, spoken variety, accessibility and individual suitability. References describe a framework or lexical forms; they do not validate this activity or the effects of Nehedrou. No approved clinical recording."
+        },
+        "ar": {
+          "objective": "استكشاف معنى جَرَس وفَرَس مع فرق صوتي مقترح /dʒ/–/f/. يحدد الأخصائي وحده ملاءمة المقارنة بعد التقييم.",
+          "audience": "اقتراح لعمر ٤–٧ سنوات عند معرفة هذا السجل مسبقًا؛ ليس معيارًا نمائيًا. لا يُفرض نطق الفصحى على طفل يستعمل الدارجة.",
+          "discover": [
+            "جرس: أداة تُصدر صوتًا",
+            "فرس: حصان، الحيوان",
+            "تحقق من تعرف الطفل على كل صورة؛ غيّر النشاط إذا كان المعنى أو الرسم غير مألوف."
+          ],
+          "listen": [
+            "بعد التحقق من معنى الكلمتين، يسمّي المرافق الكلمة المطلوبة على الشاشة فقط، ويمكن للطفل أن يشير إلى صورتها. المقارنة مقترحة في الفصحى وليست تقييمًا للنطق؛ تنتظر المراجعة.",
+            "الكتابة الصوتية وتحليل المقاطع الصوتية مقترحان للمراجعة، وليسا نموذجًا سريريًا معتمدًا. الألفاظ هنا معزولة دون أداة تعريف أو نهايات إعرابية."
+          ],
+          "exchange": [
+            "اطلب الكلمة المعروضة مرة واحدة واقبل الإشارة. تكرار الكلمة اختياري ولا تُمنح درجة لنطقها."
+          ],
+          "support": [
+            "عرّف الصورتين أو استخدم أشياء حقيقية عند الحاجة، وسجّل هذه المساعدة. اترك وقتًا للإجابة وتوقف عند التعب أو الرفض."
+          ],
+          "limits": [
+            "الفرق الواحد في تحليلنا الصوتي فحص شكلي فقط، ولا يثبت الملاءمة السريرية أو صحة شكل دارج.",
+            "لا تعتبر نطقًا إقليميًا مختلفًا خطأً. راجع المعنى وألفة الصور والنموذج الشفهي مع مختصين. لا يوجد صوت سريري معتمد أو نتيجة علاجية مثبتة."
+          ],
+          "review_notes": "هذا نص مقترح ينتظر مراجعة بشرية للمعنى وألفة الكلمات والصور والتنوع اللغوي وإمكانية الوصول والملاءمة الفردية. المراجع توثق إطارًا أو ألفاظًا ولا تثبت فعالية النشاط أو التطبيق. لا يوجد تسجيل صوتي سريري معتمد."
+        }
+      }
+    },
+    {
+      "series": "6486421e-df7f-5ca1-9437-4449a8470b4d",
+      "version": 1,
+      "words": [
+        "جَمَل",
+        "حَمَل"
+      ],
+      "linguistic_identity_sha256": "a3915850b80d3747ab3be0b75f0078b2dc4c54112d58b476279966082a29ef4d",
+      "required_information": [
+        {
+          "id": "individual_selection_familiarity_and_register",
+          "field": "practice_guide.{language}.audience",
+          "prepared_text": {
+            "fr": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+            "en": "Pilot proposal for children aged 4–7, selected individually by the speech and language therapist and accompanied by an adult competent in the chosen spoken variety. The age range is a design indication, not a developmental norm. Check familiarity with both words and recognition of the pictures. The child must already understand Standard Arabic; select the contrast after phonological assessment, never merely because of a dialect difference.",
+            "ar": "اقتراح تجريبي لأطفال عمرهم ٤–٧ سنوات، بعد اختيار فردي من أخصائي النطق واللغة، وبمرافقة بالغ متمكن من التنوع اللغوي المختار. العمر إرشادي في التصميم وليس معيارًا نمائيًا. يجب التحقق من ألفة الكلمتين والتعرف على الصورتين. يجب أن يكون الطفل فاهمًا للفصحى مسبقًا؛ يُختار التقابل بعد تقييم فونولوجي، ولا يُفرض لمجرد اختلاف لهجي."
+          }
+        },
+        {
+          "id": "isolated_forms_and_professional_oral_model",
+          "field": "practice_guide.{language}.listen[1]",
+          "prepared_text": {
+            "fr": "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant.",
+            "en": "Transcription and phonemic segmentation are working analyses. A competent professional must check the oral model, isolated forms without an article or case ending, and their relevance to the child.",
+            "ar": "النسخ الصوتي والتقسيم إلى فونيمات تحليلان أوليان. يجب أن يتحقق مختص مؤهل من النموذج الشفهي والصيغ المعزولة دون أداة تعريف أو نهاية إعرابية ومن ملاءمتها للطفل."
+          }
+        },
+        {
+          "id": "pair_caution_01",
+          "field": "practice_guide.{language}.limits[0]",
+          "prepared_text": {
+            "fr": "حَمَل peut être moins familier que خروف ou un nom familial. Vérifier le sens de jeune mouton avec l’enfant et l’adulte ; ne pas qualifier un autre nom légitime d’erreur.",
+            "en": "حَمَل may be less familiar than خروف or a family name. Check the meaning young sheep with the child and adult; do not label another legitimate name an error.",
+            "ar": "قد تكون كلمة حَمَل أقل ألفة من خروف أو تسمية عائلية. تحققوا مع الطفل والمرافق من معنى صغير الضأن؛ ولا تصفوا تسمية مشروعة أخرى بأنها خطأ."
+          }
+        },
+        {
+          "id": "pair_caution_02",
+          "field": "practice_guide.{language}.limits[1]",
+          "prepared_text": {
+            "fr": "Conserver les voyelles brèves indiquées : /ħamal/ et non /ħaml/. Une image doit rendre compréhensible la différence entre agneau et mouton adulte.",
+            "en": "Keep the indicated short vowels: /ħamal/, not /ħaml/. The picture must make the difference between a lamb and an adult sheep understandable.",
+            "ar": "حافظوا على الصوائت القصيرة المبيّنة: /ħamal/ وليس /ħaml/. يجب أن توضّح الصورة الفرق بين صغير الضأن والخروف البالغ."
+          }
+        },
+        {
+          "id": "pair_caution_03",
+          "field": "practice_guide.{language}.limits[2]",
+          "prepared_text": {
+            "fr": "Le /dʒ/ proposé est un seul segment et ne vaut pas norme de prononciation pour tous les locuteurs arabophones. Fiche non approuvée et sans audio clinique approuvé.",
+            "en": "Proposed /dʒ/ is one segment and is not a pronunciation norm for all Arabic speakers. The activity is unapproved and has no approved clinical audio.",
+            "ar": "يُحسب /dʒ/ المقترح وحدة فونيمية واحدة، ولا يمثل معيارًا لنطق جميع المتحدثين بالعربية. النشاط غير معتمد ولا يتضمن تسجيلًا صوتيًا سريريًا معتمدًا."
+          }
+        },
+        {
+          "id": "pair_caution_04",
+          "field": "practice_guide.{language}.limits[3]",
+          "prepared_text": {
+            "fr": "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale.",
+            "en": "The single-phoneme difference in our segmentation is a formal check; it is not clinical or dialectal validation.",
+            "ar": "الاختلاف في فونيم واحد في تقسيمنا فحص شكلي؛ ولا يمثل اعتمادًا سريريًا أو تحققًا من صحة شكل لهجي."
+          }
+        }
+      ],
+      "human_reviews": {
+        "fr": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "en": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        },
+        "ar": {
+          "status": "pending_competent_review",
+          "reviewer": null,
+          "reviewed_at": null
+        }
+      },
+      "previous_guide_sha256": "b2ccc9e77ff69980e216c19a5b245fc8f5b661a4717face0f11083785a6fbcb2",
+      "stimulus_sha256": "42674a5f95a513f04f004e81de2fe1d07b7935d9618c47535e3f72d0db71b839",
+      "previous_guide": {
+        "fr": {
+          "objective": "Explorer le sens de deux mots standard sous des formes isolées proposées, avec une différence phonémique initiale /dʒ/–/ħ/. L’indication thérapeutique appartient à l’orthophoniste.",
+          "audience": "Proposition pilote pour enfants de 4 à 7 ans, après choix individuel par l’orthophoniste, accompagnés par un adulte compétent dans la variété retenue. Âge indicatif de conception, sans norme développementale. Familiarité des deux mots et reconnaissance des images à vérifier. Arabe standard déjà compris par l’enfant ; contraste choisi après évaluation phonologique, jamais imposé à partir d’une différence dialectale.",
+          "discover": [
+            "جَمَل : chameau ; حَمَل : agneau",
+            "Reconnaissez chaque image séparément avant la comparaison. Un mot inconnu, un dessin ambigu ou un sens familial différent exige une autre fiche."
+          ],
+          "listen": [
+            "Après avoir vérifié les deux sens, l’adulte nomme uniquement le mot demandé à l’écran et l’enfant peut montrer son image. Aucun score de prononciation ; contraste proposé en arabe standard, à relire.",
+            "La transcription et la segmentation sont des analyses de travail. Un professionnel compétent doit vérifier le modèle oral, les formes isolées sans article ni désinence casuelle et leur pertinence pour l’enfant."
+          ],
+          "exchange": [
+            "Demandez une fois le mot affiché. Acceptez une indication ou un geste. Une répétition orale est facultative et reste non cotée."
+          ],
+          "support": [
+            "Nommez ou représentez les objets si nécessaire, puis notez cette aide. Laissez un temps de réponse ; arrêtez si l’enfant se fatigue ou refuse."
+          ],
+          "limits": [
+            "حَمَل peut être moins familier que خروف ou un nom familial. Vérifier le sens de jeune mouton avec l’enfant et l’adulte ; ne pas qualifier un autre nom légitime d’erreur.",
+            "Conserver les voyelles brèves indiquées : /ħamal/ et non /ħaml/. Une image doit rendre compréhensible la différence entre agneau et mouton adulte.",
+            "Le /dʒ/ proposé est un seul segment et ne vaut pas norme de prononciation pour tous les locuteurs arabophones. Fiche non approuvée et sans audio clinique approuvé.",
+            "La différence d’un phonème dans notre segmentation est un contrôle formel ; elle ne constitue pas une validation clinique ou dialectale."
+          ],
+          "review_notes": "Proposition originale à relire : sens, familiarité familiale, dessin, registre oral, accessibilité et indication individuelle. Les sources documentent un cadre ou des formes lexicales ; elles ne valident pas cette fiche ni les effets de Nehedrou. Aucun enregistrement clinique approuvé."
+        },
+        "en": {
+          "objective": "Explore two proposed isolated Standard Arabic words with one initial phonemic difference /dʒ/–/ħ/. A therapist must decide any treatment indication.",
+          "audience": "Proposed pilot for children aged 4–7 who already understand this register, selected after individual phonological assessment; no developmental norm or automatic transfer to Darja.",
+          "discover": [
+            "جَمَل: camel; حَمَل: lamb",
+            "Recognize each picture separately first. Use another activity if a word is unfamiliar, a picture ambiguous or the family meaning different."
+          ],
+          "listen": [
+            "After checking both meanings, the adult says only the word requested on screen and the child may point to its picture. No pronunciation score; this proposed Standard Arabic contrast awaits review.",
+            "Transcriptions and segmentation are working analyses. A competent professional must check the oral model and isolated forms without articles or case endings."
+          ],
+          "exchange": [
+            "Ask once for the displayed word. Accept pointing or a gesture. Oral repetition is optional and is not scored."
+          ],
+          "support": [
+            "Name or show objects if needed, record that help and allow response time. Stop if the child is tired or refuses."
+          ],
+          "limits": [
+            "The single-phoneme difference is a formal check on our proposed segmentation, not clinical or dialectal approval.",
+            "Regional realizations, emphatic vowel effects, word meanings and picture familiarity require human review. No approved clinical audio, diagnostic score or measured treatment benefit."
+          ],
+          "review_notes": "Original proposal awaiting human review of meaning, family familiarity, pictures, spoken variety, accessibility and individual suitability. References describe a framework or lexical forms; they do not validate this activity or the effects of Nehedrou. No approved clinical recording."
+        },
+        "ar": {
+          "objective": "استكشاف معنى جَمَل وحَمَل مع فرق صوتي مقترح /dʒ/–/ħ/. يحدد الأخصائي وحده ملاءمة المقارنة بعد التقييم.",
+          "audience": "اقتراح لعمر ٤–٧ سنوات عند معرفة هذا السجل مسبقًا؛ ليس معيارًا نمائيًا. لا يُفرض نطق الفصحى على طفل يستعمل الدارجة.",
+          "discover": [
+            "جمل: الحيوان",
+            "حمل: صغير الضأن",
+            "تحقق من تعرف الطفل على كل صورة؛ غيّر النشاط إذا كان المعنى أو الرسم غير مألوف."
+          ],
+          "listen": [
+            "بعد التحقق من معنى الكلمتين، يسمّي المرافق الكلمة المطلوبة على الشاشة فقط، ويمكن للطفل أن يشير إلى صورتها. المقارنة مقترحة في الفصحى وليست تقييمًا للنطق؛ تنتظر المراجعة.",
+            "الكتابة الصوتية وتحليل المقاطع الصوتية مقترحان للمراجعة، وليسا نموذجًا سريريًا معتمدًا. الألفاظ هنا معزولة دون أداة تعريف أو نهايات إعرابية."
+          ],
+          "exchange": [
+            "اطلب الكلمة المعروضة مرة واحدة واقبل الإشارة. تكرار الكلمة اختياري ولا تُمنح درجة لنطقها."
+          ],
+          "support": [
+            "عرّف الصورتين أو استخدم أشياء حقيقية عند الحاجة، وسجّل هذه المساعدة. اترك وقتًا للإجابة وتوقف عند التعب أو الرفض."
+          ],
+          "limits": [
+            "الفرق الواحد في تحليلنا الصوتي فحص شكلي فقط، ولا يثبت الملاءمة السريرية أو صحة شكل دارج.",
+            "لا تعتبر نطقًا إقليميًا مختلفًا خطأً. راجع المعنى وألفة الصور والنموذج الشفهي مع مختصين. لا يوجد صوت سريري معتمد أو نتيجة علاجية مثبتة."
+          ],
+          "review_notes": "هذا نص مقترح ينتظر مراجعة بشرية للمعنى وألفة الكلمات والصور والتنوع اللغوي وإمكانية الوصول والملاءمة الفردية. المراجع توثق إطارًا أو ألفاظًا ولا تثبت فعالية النشاط أو التطبيق. لا يوجد تسجيل صوتي سريري معتمد."
+        }
+      }
+    }
+  ],
+  "stimulus_fields": [
+    "word_a",
+    "word_b",
+    "transcription_a",
+    "transcription_b",
+    "item_metadata",
+    "contrast",
+    "response_mode",
+    "requested_target"
+  ]
+}

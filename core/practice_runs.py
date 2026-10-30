@@ -42,7 +42,9 @@ def start_run(actor, reference):
     if not program.child.active or program.state != 'active':
         raise ValidationError(_('This activity is no longer available. Contact your clinician.'))
     items = list(program.items.order_by('position', 'pk'))
-    activities = {a.pk: a for a in Activity.objects.select_for_update().filter(pk__in=[i.activity_id for i in items]).order_by('pk')}
+    activities = {a.pk: a for a in Activity.objects.select_related('variety').select_for_update(of=('self',)).filter(pk__in=[i.activity_id for i in items]).order_by('pk')}
+    from catalog.integrity import prepare_activities
+    prepare_activities(activities.values())
     if not items or any(not activities[i.activity_id].usable for i in items):
         raise ValidationError(_('This activity is no longer available. Contact your clinician.'))
     from .reserves import reserved_activity_ids
@@ -76,7 +78,9 @@ def stop_run(actor, reference):
 
 
 def run_summary(run, actor):
-    tasks = list(run.tasks.select_related('item__activity', 'report').order_by('position'))
+    tasks = list(run.tasks.select_related('item__activity__variety', 'report').order_by('position'))
+    from catalog.integrity import prepare_activities
+    prepare_activities([task.item.activity for task in tasks])
     pending = None
     reported = 0
     for task in tasks:

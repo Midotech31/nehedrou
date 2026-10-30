@@ -2084,7 +2084,7 @@ msgid "Download private evidence"
 msgstr "تنزيل الدليل الخاص"
 
 msgid "Each target occurrence needs an index, phoneme and position."
-msgstr "يتطلب كل موضع للصوت المستهدف مؤشرًا وصوتًا وموقعًا."
+msgstr "يتطلب كل موضع مستهدف فهرسًا وفونيمًا وموقعًا."
 
 msgid "Edit"
 msgstr "تعديل"
@@ -2201,7 +2201,7 @@ msgid "Observation counts describe this collection only. They are not developmen
 msgstr "تصف أعداد الملاحظات هذه المجموعة فقط. ولا تمثل معايير نمائية أو دليلًا على فعالية العلاج. لا تدخلوا أسماء الأطفال أو تسجيلاتهم."
 
 msgid "Ordered phoneme segments"
-msgstr "الأصوات مرتبة حسب تسلسلها"
+msgstr "الفونيمات مرتبة حسب تسلسلها"
 
 msgid "Pending requirements"
 msgstr "متطلبات معلّقة"
@@ -2255,10 +2255,10 @@ msgid "Rights status"
 msgstr "حالة الحقوق"
 
 msgid "Segments must be an ordered list of phonemes."
-msgstr "يجب أن تكون المقاطع قائمة مرتبة من الأصوات."
+msgstr "يجب أن تكون الوحدات الصوتية فونيمات مرتبة حسب تسلسلها."
 
 msgid "Segments, targets and admissible variants"
-msgstr "الأصوات والأهداف والنطق البديل المقبول"
+msgstr "الفونيمات والأهداف والنطق البديل المقبول"
 
 msgid "Select one document for each required availability category."
 msgstr "اختاروا وثيقة واحدة لكل فئة مطلوبة لإتاحة الوحدة."
@@ -2282,7 +2282,7 @@ msgid "Supervised usability and procedure pilot"
 msgstr "تجربة استخدام وإجراءات بإشراف"
 
 msgid "Target indices must identify unique matching phoneme segments and a position."
-msgstr "يجب أن تحدد مؤشرات الأهداف أصواتًا منفردة ومتطابقة مع موقعها."
+msgstr "يجب أن تحدد مؤشرات الأهداف فونيمات مطابقة غير مكررة وموضع كل منها."
 
 msgid "Target occurrences and positions"
 msgstr "مواضع الأصوات المستهدفة ومواقعها"
@@ -2354,16 +2354,16 @@ msgid "Real use requires exact media, documented rights, word definitions, two c
 msgstr "يتطلب الاستخدام الفعلي وسائط محددة وحقوقًا موثّقة وتعريفات للكلمات ومراجعين ذوي كفاءة مصرّح بها وقرار إتاحة."
 
 msgid "Phonemes in order"
-msgstr "الأصوات حسب ترتيبها"
+msgstr "الفونيمات حسب ترتيبها"
 
 msgid "Separate phonemes with spaces. Example: d a r."
-msgstr "افصلوا بين الأصوات بمسافات. مثال: d a r."
+msgstr "افصلوا بين الفونيمات بمسافات. مثال: d a r."
 
 msgid "Target occurrences"
 msgstr "مواضع الأصوات المستهدفة"
 
 msgid "One target per line: segment number ; phoneme ; initial, medial, final or other. Segment numbering starts at 1."
-msgstr "هدف واحد في كل سطر: رقم الصوت ; الصوت ; initial أو medial أو final أو other. يبدأ الترقيم من 1."
+msgstr "هدف واحد في كل سطر: رقم الوحدة الفونيمية ; الفونيم ; initial أو medial أو final أو other. يبدأ ترقيم الوحدات من 1."
 
 msgid "One variant per line: IPA form ; reason. Leave empty when no alternative is admitted."
 msgstr "نطق بديل واحد في كل سطر: الكتابة الصوتية الدولية ; السبب. اتركوه فارغًا إذا لم يُقبل أي بديل."
@@ -2375,7 +2375,7 @@ msgid "Training or untrained reserve"
 msgstr "تدريب أو كلمات احتياطية غير مدرّبة"
 
 msgid "Use segment number ; phoneme ; position for every target."
-msgstr "استخدموا لكل هدف: رقم الصوت ; الصوت ; الموقع."
+msgstr "استخدموا لكل هدف: رقم الوحدة الفونيمية ; الفونيم ; الموقع."
 
 msgid "Use IPA form ; reason for every variant."
 msgstr "استخدموا لكل نطق بديل: الكتابة الصوتية الدولية ; السبب."
@@ -4506,3 +4506,142 @@ msgstr "يمكن للمحررين تسجيل صوت بالغ أو رفع WAV/MP3
 
 msgid "Audio provenance must specify a valid voice source, exact text and spoken variety."
 msgstr "يجب أن تتضمن بيانات الصوت مصدرًا صحيحًا ونصًا محددًا وتنوّعًا لغويًا."
+
+
+msgid "A limited permission requires an expiry date."
+msgstr "يتطلب الإذن المحدد المدة تاريخ انتهاء."
+
+msgid "Choose a different responsible clinician."
+msgstr "اختاروا مختصًا مسؤولًا آخر."
+
+msgid "Choose a goal observation or a separate context observation."
+msgstr "اختاروا ملاحظة مرتبطة بالهدف أو ملاحظة منفصلة في سياق آخر."
+
+msgid "Document a structured target position and context."
+msgstr "حدّدوا موضع الصوت المستهدف وسياقه في الحقول المنظّمة."
+
+msgid "Document structured target position and context before real use."
+msgstr "حدّدوا موضع الصوت المستهدف وسياقه في الحقول المنظّمة قبل الاستخدام الفعلي."
+
+msgid "Evidence validity"
+msgstr "صلاحية الوثيقة الداعمة"
+
+msgid "Goal context"
+msgstr "سياق الهدف"
+
+msgid "Legacy scope not recorded"
+msgstr "النطاق السابق غير موثّق"
+
+msgid "Limited period"
+msgstr "مدة محددة"
+
+msgid "Name and justify the alternate context. It will never be automatically compared as an equivalent goal measure."
+msgstr "سمّوا السياق الآخر واذكروا مبرره. لن تُقارَن هذه الملاحظة آليًا بوصفها قياسًا مكافئًا للهدف."
+
+msgid "Name and justify this separate context observation."
+msgstr "سمّوا هذه الملاحظة في سياق منفصل واذكروا مبررها."
+
+msgid "Observation context"
+msgstr "سياق الملاحظة"
+
+msgid "Observe another context separately"
+msgstr "ملاحظة سياق آخر بصورة منفصلة"
+
+msgid "Only a limited permission may have an expiry date."
+msgstr "لا يُحدَّد تاريخ انتهاء إلا للإذن المحدد المدة."
+
+msgid "Only currently qualified real activities with valid rights can be assigned."
+msgstr "لا يمكن إسناد إلا الأنشطة الفعلية المؤهلة حاليًا ذات حقوق استخدام سارية."
+
+msgid "Pause"
+msgstr "توقّف مؤقت"
+
+msgid "Permission validity"
+msgstr "صلاحية الإذن"
+
+msgid "Position and context are undocumented; use a named, justified separate observation."
+msgstr "الموضع والسياق غير موثّقين؛ استخدموا ملاحظة منفصلة مسمّاة ومبرّرة."
+
+msgid "Real-use audio requires the exact spoken text, spoken variety and a documented human or synthetic source."
+msgstr "يتطلب الصوت المخصص للاستخدام الفعلي النص المنطوق بدقة، والتنوّع اللغوي المنطوق، ومصدرًا بشريًا أو اصطناعيًا موثّقًا."
+
+msgid "Reason for observing another context"
+msgstr "مبرر ملاحظة سياق آخر"
+
+msgid "Resume"
+msgstr "استئناف"
+
+msgid "Revoke media"
+msgstr "إلغاء إتاحة الوسيط"
+
+msgid "Revoked media cannot be silently reinstated. Upload a new version."
+msgstr "لا يمكن إعادة إتاحة وسيط أُلغيت إتاحته دون إصدار جديد. ارفعوا إصدارًا جديدًا."
+
+msgid "Selected device voice language"
+msgstr "لغة صوت الجهاز المختار"
+
+msgid "Separate context name"
+msgstr "اسم السياق المنفصل"
+
+msgid "Separate context observation"
+msgstr "ملاحظة في سياق منفصل"
+
+msgid "Separate-context details require the separate observation mode."
+msgstr "تتطلب تفاصيل السياق المنفصل وضع الملاحظة المنفصلة."
+
+msgid "Structured target context"
+msgstr "السياق المنظّم للصوت المستهدف"
+
+msgid "The expiry date cannot precede the validity start date."
+msgstr "لا يمكن أن يسبق تاريخ الانتهاء تاريخ بدء الصلاحية."
+
+msgid "The installed voice uses a different regional accent."
+msgstr "يستخدم الصوت المثبّت لكنة إقليمية مختلفة."
+
+msgid "The protocol position and context must match the clinical goal."
+msgstr "يجب أن يتطابق موضع الصوت وسياقه في البروتوكول مع الهدف السريري."
+
+msgid "The protocol target and spoken variety must match the clinical goal."
+msgstr "يجب أن تتطابق هدف البروتوكول والتنوّع اللغوي المنطوق مع الهدف السريري."
+
+msgid "The structured position must agree with the target position."
+msgstr "يجب أن يتطابق الموضع المنظّم مع موضع الصوت المستهدف."
+
+msgid "Too many attempts. Try again later."
+msgstr "محاولات كثيرة جدًا. أعيدوا المحاولة لاحقًا."
+
+msgid "Transfer all assigned child profiles, including archived profiles, before revoking this practitioner. The responsible clinician must transfer each profile to an active practice member."
+msgstr "انقلوا مسؤولية جميع ملفات هذا المختص، بما فيها الملفات المؤرشفة، قبل إلغاء وصوله. يجب على المختص المسؤول نقل كل ملف إلى عضو نشط في العيادة."
+
+msgid "Unlimited period"
+msgstr "مدة غير محددة"
+
+msgid "Use a PNG, JPEG, WebP, WAV or MP3 file."
+msgstr "استخدموا ملفًا بصيغة PNG أو JPEG أو WebP أو WAV أو MP3."
+
+msgid "Use an explicit stable context identifier, such as isolated_word."
+msgstr "استخدموا معرّف سياق واضحًا وثابتًا، مثل isolated_word."
+
+msgid "Use the same explicit context identifier for equivalent planned contexts, such as isolated_word or carrier_phrase. Different contexts remain separate observations."
+msgstr "استخدموا معرّف السياق نفسه للسياقات المخططة المتكافئة، مثل isolated_word أو carrier_phrase. تبقى السياقات المختلفة ملاحظات منفصلة."
+
+msgid "Valid from (inclusive)"
+msgstr "سارٍ من (شامل)"
+
+msgid "Valid until (inclusive)"
+msgstr "سارٍ حتى (شامل)"
+
+msgid "Validity to document"
+msgstr "الصلاحية بحاجة إلى توثيق"
+
+msgid "Word final"
+msgstr "آخر الكلمة"
+
+msgid "Word initial"
+msgstr "أول الكلمة"
+
+msgid "Word medial"
+msgstr "وسط الكلمة"
+
+msgid "Your answers remain on this page. Resume when you are ready, or stop for today."
+msgstr "تبقى إجاباتكم في هذه الصفحة. استأنفوا عندما تكونون مستعدين، أو توقّفوا لهذا اليوم."

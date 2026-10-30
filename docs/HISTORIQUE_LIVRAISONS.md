@@ -1,6 +1,6 @@
 # Historique des livraisons locales
 
-Les chiffres et états ci-dessous sont historiques. Le README et QUALIFICATION_COMMERCIALE.md décrivent la révision courante.
+Les chiffres et états ci-dessous sont historiques. Le README et l'[inventaire horodaté](INVENTAIRE_CONTENUS.md) décrivent la portée courante ; QUALIFICATION_COMMERCIALE.md reste un rapport daté de la version 6.
 
 # Dossier actif sur E:
 

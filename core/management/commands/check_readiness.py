@@ -6,6 +6,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.db import connection
 from catalog.models import Activity
+from core.ops_readiness import smtp_configuration
 
 
 class Command(BaseCommand):
@@ -30,7 +31,7 @@ class Command(BaseCommand):
             'private_durable_media_configured': settings.MEDIA_STORAGE_DURABLE and not settings.DEMO_EPHEMERAL and (settings.MEDIA_STORAGE_BACKEND == 's3' or not Path(settings.MEDIA_ROOT).resolve().is_relative_to(Path(settings.BASE_DIR).resolve())),
             'privileged_mfa_required': settings.MFA_REQUIRED,
             'public_https_origin': origin.scheme == 'https' and bool(origin.netloc) and not origin.username and not origin.password,
-            'smtp_configured': settings.EMAIL_BACKEND.endswith('smtp.EmailBackend') and bool(settings.EMAIL_HOST),
+            'smtp_configured': smtp_configuration()['configured'],
             'published_nondemo_content_in_each_offered_language': all(coverage.values()),
             'published_audio_and_current_reviews_available': bool(catalogue.exists()) and unavailable == 0,
         }

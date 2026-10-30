@@ -25,12 +25,23 @@ class ActivityAuthoringForm(forms.ModelForm):
 
     def __init__(self, *args, actor, **kwargs):
         super().__init__(*args, **kwargs)
+        from .templatetags.content_language import spoken_language, language_direction
+        try:
+            variety = self.instance.variety if self.instance.variety_id else self.fields['variety'].queryset.filter(pk=self.data.get('variety') if self.is_bound else self.initial.get('variety')).first()
+        except (forms.ValidationError, ValueError, TypeError):
+            variety = None
+        content_language = spoken_language(variety)
+        for field in ['word_a', 'word_b']:
+            self.fields[field].widget.attrs.update(lang=content_language, dir=language_direction(content_language))
+        for field in ['transcription_a', 'transcription_b']:
+            self.fields[field].widget.attrs.update(lang='und-fonipa', dir='ltr')
+
         from .forms import ActivityForm
         labels = ActivityForm(instance=self.instance)
         for name in self.fields:
             self.fields[name].label = labels.fields[name].label
         for name in ['word_a', 'word_b', 'meaning_a', 'meaning_b']:
-            if name in self.fields: self.fields[name].widget.attrs['dir'] = 'auto'
+            if name in self.fields and name not in ['word_a', 'word_b']: self.fields[name].widget.attrs['dir'] = 'auto'
         self.fields['contrast'].label = _('Target or theme')
         self.fields['contrast'].help_text = _('For vocabulary or conversation, describe the theme; do not claim a minimal pair.')
         self.fields['population'].widget = forms.Textarea(attrs={'rows': 3})
@@ -74,6 +85,7 @@ class ActivityAuthoringForm(forms.ModelForm):
                 if key == 'segments': value = ' '.join(initial.get('segments', []))
                 if key == 'targets': value = ', '.join(str(x['index']) for x in initial.get('target_occurrences', []))
                 self.fields[f'{key}_{side}'] = forms.CharField(label=label, required=False, initial=value, max_length=2000)
+            self.fields[f'segments_{side}'].widget.attrs.update(lang='und-fonipa', dir='ltr')
             self.fields[f'segments_{side}'].help_text = _('Separate phonemes with spaces, for example k a t. This does not verify the transcription.')
             self.fields[f'targets_{side}'].help_text = _('Indices start at 0; separate multiple indices with commas. Example: 0 for the first phoneme.')
         self.language_sections = []
@@ -126,7 +138,12 @@ class ActivityAuthoringForm(forms.ModelForm):
                     if not value: self.add_error(f'source_{index}_{key}', _('Complete the title, HTTPS link and scope of each source.'))
             elif not row['url'].startswith('https://'):
                 self.add_error(f'source_{index}_url', _('Use an HTTPS source link.'))
-            else: sources.append(row)
+            else:
+                previous = self.instance.evidence_sources[index] if index < len(self.instance.evidence_sources) else {}
+                for field in ['title', 'scope']:
+                    if row[field] == previous.get(field) and previous.get(field + '_language'):
+                        row[field + '_language'] = previous[field + '_language']
+                sources.append(row)
         self.instance.evidence_sources = sources
         metadata = copy.deepcopy(self.instance.item_metadata)
         has_items = bool(metadata) or any(data.get(f'{key}_{side}') for key in ['meaning', 'segments', 'targets', 'familiarity'] for side in ['a', 'b'])
@@ -160,8 +177,9 @@ class ActivityAuthoringForm(forms.ModelForm):
             if image: data['image_' + side] = 'editorial/asset-' + str(image.pk)
             if audio:
                 from .audio_checks import audio_binding_errors
-                for reason in audio_binding_errors(audio, data.get('word_' + side, ''), data.get('variety')):
-                    self.add_error('choose_audio_' + side, reason)
+                if not data.get('is_demo'):
+                    for reason in audio_binding_errors(audio, data.get('word_' + side, ''), data.get('variety')):
+                        self.add_error('choose_audio_' + side, reason)
                 from django.urls import reverse
                 data['audio_' + side] = settings.PUBLIC_ORIGIN.rstrip('/') + reverse('editorial_media', args=[audio.pk])
         return data

@@ -17,7 +17,18 @@ class LabelledModelForm(forms.ModelForm):
 class EvidenceForm(LabelledModelForm):
     class Meta:
         model = EvidenceDocument
-        fields = ['variety', 'title', 'category', 'file', 'source_url', 'provenance']
+        fields = ['variety', 'title', 'category', 'file', 'source_url', 'provenance', 'validity', 'valid_from', 'valid_until']
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['validity'].required = False
+        for name in ['valid_from', 'valid_until']:
+            self.fields[name].widget = forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
+
+    def clean(self):
+        data = super().clean()
+        data['validity'] = data.get('validity') or 'unknown'
+        return data
+
     def clean_file(self):
         file = self.cleaned_data['file']
         if file.size > 15*1024*1024 or file.name.rsplit('.',1)[-1].lower() not in ['pdf','txt','md','csv','json','png','jpg','jpeg']:

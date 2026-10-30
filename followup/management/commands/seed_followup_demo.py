@@ -48,7 +48,8 @@ class Command(BaseCommand):
         for definition, _ in originals:
             series = uuid.uuid5(uuid.NAMESPACE_URL, 'nehdrou-followup-simulation:' + str(definition.series))
             values = {k: copy.deepcopy(getattr(definition, k)) for k in ['variety', 'title', 'protocol', 'task', 'target_phoneme', 'target_position', 'items', 'rights', 'rights_status', 'evidence']}
-            values.update(title='Simulation · ' + definition.variety.language, is_demo=True, state='draft')
+            values.update(title='Simulation · ' + definition.variety.language, is_demo=True, state='draft',
+                target_scope={'position': 'initial', 'context': 'fictitious_simulation'})
             demo, created = ProbeDefinition.objects.get_or_create(series=series, version=1, defaults=values)
             if not demo.is_demo or demo.variety_id != definition.variety_id:
                 raise CommandError('A reserved demonstration definition is not fictional.')
@@ -57,7 +58,7 @@ class Command(BaseCommand):
             gid = uuid.uuid5(uuid.NAMESPACE_URL, 'nehdrou-followup-goal:' + str(child.pk) + ':' + str(series))
             goal, created = ClinicalGoal.objects.get_or_create(pk=gid, defaults={
                 'organization': child.organization, 'child': child, 'author': professional, 'variety': demo.variety,
-                'target_phoneme': demo.target_phoneme, 'target_position': demo.target_position,
+                'target_phoneme': demo.target_phoneme, 'target_position': demo.target_position, 'target_scope': copy.deepcopy(demo.target_scope),
                 'rationale': 'Fictional interface example; the target has not been clinically selected.',
                 'expected_realization': 'Proposed initial /p/, not clinically approved.',
                 'functional_goal': 'Understand descriptive manual follow-up with fictitious observations.',

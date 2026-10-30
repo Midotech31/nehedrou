@@ -253,9 +253,12 @@ class WorkflowTests(TestCase):
 
     def test_auth_rate_limit(self):
         self.client.logout()
-        for index in range(15):
+        for index in range(3):
             self.assertEqual(self.client.post(reverse('login'), {'username': 'missing', 'password': 'wrong'}).status_code, 200)
-        self.assertEqual(self.client.post(reverse('login'), {}).status_code, 429)
+        response = self.client.post(reverse('login'), {'username': 'missing', 'password': 'wrong'})
+        self.assertEqual(response.status_code, 429)
+        self.assertGreater(int(response['Retry-After']), 0)
+        self.assertEqual(self.client.post(reverse('login'), {'username': 'another-missing', 'password': 'wrong'}).status_code, 200)
 
     def test_csrf_blocks_mutation(self):
         from django.test import Client

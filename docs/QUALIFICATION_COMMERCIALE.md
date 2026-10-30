@@ -1,3 +1,5 @@
+> Archive éditoriale du 9 octobre 2026, version 6 : les chiffres de corpus ci-dessous décrivent cette livraison. Pour l'état courant, voir [l'inventaire horodaté](INVENTAIRE_CONTENUS.md) et `manage.py content_inventory --json`.
+
 # Nehedrou — qualification finale de la version 6
 
 9 octobre 2026. **Version fonctionnelle pour une présentation avec données fictives ; vente clinique internationale non qualifiée.** Je ne recommanderais pas de vendre ce produit tel quel pour un usage thérapeutique. La qualité du logiciel et la validation de son contenu sont deux preuves différentes. L’objectif de 9,5/10 n'est pas artificiellement attribué.

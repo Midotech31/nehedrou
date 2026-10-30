@@ -1,0 +1,42 @@
+{
+  "schema": "nehedrou-isolated-restore-exercise-v1",
+  "performed_at": "2026-10-30T16:57:11.483468+00:00",
+  "fictional_only": true,
+  "source_database": "oct30_ops_source_7f5e31f11c",
+  "restore_database": "oct30_ops_restore_7f5e31f11c",
+  "server_version": "17.11",
+  "backup": {
+    "encrypted": true,
+    "database_engine": "postgresql",
+    "file_count": 2,
+    "sha256": "39916a8a3b6911a80c565ebe74108eb05a1e0e93e6cad5b0c5f4bce660f0e8cd"
+  },
+  "restore": {
+    "restored": true,
+    "database_engine": "postgresql",
+    "file_count": 2,
+    "target_was_fresh": true
+  },
+  "restore_elapsed_seconds": 1.513,
+  "verification": {
+    "snapshot_unchanged": true,
+    "private_media_exact": true,
+    "private_note_preserved": true,
+    "professional_dossier_export": true,
+    "family_private_and_reserved_exclusions": true,
+    "foreign_practice_export_denied": true
+  },
+  "scope": "Isolated localhost PostgreSQL and local filesystem only. No production restoration, remote-storage latency, off-host transfer, schedule, email delivery or recovery commitment was verified.",
+  "automated_regressions": {
+    "tests": 28,
+    "passed": 28,
+    "failed": 0,
+    "scope": "operations, encrypted backup safeguards, startup configuration and health endpoints; isolated SQLite and mocked SMTP/cloud calls"
+  },
+  "final_focused_operations_regressions": {
+    "tests": 10,
+    "passed": 10,
+    "failed": 0,
+    "scope": "Includes the additional SMTP settings startup-boundary test; overlaps the earlier 28-test run, not an additive test total."
+  }
+}

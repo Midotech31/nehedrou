@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from core.models import CheckedModel, Membership
-from .validation import CODES, ELICITATIONS, RIGHTS_STATUSES, validate_variants, validate_items, validate_conditions, validate_rating
+from .validation import CODES, ELICITATIONS, RIGHTS_STATUSES, validate_variants, validate_items, validate_conditions, validate_rating, validate_target_scope, target_match_errors, validate_observation_target
 
 STATES = [('draft', _('Draft')), ('review', _('In review')), ('approved', _('Approved')), ('published', _('Published')), ('withdrawn', _('Withdrawn'))]
 
@@ -21,6 +21,7 @@ class ClinicalGoal(CheckedModel):
     target_phoneme = models.CharField(max_length=80)
     contrast = models.CharField(max_length=120, blank=True)
     target_position = models.CharField(max_length=160)
+    target_scope = models.JSONField(default=dict, blank=True)
     context = models.TextField(blank=True, max_length=2000)
     rationale = models.TextField(max_length=2000)
     expected_realization = models.CharField(max_length=300)
@@ -36,13 +37,21 @@ class ClinicalGoal(CheckedModel):
 
     def clean(self):
         validate_variants(self.accepted_variants)
+        validate_target_scope(self.target_scope)
+        if self.target_scope and self.target_position.strip().lower() in ['initial', 'medial', 'final'] and self.target_scope['position'] != self.target_position.strip().lower():
+            raise ValidationError(_('The structured position must agree with the target position.'))
         if self.child_id and self.child.organization_id != self.organization_id:
             raise ValidationError(_('The goal and child must belong to the same practice.'))
         if self.child_id and self.variety_id and not self.child.varieties.filter(pk=self.variety_id).exists():
             raise ValidationError(_('Use a spoken variety recorded for this child.'))
-        if self.probe_definition_id and self.probe_definition.variety_id != self.variety_id:
-            raise ValidationError(_('The linked protocol must use the same spoken variety.'))
         old = ClinicalGoal.objects.filter(pk=self.pk).first()
+        if not old and not self.target_scope:
+            raise ValidationError(_('Document structured target position and context before real use.'))
+        target_changed = not old or any(getattr(old, k) != getattr(self, k) for k in ['probe_definition_id', 'variety_id', 'target_phoneme', 'target_position', 'target_scope'])
+        if self.probe_definition_id and target_changed:
+            errors = target_match_errors(self, self.probe_definition)
+            if errors:
+                raise ValidationError(errors)
         if old and any(getattr(old, k) != getattr(self, k) for k in ['organization_id', 'child_id', 'author_id', 'variety_id']):
             raise ValidationError(_('A clinical goal cannot be reassigned.'))
 
@@ -58,6 +67,7 @@ class ProbeDefinition(CheckedModel):
     task = models.CharField(max_length=160)
     target_phoneme = models.CharField(max_length=80)
     target_position = models.CharField(max_length=160)
+    target_scope = models.JSONField(default=dict, blank=True)
     items = models.JSONField(default=list)
     rights = models.TextField(blank=True, max_length=3000)
     rights_status = models.CharField(max_length=30, default='unknown', choices=[('unknown', _('Documentation missing')), ('original_documented', _('Original material with documented rights')), ('open_commercial_compatible', _('Documented compatible open licence')), ('permission_required', _('Permission required')), ('excluded', _('Excluded from use'))])
@@ -76,6 +86,8 @@ class ProbeDefinition(CheckedModel):
     def fingerprint(self):
         from .services import media_manifest
         data = {k: getattr(self, k) for k in ['series', 'version', 'variety_id', 'organization_id', 'title', 'protocol', 'task', 'target_phoneme', 'target_position', 'items', 'rights', 'rights_status', 'evidence', 'is_demo']}
+        if self.target_scope:
+            data['target_scope'] = self.target_scope
         data['media'] = media_manifest(self.items)
         return hashlib.sha256(json.dumps(data, sort_keys=True, ensure_ascii=False, default=str).encode()).hexdigest()
 
@@ -86,6 +98,9 @@ class ProbeDefinition(CheckedModel):
 
     def clean(self):
         validate_items(self.items)
+        validate_target_scope(self.target_scope)
+        if self.target_scope and self.target_position.strip().lower() in ['initial', 'medial', 'final'] and self.target_scope['position'] != self.target_position.strip().lower():
+            raise ValidationError(_('The structured position must agree with the target position.'))
         if not isinstance(self.evidence, dict):
             raise ValidationError(_('Protocol evidence must be an object.'))
         if ProbeDefinition.objects.filter(series=self.series).exclude(pk=self.pk).exclude(variety_id=self.variety_id).exists():
@@ -150,6 +165,9 @@ class ProbeAdministration(CheckedModel):
     idempotency_key = models.UUIDField(default=uuid.uuid4)
     payload_digest = models.CharField(max_length=64)
     status = models.CharField(max_length=12, default='draft', choices=[('draft', _('Draft')), ('finalized', _('Finalized'))])
+    observation_scope = models.CharField(max_length=20, default='legacy', choices=[('legacy', _('Legacy scope not recorded')), ('goal', _('Goal context')), ('alternate_context', _('Separate context observation'))])
+    alternate_context_label = models.CharField(max_length=160, blank=True)
+    alternate_context_reason = models.TextField(max_length=2000, blank=True)
     conditions = models.JSONField(default=dict)
     familiarity = models.JSONField(default=dict)
     snapshot = models.JSONField(default=dict)
@@ -170,7 +188,9 @@ class ProbeAdministration(CheckedModel):
         if self.goal_id and (self.goal.child_id != self.child_id or self.goal.organization_id != self.organization_id or self.goal.variety_id != self.definition.variety_id):
             raise ValidationError(_('The administration must match its goal, child, practice and variety.'))
         old = ProbeAdministration.objects.filter(pk=self.pk).first()
-        fixed = ['organization_id', 'child_id', 'goal_id', 'definition_id', 'professional_id', 'idempotency_key', 'payload_digest', 'conditions', 'familiarity', 'snapshot', 'started_at']
+        if not old and self.goal_id and self.definition_id:
+            validate_observation_target(self.goal, self.definition, self.observation_scope, self.alternate_context_label, self.alternate_context_reason)
+        fixed = ['organization_id', 'child_id', 'goal_id', 'definition_id', 'professional_id', 'idempotency_key', 'payload_digest', 'conditions', 'familiarity', 'snapshot', 'started_at', 'observation_scope', 'alternate_context_label', 'alternate_context_reason']
         if old and any(getattr(old, k) != getattr(self, k) for k in fixed):
             raise ValidationError(_('Administration conditions and version snapshots are immutable.'))
         if (self.status == 'finalized') != (self.finalized_at is not None and self.finalized_by_id is not None):

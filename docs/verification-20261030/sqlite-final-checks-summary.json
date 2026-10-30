@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-30",
+  "checks": [
+    {
+      "name": "django_check",
+      "exit_code": 0
+    },
+    {
+      "name": "migration_drift",
+      "exit_code": 0
+    },
+    {
+      "name": "check_translations",
+      "exit_code": 0
+    },
+    {
+      "name": "node --check core/tests_helpers/guided_activity_runtime.js",
+      "exit_code": 0
+    },
+    {
+      "name": "node --check static/activity.js",
+      "exit_code": 0
+    },
+    {
+      "name": "node --check static/device-voice.js",
+      "exit_code": 0
+    },
+    {
+      "name": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds": 3.657,
+  "all_passed": true
+}

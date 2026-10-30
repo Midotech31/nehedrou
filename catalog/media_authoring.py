@@ -25,7 +25,7 @@ class MediaAuthoringForm(MediaForm):
         self.fields['audio_region'] = forms.CharField(label=_('Regional variety or accent notes'),max_length=300,required=False,widget=forms.TextInput(attrs={'dir':'auto'}))
         for name,label in RIGHTS_LABELS.items():
             self.fields['rights_'+name]=forms.CharField(label=label,required=False,max_length=2000,widget=forms.Textarea(attrs={'rows':2,'dir':'auto'}))
-        self.fields['file'].widget.attrs['accept']='.png,.jpg,.jpeg,.wav,.mp3'
+        self.fields['file'].widget.attrs['accept']='.png,.jpg,.jpeg,.webp,.wav,.mp3'
         self.fields['rights_adult_speaker_permission'].help_text=_('For an adult recording, document consent and permitted uses. Upload the supporting rights document through the qualification workspace.')
 
     def clean(self):

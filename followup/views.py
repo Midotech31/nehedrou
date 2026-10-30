@@ -1,12 +1,11 @@
 import csv
 import io
 import uuid
-import mimetypes
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db.models import Q
-from django.http import Http404, HttpResponse, FileResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _, get_language
 from django.views.decorators.http import require_POST
@@ -188,19 +187,20 @@ def item_media_response(item, kind, frozen_media=None, request=None):
     if kind not in ['image', 'audio'] or not item.get(kind + '_asset'):
         raise Http404
     asset = get_object_or_404(MediaAsset, pk=item[kind + '_asset'], kind=kind)
-    if kind != 'audio' and not asset.intact:
-        raise Http404
     if frozen_media is not None:
         entry = frozen_media.get(item['id'] + ':' + kind + '_asset', {})
         if str(entry.get('reference')) != str(asset.pk) or entry.get('sha256') != asset.technical_metadata.get('sha256'):
             raise Http404
-    if kind == 'audio':
-        from catalog.audio_delivery import protected_media_response
-        return protected_media_response(request, asset)
-    response = FileResponse(asset.file.open('rb'), content_type=mimetypes.guess_type(asset.file.name)[0] or 'application/octet-stream')
-    response['Cache-Control'] = 'private, no-store'
-    response['X-Content-Type-Options'] = 'nosniff'
-    return response
+    # Every delivered body, including images and HEAD/Range requests, is hashed
+    # independently of any request-scoped readiness digest already in memory.
+    from catalog.audio_delivery import protected_media_response
+    if request is None:
+        # Historical internal callers without an HTTP request retain full GET
+        # semantics; routed HEAD/Range requests keep their actual method/headers.
+        from django.http import HttpRequest
+        request = HttpRequest()
+        request.method = 'GET'
+    return protected_media_response(request, asset)
 
 
 @login_required
@@ -252,23 +252,30 @@ def administration_start(request, goal_id):
     goal = professional_goal(request.user, goal_id)
     if not goal.active:
         raise PermissionDenied
+    alternate_context = request.GET.get('scope') == 'alternate_context'
     definitions = services.definition_queryset(request.user).filter(variety=goal.variety).exclude(state='withdrawn')
+    from .validation import target_match_errors, phoneme_key
+    # Filter in Python to retain exact IPA normalization and avoid dialect/string guesses.
+    permitted = [row.pk for row in definitions if phoneme_key(row.target_phoneme) == phoneme_key(goal.target_phoneme)
+        and (alternate_context or not target_match_errors(goal, row))]
+    definitions = definitions.filter(pk__in=permitted)
     selected_id = request.GET.get('definition')
     selected = definitions.filter(pk=selected_id).first() if selected_id and re_uuid(selected_id) else definitions.filter(pk=goal.probe_definition_id).first() or definitions.first()
     if selected_id and not selected:
         raise Http404
-    initial = {'key': uuid.uuid4(), 'definition': selected, 'task': 'naming'}
-    form = ConditionsForm(request.POST or None, definitions=definitions, initial=initial)
+    initial = {'key': uuid.uuid4(), 'definition': selected, 'task': 'naming', 'observation_scope': 'alternate_context' if alternate_context else 'goal'}
+    form = ConditionsForm(request.POST or None, definitions=definitions, goal=goal, initial=initial)
     form.fields['definition'].disabled = True
     familiarity = FamiliarityForm(request.POST or None, items=selected.items if selected else [], prefix='familiarity')
     if request.method == 'POST' and form.is_valid() and familiarity.is_valid():
         try:
-            conditions = {key: value for key, value in form.cleaned_data.items() if key not in ['definition', 'key']}
-            admin = services.start_administration(request.user, goal, form.cleaned_data['definition'], conditions=conditions, familiarity=familiarity.result(), key=form.cleaned_data['key'])
+            context_data = {key: form.cleaned_data[key] for key in ['observation_scope', 'alternate_context_label', 'alternate_context_reason']}
+            conditions = {key: value for key, value in form.cleaned_data.items() if key not in ['definition', 'key', *context_data]}
+            admin = services.start_administration(request.user, goal, form.cleaned_data['definition'], conditions=conditions, familiarity=familiarity.result(), key=form.cleaned_data['key'], **context_data)
             return redirect('followup:administration_detail', pk=admin.pk)
         except ValidationError as error:
             service_error(form, error)
-    return render(request, 'followup/start.html', {'goal': goal, 'form': form, 'familiarity_form': familiarity, 'selected_definition': selected, 'definitions': definitions})
+    return render(request, 'followup/start.html', {'goal': goal, 'form': form, 'familiarity_form': familiarity, 'selected_definition': selected, 'definitions': definitions, 'alternate_context': alternate_context})
 
 
 def re_uuid(value):
@@ -368,13 +375,15 @@ def report_csv(request, pk):
     context = report_context(request, pk)
     buffer = io.StringIO(newline='')
     writer = csv.writer(buffer)
-    group_header = [_('Target'), _('Spoken variety'), _('Exposure'), _('Actual elicitation'), _('Support'), _('Numerator'), _('Denominator'), _('Excluded'), _('Not presented'), _('Descriptive target ratio'), _('Protocol version'), _('Observer'), _('Observation date'), _('Conditions')]
+    group_header = [_('Target'), _('Spoken variety'), _('Exposure'), _('Actual elicitation'), _('Support'), _('Numerator'), _('Denominator'), _('Excluded'), _('Not presented'), _('Descriptive target ratio'), _('Protocol version'), _('Observer'), _('Observation date'), _('Conditions'), _('Target position'), _('Structured target context'), _('Observation context'), _('Separate context name'), _('Reason for observing another context')]
     writer.writerow(group_header)
     admin = context['administration']
     conditions = ' · '.join(f'{label}: {value}' for label, value in context['condition_rows'])
     def write_groups(groups):
         for group in groups:
-            writer.writerow([csv_cell(value) for value in [group['target'], group['variety'], group['exposure_label'], group['elicitation_label'], group.get('assistance', ''), group['numerator'], group['denominator'], group['excluded'], group['not_presented'], group['ratio'] if group['ratio'] is not None else _('Not calculable'), admin.snapshot.get('version', admin.definition.version), admin.professional.username, admin.started_at.isoformat(), conditions]])
+            writer.writerow([csv_cell(value) for value in [group['target'], group['variety'], group['exposure_label'], group['elicitation_label'], group.get('assistance', ''), group['numerator'], group['denominator'], group['excluded'], group['not_presented'], group['ratio'] if group['ratio'] is not None else _('Not calculable'), admin.snapshot.get('version', admin.definition.version), admin.professional.username, admin.started_at.isoformat(), conditions,
+                admin.snapshot.get('target_position', ''), admin.snapshot.get('target_scope', {}).get('context', ''),
+                admin.observation_scope, admin.alternate_context_label, admin.alternate_context_reason]])
     write_groups(context['groups'])
     if context['corrections'] and context['original_groups']:
         writer.writerow([])

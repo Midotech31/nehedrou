@@ -24,7 +24,7 @@ class FollowupIntegrationTests(TestCase):
     def reserve(self):
         return ClinicalGoal.objects.create(
             organization=self.org, child=self.child, author=self.pro,
-            variety=self.program.variety, target_phoneme='/p/', target_position='initial',
+            variety=self.program.variety, target_phoneme='/p/', target_position='initial', target_scope={'position': 'initial', 'context': 'isolated_word'},
             rationale='Fictional regression fixture', expected_realization='Fictional target',
             functional_goal='Fictional objective', reserved_words=[self.item.activity.word_a.casefold()])
 

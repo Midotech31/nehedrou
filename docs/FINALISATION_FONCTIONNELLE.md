@@ -1,3 +1,5 @@
+> Livraison historique du 9 octobre 2026 : corpus, stockage et schéma d'export ci-dessous sont datés. Voir [l'inventaire courant](INVENTAIRE_CONTENUS.md), [la persistance depuis le 11 octobre](CMS_GUIDE_ET_PERSISTANCE.md) et [l'export schéma 3](dossier-export-v3.md).
+
 # Nehedrou — fonctions finalisées et limites
 
 9 octobre 2026. Projet actif : E:\LocalCoderWorkspace\Nehdrou\outputs\nehdrou.

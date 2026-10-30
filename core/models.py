@@ -39,8 +39,23 @@ class Membership(CheckedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     role = models.CharField(max_length=12, choices=[('owner', _('Practice manager')), ('clinician', _('Clinician'))])
     active = models.BooleanField(default=True)
+    def clean(self):
+        old = Membership.objects.filter(pk=self.pk).first()
+        if old and (not self.active or old.organization_id != self.organization_id or old.user_id != self.user_id):
+            from care.models import Child
+            if Child.objects.filter(organization_id=old.organization_id, responsible_id=old.user_id).exists():
+                raise ValidationError(_('Transfer all assigned child profiles, including archived profiles, before revoking this practitioner. The responsible clinician must transfer each profile to an active practice member.'))
     class Meta:
         constraints = [models.UniqueConstraint(fields=['organization', 'user'], name='unique_member')]
+
+class ChildResponsibilityTransfer(CheckedModel):
+    """Preserve who transferred a dossier without rewriting clinical authorship."""
+    organization = models.ForeignKey(Organization, on_delete=models.PROTECT)
+    child = models.ForeignKey('care.Child', on_delete=models.CASCADE, related_name='responsibility_transfers')
+    previous_clinician = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='+')
+    new_clinician = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='+')
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='+')
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class Entitlement(CheckedModel):
     organization = models.OneToOneField(Organization, on_delete=models.CASCADE)
@@ -111,6 +126,7 @@ class RateWindow(models.Model):
     key = models.CharField(max_length=64, unique=True)
     count = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+    blocked_until = models.DateTimeField(null=True, blank=True)
 
 class RecoveryCode(CheckedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

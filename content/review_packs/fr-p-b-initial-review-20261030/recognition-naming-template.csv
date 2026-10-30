@@ -1,0 +1,7 @@
+pack_id,concept_id,stimulus_version,intended_word_for_reviewer_only,working_ipa_for_reviewer_only,variant_pixels,display_css_pixels,trial_order,participant_code_no_name,age_band_defined_by_team,language_exposure,neutral_prompt,first_spontaneous_response_verbatim,response_language,meaning_description,alternative_names,hesitation_or_no_response,help_or_target_word_given,later_receptive_task_separate_result,reviewer_notes,decision,decision_reason,reviewer_role,review_date,trial_status
+fr-p-b-initial-review-20261030,bread-v1,1,pain,/pɛ̃/,,,,,,,,,,,,,,,,,,,,not_performed
+fr-p-b-initial-review-20261030,bath-v1,1,bain,/bɛ̃/,,,,,,,,,,,,,,,,,,,,not_performed
+fr-p-b-initial-review-20261030,hen-v1,1,poule,/pul/,,,,,,,,,,,,,,,,,,,,not_performed
+fr-p-b-initial-review-20261030,sphere-v1,1,boule,/bul/,,,,,,,,,,,,,,,,,,,,not_performed
+fr-p-b-initial-review-20261030,pear-v1,1,poire,/pwaʁ/,,,,,,,,,,,,,,,,,,,,not_performed
+fr-p-b-initial-review-20261030,drinking-v1,1,boire,/bwaʁ/,,,,,,,,,,,,,,,,,,,,not_performed

@@ -38,10 +38,10 @@ class FollowupViewTests(TestCase):
     def design_payload(self, probe=None):
         from .forms import DefinitionForm, ItemForm
         item = {**self.probe.items[0], 'meaning': 'Synthetic word meaning', 'segments': ['p'], 'target_occurrences': [{'index': 0, 'phoneme': 'p', 'position': 'initial'}], 'familiarity_note': 'Synthetic documentation', 'review_note': 'Synthetic review only'}
-        data = {'title': 'Designed synthetic draft', 'variety': str(self.variety.pk), 'protocol': 'Original fictional protocol', 'task': 'naming', 'target_phoneme': 'p', 'target_position': 'initial', 'rights': 'Synthetic provenance, not a release', 'rights_status': 'unknown', 'evidence': json.dumps({'source_context': 'Synthetic design evidence'}), 'is_demo': 'on', 'items-TOTAL_FORMS': '3', 'items-INITIAL_FORMS': '1' if probe else '0', 'items-MIN_NUM_FORMS': '0', 'items-MAX_NUM_FORMS': '60'}
+        data = {'title': 'Designed synthetic draft', 'variety': str(self.variety.pk), 'protocol': 'Original fictional protocol', 'task': 'naming', 'target_phoneme': 'p', 'target_position': 'initial', 'context_key': 'isolated_word', 'rights': 'Synthetic provenance, not a release', 'rights_status': 'unknown', 'evidence': json.dumps({'source_context': 'Synthetic design evidence'}), 'is_demo': 'on', 'items-TOTAL_FORMS': '3', 'items-INITIAL_FORMS': '1' if probe else '0', 'items-MIN_NUM_FORMS': '0', 'items-MAX_NUM_FORMS': '60'}
         if probe:
             for key in DefinitionForm.base_fields:
-                value = getattr(probe, key)
+                value = probe.target_scope.get('context', '') if key == 'context_key' else getattr(probe, key)
                 data[key] = str(value.pk) if key == 'variety' else json.dumps(value) if key == 'evidence' else 'on' if value is True else '' if value is False else value
             item = {**item, **probe.items[0]}
         for key in ItemForm.base_fields:
@@ -198,9 +198,9 @@ class FollowupViewTests(TestCase):
         real = definition(self, 1)
         # A new unpublished definition is not a clinical release.
         from .services import create_definition
-        real = create_definition(self.pro, {'variety': self.variety, 'title': 'Unreleased original draft', 'protocol': 'Draft only', 'task': 'naming', 'target_phoneme': 'p', 'target_position': 'initial', 'items': real.items, 'is_demo': False})
+        real = create_definition(self.pro, {'variety': self.variety, 'title': 'Unreleased original draft', 'protocol': 'Draft only', 'task': 'naming', 'target_phoneme': 'p', 'target_position': 'initial', 'target_scope': {'position': 'initial', 'context': 'isolated_word'}, 'items': real.items, 'is_demo': False})
         count = ProbeAdministration.objects.count()
-        data = {'place': 'Fixture', 'task': 'naming', 'instructions': 'Observe only', 'attempt_rule': 'First attempt', 'key': uuid.uuid4(), 'familiarity-known_0': 'familiar', 'familiarity-note_0': ''}
+        data = {'observation_scope': 'goal', 'place': 'Fixture', 'task': 'naming', 'instructions': 'Observe only', 'attempt_rule': 'First attempt', 'key': uuid.uuid4(), 'familiarity-known_0': 'familiar', 'familiarity-note_0': ''}
         response = self.client.post(self.url('administration_start', self.objective.pk) + '?definition=' + str(real.pk), data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(ProbeAdministration.objects.count(), count)
@@ -235,7 +235,7 @@ class FollowupViewTests(TestCase):
         self.assertEqual(designed.title, 'Designed synthetic draft')
 
     def test_clinician_can_clone_shared_design_into_own_cabinet_without_editing_original(self):
-        shared = create_definition(self.editor, {'variety': self.variety, 'title': 'Shared original design fixture', 'protocol': 'Unreleased fictional design', 'task': 'naming', 'target_phoneme': 'p', 'target_position': 'initial', 'items': self.probe.items, 'is_demo': True})
+        shared = create_definition(self.editor, {'variety': self.variety, 'title': 'Shared original design fixture', 'protocol': 'Unreleased fictional design', 'task': 'naming', 'target_phoneme': 'p', 'target_position': 'initial', 'target_scope': {'position': 'initial', 'context': 'isolated_word'}, 'items': self.probe.items, 'is_demo': True})
         response = self.client.get(self.url('definition_detail', shared.pk))
         self.assertContains(response, self.url('definition_clone', shared.pk))
         self.assertNotContains(response, self.url('definition_edit', shared.pk))
@@ -248,7 +248,7 @@ class FollowupViewTests(TestCase):
 
     def test_start_form_binds_exact_version_conditions_and_familiarity_idempotently(self):
         key = uuid.uuid4()
-        data = {'definition': uuid.uuid4(), 'place': 'Synthetic room', 'task': 'naming', 'fatigue': 'Comfortable fixture', 'noise': 'Quiet fixture', 'instructions': 'Predetermined instructions', 'attempt_rule': 'First attempt', 'key': key}
+        data = {'observation_scope': 'goal', 'definition': uuid.uuid4(), 'place': 'Synthetic room', 'task': 'naming', 'fatigue': 'Comfortable fixture', 'noise': 'Quiet fixture', 'instructions': 'Predetermined instructions', 'attempt_rule': 'First attempt', 'key': key}
         for number in range(len(self.probe.items)):
             data[f'familiarity-known_{number}'] = 'familiar'
             data[f'familiarity-note_{number}'] = 'Synthetic familiarity note'
@@ -262,11 +262,10 @@ class FollowupViewTests(TestCase):
         first = self.probe.items[0]['id']
         self.assertEqual(self.client.post(self.url('rating', created.pk, first), rating_data()).status_code, 302)
         self.assertContains(self.client.get(self.url('administration_detail', created.pk)), '1 / 2')
-        wrong = create_definition(self.pro, {'variety': self.variety, 'title': 'Wrong target draft', 'protocol': 'Fictional only', 'task': 'naming', 'target_phoneme': 'k', 'target_position': 'initial', 'items': self.probe.items, 'is_demo': True})
+        wrong = create_definition(self.pro, {'variety': self.variety, 'title': 'Wrong target draft', 'protocol': 'Fictional only', 'task': 'naming', 'target_phoneme': 'k', 'target_position': 'initial', 'target_scope': {'position': 'initial', 'context': 'isolated_word'}, 'items': self.probe.items, 'is_demo': True})
         data['key'] = uuid.uuid4()
         response = self.client.post(self.url('administration_start', self.objective.pk) + '?definition=' + str(wrong.pk), data)
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.context['form'].non_field_errors())
+        self.assertEqual(response.status_code, 404)
         self.assertFalse(ProbeAdministration.objects.filter(idempotency_key=data['key']).exists())
 
     def test_goal_close_is_post_only_scoped_and_preserves_history(self):
@@ -307,14 +306,14 @@ class FollowupViewTests(TestCase):
             asset = MediaAsset.objects.create(file=ContentFile(buffer.getvalue(), name='synthetic-word.png'), kind='image', rights='Synthetic fixture only', uploaded_by=self.pro)
             items = copy.deepcopy(self.probe.items)
             items[0]['image_asset'] = str(asset.pk)
-            probe = create_definition(self.pro, {'variety': self.variety, 'title': 'Media fixture', 'protocol': 'Fictional only', 'task': 'naming', 'target_phoneme': 'p', 'target_position': 'initial', 'items': items, 'is_demo': True})
+            probe = create_definition(self.pro, {'variety': self.variety, 'title': 'Media fixture', 'protocol': 'Fictional only', 'task': 'naming', 'target_phoneme': 'p', 'target_position': 'initial', 'target_scope': {'position': 'initial', 'context': 'isolated_word'}, 'items': items, 'is_demo': True})
             objective = goal(self, probe)
             admin = start(self, probe, objective)
             url = self.url('administration_media', admin.pk, items[0]['id'], 'image')
             response = self.client.get(url)
             self.assertEqual(response.status_code, 200)
             self.assertIn('no-store', response.headers['Cache-Control'])
-            self.assertEqual(b''.join(response.streaming_content), buffer.getvalue())
+            self.assertEqual(response.content, buffer.getvalue())
             self.client.force_login(self.family)
             self.assertEqual(self.client.get(url).status_code, 404)
             self.assertEqual(self.client.get(self.url('definition_media', probe.pk, items[0]['id'], 'image')).status_code, 404)
@@ -340,7 +339,7 @@ class FollowupViewTests(TestCase):
         with tempfile.TemporaryDirectory() as media_root, override_settings(MEDIA_ROOT=media_root):
             asset=MediaAsset.objects.create(file=ContentFile(data,name='technical-tone.wav'),kind='audio',rights='Software fixture only',uploaded_by=self.pro)
             items=copy.deepcopy(self.probe.items);items[0]['audio_asset']=str(asset.pk)
-            probe=create_definition(self.pro, {'variety':self.variety,'title':'Audio range fixture','protocol':'Fictional only','task':'naming','target_phoneme':'p','target_position':'initial','items':items,'is_demo':True})
+            probe=create_definition(self.pro, {'variety':self.variety,'title':'Audio range fixture','protocol':'Fictional only','task':'naming','target_phoneme':'p','target_position':'initial','target_scope':{'position':'initial','context':'isolated_word'},'items':items,'is_demo':True})
             objective=goal(self,probe);admin=start(self,probe,objective)
             for url in [self.url('administration_media',admin.pk,items[0]['id'],'audio'),self.url('definition_media',probe.pk,items[0]['id'],'audio')]:
                 self.client.force_login(self.pro)

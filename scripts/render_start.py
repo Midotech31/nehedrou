@@ -32,4 +32,4 @@ if settings.DEMO_MODE and os.getenv('DEMO_SEED_ON_START', '1') == '1':
 port = int(os.getenv('PORT', '10000'))
 if not 1 <= port <= 65535:
     raise SystemExit('Invalid listening port.')
-os.execvp('gunicorn', ['gunicorn', 'config.wsgi:application', '--bind', f'0.0.0.0:{port}', '--workers', '1', '--threads', '4', '--timeout', '60', '--access-logfile', '-', '--error-logfile', '-'])
+os.execvp('gunicorn', ['gunicorn', 'config.wsgi:application', '--bind', f'0.0.0.0:{port}', '--workers', '1', '--threads', '4', '--timeout', '60', '--access-logfile', '-', '--access-logformat', 'method=%(m)s status=%(s)s duration_s=%(L)s bytes=%(B)s', '--error-logfile', '-'])

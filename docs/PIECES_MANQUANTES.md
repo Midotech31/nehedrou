@@ -1,6 +1,10 @@
 # Pièces manquantes et disponibilité réelle
 
-## État de cette livraison
+> **Mise à jour du 30 octobre 2026 — démonstration seulement.** Les tableaux quantitatifs du lot initial ci-dessous sont des états historiques de la livraison du 11 octobre, conservés pour traçabilité. Ils ne décrivent pas un nouvel inventaire de la base publiée. L'audit fourni du 30 octobre comptait 111 candidats réels en brouillon, aucune activité réelle publiée, cinq entrées audio aux droits inconnus et 222 emplacements audio candidats vides. Les chiffres anciens de 37 candidats/74 emplacements ne doivent pas être présentés comme actuels.
+>
+> Voir la [checklist A01–A17 et les pièces/responsables actuels](CORRECTIONS_AUDIT_20261030.md), [l'inventaire générable](INVENTAIRE_CONTENUS.md) et le [manifeste des six nouveaux concepts FR générés à examiner](../content/review_packs/fr-p-b-initial-review-20261030/manifest.json). Aucune revue humaine, familiarité enfant, permission ou ouverture clinique n'est créée par ces illustrations. Les deux sondes FR/EN restent non normées ; aucune sonde arabe n'est fournie.
+
+## État historique consigné dans la livraison du 11 octobre 2026
 
 | Module / variété | Implémentation | Vérification technique | Contenu relu | Pilote | Conditions d'usage qualifiées | Efficacité étudiée |
 |---|---|---|---|---|---|---|
@@ -13,7 +17,7 @@
 
 L'interface **Disponibilité par module et variété** utilise une décision humaine liée à l'empreinte exacte du contenu. Elle exige les pièces de revue clinique, droits, gouvernance, pilote supervisé et exploitation. Une révocation ou une modification d'empreinte rend la décision inapplicable. Il n'existe aucune décision positive de mise en service réelle dans les données livrées.
 
-## Items des deux sondes de conception
+## Items des deux sondes de conception — source historique du 11 octobre 2026
 
 | Définition | Ensemble proposé, à confirmer | Mots | Pièces à obtenir |
 |---|---|---|---|
@@ -38,9 +42,9 @@ Pour poupée et papillon, seul le /p/ initial proposé est une occurrence cible 
 | Exploitation durable | Responsable technique | Base durable, stockage privé, sauvegarde/restauration vérifiée, supervision, support et procédure d'incident documentés. |
 | Efficacité | Équipe de recherche et responsables cliniques | Protocole d'étude adapté, résultats et limites sur Nehedrou ; aucun résultat inventé ni transfert depuis une autre application. |
 
-## Démonstration publiée
+## Démonstration publiée — infrastructure décrite au 30 octobre 2026
 
-Le service Render public reste une démonstration fictive, avec stockage éphémère pouvant être réinitialisé. Les mots de passe de recette sont communiqués dans un fichier privé, séparément du dépôt et des pages. Aucun dossier réel ne doit être introduit sur ce service. Les brouillons et simulations disponibles permettent de tester les fonctionnalités en attendant les pièces humaines et les médias, sans masquer les limites.
+Le service Render public reste une démonstration fictive. L’audit du 30 octobre confirme la base PostgreSQL Neon dédiée ; la livraison du 11 octobre documente le stockage S3 privé persistant. Le plan Render gratuit conserve sa veille et ses limites. La source render.yaml a été alignée sur cette architecture sans synchronisation automatique du service. Cette persistance ne qualifie ni l’hébergement clinique ni l’ouverture à des dossiers réels ; les vérifications d’exploitation encore nécessaires sont décrites dans [EXPLOITATION.md](EXPLOITATION.md). Les mots de passe de recette sont communiqués dans un fichier privé, séparément du dépôt et des pages. Aucun dossier réel ne doit être introduit sur ce service. Les brouillons et simulations disponibles permettent de tester les fonctionnalités en attendant les pièces humaines et les médias, sans masquer les limites.
 
 ## Extension arabe du 11 octobre 2026
 
