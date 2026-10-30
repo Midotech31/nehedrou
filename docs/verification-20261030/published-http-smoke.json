@@ -1,11 +1,11 @@
 {
-  "checked_at": "2026-10-30T17:55:11.310101+00:00",
+  "checked_at": "2026-10-30T18:12:15.400029+00:00",
   "scope": "Anonymous read-only HTTP checks; no private dossier export, mutations, or clinical claims. Timings are individual network samples, not a benchmark.",
   "pages": [
     {
       "path": "/fr/",
       "status": 200,
-      "elapsed_ms": 212.844,
+      "elapsed_ms": 214.344,
       "checks": {
         "http_200": true,
         "page_language": true,
@@ -15,7 +15,7 @@
     {
       "path": "/fr/try/",
       "status": 200,
-      "elapsed_ms": 268.36,
+      "elapsed_ms": 155.654,
       "checks": {
         "http_200": true,
         "page_language": true,
@@ -29,7 +29,7 @@
     {
       "path": "/fr/help/",
       "status": 200,
-      "elapsed_ms": 148.828,
+      "elapsed_ms": 139.561,
       "checks": {
         "http_200": true,
         "page_language": true,
@@ -39,7 +39,7 @@
     {
       "path": "/fr/login/",
       "status": 200,
-      "elapsed_ms": 140.244,
+      "elapsed_ms": 149.533,
       "checks": {
         "http_200": true,
         "page_language": true,
@@ -49,7 +49,7 @@
     {
       "path": "/en/",
       "status": 200,
-      "elapsed_ms": 153.335,
+      "elapsed_ms": 141.376,
       "checks": {
         "http_200": true,
         "page_language": true,
@@ -59,7 +59,7 @@
     {
       "path": "/en/try/",
       "status": 200,
-      "elapsed_ms": 147.526,
+      "elapsed_ms": 124.066,
       "checks": {
         "http_200": true,
         "page_language": true,
@@ -73,7 +73,7 @@
     {
       "path": "/en/help/",
       "status": 200,
-      "elapsed_ms": 135.36,
+      "elapsed_ms": 143.694,
       "checks": {
         "http_200": true,
         "page_language": true,
@@ -83,7 +83,7 @@
     {
       "path": "/en/login/",
       "status": 200,
-      "elapsed_ms": 148.587,
+      "elapsed_ms": 143.728,
       "checks": {
         "http_200": true,
         "page_language": true,
@@ -93,7 +93,7 @@
     {
       "path": "/ar/",
       "status": 200,
-      "elapsed_ms": 218.811,
+      "elapsed_ms": 137.47,
       "checks": {
         "http_200": true,
         "page_language": true,
@@ -103,7 +103,7 @@
     {
       "path": "/ar/try/",
       "status": 200,
-      "elapsed_ms": 152.549,
+      "elapsed_ms": 151.992,
       "checks": {
         "http_200": true,
         "page_language": true,
@@ -117,7 +117,7 @@
     {
       "path": "/ar/help/",
       "status": 200,
-      "elapsed_ms": 131.629,
+      "elapsed_ms": 133.418,
       "checks": {
         "http_200": true,
         "page_language": true,
@@ -127,7 +127,7 @@
     {
       "path": "/ar/login/",
       "status": 200,
-      "elapsed_ms": 152.464,
+      "elapsed_ms": 137.238,
       "checks": {
         "http_200": true,
         "page_language": true,
@@ -140,7 +140,7 @@
     "body": {
       "status": "ok"
     },
-    "server_timing": "app;dur=120.212, db;dur=120.072",
-    "elapsed_ms": 261.161
+    "server_timing": "app;dur=32.585, db;dur=32.473",
+    "elapsed_ms": 156.17
   }
 }
