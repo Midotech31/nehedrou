@@ -4993,3 +4993,87 @@ msgstr "No supported email delivery transport selected"
 
 msgid "Render Free blocks outbound SMTP ports 25, 465 and 587. A configured transport still needs an authorised delivery test."
 msgstr "Render Free blocks outbound SMTP ports 25, 465 and 587. A configured transport still needs an authorised delivery test."
+
+msgid "Choose your space"
+msgstr "Choose your space"
+
+msgid "Professional space"
+msgstr "Professional space"
+
+msgid "Email delivery is not configured for this service. You can record an invitation; recording it does not confirm an email was sent. Ask the service operator to configure delivery."
+msgstr "Email delivery is not configured for this service. You can record an invitation; recording it does not confirm an email was sent. Ask the service operator to configure delivery."
+
+msgid "Local development only: invitation messages are written to the console. No recipient delivery is provided by this transport."
+msgstr "Local development only: invitation messages are written to the console. No recipient delivery is provided by this transport."
+
+msgid "Email transport settings are present. This check does not verify sending or receipt."
+msgstr "Email transport settings are present. This check does not verify sending or receipt."
+
+msgid "This email transport has not been checked here. An invitation status does not confirm receipt."
+msgstr "This email transport has not been checked here. An invitation status does not confirm receipt."
+
+msgid "Record invitation"
+msgstr "Record invitation"
+
+msgid "Invitation recorded, but email delivery is unavailable in this configuration. Ask the service operator to configure delivery before retrying."
+msgstr "Invitation recorded, but email delivery is unavailable in this configuration. Ask the service operator to configure delivery before retrying."
+
+msgid "Email delivery is unavailable in this configuration. The existing invitation has been kept. Ask the service operator to configure delivery before retrying."
+msgstr "Email delivery is unavailable in this configuration. The existing invitation has been kept. Ask the service operator to configure delivery before retrying."
+
+msgid "Check the expected word and intended meaning with the speaker. Enter what was actually spoken and choose its actual source. Saving a file does not link it or approve it."
+msgstr "Check the expected word and intended meaning with the speaker. Enter what was actually spoken and choose its actual source. Saving a file does not link it or approve it."
+
+msgid "Choose the actual source of this recording before continuing."
+msgstr "Choose the actual source of this recording before continuing."
+
+msgid "Link this recording to the draft"
+msgstr "Link this recording to the draft"
+
+msgid "Link this recording to this draft word"
+msgstr "Link this recording to this draft word"
+
+msgid "Proposed transcription to check"
+msgstr "Proposed transcription to check"
+
+msgid "Record or import audio for this word"
+msgstr "Record or import audio for this word"
+
+msgid "Return to the content draft"
+msgstr "Return to the content draft"
+
+msgid "The draft changed after this recording was prepared. Your recording is saved, but it was not linked. Review the current draft before selecting it."
+msgstr "The draft changed after this recording was prepared. Your recording is saved, but it was not linked. Review the current draft before selecting it."
+
+msgid "The draft has unresolved validation errors. Your recording is saved; correct the draft before selecting it."
+msgstr "The draft has unresolved validation errors. Your recording is saved; correct the draft before selecting it."
+
+msgid "The file is saved privately. Listen before explicitly linking it to this word. Rights and professional review remain separate requirements."
+msgstr "The file is saved privately. Listen before explicitly linking it to this word. Rights and professional review remain separate requirements."
+
+msgid "The recording context is invalid. Open the current draft before trying again."
+msgstr "The recording context is invalid. Open the current draft before trying again."
+
+msgid "The recording must use the spoken variety shown for this draft word."
+msgstr "The recording must use the spoken variety shown for this draft word."
+
+msgid "The spoken text must match this exact draft word. Use a separate upload for another word or variant."
+msgstr "The spoken text must match this exact draft word. Use a separate upload for another word or variant."
+
+msgid "This collection context expired. Your recording is saved; return to the draft and select it after checking the current word and variety."
+msgstr "This collection context expired. Your recording is saved; return to the draft and select it after checking the current word and variety."
+
+msgid "This collection step accepts an audio recording only."
+msgstr "This collection step accepts an audio recording only."
+
+msgid "This recording is revoked, missing or changed. It was not linked; upload a new recording."
+msgstr "This recording is revoked, missing or changed. It was not linked; upload a new recording."
+
+msgid "Word to record"
+msgstr "Word to record"
+
+msgid "Your saved recording remains in your uploaded audio choices. No previous recording was deleted."
+msgstr "Your saved recording remains in your uploaded audio choices. No previous recording was deleted."
+
+msgid "Choose an active practice before saving changes."
+msgstr "Choose an active practice before saving changes."

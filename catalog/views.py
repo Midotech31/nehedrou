@@ -157,20 +157,29 @@ def upload(request):
     editor(request.user)
     if not request.user.is_superuser and not EditorialGrant.objects.filter(user=request.user, edit=True).exists():
         raise PermissionDenied
-    draft = None
-    draft_id = request.GET.get('draft') or request.POST.get('draft')
-    if draft_id:
-        from uuid import UUID
-        try: draft_id = UUID(draft_id)
-        except ValueError: raise Http404
-        draft = get_object_or_404(editorial_activities(request.user), pk=draft_id, state='draft')
-        if not allowed(request.user, draft.variety, 'edit'): raise PermissionDenied
+    from .guided_audio import (prepare_upload, configure_upload_form,
+        validate_upload_form, saved_media_context)
+    collection = prepare_upload(request)
+    draft = collection['activity'] if collection else None
+    if not collection:
+        draft_id = request.GET.get('draft') or request.POST.get('draft')
+        if draft_id:
+            from uuid import UUID
+            try: draft_id = UUID(draft_id)
+            except ValueError: raise Http404
+            draft = get_object_or_404(editorial_activities(request.user), pk=draft_id, state='draft')
+            if not allowed(request.user, draft.variety, 'edit'): raise PermissionDenied
     from .media_authoring import MediaAuthoringForm
-    media_form = MediaForm if 'provenance' in request.POST or request.GET.get('advanced') == '1' else MediaAuthoringForm
+    media_form = MediaAuthoringForm if collection else (MediaForm if 'provenance' in request.POST or request.GET.get('advanced') == '1' else MediaAuthoringForm)
     form = media_form(request.POST or None, request.FILES or None, instance=MediaAsset(uploaded_by=request.user), **({'actor': request.user} if media_form is MediaAuthoringForm else {}))
     from qualification.models import EvidenceDocument
     form.fields['rights_evidence'].queryset = EvidenceDocument.objects.filter(category='rights', revoked=False) if request.user.is_superuser else EvidenceDocument.objects.filter(category='rights', revoked=False, variety__editorialgrant__user=request.user).distinct()
-    if request.method == 'POST' and form.is_valid():
+    if collection:
+        configure_upload_form(form, collection)
+    valid = request.method == 'POST' and form.is_valid()
+    if valid and collection:
+        valid = validate_upload_form(form, collection)
+    if valid:
         try:
             asset = form.save()
         except Exception as error:
@@ -181,8 +190,13 @@ def upload(request):
         else:
             from core.services import audit
             audit(request.user, 'catalog.media_uploaded', asset)
-            return render(request, 'editorial/media.html', {'asset': asset, 'draft': draft})
-    return render(request, 'editorial/upload.html', {'form': form, 'draft': draft})
+            response = render(request, 'editorial/media.html', saved_media_context(asset, draft, collection))
+            response['Cache-Control'] = 'private, no-store'
+            return response
+    response = render(request, 'editorial/upload.html', {'form': form, 'draft': draft,
+        'guided': collection['display'] if collection else None})
+    response['Cache-Control'] = 'private, no-store'
+    return response
 
 @login_required
 @require_POST

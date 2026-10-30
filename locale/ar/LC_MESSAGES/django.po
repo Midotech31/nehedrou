@@ -4993,3 +4993,87 @@ msgstr "لم تُختر وسيلة مدعومة لتسليم البريد"
 
 msgid "Render Free blocks outbound SMTP ports 25, 465 and 587. A configured transport still needs an authorised delivery test."
 msgstr "تحظر خطة Render Free منافذ SMTP الصادرة 25 و465 و587. وتظل وسيلة النقل المعدّة بحاجة إلى اختبار تسليم مصرّح به."
+
+msgid "Choose your space"
+msgstr "اختر مساحتك"
+
+msgid "Professional space"
+msgstr "المساحة المهنية"
+
+msgid "Email delivery is not configured for this service. You can record an invitation; recording it does not confirm an email was sent. Ask the service operator to configure delivery."
+msgstr "إرسال البريد الإلكتروني غير مهيّأ لهذه الخدمة. يمكنك تسجيل دعوة؛ ولا يؤكد تسجيلها إرسال رسالة بريد إلكتروني. اطلب من مشغّل الخدمة تهيئة الإرسال."
+
+msgid "Local development only: invitation messages are written to the console. No recipient delivery is provided by this transport."
+msgstr "للتطوير المحلي فقط: تُكتب رسائل الدعوة في وحدة التحكم. لا يوفّر هذا الناقل إيصال الرسائل إلى المستلم."
+
+msgid "Email transport settings are present. This check does not verify sending or receipt."
+msgstr "إعدادات ناقل البريد الإلكتروني موجودة. لا يتحقق هذا الفحص من الإرسال أو الاستلام."
+
+msgid "This email transport has not been checked here. An invitation status does not confirm receipt."
+msgstr "لم يُفحص ناقل البريد الإلكتروني هذا هنا. لا تؤكد حالة الدعوة استلامها."
+
+msgid "Record invitation"
+msgstr "تسجيل الدعوة"
+
+msgid "Invitation recorded, but email delivery is unavailable in this configuration. Ask the service operator to configure delivery before retrying."
+msgstr "سُجّلت الدعوة، لكن إرسال البريد الإلكتروني غير متاح في هذا الإعداد. اطلب من مشغّل الخدمة تهيئة الإرسال قبل إعادة المحاولة."
+
+msgid "Email delivery is unavailable in this configuration. The existing invitation has been kept. Ask the service operator to configure delivery before retrying."
+msgstr "إرسال البريد الإلكتروني غير متاح في هذا الإعداد. احتُفظ بالدعوة الحالية. اطلب من مشغّل الخدمة تهيئة الإرسال قبل إعادة المحاولة."
+
+msgid "Check the expected word and intended meaning with the speaker. Enter what was actually spoken and choose its actual source. Saving a file does not link it or approve it."
+msgstr "تحققوا مع المتحدث من الكلمة المطلوبة والمعنى المقصود. أدخلوا ما نُطق فعلاً واختاروا مصدره الحقيقي. حفظ الملف لا يربطه بالمحتوى ولا يعتمد صلاحيته."
+
+msgid "Choose the actual source of this recording before continuing."
+msgstr "اختاروا المصدر الحقيقي لهذا التسجيل قبل المتابعة."
+
+msgid "Link this recording to the draft"
+msgstr "ربط هذا التسجيل بالمسودة"
+
+msgid "Link this recording to this draft word"
+msgstr "ربط هذا التسجيل بهذه الكلمة في المسودة"
+
+msgid "Proposed transcription to check"
+msgstr "كتابة صوتية مقترحة للتحقق منها"
+
+msgid "Record or import audio for this word"
+msgstr "تسجيل صوت لهذه الكلمة أو استيراده"
+
+msgid "Return to the content draft"
+msgstr "العودة إلى مسودة المحتوى"
+
+msgid "The draft changed after this recording was prepared. Your recording is saved, but it was not linked. Review the current draft before selecting it."
+msgstr "تغيّرت المسودة بعد إعداد هذا التسجيل. حُفظ تسجيلكم، لكنه لم يُربط بها. راجعوا المسودة الحالية قبل اختياره."
+
+msgid "The draft has unresolved validation errors. Your recording is saved; correct the draft before selecting it."
+msgstr "تحتوي المسودة على أخطاء تحقق لم تُصحح. حُفظ تسجيلكم؛ صححوا المسودة قبل اختياره."
+
+msgid "The file is saved privately. Listen before explicitly linking it to this word. Rights and professional review remain separate requirements."
+msgstr "حُفظ الملف بصورة خاصة. استمعوا إليه قبل ربطه صراحة بهذه الكلمة. تبقى الحقوق والمراجعة المهنية متطلبين منفصلين."
+
+msgid "The recording context is invalid. Open the current draft before trying again."
+msgstr "سياق التسجيل غير صالح. افتحوا المسودة الحالية قبل المحاولة من جديد."
+
+msgid "The recording must use the spoken variety shown for this draft word."
+msgstr "يجب أن يستخدم التسجيل التنوع اللغوي المنطوق المحدد لهذه الكلمة في المسودة."
+
+msgid "The spoken text must match this exact draft word. Use a separate upload for another word or variant."
+msgstr "يجب أن يطابق النص المنطوق هذه الكلمة في المسودة تماماً. استخدموا عملية رفع منفصلة لكلمة أخرى أو لصيغة مختلفة."
+
+msgid "This collection context expired. Your recording is saved; return to the draft and select it after checking the current word and variety."
+msgstr "انتهت صلاحية سياق الجمع هذا. حُفظ تسجيلكم؛ عودوا إلى المسودة واختاروه بعد التحقق من الكلمة والتنوع اللغوي الحاليين."
+
+msgid "This collection step accepts an audio recording only."
+msgstr "تقبل خطوة الجمع هذه تسجيلاً صوتياً فقط."
+
+msgid "This recording is revoked, missing or changed. It was not linked; upload a new recording."
+msgstr "سُحب هذا التسجيل أو أصبح مفقوداً أو تغيّر. لم يُربط؛ ارفعوا تسجيلاً جديداً."
+
+msgid "Word to record"
+msgstr "الكلمة المطلوب تسجيلها"
+
+msgid "Your saved recording remains in your uploaded audio choices. No previous recording was deleted."
+msgstr "يبقى تسجيلكم المحفوظ ضمن خيارات الملفات الصوتية التي رفعتموها. لم يُحذف أي تسجيل سابق."
+
+msgid "Choose an active practice before saving changes."
+msgstr "اختر عيادة نشطة قبل حفظ التغييرات."

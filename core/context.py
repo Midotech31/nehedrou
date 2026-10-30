@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.utils.translation import gettext as _
-from .access import membership
+from .access import membership, is_family_workspace
 from .models import Membership
 
 def navigation(request):
@@ -13,6 +13,16 @@ def navigation(request):
     if not request.user.is_authenticated:
         return common
     from catalog.models import EditorialGrant
+    from care.models import FamilyLink
     member = membership(request)
-    common['space_label'] = _('YOUR SPACE') if member else _('Editorial workspace') if EditorialGrant.objects.filter(user=request.user).exists() else _('Platform management') if request.user.has_perm('core.manage_entitlements') else _('Family space')
-    return {**common, 'has_editorial_access': request.user.is_superuser or EditorialGrant.objects.filter(user=request.user).exists(), 'current_membership': member, 'memberships': Membership.objects.filter(user=request.user, active=True).select_related('organization')}
+    family_workspace = is_family_workspace(request)
+    memberships = Membership.objects.filter(user=request.user, active=True).select_related('organization')
+    has_editorial_access = request.user.is_superuser or EditorialGrant.objects.filter(user=request.user).exists()
+    has_family_access = FamilyLink.objects.filter(user=request.user, active=True).exists()
+    has_professional_space = memberships.exists() or has_editorial_access or request.user.has_perm('core.manage_entitlements')
+    common.update(practice_selection_required=getattr(request, 'practice_selection_required', False),
+        family_workspace=family_workspace, has_family_access=has_family_access,
+        has_professional_space=has_professional_space,
+        show_workspace_switch=has_professional_space and (has_family_access or family_workspace))
+    common['space_label'] = _('Family space') if family_workspace else _('YOUR SPACE') if member else _('Editorial workspace') if EditorialGrant.objects.filter(user=request.user).exists() else _('Platform management') if request.user.has_perm('core.manage_entitlements') else _('Family space')
+    return {**common, 'has_editorial_access': has_editorial_access, 'current_membership': member, 'memberships': memberships}

@@ -20,7 +20,8 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from care.models import Child, FamilyLink, Program, ProgramItem, PracticeSession, Observation, PracticeRun, PracticeRunTask, ProgramFeedback
 from catalog.models import Activity, Variety
-from .access import membership, manager, visible_children, visible_programs, clinician_child, professional_children
+from .access import membership, manager, visible_children, visible_programs, clinician_child, professional_children, is_family_workspace, workspace_children
+from .invitation_delivery import invitation_delivery_status
 from .forms import SignupForm, InviteSignupForm, ChildForm, ProgramForm, InvitationForm, PracticeForm, ObservationForm, PreferencesForm, DemoPracticeForm, FamilyFeedbackForm, HistoryFilterForm
 from .models import Organization, Membership, Entitlement, Invitation, PrivacyRequest
 from .services import audit, check_entitlement, create_program, accept_invitation, record_practice, issue_and_deliver_invitation, lock_clinical_child, publish_feedback
@@ -86,17 +87,15 @@ def signup(request):
 @login_required
 def dashboard(request):
     member = membership(request)
-    if not member:
+    family_workspace = is_family_workspace(request)
+    if not member and not family_workspace:
         from catalog.models import EditorialGrant
         if EditorialGrant.objects.filter(user=request.user).exists():
             return redirect('editorial_index')
         if request.user.has_perm('core.manage_entitlements'):
             return redirect('billing_index')
-    programs = visible_programs(request.user)
-    children = visible_children(request.user)
-    if member:
-        programs = programs.filter(organization=member.organization)
-        children = children.filter(organization=member.organization)
+    children = workspace_children(request)
+    programs = visible_programs(request.user).filter(child__in=children)
     sessions = PracticeSession.objects.filter(item__program__in=programs).select_related('item__program__child', 'user')
     sessions = sessions.exclude(item__activity_id__in=family_catalog_exclusions(request.user, Activity.objects.all()))
     today = timezone.localdate()
@@ -128,16 +127,31 @@ def dashboard(request):
 @login_required
 @require_POST
 def switch_practice(request):
-    member = get_object_or_404(Membership, pk=request.POST.get('membership'), user=request.user, active=True)
-    request.session['organization'] = str(member.organization_id)
+    space = request.POST.get('space')
+    if space == 'family':
+        if not FamilyLink.objects.filter(user=request.user, active=True).exists():
+            raise Http404
+        request.session['workspace'] = 'family'
+    elif space == 'professional':
+        from catalog.models import EditorialGrant
+        if not (Membership.objects.filter(user=request.user, active=True).exists()
+                or EditorialGrant.objects.filter(user=request.user).exists()
+                or request.user.has_perm('core.manage_entitlements')):
+            raise Http404
+        request.session['workspace'] = 'professional'
+    elif space:
+        raise Http404
+    else:
+        # Keep existing clients and the cabinet selector's membership POST valid.
+        member = get_object_or_404(Membership, pk=request.POST.get('membership'), user=request.user, active=True)
+        request.session['organization'] = str(member.organization_id)
+        request.session['workspace'] = 'professional'
     return redirect('dashboard')
 
 @login_required
 def children(request):
     member = membership(request)
-    qs = visible_children(request.user).prefetch_related('varieties')
-    if member:
-        qs = qs.filter(organization=member.organization)
+    qs = workspace_children(request).prefetch_related('varieties')
     from django.core.paginator import Paginator
     query = request.GET.get('q', '').strip()[:100]
     status = request.GET.get('status', 'active')
@@ -184,7 +198,7 @@ def child_detail(request, pk):
                 return redirect('child_detail', pk=pk)
             except ValidationError as error:
                 form.add_error(None, error)
-    return render(request, 'child_detail.html', {'child': child, 'professional': professional, 'form': form, 'programs': child.programs.select_related('variety').order_by('-created_at'), 'links': child.family_links.filter(active=True).select_related('user') if professional else [], 'invitations': child.invitation_set.filter(revoked=False, used_at__isnull=True) if professional else []})
+    return render(request, 'child_detail.html', {'child': child, 'professional': professional, 'form': form, 'invitation_delivery': invitation_delivery_status() if professional else None, 'programs': child.programs.select_related('variety').order_by('-created_at'), 'links': child.family_links.filter(active=True).select_related('user') if professional else [], 'invitations': child.invitation_set.filter(revoked=False, used_at__isnull=True) if professional else []})
 
 @login_required
 @require_POST
@@ -220,6 +234,12 @@ def revoke_invite(request, pk):
     audit(request.user, 'invitation.revoked', invite, invite.organization)
     return redirect('child_detail', pk=invite.child_id)
 
+def select_invitation_workspace(request, invitation):
+    request.session['workspace'] = 'family' if invitation.kind == 'family' else 'professional'
+    if invitation.kind == 'clinician':
+        request.session['organization'] = str(invitation.organization_id)
+
+
 def invite(request, token):
     invitation = get_object_or_404(Invitation, token_hash=hashlib.sha256(token.encode()).hexdigest())
     if not invitation.available:
@@ -231,6 +251,7 @@ def invite(request, token):
         if request.user.is_authenticated:
             try:
                 accept_invitation(request.user, token)
+                select_invitation_workspace(request, invitation)
                 return redirect('dashboard')
             except ValidationError as error:
                 messages.error(request, ' '.join(error.messages))
@@ -242,6 +263,7 @@ def invite(request, token):
                     user.save()
                     accept_invitation(user, token)
                 login(request, user)
+                select_invitation_workspace(request, invitation)
                 return redirect('dashboard')
             except ValidationError as error:
                 form.add_error(None, error)
@@ -605,11 +627,11 @@ def members(request):
             return redirect('members')
         except ValidationError as error:
             form.add_error(None, error)
-    return render(request, 'members.html', {'form': form, 'members': Membership.objects.filter(organization=member.organization).select_related('user'), 'invitations': Invitation.objects.filter(organization=member.organization, kind='clinician', revoked=False, used_at__isnull=True)})
+    return render(request, 'members.html', {'form': form, 'invitation_delivery': invitation_delivery_status(), 'members': Membership.objects.filter(organization=member.organization).select_related('user'), 'invitations': Invitation.objects.filter(organization=member.organization, kind='clinician', revoked=False, used_at__isnull=True)})
 
 def invitation_message(request, invitation):
     if invitation.delivery == 'failed':
-        messages.error(request, _('Invitation saved, but email delivery failed. Retry from pending invitations.'))
+        messages.error(request, invitation_delivery_status()['failure_message'])
     elif invitation.delivery == 'console':
         messages.info(request, _('Local demonstration: the invitation link is in the server console. No email was sent.'))
     else:
@@ -628,6 +650,10 @@ def resend_invitation(request, pk):
             raise Http404
         child = None
         destination = reverse('members')
+    delivery = invitation_delivery_status()
+    if delivery['known_unavailable']:
+        messages.error(request, delivery['retry_blocked_message'])
+        return redirect(destination)
     try:
         replacement = issue_and_deliver_invitation(request.user, invitation.organization, child, invitation.email, kind=invitation.kind, replacing=invitation)
         invitation_message(request, replacement)

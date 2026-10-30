@@ -4993,3 +4993,87 @@ msgstr "Aucun transport de livraison de courriels pris en charge sélectionné"
 
 msgid "Render Free blocks outbound SMTP ports 25, 465 and 587. A configured transport still needs an authorised delivery test."
 msgstr "Render Free bloque les ports SMTP sortants 25, 465 et 587. Un transport configuré nécessite encore un essai de livraison autorisé."
+
+msgid "Choose your space"
+msgstr "Choisissez votre espace"
+
+msgid "Professional space"
+msgstr "Espace professionnel"
+
+msgid "Email delivery is not configured for this service. You can record an invitation; recording it does not confirm an email was sent. Ask the service operator to configure delivery."
+msgstr "L’envoi de courriels n’est pas configuré pour ce service. Vous pouvez enregistrer une invitation ; cet enregistrement ne confirme pas l’envoi d’un courriel. Demandez à l’exploitant de configurer l’envoi."
+
+msgid "Local development only: invitation messages are written to the console. No recipient delivery is provided by this transport."
+msgstr "Développement local uniquement : les messages d’invitation sont écrits dans la console. Ce transport ne livre aucun courriel au destinataire."
+
+msgid "Email transport settings are present. This check does not verify sending or receipt."
+msgstr "Les paramètres du transport de courriels sont présents. Ce contrôle ne vérifie ni l’envoi ni la réception."
+
+msgid "This email transport has not been checked here. An invitation status does not confirm receipt."
+msgstr "Ce transport de courriels n’a pas été vérifié ici. Le statut d’une invitation ne confirme pas sa réception."
+
+msgid "Record invitation"
+msgstr "Enregistrer l’invitation"
+
+msgid "Invitation recorded, but email delivery is unavailable in this configuration. Ask the service operator to configure delivery before retrying."
+msgstr "Invitation enregistrée, mais l’envoi de courriels est indisponible avec cette configuration. Demandez à l’exploitant de configurer l’envoi avant de réessayer."
+
+msgid "Email delivery is unavailable in this configuration. The existing invitation has been kept. Ask the service operator to configure delivery before retrying."
+msgstr "L’envoi de courriels est indisponible avec cette configuration. L’invitation existante a été conservée. Demandez à l’exploitant de configurer l’envoi avant de réessayer."
+
+msgid "Check the expected word and intended meaning with the speaker. Enter what was actually spoken and choose its actual source. Saving a file does not link it or approve it."
+msgstr "Vérifiez le mot attendu et le sens visé avec le locuteur. Indiquez ce qui a réellement été prononcé et choisissez sa source réelle. Enregistrer un fichier ne l’associe pas et ne le valide pas."
+
+msgid "Choose the actual source of this recording before continuing."
+msgstr "Choisissez la source réelle de cet enregistrement avant de continuer."
+
+msgid "Link this recording to the draft"
+msgstr "Associer cet enregistrement au brouillon"
+
+msgid "Link this recording to this draft word"
+msgstr "Associer cet enregistrement à ce mot du brouillon"
+
+msgid "Proposed transcription to check"
+msgstr "Transcription proposée à vérifier"
+
+msgid "Record or import audio for this word"
+msgstr "Enregistrer ou importer un audio pour ce mot"
+
+msgid "Return to the content draft"
+msgstr "Retour au brouillon du contenu"
+
+msgid "The draft changed after this recording was prepared. Your recording is saved, but it was not linked. Review the current draft before selecting it."
+msgstr "Le brouillon a changé depuis la préparation de cet enregistrement. Votre enregistrement est sauvegardé, mais il n’a pas été associé. Vérifiez le brouillon actuel avant de le sélectionner."
+
+msgid "The draft has unresolved validation errors. Your recording is saved; correct the draft before selecting it."
+msgstr "Le brouillon contient des erreurs de validation non résolues. Votre enregistrement est sauvegardé ; corrigez le brouillon avant de le sélectionner."
+
+msgid "The file is saved privately. Listen before explicitly linking it to this word. Rights and professional review remain separate requirements."
+msgstr "Le fichier est sauvegardé dans un espace privé. Écoutez-le avant de l’associer explicitement à ce mot. Les droits et la relecture professionnelle restent des exigences distinctes."
+
+msgid "The recording context is invalid. Open the current draft before trying again."
+msgstr "Le contexte d’enregistrement est invalide. Ouvrez le brouillon actuel avant de réessayer."
+
+msgid "The recording must use the spoken variety shown for this draft word."
+msgstr "L’enregistrement doit utiliser la variété parlée indiquée pour ce mot du brouillon."
+
+msgid "The spoken text must match this exact draft word. Use a separate upload for another word or variant."
+msgstr "Le texte prononcé doit correspondre exactement à ce mot du brouillon. Utilisez un téléversement distinct pour un autre mot ou une variante."
+
+msgid "This collection context expired. Your recording is saved; return to the draft and select it after checking the current word and variety."
+msgstr "Ce contexte de collecte a expiré. Votre enregistrement est sauvegardé ; revenez au brouillon et sélectionnez-le après avoir vérifié le mot et la variété actuels."
+
+msgid "This collection step accepts an audio recording only."
+msgstr "Cette étape de collecte accepte uniquement un enregistrement audio."
+
+msgid "This recording is revoked, missing or changed. It was not linked; upload a new recording."
+msgstr "Cet enregistrement est révoqué, absent ou modifié. Il n’a pas été associé ; téléversez un nouvel enregistrement."
+
+msgid "Word to record"
+msgstr "Mot à enregistrer"
+
+msgid "Your saved recording remains in your uploaded audio choices. No previous recording was deleted."
+msgstr "Votre enregistrement sauvegardé reste disponible parmi les audios que vous avez téléversés. Aucun enregistrement antérieur n’a été supprimé."
+
+msgid "Choose an active practice before saving changes."
+msgstr "Choisissez un cabinet actif avant d’enregistrer des modifications."

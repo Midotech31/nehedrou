@@ -1,12 +1,35 @@
+from uuid import UUID
 from django.db.models import Q
 from django.http import Http404
 from care.models import Child, Program
 from .models import Membership
 
 def membership(request):
+    request.practice_selection_required = False
+    if request.session.get('workspace') == 'family':
+        return None
     qs = Membership.objects.filter(user=request.user, active=True).select_related('organization')
-    selected = request.session.get('organization')
-    return qs.filter(organization_id=selected).first() if selected else qs.first()
+    if 'organization' in request.session:
+        selected = request.session['organization']
+        try:
+            selected = UUID(str(selected))
+        except (ValueError, TypeError, AttributeError):
+            selected = None
+        if selected:
+            current = qs.filter(organization_id=selected).first()
+            if current is not None:
+                return current
+        request.practice_selection_required = True
+        # A stale form must never acquire the fallback cabinet's write scope.
+        # Reading the fallback does not persist it: only explicit switching does.
+        if request.method not in ('GET', 'HEAD', 'OPTIONS'):
+            return None
+    # Bind the first displayed cabinet before serving any old-style forms.
+    # Never persist a fallback for an existing invalid selection.
+    first = qs.first()
+    if first is not None and 'organization' not in request.session and request.method in ('GET', 'HEAD', 'OPTIONS'):
+        request.session['organization'] = str(first.organization_id)
+    return first
 
 def professional_children(user):
     return Child.objects.filter(responsible=user, organization__membership__user=user, organization__membership__active=True).distinct()
@@ -28,3 +51,24 @@ def manager(request):
     if not member or member.role != 'owner':
         raise Http404
     return member
+
+
+def is_family_workspace(request):
+    """A workspace narrows lists; the account's actual permissions stay unchanged."""
+    selected = request.session.get('workspace')
+    if selected == 'family':
+        return True
+    # A remembered professional choice cannot outlive the actual role.
+    from catalog.models import EditorialGrant
+    return not (Membership.objects.filter(user=request.user, active=True).exists()
+                or EditorialGrant.objects.filter(user=request.user).exists()
+                or request.user.has_perm('core.manage_entitlements'))
+
+
+def workspace_children(request):
+    if is_family_workspace(request):
+        return Child.objects.filter(family_links__user=request.user, family_links__active=True).distinct()
+    member = membership(request)
+    if member is None:
+        return Child.objects.none()
+    return professional_children(request.user).filter(organization=member.organization)

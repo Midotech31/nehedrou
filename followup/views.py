@@ -12,7 +12,7 @@ from django.views.decorators.http import require_POST
 from care.models import Child, FamilyLink
 from catalog.services import allowed
 from catalog.models import EditorialGrant, MediaAsset
-from core.access import professional_children, visible_children, clinician_child
+from core.access import professional_children, visible_children, clinician_child, is_family_workspace
 from core.models import Membership
 from . import services
 from .models import ClinicalGoal, ProbeDefinition, ProbeAdministration, ParentCoaching
@@ -51,13 +51,14 @@ def render_form(request, form, title, *, intro='', back=None, **context):
 @login_required
 def index(request):
     children = professional_children(request.user).select_related('organization')
-    professional = Membership.objects.filter(user=request.user, active=True).exists()
+    family_workspace = is_family_workspace(request)
+    professional = not family_workspace and Membership.objects.filter(user=request.user, active=True).exists()
     if professional:
         goals = ClinicalGoal.objects.filter(child__in=children).select_related('child', 'variety').order_by('-created_at')
         return render(request, 'followup/index.html', {'professional': True, 'children': children, 'goals': goals, 'administrations': services.professional_administrations(request.user).select_related('child', 'definition').order_by('-started_at')[:20]})
-    if EditorialGrant.objects.filter(user=request.user).exists():
+    if not family_workspace and EditorialGrant.objects.filter(user=request.user).exists():
         return redirect('followup:definition_list')
-    linked = visible_children(request.user)
+    linked = Child.objects.filter(family_links__user=request.user, family_links__active=True).distinct()
     shares = ProbeAdministration.objects.filter(child__in=linked, status='finalized', shared_at__isnull=False).exclude(shared_text='').select_related('child', 'definition').order_by('-shared_at')
     coaching = list(ParentCoaching.objects.filter(child__in=linked).select_related('child', 'variety').order_by('-created_at'))
     for guide in coaching:

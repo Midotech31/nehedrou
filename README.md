@@ -51,13 +51,15 @@ Utiliser une installation Python 3.12 à jour avec pip. Le lanceur portable `pyt
 
 Commandes utiles avec le Python de l’environnement : `manage.py check`, `manage.py test`, `manage.py makemigrations --check --dry-run`, `scripts/compile_messages.py`, `scripts/check_translations.py`, `manage.py check_readiness --json`, `manage.py check_readiness --strict` et `manage.py content_inventory --json`. Pour importer un catalogue : `manage.py import_catalog docs/catalog-example.json`, puis `--apply` après contrôle. Les imports restent des brouillons. Les catalogues PO simples fournis sont compilables sans gettext système ; utiliser GNU gettext pour les entrées plurielles avancées.
 
+Les [transports de courriels](docs/EMAIL_TRANSPORTS.md) sont sélectionnés explicitement : SMTP lorsque l’hébergement le permet, ou HTTPS avec activation et paramètres privés. Le transport hébergé reste désactivé par défaut. Un diagnostic de configuration ne prouve ni envoi ni réception ; domaine/expéditeur, fournisseur et recette réelle restent à accepter. Aucun compte fournisseur, coût récurrent ou quota gratuit durable n’est garanti.
+
 Docker Compose est prévu pour le développement avec PostgreSQL 17. Définir les secrets documentés dans `.env.example` ; le fichier n’est pas chargé automatiquement. En configuration réelle, Django refuse SQLite et un secret insuffisant, exige la MFA professionnelle et désactive l’administration technique locale.
 
 ## Documentation et limites restantes
 
 [Conception et permissions](docs/CONCEPTION.md), [recette](docs/RECETTE.md), [exploitation](docs/EXPLOITATION.md), [finition arabe](docs/FINITION_ARABE.md), [qualification commerciale](docs/QUALIFICATION_COMMERCIALE.md).
 
-La vente clinique demande encore les contenus/audio approuvés, la relecture native et les essais avec familles/praticiens, une recette multi-navigateurs et avec utilisateurs réels, un déploiement HTTPS/SMTP opérationnel, une sauvegarde/restauration de production et des conditions d’exploitation/offre définies. Aucun tarif, témoignage ou résultat thérapeutique n’est inventé.
+La vente clinique demande encore les contenus/audio approuvés, la relecture native et les essais avec familles/praticiens, une recette multi-navigateurs et avec utilisateurs réels, un déploiement HTTPS et un transport de courriels opérationnel, une sauvegarde/restauration de production et des conditions d’exploitation/offre définies. Aucun tarif, témoignage ou résultat thérapeutique n’est inventé.
 
 Code sous MIT ; les droits des médias dépendent de chaque fichier et de ses justificatifs. Les nouveaux visuels générés restent à examiner ; la licence du code ne qualifie pas leurs droits. Licences des dépendances distinctes. Tajawal sous SIL OFL 1.1, texte inclus dans static/fonts/tajawal/OFL.txt. Le logo fourni par le commanditaire est conservé.
 
