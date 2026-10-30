@@ -15,7 +15,7 @@ from .forms import ProgramForm, PracticeForm
 from .models import User, Invitation, AuditEvent, Membership, PrivacyRequest
 from .services import create_program, record_practice, issue_and_deliver_invitation, resolve_privacy
 from . import tests as original_tests
-from .testing import pcm_fixture
+from .testing import pcm_fixture, practice_form_data
 from qualification.test_support import prepare_activity_fixture, availability_fixture, competence_fixture
 
 
@@ -130,7 +130,11 @@ class QualificationTests(TestCase):
     def test_smtp_failure_is_audited_and_retry_replaces_the_link(self):
         with patch('django.core.mail.send_mail',side_effect=OSError('unavailable')):
             for kind,child in [('family',self.child),('clinician',None)]:
-                response=self.client.post(reverse('child_detail',args=[child.pk]) if child else reverse('members'),{'email':kind+'@fictional.example'})
+                path = reverse('child_detail', args=[child.pk]) if child else reverse('members')
+                data = {'email':kind+'@fictional.example'}
+                if child is None:
+                    data = practice_form_data(self.client, path, data)
+                response = self.client.post(path, data)
                 self.assertEqual(response.status_code,302)
                 invite=Invitation.objects.get(email=kind+'@fictional.example')
                 self.assertEqual(invite.delivery,'failed')

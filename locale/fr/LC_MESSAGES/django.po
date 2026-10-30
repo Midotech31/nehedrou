@@ -5077,3 +5077,39 @@ msgstr "Votre enregistrement sauvegardé reste disponible parmi les audios que v
 
 msgid "Choose an active practice before saving changes."
 msgstr "Choisissez un cabinet actif avant d’enregistrer des modifications."
+
+msgid "Private storage read sample"
+msgstr "Échantillon de lecture du stockage privé"
+
+msgid "This explicit test reads one fixed technical file with no personal or clinical data. It never creates a file and does not accept a storage key. Timing covers this server's storage read, not a durability guarantee or a performance benchmark."
+msgstr "Ce test explicite lit un fichier technique fixe sans données personnelles ni cliniques. Il ne crée aucun fichier et n’accepte pas de clé de stockage. Le temps mesuré couvre la lecture du stockage depuis ce serveur ; il ne garantit pas la conservation des données et ne constitue pas un benchmark."
+
+msgid "Storage read succeeded"
+msgstr "Lecture du stockage réussie"
+
+msgid "Storage read failed"
+msgstr "Échec de lecture du stockage"
+
+msgid "Bytes read"
+msgstr "Octets lus"
+
+msgid "Expected technical content verified"
+msgstr "Contenu technique attendu vérifié"
+
+msgid "Test the private storage read"
+msgstr "Tester la lecture du stockage privé"
+
+msgid "Editorial source texts"
+msgstr "Textes éditoriaux sources"
+
+msgid "These texts are preserved in the language in which they were entered. They are separate from your selected caregiver guide."
+msgstr "Ces textes sont conservés dans leur langue de saisie. Ils sont distincts du guide destiné à l’accompagnant dans la langue choisie."
+
+msgid "Guide unavailable in the selected instruction language"
+msgstr "Guide indisponible dans la langue de consignes choisie"
+
+msgid "No guide has been entered in this language."
+msgstr "Aucun guide n’a été saisi dans cette langue."
+
+msgid "This form no longer matches the selected practice. Reopen it in the intended practice before saving."
+msgstr "Ce formulaire ne correspond plus au cabinet sélectionné. Rouvrez-le dans le cabinet souhaité avant d’enregistrer."

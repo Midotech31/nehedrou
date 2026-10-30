@@ -21,6 +21,7 @@ from django.views.decorators.http import require_POST
 from care.models import Child, FamilyLink, Program, ProgramItem, PracticeSession, Observation, PracticeRun, PracticeRunTask, ProgramFeedback
 from catalog.models import Activity, Variety
 from .access import membership, manager, visible_children, visible_programs, clinician_child, professional_children, is_family_workspace, workspace_children
+from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .invitation_delivery import invitation_delivery_status
 from .forms import SignupForm, InviteSignupForm, ChildForm, ProgramForm, InvitationForm, PracticeForm, ObservationForm, PreferencesForm, DemoPracticeForm, FamilyFeedbackForm, HistoryFilterForm
 from .models import Organization, Membership, Entitlement, Invitation, PrivacyRequest
@@ -168,8 +169,11 @@ def child_create(request):
     if not member:
         raise Http404
     instance = Child(organization=member.organization, responsible=request.user)
-    form = ChildForm(request.POST or None, instance=instance)
-    if request.method == 'POST' and form.is_valid():
+    form = ChildForm(request.POST if request.method == 'POST' else None, instance=instance)
+    scope, scope_valid = practice_form_scope(request, member.organization, 'child_create')
+    if not scope_valid:
+        form.add_error(None, PRACTICE_SCOPE_ERROR)
+    if request.method == 'POST' and scope_valid and form.is_valid():
         try:
             with transaction.atomic():
                 org = Organization.objects.select_for_update().get(pk=member.organization_id)
@@ -181,7 +185,7 @@ def child_create(request):
             return redirect('child_detail', pk=child.pk)
         except ValidationError as error:
             form.add_error(None, error)
-    return render(request, 'form.html', {'form': form, 'title': _('Add a child profile'), 'submit': _('Save profile')})
+    return render(request, 'form.html', {'form': form, 'title': _('Add a child profile'), 'submit': _('Save profile'), 'practice_scope': scope}, status=200 if scope_valid else 409)
 
 @login_required
 def child_detail(request, pk):
@@ -619,15 +623,18 @@ def export_child(request, pk):
 @login_required
 def members(request):
     member = manager(request)
-    form = InvitationForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
+    form = InvitationForm(request.POST if request.method == 'POST' else None)
+    scope, scope_valid = practice_form_scope(request, member.organization, 'invite_practitioner')
+    if not scope_valid:
+        form.add_error(None, PRACTICE_SCOPE_ERROR)
+    if request.method == 'POST' and scope_valid and form.is_valid():
         try:
             invitation = issue_and_deliver_invitation(request.user, member.organization, None, form.cleaned_data['email'], kind='clinician')
             invitation_message(request, invitation)
             return redirect('members')
         except ValidationError as error:
             form.add_error(None, error)
-    return render(request, 'members.html', {'form': form, 'invitation_delivery': invitation_delivery_status(), 'members': Membership.objects.filter(organization=member.organization).select_related('user'), 'invitations': Invitation.objects.filter(organization=member.organization, kind='clinician', revoked=False, used_at__isnull=True)})
+    return render(request, 'members.html', {'form': form, 'practice_scope': scope, 'invitation_delivery': invitation_delivery_status(), 'members': Membership.objects.filter(organization=member.organization).select_related('user'), 'invitations': Invitation.objects.filter(organization=member.organization, kind='clinician', revoked=False, used_at__isnull=True)}, status=200 if scope_valid else 409)
 
 def invitation_message(request, invitation):
     if invitation.delivery == 'failed':

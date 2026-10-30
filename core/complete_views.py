@@ -12,6 +12,7 @@ from django.views.decorators.http import require_POST
 from care.models import Child, Program, PracticeSession, ProgramItem, Observation, FamilyLink
 from catalog.models import Activity
 from .access import clinician_child, professional_children, manager, visible_children, membership
+from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .forms import ChildForm, ProgramForm, ReassignForm, PrivacyDecisionForm
 from .models import Organization, PrivacyRequest, Invitation, Entitlement, Invoice, NoticeAcknowledgement
 from .services import audit, check_entitlement, create_program, lock_clinical_child
@@ -192,13 +193,14 @@ def revoke_member_invitation(request, pk):
 def notice(request):
     member = membership(request)
     org = member.organization if member else visible_children(request.user).first().organization if visible_children(request.user).exists() else None
-    if request.method == 'POST' and org:
+    scope, scope_valid = practice_form_scope(request, org, 'notice_acknowledgement')
+    if request.method == 'POST' and scope_valid and org:
         from django.utils.translation import get_language
         obj, _created = NoticeAcknowledgement.objects.get_or_create(user=request.user, organization=org, version='2026-10-09', defaults={'language': get_language()})
         audit(request.user, 'notice.acknowledged', obj, org)
         messages.success(request, _('Information acknowledgement recorded.'))
         return redirect('dashboard')
-    return render(request, 'privacy/notice.html', {'organization': org})
+    return render(request, 'privacy/notice.html', {'organization': org, 'practice_scope': scope, 'scope_error': PRACTICE_SCOPE_ERROR if not scope_valid else ''}, status=200 if scope_valid else 409)
 
 class OrganizationForm(forms.ModelForm):
     retention_days = forms.IntegerField(required=False, min_value=0, label=_('Retention period in days'), help_text=_('Choose this policy with your practice adviser before processing erasure.'))
@@ -210,9 +212,12 @@ class OrganizationForm(forms.ModelForm):
 @login_required
 def organization_settings(request):
     member = manager(request)
-    form = OrganizationForm(request.POST or None, instance=member.organization)
-    if request.method == 'POST' and form.is_valid():
+    form = OrganizationForm(request.POST if request.method == 'POST' else None, instance=member.organization)
+    scope, scope_valid = practice_form_scope(request, member.organization, 'organization_settings')
+    if not scope_valid:
+        form.add_error(None, PRACTICE_SCOPE_ERROR)
+    if request.method == 'POST' and scope_valid and form.is_valid():
         org = form.save()
         audit(request.user, 'organization.settings_updated', org, org)
         return redirect('members')
-    return render(request, 'form.html', {'title': _('Practice settings'), 'form': form, 'submit': _('Save')})
+    return render(request, 'form.html', {'title': _('Practice settings'), 'form': form, 'submit': _('Save'), 'practice_scope': scope}, status=200 if scope_valid else 409)

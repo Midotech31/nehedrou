@@ -98,27 +98,33 @@ def database_probe():
             'timeout_scope': 'PostgreSQL server statement timeout only; elapsed time includes connection and transport. Not an end-to-end network deadline.'}
 
 
-def storage_probe(key):
-    """Read one operator-selected existing object; never write a public or private object."""
+def storage_probe(key, *, expected_sha256=None):
+    """Bounded read of one selected existing object; no key, body or hash returned."""
+    from core.storage_io import read_bounded, StorageLimitExceeded
+    import hashlib
+    result = {'requested': True, 'ok': False, 'expected_content_verified': False}
     if not isinstance(key, str) or not key or len(key) > 300 or ':' in key or '\x00' in key or key.startswith(('/', '\\')) or '\\' in key or any(part in ['', '.', '..'] for part in key.split('/')):
-        return {'requested': True, 'ok': False, 'reason': 'invalid_relative_storage_key'}
+        return {**result, 'reason': 'invalid_relative_storage_key'}
+    if expected_sha256 is not None and (not isinstance(expected_sha256, str) or re.fullmatch(r'[0-9a-f]{64}', expected_sha256) is None):
+        return {**result, 'reason': 'invalid_expected_content'}
     from django.core.files.storage import default_storage
     started = time.perf_counter()
     try:
-        with default_storage.open(key, 'rb') as source:
-            data = source.read(MAX_PROBE_BYTES + 1)
-        valid = len(data) <= MAX_PROBE_BYTES
-        result = {'requested': True, 'ok': valid, 'bytes_read': min(len(data), MAX_PROBE_BYTES),
-                  'reason': 'ok' if valid else 'sample_exceeds_1_mib'}
+        data = read_bounded(default_storage, key, MAX_PROBE_BYTES)
+        verified = expected_sha256 is not None and hashlib.sha256(data).hexdigest() == expected_sha256
+        valid = expected_sha256 is None or verified
+        result.update(ok=valid, bytes_read=len(data), reason='ok' if valid else 'content_mismatch',
+                      expected_content_verified=verified)
+    except StorageLimitExceeded as error:
+        result.update(bytes_read=min(error.bytes_read, MAX_PROBE_BYTES), reason='sample_exceeds_1_mib')
     except STORAGE_ERRORS:
-        result = {'requested': True, 'ok': False, 'reason': 'storage_unavailable'}
+        result.update(reason='storage_unavailable')
     result.update(elapsed_ms=round((time.perf_counter() - started) * 1000, 3),
                   backend=settings.MEDIA_STORAGE_BACKEND, operation='one bounded object read')
-    # No object key, URL, bytes, account name or exception text appears in output.
     return result
 
 
-def operations_report(*, probe_database=False, storage_object=None):
+def operations_report(*, probe_database=False, storage_object=None, storage_expected_sha256=None):
     origin = urlsplit(settings.PUBLIC_ORIGIN)
     configuration = {
         'debug_disabled': not settings.DEBUG,
@@ -133,7 +139,7 @@ def operations_report(*, probe_database=False, storage_object=None):
     return {'schema': 'nehedrou-operations-readiness-v1', 'execution': execution_context(), 'configuration': configuration,
         'smtp': smtp, 'email': email, 'configuration_ready': all(configuration.values()) and email['configured'],
         'database': database_probe() if probe_database else {'requested': False},
-        'storage': storage_probe(storage_object) if storage_object else {'requested': False},
+        'storage': storage_probe(storage_object, expected_sha256=storage_expected_sha256) if storage_object else {'requested': False},
         'scope': 'Technical preparation only. Configuration and timing samples do not establish clinical release, durable operation, an S3 latency benchmark, or verified email delivery.',
         'operator_acceptance_required': ['trusted_proxy_chain', 'private_storage_access_and_restart', 'offhost_backup_destination_and_schedule',
             'key_custody_and_retention', 'recent_restore_and_dossier_access', 'alert_recipients_and_escalation', 'live_email_delivery', 'validated_recovery_objectives']}

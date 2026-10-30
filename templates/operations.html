@@ -9,5 +9,11 @@
 {% if report.database.requested %}<p role="status">{% if report.database.ok %}{% translate "Database query succeeded" %}{% else %}{% translate "Database query failed" %}{% endif %} · <bdi dir="ltr">{{ report.database.elapsed_ms }} ms</bdi></p>{% endif %}
 <form method="post">{% csrf_token %}<button type="submit" name="action" value="database">{% translate "Test the database connection" %}</button></form>
 </section>
+<section class="card"><h2>{% translate "Private storage read sample" %}</h2>
+<p>{% translate "This explicit test reads one fixed technical file with no personal or clinical data. It never creates a file and does not accept a storage key. Timing covers this server's storage read, not a durability guarantee or a performance benchmark." %}</p>
+{% if report.storage.requested %}<p role="status">{% if report.storage.ok %}{% translate "Storage read succeeded" %}{% else %}{% translate "Storage read failed" %}{% endif %} · <bdi dir="ltr">{{ report.storage.elapsed_ms }} ms</bdi></p>
+<p>{% translate "Bytes read" %}: <bdi dir="ltr">{{ report.storage.bytes_read|default:0 }}</bdi> · {% translate "Expected technical content verified" %}: {% if report.storage.expected_content_verified %}{% translate "Yes" %}{% else %}{% translate "No" %}{% endif %}</p>{% endif %}
+<form method="post">{% csrf_token %}<button type="submit" name="action" value="storage">{% translate "Test the private storage read" %}</button></form>
+</section>
 <section class="card"><h2>{% translate "Operator acceptance still required" %}</h2><p>{% translate "Configure the hosting HTTP health check at /healthz/. Verify trusted proxies, private storage after restart, scheduled encrypted off-host backups, key custody, recent restoration, alert recipients and email receipt. None of these is marked complete by this report." %}</p></section>
 {% endblock %}

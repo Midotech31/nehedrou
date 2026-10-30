@@ -9,6 +9,7 @@ from django.utils import timezone, translation
 
 from care.models import Child, FamilyLink, Observation, Program, ProgramItem
 from catalog.models import Activity, EditorialGrant, Variety
+from core.testing import practice_form_data
 from core.access import professional_children
 from core.models import Entitlement, Invitation, Membership, Organization, User
 
@@ -375,7 +376,7 @@ class HybridWorkspaceTests(TestCase):
         form = self.client.get(reverse('child_create'))
         self.assertEqual(form.status_code, 200)
         self.assertEqual(form.context['current_membership'].pk, old.pk)
-        payload = {'code':'Fresh profile from retained form', 'age_years':5, 'varieties':[str(self.variety.pk)]}
+        payload = {'practice_scope': form.context['practice_scope'], 'code':'Fresh profile from retained form', 'age_years':5, 'varieties':[str(self.variety.pk)]}
         revoke_membership(self.professional, self.org_a, old.pk)
         before = set(Child.objects.values_list('pk', flat=True))
         recovered = self.client.get(reverse('dashboard'))
@@ -396,6 +397,7 @@ class HybridWorkspaceTests(TestCase):
         form_b = self.client.get(reverse('child_create'))
         self.assertFalse(form_b.context['practice_selection_required'])
         self.assertEqual(form_b.context['current_membership'].pk, active.pk)
+        payload['practice_scope'] = form_b.context['practice_scope']
         self.assertRedirects(self.client.post(reverse('child_create'), payload),
             reverse('child_detail', args=[Child.objects.get(code=payload['code']).pk]), fetch_redirect_response=False)
         created = Child.objects.get(code=payload['code'])
@@ -439,7 +441,7 @@ class HybridWorkspaceTests(TestCase):
         self.assertEqual(self.client.session['organization'], str(self.org_b.pk))
         self.assertEqual(self.client.get(reverse('members')).context['current_membership'].pk, active.pk)
         with patch('django.core.mail.send_mail', return_value=1) as send:
-            self.assertRedirects(self.client.post(reverse('members'), {'email':'new-b@example.test'}),
+            self.assertRedirects(self.client.post(reverse('members'), practice_form_data(self.client, reverse('members'), {'email':'new-b@example.test'})),
                 reverse('members'), fetch_redirect_response=False)
             self.assertRedirects(self.client.post(reverse('resend_invitation', args=[invite_b.pk])),
                 reverse('members'), fetch_redirect_response=False)
@@ -454,18 +456,18 @@ class HybridWorkspaceTests(TestCase):
         self.assertEqual((invite_a.token_hash,invite_a.revoked,invite_a.used_at), original[invite_a.pk])
         self.assertFalse(Membership.objects.get(pk=old.pk).active)
 
-    def test_first_session_without_cabinet_selection_keeps_single_role_creation_compatible(self):
+    def test_first_session_requires_actual_form_context_for_single_role_creation(self):
         self.client.force_login(self.professional)
         self.assertNotIn('organization', self.client.session)
         direct = Client()
         direct.force_login(self.professional)
         direct_payload = {'code':'Direct first-session profile', 'age_years':5, 'varieties':[str(self.variety.pk)]}
-        self.assertEqual(direct.post(reverse('child_create'), direct_payload).status_code, 302)
-        self.assertEqual(Child.objects.get(code=direct_payload['code']).organization_id, self.org_a.pk)
+        self.assertEqual(direct.post(reverse('child_create'), direct_payload).status_code, 409)
+        self.assertFalse(Child.objects.filter(code=direct_payload['code']).exists())
         self.assertEqual(self.client.get(reverse('child_create')).status_code, 200)
         self.assertEqual(self.client.session['organization'], str(self.org_a.pk))
         payload = {'code':'First-session new profile', 'age_years':5, 'varieties':[str(self.variety.pk)]}
-        self.assertRedirects(self.client.post(reverse('child_create'), payload),
+        self.assertRedirects(self.client.post(reverse('child_create'), practice_form_data(self.client, reverse('child_create'), payload)),
             reverse('child_detail', args=[Child.objects.get(code=payload['code']).pk]), fetch_redirect_response=False)
         self.assertEqual(Child.objects.get(code=payload['code']).organization_id, self.org_a.pk)
     def test_first_displayed_cabinet_is_bound_before_its_membership_can_be_revoked(self):
@@ -479,7 +481,7 @@ class HybridWorkspaceTests(TestCase):
         self.assertEqual(form_a.context['current_membership'].pk, old.pk)
         self.assertEqual(self.client.session['organization'], str(self.org_a.pk))
         revoke_membership(self.professional, self.org_a, old.pk)
-        payload = {'code':'Initially displayed then revoked form', 'age_years':5, 'varieties':[str(self.variety.pk)]}
+        payload = {'practice_scope': form_a.context['practice_scope'], 'code':'Initially displayed then revoked form', 'age_years':5, 'varieties':[str(self.variety.pk)]}
         before = set(Child.objects.values_list('pk', flat=True))
         self.assertEqual(self.client.post(reverse('child_create'), payload).status_code, 404)
         recovered = self.client.get(reverse('child_create'))
@@ -492,5 +494,5 @@ class HybridWorkspaceTests(TestCase):
         self.client.post(reverse('switch_practice'), {'membership':str(active.pk)})
         self.assertEqual(self.client.session['organization'], str(self.org_b.pk))
         self.assertFalse(self.client.get(reverse('child_create')).context['practice_selection_required'])
-        self.assertEqual(self.client.post(reverse('child_create'), payload).status_code, 302)
+        self.assertEqual(self.client.post(reverse('child_create'), practice_form_data(self.client, reverse('child_create'), payload)).status_code, 302)
         self.assertEqual(Child.objects.get(code=payload['code']).organization_id, self.org_b.pk)

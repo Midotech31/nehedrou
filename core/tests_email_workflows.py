@@ -16,6 +16,7 @@ from django.utils.translation import gettext as _
 
 from care.models import Child, FamilyLink
 from .models import AuditEvent, Entitlement, Invitation, Membership, Organization, User
+from .testing import practice_form_data
 from .services import issue_and_deliver_invitation
 
 
@@ -127,7 +128,7 @@ class HttpEmailWorkflowTests(TestCase):
                 recipient = User.objects.create_user(username='http-clinician-'+language, email='http-clinician-'+language+'@example.test')
                 self.client.force_login(self.owner)
                 with self.provider() as (_transport, connection):
-                    response = self.client.post(reverse('members'), {'email':recipient.email})
+                    response = self.client.post(reverse('members'), practice_form_data(self.client, reverse('members'), {'email':recipient.email}))
                     self.assertEqual(response.status_code, 302)
                     path = urlsplit(self.link(connection)).path
                 invitation = Invitation.objects.get(email=recipient.email)

@@ -52,3 +52,27 @@ delivery after a same-request byte replacement. These are I/O/query budgets on
 small local fixtures, **not a measurement of S3 or production latency**. Remote
 storage, network, SQL and cold-start durations still need separate operational
 measurements on the deployed infrastructure with appropriate authorisation.
+
+
+## Bounded S3 reads — 31 October 2026
+
+The installed S3File adapter can spool the complete remote object before a bounded
+read. core.storage_io.read_bounded bypasses that adapter for S3Storage and reads
+an explicit HTTP Range from the SDK StreamingBody. Content-Length, Content-Range
+on 206 and the observed EOF must describe the complete object within the cap.
+A 200 response ignoring Range is accepted only for a complete declared and read
+object within that cap. Truncation, trailing bytes, unknown/compressed
+Content-Encoding and inconsistent metadata fail closed. An empty-object 416
+requires a zero-byte HEAD and an ETag-conditional GET. Every response body closes.
+
+Digest calculation and private media/evidence delivery use these exact returned
+bytes, with a 15 MiB cap; the operator storage probe has a 1 MiB cap. No implicit
+decompression, rewriting, additional retry or end-to-end time guarantee is added.
+Local filesystem reads keep their bounded read and close behaviour.
+
+Two existing editorial objects (one image and one audio) were read from the actual
+private S3 backend and matched their stored digests. A separate 67-byte technical
+sentinel also matched and denied anonymous access. This was a workstation sample,
+not a Render benchmark, persistence proof, backup/restore test or media approval.
+The sentinel is not a clinical asset or qualification evidence. Existing rights,
+provenance and independent review requirements remain in force.

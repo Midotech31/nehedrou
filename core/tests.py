@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.utils import timezone, translation
 from catalog.models import Activity, Review
 from care.models import Child, Program, ProgramItem, FamilyLink, PracticeSession, Observation
-from .testing import pcm_fixture
+from .testing import pcm_fixture, practice_form_data
 from .models import User, Organization, Membership, Entitlement, Invitation, AuditEvent, PrivacyRequest, RateWindow
 from .services import accept_invitation, record_practice
 
@@ -200,7 +200,7 @@ class WorkflowTests(TestCase):
         entitlement.child_quota = 3
         entitlement.save()
         data = {'code': 'New fictitious profile', 'age_years': 5, 'varieties': [self.program.variety_id]}
-        response = self.client.post(reverse('child_create'), data)
+        response = self.client.post(reverse('child_create'), practice_form_data(self.client, reverse('child_create'), data))
         self.assertEqual(response.status_code, 200)
         self.assertFalse(Child.objects.filter(code=data['code']).exists())
         entitlement.expires_at = timezone.now() - timedelta(days=1)
@@ -297,7 +297,7 @@ class WorkflowTests(TestCase):
         activity = current_catalog(Activity.objects.filter(variety=self.program.variety, is_demo=True, state='published', version=2)).order_by('series').first()
         self.assertIsNotNone(activity)
         self.assertTrue(activity.practice_guide)
-        self.assertEqual(self.client.post(reverse('child_create'), {'code': 'Workflow fictif', 'age_years': 5, 'varieties': [self.program.variety_id]}).status_code, 302)
+        self.assertEqual(self.client.post(reverse('child_create'), practice_form_data(self.client, reverse('child_create'), {'code': 'Workflow fictif', 'age_years': 5, 'varieties': [self.program.variety_id]})).status_code, 302)
         child = Child.objects.get(code='Workflow fictif')
         self.assertEqual(self.client.post(reverse('program_create', args=[child.pk]), {'title': 'Workflow', 'variety': self.program.variety_id, 'activities': [activity.pk], 'guidance': 'Fictional guidance', 'schedule': 'Clinician chosen'}).status_code, 302)
         program = child.programs.get()
