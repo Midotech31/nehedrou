@@ -1,0 +1,146 @@
+{
+  "checked_at": "2026-10-30T17:55:11.310101+00:00",
+  "scope": "Anonymous read-only HTTP checks; no private dossier export, mutations, or clinical claims. Timings are individual network samples, not a benchmark.",
+  "pages": [
+    {
+      "path": "/fr/",
+      "status": 200,
+      "elapsed_ms": 212.844,
+      "checks": {
+        "http_200": true,
+        "page_language": true,
+        "designer_credit": true
+      }
+    },
+    {
+      "path": "/fr/try/",
+      "status": 200,
+      "elapsed_ms": 268.36,
+      "checks": {
+        "http_200": true,
+        "page_language": true,
+        "designer_credit": true,
+        "pause_label": true,
+        "compact_css": true,
+        "guided_controller": true,
+        "pause_control": true
+      }
+    },
+    {
+      "path": "/fr/help/",
+      "status": 200,
+      "elapsed_ms": 148.828,
+      "checks": {
+        "http_200": true,
+        "page_language": true,
+        "designer_credit": true
+      }
+    },
+    {
+      "path": "/fr/login/",
+      "status": 200,
+      "elapsed_ms": 140.244,
+      "checks": {
+        "http_200": true,
+        "page_language": true,
+        "designer_credit": true
+      }
+    },
+    {
+      "path": "/en/",
+      "status": 200,
+      "elapsed_ms": 153.335,
+      "checks": {
+        "http_200": true,
+        "page_language": true,
+        "designer_credit": true
+      }
+    },
+    {
+      "path": "/en/try/",
+      "status": 200,
+      "elapsed_ms": 147.526,
+      "checks": {
+        "http_200": true,
+        "page_language": true,
+        "designer_credit": true,
+        "pause_label": true,
+        "compact_css": true,
+        "guided_controller": true,
+        "pause_control": true
+      }
+    },
+    {
+      "path": "/en/help/",
+      "status": 200,
+      "elapsed_ms": 135.36,
+      "checks": {
+        "http_200": true,
+        "page_language": true,
+        "designer_credit": true
+      }
+    },
+    {
+      "path": "/en/login/",
+      "status": 200,
+      "elapsed_ms": 148.587,
+      "checks": {
+        "http_200": true,
+        "page_language": true,
+        "designer_credit": true
+      }
+    },
+    {
+      "path": "/ar/",
+      "status": 200,
+      "elapsed_ms": 218.811,
+      "checks": {
+        "http_200": true,
+        "page_language": true,
+        "designer_credit": true
+      }
+    },
+    {
+      "path": "/ar/try/",
+      "status": 200,
+      "elapsed_ms": 152.549,
+      "checks": {
+        "http_200": true,
+        "page_language": true,
+        "designer_credit": true,
+        "pause_label": true,
+        "compact_css": true,
+        "guided_controller": true,
+        "pause_control": true
+      }
+    },
+    {
+      "path": "/ar/help/",
+      "status": 200,
+      "elapsed_ms": 131.629,
+      "checks": {
+        "http_200": true,
+        "page_language": true,
+        "designer_credit": true
+      }
+    },
+    {
+      "path": "/ar/login/",
+      "status": 200,
+      "elapsed_ms": 152.464,
+      "checks": {
+        "http_200": true,
+        "page_language": true,
+        "designer_credit": true
+      }
+    }
+  ],
+  "health": {
+    "status": 200,
+    "body": {
+      "status": "ok"
+    },
+    "server_timing": "app;dur=120.212, db;dur=120.072",
+    "elapsed_ms": 261.161
+  }
+}

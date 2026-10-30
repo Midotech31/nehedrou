@@ -1,3 +1,5 @@
+import hashlib
+from io import BytesIO
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.http import FileResponse, Http404
@@ -7,6 +9,7 @@ from django.views.decorators.http import require_POST
 from catalog.models import Variety, EditorialGrant, MediaAsset
 from catalog.services import allowed
 from core.services import audit
+from core.storage_health import STORAGE_ERRORS
 from .models import EvidenceDocument, ReviewerCompetence, AvailabilityDecision, LexicalPack, LexicalCandidate, FamiliarityStudy, PackReview
 from .forms import EvidenceForm, CompetenceForm, AvailabilityForm, PackForm, CandidateForm, FamiliarityForm, PackReviewForm
 from .services import change_pack_state, clone_pack, pack_readiness_reasons
@@ -50,9 +53,21 @@ def evidence_upload(request):
 @login_required
 def evidence_file(request,pk):
     document = get_object_or_404(private_documents(request.user),pk=pk)
-    if not document.intact:
+    if document.revoked or not document.file or not document.sha256:
         raise Http404
-    response = FileResponse(document.file.open('rb'),as_attachment=True,filename='evidence-'+str(document.pk)+'.'+document.file.name.rsplit('.',1)[-1],content_type='application/octet-stream')
+    # Verify the exact bounded bytes that will be served; a request-cached digest
+    # or a second storage open cannot stand in for this delivery check.
+    limit = 15 * 1024 * 1024
+    try:
+        with document.file.open('rb') as stream:
+            data = stream.read(limit + 1)
+    except STORAGE_ERRORS:
+        raise Http404 from None
+    if len(data) > limit or hashlib.sha256(data).hexdigest() != document.sha256:
+        raise Http404
+    response = FileResponse(BytesIO(data),as_attachment=True,filename='evidence-'+str(document.pk)+'.'+document.file.name.rsplit('.',1)[-1],content_type='application/octet-stream')
+    if request.method == 'HEAD':
+        response.streaming_content = ()
     response['Cache-Control'] = 'private, no-store'
     response['X-Content-Type-Options'] = 'nosniff'
     return response

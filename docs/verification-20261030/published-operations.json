@@ -1,0 +1,64 @@
+{
+  "schema": "nehedrou-operations-readiness-v1",
+  "configuration": {
+    "debug_disabled": true,
+    "postgresql_configured": true,
+    "ephemeral_database_disabled": true,
+    "durability_declared": true,
+    "private_remote_media_configured": true,
+    "https_canonical_origin": true
+  },
+  "smtp": {
+    "configured": false,
+    "checks": {
+      "smtp_backend": false,
+      "host_present": false,
+      "port_valid": true,
+      "one_transport_security_mode": true,
+      "bounded_timeout": true,
+      "credentials_present": false,
+      "sender_address": true,
+      "sender_not_reserved": false
+    },
+    "network_attempted": false,
+    "delivery_verified": false,
+    "missing": [
+      "smtp_backend",
+      "host_present",
+      "credentials_present",
+      "sender_not_reserved"
+    ],
+    "scope": "Configuration only. TLS/authentication, DNS sender policy, actual delivery and recovery/invitation receipt require an authorized live acceptance test."
+  },
+  "configuration_ready": false,
+  "database": {
+    "requested": true,
+    "ok": true,
+    "elapsed_ms": 54.061,
+    "operation": "SELECT 1",
+    "engine": "postgresql"
+  },
+  "storage": {
+    "requested": true,
+    "ok": true,
+    "bytes_read": 9564,
+    "reason": "ok",
+    "elapsed_ms": 1111.07,
+    "backend": "s3",
+    "operation": "one bounded object read"
+  },
+  "scope": "Technical preparation only. Configuration and timing samples do not establish clinical release, durable operation, an S3 latency benchmark, or verified email delivery.",
+  "operator_acceptance_required": [
+    "trusted_proxy_chain",
+    "private_storage_access_and_restart",
+    "offhost_backup_destination_and_schedule",
+    "key_custody_and_retention",
+    "recent_restore_and_dossier_access",
+    "alert_recipients_and_escalation",
+    "live_email_delivery",
+    "validated_recovery_objectives"
+  ],
+  "execution_location": "Operator workstation; not Render service latency.",
+  "configuration_scope": "Operator process: existing private Neon/S3 settings plus default local SMTP settings. Actual Render SMTP environment was not read or verified.",
+  "smtp_actual_render_configuration_verified": false
+}

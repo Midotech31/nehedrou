@@ -1,0 +1,295 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-30T17:56:09.040979+00:00",
+  "database_engine": "postgresql",
+  "scope": "Editorial aggregates only; no patient, care, goal, administration, user or contract text in output",
+  "availability_verification": "Exact published-version files, current rights, current reviews and authorisation checked",
+  "source_definition_files": [
+    {
+      "file": "docs/catalog-candidates.json",
+      "definitions": 37,
+      "by_variety": {
+        "fr-fr-pilot": 19,
+        "en-us-general-pilot": 17,
+        "ar-dz-pilot": 1
+      },
+      "meaning": "Editorial candidates in source files; no approval or database publication implied"
+    },
+    {
+      "file": "docs/arabic-library-v1.json",
+      "definitions": 74,
+      "by_variety": {
+        "ar-msa-pilot": 42,
+        "ar-dz-pilot": 32
+      },
+      "meaning": "Editorial candidates in source files; no approval or database publication implied"
+    }
+  ],
+  "varieties": [
+    {
+      "variety": "ar-dz-pilot",
+      "language": "ar",
+      "source_file_candidate_definitions": 33,
+      "database": {
+        "candidate_series": 33,
+        "candidate_versions": 33,
+        "candidate_states_all_versions": {
+          "draft": 33
+        },
+        "latest_candidate_versions": 33,
+        "latest_candidate_states": {
+          "draft": 33
+        },
+        "demo_series": 38,
+        "demo_versions": 38,
+        "demo_states_all_versions": {
+          "published": 34,
+          "review": 1,
+          "draft": 3
+        },
+        "current_published_demo_versions": 33,
+        "real_positive_review_decisions_all_versions": 0,
+        "demo_positive_review_decisions_all_versions": 0
+      },
+      "latest_candidate_audio_slots": {
+        "total": 66,
+        "empty": 66,
+        "with_reference": 0
+      },
+      "referenced_uploaded_media_all_versions": {
+        "unique": 0,
+        "missing_asset_ids": 0,
+        "kinds": {},
+        "rights_status": {},
+        "structured_validity": {},
+        "revoked": 0
+      },
+      "evidence": {
+        "total": 0,
+        "categories": {},
+        "structured_validity": {},
+        "revoked": 0
+      },
+      "availability_decisions_all_versions": {},
+      "generated_packs_pending_review": 0,
+      "regional_packs": {},
+      "global_probe_definitions": {
+        "real_versions": 0,
+        "demo_versions": 0,
+        "states": {}
+      },
+      "current_real_availability": {
+        "practice": 0,
+        "production_followup": 0
+      }
+    },
+    {
+      "variety": "ar-msa-pilot",
+      "language": "ar",
+      "source_file_candidate_definitions": 42,
+      "database": {
+        "candidate_series": 42,
+        "candidate_versions": 52,
+        "candidate_states_all_versions": {
+          "draft": 52
+        },
+        "latest_candidate_versions": 42,
+        "latest_candidate_states": {
+          "draft": 42
+        },
+        "demo_series": 43,
+        "demo_versions": 43,
+        "demo_states_all_versions": {
+          "published": 42,
+          "draft": 1
+        },
+        "current_published_demo_versions": 42,
+        "real_positive_review_decisions_all_versions": 0,
+        "demo_positive_review_decisions_all_versions": 0
+      },
+      "latest_candidate_audio_slots": {
+        "total": 84,
+        "empty": 84,
+        "with_reference": 0
+      },
+      "referenced_uploaded_media_all_versions": {
+        "unique": 0,
+        "missing_asset_ids": 0,
+        "kinds": {},
+        "rights_status": {},
+        "structured_validity": {},
+        "revoked": 0
+      },
+      "evidence": {
+        "total": 0,
+        "categories": {},
+        "structured_validity": {},
+        "revoked": 0
+      },
+      "availability_decisions_all_versions": {},
+      "generated_packs_pending_review": 0,
+      "regional_packs": {},
+      "global_probe_definitions": {
+        "real_versions": 0,
+        "demo_versions": 0,
+        "states": {}
+      },
+      "current_real_availability": {
+        "practice": 0,
+        "production_followup": 0
+      }
+    },
+    {
+      "variety": "en-us-general-pilot",
+      "language": "en",
+      "source_file_candidate_definitions": 17,
+      "database": {
+        "candidate_series": 17,
+        "candidate_versions": 17,
+        "candidate_states_all_versions": {
+          "draft": 17
+        },
+        "latest_candidate_versions": 17,
+        "latest_candidate_states": {
+          "draft": 17
+        },
+        "demo_series": 22,
+        "demo_versions": 22,
+        "demo_states_all_versions": {
+          "published": 18,
+          "draft": 3,
+          "review": 1
+        },
+        "current_published_demo_versions": 17,
+        "real_positive_review_decisions_all_versions": 0,
+        "demo_positive_review_decisions_all_versions": 0
+      },
+      "latest_candidate_audio_slots": {
+        "total": 34,
+        "empty": 34,
+        "with_reference": 0
+      },
+      "referenced_uploaded_media_all_versions": {
+        "unique": 1,
+        "missing_asset_ids": 0,
+        "kinds": {
+          "audio": 1
+        },
+        "rights_status": {
+          "unknown": 1
+        },
+        "structured_validity": {
+          "unknown": 1
+        },
+        "revoked": 0
+      },
+      "evidence": {
+        "total": 0,
+        "categories": {},
+        "structured_validity": {},
+        "revoked": 0
+      },
+      "availability_decisions_all_versions": {},
+      "generated_packs_pending_review": 0,
+      "regional_packs": {},
+      "global_probe_definitions": {
+        "real_versions": 1,
+        "demo_versions": 1,
+        "states": {
+          "draft": 2
+        }
+      },
+      "current_real_availability": {
+        "practice": 0,
+        "production_followup": 0
+      }
+    },
+    {
+      "variety": "fr-fr-pilot",
+      "language": "fr",
+      "source_file_candidate_definitions": 19,
+      "database": {
+        "candidate_series": 19,
+        "candidate_versions": 22,
+        "candidate_states_all_versions": {
+          "draft": 22
+        },
+        "latest_candidate_versions": 19,
+        "latest_candidate_states": {
+          "draft": 19
+        },
+        "demo_series": 22,
+        "demo_versions": 22,
+        "demo_states_all_versions": {
+          "published": 20,
+          "review": 1,
+          "draft": 1
+        },
+        "current_published_demo_versions": 19,
+        "real_positive_review_decisions_all_versions": 0,
+        "demo_positive_review_decisions_all_versions": 0
+      },
+      "latest_candidate_audio_slots": {
+        "total": 38,
+        "empty": 38,
+        "with_reference": 0
+      },
+      "referenced_uploaded_media_all_versions": {
+        "unique": 18,
+        "missing_asset_ids": 0,
+        "kinds": {
+          "image": 18
+        },
+        "rights_status": {
+          "unknown": 18
+        },
+        "structured_validity": {
+          "unknown": 18
+        },
+        "revoked": 0
+      },
+      "evidence": {
+        "total": 0,
+        "categories": {},
+        "structured_validity": {},
+        "revoked": 0
+      },
+      "availability_decisions_all_versions": {},
+      "generated_packs_pending_review": 1,
+      "regional_packs": {},
+      "global_probe_definitions": {
+        "real_versions": 1,
+        "demo_versions": 1,
+        "states": {
+          "draft": 2
+        }
+      },
+      "current_real_availability": {
+        "practice": 0,
+        "production_followup": 0
+      }
+    }
+  ],
+  "uploaded_media_global": {
+    "total": 23,
+    "kinds": {
+      "audio": 5,
+      "image": 18
+    },
+    "rights_status": {
+      "unknown": 23
+    },
+    "structured_validity": {
+      "unknown": 23
+    },
+    "revoked": 0,
+    "not_referenced_in_global_editorial_scope": 4
+  },
+  "limitations": [
+    "A stored file or positive historical decision is not a current clinical approval.",
+    "Static editorial paths are not counted as uploaded MediaAssets.",
+    "Media outside global editorial references may belong to excluded cabinet-specific protocols; no deletion is implied.",
+    "Regional familiarity, competent human reviews, contracts and a use-opening decision remain separate requirements.",
+    "Read-only verification is a snapshot, not a clinical validation or production latency benchmark."
+  ]
+}

@@ -24,7 +24,7 @@ Sept comptes distincts permettent de tester les droits : `responsable`, `orthoph
 
 ## Audit et parcours complétés
 
-La [checklist A01–A17 du 30 octobre 2026](docs/CORRECTIONS_AUDIT_20261030.md) distingue corrections testées, préparation technique et pièces humaines encore absentes : continuité des dossiers, contextes des sondes, droits/audio, authentification, export v3, langues et pratique guidée. Le [petit pack de six images](docs/GENERATED_IMAGE_REVIEW_PACK_20261030.md) reste à examiner ; [l’offre pilote](docs/OFFRE_PILOTE_A_VALIDER.md) attend les décisions du porteur.
+Le [compte rendu de publication du 30 octobre](docs/LIVRAISON_CORRECTIONS_20261030.md) consigne tests et limites. La [checklist A01–A17 du 30 octobre 2026](docs/CORRECTIONS_AUDIT_20261030.md) distingue corrections testées, préparation technique et pièces humaines encore absentes : continuité des dossiers, contextes des sondes, droits/audio, authentification, export v3, langues et pratique guidée. Le [petit pack de six images](docs/GENERATED_IMAGE_REVIEW_PACK_20261030.md) reste à examiner ; [l’offre pilote](docs/OFFRE_PILOTE_A_VALIDER.md) attend les décisions du porteur.
 
 Voir [l’audit comparatif du 11 octobre 2026](docs/AUDIT_COMPARATIF_20261011.md). La préparation de programme permet désormais de filtrer par objectif, thème et mode de réponse, de rechercher les mots et d’ouvrir les consignes sans perdre la sélection. Le professionnel peut définir un calendrier facultatif ; la famille voit les prochaines dates et peut télécharger un agenda générique sans nom d’enfant. Le bilan par activité distingue participation, demandes d’aide et réponses aux tâches fermées.
 

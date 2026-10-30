@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-10-30T17:56:09.040979+00:00",
+  "source_candidates": 111,
+  "latest_real_candidate_series": 111,
+  "real_candidate_versions": 124,
+  "demo_versions": 125,
+  "uploaded_media": {
+    "total": 23,
+    "kinds": {
+      "audio": 5,
+      "image": 18
+    },
+    "rights_status": {
+      "unknown": 23
+    },
+    "structured_validity": {
+      "unknown": 23
+    },
+    "revoked": 0,
+    "not_referenced_in_global_editorial_scope": 4
+  },
+  "real_available_practice": 0,
+  "real_available_followup": 0,
+  "source_audio_slots_empty": 222
+}
