@@ -27,7 +27,8 @@ class MFAMiddleware:
             privileged = (request.user.is_staff or request.user.is_superuser
                           or Membership.objects.filter(user=request.user, active=True).exists()
                           or EditorialGrant.objects.filter(user=request.user).exists()
-                          or request.user.has_perm('core.manage_entitlements'))
+                          or request.user.has_perm('core.manage_entitlements')
+                          or request.user.has_perm('core.manage_processing_register'))
             if (has_device or (settings.MFA_REQUIRED and privileged)) and not request.user.is_verified():
                 allowed = ['/security/', '/logout/', '/static/', '/i18n/']
                 if not any(part in request.path for part in allowed):

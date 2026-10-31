@@ -161,7 +161,7 @@ class DemoRoleWorkflowTests(TestCase):
             self.assertEqual(grants.count(), 4)
             self.assertEqual(set(grants.values_list('edit', 'clinical_review', 'linguistic_review', 'publish')), {capabilities})
         operator = User.objects.get(username='gestionnaire')
-        self.assertEqual(operator.get_all_permissions(), {'core.manage_entitlements'})
+        self.assertEqual(operator.get_all_permissions(), {'core.manage_entitlements', 'core.manage_processing_register'})
         self.assertFalse(Membership.objects.filter(user=operator).exists())
         self.assertFalse(FamilyLink.objects.filter(user=operator).exists())
         self.assertFalse(EditorialGrant.objects.filter(user=operator).exists())

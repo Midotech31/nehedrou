@@ -143,7 +143,8 @@ def switch_practice(request):
         from catalog.models import EditorialGrant
         if not (Membership.objects.filter(user=request.user, active=True).exists()
                 or EditorialGrant.objects.filter(user=request.user).exists()
-                or request.user.has_perm('core.manage_entitlements')):
+                or request.user.has_perm('core.manage_entitlements')
+                or request.user.has_perm('core.manage_processing_register')):
             raise Http404
         request.session['workspace'] = 'professional'
     elif space:

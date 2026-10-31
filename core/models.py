@@ -123,6 +123,63 @@ class AuditEvent(models.Model):
     class Meta:
         ordering = ['-created_at']
 
+class ProcessingActivity(CheckedModel):
+    """Operator-maintained processing register entry; not a legal determination."""
+    organization = models.ForeignKey(Organization, on_delete=models.PROTECT, null=True, blank=True,
+                                    related_name='processing_activities')
+    register_capacity = models.CharField(max_length=16, choices=[
+        ('controller', _('Controller')), ('processor', _('Processor'))], default='controller')
+    name = models.CharField(max_length=120)
+    controller_name = models.CharField(max_length=160)
+    controller_contact = models.CharField(max_length=254)
+    data_protection_contact = models.CharField(max_length=254, blank=True)
+    purposes = models.TextField()
+    legal_basis = models.TextField()
+    data_subject_categories = models.TextField()
+    personal_data_categories = models.TextField()
+    recipient_categories = models.TextField(help_text=_('Include recipients in other countries or international organisations.'))
+    international_transfers = models.TextField(help_text=_('Describe destinations and safeguards, or explicitly record that none are identified.'))
+    retention_periods = models.TextField()
+    security_measures = models.TextField()
+    operations = models.TextField(help_text=_('Describe collection, recording, storage, consultation, sharing, correction, restriction and deletion operations in scope.'))
+    active = models.BooleanField(default=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                   related_name='created_processing_activities')
+    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                   related_name='updated_processing_activities')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['organization__name', 'name', 'pk']
+        permissions = [('manage_processing_register', _('Can manage processing register entries'))]
+
+    def __str__(self):
+        return self.name
+
+
+class ProcessingActivityRevision(models.Model):
+    """Append-only snapshot of each saved processing-register state."""
+    activity = models.ForeignKey(ProcessingActivity, on_delete=models.PROTECT, related_name='revisions')
+    revision = models.PositiveIntegerField()
+    snapshot = models.JSONField()
+    changed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                   related_name='processing_activity_revisions')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['activity_id', 'revision']
+        constraints = [models.UniqueConstraint(fields=['activity', 'revision'], name='unique_processing_activity_revision')]
+
+    def save(self, *args, **kwargs):
+        if self.pk:
+            raise ValidationError(_('Register history entries are append-only.'))
+        return super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        raise ValidationError(_('Register history entries cannot be deleted.'))
+
+
 class PrivacyRequest(CheckedModel):
     organization = models.ForeignKey(Organization, on_delete=models.PROTECT)
     child = models.ForeignKey('care.Child', on_delete=models.SET_NULL, null=True, blank=True)

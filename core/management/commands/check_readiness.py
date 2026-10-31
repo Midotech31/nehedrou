@@ -10,6 +10,7 @@ from catalog.models import Activity, Variety
 from catalog.content_catalog import current_catalog
 from catalog.integrity import integrity_scope, prepare_activities
 from core.ops_readiness import smtp_configuration, email_configuration
+from core.models import ProcessingActivity
 
 
 DEFAULT_OFFERED_CONTENT_VARIETIES = ('fr-fr-pilot', 'en-us-general-pilot', 'ar-msa-pilot', 'ar-dz-pilot')
@@ -52,7 +53,16 @@ class Command(BaseCommand):
         origin = urlsplit(settings.PUBLIC_ORIGIN)
         smtp = smtp_configuration()
         email = email_configuration(smtp=smtp)
+        register = ProcessingActivity.objects.filter(organization__isnull=True, active=True)
+        required_register_fields = ('controller_name', 'controller_contact', 'purposes', 'legal_basis',
+                                    'data_subject_categories', 'personal_data_categories', 'recipient_categories',
+                                    'international_transfers', 'retention_periods', 'security_measures', 'operations')
+        def register_entry_populated(entry):
+            fields = required_register_fields + (('data_protection_contact',) if entry.register_capacity == 'controller' else ())
+            return all(bool((getattr(entry, field) or '').strip()) for field in fields)
+        complete_register_count = sum(register_entry_populated(entry) for entry in register)
         checks = {
+            'processing_register_present_and_populated': register.exists() and complete_register_count == register.count(),
             'demonstration_disabled': not settings.DEMO_MODE,
             'debug_disabled': not settings.DEBUG,
             'postgresql': connection.vendor == 'postgresql',
@@ -66,6 +76,13 @@ class Command(BaseCommand):
         report = {
             'technical_gates_passed': all(checks.values()),
             'checks': checks,
+            'processing_register': {
+                'active_platform_records': register.count(),
+                'active_by_capacity': {capacity: register.filter(register_capacity=capacity).count()
+                                       for capacity, _label in ProcessingActivity._meta.get_field('register_capacity').choices},
+                'populated_platform_records': complete_register_count,
+                'scope': 'Only operator-entered platform records are counted. This completeness check does not assess legal accuracy or replace registers maintained by other controllers or processors.',
+            },
             'smtp': smtp,
             'email': email,
             'published_nondemo_counts': coverage,
@@ -74,7 +91,7 @@ class Command(BaseCommand):
             'current_available_nondemo_counts_by_variety': available_by_variety,
             'content_coverage_scope': 'Interface-language counts are descriptive only. Every explicitly offered spoken variety requires its own currently usable non-demo practice version, exact media, current reviews and authorised availability; MSA never covers Algerian Darja.',
             'versions_with_unavailable_audio_or_reviews': unavailable,
-            'manual_gates_required': ['professional_content_and_audio_validation', 'native_language_review', 'browser_and_accessibility_acceptance', 'backup_restore_and_concurrency_acceptance', 'applicable_launch_obligations', 'clinical_effectiveness_claims_require_separate_evidence'],
+            'manual_gates_required': ['professional_content_and_audio_validation', 'native_language_review', 'browser_and_accessibility_acceptance', 'backup_restore_and_concurrency_acceptance', 'applicable_launch_obligations', 'processing_register_accuracy_and_legal_review', 'clinical_effectiveness_claims_require_separate_evidence'],
             'storage_scope': 'Durability is operator-declared; verify persistence across restart, backup scheduling, off-host retention and restoration before launch.',
             'scope': 'A technical report, never clinical validation or commercial approval.',
         }

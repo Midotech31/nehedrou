@@ -62,7 +62,8 @@ def is_family_workspace(request):
     from catalog.models import EditorialGrant
     return not (Membership.objects.filter(user=request.user, active=True).exists()
                 or EditorialGrant.objects.filter(user=request.user).exists()
-                or request.user.has_perm('core.manage_entitlements'))
+                or request.user.has_perm('core.manage_entitlements')
+                or request.user.has_perm('core.manage_processing_register'))
 
 
 def workspace_children(request):

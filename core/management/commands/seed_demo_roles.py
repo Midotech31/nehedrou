@@ -111,7 +111,8 @@ class Command(BaseCommand):
             for variety in editorial_varieties:
                 EditorialGrant.objects.get_or_create(user=accounts[name], variety=variety, defaults=capabilities)
         accounts['gestionnaire'].user_permissions.add(
-            Permission.objects.get(content_type__app_label='core', codename='manage_entitlements'))
+            Permission.objects.get(content_type__app_label='core', codename='manage_entitlements'),
+            Permission.objects.get(content_type__app_label='core', codename='manage_processing_register'))
 
         # Reviewers need a genuinely available review step. This material is
         # explicitly fictional; no clinical approval or recording is created.

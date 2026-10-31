@@ -15,5 +15,6 @@
 <p>{% translate "Bytes read" %}: <bdi dir="ltr">{{ report.storage.bytes_read|default:0 }}</bdi> · {% translate "Expected technical content verified" %}: {% if report.storage.expected_content_verified %}{% translate "Yes" %}{% else %}{% translate "No" %}{% endif %}</p>{% endif %}
 <form method="post">{% csrf_token %}<button type="submit" name="action" value="storage">{% translate "Test the private storage read" %}</button></form>
 </section>
+<section class="card"><h2>{% translate "Processing register" %}</h2><p>{% translate "Document processing purposes, roles, recipients, data categories, retention and safeguards for operator review." %}</p><a class="button secondary" href="{% url 'processing_register' %}">{% translate "Manage processing register" %}</a></section>
 <section class="card"><h2>{% translate "Operator acceptance still required" %}</h2><p>{% translate "Configure the hosting HTTP health check at /healthz/. Verify trusted proxies, private storage after restart, scheduled encrypted off-host backups, key custody, recent restoration, alert recipients and email receipt. None of these is marked complete by this report." %}</p></section>
 {% endblock %}
