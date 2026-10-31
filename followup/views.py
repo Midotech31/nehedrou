@@ -56,12 +56,20 @@ def index(request):
     professional = not family_workspace and Membership.objects.filter(user=request.user, active=True).exists()
     if professional:
         goals = ClinicalGoal.objects.filter(child__in=children).select_related('child', 'variety').order_by('-created_at')
+        if request.method == 'GET':
+            for child in children:
+                log_child_access(request.user, child, resource='followup_list', purpose_code='clinical_followup')
         return render(request, 'followup/index.html', {'professional': True, 'children': children, 'goals': goals, 'administrations': services.professional_administrations(request.user).select_related('child', 'definition').order_by('-started_at')[:20]})
     if not family_workspace and EditorialGrant.objects.filter(user=request.user).exists():
         return redirect('followup:definition_list')
     linked = Child.objects.filter(family_links__user=request.user, family_links__active=True).distinct()
     shares = ProbeAdministration.objects.filter(child__in=linked, status='finalized', shared_at__isnull=False).exclude(shared_text='').select_related('child', 'definition').order_by('-shared_at')
     coaching = list(ParentCoaching.objects.filter(child__in=linked).select_related('child', 'variety').order_by('-created_at'))
+    if request.method == 'GET':
+        listed = {row.child_id: row.child for row in shares}
+        listed.update({guide.child_id: guide.child for guide in coaching})
+        for child in listed.values():
+            log_child_access(request.user, child, resource='family_followup_list', purpose_code='family_practice')
     for guide in coaching:
         guide.instruction_language_label = INSTRUCTION_LANGUAGES.get(guide.instruction_language, _('Instruction language not recorded'))
     coaching.sort(key=lambda guide: guide.instruction_language != get_language())
@@ -71,6 +79,8 @@ def index(request):
 @login_required
 def goal_create(request, child_id):
     child = clinician_child(request.user, child_id)
+    if request.method == 'GET':
+        log_child_access(request.user, child, resource='goal_create', purpose_code='clinical_followup')
     form = GoalForm(request.POST or None, child=child, definitions=services.definition_queryset(request.user).filter(variety__in=child.varieties.all()).exclude(state='withdrawn'))
     if request.method == 'POST' and form.is_valid():
         try:
@@ -106,6 +116,8 @@ def goal_close(request, pk):
 @login_required
 def exposure_create(request, child_id):
     child = clinician_child(request.user, child_id)
+    if request.method == 'GET':
+        log_child_access(request.user, child, resource='probe_exposure', purpose_code='clinical_followup')
     form = ExposureForm(request.POST or None, child=child)
     if request.method == 'POST' and form.is_valid():
         try:
@@ -256,6 +268,8 @@ def administration_start(request, goal_id):
     goal = professional_goal(request.user, goal_id)
     if not goal.active:
         raise PermissionDenied
+    if request.method == 'GET':
+        log_child_access(request.user, goal.child, resource='probe_start', purpose_code='clinical_followup')
     alternate_context = request.GET.get('scope') == 'alternate_context'
     definitions = services.definition_queryset(request.user).filter(variety=goal.variety).exclude(state='withdrawn')
     from .validation import target_match_errors, phoneme_key
@@ -311,6 +325,8 @@ def rating(request, pk, item_key):
     existing = admin.ratings.filter(item_key=item_key).first()
     if admin.status != 'draft' and not existing:
         raise PermissionDenied
+    if request.method == 'GET':
+        log_child_access(request.user, admin.child, resource='probe_rating', purpose_code='clinical_followup')
     variants = {row['id']: row for row in admin.snapshot['goal']['accepted_variants'] + item.get('accepted_variants', [])}
     initial = existing.current_data() if existing else {'attempt_index': item.get('selected_attempt', 1), 'elicitation': admin.conditions.get('task', 'naming')}
     form = RatingForm(request.POST or None, variants=list(variants.values()), existing=bool(existing), initial=initial)
@@ -331,6 +347,8 @@ def administration_finalize(request, pk):
     admin = professional_admin(request.user, pk)
     if admin.status == 'finalized' and request.method == 'GET':
         return redirect('followup:report', pk=pk)
+    if request.method == 'GET':
+        log_child_access(request.user, admin.child, resource='probe_finalize_review', purpose_code='clinical_followup')
     form = FinalizeForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         try:
@@ -422,6 +440,8 @@ def share(request, pk):
     admin = professional_admin(request.user, pk)
     if admin.status != 'finalized':
         raise PermissionDenied
+    if request.method == 'GET':
+        log_child_access(request.user, admin.child, resource='probe_share', purpose_code='clinical_followup')
     form = ShareForm(request.POST or None, initial={'text': admin.shared_text})
     if request.method == 'POST' and form.is_valid():
         try:
@@ -456,6 +476,8 @@ def family_summary(request, pk):
 @login_required
 def coaching_create(request, child_id):
     child = clinician_child(request.user, child_id)
+    if request.method == 'GET':
+        log_child_access(request.user, child, resource='caregiver_coaching_create', purpose_code='care_delivery')
     form = CoachingForm(request.POST or None, child=child, initial={'instruction_language': get_language()})
     if request.method == 'POST' and form.is_valid():
         try:
