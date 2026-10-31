@@ -151,7 +151,9 @@ class ProcessingActivityForm(forms.ModelForm):
     class Meta:
         model = ProcessingActivity
         fields = ['organization', 'register_capacity', 'name', 'controller_name', 'controller_contact',
-                  'data_protection_contact', 'purposes', 'legal_basis', 'data_subject_categories',
+                  'data_protection_contact', 'data_protection_officer_name',
+                  'data_protection_officer_qualification', 'data_protection_officer_notified_at',
+                  'purposes', 'legal_basis', 'data_subject_categories',
                   'personal_data_categories', 'recipient_categories', 'international_transfers',
                   'retention_periods', 'security_measures', 'operations', 'active']
         labels = {
@@ -161,6 +163,9 @@ class ProcessingActivityForm(forms.ModelForm):
             'controller_name': _('Controller or processor name'),
             'controller_contact': _('Contact details'),
             'data_protection_contact': _('Data protection contact'),
+            'data_protection_officer_name': _('Designated data protection officer'),
+            'data_protection_officer_qualification': _('Data protection officer professional qualifications'),
+            'data_protection_officer_notified_at': _('Date DPO contact details were communicated to the national data protection authority'),
             'purposes': _('Purposes'),
             'legal_basis': _('Legal basis (to be confirmed by qualified counsel)'),
             'data_subject_categories': _('Categories of people concerned'),
@@ -175,10 +180,15 @@ class ProcessingActivityForm(forms.ModelForm):
         widgets = {field: forms.Textarea(attrs={'rows': 3}) for field in [
             'purposes', 'legal_basis', 'data_subject_categories', 'personal_data_categories',
             'recipient_categories', 'international_transfers', 'retention_periods',
-            'security_measures', 'operations']}
+            'security_measures', 'operations', 'data_protection_officer_qualification']}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['organization'].queryset = Organization.objects.order_by('name')
         self.fields['organization'].required = False
         self.fields['data_protection_contact'].required = False
+        self.fields['data_protection_officer_name'].required = False
+        self.fields['data_protection_officer_qualification'].required = False
+        self.fields['data_protection_officer_notified_at'].required = False
+        self.fields['data_protection_officer_notified_at'].widget = forms.DateInput(attrs={'type': 'date'})
+        self.fields['data_protection_officer_notified_at'].help_text = _('Record the date submitted; the application does not verify receipt by the authority.')

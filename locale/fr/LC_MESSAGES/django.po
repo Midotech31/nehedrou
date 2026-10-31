@@ -5448,3 +5448,21 @@ msgstr "Versions actuellement disponibles"
 
 msgid "Availability is checked for the exact module, spoken variety and content fingerprint; interface-language coverage does not imply approval."
 msgstr "La disponibilité est vérifiée pour le module, la variété parlée et l’empreinte exacts ; la couverture de l’interface ne vaut pas approbation."
+
+msgid "Designated data protection officer"
+msgstr "Délégué à la protection des données désigné"
+
+msgid "Data protection officer professional qualifications"
+msgstr "Qualifications professionnelles du délégué à la protection des données"
+
+msgid "Date DPO contact details were communicated to the national data protection authority"
+msgstr "Date de communication des coordonnées du délégué à l’autorité nationale de protection des données"
+
+msgid "Record the date submitted; the application does not verify receipt by the authority."
+msgstr "Indiquez la date de communication déclarée ; l’application ne vérifie pas la réception par l’autorité."
+
+msgid "DPO designation and national-authority contact notification checked for applicable markets"
+msgstr "Désignation du délégué et communication de ses coordonnées à l’autorité nationale vérifiées pour les marchés concernés"
+
+msgid "Communication date cannot be in the future."
+msgstr "La date de communication ne peut pas être dans le futur."

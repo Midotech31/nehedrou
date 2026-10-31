@@ -54,6 +54,7 @@ MANUAL_READINESS_LABELS = {
     'browser_and_accessibility_acceptance': _('Browser, mobile and accessibility acceptance'),
     'backup_restore_and_concurrency_acceptance': _('Backup, restoration and concurrent-use acceptance'),
     'applicable_launch_obligations': _('Applicable privacy, legal and launch obligations reviewed'),
+    'dpo_designation_and_authority_notification_per_applicable_law': _('DPO designation and national-authority contact notification checked for applicable markets'),
     'processing_register_accuracy_and_legal_review': _('Processing-register accuracy and legal review'),
     'clinical_effectiveness_claims_require_separate_evidence': _('Any clinical-effectiveness claim supported by separate evidence'),
 }
@@ -161,10 +162,15 @@ def processing_register(request, pk=None):
             from core.models import ProcessingActivityRevision
             from core.services import audit
             snapshot_fields = ('organization_id', 'register_capacity', 'name', 'controller_name', 'controller_contact',
-                               'data_protection_contact', 'purposes', 'legal_basis', 'data_subject_categories',
+                               'data_protection_contact', 'data_protection_officer_name',
+                               'data_protection_officer_qualification', 'data_protection_officer_notified_at',
+                               'purposes', 'legal_basis', 'data_subject_categories',
                                'personal_data_categories', 'recipient_categories', 'international_transfers',
                                'retention_periods', 'security_measures', 'operations', 'active')
             snapshot = {field: getattr(obj, field) for field in snapshot_fields}
+            snapshot['data_protection_officer_notified_at'] = (
+                obj.data_protection_officer_notified_at.isoformat()
+                if obj.data_protection_officer_notified_at else None)
             revision_number = (ProcessingActivityRevision.objects.filter(activity=obj).order_by('-revision')
                               .values_list('revision', flat=True).first() or 0) + 1
             ProcessingActivityRevision.objects.create(activity=obj, revision=revision_number, snapshot=snapshot,
@@ -188,7 +194,13 @@ def processing_register(request, pk=None):
                 'id': str(entry.pk), 'organization': entry.organization.name if entry.organization_id else None,
                 'register_capacity': entry.register_capacity, 'name': entry.name, 'active': entry.active,
                 'controller_name': entry.controller_name, 'controller_contact': entry.controller_contact,
-                'data_protection_contact': entry.data_protection_contact, 'purposes': entry.purposes,
+                'data_protection_contact': entry.data_protection_contact,
+                'data_protection_officer_name': entry.data_protection_officer_name,
+                'data_protection_officer_qualification': entry.data_protection_officer_qualification,
+                'data_protection_officer_notified_at': (
+                    entry.data_protection_officer_notified_at.isoformat()
+                    if entry.data_protection_officer_notified_at else None),
+                'purposes': entry.purposes,
                 'legal_basis': entry.legal_basis, 'data_subject_categories': entry.data_subject_categories,
                 'personal_data_categories': entry.personal_data_categories, 'recipient_categories': entry.recipient_categories,
                 'international_transfers': entry.international_transfers, 'retention_periods': entry.retention_periods,
