@@ -74,7 +74,7 @@ Le tableau de bord calcule des totaux et rapports récents sur tous les dossiers
 
 Ce correctif complète une vue agrégée et n’établit pas un journal exhaustif des traitements ni la conformité à la loi. Les opérations hors des vues couvertes, les journaux d’infrastructure, les durées de conservation, la gouvernance des accès et l’avis juridique restent à vérifier.
 
-## Mise à jour — état de la démo après le tableau de préparation (31 octobre 2026, 21:03 UTC)
+## Mise à jour — état de la démo après le tableau de préparation (31 octobre 2026; déploiement Render confirmé à 21:03 UTC)
 
 La PR [#16](https://github.com/Midotech31/nehedrou/pull/16) est fusionnée dans `main` par le commit `3ef201d87b41072667797477cd278ab14d6962c1`. Le déploiement Render `dep-dbj5e90473hc73b7aoa0` est `live` sur ce SHA. La recette publique a obtenu HTTP 200 pour `/healthz/`, `/fr/`, `/en/` et `/ar/`; les trois routes de préparation en accès anonyme redirigent vers la connexion (HTTP 302). La suite locale complète du dépôt sur ce code découvre 670 tests, tous réussis sauf 20 ignorés ; `manage.py check` ne signale aucun problème. Cette suite n’est pas une preuve de validation clinique, de conformité ni de capacité de production.
 
