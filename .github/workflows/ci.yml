@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DJANGO_DEBUG: "1"
+      DEMO_MODE: "1"
+      DEMO_EPHEMERAL: "1"
+      DEMO_DATABASE_PATH: ${{ github.workspace }}/.ci-demo.sqlite3
+      NEHEDROU_MEDIA_ROOT: ${{ github.workspace }}/.ci-media
+      PUBLIC_ORIGIN: https://ci.example.invalid
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Install locked dependencies
+        run: python -m pip install --require-hashes -r requirements.lock
+      - name: Install gettext
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes gettext
+      - name: Compile catalogues
+        run: python manage.py compilemessages --ignore=.venv
+      - name: Run Django system check
+        run: python manage.py check
+      - name: Check migrations
+        run: python manage.py makemigrations --check --dry-run
+      - name: Run test suite
+        run: python manage.py test --verbosity 2

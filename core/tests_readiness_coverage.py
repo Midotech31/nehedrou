@@ -16,7 +16,7 @@ from qualification.test_support import prepare_activity_fixture, availability_fi
 
 @override_settings(DEMO_MODE=False, DEBUG=False, DEMO_EPHEMERAL=False,
     MFA_REQUIRED=True, MEDIA_STORAGE_DURABLE=True, MEDIA_STORAGE_BACKEND='filesystem',
-    MEDIA_ROOT='E:/LocalCoderWorkspace/Nehdrou/work/oct30-media-tmp/readiness-media',
+    MEDIA_ROOT='/tmp/nehedrou-readiness-test-media',
     PUBLIC_ORIGIN='https://fictional.example',
     PASSWORD_HASHERS=['django.contrib.auth.hashers.MD5PasswordHasher'],
     STORAGES={'default': {'BACKEND': 'django.core.files.storage.InMemoryStorage'},
@@ -40,10 +40,9 @@ class SpokenVarietyReadinessTests(TestCase):
             availability_fixture('practice', activity.variety, activity.fingerprint(), self.editor)
         return activity
 
-    def report(self, *, strict=False):
+    def report(self, *, strict=False, offered=None):
         output = io.StringIO()
-        # Only deployment configuration is simulated; content gates use real fixtures.
-        with patch('core.management.commands.check_readiness.connection', SimpleNamespace(vendor='postgresql')), patch('core.management.commands.check_readiness.smtp_configuration', return_value={'configured':True}), patch('core.management.commands.check_readiness.email_configuration', return_value={'configured':True}):
+        with patch('core.management.commands.check_readiness.connection', SimpleNamespace(vendor='postgresql')), patch('core.management.commands.check_readiness.smtp_configuration', return_value={'configured':True}), patch('core.management.commands.check_readiness.email_configuration', return_value={'configured':True}), patch('core.management.commands.check_readiness.offered_content_varieties', return_value=tuple(DEFAULT_OFFERED_CONTENT_VARIETIES if offered is None else offered)):
             call_command('check_readiness', json=True, strict=strict, stdout=output)
         return json.loads(output.getvalue())
 
@@ -61,8 +60,7 @@ class SpokenVarietyReadinessTests(TestCase):
 
     def test_publication_without_authorised_availability_does_not_cover_a_variety(self):
         self.content('ar-dz-pilot', available=False)
-        with override_settings(OFFERED_CONTENT_VARIETIES=('ar-dz-pilot',)):
-            report = self.report()
+        report = self.report(offered=('ar-dz-pilot',))
         self.assertEqual(report['published_nondemo_counts_by_variety']['ar-dz-pilot'], 1)
         self.assertEqual(report['current_available_nondemo_counts_by_variety']['ar-dz-pilot'], 0)
         self.assertFalse(report['technical_gates_passed'])
@@ -70,15 +68,14 @@ class SpokenVarietyReadinessTests(TestCase):
     def test_four_distinct_available_varieties_pass_with_all_other_fixture_gates(self):
         for code in DEFAULT_OFFERED_CONTENT_VARIETIES:
             self.content(code)
-        report = self.report(strict=True)
+        report = self.report(strict=True, offered=DEFAULT_OFFERED_CONTENT_VARIETIES)
         self.assertTrue(report['technical_gates_passed'])
         self.assertEqual(report['published_nondemo_counts']['ar'], 2)
         self.assertEqual(report['current_available_nondemo_counts_by_variety'], {code:1 for code in DEFAULT_OFFERED_CONTENT_VARIETIES})
 
     def test_explicit_offering_can_be_narrower_than_three_interface_languages(self):
         self.content('fr-fr-pilot')
-        with override_settings(OFFERED_CONTENT_VARIETIES=('fr-fr-pilot',)):
-            report = self.report(strict=True)
+        report = self.report(strict=True, offered=('fr-fr-pilot',))
         self.assertEqual(report['offered_content_varieties'], ['fr-fr-pilot'])
         self.assertEqual(report['published_nondemo_counts'], {'fr':1,'en':0,'ar':0})
         self.assertTrue(report['technical_gates_passed'])
@@ -86,21 +83,20 @@ class SpokenVarietyReadinessTests(TestCase):
     def test_unknown_empty_duplicate_or_string_configuration_is_rejected(self):
         for configured in [('ar-missing',), (), ('ar-dz-pilot','ar-dz-pilot'), 'ar-dz-pilot', (None,)]:
             with self.subTest(configured=configured), override_settings(OFFERED_CONTENT_VARIETIES=configured):
-                with self.assertRaises(CommandError):
-                    self.report()
-        # Defaults are explicit too: absent DB varieties cannot be silently hidden.
+                with patch('core.management.commands.check_readiness.offered_content_varieties', wraps=__import__('core.management.commands.check_readiness', fromlist=['offered_content_varieties']).offered_content_varieties):
+                    with self.assertRaises(CommandError):
+                        call_command('check_readiness', json=True, stdout=io.StringIO())
         self.varieties['ar-dz-pilot'].delete()
-        with self.assertRaisesMessage(CommandError, 'ar-dz-pilot'):
-            self.report()
+        with patch('core.management.commands.check_readiness.offered_content_varieties', wraps=__import__('core.management.commands.check_readiness', fromlist=['offered_content_varieties']).offered_content_varieties):
+            with self.assertRaisesMessage(CommandError, 'ar-dz-pilot'):
+                call_command('check_readiness', json=True, stdout=io.StringIO())
 
     def test_historical_published_version_cannot_cover_newer_unavailable_version(self):
         old = self.content('ar-dz-pilot')
-        # Deliberately invalid newer fixture reproduces a published imported row.
         newer = Activity.objects.create(variety=old.variety, series=old.series, version=2,
             title='Fictional incomplete newer version', word_a='pa', word_b='ba', contrast='p/b', instructions={'fr':'Fictif'}, is_demo=False)
         Activity.objects.filter(pk=newer.pk).update(state='published')
-        with override_settings(OFFERED_CONTENT_VARIETIES=('ar-dz-pilot',)):
-            report = self.report()
+        report = self.report(offered=('ar-dz-pilot',))
         self.assertEqual(report['published_nondemo_counts_by_variety']['ar-dz-pilot'], 2)
         self.assertEqual(report['current_available_nondemo_counts_by_variety']['ar-dz-pilot'], 0)
         self.assertFalse(report['checks']['current_available_nondemo_content_in_each_offered_variety'])
@@ -112,8 +108,7 @@ class SpokenVarietyReadinessTests(TestCase):
             title='Fictional demo only', word_a='pa', word_b='ba', contrast='p/b',
             instructions={'fr':'Fictif'}, is_demo=True)
         Activity.objects.filter(pk=demo.pk).update(state='published')
-        with override_settings(OFFERED_CONTENT_VARIETIES=('ar-dz-pilot',)):
-            report = self.report()
+        report = self.report(offered=('ar-dz-pilot',))
         self.assertEqual(report['published_nondemo_counts']['ar'], 0)
         self.assertEqual(report['published_nondemo_counts_by_variety']['ar-dz-pilot'], 0)
         self.assertEqual(report['current_available_nondemo_counts_by_variety']['ar-dz-pilot'], 0)
