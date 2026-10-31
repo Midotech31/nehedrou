@@ -25,7 +25,7 @@ from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .invitation_delivery import invitation_delivery_status
 from .forms import SignupForm, InviteSignupForm, ChildForm, ProgramForm, InvitationForm, PracticeForm, ObservationForm, PreferencesForm, DemoPracticeForm, FamilyFeedbackForm, HistoryFilterForm
 from .models import Organization, Membership, Entitlement, Invitation, PrivacyRequest
-from .services import audit, check_entitlement, create_program, accept_invitation, record_practice, issue_and_deliver_invitation, lock_clinical_child, publish_feedback
+from .services import audit, log_child_access, check_entitlement, create_program, accept_invitation, record_practice, issue_and_deliver_invitation, lock_clinical_child, publish_feedback
 from .reserves import activity_is_reserved, reserved_activity_ids, family_catalog_exclusions
 from .product_views import program_calendar
 from .planning import decorate_plan, activity_overview
@@ -107,6 +107,9 @@ def dashboard(request):
     active = programs.filter(state='active', child__active=True).annotate(activity_count=Count('items', distinct=True), report_count=Count('items__sessions', distinct=True))
     waiting = active.filter(report_count=0).count()
     cards = list(active.order_by('-created_at')[:6])
+    purpose = 'family_practice' if family_workspace else 'care_delivery'
+    for program in cards:
+        log_child_access(request.user, program.child, resource='dashboard_summary', purpose_code=purpose)
     for program in cards:
         decorate_plan(program, today=today)
         available = program.items.filter(activity__state='published').select_related('activity')
@@ -161,7 +164,11 @@ def children(request):
     if status in ['active', 'archived']:
         qs = qs.filter(active=status == 'active')
     qs = qs.annotate(program_count=Count('programs', filter=Q(programs__state='active'), distinct=True))
-    return render(request, 'children.html', {'page': Paginator(qs.order_by('code'), 20).get_page(request.GET.get('page')), 'query': query, 'selected_status': status, 'result_count': qs.count()})
+    page = Paginator(qs.order_by('code'), 20).get_page(request.GET.get('page'))
+    purpose = 'family_practice' if is_family_workspace(request) else 'care_delivery'
+    for child in page.object_list:
+        log_child_access(request.user, child, resource='child_list', purpose_code=purpose)
+    return render(request, 'children.html', {'page': page, 'query': query, 'selected_status': status, 'result_count': qs.count()})
 
 @login_required
 def child_create(request):
@@ -192,6 +199,8 @@ def child_detail(request, pk):
     child = get_object_or_404(visible_children(request.user).prefetch_related('varieties'), pk=pk)
     professional = professional_children(request.user).filter(pk=pk).exists()
     form = InvitationForm(request.POST or None)
+    if request.method == 'GET':
+        log_child_access(request.user, child, resource='child_profile', purpose_code='care_delivery' if professional else 'family_practice')
     if request.method == 'POST':
         if not professional:
             raise Http404
@@ -329,6 +338,8 @@ def activity_detail(request, pk):
 @login_required
 def program_create(request, pk):
     child = clinician_child(request.user, pk)
+    if request.method == 'GET':
+        log_child_access(request.user, child, resource='program_editor', purpose_code='care_delivery')
     form = ProgramForm(request.POST or None, child=child)
     preview = None
     if request.method == 'POST' and form.is_valid():
@@ -346,6 +357,8 @@ def program_create(request, pk):
 def program_detail(request, pk):
     program = get_object_or_404(visible_programs(request.user), pk=pk)
     professional = professional_children(request.user).filter(pk=program.child_id).exists()
+    if request.method == 'GET':
+        log_child_access(request.user, program.child, resource='program_detail', purpose_code='care_delivery' if professional else 'family_practice')
     form = ObservationForm(request.POST or None)
     if request.method == 'POST':
         if not professional:
@@ -407,6 +420,7 @@ def program_history(request, pk):
     from django.core.paginator import Paginator
     program = get_object_or_404(visible_programs(request.user), pk=pk)
     professional = professional_children(request.user).filter(pk=program.child_id).exists()
+    log_child_access(request.user, program.child, resource='program_history', purpose_code='care_delivery' if professional else 'family_practice')
     parameters = request.GET.copy()
     parameters.setdefault('kind', 'reports')
     form = HistoryFilterForm(parameters)
@@ -447,6 +461,8 @@ def report_detail(request, pk):
     professional = professional_children(request.user).filter(pk=report.item.program.child_id).exists()
     if not professional and activity_is_reserved(report.item.program.child, report.item.activity):
         return render(request, 'notice.html', {'title': _('Activity unavailable'), 'body': _('Contact your clinician to adjust the program.')}, status=403)
+    if request.method == 'GET':
+        log_child_access(request.user, report.item.program.child, resource='practice_report_detail', purpose_code='care_delivery' if professional else 'family_practice')
     return render(request, 'report_detail.html', {'report':report, 'professional':professional,
         'feedback':report.clinician_feedback.select_related('author'), 'own_report':report.user_id == request.user.pk})
 
@@ -468,8 +484,11 @@ def practice_run_detail(request, pk):
     run = get_object_or_404(PracticeRun.objects.select_related('program__child', 'program__variety', 'user'), pk=pk, program__in=visible_programs(request.user))
     if run.user_id != request.user.pk and not professional_children(request.user).filter(pk=run.program.child_id).exists():
         raise Http404
-    if not professional_children(request.user).filter(pk=run.program.child_id).exists() and reserved_activity_ids(run.program.child, [t.item.activity for t in run.tasks.select_related('item__activity')]):
+    professional = professional_children(request.user).filter(pk=run.program.child_id).exists()
+    if not professional and reserved_activity_ids(run.program.child, [t.item.activity for t in run.tasks.select_related('item__activity')]):
         return render(request, 'notice.html', {'title': _('Activity unavailable'), 'body': _('Contact your clinician to adjust the program.')}, status=403)
+    if request.method == 'GET':
+        log_child_access(request.user, run.program.child, resource='practice_run_detail', purpose_code='care_delivery' if professional else 'family_practice')
     return render(request, 'practice_run.html', run_summary(run, request.user))
 
 @login_required
@@ -553,6 +572,8 @@ def practice(request, pk):
     target = (item.activity.word_a if ticket_data['target'] == 'a' else item.activity.word_b) if item.activity.response_mode == 'matching' else ''
     audio = (item.activity.audio_a if ticket_data['target'] == 'a' else item.activity.audio_b) if item.activity.response_mode == 'matching' else ''
     step_two_title = {'matching': _('Listen and choose'), 'free': _('Choose a picture freely'), 'observation': _('Play together')}[item.activity.response_mode]
+    if request.method == 'GET':
+        log_child_access(request.user, item.program.child, resource='home_practice', purpose_code='family_practice')
     return render(request, 'practice.html', {'item': item, 'form': form, 'instruction': instruction, 'target': target, 'audio': audio, 'response_mode': item.activity.response_mode, 'step_two_title': step_two_title, 'run_task': task, 'run_count': task.run.tasks.count() if task else None})
 
 @login_required
@@ -561,6 +582,8 @@ def practice_report(request, pk):
     report = get_object_or_404(PracticeSession.objects.select_related('item__activity', 'item__program__child', 'run_task__run__program__child'), pk=pk, user=request.user, item__program__in=visible_programs(request.user))
     if not professional_children(request.user).filter(pk=report.item.program.child_id).exists() and activity_is_reserved(report.item.program.child, report.item.activity):
         return render(request, 'notice.html', {'title': _('Activity unavailable'), 'body': _('Contact your clinician to adjust the program.')}, status=403)
+    if request.method == 'GET':
+        log_child_access(request.user, report.item.program.child, resource='practice_report', purpose_code='family_practice')
     context = {'report': report, 'next_item': None}
     if report.run_task_id:
         summary = run_summary(report.run_task.run, request.user)
@@ -579,7 +602,9 @@ def print_program(request, pk):
     from catalog.integrity import prepare_activities
     prepare_activities([item.activity for item in items])
     blocked_ids = reserved_activity_ids(program.child, [i.activity for i in items])
-    if not professional_children(request.user).filter(pk=program.child_id).exists():
+    professional = professional_children(request.user).filter(pk=program.child_id).exists()
+    log_child_access(request.user, program.child, resource='program_print', purpose_code='care_delivery' if professional else 'family_practice')
+    if not professional:
         items = [i for i in items if i.activity_id not in blocked_ids]
     for item in items:
         item.usable = item.activity.usable and item.activity_id not in blocked_ids
@@ -615,7 +640,7 @@ def export_child(request, pk):
             professional_program_details(program, row)
             row['professional_observations'] = [{'id': str(o.pk), 'author_id': str(o.author_id), 'text':o.text, 'created_at':o.created_at} for o in program.observations.all()]
         programs.append(row)
-    audit(request.user, 'child.exported', child, child.organization)
+    audit(request.user, 'child.exported', child, child.organization, purpose_code='data_portability')
     response = JsonResponse(dossier_payload(request.user, child, professional, programs, withheld_program_items=withheld_program_items), json_dumps_params={'ensure_ascii': False, 'indent': 2})
     response['Content-Disposition'] = 'attachment; filename="nehdrou-export.json"'
     return response

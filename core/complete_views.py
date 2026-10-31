@@ -15,11 +15,13 @@ from .access import clinician_child, professional_children, manager, visible_chi
 from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .forms import ChildForm, ProgramForm, ReassignForm, PrivacyDecisionForm
 from .models import Organization, PrivacyRequest, Invitation, Entitlement, Invoice, NoticeAcknowledgement
-from .services import audit, check_entitlement, create_program, lock_clinical_child
+from .services import audit, log_child_access, check_entitlement, create_program, lock_clinical_child
 
 @login_required
 def child_edit(request, pk):
     child = clinician_child(request.user, pk)
+    if request.method == 'GET':
+        log_child_access(request.user, child, resource='child_profile_edit', purpose_code='care_delivery')
     form = ChildForm(request.POST or None, instance=child)
     if request.method == 'POST' and form.is_valid():
         try:

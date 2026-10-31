@@ -8,8 +8,47 @@ from django.utils.translation import gettext as _
 from care.models import Child, Program, ProgramItem, PracticeSession, FamilyLink, PracticeRun, PracticeRunTask, ProgramFeedback
 from .models import Organization, Entitlement, Invitation, AuditEvent, Membership
 
-def audit(actor, action, obj, organization=None):
-    return AuditEvent.objects.create(actor=actor, action=action, object_id=str(obj.pk), organization=organization)
+def _audit_purpose(action):
+    if action.startswith(('privacy.', 'data.rights.')):
+        return 'data_rights'
+    if action.startswith('security.'):
+        return 'account_security'
+    if action.startswith(('catalog.', 'qualification.')):
+        return 'content_review'
+    if action.startswith(('entitlement.', 'invoice.')):
+        return 'billing_admin'
+    if action.startswith(('membership.', 'organization.', 'invitation.')):
+        return 'practice_admin'
+    if action.startswith(('child.', 'program.', 'practice.', 'practice_run.', 'observation.', 'family.', 'followup.')):
+        return 'care_delivery'
+    return ''
+
+
+def audit(actor, action, obj, organization=None, *, purpose_code=None):
+    """Append a purpose-coded event without copying clinical content into the log."""
+    if organization is None:
+        organization = getattr(obj, 'organization', None)
+    actor_ref = str(actor.pk) if actor is not None and getattr(actor, 'pk', None) is not None else ''
+    return AuditEvent.objects.create(
+        actor=actor,
+        actor_ref=actor_ref,
+        action=action,
+        purpose_code=purpose_code or _audit_purpose(action),
+        object_id=str(obj.pk) if obj is not None and getattr(obj, 'pk', None) is not None else '',
+        organization=organization,
+    )
+
+
+def log_child_access(actor, child, *, resource, purpose_code):
+    """Log an authorized consultation by its actor, purpose, and pseudonymous subject ref."""
+    if purpose_code not in {'care_delivery', 'family_practice', 'clinical_followup', 'data_portability'}:
+        raise ValueError('Unsupported child-data access purpose.')
+    if not child or not child.pk or not child.organization_id:
+        raise ValueError('A persisted child record is required.')
+    if actor is None or not getattr(actor, 'is_authenticated', False):
+        return None
+    return audit(actor, f'data.consult.{resource}', child, child.organization,
+                 purpose_code=purpose_code)
 
 def issue_and_deliver_invitation(actor, organization, child, email, kind='family', replacing=None):
     from smtplib import SMTPException
