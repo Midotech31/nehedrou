@@ -1,4 +1,3 @@
-"""Exact spoken-variety launch coverage, using fictional software fixtures only."""
 import io
 import json
 import uuid
@@ -10,7 +9,7 @@ from django.test import TestCase, override_settings
 from catalog.models import Activity, Variety
 from catalog.services import transition
 from core.models import User
-from core.management.commands.check_readiness import DEFAULT_OFFERED_CONTENT_VARIETIES
+from core.management.commands.check_readiness import DEFAULT_OFFERED_CONTENT_VARIETIES, offered_content_varieties
 from qualification.test_support import prepare_activity_fixture, availability_fixture
 
 
@@ -42,7 +41,6 @@ class SpokenVarietyReadinessTests(TestCase):
 
     def report(self, *, strict=False, offered=None):
         output = io.StringIO()
-        # Only deployment configuration is simulated; content gates use real fixtures.
         with patch('core.management.commands.check_readiness.offered_content_varieties', return_value=tuple(DEFAULT_OFFERED_CONTENT_VARIETIES if offered is None else offered)), patch('core.management.commands.check_readiness.connection', SimpleNamespace(vendor='postgresql')), patch('core.management.commands.check_readiness.smtp_configuration', return_value={'configured':True}), patch('core.management.commands.check_readiness.email_configuration', return_value={'configured':True}):
             call_command('check_readiness', json=True, strict=strict, stdout=output)
         return json.loads(output.getvalue())
@@ -61,8 +59,7 @@ class SpokenVarietyReadinessTests(TestCase):
 
     def test_publication_without_authorised_availability_does_not_cover_a_variety(self):
         self.content('ar-dz-pilot', available=False)
-        with override_settings(OFFERED_CONTENT_VARIETIES=('ar-dz-pilot',)):
-            report = self.report()
+        report = self.report(offered=('ar-dz-pilot',))
         self.assertEqual(report['published_nondemo_counts_by_variety']['ar-dz-pilot'], 1)
         self.assertEqual(report['current_available_nondemo_counts_by_variety']['ar-dz-pilot'], 0)
         self.assertFalse(report['technical_gates_passed'])
@@ -86,20 +83,17 @@ class SpokenVarietyReadinessTests(TestCase):
         for configured in [('ar-missing',), (), ('ar-dz-pilot','ar-dz-pilot'), 'ar-dz-pilot', (None,)]:
             with self.subTest(configured=configured), override_settings(OFFERED_CONTENT_VARIETIES=configured):
                 with self.assertRaises(CommandError):
-                    self.report()
-        # Defaults are explicit too: absent DB varieties cannot be silently hidden.
+                    offered_content_varieties()
         self.varieties['ar-dz-pilot'].delete()
         with self.assertRaisesMessage(CommandError, 'ar-dz-pilot'):
-            self.report()
+            offered_content_varieties()
 
     def test_historical_published_version_cannot_cover_newer_unavailable_version(self):
         old = self.content('ar-dz-pilot')
-        # Deliberately invalid newer fixture reproduces a published imported row.
         newer = Activity.objects.create(variety=old.variety, series=old.series, version=2,
             title='Fictional incomplete newer version', word_a='pa', word_b='ba', contrast='p/b', instructions={'fr':'Fictif'}, is_demo=False)
         Activity.objects.filter(pk=newer.pk).update(state='published')
-        with override_settings(OFFERED_CONTENT_VARIETIES=('ar-dz-pilot',)):
-            report = self.report()
+        report = self.report(offered=('ar-dz-pilot',))
         self.assertEqual(report['published_nondemo_counts_by_variety']['ar-dz-pilot'], 2)
         self.assertEqual(report['current_available_nondemo_counts_by_variety']['ar-dz-pilot'], 0)
         self.assertFalse(report['checks']['current_available_nondemo_content_in_each_offered_variety'])
@@ -111,8 +105,7 @@ class SpokenVarietyReadinessTests(TestCase):
             title='Fictional demo only', word_a='pa', word_b='ba', contrast='p/b',
             instructions={'fr':'Fictif'}, is_demo=True)
         Activity.objects.filter(pk=demo.pk).update(state='published')
-        with override_settings(OFFERED_CONTENT_VARIETIES=('ar-dz-pilot',)):
-            report = self.report()
+        report = self.report(offered=('ar-dz-pilot',))
         self.assertEqual(report['published_nondemo_counts']['ar'], 0)
         self.assertEqual(report['published_nondemo_counts_by_variety']['ar-dz-pilot'], 0)
         self.assertEqual(report['current_available_nondemo_counts_by_variety']['ar-dz-pilot'], 0)
