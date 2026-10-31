@@ -5448,3 +5448,15 @@ msgstr "Versions actuellement disponibles"
 
 msgid "Availability is checked for the exact module, spoken variety and content fingerprint; interface-language coverage does not imply approval."
 msgstr "La disponibilité est vérifiée pour le module, la variété parlée et l’empreinte exacts ; la couverture de l’interface ne vaut pas approbation."
+
+msgid "Fictional profile code"
+msgstr "Code fictif du profil"
+
+msgid "Use an invented label only; do not enter a real child’s name, initials, contact details or health information."
+msgstr "Utilisez un libellé inventé ; n’indiquez ni le nom ou les initiales d’un enfant réel, ni ses coordonnées ou informations de santé."
+
+msgid "I confirm this is a fictional demonstration profile with no real child’s personal or health information."
+msgstr "Je confirme que ce profil de démonstration est fictif et ne contient aucune donnée personnelle ou de santé concernant un enfant réel."
+
+msgid "This demonstration is not approved for real records. Do not add real recordings or sensitive notes."
+msgstr "Cette démonstration n’est pas approuvée pour des dossiers réels. N’ajoutez aucun enregistrement réel ni note sensible."

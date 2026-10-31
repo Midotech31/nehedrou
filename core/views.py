@@ -180,7 +180,8 @@ def child_create(request):
     if not member:
         raise Http404
     instance = Child(organization=member.organization, responsible=request.user)
-    form = ChildForm(request.POST if request.method == 'POST' else None, instance=instance)
+    form = ChildForm(request.POST if request.method == 'POST' else None, instance=instance,
+                     require_demo_data_ack=settings.DEMO_MODE)
     scope, scope_valid = practice_form_scope(request, member.organization, 'child_create')
     if not scope_valid:
         form.add_error(None, PRACTICE_SCOPE_ERROR)
@@ -192,6 +193,8 @@ def child_create(request):
                     raise ValidationError(_('Access is no longer available.'))
                 check_entitlement(org, creating_child=True)
                 child = form.save()
+                if settings.DEMO_MODE:
+                    audit(request.user, 'child.demo_fictional_profile_confirmed', child, org)
                 audit(request.user, 'child.created', child, org)
             return redirect('child_detail', pk=child.pk)
         except ValidationError as error:

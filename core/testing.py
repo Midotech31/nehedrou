@@ -1,6 +1,7 @@
 """Technical media fixtures, never therapeutic models or deliverables."""
 import io
 import wave
+from django.conf import settings
 
 def pcm_fixture():
     output = io.BytesIO()
@@ -20,4 +21,7 @@ def practice_form_data(client, path, data=None):
         raise AssertionError('Practice form GET did not succeed: %s' % response.status_code)
     values = data.copy() if data is not None else {}
     values['practice_scope'] = response.context['practice_scope']
+    form = response.context.get('form')
+    if settings.DEMO_MODE and form is not None and 'demo_data_ack' in form.fields:
+        values.setdefault('demo_data_ack', 'on')
     return values
