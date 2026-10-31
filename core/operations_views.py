@@ -1,8 +1,11 @@
 """Private runtime diagnostics for the existing platform-management role."""
 import json
+from io import StringIO
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.db import transaction
+from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
@@ -70,6 +73,34 @@ def diagnostics(request):
     response['Cache-Control'] = 'private, no-store'
     response['X-Robots-Tag'] = 'noindex, nofollow'
     return response
+
+@login_required
+@permission_required('core.manage_entitlements', raise_exception=True)
+@require_http_methods(['GET', 'HEAD'])
+def launch_readiness_report(request):
+    """Run the same non-clinical launch gates against this deployed database."""
+    output = StringIO()
+    try:
+        call_command('check_readiness', json=True, stdout=output)
+        report = json.loads(output.getvalue())
+        status = 200
+    except CommandError:
+        # A malformed or incomplete content-variety configuration must block
+        # publication without turning a private diagnostic into a server error.
+        report = {
+            'report_available': False,
+            'technical_gates_passed': False,
+            'checks': {},
+            'scope': 'Technical report only; this route never certifies clinical release or commercial approval.',
+            'configuration_error': 'Readiness report could not run because the offered spoken-variety configuration is invalid or incomplete.',
+        }
+        status = 503
+    response = HttpResponse(json.dumps(report, ensure_ascii=True, indent=2), content_type='application/json', status=status)
+    response['Content-Disposition'] = 'attachment; filename="nehdrou-launch-readiness.json"'
+    response['Cache-Control'] = 'private, no-store'
+    response['X-Robots-Tag'] = 'noindex, nofollow'
+    return response
+
 
 @login_required
 @permission_required('core.manage_processing_register', raise_exception=True)
