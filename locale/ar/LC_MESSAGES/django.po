@@ -5113,3 +5113,38 @@ msgstr "لم يُضف دليل بهذه اللغة بعد."
 
 msgid "This form no longer matches the selected practice. Reopen it in the intended practice before saving."
 msgstr "لم يعد هذا النموذج متوافقًا مع العيادة المحددة. أعد فتحه في العيادة المقصودة قبل الحفظ."
+#: core/models.py:104
+msgid "Billing administration"
+msgstr "إدارة الفوترة"
+
+#: core/models.py:105
+msgid "Care delivery"
+msgstr "تقديم الرعاية"
+
+#: core/models.py:106
+msgid "Clinical follow-up"
+msgstr "المتابعة السريرية"
+
+#: core/models.py:107
+msgid "Content review"
+msgstr "مراجعة المحتوى"
+
+#: core/models.py:108
+msgid "Data portability"
+msgstr "قابلية نقل البيانات"
+
+#: core/models.py:109
+msgid "Data rights"
+msgstr "الحقوق المتعلقة بالبيانات"
+
+#: core/models.py:102
+msgid "Family home practice"
+msgstr "التدريب المنزلي للأسرة"
+
+#: core/models.py:111
+msgid "Other documented purpose"
+msgstr "غرض آخر موثق"
+
+#: core/models.py:110
+msgid "Practice administration"
+msgstr "إدارة العيادة"

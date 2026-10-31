@@ -37,6 +37,8 @@ jobs:
           sudo apt-get install --yes gettext
       - name: Compile catalogues
         run: python manage.py compilemessages --ignore=.venv
+      - name: Check translated UI keys
+        run: python scripts/check_translations.py
       - name: Run Django system check
         run: python manage.py check
       - name: Check migrations
