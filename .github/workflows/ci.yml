@@ -45,3 +45,5 @@ jobs:
         run: python manage.py makemigrations --check --dry-run
       - name: Run test suite
         run: python manage.py test --verbosity 2
+      - name: Build production Docker image
+        run: docker build --tag nehedrou-ci:pull-request .
