@@ -68,6 +68,7 @@ urlpatterns += i18n_patterns(
     path('information/', complete_views.notice, name='data_notice'),
     path('practice/settings/', complete_views.organization_settings, name='organization_settings'),
     path('operations/', operations_views.diagnostics, name='operations_diagnostics'),
+    path('operations/readiness/', operations_views.launch_readiness_report, name='launch_readiness_report'),
     path('operations/register/', operations_views.processing_register, name='processing_register'),
     path('operations/register/<uuid:pk>/', operations_views.processing_register, name='processing_register_edit'),
     path('billing/', complete_views.billing, name='billing_index'),

@@ -5286,3 +5286,6 @@ msgstr "Les versions du registre sont conservées sans modification."
 
 msgid "Register history entries cannot be deleted."
 msgstr "Les versions du registre ne peuvent pas être supprimées."
+
+msgid "Download launch readiness report"
+msgstr "Télécharger le rapport de préparation au lancement"

@@ -5286,3 +5286,6 @@ msgstr "تُحفظ إصدارات السجل دون تعديل."
 
 msgid "Register history entries cannot be deleted."
 msgstr "لا يمكن حذف إصدارات السجل."
+
+msgid "Download launch readiness report"
+msgstr "تنزيل تقرير جاهزية الإطلاق"
