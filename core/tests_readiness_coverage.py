@@ -16,7 +16,7 @@ from qualification.test_support import prepare_activity_fixture, availability_fi
 
 @override_settings(DEMO_MODE=False, DEBUG=False, DEMO_EPHEMERAL=False,
     MFA_REQUIRED=True, MEDIA_STORAGE_DURABLE=True, MEDIA_STORAGE_BACKEND='filesystem',
-    MEDIA_ROOT='E:/LocalCoderWorkspace/Nehdrou/work/oct30-media-tmp/readiness-media',
+    MEDIA_ROOT='/tmp/nehedrou-readiness-test-media',
     PUBLIC_ORIGIN='https://fictional.example',
     PASSWORD_HASHERS=['django.contrib.auth.hashers.MD5PasswordHasher'],
     STORAGES={'default': {'BACKEND': 'django.core.files.storage.InMemoryStorage'},
