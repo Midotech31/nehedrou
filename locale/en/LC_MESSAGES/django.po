@@ -3961,8 +3961,8 @@ msgstr "Build an original activity from a blank form. Save a draft, then complet
 msgid "Activity essentials"
 msgstr "Activity essentials"
 
-msgid "The title, spoken variety and two words or prompts are required to save. The contrast field describes the target or theme."
-msgstr "The title, spoken variety and two words or prompts are required to save. The contrast field describes the target or theme."
+msgid "To save the draft, provide a title, spoken variety, target or theme, and two words or prompts."
+msgstr "To save the draft, provide a title, spoken variety, target or theme, and two words or prompts."
 
 msgid "Words, prompts and media"
 msgstr "Words, prompts and media"

@@ -3961,8 +3961,8 @@ msgstr "أنشئوا نشاطًا أصليًا من نموذج فارغ. احف�
 msgid "Activity essentials"
 msgstr "المعلومات الأساسية للنشاط"
 
-msgid "The title, spoken variety and two words or prompts are required to save. The contrast field describes the target or theme."
-msgstr "يلزم العنوان والتنوع اللغوي وكلمتان أو محفزان للحفظ. يصف حقل التقابل الهدف أو الموضوع."
+msgid "To save the draft, provide a title, spoken variety, target or theme, and two words or prompts."
+msgstr "لحفظ المسودة، يلزم إدخال العنوان والتنوع اللغوي المنطوق والهدف أو الموضوع وكلمتين أو محفزين."
 
 msgid "Words, prompts and media"
 msgstr "الكلمات والمحفزات والوسائط"

@@ -77,6 +77,20 @@ class OriginalActivityAuthoringTests(TestCase):
             self.assertNotContains(response, 'name="practice_guide"')
             self.assertContains(response, 'Designed by Benabdeloued Mohamed Alias Pitou')
 
+    def test_creation_form_names_every_required_field_in_all_languages(self):
+        self.client.force_login(self.author)
+        expected = {
+            'fr': 'Pour enregistrer le brouillon, le titre, la vari\u00e9t\u00e9 parl\u00e9e, la cible ou le th\u00e8me, ainsi que deux mots ou supports sont obligatoires.',
+            'en': 'To save the draft, provide a title, spoken variety, target or theme, and two words or prompts.',
+            'ar': '\u0644\u062d\u0641\u0638 \u0627\u0644\u0645\u0633\u0648\u062f\u0629\u060c \u064a\u0644\u0632\u0645 \u0625\u062f\u062e\u0627\u0644 \u0627\u0644\u0639\u0646\u0648\u0627\u0646 \u0648\u0627\u0644\u062a\u0646\u0648\u0639 \u0627\u0644\u0644\u063a\u0648\u064a \u0627\u0644\u0645\u0646\u0637\u0648\u0642 \u0648\u0627\u0644\u0647\u062f\u0641 \u0623\u0648 \u0627\u0644\u0645\u0648\u0636\u0648\u0639 \u0648\u0643\u0644\u0645\u062a\u064a\u0646 \u0623\u0648 \u0645\u062d\u0641\u0632\u064a\u0646.',
+        }
+        for code, sentence in expected.items():
+            with self.subTest(language=code):
+                response = self.client.get(f'/{code}/editorial/new/')
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(response, sentence)
+                self.assertTrue(response.context['form'].fields['contrast'].required)
+
     def test_partial_guide_produces_field_errors_without_silent_save(self):
         form = self.form(self.basic(guide_ar_objective='تعلم مفردتين'))
         self.assertFalse(form.is_valid())
