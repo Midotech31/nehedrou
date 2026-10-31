@@ -31,8 +31,10 @@ jobs:
           python-version: "3.12"
       - name: Install locked dependencies
         run: python -m pip install --require-hashes -r requirements.lock
-      - name: Check shipped translations
-        run: python scripts/check_translations.py
+      - name: Compile and check shipped translations
+        run: |
+          python manage.py compilemessages --ignore=.venv
+          python scripts/check_translations.py
       - name: Run Django system check
         run: python manage.py check
       - name: Check migrations
