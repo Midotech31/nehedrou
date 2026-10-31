@@ -40,10 +40,10 @@ class SpokenVarietyReadinessTests(TestCase):
             availability_fixture('practice', activity.variety, activity.fingerprint(), self.editor)
         return activity
 
-    def report(self, *, strict=False):
+    def report(self, *, strict=False, offered=None):
         output = io.StringIO()
         # Only deployment configuration is simulated; content gates use real fixtures.
-        with patch('core.management.commands.check_readiness.connection', SimpleNamespace(vendor='postgresql')), patch('core.management.commands.check_readiness.smtp_configuration', return_value={'configured':True}), patch('core.management.commands.check_readiness.email_configuration', return_value={'configured':True}):
+        with patch('core.management.commands.check_readiness.connection', SimpleNamespace(vendor='postgresql')), patch('core.management.commands.check_readiness.smtp_configuration', return_value={'configured':True}), patch('core.management.commands.check_readiness.email_configuration', return_value={'configured':True}), override_settings(OFFERED_CONTENT_VARIETIES=offered or DEFAULT_OFFERED_CONTENT_VARIETIES):
             call_command('check_readiness', json=True, strict=strict, stdout=output)
         return json.loads(output.getvalue())
 
@@ -70,15 +70,14 @@ class SpokenVarietyReadinessTests(TestCase):
     def test_four_distinct_available_varieties_pass_with_all_other_fixture_gates(self):
         for code in DEFAULT_OFFERED_CONTENT_VARIETIES:
             self.content(code)
-        report = self.report(strict=True)
+        report = self.report(strict=True, offered=DEFAULT_OFFERED_CONTENT_VARIETIES)
         self.assertTrue(report['technical_gates_passed'])
         self.assertEqual(report['published_nondemo_counts']['ar'], 2)
         self.assertEqual(report['current_available_nondemo_counts_by_variety'], {code:1 for code in DEFAULT_OFFERED_CONTENT_VARIETIES})
 
     def test_explicit_offering_can_be_narrower_than_three_interface_languages(self):
         self.content('fr-fr-pilot')
-        with override_settings(OFFERED_CONTENT_VARIETIES=('fr-fr-pilot',)):
-            report = self.report(strict=True)
+        report = self.report(strict=True, offered=('fr-fr-pilot',))
         self.assertEqual(report['offered_content_varieties'], ['fr-fr-pilot'])
         self.assertEqual(report['published_nondemo_counts'], {'fr':1,'en':0,'ar':0})
         self.assertTrue(report['technical_gates_passed'])
