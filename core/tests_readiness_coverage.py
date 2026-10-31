@@ -2,6 +2,7 @@
 import io
 import json
 import uuid
+from datetime import date
 from types import SimpleNamespace
 from unittest.mock import patch
 from django.core.management import call_command
@@ -69,7 +70,11 @@ class SpokenVarietyReadinessTests(TestCase):
         return ProcessingActivity.objects.create(
             name='Fictional platform service', register_capacity='controller',
             controller_name='Fictional operator', controller_contact='privacy@fictional.example',
-            data_protection_contact='dpo@fictional.example', purposes='Fictional account and service purposes', legal_basis='Pending counsel review',
+            data_protection_contact='dpo@fictional.example',
+            data_protection_officer_name='Fictional DPO',
+            data_protection_officer_qualification='Fictional specialist knowledge summary; pending verification',
+            data_protection_officer_notified_at=date(2026, 10, 30),
+            purposes='Fictional account and service purposes', legal_basis='Pending counsel review',
             data_subject_categories='Fictional adult users and child profiles',
             personal_data_categories='Fictional account and service records',
             recipient_categories='Hosting provider in Germany',
@@ -84,13 +89,22 @@ class SpokenVarietyReadinessTests(TestCase):
         report = self.report()
         self.assertTrue(report['checks']['processing_register_present_and_populated'])
         self.assertEqual(report['processing_register']['active_by_capacity'], {'controller':1,'processor':0})
+        self.assertEqual(report['processing_register']['controller_records_with_dpo_details_and_communication_date'], 1)
+        self.assertIn('dpo_designation_and_authority_notification_per_applicable_law', report['manual_gates_required'])
         ProcessingActivity.objects.filter(pk=record.pk).update(data_protection_contact='')
         report = self.report()
+        self.assertEqual(report['processing_register']['controller_records_with_dpo_details_and_communication_date'], 0)
+        self.assertEqual(report['processing_register']['controller_records_missing_dpo_details_or_communication_date'], 1)
         self.assertFalse(report['checks']['processing_register_present_and_populated'])
         ProcessingActivity.objects.filter(pk=record.pk).update(data_protection_contact='dpo@fictional.example', retention_periods='   ')
         report = self.report()
         self.assertFalse(report['checks']['processing_register_present_and_populated'])
         self.assertEqual(report['processing_register']['populated_platform_records'], 0)
+        ProcessingActivity.objects.filter(pk=record.pk).update(
+            data_protection_contact='dpo@fictional.example', retention_periods='Fictional retention schedule',
+            data_protection_officer_notified_at=date(2099, 1, 1))
+        report = self.report()
+        self.assertEqual(report['processing_register']['controller_records_with_dpo_details_and_communication_date'], 0)
 
     def test_four_distinct_available_varieties_pass_with_all_other_fixture_gates(self):
         for code in DEFAULT_OFFERED_CONTENT_VARIETIES:

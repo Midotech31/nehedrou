@@ -133,6 +133,9 @@ class ProcessingActivity(CheckedModel):
     controller_name = models.CharField(max_length=160)
     controller_contact = models.CharField(max_length=254)
     data_protection_contact = models.CharField(max_length=254, blank=True)
+    data_protection_officer_name = models.CharField(max_length=160, blank=True)
+    data_protection_officer_qualification = models.CharField(max_length=500, blank=True)
+    data_protection_officer_notified_at = models.DateField(null=True, blank=True)
     purposes = models.TextField()
     legal_basis = models.TextField()
     data_subject_categories = models.TextField()
@@ -153,6 +156,10 @@ class ProcessingActivity(CheckedModel):
     class Meta:
         ordering = ['organization__name', 'name', 'pk']
         permissions = [('manage_processing_register', _('Can manage processing register entries'))]
+
+    def clean(self):
+        if self.data_protection_officer_notified_at and self.data_protection_officer_notified_at > timezone.localdate():
+            raise ValidationError({'data_protection_officer_notified_at': _('Communication date cannot be in the future.')})
 
     def __str__(self):
         return self.name

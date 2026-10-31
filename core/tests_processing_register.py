@@ -1,4 +1,5 @@
 import json
+from datetime import date
 from django.contrib.auth.models import Permission
 from django.core.exceptions import ValidationError
 from django.test import TestCase, override_settings
@@ -22,7 +23,10 @@ class ProcessingRegisterAdminTests(TestCase):
             'name': 'Fictional service processing',
             'controller_name': 'Fictional operator',
             'controller_contact': 'privacy@fictional.example',
-            'data_protection_contact': '',
+            'data_protection_contact': 'dpo@fictional.example',
+            'data_protection_officer_name': 'Fictional DPO',
+            'data_protection_officer_qualification': 'Fictional specialist knowledge summary; pending verification',
+            'data_protection_officer_notified_at': '2026-10-30',
             'purposes': 'Fictional purposes pending legal review',
             'legal_basis': 'To be confirmed by qualified counsel',
             'data_subject_categories': 'Fictional users and child profiles',
@@ -35,6 +39,14 @@ class ProcessingRegisterAdminTests(TestCase):
             'active': 'on',
         }
 
+    def test_future_dpo_communication_date_is_rejected(self):
+        response = self.client.post(reverse('processing_register'), self.payload())
+        self.assertEqual(response.status_code, 302)
+        record = ProcessingActivity.objects.get(name='Fictional service processing')
+        record.data_protection_officer_notified_at = date(2099, 1, 1)
+        with self.assertRaises(ValidationError):
+            record.full_clean()
+
     def test_authorized_operator_can_create_and_update_register_with_audit_events(self):
         add_url = reverse('processing_register')
         response = self.client.post(add_url, self.payload())
@@ -42,6 +54,8 @@ class ProcessingRegisterAdminTests(TestCase):
         record = ProcessingActivity.objects.get(name='Fictional service processing')
         self.assertEqual(record.created_by_id, self.operator.pk)
         self.assertEqual(record.updated_by_id, self.operator.pk)
+        self.assertEqual(record.data_protection_officer_name, 'Fictional DPO')
+        self.assertEqual(record.data_protection_officer_notified_at.isoformat(), '2026-10-30')
         created = AuditEvent.objects.get(action='privacy.register_activity_created', object_id=str(record.pk))
         self.assertEqual(created.actor_id, self.operator.pk)
         self.assertEqual(created.purpose_code, 'data_rights')
@@ -58,6 +72,8 @@ class ProcessingRegisterAdminTests(TestCase):
         revisions = list(record.revisions.order_by('revision'))
         self.assertEqual([revision.revision for revision in revisions], [1, 2])
         self.assertEqual(revisions[0].snapshot['name'], 'Fictional service processing')
+        self.assertEqual(revisions[0].snapshot['data_protection_officer_name'], 'Fictional DPO')
+        self.assertEqual(revisions[0].snapshot['data_protection_officer_notified_at'], '2026-10-30')
         self.assertEqual(revisions[1].snapshot['name'], 'Fictional service processing v2')
         self.assertEqual(revisions[1].changed_by_id, self.operator.pk)
         with self.assertRaises(ValidationError):
@@ -83,6 +99,8 @@ class ProcessingRegisterAdminTests(TestCase):
         data = json.loads(response.content)
         self.assertEqual(data['entries'][0]['id'], str(record.pk))
         self.assertEqual(data['entries'][0]['controller_contact'], 'privacy@fictional.example')
+        self.assertEqual(data['entries'][0]['data_protection_officer_name'], 'Fictional DPO')
+        self.assertEqual(data['entries'][0]['data_protection_officer_notified_at'], '2026-10-30')
 
     def test_user_without_explicit_permission_cannot_access_register(self):
         self.client.force_login(User.objects.create_user(
@@ -102,12 +120,18 @@ class ProcessingRegisterAdminTests(TestCase):
         self.assertNotContains(response, reverse('billing_index'))
 
     def test_register_interface_renders_in_all_languages_and_arabic_rtl(self):
-        for code, label in [('fr', 'Registre des traitements'), ('en', 'Processing register'), ('ar', 'سجل المعالجة')]:
+        labels = {'fr': 'D\u00e9l\u00e9gu\u00e9 \u00e0 la protection des donn\u00e9es d\u00e9sign\u00e9', 'en': 'Designated data protection officer', 'ar': '\u0645\u0633\u0624\u0648\u0644 \u062d\u0645\u0627\u064a\u0629 \u0627\u0644\u0628\u064a\u0627\u0646\u0627\u062a \u0627\u0644\u0645\u0639\u064a\u0651\u0646'}
+        for code, label in [('fr', 'Registre des traitements'), ('en', 'Processing register'), ('ar', '\u0633\u062c\u0644 \u0627\u0644\u0645\u0639\u0627\u0644\u062c\u0629')]:
             with translation.override(code):
                 response = self.client.get(f'/{code}/operations/register/')
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, f'<html lang="{code}"')
-            self.assertContains(response, label)
+            body = response.content.decode('utf-8')
+            self.assertIn(label, body)
+            self.assertContains(response, 'name="data_protection_officer_name"')
+            self.assertIn(labels[code], body)
+            self.assertContains(response, 'name="data_protection_officer_qualification"')
+            self.assertContains(response, 'name="data_protection_officer_notified_at"')
             if code == 'ar':
                 self.assertContains(response, 'dir="rtl"')
 

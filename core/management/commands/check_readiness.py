@@ -5,6 +5,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+from django.utils import timezone
 from django.db import connection
 from catalog.models import Activity, Variety
 from catalog.content_catalog import current_catalog
@@ -61,6 +62,16 @@ class Command(BaseCommand):
             fields = required_register_fields + (('data_protection_contact',) if entry.register_capacity == 'controller' else ())
             return all(bool((getattr(entry, field) or '').strip()) for field in fields)
         complete_register_count = sum(register_entry_populated(entry) for entry in register)
+        controller_entries = list(register.filter(register_capacity='controller').only(
+            'data_protection_contact', 'data_protection_officer_name',
+            'data_protection_officer_qualification', 'data_protection_officer_notified_at'))
+        dpo_details_recorded = sum(
+            bool((entry.data_protection_contact or '').strip()
+                 and (entry.data_protection_officer_name or '').strip()
+                 and (entry.data_protection_officer_qualification or '').strip()
+                 and entry.data_protection_officer_notified_at
+                 and entry.data_protection_officer_notified_at <= timezone.localdate())
+            for entry in controller_entries)
         checks = {
             'processing_register_present_and_populated': register.exists() and complete_register_count == register.count(),
             'demonstration_disabled': not settings.DEMO_MODE,
@@ -78,6 +89,10 @@ class Command(BaseCommand):
             'checks': checks,
             'processing_register': {
                 'active_platform_records': register.count(),
+                'active_controller_records': len(controller_entries),
+                'controller_records_with_dpo_details_and_communication_date': dpo_details_recorded,
+                'controller_records_missing_dpo_details_or_communication_date': len(controller_entries) - dpo_details_recorded,
+                'dpo_scope': 'Counts operator-entered name, contact channel, professional-qualification summary and communication date only. They do not prove the appointment, receipt by an authority, legal applicability or compliance.',
                 'active_by_capacity': {capacity: register.filter(register_capacity=capacity).count()
                                        for capacity, _label in ProcessingActivity._meta.get_field('register_capacity').choices},
                 'populated_platform_records': complete_register_count,
@@ -91,7 +106,7 @@ class Command(BaseCommand):
             'current_available_nondemo_counts_by_variety': available_by_variety,
             'content_coverage_scope': 'Interface-language counts are descriptive only. Every explicitly offered spoken variety requires its own currently usable non-demo practice version, exact media, current reviews and authorised availability; MSA never covers Algerian Darja.',
             'versions_with_unavailable_audio_or_reviews': unavailable,
-            'manual_gates_required': ['professional_content_and_audio_validation', 'native_language_review', 'browser_and_accessibility_acceptance', 'backup_restore_and_concurrency_acceptance', 'applicable_launch_obligations', 'processing_register_accuracy_and_legal_review', 'clinical_effectiveness_claims_require_separate_evidence'],
+            'manual_gates_required': ['professional_content_and_audio_validation', 'native_language_review', 'browser_and_accessibility_acceptance', 'backup_restore_and_concurrency_acceptance', 'applicable_launch_obligations', 'dpo_designation_and_authority_notification_per_applicable_law', 'processing_register_accuracy_and_legal_review', 'clinical_effectiveness_claims_require_separate_evidence'],
             'storage_scope': 'Durability is operator-declared; verify persistence across restart, backup scheduling, off-host retention and restoration before launch.',
             'scope': 'A technical report, never clinical validation or commercial approval.',
         }

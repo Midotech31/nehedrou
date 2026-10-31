@@ -5448,3 +5448,21 @@ msgstr "النسخ المتاحة حاليًا"
 
 msgid "Availability is checked for the exact module, spoken variety and content fingerprint; interface-language coverage does not imply approval."
 msgstr "يُتحقق من الإتاحة على مستوى الوحدة والتنوع اللغوي المنطوق وبصمة المحتوى المحددة؛ ولا تعني تغطية لغة الواجهة اعتماد المحتوى."
+
+msgid "Designated data protection officer"
+msgstr "مسؤول حماية البيانات المعيّن"
+
+msgid "Data protection officer professional qualifications"
+msgstr "المؤهلات المهنية لمسؤول حماية البيانات"
+
+msgid "Date DPO contact details were communicated to the national data protection authority"
+msgstr "تاريخ إبلاغ السلطة الوطنية ببيانات اتصال مسؤول حماية البيانات"
+
+msgid "Record the date submitted; the application does not verify receipt by the authority."
+msgstr "سجّلوا تاريخ الإبلاغ المصرّح به؛ لا تتحقق المنصة من استلام السلطة."
+
+msgid "DPO designation and national-authority contact notification checked for applicable markets"
+msgstr "التحقق، وفق القانون المنطبق، من تعيين مسؤول حماية البيانات وإبلاغ السلطة الوطنية ببيانات الاتصال"
+
+msgid "Communication date cannot be in the future."
+msgstr "لا يمكن أن يكون تاريخ الإبلاغ في المستقبل."
