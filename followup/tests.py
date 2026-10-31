@@ -269,6 +269,10 @@ class FollowupTests(TestCase):
         self.prepare()
         self.assertEqual(reserved_words_for(self.child, self.variety), {'mot-1'})
         before = copy.deepcopy(self.admin.snapshot)
+        # Give the observation an unambiguous time boundary. Windows clocks can
+        # return the same timestamp for two adjacent calls to timezone.now().
+        ProbeAdministration.objects.filter(pk=self.admin.pk).update(
+            started_at=timezone.now() - timezone.timedelta(seconds=5))
         record_exposure(self.pro, self.child, self.variety, 'mot-1', 'trained', 'External practice later reported.')
         report = professional_report(self.pro, self.admin)
         self.assertEqual(report['snapshot'], before)

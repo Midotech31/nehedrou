@@ -21,6 +21,7 @@ from catalog.audio_delivery import protected_media_response
 from catalog.integrity import integrity_scope
 from catalog.models import EditorialGrant, Variety
 from core.models import User
+from core.ops_readiness import storage_probe, operations_report, MAX_PROBE_BYTES
 from core.storage_io import read_bounded, StorageReadError, StorageLimitExceeded
 from qualification.models import EvidenceDocument, digest_file
 from qualification.views import evidence_file
@@ -247,6 +248,46 @@ class BoundedStorageTests(SimpleTestCase):
         with self.assertRaises(OSError):
             read_bounded(storage,missing,8)
         self.s3.client.get_object.assert_not_called()
+
+    def test_probe_verifies_only_expected_exact_bytes_and_hides_key_hash_body_errors(self):
+        data=b'fictional probe'
+        digest=hashlib.sha256(data).hexdigest()
+        for expected,ok,verified in [(None,True,False),(digest,True,True),('0'*64,False,False)]:
+            with self.subTest(expected_present=expected is not None):
+                raw=self.s3.response(data)
+                with override_settings(MEDIA_STORAGE_BACKEND='s3'),patch('django.core.files.storage.default_storage',self.s3.storage):
+                    report=storage_probe('private-operator-sentinel.bin',expected_sha256=expected)
+                self.assertEqual(report['ok'],ok)
+                self.assertEqual(report['expected_content_verified'],verified)
+                self.assertEqual(report['bytes_read'],len(data))
+                self.assertEqual(raw.closes,1)
+                for secret in ['private-operator-sentinel',digest,data.decode()]:
+                    self.assertNotIn(secret,str(report))
+        self.s3.client.reset_mock()
+        for expected in ('invalid',digest.upper(),False):
+            with self.subTest(invalid_expected=type(expected).__name__),override_settings(MEDIA_STORAGE_BACKEND='s3'),patch('django.core.files.storage.default_storage',self.s3.storage):
+                report=storage_probe('private-operator-sentinel.bin',expected_sha256=expected)
+                self.assertFalse(report['ok'])
+                self.assertFalse(report['expected_content_verified'])
+        self.s3.client.get_object.assert_not_called()
+
+    def test_oversize_probe_closes_before_transferring_declared_object(self):
+        raw=self.s3.response(b'prefix',status=200,ContentLength=4*MAX_PROBE_BYTES)
+        with override_settings(MEDIA_STORAGE_BACKEND='s3'),patch('django.core.files.storage.default_storage',self.s3.storage):
+            report=storage_probe('huge-operator-sentinel.bin')
+        self.assertFalse(report['ok'])
+        self.assertEqual(report['reason'],'sample_exceeds_1_mib')
+        self.assertEqual(report['bytes_read'],0)
+        self.assertFalse(report['expected_content_verified'])
+        self.assertEqual(raw.bytes_read,0)
+        self.assertEqual(raw.closes,1)
+
+    def test_operations_passes_expected_digest_without_returning_it(self):
+        digest=hashlib.sha256(b'fixture').hexdigest()
+        with patch('core.ops_readiness.storage_probe',return_value={'requested':True,'ok':True,'expected_content_verified':True}) as probe:
+            report=operations_report(storage_object='fixture.bin',storage_expected_sha256=digest)
+        probe.assert_called_once_with('fixture.bin',expected_sha256=digest)
+        self.assertNotIn(digest,str(report))
 
     def test_private_media_get_head_and_ranges_hash_the_exact_remote_body(self):
         data=b'fictional media bytes'
