@@ -3961,8 +3961,8 @@ msgstr "Créez une activité originale depuis une fiche vide. Enregistrez un bro
 msgid "Activity essentials"
 msgstr "Fiche de l’activité"
 
-msgid "The title, spoken variety and two words or prompts are required to save. The contrast field describes the target or theme."
-msgstr "Le titre, la variété parlée et les deux mots ou supports sont nécessaires à l’enregistrement. Le champ de contraste décrit la cible ou le thème."
+msgid "To save the draft, provide a title, spoken variety, target or theme, and two words or prompts."
+msgstr "Pour enregistrer le brouillon, le titre, la variété parlée, la cible ou le thème, ainsi que deux mots ou supports sont obligatoires."
 
 msgid "Words, prompts and media"
 msgstr "Mots, supports et médias"
