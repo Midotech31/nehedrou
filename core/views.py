@@ -108,8 +108,11 @@ def dashboard(request):
     waiting = active.filter(report_count=0).count()
     cards = list(active.order_by('-created_at')[:6])
     purpose = 'family_practice' if family_workspace else 'care_delivery'
-    for program in cards:
-        log_child_access(request.user, program.child, resource='dashboard_summary', purpose_code=purpose)
+    # This page also calculates totals and recent reports across every visible
+    # program, not only the six cards shown above. Record each child in the
+    # selected workspace once so the audit scope matches the data queried.
+    for child in children.select_related('organization').iterator():
+        log_child_access(request.user, child, resource='dashboard_summary', purpose_code=purpose)
     for program in cards:
         decorate_plan(program, today=today)
         available = program.items.filter(activity__state='published').select_related('activity')
