@@ -10,7 +10,7 @@ services:
     plan: free
     region: frankfurt
     branch: main
-    autoDeployTrigger: "off"
+    autoDeployTrigger: "commit"
     buildCommand: python scripts/render_build.py
     startCommand: python scripts/render_start.py
     healthCheckPath: /healthz/
