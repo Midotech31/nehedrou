@@ -5421,3 +5421,30 @@ msgstr "Des blocages techniques empêchent le lancement"
 
 msgid "At least one technical launch check is not met. Resolve the blocked items below; the report does not approve clinical content or commercial release."
 msgstr "Au moins un contrôle technique n’est pas satisfait. Corrigez les points bloquants ci-dessous ; ce rapport ne valide ni le contenu clinique ni la commercialisation."
+
+msgid "Platform processing-register coverage"
+msgstr "Couverture du registre des traitements de la plateforme"
+
+msgid "Active platform entries"
+msgstr "Fiches actives de la plateforme"
+
+msgid "Populated active entries"
+msgstr "Fiches actives renseignées"
+
+msgid "These counts reflect operator-entered records only; their accuracy and legal basis still require qualified review."
+msgstr "Ces nombres reflètent uniquement les fiches saisies par l’exploitant ; leur exactitude et leur fondement juridique doivent encore être vérifiés par un professionnel compétent."
+
+msgid "Professional probe module"
+msgstr "Module de sondes professionnelles"
+
+msgid "Original drafts"
+msgstr "Brouillons initiaux"
+
+msgid "Published versions"
+msgstr "Versions publiées"
+
+msgid "Currently available versions"
+msgstr "Versions actuellement disponibles"
+
+msgid "Availability is checked for the exact module, spoken variety and content fingerprint; interface-language coverage does not imply approval."
+msgstr "La disponibilité est vérifiée pour le module, la variété parlée et l’empreinte exacts ; la couverture de l’interface ne vaut pas approbation."

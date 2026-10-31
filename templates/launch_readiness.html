@@ -40,6 +40,27 @@
   <ul>{% for label in manual_gate_rows %}<li>{{ label }}</li>{% endfor %}</ul>
 </section>
 {% endif %}
+{% if report.processing_register or report.production_followup %}
+<div class="grid two">
+  {% if report.processing_register %}
+  <section class="card">
+    <h2>{% translate "Platform processing-register coverage" %}</h2>
+    <dl><dt>{% translate "Active platform entries" %}</dt><dd>{{ report.processing_register.active_platform_records|default:0 }}</dd>
+    <dt>{% translate "Populated active entries" %}</dt><dd>{{ report.processing_register.populated_platform_records|default:0 }}</dd></dl>
+    <p>{% translate "These counts reflect operator-entered records only; their accuracy and legal basis still require qualified review." %}</p>
+  </section>
+  {% endif %}
+  {% if report.production_followup %}
+  <section class="card">
+    <h2>{% translate "Professional probe module" %}</h2>
+    <dl><dt>{% translate "Original drafts" %}</dt><dd>{{ report.production_followup.original_drafts|default:0 }}</dd>
+    <dt>{% translate "Published versions" %}</dt><dd>{{ report.production_followup.published_versions|default:0 }}</dd>
+    <dt>{% translate "Currently available versions" %}</dt><dd>{{ report.production_followup.available_versions|default:0 }}</dd></dl>
+    <p>{% translate "Availability is checked for the exact module, spoken variety and content fingerprint; interface-language coverage does not imply approval." %}</p>
+  </section>
+  {% endif %}
+</div>
+{% endif %}
 <section class="card">
   <h2>{% translate "What this report means" %}</h2>
   <p>{% translate "A passed technical checklist is not evidence that the application has clinical efficacy, that each activity is appropriate for a particular child, or that every legal obligation is met." %}</p>

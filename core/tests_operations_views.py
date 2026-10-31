@@ -57,6 +57,8 @@ class PrivateOperationsViewTests(TestCase):
             'offered_content_varieties': ['ar-dz-pilot'],
             'published_nondemo_counts_by_variety': {'ar-dz-pilot': 2},
             'current_available_nondemo_counts_by_variety': {'ar-dz-pilot': 0},
+            'processing_register': {'active_platform_records': 0, 'populated_platform_records': 0},
+            'production_followup': {'original_drafts': 3, 'published_versions': 2, 'available_versions': 0},
         }
         def write_report(command, *, json, stdout):
             self.assertEqual(command, 'check_readiness')
@@ -69,6 +71,9 @@ class PrivateOperationsViewTests(TestCase):
         self.assertContains(response, 'ar-dz-pilot')
         self.assertContains(response, 'Des blocages techniques empêchent le lancement')
         self.assertContains(response, 'Relecture professionnelle des activités et des fichiers audio exacts')
+        self.assertContains(response, 'Couverture du registre des traitements de la plateforme')
+        self.assertContains(response, 'Module de sondes professionnelles')
+        self.assertContains(response, '3')
         self.assertIn('private', response['Cache-Control'])
         self.assertIn('no-store', response['Cache-Control'])
         self.assertEqual(response['X-Robots-Tag'], 'noindex, nofollow')

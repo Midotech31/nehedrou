@@ -5421,3 +5421,30 @@ msgstr "Technical launch blockers remain"
 
 msgid "At least one technical launch check is not met. Resolve the blocked items below; the report does not approve clinical content or commercial release."
 msgstr "At least one technical launch check is not met. Resolve the blocked items below; the report does not approve clinical content or commercial release."
+
+msgid "Platform processing-register coverage"
+msgstr "Platform processing-register coverage"
+
+msgid "Active platform entries"
+msgstr "Active platform entries"
+
+msgid "Populated active entries"
+msgstr "Populated active entries"
+
+msgid "These counts reflect operator-entered records only; their accuracy and legal basis still require qualified review."
+msgstr "These counts reflect operator-entered records only; their accuracy and legal basis still require qualified review."
+
+msgid "Professional probe module"
+msgstr "Professional probe module"
+
+msgid "Original drafts"
+msgstr "Original drafts"
+
+msgid "Published versions"
+msgstr "Published versions"
+
+msgid "Currently available versions"
+msgstr "Currently available versions"
+
+msgid "Availability is checked for the exact module, spoken variety and content fingerprint; interface-language coverage does not imply approval."
+msgstr "Availability is checked for the exact module, spoken variety and content fingerprint; interface-language coverage does not imply approval."
