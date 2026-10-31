@@ -10,7 +10,8 @@ services:
     plan: free
     region: frankfurt
     branch: main
-    autoDeployTrigger: "commit"
+    # Render requires manual deploys for services using a public Git repository URL.
+    autoDeployTrigger: "off"
     buildCommand: python scripts/render_build.py
     startCommand: python scripts/render_start.py
     healthCheckPath: /healthz/
