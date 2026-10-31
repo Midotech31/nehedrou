@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_http_methods
 from core.ops_readiness import operations_report
+from core.technical_storage_probe import PROBE_KEY, PROBE_SHA256
 
 CONFIGURATION_LABELS = {
     'debug_disabled': _('Debug disabled'),
@@ -41,10 +42,16 @@ EMAIL_LABELS = {
 @require_http_methods(['GET', 'HEAD', 'POST'])
 def diagnostics(request):
     # No arbitrary storage keys, recipients, URLs, commands or destinations accepted.
-    probe = request.method == 'POST'
-    if probe and request.POST.get('action') != 'database':
+    action = request.POST.get('action') if request.method == 'POST' else None
+    if request.method == 'POST' and action not in ('database', 'storage'):
         return HttpResponseBadRequest()
-    report = operations_report(probe_database=probe)
+    if action == 'storage':
+        if set(request.POST) - {'action', 'csrfmiddlewaretoken'}:
+            return HttpResponseBadRequest()
+        # A fixed technical sentinel can never select a patient/evidence object.
+        report = operations_report(storage_object=PROBE_KEY, storage_expected_sha256=PROBE_SHA256)
+    else:
+        report = operations_report(probe_database=action == 'database')
     report['execution']['delivery'] = 'authenticated_private_web_view'
     if request.GET.get('format') == 'json':
         response = HttpResponse(json.dumps(report, ensure_ascii=True, indent=2), content_type='application/json')
