@@ -73,6 +73,23 @@ class WorkflowTests(TestCase):
         self.assertEqual(event.actor_ref, str(self.family.pk))
         self.assertEqual(event.purpose_code, 'family_practice')
 
+    def test_dashboard_logs_every_child_in_its_aggregate_scope(self):
+        response = self.client.get(reverse('dashboard'))
+        self.assertEqual(response.status_code, 200)
+        events = AuditEvent.objects.filter(actor=self.pro, action='data.consult.dashboard_summary')
+        expected_children = set(Child.objects.filter(responsible=self.pro).values_list('pk', flat=True))
+        logged_children = {event.object_id for event in events}
+        self.assertEqual(logged_children, {str(pk) for pk in expected_children})
+        self.assertTrue(all(event.purpose_code == 'care_delivery' for event in events))
+        self.assertTrue(all(event.organization_id == self.org.pk for event in events))
+
+        self.client.force_login(self.family)
+        self.assertEqual(self.client.get(reverse('dashboard')).status_code, 200)
+        family_events = AuditEvent.objects.filter(actor=self.family, action='data.consult.dashboard_summary')
+        linked_children = set(Child.objects.filter(family_links__user=self.family, family_links__active=True).values_list('pk', flat=True))
+        self.assertEqual({event.object_id for event in family_events}, {str(pk) for pk in linked_children})
+        self.assertTrue(all(event.purpose_code == 'family_practice' for event in family_events))
+
     def test_denied_child_consultation_does_not_write_access_event(self):
         self.client.force_login(self.other)
         self.assertEqual(self.client.get(reverse('child_detail', args=[self.child.pk])).status_code, 404)
