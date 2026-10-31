@@ -1,12 +1,11 @@
 # Six generated French image proposals — pending review
 
-Built-in image_gen outputs dated 30 October 2026, copied to persistent E: workspace.
-The twelve WebP files here are whole-frame 512/256 reductions; they total 202,100
-bytes. Six full-resolution 1254×1254 PNG sources total 9,839,323 bytes and remain
-at `E:\LocalCoderWorkspace\Nehdrou\work\generated-images-20261030`. Exact
-source filenames, prompts, hashes and derivative metadata are in `manifest.json`.
-No asset depends on a temporary Codex output path. The unrelated seventh source
-was not selected, imported or altered.
+Built-in image_gen outputs dated 30 October 2026. The twelve WebP files here are
+whole-frame 512/256 reductions; they total 202,100 bytes. The six full-resolution
+1254×1254 PNG source files (9,839,323 bytes) are included in `sources/` and
+verified against their exact byte lengths and SHA-256 hashes in `manifest.json`.
+Exact source filenames, prompts and derivative metadata remain in that manifest.
+The unrelated seventh source was not selected, imported or altered.
 
 These are proposals for pain/bain, poule/boule and poire/boire in fr-fr-pilot.
 They carry unknown rights, no competent human approval and no child trial result.
@@ -15,8 +14,8 @@ The held-out pomme/porte/poupée/papillon words are neither generated nor assign
 by this pack. No probe, reserve, programme or historical review is modified.
 
 ```text
-python manage.py install_generated_review_pack --actor EXISTING_EDITOR --source-dir E:\LocalCoderWorkspace\Nehdrou\work\generated-images-20261030
-python manage.py install_generated_review_pack --actor EXISTING_EDITOR --source-dir E:\LocalCoderWorkspace\Nehdrou\work\generated-images-20261030 --apply
+python manage.py install_generated_review_pack --actor EXISTING_EDITOR --source-dir content\review_packs\fr-p-b-initial-review-20261030\sources
+python manage.py install_generated_review_pack --actor EXISTING_EDITOR --source-dir content\review_packs\fr-p-b-initial-review-20261030\sources --apply
 ```
 
 The first command is read-only. Apply requires an active editor of the exact
