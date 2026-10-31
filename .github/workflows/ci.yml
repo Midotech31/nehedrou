@@ -47,3 +47,30 @@ jobs:
         run: python manage.py test --verbosity 2
       - name: Build production Docker image
         run: docker build --tag nehedrou-ci:pull-request .
+      - name: Smoke test production container startup
+        run: |
+          set -euo pipefail
+          docker run --detach --name nehedrou-ci --publish 127.0.0.1:10000:10000 \
+            --env RENDER=true \
+            --env DJANGO_DEBUG=0 \
+            --env DJANGO_SECRET_KEY=ci-only-not-a-secret-key-with-more-than-fifty-characters \
+            --env DJANGO_ALLOWED_HOSTS=127.0.0.1,localhost \
+            --env PUBLIC_ORIGIN=https://ci.example.invalid \
+            --env DEMO_MODE=1 \
+            --env DEMO_EPHEMERAL=1 \
+            --env DEMO_SEED_ON_START=0 \
+            --env DEMO_DATABASE_PATH=/tmp/nehedrou-ci.sqlite3 \
+            --env NEHEDROU_MEDIA_ROOT=/tmp/nehedrou-ci-media \
+            --env MFA_REQUIRED=0 \
+            nehedrou-ci:pull-request
+          trap 'docker rm --force nehedrou-ci >/dev/null 2>&1 || true' EXIT
+          for attempt in $(seq 1 45); do
+            if curl --silent --show-error --fail \
+              --header 'X-Forwarded-Proto: https' \
+              http://127.0.0.1:10000/healthz/; then
+              exit 0
+            fi
+            sleep 1
+          done
+          docker logs nehedrou-ci
+          exit 1
