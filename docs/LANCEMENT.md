@@ -40,6 +40,8 @@ manage.py check_readiness --strict
 
 `check_readiness` contrôle configuration, PostgreSQL, MFA, origine HTTPS, transport de courriels sélectionné et disponibilité des versions publiées non fictives avec leurs médias et avis courants. `--strict` échoue tant qu’un contrôle technique manque. Un résultat positif ne clôture pas les conditions professionnelles et commerciales du tableau. Le rapport ne contient ni identifiants de personnes ni secrets. Le diagnostic distingue SMTP et Resend HTTPS, sans envoi ni preuve de réception ; voir [les transports de courriels](EMAIL_TRANSPORTS.md).
 
+Le démarrage hébergé exécute automatiquement `check_readiness --strict` après les migrations lorsque `DEMO_MODE=0`, avant de lancer Gunicorn. Si un contrôle technique échoue, le processus s’arrête et l’instance ne sert pas l’application. La démonstration garde son chemin séparé et n’est pas soumise à cette porte tant que `DEMO_MODE=1`. Cette protection réduit le risque d’activer les dossiers réels sur une configuration incomplète ; elle ne valide ni l’efficacité clinique, ni le droit applicable, ni la livraison réelle des courriels.
+
 Pour exercer `core.tests_concurrency`, configurer les variables PostgreSQL décrites dans `.env.example` sur un serveur fonctionnel et lancer la suite. Sous SQLite, les six tests sont explicitement ignorés, jamais comptés comme passés. La qualification 6 a exécuté les six cas sur PostgreSQL 17.11, puis restauré une base fictive dans une base distincte. Les preuves sont dans les journaux finaux et RESTAURATION_POSTGRESQL.json ; cela ne qualifie pas une exploitation de production.
 
 ## Couverture des variétés parlées — contrôle du 30 octobre 2026

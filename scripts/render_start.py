@@ -28,6 +28,10 @@ if settings.DEMO_MODE and os.getenv('DEMO_SEED_ON_START', '1') == '1':
     subprocess.run([sys.executable, 'manage.py', 'seed_followup_demo'], check=True)
     if os.getenv('DEMO_PASSWORD_PITOU'):
         subprocess.run([sys.executable, 'manage.py', 'seed_pitou_demo'], check=True)
+elif not settings.DEMO_MODE:
+    # Do not start a real-data deployment until all technical readiness gates
+    # pass against the migrated database and exact current content.
+    subprocess.run([sys.executable, 'manage.py', 'check_readiness', '--strict'], check=True, env=migration_env)
 
 port = int(os.getenv('PORT', '10000'))
 if not 1 <= port <= 65535:
