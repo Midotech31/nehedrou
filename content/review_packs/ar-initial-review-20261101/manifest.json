@@ -60,8 +60,8 @@
   },
   "files": {
     "README.md": {
-      "sha256": "2b2ccb3066a7ac9312a446da066c28686290b2ef64370cebf220dddaa441ab6d",
-      "size_bytes": 7965
+      "sha256": "12977c3f71beb00e7ce61a8260a88f72fda89fb42d6d7ec901c45fe1fcbe5460",
+      "size_bytes": 9631
     },
     "candidates_for_review.csv": {
       "sha256": "aac4c8326259a2aab4ff7d42dce6ac01a59897322959048503f919e9b647dc31",
@@ -78,6 +78,10 @@
     "recording_queue.csv": {
       "sha256": "1925e64ec537e0ede065a7bf892178054516c4a5a228ffbefb952a43ab237925",
       "size_bytes": 39191
+    },
+    "review_assignments_template.csv": {
+      "sha256": "d0b141240af36f46f1f46c9b464dcfafe0a561f2c833a1e080d00ce18ee1b88f",
+      "size_bytes": 4595
     }
   },
   "limits": [
@@ -85,6 +89,7 @@
     "Sources support professional/language frameworks or lexical attestations; none validates Nehedrou or its outcomes.",
     "No Darja minimal-pair claim is introduced. Ten MSA contrast entries require individual linguistic and clinical review.",
     "Source JSON hashes are not Django activity fingerprints; re-check exact imported versions in CMS before any decision.",
-    "No audio, child observations, approval, rights clearance, availability decision, or family assignment is created."
+    "No audio, child observations, approval, rights clearance, availability decision, or family assignment is created.",
+    "Reviewer assignment template contains no identities or personal data; keep completed assignments and reviewer evidence in restricted project storage, not the public repository."
   ]
 }

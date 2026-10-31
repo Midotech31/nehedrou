@@ -196,6 +196,54 @@ def csv_bytes(rows):
     return ("\ufeff" + buffer.getvalue()).encode("utf-8")
 
 
+def assignment_rows(candidate_rows, recording_rows, asset_rows, evidence_rows):
+    """Return blank, privacy-safe assignment rows; never manufacture a reviewer."""
+    counts = Counter(row["variety_code"] for row in candidate_rows)
+    msa_contrasts = sum(row["variety_code"] == "ar-msa-pilot"
+                        and row["activity_kind"] == "phonological_contrast"
+                        for row in candidate_rows)
+    scopes = [
+        ("msa-language", "ar-msa-pilot", "Relecteur linguistique MSA",
+         "Compétence vérifiable en arabe standard; expérience du registre réellement utilisé par les enfants concernés.",
+         f"Relire les {counts['ar-msa-pilot']} versions: sens, formes orales, variantes, transcription, registre et adéquation au contexte linguistique; consigner chaque décision sur la ligne exacte.", "independent"),
+        ("msa-clinical", "ar-msa-pilot", "Orthophoniste — revue clinique MSA",
+         "Orthophoniste qualifié avec expérience des troubles des sons de la parole et du service multilingue.",
+         f"Évaluer les objectifs, le public, les aides et les limites pour les {counts['ar-msa-pilot']} versions; la sélection finale reste individualisée après évaluation.", "independent"),
+        ("msa-contrast-approach", "ar-msa-pilot", "Orthophoniste — examen des contrastes",
+         "Orthophoniste connaissant les approches contrastives et la phonologie de la variété examinée.",
+         f"Examiner explicitement chacune des {msa_contrasts} propositions étiquetées phonological_contrast: formes parlées, sens, contraste réel, profil auquel l'approche pourrait éventuellement convenir; rejeter ou corriger l'étiquette si nécessaire.", "independent_from_language_reviewer"),
+        ("darja-local-language", "ar-dz-pilot", "Locuteur compétent — Darija locale",
+         "Locuteur compétent de la variété régionale et communautaire effectivement visée; être natif d'une autre région ne suffit pas.",
+         f"Relire les {counts['ar-dz-pilot']} versions: sens, formes spontanées, variantes, transcription et familiarité; identifier explicitement la région/communauté et signaler toute forme non locale.", "independent"),
+        ("darja-clinical", "ar-dz-pilot", "Orthophoniste — revue clinique Darija",
+         "Orthophoniste expérimenté en parole multilingue; consulter le relecteur linguistique régional pour toute analyse phonologique.",
+         f"Évaluer les objectifs, consignes, aides, limites et convenance des {counts['ar-dz-pilot']} propositions sans traiter l'arabe standard comme substitut à la langue familiale.", "independent"),
+        ("arabic-instructions", "ar", "Relecteur des consignes arabes et RTL",
+         "Compétence avancée en arabe écrit, lisibilité destinée aux familles et interfaces RTL.",
+         "Vérifier les consignes, la clarté, le registre, la direction de lecture et le rendu RTL/LTR; distinguer les consignes écrites des modèles dialectaux parlés.", "independent"),
+        ("image-rights", "ar", "Relecteur images, familiarité et droits",
+         "Compétence en interprétation visuelle/familiarité locale et capacité à vérifier les licences et pièces de droits.",
+         f"Examiner les {len(asset_rows)} références visuelles au format réellement utilisé, documenter les interprétations concurrentes et vérifier séparément les droits; aucune image n'est validée par son seul nom de fichier.", "independent"),
+        ("adult-audio", "ar", "Locuteurs modèles adultes et droits audio",
+         "Locuteur adulte compétent pour chaque variété/région arrêtée et responsable de permissions/droits audio.",
+         f"Après accord sur les formes parlées exactes, préparer et faire relire les {len(recording_rows)} entrées uniques de la file audio; adulte uniquement, consentement/droits et empreintes exigés.", "independent_linguistic_check"),
+        ("evidence-review", "ar", "Relecteur des sources et affirmations",
+         "Compétence de recherche documentaire et capacité à vérifier textes primaires, références et limites d'inférence.",
+         f"Vérifier les {len(evidence_rows)} références, les affirmations qu'elles soutiennent et leurs limites; les preuves d'une approche ne prouvent pas l'efficacité de Nehedrou.", "independent"),
+        ("release-record", "global", "Responsable de décision et de traçabilité",
+         "Responsable autorisé de publication, distinct des personnes ayant rédigé les brouillons.",
+         "Confirmer que les pièces requises existent pour la version exacte, que les désaccords sont résolus, et que l'empreinte CMS ainsi que la portée de disponibilité sont enregistrées; ne pas transformer un avis incomplet en approbation.", "must_not_self_approve"),
+    ]
+    header = ("pack_id", "scope_id", "variety_code", "reviewer_role", "required_competence",
+              "assignment_task", "independence_requirement", "assignment_status", "reviewer_code",
+              "confirmed_region_or_register", "competence_evidence_private_reference",
+              "conflict_of_interest_declared", "assigned_by_code", "assigned_on",
+              "deliverable_private_reference", "completed_on", "notes_without_personal_data")
+    return [dict(zip(header, (PACK_ID, scope_id, variety, role, competence, task, independence,
+                              "not_assigned", "", "", "", "", "", "", "", "", "")))
+            for scope_id, variety, role, competence, task, independence in scopes]
+
+
 def build():
     candidates, sources, predecessors = load_candidates()
     candidate_rows, recordings, assets, evidence = rows_for_pack(candidates, predecessors)
@@ -216,6 +264,8 @@ def build():
         "recording_queue.csv": csv_bytes(recordings),
         "image_assets_for_review.csv": csv_bytes(assets),
         "evidence_sources_for_review.csv": csv_bytes(evidence),
+        "review_assignments_template.csv": csv_bytes(
+            assignment_rows(candidate_rows, recordings, assets, evidence)),
     }
     readme_path = OUT / "README.md"
     if not readme_path.is_file():
@@ -247,6 +297,7 @@ def build():
             "No Darja minimal-pair claim is introduced. Ten MSA contrast entries require individual linguistic and clinical review.",
             "Source JSON hashes are not Django activity fingerprints; re-check exact imported versions in CMS before any decision.",
             "No audio, child observations, approval, rights clearance, availability decision, or family assignment is created.",
+            "Reviewer assignment template contains no identities or personal data; keep completed assignments and reviewer evidence in restricted project storage, not the public repository.",
         ],
     }
     files["manifest.json"] = (json.dumps(manifest, ensure_ascii=False, indent=2) + "\n").encode("utf-8")

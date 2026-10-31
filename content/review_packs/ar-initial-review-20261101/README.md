@@ -24,8 +24,15 @@ Ces nombres décrivent le contenu des deux sources au moment de la préparation.
 | `recording_queue.csv` | Une ligne par couple unique variété/mot/sens; script parlé exact, transcription, personne modèle adulte, consentement, droits, fichier, empreinte et revues restent à compléter. |
 | `image_assets_for_review.csv` | Empreintes, tailles et nombre d’utilisations de chaque SVG cité; les décisions d’interprétation, familiarité et droits restent vierges. |
 | `evidence_sources_for_review.csv` | Références reprises des fiches et limites de portée fournies par leurs auteurs; chaque référence et son lien avec l’affirmation doivent être vérifiés. |
+| `review_assignments_template.csv` | Dix tâches de relecture à attribuer, avec compétence attendue, périmètre, indépendance et champs vierges; aucune personne n’est nommée ou présumée disponible. |
 
 Les colonnes contenant `working_copy`, `unapproved` ou `as_supplied_by_source` restituent les propositions telles qu’écrites. Elles ne valent pas transcription correcte, sens convenu, cible pertinente ou preuve établie. Les colonnes de décision sont laissées vides; aucun avis n’est simulé.
+
+## Affecter les relecteurs et protéger les retours
+
+Commencer par `review_assignments_template.csv`, qui liste dix périmètres distincts pour l’arabe standard, la Darija locale, la clinique, les contrastes, les consignes RTL, les images et droits, l’audio adulte, les sources et la décision de publication. Le statut initial `not_assigned` indique qu’aucune personne n’est encore affectée. Pour chaque personne, le porteur du projet vérifie l’aptitude à la tâche, les conflits d’intérêts, la variété/région ou le registre précis et l’indépendance requise. Pour la Darija, arrêter d’abord la région et la communauté réellement visées; aucun relecteur ne doit être présenté comme compétent pour une « Darija nationale » indifférenciée. Accepter une tâche n’approuve aucun contenu.
+
+Ne pas ajouter de noms, coordonnées, diplômes, signatures, pièces de compétence ou autre donnée personnelle au dépôt public. Garder la version remplie et les pièces dans un espace privé à accès restreint; inscrire dans la grille de contenu seulement un code de relecteur et une référence privée non sensible. L’avis doit citer l’identifiant de série/version et la source exacte. Après toute modification, recalculer l’empreinte et recommencer les revues touchées. Les désaccords, refus et éléments manquants restent bloquants; la complétion d’un formulaire ne produit aucune approbation automatique.
 
 ## Ordre de revue recommandé
 
