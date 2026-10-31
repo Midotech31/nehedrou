@@ -5448,3 +5448,15 @@ msgstr "النسخ المتاحة حاليًا"
 
 msgid "Availability is checked for the exact module, spoken variety and content fingerprint; interface-language coverage does not imply approval."
 msgstr "يُتحقق من الإتاحة على مستوى الوحدة والتنوع اللغوي المنطوق وبصمة المحتوى المحددة؛ ولا تعني تغطية لغة الواجهة اعتماد المحتوى."
+
+msgid "Fictional profile code"
+msgstr "رمز ملف تجريبي خيالي"
+
+msgid "Use an invented label only; do not enter a real child’s name, initials, contact details or health information."
+msgstr "استخدم تسمية مختلقة فقط؛ لا تُدخل اسم طفل حقيقي أو أحرف اسمه الأولى أو بيانات الاتصال أو المعلومات الصحية."
+
+msgid "I confirm this is a fictional demonstration profile with no real child’s personal or health information."
+msgstr "أؤكد أن هذا ملف تجريبي خيالي لا يتضمن أي معلومات شخصية أو صحية لطفل حقيقي."
+
+msgid "This demonstration is not approved for real records. Do not add real recordings or sensitive notes."
+msgstr "هذا العرض غير معتمد لحفظ ملفات حقيقية. لا تُضف تسجيلات حقيقية أو ملاحظات حساسة."

@@ -377,7 +377,7 @@ class HybridWorkspaceTests(TestCase):
         form = self.client.get(reverse('child_create'))
         self.assertEqual(form.status_code, 200)
         self.assertEqual(form.context['current_membership'].pk, old.pk)
-        payload = {'practice_scope': form.context['practice_scope'], 'code':'Fresh profile from retained form', 'age_years':5, 'varieties':[str(self.variety.pk)]}
+        payload = {'practice_scope': form.context['practice_scope'], 'code':'Fresh profile from retained form', 'age_years':5, 'varieties':[str(self.variety.pk)], 'demo_data_ack':'on'}
         revoke_membership(self.professional, self.org_a, old.pk)
         before = set(Child.objects.values_list('pk', flat=True))
         recovered = self.client.get(reverse('dashboard'))

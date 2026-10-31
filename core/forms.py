@@ -21,6 +21,16 @@ class ChildForm(forms.ModelForm):
     class Meta:
         model = Child
         fields = ['code', 'age_years', 'varieties']
+    def __init__(self, *args, require_demo_data_ack=False, **kwargs):
+        super().__init__(*args, **kwargs)
+        if require_demo_data_ack:
+            self.fields['code'].label = _('Fictional profile code')
+            self.fields['code'].help_text = _('Use an invented label only; do not enter a real child’s name, initials, contact details or health information.')
+            self.fields['demo_data_ack'] = forms.BooleanField(
+                required=True,
+                label=_('I confirm this is a fictional demonstration profile with no real child’s personal or health information.'),
+                help_text=_('This demonstration is not approved for real records. Do not add real recordings or sensitive notes.'),
+            )
     def clean_age_years(self):
         value = self.cleaned_data['age_years']
         if not 4 <= value <= 7:
