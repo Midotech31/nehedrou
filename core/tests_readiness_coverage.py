@@ -1,3 +1,4 @@
+"""Exact spoken-variety launch coverage, using fictional software fixtures only."""
 import io
 import json
 import uuid
@@ -9,7 +10,7 @@ from django.test import TestCase, override_settings
 from catalog.models import Activity, Variety
 from catalog.services import transition
 from core.models import User
-from core.management.commands.check_readiness import DEFAULT_OFFERED_CONTENT_VARIETIES, offered_content_varieties
+from core.management.commands.check_readiness import DEFAULT_OFFERED_CONTENT_VARIETIES
 from qualification.test_support import prepare_activity_fixture, availability_fixture
 
 
@@ -41,7 +42,7 @@ class SpokenVarietyReadinessTests(TestCase):
 
     def report(self, *, strict=False, offered=None):
         output = io.StringIO()
-        with patch('core.management.commands.check_readiness.offered_content_varieties', return_value=tuple(DEFAULT_OFFERED_CONTENT_VARIETIES if offered is None else offered)), patch('core.management.commands.check_readiness.connection', SimpleNamespace(vendor='postgresql')), patch('core.management.commands.check_readiness.smtp_configuration', return_value={'configured':True}), patch('core.management.commands.check_readiness.email_configuration', return_value={'configured':True}):
+        with patch('core.management.commands.check_readiness.connection', SimpleNamespace(vendor='postgresql')), patch('core.management.commands.check_readiness.smtp_configuration', return_value={'configured':True}), patch('core.management.commands.check_readiness.email_configuration', return_value={'configured':True}), patch('core.management.commands.check_readiness.offered_content_varieties', return_value=tuple(DEFAULT_OFFERED_CONTENT_VARIETIES if offered is None else offered)):
             call_command('check_readiness', json=True, strict=strict, stdout=output)
         return json.loads(output.getvalue())
 
@@ -82,11 +83,13 @@ class SpokenVarietyReadinessTests(TestCase):
     def test_unknown_empty_duplicate_or_string_configuration_is_rejected(self):
         for configured in [('ar-missing',), (), ('ar-dz-pilot','ar-dz-pilot'), 'ar-dz-pilot', (None,)]:
             with self.subTest(configured=configured), override_settings(OFFERED_CONTENT_VARIETIES=configured):
-                with self.assertRaises(CommandError):
-                    offered_content_varieties()
+                with patch('core.management.commands.check_readiness.offered_content_varieties', wraps=__import__('core.management.commands.check_readiness', fromlist=['offered_content_varieties']).offered_content_varieties):
+                    with self.assertRaises(CommandError):
+                        call_command('check_readiness', json=True, stdout=io.StringIO())
         self.varieties['ar-dz-pilot'].delete()
-        with self.assertRaisesMessage(CommandError, 'ar-dz-pilot'):
-            offered_content_varieties()
+        with patch('core.management.commands.check_readiness.offered_content_varieties', wraps=__import__('core.management.commands.check_readiness', fromlist=['offered_content_varieties']).offered_content_varieties):
+            with self.assertRaisesMessage(CommandError, 'ar-dz-pilot'):
+                call_command('check_readiness', json=True, stdout=io.StringIO())
 
     def test_historical_published_version_cannot_cover_newer_unavailable_version(self):
         old = self.content('ar-dz-pilot')
