@@ -9,7 +9,7 @@ from django.core.management.base import CommandError
 from django.test import TestCase, override_settings
 from catalog.models import Activity, Variety
 from catalog.services import transition
-from core.models import User
+from core.models import User, ProcessingActivity
 from core.management.commands.check_readiness import DEFAULT_OFFERED_CONTENT_VARIETIES
 from qualification.test_support import prepare_activity_fixture, availability_fixture
 
@@ -65,9 +65,37 @@ class SpokenVarietyReadinessTests(TestCase):
         self.assertEqual(report['current_available_nondemo_counts_by_variety']['ar-dz-pilot'], 0)
         self.assertFalse(report['technical_gates_passed'])
 
+    def processing_register(self):
+        return ProcessingActivity.objects.create(
+            name='Fictional platform service', register_capacity='controller',
+            controller_name='Fictional operator', controller_contact='privacy@fictional.example',
+            data_protection_contact='dpo@fictional.example', purposes='Fictional account and service purposes', legal_basis='Pending counsel review',
+            data_subject_categories='Fictional adult users and child profiles',
+            personal_data_categories='Fictional account and service records',
+            recipient_categories='Hosting provider in Germany',
+            international_transfers='No other destinations identified in this fictional fixture',
+            retention_periods='Fictional schedule pending operator approval',
+            security_measures='Fictional access-control and encryption summary',
+            operations='Collection, storage, consultation, correction, restriction and deletion')
+
+    def test_processing_register_gate_fails_when_missing_or_incomplete(self):
+        self.assertFalse(self.report()['checks']['processing_register_present_and_populated'])
+        record = self.processing_register()
+        report = self.report()
+        self.assertTrue(report['checks']['processing_register_present_and_populated'])
+        self.assertEqual(report['processing_register']['active_by_capacity'], {'controller':1,'processor':0})
+        ProcessingActivity.objects.filter(pk=record.pk).update(data_protection_contact='')
+        report = self.report()
+        self.assertFalse(report['checks']['processing_register_present_and_populated'])
+        ProcessingActivity.objects.filter(pk=record.pk).update(data_protection_contact='dpo@fictional.example', retention_periods='   ')
+        report = self.report()
+        self.assertFalse(report['checks']['processing_register_present_and_populated'])
+        self.assertEqual(report['processing_register']['populated_platform_records'], 0)
+
     def test_four_distinct_available_varieties_pass_with_all_other_fixture_gates(self):
         for code in DEFAULT_OFFERED_CONTENT_VARIETIES:
             self.content(code)
+        self.processing_register()
         report = self.report(strict=True, offered=DEFAULT_OFFERED_CONTENT_VARIETIES)
         self.assertTrue(report['technical_gates_passed'])
         self.assertEqual(report['published_nondemo_counts']['ar'], 2)
@@ -75,6 +103,7 @@ class SpokenVarietyReadinessTests(TestCase):
 
     def test_explicit_offering_can_be_narrower_than_three_interface_languages(self):
         self.content('fr-fr-pilot')
+        self.processing_register()
         report = self.report(strict=True, offered=('fr-fr-pilot',))
         self.assertEqual(report['offered_content_varieties'], ['fr-fr-pilot'])
         self.assertEqual(report['published_nondemo_counts'], {'fr':1,'en':0,'ar':0})

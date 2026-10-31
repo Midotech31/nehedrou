@@ -5148,3 +5148,141 @@ msgstr "Other documented purpose"
 #: core/models.py:110
 msgid "Practice administration"
 msgstr "Practice administration"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Active entry"
+msgstr "Active entry"
+
+msgid "Automated operations in scope"
+msgstr "Automated operations in scope"
+
+msgid "Can manage processing register entries"
+msgstr "Can manage processing register entries"
+
+msgid "Cancel editing"
+msgstr "Cancel editing"
+
+msgid "Categories of people concerned"
+msgstr "Categories of people concerned"
+
+msgid "Categories of personal data"
+msgstr "Categories of personal data"
+
+msgid "Contact details"
+msgstr "Contact details"
+
+msgid "Controller"
+msgstr "Controller"
+
+msgid "Controller and contact"
+msgstr "Controller and contact"
+
+msgid "Controller or processor name"
+msgstr "Controller or processor name"
+
+msgid "Data protection contact"
+msgstr "Data protection contact"
+
+msgid "Describe collection, recording, storage, consultation, sharing, correction, restriction and deletion operations in scope."
+msgstr "Describe collection, recording, storage, consultation, sharing, correction, restriction and deletion operations in scope."
+
+msgid "Describe destinations and safeguards, or explicitly record that none are identified."
+msgstr "Describe destinations and safeguards, or explicitly record that none are identified."
+
+msgid "Document processing purposes, roles, recipients, data categories, retention and safeguards for operator review."
+msgstr "Document processing purposes, roles, recipients, data categories, retention and safeguards for operator review."
+
+msgid "Entries are retained when deactivated so changes are not erased from the register."
+msgstr "Entries are retained when deactivated so changes are not erased from the register."
+
+msgid "General technical and organisational security measures"
+msgstr "General technical and organisational security measures"
+
+msgid "Include recipients in other countries or international organisations."
+msgstr "Include recipients in other countries or international organisations."
+
+msgid "International transfers and safeguards, or record none identified"
+msgstr "International transfers and safeguards, or record none identified"
+
+msgid "Legal basis (to be confirmed by qualified counsel)"
+msgstr "Legal basis (to be confirmed by qualified counsel)"
+
+msgid "Maintain the operator’s processing descriptions for review and controlled export."
+msgstr "Maintain the operator’s processing descriptions for review and controlled export."
+
+msgid "Manage processing register"
+msgstr "Manage processing register"
+
+msgid "Nehedrou service"
+msgstr "Nehedrou service"
+
+msgid "No processing activities have been recorded yet."
+msgstr "No processing activities have been recorded yet."
+
+msgid "Organisation"
+msgstr "Organisation"
+
+msgid "Planned erasure periods"
+msgstr "Planned erasure periods"
+
+msgid "Practice (leave blank for the Nehedrou service)"
+msgstr "Practice (leave blank for the Nehedrou service)"
+
+msgid "Processing activity name"
+msgstr "Processing activity name"
+
+msgid "Processing description"
+msgstr "Processing description"
+
+msgid "Processing register"
+msgstr "Processing register"
+
+msgid "Processor"
+msgstr "Processor"
+
+msgid "Purposes"
+msgstr "Purposes"
+
+msgid "Recipients and safeguards"
+msgstr "Recipients and safeguards"
+
+msgid "Recipients, including other countries and organisations"
+msgstr "Recipients, including other countries and organisations"
+
+msgid "Record history"
+msgstr "Record history"
+
+msgid "Recorded activities"
+msgstr "Recorded activities"
+
+msgid "Register entry saved. Have its accuracy and legal basis reviewed by the responsible people."
+msgstr "Register entry saved. Have its accuracy and legal basis reviewed by the responsible people."
+
+msgid "Role"
+msgstr "Role"
+
+msgid "Role in this processing"
+msgstr "Role in this processing"
+
+msgid "Save register entry"
+msgstr "Save register entry"
+
+msgid "This operator record helps document processing. It is not legal advice or a compliance certificate; enter verified details and obtain qualified review."
+msgstr "This operator record helps document processing. It is not legal advice or a compliance certificate; enter verified details and obtain qualified review."
+
+msgid "Updated"
+msgstr "Updated"
+
+msgid "Download register copy"
+msgstr "Download register copy"
+
+msgid "Deactivation keeps the entry. Every save also creates an append-only snapshot available in the JSON export."
+msgstr "Deactivation keeps the entry. Every save also creates an append-only snapshot available in the JSON export."
+
+msgid "Register history entries are append-only."
+msgstr "Register history entries are append-only."
+
+msgid "Register history entries cannot be deleted."
+msgstr "Register history entries cannot be deleted."

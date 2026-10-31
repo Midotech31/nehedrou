@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
-from .models import User
+from .models import User, ProcessingActivity, Organization
 from care.models import Child, Observation, PracticeSession
 from catalog.models import Variety
 
@@ -145,3 +145,40 @@ class PrivacyDecisionForm(forms.Form):
     decision = forms.ChoiceField(label=_('Decision'), choices=[('erase', _('Erase the child record')), ('retain', _('Retain with documented reason'))])
     reason = forms.CharField(label=_('Decision reason'), max_length=500, widget=forms.Textarea)
     confirmation = forms.CharField(label=_('Enter the child pseudonym to confirm'), max_length=60, required=False)
+
+
+class ProcessingActivityForm(forms.ModelForm):
+    class Meta:
+        model = ProcessingActivity
+        fields = ['organization', 'register_capacity', 'name', 'controller_name', 'controller_contact',
+                  'data_protection_contact', 'purposes', 'legal_basis', 'data_subject_categories',
+                  'personal_data_categories', 'recipient_categories', 'international_transfers',
+                  'retention_periods', 'security_measures', 'operations', 'active']
+        labels = {
+            'organization': _('Practice (leave blank for the Nehedrou service)'),
+            'register_capacity': _('Role in this processing'),
+            'name': _('Processing activity name'),
+            'controller_name': _('Controller or processor name'),
+            'controller_contact': _('Contact details'),
+            'data_protection_contact': _('Data protection contact'),
+            'purposes': _('Purposes'),
+            'legal_basis': _('Legal basis (to be confirmed by qualified counsel)'),
+            'data_subject_categories': _('Categories of people concerned'),
+            'personal_data_categories': _('Categories of personal data'),
+            'recipient_categories': _('Recipients, including other countries and organisations'),
+            'international_transfers': _('International transfers and safeguards, or record none identified'),
+            'retention_periods': _('Planned erasure periods'),
+            'security_measures': _('General technical and organisational security measures'),
+            'operations': _('Automated operations in scope'),
+            'active': _('Active entry'),
+        }
+        widgets = {field: forms.Textarea(attrs={'rows': 3}) for field in [
+            'purposes', 'legal_basis', 'data_subject_categories', 'personal_data_categories',
+            'recipient_categories', 'international_transfers', 'retention_periods',
+            'security_measures', 'operations']}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['organization'].queryset = Organization.objects.order_by('name')
+        self.fields['organization'].required = False
+        self.fields['data_protection_contact'].required = False

@@ -5148,3 +5148,141 @@ msgstr "Autre finalité documentée"
 #: core/models.py:110
 msgid "Practice administration"
 msgstr "Administration du cabinet"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Active entry"
+msgstr "Entrée active"
+
+msgid "Automated operations in scope"
+msgstr "Opérations automatisées couvertes"
+
+msgid "Can manage processing register entries"
+msgstr "Peut gérer les fiches du registre des traitements"
+
+msgid "Cancel editing"
+msgstr "Annuler la modification"
+
+msgid "Categories of people concerned"
+msgstr "Catégories de personnes concernées"
+
+msgid "Categories of personal data"
+msgstr "Catégories de données personnelles"
+
+msgid "Contact details"
+msgstr "Coordonnées"
+
+msgid "Controller"
+msgstr "Responsable du traitement"
+
+msgid "Controller and contact"
+msgstr "Responsable du traitement et coordonnées"
+
+msgid "Controller or processor name"
+msgstr "Nom du responsable du traitement ou du sous-traitant"
+
+msgid "Data protection contact"
+msgstr "Contact chargé de la protection des données"
+
+msgid "Describe collection, recording, storage, consultation, sharing, correction, restriction and deletion operations in scope."
+msgstr "Décrivez les opérations couvertes : collecte, enregistrement, conservation, consultation, partage, rectification, limitation et suppression."
+
+msgid "Describe destinations and safeguards, or explicitly record that none are identified."
+msgstr "Décrivez les destinations et garanties, ou indiquez explicitement qu’aucune n’est identifiée."
+
+msgid "Document processing purposes, roles, recipients, data categories, retention and safeguards for operator review."
+msgstr "Documentez les finalités, rôles, destinataires, catégories de données, durées de conservation et garanties pour examen par l’exploitant."
+
+msgid "Entries are retained when deactivated so changes are not erased from the register."
+msgstr "Les fiches désactivées sont conservées afin que les changements ne soient pas effacés du registre."
+
+msgid "General technical and organisational security measures"
+msgstr "Mesures générales de sécurité techniques et organisationnelles"
+
+msgid "Include recipients in other countries or international organisations."
+msgstr "Incluez les destinataires situés dans d’autres États ou organisations internationales."
+
+msgid "International transfers and safeguards, or record none identified"
+msgstr "Transferts internationaux et garanties, ou mention explicite qu’aucun n’est identifié"
+
+msgid "Legal basis (to be confirmed by qualified counsel)"
+msgstr "Fondement juridique (à confirmer par un conseil compétent)"
+
+msgid "Maintain the operator’s processing descriptions for review and controlled export."
+msgstr "Tenez les descriptions des traitements de l’exploitant pour relecture et export contrôlé."
+
+msgid "Manage processing register"
+msgstr "Gérer le registre des traitements"
+
+msgid "Nehedrou service"
+msgstr "Service Nehedrou"
+
+msgid "No processing activities have been recorded yet."
+msgstr "Aucune activité de traitement n’a encore été consignée."
+
+msgid "Organisation"
+msgstr "Organisation"
+
+msgid "Planned erasure periods"
+msgstr "Délais prévus pour l’effacement"
+
+msgid "Practice (leave blank for the Nehedrou service)"
+msgstr "Cabinet (laisser vide pour le service Nehedrou)"
+
+msgid "Processing activity name"
+msgstr "Nom de l’activité de traitement"
+
+msgid "Processing description"
+msgstr "Description du traitement"
+
+msgid "Processing register"
+msgstr "Registre des traitements"
+
+msgid "Processor"
+msgstr "Sous-traitant"
+
+msgid "Purposes"
+msgstr "Finalités"
+
+msgid "Recipients and safeguards"
+msgstr "Destinataires et garanties"
+
+msgid "Recipients, including other countries and organisations"
+msgstr "Destinataires, y compris dans d’autres États ou organisations"
+
+msgid "Record history"
+msgstr "Historique de la fiche"
+
+msgid "Recorded activities"
+msgstr "Activités consignées"
+
+msgid "Register entry saved. Have its accuracy and legal basis reviewed by the responsible people."
+msgstr "Fiche enregistrée. Faites vérifier son exactitude et son fondement juridique par les personnes compétentes."
+
+msgid "Role"
+msgstr "Rôle"
+
+msgid "Role in this processing"
+msgstr "Rôle dans ce traitement"
+
+msgid "Save register entry"
+msgstr "Enregistrer la fiche du registre"
+
+msgid "This operator record helps document processing. It is not legal advice or a compliance certificate; enter verified details and obtain qualified review."
+msgstr "Cette fiche aide l’exploitant à documenter les traitements. Elle ne constitue ni un avis juridique ni une attestation de conformité ; saisissez des informations vérifiées et demandez une relecture compétente."
+
+msgid "Updated"
+msgstr "Mis à jour"
+
+msgid "Download register copy"
+msgstr "Télécharger une copie du registre"
+
+msgid "Deactivation keeps the entry. Every save also creates an append-only snapshot available in the JSON export."
+msgstr "La désactivation conserve la fiche. Chaque enregistrement crée aussi un instantané versionné, inclus dans l’export JSON."
+
+msgid "Register history entries are append-only."
+msgstr "Les versions du registre sont conservées sans modification."
+
+msgid "Register history entries cannot be deleted."
+msgstr "Les versions du registre ne peuvent pas être supprimées."

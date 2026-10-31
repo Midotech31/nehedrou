@@ -5148,3 +5148,141 @@ msgstr "غرض آخر موثق"
 #: core/models.py:110
 msgid "Practice administration"
 msgstr "إدارة العيادة"
+
+msgid "Action"
+msgstr "الإجراء"
+
+msgid "Active entry"
+msgstr "سجل نشط"
+
+msgid "Automated operations in scope"
+msgstr "العمليات الآلية المشمولة"
+
+msgid "Can manage processing register entries"
+msgstr "يمكنه إدارة سجلات المعالجة"
+
+msgid "Cancel editing"
+msgstr "إلغاء التعديل"
+
+msgid "Categories of people concerned"
+msgstr "فئات الأشخاص المعنيين"
+
+msgid "Categories of personal data"
+msgstr "فئات البيانات الشخصية"
+
+msgid "Contact details"
+msgstr "بيانات الاتصال"
+
+msgid "Controller"
+msgstr "المسؤول عن المعالجة"
+
+msgid "Controller and contact"
+msgstr "المسؤول عن المعالجة وبيانات الاتصال"
+
+msgid "Controller or processor name"
+msgstr "اسم المسؤول عن المعالجة أو المعالج"
+
+msgid "Data protection contact"
+msgstr "جهة الاتصال المعنية بحماية البيانات"
+
+msgid "Describe collection, recording, storage, consultation, sharing, correction, restriction and deletion operations in scope."
+msgstr "صف العمليات المشمولة: الجمع والتسجيل والحفظ والاطلاع والمشاركة والتصحيح والتقييد والحذف."
+
+msgid "Describe destinations and safeguards, or explicitly record that none are identified."
+msgstr "صف الوجهات والضمانات، أو سجّل صراحةً عدم تحديد أي منها."
+
+msgid "Document processing purposes, roles, recipients, data categories, retention and safeguards for operator review."
+msgstr "وثّق الأغراض والأدوار والجهات المستلمة وفئات البيانات ومدد الاحتفاظ والضمانات لمراجعتها من قبل المشغّل."
+
+msgid "Entries are retained when deactivated so changes are not erased from the register."
+msgstr "تُحفظ السجلات عند إلغاء تفعيلها حتى لا تُمحى التغييرات من السجل."
+
+msgid "General technical and organisational security measures"
+msgstr "التدابير العامة للأمن التقني والتنظيمي"
+
+msgid "Include recipients in other countries or international organisations."
+msgstr "اذكر الجهات المستلمة الموجودة في دول أخرى أو منظمات دولية."
+
+msgid "International transfers and safeguards, or record none identified"
+msgstr "التحويلات الدولية وضماناتها، أو سجّل صراحةً عدم تحديد أي تحويل"
+
+msgid "Legal basis (to be confirmed by qualified counsel)"
+msgstr "الأساس القانوني (يؤكده مستشار قانوني مختص)"
+
+msgid "Maintain the operator’s processing descriptions for review and controlled export."
+msgstr "احتفظ بأوصاف معالجة المشغّل للمراجعة والتصدير المنضبط."
+
+msgid "Manage processing register"
+msgstr "إدارة سجل المعالجة"
+
+msgid "Nehedrou service"
+msgstr "خدمة نهضرو"
+
+msgid "No processing activities have been recorded yet."
+msgstr "لم تُسجّل أي أنشطة معالجة بعد."
+
+msgid "Organisation"
+msgstr "الجهة"
+
+msgid "Planned erasure periods"
+msgstr "المدد المخططة لمحو البيانات"
+
+msgid "Practice (leave blank for the Nehedrou service)"
+msgstr "العيادة (اتركه فارغًا لخدمة نهضرو)"
+
+msgid "Processing activity name"
+msgstr "اسم نشاط المعالجة"
+
+msgid "Processing description"
+msgstr "وصف المعالجة"
+
+msgid "Processing register"
+msgstr "سجل المعالجة"
+
+msgid "Processor"
+msgstr "المعالج"
+
+msgid "Purposes"
+msgstr "الأغراض"
+
+msgid "Recipients and safeguards"
+msgstr "الجهات المستلمة والضمانات"
+
+msgid "Recipients, including other countries and organisations"
+msgstr "الجهات المستلمة، بما فيها الموجودة في دول أخرى أو منظمات"
+
+msgid "Record history"
+msgstr "سجل التغييرات"
+
+msgid "Recorded activities"
+msgstr "الأنشطة المسجلة"
+
+msgid "Register entry saved. Have its accuracy and legal basis reviewed by the responsible people."
+msgstr "حُفظ السجل. اطلب من الأشخاص المختصين مراجعة دقته وأساسه القانوني."
+
+msgid "Role"
+msgstr "الدور"
+
+msgid "Role in this processing"
+msgstr "الدور في هذه المعالجة"
+
+msgid "Save register entry"
+msgstr "حفظ سجل المعالجة"
+
+msgid "This operator record helps document processing. It is not legal advice or a compliance certificate; enter verified details and obtain qualified review."
+msgstr "يساعد هذا السجل المشغّل على توثيق المعالجة. وهو ليس استشارة قانونية ولا شهادة امتثال؛ أدخل معلومات متحققًا منها واطلب مراجعة مختصة."
+
+msgid "Updated"
+msgstr "تاريخ التحديث"
+
+msgid "Download register copy"
+msgstr "تنزيل نسخة من السجل"
+
+msgid "Deactivation keeps the entry. Every save also creates an append-only snapshot available in the JSON export."
+msgstr "يؤدي التعطيل إلى الاحتفاظ بالسجل. كما ينشئ كل حفظ نسخة محفوظة لا تُعدّل، وهي متاحة ضمن تصدير JSON."
+
+msgid "Register history entries are append-only."
+msgstr "تُحفظ إصدارات السجل دون تعديل."
+
+msgid "Register history entries cannot be deleted."
+msgstr "لا يمكن حذف إصدارات السجل."
