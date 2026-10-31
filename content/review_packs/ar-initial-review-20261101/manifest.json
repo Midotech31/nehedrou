@@ -1,0 +1,90 @@
+{
+  "pack_id": "ar-initial-review-20261101",
+  "prepared_on": "2026-11-01",
+  "status": "review_preparation_only_not_approved",
+  "purpose": "Prepare existing MSA and Algerian Darja proposals for separately scoped human linguistic, clinical, familiarity, media-rights, and release review.",
+  "no_database_import": true,
+  "source_files": {
+    "docs/arabic-library-v1.json": {
+      "sha256": "737e95b4f21616a235d8e4f2a4bdc5e0eed87210f01ef74e9948dca6de0655a2",
+      "variety": "ar-msa-pilot",
+      "version": 1,
+      "status": "original_editorial_drafts_not_approved",
+      "included_rows": 42
+    },
+    "docs/arabic-library-v2.json": {
+      "sha256": "95e56145590072134f648dea416848305d9a3803638c062725149a245ad6bf96",
+      "variety": "ar-dz-pilot",
+      "version": 2,
+      "status": "draft_metadata_rebinding_pending_clinical_linguistic_review",
+      "included_rows": 32
+    }
+  },
+  "current_versions_in_scope": {
+    "ar-msa-pilot": {
+      "count": 42,
+      "source_file": "docs/arabic-library-v1.json",
+      "version": 1
+    },
+    "ar-dz-pilot": {
+      "count": 32,
+      "source_file": "docs/arabic-library-v2.json",
+      "version": 2,
+      "supersedes_same_series_version": 1
+    }
+  },
+  "observed_source_facts_not_approvals": {
+    "candidate_rows": 74,
+    "kind_counts": {
+      "ar-dz-pilot:actions": 6,
+      "ar-dz-pilot:categories": 4,
+      "ar-dz-pilot:relations": 3,
+      "ar-dz-pilot:requests": 5,
+      "ar-dz-pilot:routines": 3,
+      "ar-dz-pilot:storytelling": 3,
+      "ar-dz-pilot:vocabulary": 8,
+      "ar-msa-pilot:actions": 6,
+      "ar-msa-pilot:categories": 4,
+      "ar-msa-pilot:phonological_contrast": 10,
+      "ar-msa-pilot:relations": 3,
+      "ar-msa-pilot:requests": 3,
+      "ar-msa-pilot:routines": 3,
+      "ar-msa-pilot:storytelling": 3,
+      "ar-msa-pilot:vocabulary": 10
+    },
+    "phonological_contrast_kind_rows": 10,
+    "phonological_contrast_rows_in_darja": 0,
+    "exact_source_audio_references_present": 0,
+    "exact_source_transcriptions_present": 20,
+    "image_assets_referenced": 92
+  },
+  "files": {
+    "README.md": {
+      "sha256": "2b2ccb3066a7ac9312a446da066c28686290b2ef64370cebf220dddaa441ab6d",
+      "size_bytes": 7965
+    },
+    "candidates_for_review.csv": {
+      "sha256": "aac4c8326259a2aab4ff7d42dce6ac01a59897322959048503f919e9b647dc31",
+      "size_bytes": 60013
+    },
+    "evidence_sources_for_review.csv": {
+      "sha256": "a3baca354fd9a2aaccd55b08219ccfff2aed29939b854077f076133e8ed50f53",
+      "size_bytes": 7866
+    },
+    "image_assets_for_review.csv": {
+      "sha256": "96fef1accd00f0a5b8275225479a6ac4ef24d80fc68e37905ff7da871f3b4030",
+      "size_bytes": 9291
+    },
+    "recording_queue.csv": {
+      "sha256": "1925e64ec537e0ede065a7bf892178054516c4a5a228ffbefb952a43ab237925",
+      "size_bytes": 39191
+    }
+  },
+  "limits": [
+    "Meanings, contrast labels, segment lists, evidence citations, and image links are unapproved editorial inputs.",
+    "Sources support professional/language frameworks or lexical attestations; none validates Nehedrou or its outcomes.",
+    "No Darja minimal-pair claim is introduced. Ten MSA contrast entries require individual linguistic and clinical review.",
+    "Source JSON hashes are not Django activity fingerprints; re-check exact imported versions in CMS before any decision.",
+    "No audio, child observations, approval, rights clearance, availability decision, or family assignment is created."
+  ]
+}
