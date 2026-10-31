@@ -5113,3 +5113,38 @@ msgstr "Aucun guide n’a été saisi dans cette langue."
 
 msgid "This form no longer matches the selected practice. Reopen it in the intended practice before saving."
 msgstr "Ce formulaire ne correspond plus au cabinet sélectionné. Rouvrez-le dans le cabinet souhaité avant d’enregistrer."
+#: core/models.py:104
+msgid "Billing administration"
+msgstr "Administration de la facturation"
+
+#: core/models.py:105
+msgid "Care delivery"
+msgstr "Prise en charge thérapeutique"
+
+#: core/models.py:106
+msgid "Clinical follow-up"
+msgstr "Suivi clinique"
+
+#: core/models.py:107
+msgid "Content review"
+msgstr "Relecture des contenus"
+
+#: core/models.py:108
+msgid "Data portability"
+msgstr "Portabilité des données"
+
+#: core/models.py:109
+msgid "Data rights"
+msgstr "Droits relatifs aux données"
+
+#: core/models.py:102
+msgid "Family home practice"
+msgstr "Pratique à domicile avec la famille"
+
+#: core/models.py:111
+msgid "Other documented purpose"
+msgstr "Autre finalité documentée"
+
+#: core/models.py:110
+msgid "Practice administration"
+msgstr "Administration du cabinet"

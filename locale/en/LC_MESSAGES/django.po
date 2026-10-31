@@ -5113,3 +5113,38 @@ msgstr "No guide has been entered in this language."
 
 msgid "This form no longer matches the selected practice. Reopen it in the intended practice before saving."
 msgstr "This form no longer matches the selected practice. Reopen it in the intended practice before saving."
+#: core/models.py:104
+msgid "Billing administration"
+msgstr "Billing administration"
+
+#: core/models.py:105
+msgid "Care delivery"
+msgstr "Care delivery"
+
+#: core/models.py:106
+msgid "Clinical follow-up"
+msgstr "Clinical follow-up"
+
+#: core/models.py:107
+msgid "Content review"
+msgstr "Content review"
+
+#: core/models.py:108
+msgid "Data portability"
+msgstr "Data portability"
+
+#: core/models.py:109
+msgid "Data rights"
+msgstr "Data rights"
+
+#: core/models.py:102
+msgid "Family home practice"
+msgstr "Family home practice"
+
+#: core/models.py:111
+msgid "Other documented purpose"
+msgstr "Other documented purpose"
+
+#: core/models.py:110
+msgid "Practice administration"
+msgstr "Practice administration"
