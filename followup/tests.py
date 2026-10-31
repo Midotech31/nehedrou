@@ -15,11 +15,12 @@ from django.core.management.base import CommandError
 from django.db import connection, connections, transaction
 from django.http import Http404
 from django.test import TestCase, TransactionTestCase, override_settings
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from care.models import Child, FamilyLink
 from catalog.models import Variety, EditorialGrant, MediaAsset
-from core.models import User, Organization, Membership, Entitlement
+from core.models import User, Organization, Membership, Entitlement, AuditEvent
 from core.testing import pcm_fixture
 from .models import ClinicalGoal, ProbeDefinition, ProbeAdministration, ProbeRatingRevision, ProbeExposure, ParentCoaching, HomePracticeFeedback
 from .imports import import_definitions
@@ -91,6 +92,18 @@ class FollowupTests(TestCase):
         self.admin = start(self, self.probe, self.goal)
         return self.admin
 
+    def test_clinical_goal_read_records_clinical_followup_purpose(self):
+        probe = definition(self)
+        objective = goal(self, probe)
+        self.client.force_login(self.pro)
+        response = self.client.get(reverse('followup:goal_detail', args=[objective.pk]))
+        self.assertEqual(response.status_code, 200)
+        event = AuditEvent.objects.get(action='data.consult.clinical_goal')
+        self.assertEqual(event.actor_id, self.pro.pk)
+        self.assertEqual(event.actor_ref, str(self.pro.pk))
+        self.assertEqual(event.object_id, str(self.child.pk))
+        self.assertEqual(event.organization_id, self.organization.pk)
+        self.assertEqual(event.purpose_code, 'clinical_followup')
     def test_descriptive_ratio_six_over_nine_and_exclusions(self):
         self.prepare(11)
         codes = ['TARGET_ACCEPTABLE'] * 5 + ['VARIANT_ACCEPTABLE'] + ['TARGET_INCORRECT'] * 3 + ['NOT_SCORABLE'] * 2

@@ -101,9 +101,23 @@ class Invitation(CheckedModel):
         return not self.revoked and self.used_at is None and self.expires_at > timezone.now()
 
 class AuditEvent(models.Model):
+    PURPOSE_CHOICES = [
+        ('care_delivery', _('Care delivery')),
+        ('family_practice', _('Family home practice')),
+        ('clinical_followup', _('Clinical follow-up')),
+        ('data_portability', _('Data portability')),
+        ('practice_admin', _('Practice administration')),
+        ('account_security', _('Account security')),
+        ('content_review', _('Content review')),
+        ('billing_admin', _('Billing administration')),
+        ('data_rights', _('Data rights')),
+        ('other', _('Other documented purpose')),
+    ]
     organization = models.ForeignKey(Organization, on_delete=models.PROTECT, null=True)
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    actor_ref = models.CharField(max_length=64, blank=True)
     action = models.CharField(max_length=60)
+    purpose_code = models.CharField(max_length=32, blank=True, choices=PURPOSE_CHOICES)
     object_id = models.CharField(max_length=64, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     class Meta:

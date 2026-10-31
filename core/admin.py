@@ -45,8 +45,8 @@ class EntitlementAdmin(TechnicalAdmin):
 
 @admin.register(AuditEvent)
 class AuditAdmin(TechnicalAdmin):
-    list_display = ['created_at', 'organization', 'actor', 'action', 'object_id']
-    readonly_fields = ['created_at', 'organization', 'actor', 'action', 'object_id']
+    list_display = ['created_at', 'organization', 'actor', 'actor_ref', 'action', 'purpose_code', 'object_id']
+    readonly_fields = ['created_at', 'organization', 'actor', 'actor_ref', 'action', 'purpose_code', 'object_id']
     def has_add_permission(self, request):
         return False
     def has_change_permission(self, request, obj=None):

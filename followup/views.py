@@ -14,6 +14,7 @@ from catalog.services import allowed
 from catalog.models import EditorialGrant, MediaAsset
 from core.access import professional_children, visible_children, clinician_child, is_family_workspace
 from core.models import Membership
+from core.services import log_child_access
 from . import services
 from .models import ClinicalGoal, ProbeDefinition, ProbeAdministration, ParentCoaching
 from .forms import GoalForm, DefinitionForm, ItemFormSet, ReviewForm, ConditionsForm, FamiliarityForm, RatingForm, FinalizeForm, ShareForm, CoachingForm, HomeFeedbackForm, ExposureForm, CODE_CHOICES, ELICITATION_CHOICES
@@ -83,6 +84,8 @@ def goal_create(request, child_id):
 @login_required
 def goal_detail(request, pk):
     goal = professional_goal(request.user, pk)
+    if request.method == 'GET':
+        log_child_access(request.user, goal.child, resource='clinical_goal', purpose_code='clinical_followup')
     status = {'confirmed': _('Already assessed by the responsible professional'), 'pending': _('Pending'), 'not_recorded': _('Not recorded')}
     return render(request, 'followup/goal.html', {'goal': goal, 'assessment_status_label': status[goal.external_assessment_status], 'administrations': goal.administrations.order_by('-started_at'), 'coaching': ParentCoaching.objects.filter(child=goal.child, variety=goal.variety).order_by('-created_at')})
 
@@ -290,6 +293,8 @@ def re_uuid(value):
 @login_required
 def administration_detail(request, pk):
     admin = professional_admin(request.user, pk)
+    if request.method == 'GET':
+        log_child_access(request.user, admin.child, resource='probe_administration', purpose_code='clinical_followup')
     ratings = {rating.item_key: rating for rating in admin.ratings.all()}
     items = [{**item, 'rating': ratings.get(item['id']), 'exposure_label': EXPOSURE_LABELS.get(item.get('exposure_at_start', item.get('exposure_plan')), _('Exposure uncertain'))} for item in admin.snapshot['items']]
     for item in items:
@@ -338,6 +343,8 @@ def administration_finalize(request, pk):
 
 def report_context(request, pk):
     admin = professional_admin(request.user, pk)
+    if request.method == 'GET':
+        log_child_access(request.user, admin.child, resource='probe_report', purpose_code='clinical_followup')
     data = services.professional_report(request.user, admin)
     for group in data['groups'] + data['original_groups']:
         group['exposure_label'] = EXPOSURE_LABELS.get(group['exposure'], _('Exposure uncertain'))
@@ -441,6 +448,8 @@ def share_revoke(request, pk):
 def family_summary(request, pk):
     admin = get_object_or_404(ProbeAdministration, pk=pk)
     data = services.family_summary(request.user, admin)
+    if request.method == 'GET':
+        log_child_access(request.user, admin.child, resource='family_probe_summary', purpose_code='family_practice')
     return render(request, 'followup/family_summary.html', {'summary': data})
 
 
@@ -461,6 +470,8 @@ def coaching_context(request, pk):
     coaching = get_object_or_404(ParentCoaching.objects.select_related('child', 'variety'), pk=pk)
     data = services.coaching_family_data(request.user, coaching)
     professional = professional_children(request.user).filter(pk=coaching.child_id).exists()
+    if request.method == 'GET':
+        log_child_access(request.user, coaching.child, resource='caregiver_coaching', purpose_code='care_delivery' if professional else 'family_practice')
     feedback = coaching.home_feedback.all()
     if not professional:
         feedback = feedback.filter(author=request.user)

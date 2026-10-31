@@ -58,6 +58,25 @@ class WorkflowTests(TestCase):
                     self.assertContains(response, 'dir="rtl"')
                     self.assertContains(response, 'نظرة عامة')
 
+    def test_authorized_child_consultations_record_actor_purpose_and_subject(self):
+        self.assertEqual(self.client.get(reverse('child_detail', args=[self.child.pk])).status_code, 200)
+        event = AuditEvent.objects.get(action='data.consult.child_profile')
+        self.assertEqual(event.actor_ref, str(self.pro.pk))
+        self.assertEqual(event.actor_id, self.pro.pk)
+        self.assertEqual(event.organization_id, self.org.pk)
+        self.assertEqual(event.object_id, str(self.child.pk))
+        self.assertEqual(event.purpose_code, 'care_delivery')
+
+        self.client.force_login(self.family)
+        self.assertEqual(self.client.get(reverse('practice', args=[self.item.pk])).status_code, 200)
+        event = AuditEvent.objects.get(action='data.consult.home_practice')
+        self.assertEqual(event.actor_ref, str(self.family.pk))
+        self.assertEqual(event.purpose_code, 'family_practice')
+
+    def test_denied_child_consultation_does_not_write_access_event(self):
+        self.client.force_login(self.other)
+        self.assertEqual(self.client.get(reverse('child_detail', args=[self.child.pk])).status_code, 404)
+        self.assertFalse(AuditEvent.objects.filter(actor=self.other, action='data.consult.child_profile').exists())
     def test_foreign_practice_denied_read_write_export_print(self):
         self.client.force_login(self.other)
         for name, pk in [('child_detail', self.child.pk), ('program_create', self.child.pk), ('program_detail', self.program.pk), ('practice', self.item.pk), ('export_child', self.child.pk), ('print_program', self.program.pk), ('finish_program', self.program.pk), ('privacy_request', self.child.pk)]:
