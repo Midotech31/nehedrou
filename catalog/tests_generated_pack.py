@@ -13,7 +13,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.core.management import call_command
 from django.core.management.base import CommandError
-from django.test import TestCase, override_settings
+from django.test import SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
 from catalog import generated_pack
 from catalog.generated_pack import install_pack, PACK_ID
@@ -210,3 +210,18 @@ class GeneratedReviewPackTests(TestCase):
         source_response = self.client.get(reverse('editorial_detail', args=[self.sources[0].pk]))
         self.assertEqual(source_response.status_code, 200)
         self.assertContains(source_response, 'srcset=""')
+
+
+class GeneratedReviewPackBundleTests(SimpleTestCase):
+    def test_versioned_full_sources_and_webp_derivatives_match_the_manifest(self):
+        pack_dir = Path(settings.BASE_DIR) / 'content' / 'review_packs' / PACK_ID
+        manifest, _, payloads = generated_pack.load_pack(pack_dir / 'sources')
+        self.assertEqual(len(payloads), 18)
+        self.assertFalse(manifest['clinical_approval'])
+        self.assertFalse(manifest['linguistic_approval'])
+        self.assertFalse(manifest['familiarity_trial_performed'])
+        self.assertEqual(manifest['rights_status'], 'unknown')
+        for concept in manifest['concepts']:
+            source = pack_dir / 'sources' / concept['source']['file']
+            self.assertEqual(source.stat().st_size, concept['source']['bytes'])
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), concept['source']['sha256'])

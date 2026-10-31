@@ -124,3 +124,11 @@ Les deux suites complètes ci-dessous ont terminé sur bases locales isolées, a
 État de reprise : la restauration chiffrée récente sur deux bases PostgreSQL locales neuves et données fictives reste effectivement réussie (voir le rapport A15). La tentative de sauvegarde complète Neon vers E a été refusée par la revue automatique d'approbation, faute d'autorisation explicite d'export des dossiers ; la question d'autorisation reste sans réponse. **Aucune sauvegarde complète Neon produite n'est déclarée**, ni restauration de production, ni copie hors hébergeur.
 
 **Décision maintenue : démonstration seulement.** Les corrections logicielles, le lot d'images proposé et une suite verte ne lèvent pas A01/A02, n'achèvent pas l'exploitation réelle et ne constituent pas une offre clinique approuvée.
+
+## Actualisation de vérification — 31 octobre 2026
+
+Les vérifications après fusion sur GitHub (main, 20028ca) et livraison Render (déploiement dep-dbiuniijnfac73bm21u0) sont documentées dans [le journal de progression](COMMERCIALISATION_PROGRESS_20261031.md). L’action CI du commit est réussie. Les flux publics FR/EN/AR et /healthz/ répondent 200 ; le nouveau logo et le crédit exact sont rendus dans les trois interfaces. Le health check reste toutefois non configuré dans le service Render actif.
+
+La suite complète SQLite actuelle découvre 650 tests : 630 réussis, 20 ignorés PostgreSQL, aucun échec/erreur. La même suite sous PostgreSQL 17.11 découvre et réussit 650/650 tests sans ignoré ni échec (cluster temporaire local neuf, base de test détruite, service arrêté ; aucune connexion cloud). manage.py check, makemigrations --check --dry-run, 1 647 clés de traduction par langue et git diff --check réussissent.
+
+Les six sources originales PNG du lot FR ont été ajoutées au répertoire versionné, leurs octets et SHA-256 correspondent au manifeste, et un nouveau test contrôle les 18 sources/variantes sans transformer le statut des propositions. Les illustrations, droits et contenus restent en attente des revues humaines et d’essais adaptés ; cette mise à jour ne lève aucune condition clinique.
