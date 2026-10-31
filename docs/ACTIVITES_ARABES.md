@@ -115,3 +115,11 @@ Les 148 emplacements audio des nouvelles fiches restent vides. Pas de synthèse 
 | Standard | مقارنة مقترحة: دَار / نَار | phonological_contrast | matching |
 | Standard | مقارنة مقترحة: جَرَس / فَرَس | phonological_contrast | matching |
 | Standard | مقارنة مقترحة: جَمَل / حَمَل | phonological_contrast | matching |
+
+## Correctif de métadonnées darija v2 — 31 octobre 2026
+
+Une vérification éditoriale a repéré que, dans les propositions darija du paquet v1, certains noms proposés par les familles étaient associés aux deux côtés d'une activité, y compris au mauvais mot. Le paquet [`arabic-library-v2.json`](arabic-library-v2.json) crée une nouvelle version brouillon pour les 32 fiches darija et rattache uniquement les propositions existantes au mot exact de chaque côté. Lorsqu'une ancienne note nommait une paire entière sans variantes précises, elle est séparée en deux propositions sans variantes inventées. V1 reste inchangé pour préserver l'historique.
+
+V2 n'ajoute aucun lexème, prononciation, transcription phonétique, enregistrement, avis, approbation ni statut de disponibilité. Les listes de mots familiaux sont des pistes à vérifier avec la famille et des spécialistes de la région concernée ; elles ne constituent ni une norme de darija algérienne ni une recommandation thérapeutique. Les descriptions d'Oran et de Dellys citées plus haut sont locales et ne valident pas les formes de l'ensemble de l'Algérie. Le principe de tenir compte des systèmes linguistiques et usages de la personne est cohérent avec le [guide ASHA sur les services multilingues](https://www.asha.org/practice-portal/professional-issues/multilingual-service-delivery/) ; ce guide ne valide pas ces fiches ni l'application.
+
+L'importeur peut créer ces versions comme brouillons non démonstratifs. L'option `--demo-copies` reste conditionnée à `DEMO_MODE=1`; aucun import dans la base publiée ni aucune copie démonstrative n'a été réalisé par la préparation du paquet. Avant tout usage clinique, chaque version exacte doit encore recevoir une relecture linguistique locale et clinique, une vérification d'adéquation des images et une revue des droits et médias. La preuve de l'efficacité thérapeutique de Nehedrou n'est pas établie.
