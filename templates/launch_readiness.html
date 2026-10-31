@@ -1,0 +1,47 @@
+{% extends 'base.html' %}{% load i18n %}{% block content %}
+<div class="page-heading">
+  <div><p class="eyebrow">{% translate "Platform operations" %}</p><h1>{% translate "Launch readiness" %}</h1><p>{% translate "A current technical checklist for this deployed service." %}</p></div>
+  <div class="actions"><a class="button secondary" href="?format=json">{% translate "Download JSON report" %}</a><a class="button secondary" href="{% url 'operations_diagnostics' %}">{% translate "Back to hosting diagnostics" %}</a></div>
+</div>
+<section class="card callout" role="status" aria-live="polite">
+  {% if report.report_available == False %}
+    <h2>{% translate "Technical report unavailable" %}</h2>
+    <p>{% translate "The report could not evaluate the configured spoken varieties. Correct the platform configuration before relying on this checklist." %}</p>
+  {% elif report.technical_gates_passed %}
+    <h2>{% translate "Technical checks passed" %}</h2>
+    <p>{% translate "This result covers only the technical checks below. It does not approve clinical content, legal compliance or commercial release." %}</p>
+  {% else %}
+    <h2>{% translate "Technical launch blockers remain" %}</h2>
+    <p>{% translate "At least one technical launch check is not met. Resolve the blocked items below; the report does not approve clinical content or commercial release." %}</p>
+  {% endif %}
+  <p><strong>{% translate "Observed at" %}:</strong> <bdi dir="ltr">{{ report.generated_at|default:"—" }}</bdi></p>
+</section>
+{% if check_rows %}
+<section class="card">
+  <h2>{% translate "Technical checks" %}</h2>
+  <div class="table-scroll"><table class="report-table"><thead><tr><th scope="col">{% translate "Requirement" %}</th><th scope="col">{% translate "Status" %}</th></tr></thead><tbody>
+  {% for label, passed in check_rows %}<tr><th scope="row">{{ label }}</th><td>{% if passed %}<span class="badge">{% translate "Passed" %}</span>{% else %}<strong>{% translate "Blocked" %}</strong>{% endif %}</td></tr>{% endfor %}
+  </tbody></table></div>
+</section>
+{% endif %}
+{% if content_rows %}
+<section class="card">
+  <h2>{% translate "Coverage by offered spoken variety" %}</h2>
+  <p>{% translate "Only currently available, non-demo versions with exact media and current reviews count as available. Interface translation does not approve spoken-language content." %}</p>
+  <div class="table-scroll"><table class="report-table"><thead><tr><th scope="col">{% translate "Spoken variety code" %}</th><th scope="col">{% translate "Published non-demo versions" %}</th><th scope="col">{% translate "Currently available versions" %}</th></tr></thead><tbody>
+  {% for code, published, available in content_rows %}<tr><th scope="row"><bdi dir="ltr">{{ code }}</bdi></th><td>{{ published }}</td><td>{{ available }}</td></tr>{% endfor %}
+  </tbody></table></div>
+</section>
+{% endif %}
+{% if manual_gate_rows %}
+<section class="card">
+  <h2>{% translate "Human review and acceptance still required" %}</h2>
+  <p>{% translate "The system cannot infer that these reviews took place. Record and verify them with the responsible professionals before sale or real clinical use." %}</p>
+  <ul>{% for label in manual_gate_rows %}<li>{{ label }}</li>{% endfor %}</ul>
+</section>
+{% endif %}
+<section class="card">
+  <h2>{% translate "What this report means" %}</h2>
+  <p>{% translate "A passed technical checklist is not evidence that the application has clinical efficacy, that each activity is appropriate for a particular child, or that every legal obligation is met." %}</p>
+</section>
+{% endblock %}

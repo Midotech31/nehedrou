@@ -47,13 +47,16 @@ class PrivateOperationsViewTests(TestCase):
         self.assertIn('attachment', response['Content-Disposition'])
         self.assertEqual(response['X-Robots-Tag'], 'noindex, nofollow')
 
-    def test_launch_readiness_report_is_private_and_uses_the_shared_command(self):
+    def test_launch_readiness_dashboard_is_private_readable_and_uses_the_shared_command(self):
         self.client.force_login(self.operator)
         report = {
             'technical_gates_passed': False,
             'checks': {'current_available_nondemo_content_in_each_offered_variety': False},
             'manual_gates_required': ['professional_content_and_audio_validation'],
             'scope': 'Technical report only.',
+            'offered_content_varieties': ['ar-dz-pilot'],
+            'published_nondemo_counts_by_variety': {'ar-dz-pilot': 2},
+            'current_available_nondemo_counts_by_variety': {'ar-dz-pilot': 0},
         }
         def write_report(command, *, json, stdout):
             self.assertEqual(command, 'check_readiness')
@@ -62,12 +65,61 @@ class PrivateOperationsViewTests(TestCase):
         with patch('core.operations_views.call_command', side_effect=write_report) as run:
             response = self.client.get('/fr/operations/readiness/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), report)
-        self.assertIn('attachment;', response['Content-Disposition'])
+        self.assertEqual(response['Content-Type'].split(';')[0], 'text/html')
+        self.assertContains(response, 'ar-dz-pilot')
+        self.assertContains(response, 'Des blocages techniques empêchent le lancement')
+        self.assertContains(response, 'Relecture professionnelle des activités et des fichiers audio exacts')
         self.assertIn('private', response['Cache-Control'])
         self.assertIn('no-store', response['Cache-Control'])
         self.assertEqual(response['X-Robots-Tag'], 'noindex, nofollow')
         run.assert_called_once()
+
+    def test_technical_pass_still_displays_manual_review_gates(self):
+        self.client.force_login(self.operator)
+        report = {'technical_gates_passed': True, 'checks': {'debug_disabled': True},
+                  'manual_gates_required': ['professional_content_and_audio_validation'],
+                  'scope': 'Technical report only.'}
+        with patch('core.operations_views.call_command', side_effect=lambda command, *, json, stdout: stdout.write(__import__('json').dumps(report))):
+            response = self.client.get('/en/operations/readiness/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Technical checks passed')
+        self.assertContains(response, 'Human review and acceptance still required')
+        self.assertContains(response, 'Professional review of activity content and exact audio')
+        self.assertContains(response, 'does not approve clinical content, legal compliance or commercial release')
+
+    def test_invalid_configuration_has_a_safe_localized_html_state(self):
+        self.client.force_login(self.operator)
+        with patch('core.operations_views.call_command', side_effect=CommandError('private config detail')):
+            response = self.client.get('/ar/operations/readiness/')
+        self.assertEqual(response.status_code, 503)
+        self.assertContains(response, 'تقرير الجاهزية التقنية غير متاح', status_code=503)
+        self.assertNotContains(response, 'private config detail', status_code=503)
+        self.assertIn('no-store', response['Cache-Control'])
+
+    def test_launch_readiness_dashboard_localizes_and_sets_arabic_direction(self):
+        self.client.force_login(self.operator)
+        report = {'technical_gates_passed': False, 'checks': {}, 'scope': 'Technical report only.'}
+        with patch('core.operations_views.call_command', side_effect=lambda command, *, json, stdout: stdout.write(__import__('json').dumps(report))):
+            french = self.client.get('/fr/operations/readiness/')
+            english = self.client.get('/en/operations/readiness/')
+            arabic = self.client.get('/ar/operations/readiness/')
+        self.assertContains(french, 'Préparation au lancement')
+        self.assertContains(english, 'Launch readiness')
+        self.assertContains(arabic, 'الجاهزية للإطلاق')
+        self.assertIn('dir="rtl"', arabic.content.decode())
+        self.assertIn('Observed at', english.content.decode())
+
+    def test_launch_readiness_json_download_preserves_shared_report(self):
+        self.client.force_login(self.operator)
+        report = {'technical_gates_passed': False, 'checks': {}, 'scope': 'Technical report only.'}
+        with patch('core.operations_views.call_command', side_effect=lambda command, *, json, stdout: stdout.write(__import__('json').dumps(report))):
+            response = self.client.get('/en/operations/readiness/?format=json')
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual({key: payload[key] for key in report}, report)
+        self.assertTrue(payload['generated_at'])
+        self.assertIn('attachment;', response['Content-Disposition'])
+        self.assertIn('no-store', response['Cache-Control'])
 
     def test_launch_readiness_report_requires_platform_permission(self):
         for user in [self.ordinary, self.staff]:
@@ -80,7 +132,7 @@ class PrivateOperationsViewTests(TestCase):
     def test_invalid_readiness_configuration_returns_a_noncommercial_blocker(self):
         self.client.force_login(self.operator)
         with patch('core.operations_views.call_command', side_effect=CommandError('private config detail')):
-            response = self.client.get('/ar/operations/readiness/')
+            response = self.client.get('/ar/operations/readiness/?format=json')
         self.assertEqual(response.status_code, 503)
         report = response.json()
         self.assertFalse(report['report_available'])
