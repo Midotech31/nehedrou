@@ -9,7 +9,7 @@ from django.utils import translation
 from django.core.files.base import ContentFile
 from care.models import FamilyLink
 from catalog.models import EditorialGrant, Variety, MediaAsset
-from core.models import User, Membership, Organization
+from core.models import User, Membership, Organization, AuditEvent
 from .models import ClinicalGoal, ProbeDefinition, ProbeAdministration, ProbeRating, ProbeRatingRevision, ProbeExposure, HomePracticeFeedback
 from .tests import install_fixture, definition, goal, start, rating as rating_data
 from .services import save_rating, finalize_administration, share_summary, create_coaching, transition_definition, create_definition
@@ -61,6 +61,40 @@ class FollowupViewTests(TestCase):
             data[f'items-{number}-exposure_plan'] = 'trained'
         return data
 
+    def test_professional_followup_reads_record_child_actor_and_purpose(self):
+        rows = [
+            ('index', [], 'followup_list', 'clinical_followup'),
+            ('goal_create', [self.child.pk], 'goal_create', 'clinical_followup'),
+            ('exposure_create', [self.child.pk], 'probe_exposure', 'clinical_followup'),
+            ('administration_start', [self.objective.pk], 'probe_start', 'clinical_followup'),
+            ('rating', [self.administration.pk, self.probe.items[0]['id']], 'probe_rating', 'clinical_followup'),
+            ('administration_finalize', [self.administration.pk], 'probe_finalize_review', 'clinical_followup'),
+            ('coaching_create', [self.child.pk], 'caregiver_coaching_create', 'care_delivery'),
+        ]
+        for name, args, resource, purpose in rows:
+            with self.subTest(resource=resource):
+                response = self.client.get(self.url(name, *args))
+                self.assertEqual(response.status_code, 200)
+                event = AuditEvent.objects.get(actor=self.pro, action='data.consult.' + resource)
+                self.assertEqual(event.actor_ref, str(self.pro.pk))
+                self.assertEqual(event.object_id, str(self.child.pk))
+                self.assertEqual(event.organization_id, self.organization.pk)
+                self.assertEqual(event.purpose_code, purpose)
+        self.finish()
+        response = self.client.get(self.url('share', self.administration.pk))
+        self.assertEqual(response.status_code, 200)
+        event = AuditEvent.objects.get(actor=self.pro, action='data.consult.probe_share')
+        self.assertEqual(event.object_id, str(self.child.pk))
+        self.assertEqual(event.purpose_code, 'clinical_followup')
+        share_summary(self.pro, self.administration, 'Fictional shared summary')
+        self.client.force_login(self.family)
+        response = self.client.get(self.url('index'))
+        self.assertEqual(response.status_code, 200)
+        event = AuditEvent.objects.get(actor=self.family, action='data.consult.family_followup_list')
+        self.assertEqual(event.object_id, str(self.child.pk))
+        self.assertEqual(event.organization_id, self.organization.pk)
+        self.assertEqual(event.purpose_code, 'family_practice')
+
     def test_external_exposure_is_professional_only_and_does_not_rewrite_snapshot(self):
         original = copy.deepcopy(self.administration.snapshot)
         word = self.probe.items[1]['word']
@@ -97,6 +131,7 @@ class FollowupViewTests(TestCase):
                 self.assertEqual(self.client.post(self.url(name, *args), {}).status_code, 404, (user.username, name))
                 if name not in ['share_revoke', 'goal_close']:
                     self.assertEqual(self.client.get(self.url(name, *args)).status_code, 404, (user.username, name))
+            self.assertFalse(AuditEvent.objects.filter(actor=user, action__startswith='data.consult.').exists(), user.username)
 
     def test_cabinet_manager_does_not_inherit_clinical_scope(self):
         manager = User.objects.create_user(username='same-cabinet-owner', email='owner@example.test')
