@@ -1,3 +1,4 @@
+from .testing import practice_form_data
 """Known unavailable transport must not invite futile token rotation."""
 from unittest.mock import patch
 
@@ -55,7 +56,10 @@ class InvitationDeliveryViewTests(TestCase):
         for kind in ('family', 'clinician'):
             with self.subTest(kind=kind), patch('http.client.HTTPSConnection') as https, patch('smtplib.SMTP') as smtp:
                 path = reverse('child_detail', args=[self.child.pk]) if kind == 'family' else reverse('members')
-                response = self.client.post(path, {'email':'initial-'+kind+'@example.test'})
+                data = {'email':'initial-'+kind+'@example.test'}
+                if kind == 'clinician':
+                    data = practice_form_data(self.client, path, data)
+                response = self.client.post(path, data)
                 self.assertEqual(response.status_code, 302)
                 invitation = Invitation.objects.get(email='initial-'+kind+'@example.test')
                 self.assertEqual(invitation.delivery, 'failed')

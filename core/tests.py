@@ -1,4 +1,5 @@
 import os
+import secrets
 import uuid
 from datetime import timedelta
 from unittest.mock import patch
@@ -11,7 +12,7 @@ from django.urls import reverse
 from django.utils import timezone, translation
 from catalog.models import Activity, Review
 from care.models import Child, Program, ProgramItem, FamilyLink, PracticeSession, Observation
-from .testing import pcm_fixture
+from .testing import pcm_fixture, practice_form_data
 from .models import User, Organization, Membership, Entitlement, Invitation, AuditEvent, PrivacyRequest, RateWindow
 from .services import accept_invitation, record_practice
 
@@ -19,7 +20,7 @@ from .services import accept_invitation, record_practice
 class WorkflowTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        with patch.dict(os.environ, {'DEMO_PASSWORD': 'Fictional-Demo-2026!'}):
+        with patch.dict(os.environ, {'DEMO_PASSWORD': secrets.token_urlsafe(24)}):
             call_command('seed_demo', verbosity=0)
         cls.pro = User.objects.get(username='praticien')
         cls.family = User.objects.get(username='famille')
@@ -64,7 +65,7 @@ class WorkflowTests(TestCase):
             self.assertEqual(self.client.post(reverse(name, args=[pk]), {}).status_code, 404)
 
     def test_manager_has_no_automatic_clinical_access(self):
-        user = User.objects.create_user(username='manager', email='manager@demo.example', password='example-password')
+        user = User.objects.create_user(username='manager', email='manager@demo.example')
         Membership.objects.create(organization=self.org, user=user, role='owner')
         self.client.force_login(user)
         self.assertEqual(self.client.get(reverse('child_detail', args=[self.child.pk])).status_code, 404)
@@ -200,7 +201,7 @@ class WorkflowTests(TestCase):
         entitlement.child_quota = 3
         entitlement.save()
         data = {'code': 'New fictitious profile', 'age_years': 5, 'varieties': [self.program.variety_id]}
-        response = self.client.post(reverse('child_create'), data)
+        response = self.client.post(reverse('child_create'), practice_form_data(self.client, reverse('child_create'), data))
         self.assertEqual(response.status_code, 200)
         self.assertFalse(Child.objects.filter(code=data['code']).exists())
         entitlement.expires_at = timezone.now() - timedelta(days=1)
@@ -276,7 +277,7 @@ class WorkflowTests(TestCase):
         from django.contrib.auth.tokens import default_token_generator
         token = default_token_generator.make_token(self.family)
         self.assertTrue(default_token_generator.check_token(self.family, token))
-        self.family.set_password('Changed-Password-2026!')
+        self.family.set_password(secrets.token_urlsafe(24))
         self.family.save()
         self.assertFalse(default_token_generator.check_token(self.family, token))
 
@@ -297,7 +298,7 @@ class WorkflowTests(TestCase):
         activity = current_catalog(Activity.objects.filter(variety=self.program.variety, is_demo=True, state='published', version=2)).order_by('series').first()
         self.assertIsNotNone(activity)
         self.assertTrue(activity.practice_guide)
-        self.assertEqual(self.client.post(reverse('child_create'), {'code': 'Workflow fictif', 'age_years': 5, 'varieties': [self.program.variety_id]}).status_code, 302)
+        self.assertEqual(self.client.post(reverse('child_create'), practice_form_data(self.client, reverse('child_create'), {'code': 'Workflow fictif', 'age_years': 5, 'varieties': [self.program.variety_id]})).status_code, 302)
         child = Child.objects.get(code='Workflow fictif')
         self.assertEqual(self.client.post(reverse('program_create', args=[child.pk]), {'title': 'Workflow', 'variety': self.program.variety_id, 'activities': [activity.pk], 'guidance': 'Fictional guidance', 'schedule': 'Clinician chosen'}).status_code, 302)
         program = child.programs.get()
@@ -306,7 +307,7 @@ class WorkflowTests(TestCase):
         self.assertNotIn(child.code, mail.outbox[0].body)
         url = mail.outbox[0].body.splitlines()[-1]
         token = url.rstrip('/').split('/')[-1]
-        user = User.objects.create_user(username='workflow-family', email='workflow@demo.example', password='Secure-Fictional-2026!')
+        user = User.objects.create_user(username='workflow-family', email='workflow@demo.example')
         self.client.force_login(user)
         self.assertEqual(self.client.post(reverse('invite', args=[token])).status_code, 302)
         item = program.items.get()

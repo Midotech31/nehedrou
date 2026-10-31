@@ -1,5 +1,6 @@
 """Real access workflows through the HTTP backend; all transport and data are fictional."""
 from contextlib import contextmanager
+import secrets
 from datetime import datetime, timedelta
 import hashlib
 import json
@@ -16,13 +17,16 @@ from django.utils.translation import gettext as _
 
 from care.models import Child, FamilyLink
 from .models import AuditEvent, Entitlement, Invitation, Membership, Organization, User
+from .testing import practice_form_data
 from .services import issue_and_deliver_invitation
 
+
+RESEND_TEST_API_KEY = "re_" + secrets.token_urlsafe(32)
 
 @override_settings(DEMO_MODE=True, MFA_REQUIRED=False,
     PASSWORD_HASHERS=['django.contrib.auth.hashers.MD5PasswordHasher'],
     EMAIL_BACKEND='core.email_backends.ResendEmailBackend', RESEND_ENABLED=True,
-    RESEND_API_KEY='re_fictional_workflows_key',
+    RESEND_API_KEY=RESEND_TEST_API_KEY,
     EMAIL_HTTP_CONNECT_TIMEOUT=5, EMAIL_HTTP_READ_TIMEOUT=10,
     DEFAULT_FROM_EMAIL='access@fictional-mail.tld', PUBLIC_ORIGIN='https://app.fictional-mail.tld')
 class HttpEmailWorkflowTests(TestCase):
@@ -30,9 +34,9 @@ class HttpEmailWorkflowTests(TestCase):
     faults = ['forbidden', 'rate_limited', 'timeout', 'malformed', 'missing_id', 'empty_id', 'redirect']
 
     def setUp(self):
-        self.owner = User.objects.create_user(username='http-mail-owner', email='http-mail-owner@example.test', password='Fictional-Password-2026!')
-        self.pro = User.objects.create_user(username='http-mail-pro', email='http-mail-pro@example.test', password='Fictional-Password-2026!')
-        self.other = User.objects.create_user(username='http-mail-other', email='http-mail-other@example.test', password='Fictional-Password-2026!')
+        self.owner = User.objects.create_user(username='http-mail-owner', email='http-mail-owner@example.test', password=secrets.token_urlsafe(24))
+        self.pro = User.objects.create_user(username='http-mail-pro', email='http-mail-pro@example.test', password=secrets.token_urlsafe(24))
+        self.other = User.objects.create_user(username='http-mail-other', email='http-mail-other@example.test', password=secrets.token_urlsafe(24))
         self.organization = Organization.objects.create(name='Fictional HTTP mail cabinet')
         self.foreign_organization = Organization.objects.create(name='Other fictional HTTP cabinet')
         Membership.objects.create(user=self.owner, organization=self.organization, role='owner')
@@ -42,7 +46,7 @@ class HttpEmailWorkflowTests(TestCase):
         Entitlement.objects.create(organization=self.foreign_organization, expires_at=timezone.now()+timedelta(days=10), practitioner_quota=10)
         self.child = Child.objects.create(organization=self.organization, responsible=self.pro, code='HTTP email child · fictif', age_years=5)
         self.foreign_child = Child.objects.create(organization=self.foreign_organization, responsible=self.other, code='Other HTTP child · fictif', age_years=5)
-        self.recipient = User.objects.create_user(username='http-mail-family', email='http-mail-family@example.test', password='Fictional-Password-2026!')
+        self.recipient = User.objects.create_user(username='http-mail-family', email='http-mail-family@example.test', password=secrets.token_urlsafe(24))
 
     def payload(self, connection):
         self.assertTrue(connection.request.called, 'The actual backend must reach its mocked HTTP transport')
@@ -127,7 +131,7 @@ class HttpEmailWorkflowTests(TestCase):
                 recipient = User.objects.create_user(username='http-clinician-'+language, email='http-clinician-'+language+'@example.test')
                 self.client.force_login(self.owner)
                 with self.provider() as (_transport, connection):
-                    response = self.client.post(reverse('members'), {'email':recipient.email})
+                    response = self.client.post(reverse('members'), practice_form_data(self.client, reverse('members'), {'email':recipient.email}))
                     self.assertEqual(response.status_code, 302)
                     path = urlsplit(self.link(connection)).path
                 invitation = Invitation.objects.get(email=recipient.email)
@@ -230,7 +234,7 @@ class HttpEmailWorkflowTests(TestCase):
     def test_password_reset_http_email_contains_a_once_only_valid_link_in_each_language(self):
         for language in ['fr', 'en', 'ar']:
             with self.subTest(language=language), translation.override(language):
-                user = User.objects.create_user(username='http-reset-'+language, email='http-reset-'+language+'@example.test', password='Fictional-Old-Password-2026!')
+                user = User.objects.create_user(username='http-reset-'+language, email='http-reset-'+language+'@example.test', password=secrets.token_urlsafe(24))
                 requester = Client()
                 with self.provider() as (transport, connection):
                     response = requester.post(reverse('password_reset'), {'email':user.email})
@@ -249,7 +253,7 @@ class HttpEmailWorkflowTests(TestCase):
                 self.assertIn('/set-password/', start.url)
                 form = receiver.get(start.url)
                 self.assertTrue(form.context['validlink'])
-                new_password = 'Fictional-New-Password-2026!'
+                new_password = secrets.token_urlsafe(24)
                 self.assertEqual(receiver.post(start.url, {'new_password1':new_password, 'new_password2':new_password}).status_code, 302)
                 user.refresh_from_db()
                 self.assertTrue(user.check_password(new_password))
@@ -279,7 +283,7 @@ class HttpEmailWorkflowTests(TestCase):
             self.assertNotContains(Client().get(response.url, HTTP_HOST=alternate), email)
 
     def test_reset_unknown_inactive_and_unusable_accounts_are_neutral_without_http_calls(self):
-        inactive = User.objects.create_user(username='http-reset-inactive', email='http-reset-inactive@example.test', password='Fictional-Password-2026!', is_active=False)
+        inactive = User.objects.create_user(username='http-reset-inactive', email='http-reset-inactive@example.test', is_active=False, password=secrets.token_urlsafe(24))
         unusable = User.objects.create_user(username='http-reset-unusable', email='http-reset-unusable@example.test')
         self.assertFalse(unusable.has_usable_password())
         for language in ['fr', 'en', 'ar']:
@@ -294,7 +298,7 @@ class HttpEmailWorkflowTests(TestCase):
 
     def test_reset_provider_failures_stay_neutral_and_logs_exclude_credentials_recipient_and_link(self):
         for index, fault in enumerate(self.faults):
-            user = User.objects.create_user(username='http-reset-error-'+str(index), email='http-reset-error-'+str(index)+'@example.test', password='Fictional-Password-2026!')
+            user = User.objects.create_user(username='http-reset-error-'+str(index), email='http-reset-error-'+str(index)+'@example.test', password=secrets.token_urlsafe(24))
             with self.subTest(fault=fault), self.provider(fault) as (_transport, connection):
                 with self.assertLogs('django.contrib.auth', level='ERROR') as logged:
                     response = Client().post(reverse('password_reset'), {'email':user.email})

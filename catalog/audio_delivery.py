@@ -4,13 +4,13 @@ import re
 from pathlib import Path
 from django.http import Http404, HttpResponse
 from .media_validation import MAX_BYTES
+from core.storage_io import read_bounded
 
 
 def protected_media_response(request, asset):
     # Authentication and scope are checked by the view before even HEAD/Range.
     try:
-        with asset.file.open('rb') as stream:
-            data = stream.read(MAX_BYTES + 1)
+        data = read_bounded(asset.file.storage, asset.file.name, MAX_BYTES)
     except Exception as error:
         from botocore.exceptions import BotoCoreError, ClientError
         if isinstance(error, (OSError, BotoCoreError, ClientError)):

@@ -1,4 +1,5 @@
 import uuid
+import secrets
 from pathlib import Path
 from unittest.mock import patch
 from django.conf import settings
@@ -15,7 +16,7 @@ from .forms import ProgramForm, PracticeForm
 from .models import User, Invitation, AuditEvent, Membership, PrivacyRequest
 from .services import create_program, record_practice, issue_and_deliver_invitation, resolve_privacy
 from . import tests as original_tests
-from .testing import pcm_fixture
+from .testing import pcm_fixture, practice_form_data
 from qualification.test_support import prepare_activity_fixture, availability_fixture, competence_fixture
 
 
@@ -66,9 +67,9 @@ class QualificationTests(TestCase):
 
     @override_settings(MFA_REQUIRED=True)
     def test_mfa_covers_nonstaff_editorial_and_billing_get_and_post(self):
-        editor = User.objects.create_user(username='scoped-editor',email='editor@fictional.example',password='fictional-password')
+        editor = User.objects.create_user(username='scoped-editor',email='editor@fictional.example')
         EditorialGrant.objects.create(user=editor,variety=self.program.variety,edit=True,publish=True)
-        operator = User.objects.create_user(username='operator',email='operator@fictional.example',password='fictional-password')
+        operator = User.objects.create_user(username='operator',email='operator@fictional.example')
         operator.user_permissions.add(Permission.objects.get(codename='manage_entitlements'))
         for actor,name in [(editor,'editorial_index'),(operator,'billing_index')]:
             self.client.force_login(actor)
@@ -118,7 +119,8 @@ class QualificationTests(TestCase):
     def test_existing_account_invitation_proposes_login_without_500(self):
         invitation,token=Invitation.issue(self.org,self.child,self.family.email.upper(),self.pro)
         self.client.logout()
-        response=self.client.post(reverse('invite',args=[token]),{'username':'different','instruction_language':'fr','password1':'Strong-Fictional-Password-2026!','password2':'Strong-Fictional-Password-2026!'})
+        password = secrets.token_urlsafe(24)
+        response=self.client.post(reverse('invite',args=[token]),{'username':'different','instruction_language':'fr','password1':password,'password2':password})
         self.assertEqual(response.status_code,200)
         self.assertIsNone(response.context['form'])
         self.assertFalse(User.objects.filter(username='different').exists())
@@ -130,7 +132,11 @@ class QualificationTests(TestCase):
     def test_smtp_failure_is_audited_and_retry_replaces_the_link(self):
         with patch('django.core.mail.send_mail',side_effect=OSError('unavailable')):
             for kind,child in [('family',self.child),('clinician',None)]:
-                response=self.client.post(reverse('child_detail',args=[child.pk]) if child else reverse('members'),{'email':kind+'@fictional.example'})
+                path = reverse('child_detail', args=[child.pk]) if child else reverse('members')
+                data = {'email':kind+'@fictional.example'}
+                if child is None:
+                    data = practice_form_data(self.client, path, data)
+                response = self.client.post(path, data)
                 self.assertEqual(response.status_code,302)
                 invite=Invitation.objects.get(email=kind+'@fictional.example')
                 self.assertEqual(invite.delivery,'failed')

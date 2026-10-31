@@ -7,6 +7,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from core.models import CheckedModel
 from core.storage_health import file_exists, STORAGE_ERRORS
+from core.storage_io import read_bounded
 from .validity import VALIDITY_CHOICES
 
 DISCIPLINES = [('clinical', _('Clinical')), ('linguistic', _('Linguistic'))]
@@ -23,18 +24,11 @@ def digest_file(file):
 def _digest_file(file):
     if not file_exists(file):
         return ''
-    result = hashlib.sha256()
-    count = 0
     try:
-        with file.storage.open(file.name, 'rb') as stream:
-            for chunk in iter(lambda: stream.read(65536), b''):
-                count += len(chunk)
-                if count > 15 * 1024 * 1024:
-                    return ''
-                result.update(chunk)
+        data = read_bounded(file.storage, file.name, 15 * 1024 * 1024)
     except STORAGE_ERRORS:
         return ''
-    return result.hexdigest()
+    return hashlib.sha256(data).hexdigest()
 
 class EvidenceDocument(CheckedModel):
     variety = models.ForeignKey('catalog.Variety', on_delete=models.PROTECT)

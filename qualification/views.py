@@ -10,6 +10,7 @@ from catalog.models import Variety, EditorialGrant, MediaAsset
 from catalog.services import allowed
 from core.services import audit
 from core.storage_health import STORAGE_ERRORS
+from core.storage_io import read_bounded
 from .models import EvidenceDocument, ReviewerCompetence, AvailabilityDecision, LexicalPack, LexicalCandidate, FamiliarityStudy, PackReview
 from .forms import EvidenceForm, CompetenceForm, AvailabilityForm, PackForm, CandidateForm, FamiliarityForm, PackReviewForm, OpeningTargetForm, AvailabilityRevocationForm
 from .services import change_pack_state, clone_pack, pack_readiness_reasons
@@ -59,8 +60,7 @@ def evidence_file(request,pk):
     # or a second storage open cannot stand in for this delivery check.
     limit = 15 * 1024 * 1024
     try:
-        with document.file.open('rb') as stream:
-            data = stream.read(limit + 1)
+        data = read_bounded(document.file.storage, document.file.name, limit)
     except STORAGE_ERRORS:
         raise Http404 from None
     if len(data) > limit or hashlib.sha256(data).hexdigest() != document.sha256:
