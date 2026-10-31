@@ -5286,3 +5286,6 @@ msgstr "Register history entries are append-only."
 
 msgid "Register history entries cannot be deleted."
 msgstr "Register history entries cannot be deleted."
+
+msgid "Download launch readiness report"
+msgstr "Download launch readiness report"

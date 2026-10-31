@@ -4,6 +4,7 @@ import json
 import os
 from unittest.mock import patch
 from django.contrib.auth.models import Permission
+from django.core.management.base import CommandError
 from django.db import DatabaseError, connection, transaction
 from unittest import skipUnless
 from django.test import Client, SimpleTestCase, TestCase, TransactionTestCase, override_settings
@@ -45,6 +46,47 @@ class PrivateOperationsViewTests(TestCase):
         self.assertIn('no-store', response['Cache-Control'])
         self.assertIn('attachment', response['Content-Disposition'])
         self.assertEqual(response['X-Robots-Tag'], 'noindex, nofollow')
+
+    def test_launch_readiness_report_is_private_and_uses_the_shared_command(self):
+        self.client.force_login(self.operator)
+        report = {
+            'technical_gates_passed': False,
+            'checks': {'current_available_nondemo_content_in_each_offered_variety': False},
+            'manual_gates_required': ['professional_content_and_audio_validation'],
+            'scope': 'Technical report only.',
+        }
+        def write_report(command, *, json, stdout):
+            self.assertEqual(command, 'check_readiness')
+            self.assertTrue(json)
+            stdout.write(__import__('json').dumps(report))
+        with patch('core.operations_views.call_command', side_effect=write_report) as run:
+            response = self.client.get('/fr/operations/readiness/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), report)
+        self.assertIn('attachment;', response['Content-Disposition'])
+        self.assertIn('private', response['Cache-Control'])
+        self.assertIn('no-store', response['Cache-Control'])
+        self.assertEqual(response['X-Robots-Tag'], 'noindex, nofollow')
+        run.assert_called_once()
+
+    def test_launch_readiness_report_requires_platform_permission(self):
+        for user in [self.ordinary, self.staff]:
+            self.client.force_login(user)
+            with patch('core.operations_views.call_command') as run:
+                response = self.client.get('/en/operations/readiness/')
+            self.assertEqual(response.status_code, 403)
+            run.assert_not_called()
+
+    def test_invalid_readiness_configuration_returns_a_noncommercial_blocker(self):
+        self.client.force_login(self.operator)
+        with patch('core.operations_views.call_command', side_effect=CommandError('private config detail')):
+            response = self.client.get('/ar/operations/readiness/')
+        self.assertEqual(response.status_code, 503)
+        report = response.json()
+        self.assertFalse(report['report_available'])
+        self.assertFalse(report['technical_gates_passed'])
+        self.assertNotIn('private config detail', response.content.decode())
+        self.assertIn('no-store', response['Cache-Control'])
 
     def test_database_sample_is_explicit_post_and_does_not_accept_arbitrary_destinations(self):
         self.client.force_login(self.operator)
