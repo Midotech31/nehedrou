@@ -5289,3 +5289,135 @@ msgstr "Register history entries cannot be deleted."
 
 msgid "Download launch readiness report"
 msgstr "Download launch readiness report"
+
+msgid "A current technical checklist for this deployed service."
+msgstr "A current technical checklist for this deployed service."
+
+msgid "Download JSON report"
+msgstr "Download JSON report"
+
+msgid "Back to hosting diagnostics"
+msgstr "Back to hosting diagnostics"
+
+msgid "Technical report unavailable"
+msgstr "Technical report unavailable"
+
+msgid "The report could not evaluate the configured spoken varieties. Correct the platform configuration before relying on this checklist."
+msgstr "The report could not evaluate the configured spoken varieties. Correct the platform configuration before relying on this checklist."
+
+msgid "Technical checks passed"
+msgstr "Technical checks passed"
+
+msgid "This result covers only the technical checks below. It does not approve clinical content, legal compliance or commercial release."
+msgstr "This result covers only the technical checks below. It does not approve clinical content, legal compliance or commercial release."
+
+msgid "Observed at"
+msgstr "Observed at"
+
+msgid "Technical checks"
+msgstr "Technical checks"
+
+msgid "Requirement"
+msgstr "Requirement"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Passed"
+msgstr "Passed"
+
+msgid "Blocked"
+msgstr "Blocked"
+
+msgid "Coverage by offered spoken variety"
+msgstr "Coverage by offered spoken variety"
+
+msgid "Only currently available, non-demo versions with exact media and current reviews count as available. Interface translation does not approve spoken-language content."
+msgstr "Only currently available, non-demo versions with exact media and current reviews count as available. Interface translation does not approve spoken-language content."
+
+msgid "Spoken variety code"
+msgstr "Spoken variety code"
+
+msgid "Published non-demo versions"
+msgstr "Published non-demo versions"
+
+msgid "Currently available versions"
+msgstr "Currently available versions"
+
+msgid "Human review and acceptance still required"
+msgstr "Human review and acceptance still required"
+
+msgid "The system cannot infer that these reviews took place. Record and verify them with the responsible professionals before sale or real clinical use."
+msgstr "The system cannot infer that these reviews took place. Record and verify them with the responsible professionals before sale or real clinical use."
+
+msgid "What this report means"
+msgstr "What this report means"
+
+msgid "A passed technical checklist is not evidence that the application has clinical efficacy, that each activity is appropriate for a particular child, or that every legal obligation is met."
+msgstr "A passed technical checklist is not evidence that the application has clinical efficacy, that each activity is appropriate for a particular child, or that every legal obligation is met."
+
+msgid "Platform processing register populated"
+msgstr "Platform processing register populated"
+
+msgid "Demonstration mode disabled"
+msgstr "Demonstration mode disabled"
+
+msgid "Debug mode disabled"
+msgstr "Debug mode disabled"
+
+msgid "PostgreSQL database in use"
+msgstr "PostgreSQL database in use"
+
+msgid "Private durable media configured"
+msgstr "Private durable media configured"
+
+msgid "Multi-factor authentication required for privileged access"
+msgstr "Multi-factor authentication required for privileged access"
+
+msgid "Public HTTPS address configured"
+msgstr "Public HTTPS address configured"
+
+msgid "Supported email delivery configured"
+msgstr "Supported email delivery configured"
+
+msgid "Current approved non-demo activity available for every offered spoken variety"
+msgstr "Current approved non-demo activity available for every offered spoken variety"
+
+msgid "Published activities have usable audio and current reviews"
+msgstr "Published activities have usable audio and current reviews"
+
+msgid "Professional review of activity content and exact audio"
+msgstr "Professional review of activity content and exact audio"
+
+msgid "Native-speaker review for every offered spoken variety"
+msgstr "Native-speaker review for every offered spoken variety"
+
+msgid "Browser, mobile and accessibility acceptance"
+msgstr "Browser, mobile and accessibility acceptance"
+
+msgid "Backup, restoration and concurrent-use acceptance"
+msgstr "Backup, restoration and concurrent-use acceptance"
+
+msgid "Applicable privacy, legal and launch obligations reviewed"
+msgstr "Applicable privacy, legal and launch obligations reviewed"
+
+msgid "Processing-register accuracy and legal review"
+msgstr "Processing-register accuracy and legal review"
+
+msgid "Any clinical-effectiveness claim supported by separate evidence"
+msgstr "Any clinical-effectiveness claim supported by separate evidence"
+
+msgid "Launch readiness"
+msgstr "Launch readiness"
+
+msgid "Open launch readiness report"
+msgstr "Open launch readiness report"
+
+msgid "Platform operations"
+msgstr "Platform operations"
+
+msgid "Technical launch blockers remain"
+msgstr "Technical launch blockers remain"
+
+msgid "At least one technical launch check is not met. Resolve the blocked items below; the report does not approve clinical content or commercial release."
+msgstr "At least one technical launch check is not met. Resolve the blocked items below; the report does not approve clinical content or commercial release."

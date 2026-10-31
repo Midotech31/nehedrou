@@ -5289,3 +5289,135 @@ msgstr "لا يمكن حذف إصدارات السجل."
 
 msgid "Download launch readiness report"
 msgstr "تنزيل تقرير جاهزية الإطلاق"
+
+msgid "A current technical checklist for this deployed service."
+msgstr "قائمة تحقق تقنية محدثة لهذه الخدمة المنشورة."
+
+msgid "Download JSON report"
+msgstr "تنزيل تقرير JSON"
+
+msgid "Back to hosting diagnostics"
+msgstr "العودة إلى تشخيصات الاستضافة"
+
+msgid "Technical report unavailable"
+msgstr "تقرير الجاهزية التقنية غير متاح"
+
+msgid "The report could not evaluate the configured spoken varieties. Correct the platform configuration before relying on this checklist."
+msgstr "تعذر تقييم التنوعات اللغوية المنطوقة المحددة. صحّح إعداد المنصة قبل الاعتماد على هذه القائمة."
+
+msgid "Technical checks passed"
+msgstr "اجتازت الفحوصات التقنية"
+
+msgid "This result covers only the technical checks below. It does not approve clinical content, legal compliance or commercial release."
+msgstr "تغطي هذه النتيجة الفحوصات التقنية أدناه فقط. ولا تعني اعتماد المحتوى السريري أو الامتثال القانوني أو الموافقة على الطرح التجاري."
+
+msgid "Observed at"
+msgstr "وقت الرصد"
+
+msgid "Technical checks"
+msgstr "الفحوصات التقنية"
+
+msgid "Requirement"
+msgstr "المتطلب"
+
+msgid "Status"
+msgstr "الحالة"
+
+msgid "Passed"
+msgstr "مستوفى"
+
+msgid "Blocked"
+msgstr "غير مستوفى"
+
+msgid "Coverage by offered spoken variety"
+msgstr "التغطية حسب التنوع اللغوي المنطوق المعروض"
+
+msgid "Only currently available, non-demo versions with exact media and current reviews count as available. Interface translation does not approve spoken-language content."
+msgstr "تُحتسب فقط النسخ غير التجريبية المتاحة حاليًا ذات الوسائط المطابقة والمراجعات السارية. ترجمة الواجهة لا تعني اعتماد محتوى اللغة المنطوقة."
+
+msgid "Spoken variety code"
+msgstr "رمز التنوع اللغوي المنطوق"
+
+msgid "Published non-demo versions"
+msgstr "النسخ غير التجريبية المنشورة"
+
+msgid "Currently available versions"
+msgstr "النسخ المتاحة حاليًا"
+
+msgid "Human review and acceptance still required"
+msgstr "لا تزال المراجعة البشرية والقبول مطلوبين"
+
+msgid "The system cannot infer that these reviews took place. Record and verify them with the responsible professionals before sale or real clinical use."
+msgstr "لا يستطيع النظام استنتاج أن هذه المراجعات قد أُجريت. وثّقها وتحقق منها مع المختصين المسؤولين قبل البيع أو الاستخدام السريري الفعلي."
+
+msgid "What this report means"
+msgstr "ماذا يعني هذا التقرير"
+
+msgid "A passed technical checklist is not evidence that the application has clinical efficacy, that each activity is appropriate for a particular child, or that every legal obligation is met."
+msgstr "اجتياز القائمة التقنية لا يثبت الفعالية السريرية للتطبيق، ولا ملاءمة كل نشاط لطفل بعينه، ولا استيفاء جميع الالتزامات القانونية."
+
+msgid "Platform processing register populated"
+msgstr "سجلّ المعالجة الخاص بالمنصة مستوفى"
+
+msgid "Demonstration mode disabled"
+msgstr "وضع العرض التجريبي معطّل"
+
+msgid "Debug mode disabled"
+msgstr "وضع تصحيح الأخطاء معطّل"
+
+msgid "PostgreSQL database in use"
+msgstr "قاعدة بيانات PostgreSQL مستخدمة"
+
+msgid "Private durable media configured"
+msgstr "التخزين الخاص والدائم للوسائط مُعدّ"
+
+msgid "Multi-factor authentication required for privileged access"
+msgstr "المصادقة متعددة العوامل مطلوبة للوصول ذي الصلاحيات"
+
+msgid "Public HTTPS address configured"
+msgstr "عنوان HTTPS عام مُعدّ"
+
+msgid "Supported email delivery configured"
+msgstr "خدمة إرسال بريد إلكتروني مدعومة مُعدّة"
+
+msgid "Current approved non-demo activity available for every offered spoken variety"
+msgstr "نشاط معتمد وغير تجريبي متاح لكل تنوع لغوي منطوق معروض"
+
+msgid "Published activities have usable audio and current reviews"
+msgstr "الأنشطة المنشورة لديها صوت قابل للاستخدام ومراجعات سارية"
+
+msgid "Professional review of activity content and exact audio"
+msgstr "مراجعة مهنية لمحتوى الأنشطة والتسجيلات الصوتية المحددة"
+
+msgid "Native-speaker review for every offered spoken variety"
+msgstr "مراجعة متحدث أصلي لكل تنوع لغوي منطوق معروض"
+
+msgid "Browser, mobile and accessibility acceptance"
+msgstr "اعتماد اختبار المتصفحات والهواتف وإمكانية الوصول"
+
+msgid "Backup, restoration and concurrent-use acceptance"
+msgstr "اعتماد النسخ الاحتياطي والاستعادة والاستخدام المتزامن"
+
+msgid "Applicable privacy, legal and launch obligations reviewed"
+msgstr "مراجعة الالتزامات المنطبقة بشأن الخصوصية والقانون والإطلاق"
+
+msgid "Processing-register accuracy and legal review"
+msgstr "مراجعة دقة سجل المعالجة ومراجعته قانونيًا"
+
+msgid "Any clinical-effectiveness claim supported by separate evidence"
+msgstr "أي ادعاء بالفعالية السريرية مدعوم بأدلة مستقلة"
+
+msgid "Launch readiness"
+msgstr "الجاهزية للإطلاق"
+
+msgid "Open launch readiness report"
+msgstr "فتح تقرير الجاهزية للإطلاق"
+
+msgid "Platform operations"
+msgstr "إدارة المنصة"
+
+msgid "Technical launch blockers remain"
+msgstr "لا تزال هناك عوائق تقنية أمام الإطلاق"
+
+msgid "At least one technical launch check is not met. Resolve the blocked items below; the report does not approve clinical content or commercial release."
+msgstr "لم يُستوفَ فحص تقني واحد على الأقل. عالج البنود المعيقة أدناه؛ فهذا التقرير لا يعتمد المحتوى السريري ولا يوافق على الطرح التجاري."

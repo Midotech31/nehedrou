@@ -5289,3 +5289,135 @@ msgstr "Les versions du registre ne peuvent pas être supprimées."
 
 msgid "Download launch readiness report"
 msgstr "Télécharger le rapport de préparation au lancement"
+
+msgid "A current technical checklist for this deployed service."
+msgstr "Liste de contrôle technique à jour pour ce service déployé."
+
+msgid "Download JSON report"
+msgstr "Télécharger le rapport JSON"
+
+msgid "Back to hosting diagnostics"
+msgstr "Retour aux diagnostics d’hébergement"
+
+msgid "Technical report unavailable"
+msgstr "Rapport de préparation technique indisponible"
+
+msgid "The report could not evaluate the configured spoken varieties. Correct the platform configuration before relying on this checklist."
+msgstr "Le rapport n’a pas pu évaluer les variétés parlées configurées. Corrigez la configuration de la plateforme avant de vous fier à cette liste."
+
+msgid "Technical checks passed"
+msgstr "Contrôles techniques réussis"
+
+msgid "This result covers only the technical checks below. It does not approve clinical content, legal compliance or commercial release."
+msgstr "Ce résultat couvre uniquement les contrôles techniques ci-dessous. Il ne valide ni le contenu clinique, ni la conformité juridique, ni la commercialisation."
+
+msgid "Observed at"
+msgstr "Observé le"
+
+msgid "Technical checks"
+msgstr "Contrôles techniques"
+
+msgid "Requirement"
+msgstr "Exigence"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Passed"
+msgstr "Réussi"
+
+msgid "Blocked"
+msgstr "Bloqué"
+
+msgid "Coverage by offered spoken variety"
+msgstr "Couverture par variété parlée proposée"
+
+msgid "Only currently available, non-demo versions with exact media and current reviews count as available. Interface translation does not approve spoken-language content."
+msgstr "Seules les versions non démonstratives actuellement disponibles, avec leurs médias exacts et des avis à jour, sont comptabilisées. La traduction de l’interface ne valide pas le contenu parlé."
+
+msgid "Spoken variety code"
+msgstr "Code de la variété parlée"
+
+msgid "Published non-demo versions"
+msgstr "Versions non démonstratives publiées"
+
+msgid "Currently available versions"
+msgstr "Versions actuellement disponibles"
+
+msgid "Human review and acceptance still required"
+msgstr "Relecture humaine et recette encore nécessaires"
+
+msgid "The system cannot infer that these reviews took place. Record and verify them with the responsible professionals before sale or real clinical use."
+msgstr "Le système ne peut pas déduire que ces relectures ont eu lieu. Consignez-les et faites-les vérifier par les professionnels responsables avant toute vente ou utilisation clinique réelle."
+
+msgid "What this report means"
+msgstr "Portée de ce rapport"
+
+msgid "A passed technical checklist is not evidence that the application has clinical efficacy, that each activity is appropriate for a particular child, or that every legal obligation is met."
+msgstr "Une liste technique entièrement validée ne prouve ni l’efficacité clinique de l’application, ni l’adéquation de chaque activité à un enfant donné, ni le respect de toutes les obligations légales."
+
+msgid "Platform processing register populated"
+msgstr "Registre des traitements de la plateforme renseigné"
+
+msgid "Demonstration mode disabled"
+msgstr "Mode démonstration désactivé"
+
+msgid "Debug mode disabled"
+msgstr "Mode débogage désactivé"
+
+msgid "PostgreSQL database in use"
+msgstr "Base de données PostgreSQL utilisée"
+
+msgid "Private durable media configured"
+msgstr "Stockage privé et durable des médias configuré"
+
+msgid "Multi-factor authentication required for privileged access"
+msgstr "Authentification multifacteur exigée pour les accès privilégiés"
+
+msgid "Public HTTPS address configured"
+msgstr "Adresse publique HTTPS configurée"
+
+msgid "Supported email delivery configured"
+msgstr "Service d’envoi de courriels compatible configuré"
+
+msgid "Current approved non-demo activity available for every offered spoken variety"
+msgstr "Activité non démonstrative, approuvée et disponible pour chaque variété parlée proposée"
+
+msgid "Published activities have usable audio and current reviews"
+msgstr "Les activités publiées disposent d’un audio utilisable et de relectures à jour"
+
+msgid "Professional review of activity content and exact audio"
+msgstr "Relecture professionnelle des activités et des fichiers audio exacts"
+
+msgid "Native-speaker review for every offered spoken variety"
+msgstr "Relecture par un locuteur natif pour chaque variété parlée proposée"
+
+msgid "Browser, mobile and accessibility acceptance"
+msgstr "Recette des navigateurs, du mobile et de l’accessibilité"
+
+msgid "Backup, restoration and concurrent-use acceptance"
+msgstr "Recette des sauvegardes, de la restauration et des accès simultanés"
+
+msgid "Applicable privacy, legal and launch obligations reviewed"
+msgstr "Examen des obligations applicables en matière de confidentialité, de droit et de lancement"
+
+msgid "Processing-register accuracy and legal review"
+msgstr "Vérification de l’exactitude du registre et relecture juridique"
+
+msgid "Any clinical-effectiveness claim supported by separate evidence"
+msgstr "Toute affirmation d’efficacité clinique étayée par des preuves distinctes"
+
+msgid "Launch readiness"
+msgstr "Préparation au lancement"
+
+msgid "Open launch readiness report"
+msgstr "Consulter le rapport de préparation au lancement"
+
+msgid "Platform operations"
+msgstr "Gestion de la plateforme"
+
+msgid "Technical launch blockers remain"
+msgstr "Des blocages techniques empêchent le lancement"
+
+msgid "At least one technical launch check is not met. Resolve the blocked items below; the report does not approve clinical content or commercial release."
+msgstr "Au moins un contrôle technique n’est pas satisfait. Corrigez les points bloquants ci-dessous ; ce rapport ne valide ni le contenu clinique ni la commercialisation."

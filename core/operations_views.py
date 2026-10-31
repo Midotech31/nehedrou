@@ -8,6 +8,7 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_http_methods
 from core.ops_readiness import operations_report
@@ -32,6 +33,29 @@ SMTP_LABELS = {
     'credentials_present': _('Mail credentials configured'),
     'sender_address': _('Sender address valid'),
     'sender_not_reserved': _('Sender address uses a non-example domain'),
+}
+
+READINESS_CHECK_LABELS = {
+    'processing_register_present_and_populated': _('Platform processing register populated'),
+    'demonstration_disabled': _('Demonstration mode disabled'),
+    'debug_disabled': _('Debug mode disabled'),
+    'postgresql': _('PostgreSQL database in use'),
+    'private_durable_media_configured': _('Private durable media configured'),
+    'privileged_mfa_required': _('Multi-factor authentication required for privileged access'),
+    'public_https_origin': _('Public HTTPS address configured'),
+    'email_configured': _('Supported email delivery configured'),
+    'current_available_nondemo_content_in_each_offered_variety': _('Current approved non-demo activity available for every offered spoken variety'),
+    'published_audio_and_current_reviews_available': _('Published activities have usable audio and current reviews'),
+}
+
+MANUAL_READINESS_LABELS = {
+    'professional_content_and_audio_validation': _('Professional review of activity content and exact audio'),
+    'native_language_review': _('Native-speaker review for every offered spoken variety'),
+    'browser_and_accessibility_acceptance': _('Browser, mobile and accessibility acceptance'),
+    'backup_restore_and_concurrency_acceptance': _('Backup, restoration and concurrent-use acceptance'),
+    'applicable_launch_obligations': _('Applicable privacy, legal and launch obligations reviewed'),
+    'processing_register_accuracy_and_legal_review': _('Processing-register accuracy and legal review'),
+    'clinical_effectiveness_claims_require_separate_evidence': _('Any clinical-effectiveness claim supported by separate evidence'),
 }
 
 EMAIL_LABELS = {
@@ -95,8 +119,24 @@ def launch_readiness_report(request):
             'configuration_error': 'Readiness report could not run because the offered spoken-variety configuration is invalid or incomplete.',
         }
         status = 503
-    response = HttpResponse(json.dumps(report, ensure_ascii=True, indent=2), content_type='application/json', status=status)
-    response['Content-Disposition'] = 'attachment; filename="nehdrou-launch-readiness.json"'
+    report.setdefault('generated_at', timezone.localtime().isoformat(timespec='seconds'))
+    if request.GET.get('format') == 'json':
+        response = HttpResponse(json.dumps(report, ensure_ascii=True, indent=2), content_type='application/json', status=status)
+        response['Content-Disposition'] = 'attachment; filename="nehdrou-launch-readiness.json"'
+    else:
+        response = render(request, 'launch_readiness.html', {
+            'page_title': _('Launch readiness'),
+            'nav_section': 'operations',
+            'report': report,
+            'report_status': status,
+            'check_rows': [(READINESS_CHECK_LABELS.get(key, key), bool(value)) for key, value in report.get('checks', {}).items()],
+            'content_rows': [
+                (code, report.get('published_nondemo_counts_by_variety', {}).get(code, 0),
+                 report.get('current_available_nondemo_counts_by_variety', {}).get(code, 0))
+                for code in report.get('offered_content_varieties', [])
+            ],
+            'manual_gate_rows': [MANUAL_READINESS_LABELS.get(key, key) for key in report.get('manual_gates_required', [])],
+        }, status=status)
     response['Cache-Control'] = 'private, no-store'
     response['X-Robots-Tag'] = 'noindex, nofollow'
     return response
