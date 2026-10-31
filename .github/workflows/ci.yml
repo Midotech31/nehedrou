@@ -19,8 +19,8 @@ jobs:
       DJANGO_DEBUG: "1"
       DEMO_MODE: "1"
       DEMO_EPHEMERAL: "1"
-      DEMO_DATABASE_PATH: ${{ runner.temp }}/nehedrou-ci.sqlite3
-      NEHEDROU_MEDIA_ROOT: ${{ runner.temp }}/nehedrou-ci-media
+      DEMO_DATABASE_PATH: ${{ github.workspace }}/.ci-demo.sqlite3
+      NEHEDROU_MEDIA_ROOT: ${{ github.workspace }}/.ci-media
       PUBLIC_ORIGIN: https://ci.example.invalid
     steps:
       - name: Check out source
