@@ -7,10 +7,10 @@ Les identifiants ci-dessous correspondent à des droits réellement disponibles.
 | `responsable` | Responsable du cabinet fictif des rôles | `/fr/app/` | Membres, abonnement et paramètres de son cabinet ; dossier Maya dont il est explicitement responsable. Aucun accès automatique au dossier Sami. |
 | `orthophoniste` | Orthophoniste du même cabinet | `/fr/app/` | Dossier Sami, ses programmes, rapports, observations privées et conseils partagés. Aucun droit de gestion des membres du cabinet. |
 | `accompagnant` | Parent ou accompagnant autorisé | `/fr/app/` | Dossier Sami lié explicitement, programmes dans les trois variétés pilotes, pratique et rapports ; aucune modification clinique. |
-| `editeur` | Éditeur et responsable de publication | `/fr/editorial/` | Rédaction, médias, nouvelles versions et transitions sur les trois variétés pilotes. Aucune relecture clinique ou linguistique. |
+| `editeur` | Éditeur et responsable de publication | `/fr/editorial/` | Rédaction, médias, nouvelles versions et transitions sur les quatre variétés pilotes. Aucune relecture clinique ou linguistique. |
 | `relecteur_clinique` | Relecteur clinique du catalogue | `/fr/editorial/` | Lecture et décisions de sa discipline sur les versions proposées ; aucune rédaction, mise en ligne ou consultation de dossiers. |
 | `relecteur_linguistique` | Relecteur linguistique du catalogue | `/fr/editorial/` | Lecture et décisions linguistiques sur les versions proposées ; mêmes restrictions de rédaction, publication et dossiers. |
-| `gestionnaire` | Gestionnaire des accès et de la facturation manuelle | `/fr/billing/` | Cabinets, plans, quotas, échéances et factures. Aucun accès aux dossiers, exports cliniques ou catalogue éditorial. |
+| `gestionnaire` | Gestionnaire des accès et de la facturation manuelle | `/fr/billing/` | Cabinets, plans, quotas, échéances, factures et invitations éditoriales limitées, avec remise manuelle possible sans email. Aucun accès aux dossiers, exports cliniques ou contenu du catalogue éditorial. |
 | `pitou` | Porteur de projet et orthophoniste — compte de démonstration distinct | `/fr/app/` et `/fr/editorial/new/` | Accède comme clinicien au cabinet fictif et peut créer/modifier des brouillons éditoriaux dans les quatre variétés configurées. Ne peut ni publier ni effectuer les relectures clinique/linguistique; n’est ni staff ni superutilisateur. |
 
 Le gestionnaire utilise la permission existante `core.manage_entitlements`. Il n’est ni superutilisateur ni administrateur Django. L’application ne fournit pas d’administration globale des utilisateurs en production ; `/admin/` reste désactivé lorsque `DEBUG=False`. Le responsable de cabinet et le gestionnaire des accès sont donc deux profils distincts.
@@ -51,3 +51,11 @@ La commande est idempotente. Elle ne réinitialise ni mot de passe existant, ni 
 Lorsque `MFA_REQUIRED=1`, les profils professionnels, éditoriaux et de gestion restent soumis à la MFA. Le mode de présentation fictive peut utiliser `MFA_REQUIRED=0` ; l’initialisation ne désactive pas cette protection elle-même.
 
 Vérification automatisée isolée : `python manage.py test core.tests_demo_roles`. Ces tests utilisent exclusivement des secrets synthétiques et la base de test ; ils ne prouvent ni efficacité clinique ni recette de navigateur.
+
+## Préparer les vraies relectures
+
+Le compte `gestionnaire` peut inviter des éditeurs et relecteurs par remise manuelle sans fournisseur de courriels. Le compte `pitou` conserve la création et l'édition des brouillons ; il ne détient pas la publication. La vérification indépendante des déclarations de compétence exige un autre compte disposant de publication pour la variété concernée. Les comptes fictifs `editeur` et `editorial` illustrent cette capacité en démonstration ; ils n'établissent pas les qualifications ou la responsabilité d'une personne réelle.
+
+Le porteur a confirmé le 1 novembre 2026 que les responsables de publication des vraies relectures ne sont pas encore désignés. Leur identité, leur périmètre par variété et leur provisionnement explicite restent à établir. Les invitations limitées n'accordent pas ce rôle et ne doivent pas être utilisées pour le contourner. Aucun rôle réel, contrôle de compétence, avis ou ouverture clinique n'est créé par cette documentation.
+
+Pour une relecture : accepter l'invitation de sa propre variété, déclarer son expérience dans **Contenu et droits**, faire vérifier la déclaration par une autre personne autorisée, puis examiner la version soumise par l'éditeur. Une décision porte sur son empreinte exacte. La validation des approches, la revue d'un contenu et la qualification clinique de l'application restent des niveaux distincts.

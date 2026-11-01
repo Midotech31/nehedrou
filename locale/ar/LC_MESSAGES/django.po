@@ -5974,3 +5974,6 @@ msgstr "سبق تنفيذ طلب الإنشاء هذا. لم يُنشأ رابط
 
 msgid "Email delivery is unavailable. You can create a link to hand over personally."
 msgstr "الإرسال بالبريد الإلكتروني غير متاح. يمكنك إنشاء رابط تسلّمه شخصيًا."
+
+msgid "This draft must be submitted by an editor before the review form becomes available."
+msgstr "يجب أن يقدّم محرّر هذه المسودة للمراجعة قبل إتاحة نموذج المراجعة."

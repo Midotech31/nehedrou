@@ -5,6 +5,22 @@ from django.utils.translation import gettext as _
 from core.services import audit
 from .models import Activity, EditorialGrant, Review, Variety
 
+ACTIVITY_TRANSITIONS = {
+    'draft': ('review',), 'review': ('draft', 'approved'),
+    'approved': ('draft', 'published'), 'published': ('withdrawn',), 'withdrawn': (),
+}
+
+
+def activity_transition_capability(target):
+    return 'publish' if target in ['published', 'withdrawn', 'approved'] else 'edit'
+
+
+def activity_transition_choices(actor, activity):
+    labels = dict(Activity._meta.get_field('state').choices)
+    return [(target, labels[target]) for target in ACTIVITY_TRANSITIONS.get(activity.state, ())
+            if allowed(actor, activity.variety, activity_transition_capability(target))]
+
+
 def allowed(user, variety, capability):
     if user.is_superuser:
         return True
@@ -25,11 +41,10 @@ def transition(actor, activity_id, target):
     activity = Activity.objects.select_for_update().get(pk=activity_id)
     from .integrity import invalidate_integrity
     invalidate_integrity()
-    capability = 'publish' if target in ['published', 'withdrawn', 'approved'] else 'edit'
+    capability = activity_transition_capability(target)
     if not allowed(actor, activity.variety, capability):
         raise PermissionDenied
-    transitions = {'draft': ['review'], 'review': ['draft', 'approved'], 'approved': ['draft', 'published'], 'published': ['withdrawn'], 'withdrawn': []}
-    if target not in transitions[activity.state]:
+    if target not in ACTIVITY_TRANSITIONS[activity.state]:
         raise ValidationError(_('This editorial transition is not allowed.'))
     if target == 'approved' and not activity.is_demo:
         if not activity.has_current_reviews():

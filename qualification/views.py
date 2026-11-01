@@ -14,7 +14,7 @@ from core.storage_health import STORAGE_ERRORS
 from core.storage_io import read_bounded
 from .models import EvidenceDocument, ReviewerCompetence, AvailabilityDecision, LexicalPack, LexicalCandidate, FamiliarityStudy, PackReview
 from .forms import EvidenceForm, CompetenceForm, CompetenceDecisionForm, AvailabilityForm, PackForm, CandidateForm, FamiliarityForm, PackReviewForm, OpeningTargetForm, AvailabilityRevocationForm
-from .services import change_pack_state, clone_pack, pack_readiness_reasons, record_competence_decision, save_competence_declaration, review_pack
+from .services import change_pack_state, clone_pack, pack_readiness_reasons, record_competence_decision, save_competence_declaration, review_pack, pack_transition_choices
 
 def varieties(user, capability=None):
     if user.is_superuser:
@@ -226,7 +226,9 @@ def pack_detail(request,pk):
             except ValidationError as error:
                 form.add_error(None, error)
                 review_snapshot_changed = getattr(error, 'code', None) == 'review_snapshot_changed'
-    return render(request,'qualification/pack.html',{'pack':pack,'candidates':pack.candidates.prefetch_related('familiarity'), 'form':form, 'can_edit':allowed(request.user,pack.variety,'edit'), 'can_publish':allowed(request.user,pack.variety,'publish'), 'can_review':bool(kinds) and pack.state=='review', 'issues':pack_readiness_reasons(pack),'digest':pack.fingerprint(),'reviews':pack.reviews.select_related('reviewer'),'review_snapshot_changed':review_snapshot_changed})
+    return render(request,'qualification/pack.html',{'pack':pack,'candidates':pack.candidates.prefetch_related('familiarity'), 'form':form, 'can_edit':allowed(request.user,pack.variety,'edit'), 'can_publish':allowed(request.user,pack.variety,'publish'), 'can_review':bool(kinds) and pack.state=='review', 'issues':pack_readiness_reasons(pack),'digest':pack.fingerprint(),'reviews':pack.reviews.select_related('reviewer'),'review_snapshot_changed':review_snapshot_changed,
+        'transition_choices': pack_transition_choices(request.user, pack),
+        'review_waiting_for_submission': bool(kinds) and pack.state == 'draft' and not allowed(request.user, pack.variety, 'edit')})
 
 @login_required
 @require_POST
