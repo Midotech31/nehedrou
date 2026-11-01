@@ -5646,3 +5646,114 @@ msgstr "Cette invitation accorde uniquement la capacité éditoriale sélectionn
 
 msgid "You have been invited to a limited Nehedrou editorial role for %(variety)s. This link expires in seven days. It grants only the selected editorial capability and does not add practice-record access; any permissions already on your account remain unchanged:"
 msgstr "Vous êtes invité à exercer un rôle éditorial limité dans Nehedrou pour la variété %(variety)s. Ce lien expire dans sept jours. Il accorde uniquement la capacité éditoriale sélectionnée, n’ajoute aucun accès aux dossiers de pratique et ne modifie pas les autorisations déjà associées à votre compte :"
+
+msgid "Independently checked"
+msgstr "Compétence vérifiée indépendamment"
+
+msgid "Not verified"
+msgstr "Non vérifiée"
+
+msgid "Independent check required"
+msgstr "Vérification indépendante requise"
+
+msgid "Review other reviewers' qualifications"
+msgstr "Vérifier les compétences des relecteurs"
+
+msgid "Independent reviewer checks"
+msgstr "Vérifications indépendantes des relecteurs"
+
+msgid "Verify another person's identity and competence for the exact spoken variety before their approval can count."
+msgstr "Vérifiez l’identité et la compétence d’une autre personne dans la variété parlée exacte avant que son approbation puisse être prise en compte."
+
+msgid "A verification records a human check. It is not a licence, clinical certification or validation of the application. Do not store identity-document numbers or unnecessary personal data."
+msgstr "Cette vérification consigne un contrôle humain. Elle ne constitue ni un agrément, ni une certification clinique, ni une validation de l’application. Ne stockez pas de numéro de pièce d’identité ni de donnée personnelle superflue."
+
+msgid "Reviewer account"
+msgstr "Compte du relecteur"
+
+msgid "Declared professional reference"
+msgstr "Référence professionnelle déclarée"
+
+msgid "Review private supporting document"
+msgstr "Consulter la pièce justificative privée"
+
+msgid "Latest independent check"
+msgstr "Dernière vérification indépendante"
+
+msgid "No independent check recorded for this declaration."
+msgstr "Aucune vérification indépendante n’est consignée pour cette déclaration."
+
+msgid "Record a check"
+msgstr "Consigner une vérification"
+
+msgid "No other active reviewer declarations are available for varieties you can publish."
+msgstr "Aucune autre déclaration active de relecteur n’est disponible pour les variétés que vous pouvez publier."
+
+msgid "Check reviewer competence"
+msgstr "Vérifier la compétence du relecteur"
+
+msgid "Back to reviewer checks"
+msgstr "Retour aux vérifications des relecteurs"
+
+msgid "Current declaration status"
+msgstr "Statut actuel de la déclaration"
+
+msgid "Check the person's identity and competence in this specific variety outside the application. Record the source or method and date, using only the minimum necessary detail."
+msgstr "Vérifiez hors application l’identité de la personne et sa compétence dans cette variété précise. Consignez la source ou la méthode et la date, avec le minimum de détails nécessaire."
+
+msgid "Record independent check"
+msgstr "Enregistrer la vérification indépendante"
+
+msgid "Verification result"
+msgstr "Résultat de la vérification"
+
+msgid "Verification basis and date"
+msgstr "Fondement et date de la vérification"
+
+msgid "Record what you checked, how, and when. Do not include identity-document numbers or unnecessary personal data."
+msgstr "Indiquez ce que vous avez contrôlé, comment et quand. N’incluez aucun numéro de pièce d’identité ni donnée personnelle superflue."
+
+msgid "Verification must identify the exact current competence declaration."
+msgstr "La vérification doit désigner la déclaration de compétence actuelle exacte."
+
+msgid "A reviewer cannot verify their own competence."
+msgstr "Un relecteur ne peut pas vérifier sa propre compétence."
+
+msgid "Publishing authority for this variety is required to verify reviewer competence."
+msgstr "Un droit de publication sur cette variété est nécessaire pour vérifier la compétence d’un relecteur."
+
+msgid "Inactive reviewer declarations cannot be verified."
+msgstr "Une déclaration inactive ne peut pas être vérifiée."
+
+msgid "Record a meaningful verification basis and date."
+msgstr "Consignez un fondement de vérification et une date suffisamment précis."
+
+msgid "Verification decisions are immutable; record a new decision."
+msgstr "Les décisions de vérification sont immuables ; consignez une nouvelle décision."
+
+msgid "Availability requires publishing permission and independently verified clinical competence."
+msgstr "La disponibilité nécessite un droit de publication et une compétence clinique vérifiée indépendamment."
+
+msgid "Approval requires independently verified competence for this discipline and variety."
+msgstr "L’approbation nécessite une compétence vérifiée indépendamment dans cette discipline et cette variété."
+
+msgid "The availability decision owner no longer has the required authority or independently verified competence."
+msgstr "L’auteur de la décision de disponibilité ne dispose plus du droit requis ou d’une compétence vérifiée indépendamment."
+
+msgid "Two current approvals by distinct reviewers with independently verified competence are required."
+msgstr "Deux approbations actuelles de relecteurs distincts dont la compétence a été vérifiée indépendamment sont nécessaires."
+
+msgid "Verification basis"
+msgstr "Fondement de la vérification"
+
+msgid "Verification date"
+msgstr "Date de la vérification"
+
+msgid "The verification date must be today or earlier."
+msgstr "La date de vérification doit être aujourd’hui ou antérieure."
+
+msgid "Only active users can record reviewer competence checks."
+msgstr "Seuls les comptes actifs peuvent consigner une vérification de compétence."
+
+msgid "Record a meaningful verification basis."
+msgstr "Consignez un fondement de vérification suffisamment précis."

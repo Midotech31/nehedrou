@@ -215,7 +215,7 @@ class Review(CheckedModel):
             raise ValidationError(_('Review permission for this discipline and variety is required.'))
         if self.approved:
             if not has_competence(self.reviewer, self.activity.variety, self.kind):
-                raise ValidationError(_('Approval requires a declared competence for this discipline and variety.'))
+                raise ValidationError(_('Approval requires independently verified competence for this discipline and variety.'))
             if not self.activity.is_demo:
                 reasons = activity_content_reasons(self.activity)
                 if reasons:

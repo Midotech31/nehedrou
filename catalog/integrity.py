@@ -115,7 +115,8 @@ def prepare_activities(activities):
     users = {review.reviewer_id for values in reviews.values() for review in values} | {decision.decided_by_id for decision in decisions}
     varieties = {row.variety_id for row in real}
     grants = {(grant.user_id, grant.variety_id): grant for grant in EditorialGrant.objects.filter(user_id__in=users, variety_id__in=varieties)}
-    competences = {(competence.user_id, competence.variety_id, competence.discipline): competence for competence in ReviewerCompetence.objects.filter(user_id__in=users, variety_id__in=varieties, active=True).select_related('evidence')}
+    competence_rows = ReviewerCompetence.objects.filter(user_id__in=users, variety_id__in=varieties, active=True).select_related('evidence','current_decision__decided_by')
+    competences = {(competence.user_id, competence.variety_id, competence.discipline): competence for competence in competence_rows}
     for user in users:
         for variety in varieties:
             remember('grants', (user, variety), grants.get((user, variety)))

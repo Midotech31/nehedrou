@@ -5646,3 +5646,114 @@ msgstr "تمنح هذه الدعوة صلاحية التحرير المحددة 
 
 msgid "You have been invited to a limited Nehedrou editorial role for %(variety)s. This link expires in seven days. It grants only the selected editorial capability and does not add practice-record access; any permissions already on your account remain unchanged:"
 msgstr "لقد دُعيت إلى دور تحريري محدود في نهدرو للتنوع %(variety)s. تنتهي صلاحية هذا الرابط بعد سبعة أيام. وهو يمنح صلاحية التحرير المحددة فقط، ولا يضيف الاطلاع على سجلات المتابعة ولا يغيّر الصلاحيات الموجودة على حسابك:"
+
+msgid "Independently checked"
+msgstr "تم التحقق من الكفاءة بشكل مستقل"
+
+msgid "Not verified"
+msgstr "لم يتم التحقق"
+
+msgid "Independent check required"
+msgstr "يلزم تحقق مستقل"
+
+msgid "Review other reviewers' qualifications"
+msgstr "التحقق من كفاءات المراجعين الآخرين"
+
+msgid "Independent reviewer checks"
+msgstr "التحقق المستقل من المراجعين"
+
+msgid "Verify another person's identity and competence for the exact spoken variety before their approval can count."
+msgstr "تحققوا من هوية شخص آخر وكفاءته في التنوع اللغوي المنطوق المحدد قبل اعتماد مراجعته."
+
+msgid "A verification records a human check. It is not a licence, clinical certification or validation of the application. Do not store identity-document numbers or unnecessary personal data."
+msgstr "يوثّق هذا التحقق مراجعة بشرية؛ ولا يُعد ترخيصًا أو اعتمادًا سريريًا أو تصديقًا على التطبيق. لا تحفظوا أرقام وثائق الهوية أو بيانات شخصية غير لازمة."
+
+msgid "Reviewer account"
+msgstr "حساب المراجع"
+
+msgid "Declared professional reference"
+msgstr "مرجع مهني مصرّح به"
+
+msgid "Review private supporting document"
+msgstr "عرض الوثيقة الداعمة الخاصة"
+
+msgid "Latest independent check"
+msgstr "آخر تحقق مستقل"
+
+msgid "No independent check recorded for this declaration."
+msgstr "لم يُسجّل تحقق مستقل لهذا التصريح."
+
+msgid "Record a check"
+msgstr "تسجيل تحقق"
+
+msgid "No other active reviewer declarations are available for varieties you can publish."
+msgstr "لا توجد تصريحات نشطة لمراجعين آخرين ضمن التنوعات اللغوية التي يمكنكم النشر فيها."
+
+msgid "Check reviewer competence"
+msgstr "التحقق من كفاءة المراجع"
+
+msgid "Back to reviewer checks"
+msgstr "العودة إلى التحقق من المراجعين"
+
+msgid "Current declaration status"
+msgstr "حالة التصريح الحالية"
+
+msgid "Check the person's identity and competence in this specific variety outside the application. Record the source or method and date, using only the minimum necessary detail."
+msgstr "تحققوا خارج التطبيق من هوية الشخص وكفاءته في هذا التنوع اللغوي المحدد. سجّلوا المصدر أو الطريقة والتاريخ مع الحد الأدنى من التفاصيل اللازمة."
+
+msgid "Record independent check"
+msgstr "تسجيل التحقق المستقل"
+
+msgid "Verification result"
+msgstr "نتيجة التحقق"
+
+msgid "Verification basis and date"
+msgstr "أساس التحقق وتاريخه"
+
+msgid "Record what you checked, how, and when. Do not include identity-document numbers or unnecessary personal data."
+msgstr "اذكروا ما الذي تحققتم منه وكيف ومتى. لا تدرجوا أرقام وثائق الهوية أو بيانات شخصية غير لازمة."
+
+msgid "Verification must identify the exact current competence declaration."
+msgstr "يجب أن يخص التحقق تصريح الكفاءة الحالي المحدد."
+
+msgid "A reviewer cannot verify their own competence."
+msgstr "لا يمكن للمراجع التحقق من كفاءته بنفسه."
+
+msgid "Publishing authority for this variety is required to verify reviewer competence."
+msgstr "يلزم امتلاك صلاحية النشر في هذا التنوع للتحقق من كفاءة المراجع."
+
+msgid "Inactive reviewer declarations cannot be verified."
+msgstr "لا يمكن التحقق من تصريح مراجع غير نشط."
+
+msgid "Record a meaningful verification basis and date."
+msgstr "يرجى تسجيل أساس واضح للتحقق وتاريخه."
+
+msgid "Verification decisions are immutable; record a new decision."
+msgstr "قرارات التحقق غير قابلة للتعديل؛ سجّلوا قرارًا جديدًا."
+
+msgid "Availability requires publishing permission and independently verified clinical competence."
+msgstr "تتطلب الإتاحة صلاحية نشر وكفاءة سريرية تم التحقق منها بشكل مستقل."
+
+msgid "Approval requires independently verified competence for this discipline and variety."
+msgstr "يتطلب الاعتماد كفاءة تم التحقق منها بشكل مستقل في هذا الاختصاص والتنوع اللغوي."
+
+msgid "The availability decision owner no longer has the required authority or independently verified competence."
+msgstr "لم يعد صاحب قرار الإتاحة يمتلك الصلاحية المطلوبة أو الكفاءة التي تم التحقق منها بشكل مستقل."
+
+msgid "Two current approvals by distinct reviewers with independently verified competence are required."
+msgstr "يلزم اعتمادان حاليان من مراجعين مختلفين تم التحقق من كفاءتهما بشكل مستقل."
+
+msgid "Verification basis"
+msgstr "أساس التحقق"
+
+msgid "Verification date"
+msgstr "تاريخ التحقق"
+
+msgid "The verification date must be today or earlier."
+msgstr "يجب أن يكون تاريخ التحقق اليوم أو قبله."
+
+msgid "Only active users can record reviewer competence checks."
+msgstr "لا يمكن تسجيل تحقق من كفاءة المراجع إلا بواسطة حساب نشط."
+
+msgid "Record a meaningful verification basis."
+msgstr "يرجى تسجيل أساس واضح للتحقق."

@@ -5646,3 +5646,114 @@ msgstr "This invitation grants only the selected editorial capability. It does n
 
 msgid "You have been invited to a limited Nehedrou editorial role for %(variety)s. This link expires in seven days. It grants only the selected editorial capability and does not add practice-record access; any permissions already on your account remain unchanged:"
 msgstr "You have been invited to a limited Nehedrou editorial role for %(variety)s. This link expires in seven days. It grants only the selected editorial capability and does not add practice-record access; any permissions already on your account remain unchanged:"
+
+msgid "Independently checked"
+msgstr "Independently checked"
+
+msgid "Not verified"
+msgstr "Not verified"
+
+msgid "Independent check required"
+msgstr "Independent check required"
+
+msgid "Review other reviewers' qualifications"
+msgstr "Review other reviewers' qualifications"
+
+msgid "Independent reviewer checks"
+msgstr "Independent reviewer checks"
+
+msgid "Verify another person's identity and competence for the exact spoken variety before their approval can count."
+msgstr "Verify another person's identity and competence for the exact spoken variety before their approval can count."
+
+msgid "A verification records a human check. It is not a licence, clinical certification or validation of the application. Do not store identity-document numbers or unnecessary personal data."
+msgstr "A verification records a human check. It is not a licence, clinical certification or validation of the application. Do not store identity-document numbers or unnecessary personal data."
+
+msgid "Reviewer account"
+msgstr "Reviewer account"
+
+msgid "Declared professional reference"
+msgstr "Declared professional reference"
+
+msgid "Review private supporting document"
+msgstr "Review private supporting document"
+
+msgid "Latest independent check"
+msgstr "Latest independent check"
+
+msgid "No independent check recorded for this declaration."
+msgstr "No independent check recorded for this declaration."
+
+msgid "Record a check"
+msgstr "Record a check"
+
+msgid "No other active reviewer declarations are available for varieties you can publish."
+msgstr "No other active reviewer declarations are available for varieties you can publish."
+
+msgid "Check reviewer competence"
+msgstr "Check reviewer competence"
+
+msgid "Back to reviewer checks"
+msgstr "Back to reviewer checks"
+
+msgid "Current declaration status"
+msgstr "Current declaration status"
+
+msgid "Check the person's identity and competence in this specific variety outside the application. Record the source or method and date, using only the minimum necessary detail."
+msgstr "Check the person's identity and competence in this specific variety outside the application. Record the source or method and date, using only the minimum necessary detail."
+
+msgid "Record independent check"
+msgstr "Record independent check"
+
+msgid "Verification result"
+msgstr "Verification result"
+
+msgid "Verification basis and date"
+msgstr "Verification basis and date"
+
+msgid "Record what you checked, how, and when. Do not include identity-document numbers or unnecessary personal data."
+msgstr "Record what you checked, how, and when. Do not include identity-document numbers or unnecessary personal data."
+
+msgid "Verification must identify the exact current competence declaration."
+msgstr "Verification must identify the exact current competence declaration."
+
+msgid "A reviewer cannot verify their own competence."
+msgstr "A reviewer cannot verify their own competence."
+
+msgid "Publishing authority for this variety is required to verify reviewer competence."
+msgstr "Publishing authority for this variety is required to verify reviewer competence."
+
+msgid "Inactive reviewer declarations cannot be verified."
+msgstr "Inactive reviewer declarations cannot be verified."
+
+msgid "Record a meaningful verification basis and date."
+msgstr "Record a meaningful verification basis and date."
+
+msgid "Verification decisions are immutable; record a new decision."
+msgstr "Verification decisions are immutable; record a new decision."
+
+msgid "Availability requires publishing permission and independently verified clinical competence."
+msgstr "Availability requires publishing permission and independently verified clinical competence."
+
+msgid "Approval requires independently verified competence for this discipline and variety."
+msgstr "Approval requires independently verified competence for this discipline and variety."
+
+msgid "The availability decision owner no longer has the required authority or independently verified competence."
+msgstr "The availability decision owner no longer has the required authority or independently verified competence."
+
+msgid "Two current approvals by distinct reviewers with independently verified competence are required."
+msgstr "Two current approvals by distinct reviewers with independently verified competence are required."
+
+msgid "Verification basis"
+msgstr "Verification basis"
+
+msgid "Verification date"
+msgstr "Verification date"
+
+msgid "The verification date must be today or earlier."
+msgstr "The verification date must be today or earlier."
+
+msgid "Only active users can record reviewer competence checks."
+msgstr "Only active users can record reviewer competence checks."
+
+msgid "Record a meaningful verification basis."
+msgstr "Record a meaningful verification basis."

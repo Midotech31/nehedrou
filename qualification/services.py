@@ -6,7 +6,7 @@ from django.utils.translation import gettext as _
 from catalog.models import Variety
 from catalog.services import allowed
 from core.services import audit
-from .models import EvidenceDocument, ReviewerCompetence, AvailabilityDecision, LexicalPack, LexicalCandidate, FamiliarityStudy, PackReview
+from .models import EvidenceDocument, ReviewerCompetence, ReviewerCompetenceDecision, AvailabilityDecision, LexicalPack, LexicalCandidate, FamiliarityStudy, PackReview
 
 REQUIRED_EVIDENCE = ('clinical_content', 'rights', 'governance', 'pilot', 'operations')
 
@@ -14,8 +14,30 @@ def has_competence(user, variety, discipline):
     if not user.is_active:
         return False
     from catalog.integrity import request_value
-    competence = request_value('competences', (user.pk, variety.pk, discipline), lambda: ReviewerCompetence.objects.filter(user=user, variety=variety, discipline=discipline, active=True).select_related('evidence').first())
-    return bool(competence and competence.professional_role.strip() and competence.experience.strip() and (not competence.evidence_id or competence.evidence.usable))
+    def load_competence():
+        rows = list(ReviewerCompetence.objects.filter(user=user, variety=variety, discipline=discipline, active=True).select_related('evidence','current_decision__decided_by'))
+        return rows[0] if rows else None
+    competence = request_value('competences', (user.pk, variety.pk, discipline), load_competence)
+    return bool(competence and competence.professional_role.strip() and competence.experience.strip() and competence.independently_verified)
+
+@transaction.atomic
+def record_competence_decision(actor, competence_id, status, basis, checked_on):
+    competence = ReviewerCompetence.objects.select_for_update().select_related('user', 'variety', 'evidence').get(pk=competence_id)
+    if not allowed(actor, competence.variety, 'publish'):
+        raise PermissionDenied
+    decision = ReviewerCompetenceDecision(
+        competence=competence,
+        snapshot_digest=competence.fingerprint(),
+        status=status,
+        checked_on=checked_on,
+        basis=basis,
+        decided_by=actor,
+    )
+    decision.save()
+    competence.current_decision = decision
+    competence.save(update_fields=['current_decision'])
+    audit(actor, 'qualification.competence_' + status, decision)
+    return decision
 
 def evidence_snapshot(documents):
     return {document.category: {'id': str(document.pk), 'sha256': document.sha256} for document in documents}
@@ -44,7 +66,7 @@ def availability_for(module, variety, version):
     else:
         reasons.extend(decision_evidence_reasons(decision))
         if not allowed(decision.decided_by, decision.variety, 'publish') or not has_competence(decision.decided_by, decision.variety, 'clinical'):
-            reasons.append(_('The availability decision owner no longer has the required authority or declaration.'))
+            reasons.append(_('The availability decision owner no longer has the required authority or independently verified competence.'))
     return {'available': not reasons, 'reasons': reasons, 'decision': decision}
 
 def pack_content_reasons(pack):
@@ -79,7 +101,7 @@ def pack_readiness_reasons(pack):
         review = pack.reviews.filter(kind=kind, content_digest=pack.fingerprint()).order_by('-created_at', '-pk').first()
         capability = 'clinical_review' if kind == 'clinical' else 'linguistic_review'
         if not review or not review.approved or not allowed(review.reviewer, pack.variety, capability) or not has_competence(review.reviewer, pack.variety, kind):
-            reasons.append(_('Two current approvals by distinct competent reviewers are required.'))
+            reasons.append(_('Two current approvals by distinct reviewers with independently verified competence are required.'))
         else:
             decisions.append(review)
     if len(decisions) == 2 and decisions[0].reviewer_id == decisions[1].reviewer_id:

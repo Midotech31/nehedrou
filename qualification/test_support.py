@@ -2,6 +2,7 @@
 import io
 import uuid
 import wave
+from datetime import date
 from PIL import Image
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -9,14 +10,21 @@ from catalog.models import MediaAsset, EditorialGrant, Review
 from catalog.readiness import snapshot_media
 from core.models import User
 from .models import EvidenceDocument, ReviewerCompetence, AvailabilityDecision
-from .services import evidence_snapshot, REQUIRED_EVIDENCE
+from .services import evidence_snapshot, REQUIRED_EVIDENCE, record_competence_decision
 
 def evidence_fixture(variety,user,category):
     return EvidenceDocument.objects.create(variety=variety,uploaded_by=user,title='Fictional '+category,category=category,provenance='Fictional regression fixture, no real authorisation',validity='unlimited',file=SimpleUploadedFile(uuid.uuid4().hex+'.txt',b'Fictional test evidence only'))
 
 def competence_fixture(user,variety,discipline):
     EditorialGrant.objects.update_or_create(user=user,variety=variety,defaults={'edit':True,'clinical_review':True,'linguistic_review':True,'publish':True})
-    ReviewerCompetence.objects.update_or_create(user=user,variety=variety,discipline=discipline,defaults={'professional_role':'Fictional reviewer','experience':'Fictional test declaration','active':True})
+    competence, _ = ReviewerCompetence.objects.update_or_create(user=user,variety=variety,discipline=discipline,defaults={'professional_role':'Fictional reviewer','experience':'Fictional test declaration','active':True})
+    verifier_name='qualification-checker-'+str(variety.pk)[:8]
+    verifier, _ = User.objects.get_or_create(username=verifier_name,defaults={'email':verifier_name+'@fictional.example'})
+    EditorialGrant.objects.update_or_create(user=verifier,variety=variety,defaults={'publish':True})
+    current=competence.current_verification
+    if not current or current.status!='verified':
+        record_competence_decision(verifier,competence.pk,'verified','Fictional test fixture: identity and variety scope independently checked.',date(2026,1,1))
+    return competence
 
 def media_fixture(variety,user,kind,rights=None,word='دار'):
     rights = rights or evidence_fixture(variety,user,'rights')
