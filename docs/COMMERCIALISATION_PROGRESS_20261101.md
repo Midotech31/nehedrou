@@ -4,11 +4,10 @@ Cette note consolide des vérifications reproductibles du dépôt et l’état o
 
 ## État technique vérifié
 
-- La CI GitHub de la PR #30 (run 128, commit `3f53e6c`) réussit la compilation et le contrôle des traductions, les vérifications Django et des migrations, la suite de tests complète, le build Docker et le test de démarrage HTTP.
 - Les 16 tests de `catalog.tests_authoring` passent sur le checkout local. Ils couvrent la création d’activité à partir d’une fiche vide, les permissions d’édition séparées de la relecture/publication, les interfaces FR/EN/AR, et le compte fictif Pitou sans privilèges staff ou superuser.
 - La PR #25 fournit une préparation hors ligne à la relecture de 42 brouillons MSA v1 et 32 brouillons Darija v2, avec une grille audio, images, sources et dix affectations de relecture encore vierges. Elle n’importe ni n’approuve les contenus.
 - Les PR #25, #26, #27 et #28 ont été fusionnées après CI verte. Le SHA de `main` reste `60ad20c53bae19780992d0c8cb890ec7a1170a17`; la PR #30 est encore ouverte et ses changements ne sont pas publiés.
-- Le run 128 de la PR #30 (commit `3f53e6c348a8c4931738d326edfe48d65e2beee6`) a terminé avec succès. Les 11 tests du dossier de relecture et d’export passent aussi localement dans l’environnement virtuel du dépôt, avec une base SQLite jetable. Ces preuves portent sur la branche de la PR; elles ne changent pas le commit de `main` ni le service publié.
+- Le run 132 de la PR #30 (commit `f6c6b11e86c7ecdc83a96e76bef5d1eab1190147`) a terminé avec succès : compilation et contrôle des traductions, vérifications Django et des migrations, suite complète, build Docker et smoke test HTTP. Les 11 tests du dossier de relecture et d’export passent aussi localement avec une base SQLite jetable. Ces preuves portent sur la branche de la PR; elles ne changent pas le commit de `main` ni le service publié.
 
 Ces résultats établissent des comportements logiciels dans leur périmètre testé. Ils ne démontrent ni l’efficacité thérapeutique de Nehedrou, ni la justesse de chaque mot ou de chaque variété, ni la sécurité de l’exploitation sur des dossiers réels.
 
