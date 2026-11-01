@@ -39,6 +39,11 @@ REVIEW_FIELDS = (
 )
 
 
+def canonical_text_bytes(data: bytes) -> bytes:
+    """Normalize Git/platform text line endings for stable manifest hashes."""
+    return data.replace(b"\r\n", b"\n")
+
+
 def digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
@@ -244,6 +249,12 @@ def assignment_rows(candidate_rows, recording_rows, asset_rows, evidence_rows):
             for scope_id, variety, role, competence, task, independence in scopes]
 
 
+def output_mismatches(directory: Path, expected: dict[str, bytes]) -> list[str]:
+    return [name for name, data in expected.items()
+            if not (directory / name).is_file()
+            or canonical_text_bytes((directory / name).read_bytes()) != data]
+
+
 def build():
     candidates, sources, predecessors = load_candidates()
     candidate_rows, recordings, assets, evidence = rows_for_pack(candidates, predecessors)
@@ -270,7 +281,7 @@ def build():
     readme_path = OUT / "README.md"
     if not readme_path.is_file():
         raise ValueError("Write the reviewer README before generating the manifest")
-    files["README.md"] = readme_path.read_bytes()
+    files["README.md"] = canonical_text_bytes(readme_path.read_bytes())
     manifest = {
         "pack_id": PACK_ID, "prepared_on": "2026-11-01",
         "status": "review_preparation_only_not_approved",
@@ -317,8 +328,7 @@ def main():
             (OUT / name).write_bytes(data)
         print(f"Wrote {len(expected)} files to {OUT}")
         return 0
-    mismatches = [name for name, data in expected.items()
-                  if not (OUT / name).is_file() or (OUT / name).read_bytes() != data]
+    mismatches = output_mismatches(OUT, expected)
     if mismatches:
         print("Review pack mismatch: " + ", ".join(mismatches))
         return 1

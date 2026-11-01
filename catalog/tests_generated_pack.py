@@ -22,6 +22,7 @@ from catalog.media_validation import validate_media
 from catalog.templatetags.editorial import editorial_image_srcset
 from core.models import User
 from qualification.models import EvidenceDocument, AvailabilityDecision
+from scripts import build_arabic_review_pack
 
 
 @override_settings(DEMO_MODE=False, MFA_REQUIRED=False, PUBLIC_ORIGIN='https://demo.example',
@@ -225,3 +226,13 @@ class GeneratedReviewPackBundleTests(SimpleTestCase):
             source = pack_dir / 'sources' / concept['source']['file']
             self.assertEqual(source.stat().st_size, concept['source']['bytes'])
             self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), concept['source']['sha256'])
+
+
+class ArabicReviewPackReproducibilityTests(SimpleTestCase):
+    def test_review_pack_manifest_is_stable_across_windows_line_endings(self):
+        expected = build_arabic_review_pack.build()
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            for name, data in expected.items():
+                (output / name).write_bytes(data.replace(b"\n", b"\r\n"))
+            self.assertEqual(build_arabic_review_pack.output_mismatches(output, expected), [])
