@@ -1,0 +1,21 @@
+{% extends 'base.html' %}{% load i18n %}
+{% block title %}{{ invoice.number }} · {% translate "Manual invoice" %} · Nehedrou{% endblock %}
+{% block content %}
+<a href="{% url 'billing_detail' invoice.organization_id %}"><span class="direction-arrow" aria-hidden="true">←</span> {{ invoice.organization.name }}</a>
+<div class="page-heading"><div><span class="eyebrow">{% translate "Manual billing operations" %}</span><h1>{% translate "Manual invoice" %} <bdi>{{ invoice.number }}</bdi></h1><p>{% translate "Record payments received outside Nehedrou. Access rights are managed separately." %}</p></div><span class="badge">{{ invoice.get_status_display }}</span></div>
+<section class="card">
+  <h2>{% translate "Invoice details" %}</h2>
+  <dl>
+    <dt>{% translate "Practice name" %}</dt><dd>{{ invoice.organization.name }}</dd>
+    <dt>{% translate "Amount" %}</dt><dd><bdi>{{ invoice.amount }} {{ invoice.currency }}</bdi></dd>
+    <dt>{% translate "Invoice recorded on" %}</dt><dd>{{ invoice.issued_at|date:'d/m/Y H:i' }}</dd>
+    {% if invoice.paid_at %}<dt>{% translate "Payment recorded on" %}</dt><dd>{{ invoice.paid_at|date:'d/m/Y H:i' }}</dd>{% endif %}
+    <dt>{% translate "Payment or cancellation reference" %}</dt><dd><bdi>{{ invoice.reference|default:'—' }}</bdi></dd>
+  </dl>
+  <p>{% translate "The recorded number, amount and currency are fixed for this invoice." %}</p>
+</section>
+{% if status_form %}
+<section class="card form-card"><h2>{% translate "Record invoice status" %}</h2><p>{% translate "After recording payment or cancellation, this invoice status is final. Handle any refund or replacement separately." %}</p><form method="post" action="{% url 'invoice_status' invoice.pk %}">{% csrf_token %}{{ status_form.as_p }}<button class="button" type="submit">{% translate "Record invoice status" %}</button></form></section>
+{% else %}<section class="card"><p>{% translate "This invoice has a final status. Its recorded details remain available." %}</p></section>{% endif %}
+<section class="card"><h2>{% translate "Invoice history" %}</h2>{% for event in events %}<div class="report-row"><div><strong>{% if event.action == 'invoice.paid' %}{% translate "Payment recorded" %}{% elif event.action == 'invoice.cancelled' %}{% translate "Cancellation recorded" %}{% else %}{% translate "Invoice recorded" %}{% endif %}</strong><p>{{ event.created_at|date:'d/m/Y H:i' }}{% if event.actor %} · <bdi>{{ event.actor.username }}</bdi>{% endif %}</p></div></div>{% empty %}<p>{% translate "No earlier invoice event is recorded." %}</p>{% endfor %}</section>
+{% endblock %}

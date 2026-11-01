@@ -23,7 +23,7 @@ def competence_fixture(user,variety,discipline):
     EditorialGrant.objects.update_or_create(user=verifier,variety=variety,defaults={'publish':True})
     current=competence.current_verification
     if not current or current.status!='verified':
-        record_competence_decision(verifier,competence.pk,'verified','Fictional test fixture: identity and variety scope independently checked.',date(2026,1,1))
+        record_competence_decision(verifier,competence.pk,'verified','Fictional test fixture: identity and variety scope independently checked.',date(2026,1,1),expected_digest=competence.fingerprint())
     return competence
 
 def media_fixture(variety,user,kind,rights=None,word='دار'):

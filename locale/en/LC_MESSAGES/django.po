@@ -5801,3 +5801,119 @@ msgstr "Latest versions"
 
 msgid "Activities to review"
 msgstr "Activities to review"
+
+
+msgid "A paid invoice requires its payment recording date."
+msgstr "A paid invoice requires its payment recording date."
+
+
+msgid "After recording payment or cancellation, this invoice status is final. Handle any refund or replacement separately."
+msgstr "After recording payment or cancellation, this invoice status is final. Handle any refund or replacement separately."
+
+
+msgid "Cancellation recorded"
+msgstr "Cancellation recorded"
+
+
+msgid "Choose paid or cancelled for an issued invoice."
+msgstr "Choose paid or cancelled for an issued invoice."
+
+
+msgid "Invoice details"
+msgstr "Invoice details"
+
+
+msgid "Invoice history"
+msgstr "Invoice history"
+
+
+msgid "Invoice recorded"
+msgstr "Invoice recorded"
+
+
+msgid "Invoice recorded on"
+msgstr "Invoice recorded on"
+
+
+msgid "Manual invoice"
+msgstr "Manual invoice"
+
+
+msgid "New invoice status"
+msgstr "New invoice status"
+
+
+msgid "No earlier invoice event is recorded."
+msgstr "No earlier invoice event is recorded."
+
+
+msgid "Only a paid invoice can have a payment recording date."
+msgstr "Only a paid invoice can have a payment recording date."
+
+
+msgid "Payment or cancellation reference"
+msgstr "Payment or cancellation reference"
+
+
+msgid "Payment recorded"
+msgstr "Payment recorded"
+
+
+msgid "Payment recorded on"
+msgstr "Payment recorded on"
+
+
+msgid "Record invoice status"
+msgstr "Record invoice status"
+
+
+msgid "Record payments received outside Nehedrou. Access rights are managed separately."
+msgstr "Record payments received outside Nehedrou. Access rights are managed separately."
+
+
+msgid "The invoice status was recorded."
+msgstr "The invoice status was recorded."
+
+
+msgid "The recorded invoice number, practice, amount, currency and issue date cannot be changed."
+msgstr "The recorded invoice number, practice, amount, currency and issue date cannot be changed."
+
+
+msgid "The recorded number, amount and currency are fixed for this invoice."
+msgstr "The recorded number, amount and currency are fixed for this invoice."
+
+
+msgid "This invoice already has a final status. No new status was recorded."
+msgstr "This invoice already has a final status. No new status was recorded."
+
+
+msgid "This invoice has a final status. Its recorded details remain available."
+msgstr "This invoice has a final status. Its recorded details remain available."
+
+
+msgid "Use the reference of the payment received or the cancellation record."
+msgstr "Use the reference of the payment received or the cancellation record."
+
+
+msgid "This reviewer declaration changed. Reload this page and read the current declaration before recording a decision."
+msgstr "This reviewer declaration changed. Reload this page and read the current declaration before recording a decision."
+
+
+msgid "Reload current declaration"
+msgstr "Reload current declaration"
+
+
+msgid "The decision owner no longer has the required permission or independently verified competence for this variety."
+msgstr "The decision owner no longer has the required permission or independently verified competence for this variety."
+
+
+msgid "Independently verified competence for this variety is required."
+msgstr "Independently verified competence for this variety is required."
+
+
+msgid "Two distinct human reviewers with current, independently verified clinical and linguistic competence are required."
+msgstr "Two distinct human reviewers with current, independently verified clinical and linguistic competence are required."
+
+
+msgid "Use exactly three uppercase Latin letters for the currency (for example, DZD)."
+msgstr "Use exactly three uppercase Latin letters for the currency (for example, DZD)."

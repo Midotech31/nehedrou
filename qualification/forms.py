@@ -43,6 +43,7 @@ class CompetenceForm(LabelledModelForm):
         fields = ['variety', 'discipline', 'professional_role', 'experience', 'credential_reference', 'evidence', 'active']
 
 class CompetenceDecisionForm(forms.Form):
+    expected_digest = forms.CharField(min_length=64, max_length=64, widget=forms.HiddenInput)
     status = forms.ChoiceField(choices=[('verified', _('Independently checked')), ('rejected', _('Not verified'))], label=_('Verification result'))
     checked_on = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}),label=_('Verification date'))
     basis = forms.CharField(min_length=20, max_length=2000, widget=forms.Textarea(attrs={'rows': 4}),

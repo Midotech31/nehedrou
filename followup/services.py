@@ -158,7 +158,7 @@ def content_reasons(definition):
 def readiness_reasons(definition):
     reasons = content_reasons(definition)
     if not _current_reviews(definition):
-        reasons.append(_('Two current, distinct clinical and linguistic human reviewers with declared competence are required.'))
+        reasons.append(_('Two distinct human reviewers with current, independently verified clinical and linguistic competence are required.'))
     return reasons
 
 
@@ -263,7 +263,7 @@ def review_definition(actor, definition, kind, approved, note, competence):
     if approved:
         from qualification.services import has_competence
         if not has_competence(actor, definition.variety, kind):
-            raise ValidationError(_('A current competence declaration for this variety is required.'))
+            raise ValidationError(_('Independently verified competence for this variety is required.'))
     decision = ProbeReview.objects.create(definition=definition, author=actor, kind=kind, approved=approved, note=note, competence=competence)
     audit(actor, 'followup.protocol_reviewed', definition, definition.organization)
     return decision

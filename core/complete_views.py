@@ -9,7 +9,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_http_methods
 from care.models import Child, Program, PracticeSession, ProgramItem, Observation, FamilyLink
 from catalog.models import Activity
 from .access import clinician_child, professional_children, manager, visible_children, membership
@@ -169,18 +169,37 @@ class InvoiceForm(forms.ModelForm):
         fields = ['number', 'amount', 'currency', 'status', 'reference']
         labels = {'number': _('Invoice number'), 'amount': _('Amount'), 'currency': _('Currency'), 'status': _('Status'), 'reference': _('Payment reference')}
 
+    def clean(self):
+        data = super().clean()
+        # Creation may already record an externally paid invoice. Bind its date
+        # before ModelForm runs the model's status/date consistency validation.
+        self.instance.paid_at = timezone.now() if data.get('status') == 'paid' else None
+        return data
+
 @login_required
 @permission_required('core.manage_entitlements', raise_exception=True)
+@require_http_methods(['GET', 'POST'])
 def billing(request, pk=None):
     if pk is None:
         return render(request, 'billing/index.html', {'organizations': Organization.objects.all().order_by('name')})
     org = get_object_or_404(Organization, pk=pk)
-    entitlement, _created = Entitlement.objects.get_or_create(organization=org)
-    form = BillingForm(request.POST or None, instance=entitlement)
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        audit(request.user, 'entitlement.updated', entitlement, org)
-        return redirect('billing_detail', pk=pk)
+    if request.method == 'POST':
+        # Lock the parent even when no entitlement exists: concurrent first
+        # saves must share one lock, not race to create a OneToOne record.
+        with transaction.atomic():
+            org = get_object_or_404(Organization.objects.select_for_update(), pk=pk)
+            entitlement = Entitlement.objects.filter(organization=org).first()
+            created = entitlement is None
+            form = BillingForm(request.POST, instance=entitlement or Entitlement(organization=org))
+            if form.is_valid():
+                entitlement = form.save()
+                audit(request.user, 'entitlement.created' if created else 'entitlement.updated', entitlement, org)
+                return redirect('billing_detail', pk=pk)
+    else:
+        # Display defaults on an unsaved instance. Visiting this page must not
+        # grant access, create billing data, or alter existing rights.
+        entitlement = Entitlement.objects.filter(organization=org).first()
+        form = BillingForm(instance=entitlement or Entitlement(organization=org))
     return render(request, 'billing/detail.html', {'organization': org, 'form': form, 'invoices': org.invoice_set.all().order_by('-issued_at')})
 
 @login_required

@@ -40,9 +40,12 @@ class MembershipAdmin(TechnicalAdmin):
 class EntitlementAdmin(TechnicalAdmin):
     list_display = ['organization', 'plan', 'status', 'expires_at', 'child_quota']
     def save_model(self, request, obj, form, change):
+        from django.db import transaction
         from .services import audit
-        obj.save()
-        audit(request.user, 'entitlement.updated', obj, obj.organization)
+        with transaction.atomic():
+            organization = Organization.objects.select_for_update().get(pk=obj.organization_id)
+            obj.save()
+            audit(request.user, 'entitlement.updated' if change else 'entitlement.created', obj, organization)
 
 @admin.register(ProcessingActivity)
 class ProcessingActivityAdmin(admin.ModelAdmin):

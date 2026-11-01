@@ -50,15 +50,15 @@ class DocumentaryQualificationTests(TestCase):
             review_version(self.actor,activity,'clinical',True,'Fictional self-assertion')
 
         with self.assertRaises(ValidationError):
-            record_competence_decision(self.actor,declaration.pk,'verified','Self-check is not permitted for this declaration.',date(2026,1,1))
+            record_competence_decision(self.actor,declaration.pk,'verified','Self-check is not permitted for this declaration.',date(2026,1,1),expected_digest=declaration.fingerprint())
 
         verifier=User.objects.create_user(username='variety-publisher',email='variety-publisher@fictional.example',password='Fictional-Test-2026!')
         with self.assertRaises(PermissionDenied):
-            record_competence_decision(verifier,declaration.pk,'verified','Identity and regional competence checked using a fictional source.',date(2026,1,1))
+            record_competence_decision(verifier,declaration.pk,'verified','Identity and regional competence checked using a fictional source.',date(2026,1,1),expected_digest=declaration.fingerprint())
         EditorialGrant.objects.create(user=verifier,variety=self.variety,publish=True)
         with self.assertRaises(ValidationError):
-            record_competence_decision(verifier,declaration.pk,'verified','Fictional check cannot be dated in the future.',date.today()+timedelta(days=1))
-        decision=record_competence_decision(verifier,declaration.pk,'verified','Identity and regional competence checked using a fictional source.',date(2026,1,1))
+            record_competence_decision(verifier,declaration.pk,'verified','Fictional check cannot be dated in the future.',date.today()+timedelta(days=1),expected_digest=declaration.fingerprint())
+        decision=record_competence_decision(verifier,declaration.pk,'verified','Identity and regional competence checked using a fictional source.',date(2026,1,1),expected_digest=declaration.fingerprint())
         self.assertEqual(decision.snapshot_digest,declaration.fingerprint())
         self.assertTrue(has_competence(self.actor,self.variety,'clinical'))
 
@@ -75,7 +75,7 @@ class DocumentaryQualificationTests(TestCase):
         self.assertTrue(has_competence(self.actor,self.variety,'clinical'))
         with self.assertRaises(ValidationError):
             decision.basis='Altered historical check';decision.save()
-        record_competence_decision(verifier,declaration.pk,'rejected','Fictional identity check failed on this date.',date(2026,1,2))
+        record_competence_decision(verifier,declaration.pk,'rejected','Fictional identity check failed on this date.',date(2026,1,2),expected_digest=declaration.fingerprint())
         self.assertFalse(has_competence(self.actor,self.variety,'clinical'))
 
     def test_verification_view_is_scoped_to_publishers_and_never_self_verifies(self):
@@ -89,10 +89,10 @@ class DocumentaryQualificationTests(TestCase):
         declaration.experience+=' updated after the old check'
         declaration.save()
         path=reverse('qualification:competence_verification',args=[declaration.pk])
-        invalid=self.client.post(path,{'status':'verified','checked_on':'2026-01-01','basis':'too short'})
+        invalid=self.client.post(path,{'expected_digest':declaration.fingerprint(),'status':'verified','checked_on':'2026-01-01','basis':'too short'})
         self.assertEqual(invalid.status_code,200)
         self.assertFalse(has_competence(self.other,self.variety,'linguistic'))
-        accepted=self.client.post(path,{'status':'verified','checked_on':'2026-01-01','basis':'Fictional independent identity and variety check recorded.'})
+        accepted=self.client.post(path,{'expected_digest':declaration.fingerprint(),'status':'verified','checked_on':'2026-01-01','basis':'Fictional independent identity and variety check recorded.'})
         self.assertEqual(accepted.status_code,302)
         self.assertTrue(has_competence(self.other,self.variety,'linguistic'))
         outsider=User.objects.create_user(username='no-publish-scope',email='no-publish-scope@fictional.example',password='Fictional-Test-2026!')

@@ -1,3 +1,13 @@
+# Point de livraison — 1 novembre 2026, 15:44 UTC
+
+Le marché initial est confirmé : cabinets d’orthophonie en Algérie (B2B). Le porteur envisage une startup, mais l’entité juridique vendeuse n’est pas encore définie. Aucun nom légal, statut, adresse ou contact client n’est inventé; les mentions et contrats restent à compléter. Le budget autorisé demeure 0 EUR.
+
+Le contrôle de santé Render a été enregistré à `/healthz/` dans le service existant. Le redémarrage `dep-dbjlicflk1mc739k4bpg` est live depuis 15:23:09 UTC, sur le commit applicatif `1b8bf2690fceb30e41f181510f8e790673f533ea`. Les GET publics de `/healthz/`, `/fr/`, `/en/` et `/ar/` répondent 200; les pages déclarent les langues et directions attendues. Aucun journal applicatif de niveau erreur n’a été trouvé entre 15:22:25 et 15:24:21 UTC. Cela vérifie une courte fenêtre de recette, pas la disponibilité continue. Le service reste gratuit avec veille; aucune offre payante n’a été activée.
+
+Correctifs préparés dans cette livraison : décisions de compétence liées à la déclaration réellement affichée, sauvegarde propriétaire préservant le contrôle courant, cycle audité des factures émises vers payées/annulées, consultation de la facturation sans écriture, refus des montants négatifs et contrôle de forme des devises. Les trois catalogues compilés couvrent 1 886 clés UI sans manque. Les 66 tests ciblés initiaux passent (1 cas PostgreSQL ignoré sur SQLite); après le complément facturation, ses 17 tests passent (2 cas PostgreSQL ignorés sur SQLite). Une recette PostgreSQL réelle et un nouveau job CI dédié complètent ces contrôles. Les résultats de fusion et publication doivent être lus sur la PR et Render; cette note ne les anticipe pas.
+
+Les revues humaines des contenus et voix, l’exercice de restauration d’exploitation, la réception effective des courriels, la qualification réglementaire/données et la définition de l’offre restent nécessaires. Aucun brouillon de contenu n’est importé, approuvé ou rendu disponible par ces correctifs. Les sections ci-dessous constituent un historique daté; leurs anciens paramètres Render ne décrivent pas la configuration après 15:23 UTC.
+
 # Mise à jour de vérification — 1 novembre 2026, 06:27 UTC
 
 La PR #36 est ouverte et mergeable sur `443d51f86263ff026a6c5b3a2ec5ec215ae4fc2f`. GitHub Actions CI #200 a réussi sur ce commit : contrôles Django/traductions/migrations, suite de tests, construction de l’image Docker de production et smoke test de démarrage. Le changement n’est pas fusionné et n’est donc pas publié sur Render.

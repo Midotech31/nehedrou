@@ -13,7 +13,7 @@ from core.storage_health import STORAGE_ERRORS
 from core.storage_io import read_bounded
 from .models import EvidenceDocument, ReviewerCompetence, AvailabilityDecision, LexicalPack, LexicalCandidate, FamiliarityStudy, PackReview
 from .forms import EvidenceForm, CompetenceForm, CompetenceDecisionForm, AvailabilityForm, PackForm, CandidateForm, FamiliarityForm, PackReviewForm, OpeningTargetForm, AvailabilityRevocationForm
-from .services import change_pack_state, clone_pack, pack_readiness_reasons, record_competence_decision
+from .services import change_pack_state, clone_pack, pack_readiness_reasons, record_competence_decision, save_competence_declaration
 
 def varieties(user, capability=None):
     if user.is_superuser:
@@ -97,9 +97,11 @@ def competence(request,pk=None):
     form.fields['variety'].queryset = varieties(request.user)
     form.fields['evidence'].queryset = private_documents(request.user)
     if request.method=='POST' and form.is_valid():
-        obj = form.save()
-        audit(request.user,'qualification.competence_declared',obj)
-        return redirect('qualification:index')
+        try:
+            obj = save_competence_declaration(request.user, form.cleaned_data, obj.pk if pk else None)
+            return redirect('qualification:index')
+        except ValidationError as exc:
+            form.add_error(None, ' '.join(exc.messages))
     return form_page(request,form,_('Declare reviewer experience'))
 
 @login_required
@@ -113,14 +115,16 @@ def competence_verification_index(request):
 def competence_verification(request,pk):
     declaration = get_object_or_404(ReviewerCompetence.objects.filter(variety__in=varieties(request.user,'publish'),active=True).exclude(user=request.user).select_related('user','variety','evidence'),pk=pk)
     declaration = ReviewerCompetence.objects.select_related('user','variety','evidence','current_decision__decided_by').get(pk=declaration.pk)
-    form = CompetenceDecisionForm(request.POST or None)
+    form = CompetenceDecisionForm(request.POST or None, initial={'expected_digest':declaration.fingerprint()})
+    reload_declaration = False
     if request.method == 'POST' and form.is_valid():
         try:
-            record_competence_decision(request.user,declaration.pk,form.cleaned_data['status'],form.cleaned_data['basis'],form.cleaned_data['checked_on'])
+            record_competence_decision(request.user,declaration.pk,form.cleaned_data['status'],form.cleaned_data['basis'],form.cleaned_data['checked_on'], expected_digest=form.cleaned_data['expected_digest'])
             return redirect('qualification:competence_verification_index')
         except ValidationError as exc:
             form.add_error(None,' '.join(exc.messages))
-    return render(request,'qualification/competence_verification.html',{'declaration':declaration,'decision':declaration.current_verification,'form':form})
+            reload_declaration = getattr(exc, 'code', None) == 'competence_snapshot_changed'
+    return render(request,'qualification/competence_verification.html',{'declaration':declaration,'decision':declaration.current_verification,'form':form,'reload_declaration':reload_declaration})
 
 @login_required
 def availability(request):
