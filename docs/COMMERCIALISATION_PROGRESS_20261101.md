@@ -120,3 +120,19 @@ Sur la version Render active `c629e905`, un profil Chrome isolé BrowserAct `neh
 Le parcours a progressé de l’étape 2 (« اختيار صورة », choix d’image) à l’étape 3 (prévisualisation du rapport). Le rapport demande explicitement des réponses fictives, ne mesure pas la parole et ne note pas la prononciation. La commande pause a remplacé l’activité par un état « متوقف مؤقتًا », avec une action « استئناف »; la reprise a ramené le formulaire de prévisualisation. L’action « التوقف لهذا اليوم » a rendu le champ d’achèvement « متوقف (stopped) » valide, en restant sur le formulaire pour compléter le signalement de fin. Aucune voix, aucun profil d’enfant ni rapport réel n’a été créé.
 
 Cette recette vérifie le rendu et ces interactions publiques sur un navigateur de bureau de 1889 px de largeur, y compris la soumission du formulaire de démonstration et l’apparition du résumé « معاينة فقط · لا تُحفظ البيانات » avec réponses fictives. Elle ne vérifie pas l’écriture en base, les permissions authentifiées, les parcours mobiles, les comptes par rôle ou l’audio de production. La tentative précédente BrowserAct a d’abord échoué faute de répertoire temporaire système; la session a été récupérée après configuration de `TEMP`/`TMP` dans `E:\NehedrouTestTemp`. Le test a été effectué sur le commit actuellement servi, pas sur la PR #36.
+
+## Connexions de recette par rôle — 1 novembre 2026
+
+Recette interactive sur la version Render live `c629e9053ad6da965862de9e8982c031ce77bfb5`, avec BrowserAct 1.5.0 et le profil Chrome vierge `nehdrou-recette`. Les secrets ont été lus uniquement depuis le fichier privé de recette et saisis dans le formulaire sans réafficher leur valeur. Chaque session a été déconnectée puis fermée. Aucun compte réel, dossier réel, contenu éditorial ou décision de revue n’a été modifié.
+
+| Compte fictif | Connexion et écran observés | Portée de ce contrôle |
+|---|---|---|
+| `responsable` | Connexion réussie; `/fr/app/`; cabinet fictif, membres et offres visibles. | Ouverture de l’espace, pas de tentative sur un profil interdit. |
+| `orthophoniste` | Connexion réussie; `/fr/app/`; espace clinique du cabinet fictif et programmes attribués visibles. | Ouverture du tableau de bord, aucune fiche individuelle modifiée. |
+| `accompagnant` | Connexion réussie; `/fr/app/`; espace familial et activités fictives assignées visibles. | Ouverture du parcours, aucun rapport envoyé pendant cette recette. |
+| `editeur` | Connexion réussie; `/fr/editorial/`; action « Créer une activité de zéro » visible. | CMS vérifié jusqu’à l’entrée du créateur; aucun brouillon enregistré. |
+| `relecteur_clinique` | Connexion réussie; `/fr/editorial/`; file éditoriale visible. | Aucune décision ni publication enregistrée. |
+| `relecteur_linguistique` | Connexion réussie; `/fr/editorial/`; file éditoriale visible. | Aucune décision ni publication enregistrée. |
+| `gestionnaire` | Connexion réussie; `/fr/billing/`; navigation gestion de plateforme et facturation visible. | Aucun plan ni facture modifié. |
+
+La recette confirme les connexions et les écrans d’entrée de ces sept comptes sur ce commit. Elle ne remplace pas les tests de refus détaillés de la suite automatisée ni les recettes de toutes les actions protégées. Le compte `pitou`, distinct des sept, est actif et doté de droits d’édition de brouillons d’après la lecture Neon, mais son mot de passe est absent du tableau privé consulté; aucune connexion Pitou n’a été soumise.
