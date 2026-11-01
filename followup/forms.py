@@ -3,6 +3,7 @@ from django import forms
 from django.forms import formset_factory
 from django.utils.translation import gettext_lazy as _
 from catalog.models import Variety, MediaAsset
+from catalog.media_labels import media_choice_label
 from .models import ProbeDefinition
 from .validation import target_match_errors, validate_observation_target
 from types import SimpleNamespace
@@ -128,7 +129,7 @@ class SegmentsField(forms.CharField):
 
 class MediaChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
-        return f"{obj.file.name.rsplit('/', 1)[-1]} · {str(obj.pk)[:8]} · {obj.get_rights_status_display()}"
+        return media_choice_label(obj)
 
 
 class ItemForm(forms.Form):

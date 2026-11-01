@@ -3,6 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from catalog.models import Variety
+from catalog.media_labels import media_choice_label
 from .models import EvidenceDocument, ReviewerCompetence, AvailabilityDecision, LexicalPack, LexicalCandidate, FamiliarityStudy, PackReview
 from .services import evidence_snapshot, REQUIRED_EVIDENCE
 
@@ -118,6 +119,8 @@ class CandidateForm(LabelledModelForm):
         labels = {'role':_('Training or untrained reserve')}
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
+        for name in ('image', 'audio'):
+            self.fields[name].label_from_instance = media_choice_label
         self.fields['segment_list'].initial = ' '.join(self.instance.segments)
         self.fields['target_list'].initial = '\n'.join(f"{item['index']+1} ; {item['phoneme']} ; {item['position']}" for item in self.instance.occurrences)
         self.fields['variant_list'].initial = '\n'.join(f"{item['ipa']} ; {item['reason']}" for item in self.instance.accepted_variants)
