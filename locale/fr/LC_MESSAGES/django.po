@@ -5925,3 +5925,52 @@ msgstr "Ce contenu a été modifié. Rechargez cette page et lisez la version ac
 
 msgid "Reload current content"
 msgstr "Recharger le contenu actuel"
+
+msgid "Choose email delivery or a link to hand over personally. Personal handoff does not require an email service. The account is created only when the recipient accepts."
+msgstr "Choisissez un envoi par email ou un lien à remettre personnellement. La remise manuelle ne nécessite pas de service email. Le compte est créé uniquement à l’acceptation du destinataire."
+
+msgid "Copy this link before leaving this page. It is shown only once. Share it personally with the intended recipient after checking their identity. No email has been sent."
+msgstr "Copiez ce lien avant de quitter cette page. Il n’est affiché qu’une fois. Remettez-le personnellement au destinataire prévu après avoir vérifié son identité. Aucun email n’a été envoyé."
+
+msgid "Create editorial invitation"
+msgstr "Créer l’invitation éditoriale"
+
+msgid "Creating another invitation invalidates older unused links for the same email, spoken variety and role. Invitations for other varieties or roles remain unchanged."
+msgstr "Créer une autre invitation invalide les anciens liens non utilisés pour le même email, la même variété parlée et le même rôle. Les invitations pour d’autres variétés ou rôles restent inchangées."
+
+msgid "Delivery method"
+msgstr "Mode de remise"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Invitation link to copy"
+msgstr "Lien d’invitation à copier"
+
+msgid "Link created for manual handoff"
+msgstr "Lien créé pour remise manuelle"
+
+msgid "No account or permission is created until the recipient accepts. This link does not prove ownership of the invited email address."
+msgstr "Aucun compte ni droit n’est créé avant l’acceptation du destinataire. Ce lien ne prouve pas la maîtrise de l’adresse email invitée."
+
+msgid "Open a new form to create a personal handoff link."
+msgstr "Ouvrez un nouveau formulaire pour créer un lien à remettre personnellement."
+
+
+msgid "Personal handoff link"
+msgstr "Lien à remettre personnellement"
+
+msgid "Sent means handed to the configured mail transport; it does not prove receipt. A manual link is created for personal handoff, not confirmed delivery. Access starts only after acceptance."
+msgstr "« Envoyée » signifie transmise au service email configuré, sans preuve de réception. Un lien manuel est créé pour une remise personnelle ; sa réception n’est pas confirmée. L’accès commence uniquement après acceptation."
+
+msgid "The link cannot be shown again. If you did not copy it, create a new invitation below; this will invalidate older unused links for the same email, spoken variety and role."
+msgstr "Le lien ne peut pas être réaffiché. Si vous ne l’avez pas copié, créez une nouvelle invitation ci-dessous : les anciens liens non utilisés pour le même email, la même variété parlée et le même rôle seront invalidés."
+
+msgid "This creation request has already been used. Open a new form to create another invitation."
+msgstr "Cette demande de création a déjà été utilisée. Ouvrez un nouveau formulaire pour créer une autre invitation."
+
+msgid "This creation request was already processed. No new link was created and the previous link was kept."
+msgstr "Cette demande de création a déjà été traitée. Aucun nouveau lien n’a été créé et le lien précédent a été conservé."
+
+msgid "Email delivery is unavailable. You can create a link to hand over personally."
+msgstr "L’envoi par email est indisponible. Vous pouvez créer un lien à remettre personnellement."

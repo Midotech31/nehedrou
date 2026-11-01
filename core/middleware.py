@@ -9,12 +9,13 @@ class AccessMiddleware:
         finish_attempt(request, response)
         recorder = request.path.endswith('/editorial/upload/') and request.user.is_authenticated
         response.headers['Permissions-Policy'] = ('microphone=(self)' if recorder else 'microphone=()') + ', camera=(), geolocation=()'
-        response.headers['Referrer-Policy'] = 'same-origin'
+        referrer_policy = 'no-referrer' if response.headers.get('Referrer-Policy') == 'no-referrer' else 'same-origin'
+        response.headers['Referrer-Policy'] = referrer_policy
         response.headers['Content-Security-Policy'] = "default-src 'self'; img-src 'self'; media-src 'self' blob: https:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
         if request.user.is_authenticated or '/invite/' in request.path:
             patch_cache_control(response, private=True, no_store=True)
             # Preserve same-origin POST Origin for CSRF; never send paths cross-origin.
-            response.headers['Referrer-Policy'] = 'same-origin'
+            response.headers['Referrer-Policy'] = referrer_policy
         return response
 
     def process_view(self, request, view_func, view_args, view_kwargs):

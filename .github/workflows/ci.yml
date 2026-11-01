@@ -144,4 +144,5 @@ jobs:
           core.tests_operations_views.DatabaseProbeTimeoutTests
           catalog.tests_guided_audio.GuidedAudioConcurrencyTests
           catalog.tests_working_concurrency.WorkingCopyConcurrencyTests
+          catalog.tests_editorial_manual_concurrency.ManualEditorialHandoffConcurrencyTests
           followup.tests.FollowupConcurrencyTests

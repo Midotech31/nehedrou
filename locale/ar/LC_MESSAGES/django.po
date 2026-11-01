@@ -5925,3 +5925,52 @@ msgstr "تم تعديل هذا المحتوى. أعد تحميل هذه الصف
 
 msgid "Reload current content"
 msgstr "إعادة تحميل المحتوى الحالي"
+
+msgid "Choose email delivery or a link to hand over personally. Personal handoff does not require an email service. The account is created only when the recipient accepts."
+msgstr "اختر الإرسال بالبريد الإلكتروني أو رابطًا تسلّمه شخصيًا. لا يتطلب التسليم اليدوي خدمة بريد إلكتروني. لا يُنشأ الحساب إلا عند قبول المدعو."
+
+msgid "Copy this link before leaving this page. It is shown only once. Share it personally with the intended recipient after checking their identity. No email has been sent."
+msgstr "انسخ هذا الرابط قبل مغادرة الصفحة، فهو يُعرض مرة واحدة فقط. سلّمه شخصيًا إلى المدعو المقصود بعد التحقق من هويته. لم تُرسل أي رسالة بريد إلكتروني."
+
+msgid "Create editorial invitation"
+msgstr "إنشاء دعوة تحريرية"
+
+msgid "Creating another invitation invalidates older unused links for the same email, spoken variety and role. Invitations for other varieties or roles remain unchanged."
+msgstr "يؤدي إنشاء دعوة أخرى إلى إبطال الروابط السابقة غير المستخدمة لنفس البريد الإلكتروني والتنوع اللغوي المنطوق والدور. وتبقى الدعوات الخاصة بالتنوعات أو الأدوار الأخرى دون تغيير."
+
+msgid "Delivery method"
+msgstr "طريقة التسليم"
+
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+msgid "Invitation link to copy"
+msgstr "رابط الدعوة المراد نسخه"
+
+msgid "Link created for manual handoff"
+msgstr "تم إنشاء رابط للتسليم اليدوي"
+
+msgid "No account or permission is created until the recipient accepts. This link does not prove ownership of the invited email address."
+msgstr "لا يُنشأ أي حساب أو إذن قبل قبول المدعو. لا يثبت هذا الرابط ملكية عنوان البريد الإلكتروني المدعو."
+
+msgid "Open a new form to create a personal handoff link."
+msgstr "افتح نموذجًا جديدًا لإنشاء رابط تسلّمه شخصيًا."
+
+
+msgid "Personal handoff link"
+msgstr "رابط للتسليم الشخصي"
+
+msgid "Sent means handed to the configured mail transport; it does not prove receipt. A manual link is created for personal handoff, not confirmed delivery. Access starts only after acceptance."
+msgstr "تعني حالة «أُرسلت» تسليم الرسالة إلى خدمة البريد المُعدّة، ولا تثبت استلامها. يُنشأ الرابط اليدوي للتسليم الشخصي دون تأكيد الاستلام. لا يبدأ الوصول إلا بعد القبول."
+
+msgid "The link cannot be shown again. If you did not copy it, create a new invitation below; this will invalidate older unused links for the same email, spoken variety and role."
+msgstr "لا يمكن عرض الرابط مجددًا. إذا لم تنسخه، فأنشئ دعوة جديدة أدناه؛ سيؤدي ذلك إلى إبطال الروابط السابقة غير المستخدمة لنفس البريد الإلكتروني والتنوع اللغوي المنطوق والدور."
+
+msgid "This creation request has already been used. Open a new form to create another invitation."
+msgstr "سبق استخدام طلب الإنشاء هذا. افتح نموذجًا جديدًا لإنشاء دعوة أخرى."
+
+msgid "This creation request was already processed. No new link was created and the previous link was kept."
+msgstr "سبق تنفيذ طلب الإنشاء هذا. لم يُنشأ رابط جديد، واحتُفظ بالرابط السابق."
+
+msgid "Email delivery is unavailable. You can create a link to hand over personally."
+msgstr "الإرسال بالبريد الإلكتروني غير متاح. يمكنك إنشاء رابط تسلّمه شخصيًا."
