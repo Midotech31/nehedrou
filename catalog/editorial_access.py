@@ -129,10 +129,18 @@ def accept_editorial_access_invitation(actor, raw_token):
     if not actor.is_authenticated:
         raise PermissionDenied
     digest = hashlib.sha256(raw_token.encode()).hexdigest()
-    invitation = EditorialAccessInvitation.objects.select_for_update().filter(token_hash=digest).first()
+    variety_id = EditorialAccessInvitation.objects.filter(token_hash=digest).values_list('variety_id', flat=True).first()
+    if variety_id is None:
+        raise ValidationError(_('This editorial invitation has expired or is no longer available.'))
+    # Match issuance lock order. Discover scope without a lock, then re-read the
+    # invitation under its variety lock so replacement and acceptance serialize.
+    variety = Variety.objects.select_for_update().filter(pk=variety_id).first()
+    invitation = EditorialAccessInvitation.objects.select_for_update().filter(
+        token_hash=digest, variety_id=variety_id).first() if variety else None
     if not invitation or not invitation.available:
         raise ValidationError(_('This editorial invitation has expired or is no longer available.'))
-    user = User.objects.select_for_update().filter(pk=actor.pk, is_active=True).first()
+    # Still wait for account changes, while allowing audit actor FK KEY SHARE.
+    user = User.objects.select_for_update(no_key=True).filter(pk=actor.pk, is_active=True).first()
     if not user or user.email.strip().lower() != invitation.email.strip().lower():
         raise ValidationError(_('Sign in with the email address to which this invitation was sent.'))
     grant, created = EditorialGrant.objects.select_for_update().get_or_create(user=user, variety=invitation.variety)
