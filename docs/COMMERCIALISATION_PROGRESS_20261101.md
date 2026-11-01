@@ -7,6 +7,14 @@ Recette interactive BrowserAct 1.5.0 sur la version Render `c629e9053ad6da965862
 État Render relu à 06:25 UTC : `nehedrou-demo` reste sur le plan gratuit, commit `c629e905`, branche `main`, déclenchement automatique configuré sur commit et `healthCheckPath` vide. Les déploiements récents restent déclenchés par API. Le Blueprint contient `/healthz/`, mais l’API Render n’offre pas ici d’outil de mise à jour de ce paramètre; la configuration effective n’est pas alignée. Le service gratuit reste une démo, pas une base pour une offre commerciale avec données réelles.
 
 Les relecteurs professionnels et linguistiques peuvent être mobilisés par le porteur du projet. Leurs identités, compétences régionales et décisions ne sont pas encore consignées dans le CMS; aucune validation n’est déduite de cette disponibilité. Contrôle Neon en lecture seule à 06:30 UTC, par variété : FR 19/19 brouillons et sans audio; anglais US 17/17; arabe standard 42/42; Darija algérienne pilote 33/33. Au total, 111 versions courantes non démo, toutes en brouillon et sans référence audio. Les tables de décisions de revue, de disponibilité et de compétences des relecteurs comptent chacune zéro ligne. Seuls des compteurs et codes de variété ont été lus; aucun texte de brouillon, profil ou compte n’a été exporté. Avant tout usage payant ou clinique, restent notamment les validations humaines par empreinte exacte, les voix et droits, la qualification réglementaire et données, l’hébergement et la restauration durables, et une décision de prix/support/contrats.
+## Revalidation de la PR et du paquet de relecture — 1 novembre 2026, 06:55 UTC
+
+La PR #36 est à jour sur le commit `dca4dacd7f045ca897b67f18e303d7b0b4b008da`. CI #216 a réussi sur ce commit : vérification du paquet arabe, contrôle Django, migrations, suite complète, construction de l’image Docker de production et démarrage de conteneur.
+
+Le paquet humain MSA/Darija, limité à 74 propositions non approuvées, se vérifie maintenant sur Windows et Linux. Le défaut venait des fins de ligne CRLF/LF dans les JSON, les SVG et le README; les empreintes sont désormais calculées sur du texte canonique et une régression simule le checkout CRLF. Les données des fiches n’ont pas été approuvées ni importées par ce changement.
+
+Le contrôle HTTP public effectué à 07:05 UTC a confirmé HTTP 200 pour `/healthz/`, `/fr/`, `/en/` et `/ar/`, avec les déclarations `fr/en` en LTR et `ar` en RTL. Cette vérification et CI ne remplacent pas la recette authentifiée après publication. La PR reste ouverte; aucune fusion ni modification Render n’a eu lieu. La validation humaine des contenus, les droits audio, l’exploitation restaurable et la qualification réglementaire/confidentialité restent des conditions de commercialisation.
+
 # Revalidation du code et état du service — 1 novembre 2026, 05:03 UTC
 ## Vérification HTTP publique — 1 novembre 2026, 07:05 UTC
 
