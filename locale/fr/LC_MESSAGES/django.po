@@ -5977,3 +5977,6 @@ msgstr "L’envoi par email est indisponible. Vous pouvez créer un lien à reme
 
 msgid "This draft must be submitted by an editor before the review form becomes available."
 msgstr "Un éditeur doit soumettre ce brouillon avant l’ouverture du formulaire de relecture."
+
+msgid "First consonant"
+msgstr "Première consonne"

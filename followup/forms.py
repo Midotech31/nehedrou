@@ -54,7 +54,7 @@ class GoalForm(forms.Form):
     expected_realization = forms.CharField(label=_('Expected realization'), widget=forms.Textarea(attrs={'rows': 2}))
     accepted_variants = VariantsField(label=_('Documented acceptable variants'))
     functional_goal = forms.CharField(label=_('Functional goal'), widget=forms.Textarea(attrs={'rows': 2}))
-    review_date = forms.DateField(label=_('Next professional review'), required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    review_date = forms.DateField(label=_('Next professional review'), required=False, widget=forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
 
     def __init__(self, *args, child, definitions=None, **kwargs):
         super().__init__(*args, **kwargs)
@@ -269,7 +269,7 @@ class CoachingForm(forms.Form):
     accompanied_trial = forms.CharField(label=_('Accompanied practice trial'), widget=forms.Textarea(attrs={'rows': 3}))
     understanding_checked = forms.BooleanField(label=_('The clinician checked caregiver understanding'), required=False, help_text=_('This is recorded by the responsible clinician after checking; it is not a caregiver self-approval.'))
     clinician_note = forms.CharField(label=_('Private clinician note'), required=False, widget=forms.Textarea(attrs={'rows': 2}))
-    next_review = forms.DateField(label=_('Next review'), required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    next_review = forms.DateField(label=_('Next review'), required=False, widget=forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
 
     def __init__(self, *args, child, **kwargs):
         super().__init__(*args, **kwargs)

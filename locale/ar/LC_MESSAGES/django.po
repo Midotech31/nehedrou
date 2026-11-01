@@ -5977,3 +5977,6 @@ msgstr "الإرسال بالبريد الإلكتروني غير متاح. يم
 
 msgid "This draft must be submitted by an editor before the review form becomes available."
 msgstr "يجب أن يقدّم محرّر هذه المسودة للمراجعة قبل إتاحة نموذج المراجعة."
+
+msgid "First consonant"
+msgstr "الصامت الأول"
