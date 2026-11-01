@@ -2,6 +2,8 @@
 
 **État au 1 novembre 2026 — document de cadrage, pas un avis juridique ni une attestation de conformité.** La qualification dépend des fonctions réellement proposées, des promesses de l’éditeur, des données traitées, du lieu de commercialisation et des rôles de chaque acteur. Nehedrou ne doit pas revendiquer une conformité juridique ou une validation clinique sur la seule base de ce document.
 
+**Périmètre initial choisi par le porteur : cabinets d’orthophonie en Algérie (B2B).** Les sections France/UE et États-Unis restent des pistes pour une extension future; elles ne constituent pas des marchés déjà retenus. Les règles applicables aux fournisseurs, établissements et flux internationaux doivent être qualifiées séparément. Le choix de marché ne vaut ni autorisation clinique, ni acceptation de contrats, ni ouverture aux données réelles.
+
 ## Constats produit à date
 
 - Nehedrou se présente comme un outil de pratique à domicile avec un parent et des objectifs/activités choisis par l’orthophoniste. Les mentions marketing, le module de sondes, les rapports et toute recommandation individualisée peuvent toutefois modifier l’analyse de sa finalité.
@@ -22,7 +24,7 @@
 
 ## Plan de levée des écarts
 
-1. **Définir le premier marché de vente**, l’entité contractante, les utilisateurs (cabinet, praticien, famille) et les pays d’hébergement/support.
+1. **Marché initial retenu : cabinets d’orthophonie en Algérie.** Finaliser l’entité contractante, les rôles des utilisateurs (cabinet, praticien, famille) et les pays d’hébergement/support.
 2. **Figer la finalité et les allégations** écran par écran, y compris présentation, sondes, rapports et publicité ; faire examiner la qualification réglementaire pour les pays choisis.
 3. **Faire valider par un conseil/DPO local** le registre, les rôles, bases légales, données d’enfants, transferts, rétention, contrats et formalités. En France, établir le résultat du tri HDS ; en Algérie, cartographier la loi 18-07 modifiée par 25-11 ; aux États-Unis, conclure COPPA/FDA si concernés.
 4. **Mettre les contrôles en œuvre et les prouver** : journaux complets conformément au périmètre applicable, droits et suppression testés, sauvegarde/restauration, gestion des incidents, contrats et preuves d’hébergement.
