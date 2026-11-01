@@ -33,6 +33,26 @@
   </tbody></table></div>
 </section>
 {% endif %}
+{% if content_pipeline_rows %}
+<section class="card">
+  <h2>{% translate "Editorial queue by spoken variety" %}</h2>
+  <p>{% translate "Counts use the highest numbered version in each series, regardless of state." %} {% translate "Missing audio counts blank references only; referenced files still need current rights and review." %}</p>
+  <div class="table-scroll"><table class="report-table"><thead><tr>
+    <th scope="col">{% translate "Spoken variety code" %}</th>
+    <th scope="col">{% translate "Latest version per content series" %}</th>
+    <th scope="col">{% translate "Draft" %}</th>
+    <th scope="col">{% translate "In review" %}</th>
+    <th scope="col">{% translate "Approved" %}</th>
+    <th scope="col">{% translate "Published" %}</th>
+    <th scope="col">{% translate "Withdrawn" %}</th>
+    <th scope="col">{% translate "Missing one or more audio references" %}</th>
+  </tr></thead><tbody>
+  {% for code, latest, draft, review, approved, published, withdrawn, missing_audio in content_pipeline_rows %}
+    <tr><th scope="row"><bdi dir="ltr">{{ code }}</bdi></th><td>{{ latest }}</td><td>{{ draft }}</td><td>{{ review }}</td><td>{{ approved }}</td><td>{{ published }}</td><td>{{ withdrawn }}</td><td>{{ missing_audio }}</td></tr>
+  {% endfor %}
+  </tbody></table></div>
+</section>
+{% endif %}
 {% if manual_gate_rows %}
 <section class="card">
   <h2>{% translate "Human review and acceptance still required" %}</h2>

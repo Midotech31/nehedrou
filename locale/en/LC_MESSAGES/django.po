@@ -5457,3 +5457,18 @@ msgstr "Confirm that the candidate lists belong to the intended word and local v
 
 msgid "The two different words have identical family-vocabulary candidate lists; this may be intentional, but requires an explicit linguistic check."
 msgstr "The two different words have identical family-vocabulary candidate lists; this may be intentional, but requires an explicit linguistic check."
+
+msgid "Editorial queue by spoken variety"
+msgstr "Editorial queue by spoken variety"
+
+msgid "Counts use the highest numbered version in each series, regardless of state."
+msgstr "Counts use the highest numbered version in each series, regardless of state."
+
+msgid "Missing audio counts blank references only; referenced files still need current rights and review."
+msgstr "Missing audio counts blank references only; referenced files still need current rights and review."
+
+msgid "Latest version per content series"
+msgstr "Latest version per content series"
+
+msgid "Missing one or more audio references"
+msgstr "Missing one or more audio references"

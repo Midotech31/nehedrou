@@ -5457,3 +5457,18 @@ msgstr "تحقّق من أن قوائم المقترحات تخص الكلمة �
 
 msgid "The two different words have identical family-vocabulary candidate lists; this may be intentional, but requires an explicit linguistic check."
 msgstr "للكلمتين المختلفتين قوائم متطابقة للمقترحات المعجمية العائلية. قد يكون ذلك مقصودًا، لكنه يتطلب تحققًا لغويًا صريحًا."
+
+msgid "Editorial queue by spoken variety"
+msgstr "قائمة التحرير حسب التنوع اللغوي المنطوق"
+
+msgid "Counts use the highest numbered version in each series, regardless of state."
+msgstr "تعرض الأعداد أعلى رقم إصدار في كل سلسلة، بغض النظر عن حالته."
+
+msgid "Missing audio counts blank references only; referenced files still need current rights and review."
+msgstr "يُحتسب الصوت مفقودًا عند فراغ مرجع واحد أو أكثر فقط؛ أما الملفات المشار إليها فتحتاج أيضًا إلى حقوق سارية ومراجعات حديثة."
+
+msgid "Latest version per content series"
+msgstr "أحدث نسخة في كل سلسلة محتوى"
+
+msgid "Missing one or more audio references"
+msgstr "مرجع صوتي واحد أو أكثر غير متوفر"

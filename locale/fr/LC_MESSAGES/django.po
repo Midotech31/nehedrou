@@ -5457,3 +5457,18 @@ msgstr "Confirmez que les listes de propositions correspondent au mot visé et �
 
 msgid "The two different words have identical family-vocabulary candidate lists; this may be intentional, but requires an explicit linguistic check."
 msgstr "Les deux mots différents ont des listes identiques de propositions lexicales familiales. Cela peut être intentionnel, mais nécessite une vérification linguistique explicite."
+
+msgid "Editorial queue by spoken variety"
+msgstr "Suivi éditorial par variété parlée"
+
+msgid "Counts use the highest numbered version in each series, regardless of state."
+msgstr "Les compteurs retiennent la version la plus élevée de chaque série, quel que soit son état."
+
+msgid "Missing audio counts blank references only; referenced files still need current rights and review."
+msgstr "Le manque d’audio compte uniquement les références vides ; les fichiers référencés doivent encore avoir des droits valides et des relectures à jour."
+
+msgid "Latest version per content series"
+msgstr "Dernière version de chaque série de contenus"
+
+msgid "Missing one or more audio references"
+msgstr "Au moins une référence audio manquante"

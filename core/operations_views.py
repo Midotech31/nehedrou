@@ -135,6 +135,12 @@ def launch_readiness_report(request):
                  report.get('current_available_nondemo_counts_by_variety', {}).get(code, 0))
                 for code in report.get('offered_content_varieties', [])
             ],
+            'content_pipeline_rows': [
+                (code, *(report.get('editorial_pipeline_by_variety', {}).get(code, {}).get(key, 0)
+                         for key in ['latest_versions', 'draft', 'review', 'approved', 'published',
+                                     'withdrawn', 'missing_one_or_more_audio_references']))
+                for code in report.get('offered_content_varieties', [])
+            ],
             'manual_gate_rows': [MANUAL_READINESS_LABELS.get(key, key) for key in report.get('manual_gates_required', [])],
         }, status=status)
     response['Cache-Control'] = 'private, no-store'
