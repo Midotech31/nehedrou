@@ -98,6 +98,12 @@ class EvidenceDossierTests(TestCase):
             'Fictional confirmation: shared candidates are intentional.')
         dossier = review_dossier(activity)
         self.assertNotIn('family_candidate_lists', [row['key'] for row in dossier['tasks']])
+        review_version(self.linguist, activity, 'linguistic', False,
+            'Fictional rejection: the shared candidates need correction.')
+        dossier = review_dossier(activity)
+        self.assertIn('family_candidate_lists', [row['key'] for row in dossier['tasks']])
+        linguistic_task = next(row for row in dossier['tasks'] if row['key'] == 'review_linguistic')
+        self.assertIn('changes_requested', linguistic_task['reason_codes'])
         EditorialGrant.objects.filter(user=self.linguist, variety=self.variety).update(linguistic_review=False)
         dossier = review_dossier(activity)
         self.assertIn('family_candidate_lists', [row['key'] for row in dossier['tasks']])

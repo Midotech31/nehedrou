@@ -141,11 +141,14 @@ def review_dossier(activity):
     definition_a, definition_b = metadata.get('a', {}), metadata.get('b', {})
     candidates_a = definition_a.get('family_word_candidates', []) if isinstance(definition_a, dict) else []
     candidates_b = definition_b.get('family_word_candidates', []) if isinstance(definition_b, dict) else []
-    current_linguistic_approval = any(
-        row.kind == 'linguistic' and row.content_digest == digest and row.approved
-        and allowed(row.reviewer, activity.variety, 'linguistic_review')
-        and has_competence(row.reviewer, activity.variety, 'linguistic')
-        for row in reviews
+    current_linguistic_decision = next(
+        (row for row in reviews if row.kind == 'linguistic' and row.content_digest == digest),
+        None,
+    )
+    current_linguistic_approval = bool(
+        current_linguistic_decision and current_linguistic_decision.approved
+        and allowed(current_linguistic_decision.reviewer, activity.variety, 'linguistic_review')
+        and has_competence(current_linguistic_decision.reviewer, activity.variety, 'linguistic')
     )
     if (activity.word_a.strip() != activity.word_b.strip() and candidates_a and
             candidates_a == candidates_b and not current_linguistic_approval):
