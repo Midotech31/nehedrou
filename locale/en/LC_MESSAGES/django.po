@@ -5980,3 +5980,15 @@ msgstr "This draft must be submitted by an editor before the review form becomes
 
 msgid "First consonant"
 msgstr "First consonant"
+
+msgid "Page unavailable"
+msgstr "Page unavailable"
+
+msgid "Access unavailable"
+msgstr "Access unavailable"
+
+msgid "This page is unavailable. Use the navigation or return to the home page."
+msgstr "This page is unavailable. Use the navigation or return to the home page."
+
+msgid "This page is not available with your current access. Return to your overview or the home page."
+msgstr "This page is not available with your current access. Return to your overview or the home page."

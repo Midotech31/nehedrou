@@ -5980,3 +5980,15 @@ msgstr "يجب أن يقدّم محرّر هذه المسودة للمراجعة
 
 msgid "First consonant"
 msgstr "الصامت الأول"
+
+msgid "Page unavailable"
+msgstr "الصفحة غير متاحة"
+
+msgid "Access unavailable"
+msgstr "الوصول غير متاح"
+
+msgid "This page is unavailable. Use the navigation or return to the home page."
+msgstr "هذه الصفحة غير متاحة. استخدموا قائمة التنقل أو عودوا إلى الصفحة الرئيسية."
+
+msgid "This page is not available with your current access. Return to your overview or the home page."
+msgstr "هذه الصفحة غير متاحة بصلاحياتكم الحالية. عودوا إلى النظرة العامة أو الصفحة الرئيسية."

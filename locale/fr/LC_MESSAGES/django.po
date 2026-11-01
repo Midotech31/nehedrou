@@ -5980,3 +5980,15 @@ msgstr "Un éditeur doit soumettre ce brouillon avant l’ouverture du formulair
 
 msgid "First consonant"
 msgstr "Première consonne"
+
+msgid "Page unavailable"
+msgstr "Page indisponible"
+
+msgid "Access unavailable"
+msgstr "Accès indisponible"
+
+msgid "This page is unavailable. Use the navigation or return to the home page."
+msgstr "Cette page est indisponible. Utilisez la navigation ou revenez à l’accueil."
+
+msgid "This page is not available with your current access. Return to your overview or the home page."
+msgstr "Cette page n’est pas disponible avec vos accès actuels. Revenez à votre vue d’ensemble ou à l’accueil."

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}{% load i18n %}
+{% block title %}{% translate "Page unavailable" %} · Nehedrou{% endblock %}
+{% block content %}
+<section class="card form-card" aria-labelledby="error-title">
+  <span class="eyebrow" aria-hidden="true">404</span>
+  <h1 id="error-title">{% translate "Page unavailable" %}</h1>
+  <p>{% translate "This page is unavailable. Use the navigation or return to the home page." %}</p>
+  <div class="actions">
+    <a class="button" href="{% url 'home' %}">{% translate "Home" %}</a>
+    {% if user.is_authenticated %}<a class="button secondary" href="{% url 'dashboard' %}">{% translate "Overview" %}</a>{% endif %}
+  </div>
+</section>
+{% endblock %}
