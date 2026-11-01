@@ -11,6 +11,7 @@ Les identifiants ci-dessous correspondent à des droits réellement disponibles.
 | `relecteur_clinique` | Relecteur clinique du catalogue | `/fr/editorial/` | Lecture et décisions de sa discipline sur les versions proposées ; aucune rédaction, mise en ligne ou consultation de dossiers. |
 | `relecteur_linguistique` | Relecteur linguistique du catalogue | `/fr/editorial/` | Lecture et décisions linguistiques sur les versions proposées ; mêmes restrictions de rédaction, publication et dossiers. |
 | `gestionnaire` | Gestionnaire des accès et de la facturation manuelle | `/fr/billing/` | Cabinets, plans, quotas, échéances et factures. Aucun accès aux dossiers, exports cliniques ou catalogue éditorial. |
+| `pitou` | Porteur de projet et orthophoniste — compte de démonstration distinct | `/fr/app/` et `/fr/editorial/new/` | Accède comme clinicien au cabinet fictif et peut créer/modifier des brouillons éditoriaux dans les quatre variétés configurées. Ne peut ni publier ni effectuer les relectures clinique/linguistique; n’est ni staff ni superutilisateur. |
 
 Le gestionnaire utilise la permission existante `core.manage_entitlements`. Il n’est ni superutilisateur ni administrateur Django. L’application ne fournit pas d’administration globale des utilisateurs en production ; `/admin/` reste désactivé lorsque `DEBUG=False`. Le responsable de cabinet et le gestionnaire des accès sont donc deux profils distincts.
 
@@ -31,6 +32,8 @@ Les secrets sont lus depuis `DEMO_PASSWORD` pour les comptes historiques et, pou
 - `DEMO_PASSWORD_GESTIONNAIRE`
 
 Chaque secret doit comporter au moins 12 caractères. Une variable de rôle absente utilise `DEMO_PASSWORD` comme repli local ; pour la démonstration publiée, configurer les sept secrets distincts dans l’environnement privé. Aucun secret n’est affiché par la commande.
+
+Le compte de démonstration distinct `pitou` est initialisé uniquement lorsque le secret privé `DEMO_PASSWORD_PITOU` est configuré; il exige au moins 20 caractères. La lecture agrégée Neon du 1 novembre 2026 confirme son compte actif, son affiliation fictive et ses droits de brouillon sur quatre variétés, sans droits de publication ou de relecture. Son dernier `last_login` enregistré (30 octobre 2026) indique une connexion antérieure, pas une recette d’authentification actuelle; le mot de passe n’a pas été lu ni testé pendant cet audit.
 
 La commande est idempotente. Elle ne réinitialise ni mot de passe existant, ni état d’affiliation existant, ni programme, ni quota modifié. Un identifiant ou une adresse réservés déjà occupés par un compte non fictif, un compte privilégié inattendu ou une affiliation non fictive provoquent un refus et l’annulation de la transaction. Un groupe éditorial partagé avec de vrais utilisateurs n’est pas modifié.
 
