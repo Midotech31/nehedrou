@@ -248,18 +248,19 @@ class EditorialAccessInvitation(CheckedModel):
     revoked = models.BooleanField(default=False)
     used_at = models.DateTimeField(null=True, blank=True)
     accepted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True, related_name='accepted_editorial_invitations')
-    delivery = models.CharField(max_length=12, default='pending', choices=[('pending', _('Pending delivery')), ('sent', _('Sent to mail service')), ('failed', _('Delivery failed')), ('console', _('Local console only'))])
+    delivery = models.CharField(max_length=12, default='pending', choices=[('pending', _('Pending delivery')), ('sent', _('Sent to mail service')), ('failed', _('Delivery failed')), ('console', _('Local console only')), ('manual', _('Link created for manual handoff'))])
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='created_editorial_invitations')
 
     class Meta:
         indexes = [models.Index(fields=['email', 'variety', 'capability', 'used_at'])]
 
     @classmethod
-    def issue(cls, email, variety, capability, actor):
+    def issue(cls, email, variety, capability, actor, *, invitation_id=None, delivery='pending'):
         token = secrets.token_urlsafe(32)
+        identity = {'id': invitation_id} if invitation_id is not None else {}
         obj = cls.objects.create(email=email.strip().lower(), variety=variety, capability=capability,
-            created_by=actor, token_hash=hashlib.sha256(token.encode()).hexdigest(),
-            expires_at=timezone.now() + timedelta(days=7))
+            created_by=actor, token_hash=hashlib.sha256(token.encode()).hexdigest(), delivery=delivery,
+            expires_at=timezone.now() + timedelta(days=7), **identity)
         return obj, token
 
     @property

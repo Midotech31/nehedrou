@@ -5925,3 +5925,52 @@ msgstr "This content changed. Reload this page and read the current version befo
 
 msgid "Reload current content"
 msgstr "Reload current content"
+
+msgid "Choose email delivery or a link to hand over personally. Personal handoff does not require an email service. The account is created only when the recipient accepts."
+msgstr "Choose email delivery or a link to hand over personally. Personal handoff does not require an email service. The account is created only when the recipient accepts."
+
+msgid "Copy this link before leaving this page. It is shown only once. Share it personally with the intended recipient after checking their identity. No email has been sent."
+msgstr "Copy this link before leaving this page. It is shown only once. Share it personally with the intended recipient after checking their identity. No email has been sent."
+
+msgid "Create editorial invitation"
+msgstr "Create editorial invitation"
+
+msgid "Creating another invitation invalidates older unused links for the same email, spoken variety and role. Invitations for other varieties or roles remain unchanged."
+msgstr "Creating another invitation invalidates older unused links for the same email, spoken variety and role. Invitations for other varieties or roles remain unchanged."
+
+msgid "Delivery method"
+msgstr "Delivery method"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Invitation link to copy"
+msgstr "Invitation link to copy"
+
+msgid "Link created for manual handoff"
+msgstr "Link created for manual handoff"
+
+msgid "No account or permission is created until the recipient accepts. This link does not prove ownership of the invited email address."
+msgstr "No account or permission is created until the recipient accepts. This link does not prove ownership of the invited email address."
+
+msgid "Open a new form to create a personal handoff link."
+msgstr "Open a new form to create a personal handoff link."
+
+
+msgid "Personal handoff link"
+msgstr "Personal handoff link"
+
+msgid "Sent means handed to the configured mail transport; it does not prove receipt. A manual link is created for personal handoff, not confirmed delivery. Access starts only after acceptance."
+msgstr "Sent means handed to the configured mail transport; it does not prove receipt. A manual link is created for personal handoff, not confirmed delivery. Access starts only after acceptance."
+
+msgid "The link cannot be shown again. If you did not copy it, create a new invitation below; this will invalidate older unused links for the same email, spoken variety and role."
+msgstr "The link cannot be shown again. If you did not copy it, create a new invitation below; this will invalidate older unused links for the same email, spoken variety and role."
+
+msgid "This creation request has already been used. Open a new form to create another invitation."
+msgstr "This creation request has already been used. Open a new form to create another invitation."
+
+msgid "This creation request was already processed. No new link was created and the previous link was kept."
+msgstr "This creation request was already processed. No new link was created and the previous link was kept."
+
+msgid "Email delivery is unavailable. You can create a link to hand over personally."
+msgstr "Email delivery is unavailable. You can create a link to hand over personally."

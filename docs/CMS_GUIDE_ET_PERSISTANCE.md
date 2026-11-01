@@ -54,3 +54,18 @@ Un vérificateur consulte la déclaration actuelle du relecteur avant de consign
 Le gestionnaire disposant de `core.manage_entitlements` ouvre le cabinet dans la facturation. La consultation seule ne crée aucun droit d’accès. L’enregistrement explicite du formulaire crée ou met à jour les droits et inscrit l’opération dans l’audit; un montant négatif est refusé. La devise comporte exactement trois lettres latines majuscules, par exemple DZD. Ce contrôle de forme ne vérifie pas l’existence d’une devise ISO et ne convertit aucun montant.
 
 Chaque facture enregistrée possède désormais une fiche accessible depuis sa liste. Une facture émise peut être marquée payée ou annulée, avec une référence de paiement ou d’annulation. Le numéro, le cabinet, le montant, la devise et la date d’enregistrement sont conservés; un statut final ne peut pas être remplacé ou rejoué. Le paiement est seulement consigné : aucune somme n’est débitée et les droits d’accès se gèrent séparément. Cette fiche interne ne constitue pas une attestation de conformité fiscale; l’entité vendeuse et le format des documents clients restent à définir avant lancement.
+
+## Inviter les relecteurs sans service email — 1 novembre 2026
+
+Le gestionnaire ouvre **Accès éditoriaux** (`/fr/operations/editorial-access/`, ou le même parcours sous `/en/` et `/ar/`). Il doit posséder la permission de gestion des accès ; un simple compte éditeur ou relecteur ne peut pas émettre ces invitations.
+
+1. Saisir l'adresse du destinataire identifié, la variété parlée et un seul rôle : édition de brouillons, relecture clinique ou relecture linguistique.
+2. Choisir **Lien à remettre personnellement**. Ce choix est présélectionné lorsque l'envoi par email est connu comme indisponible. Le choix du mode repose uniquement sur la configuration locale, sans test réseau ni envoi.
+3. Créer l'invitation et copier le lien depuis son champ en lecture seule avant de quitter la page. Le porteur le remet personnellement au destinataire après vérification de son identité. Aucun courriel n'est envoyé par ce mode ; le lien ne prouve pas la propriété de l'adresse email.
+4. Le destinataire ouvre le lien sous sept jours. Un compte existant doit se connecter avec l'adresse invitée ; pour un nouveau compte, cette adresse est fixée. Seule l'acceptation crée ou complète la capacité éditoriale pour cette variété. L'invitation n'ajoute ni accès aux dossiers, ni appartenance à un cabinet, ni publication. Un compte désactivé ne peut pas être réactivé par ce parcours.
+
+Le lien brut est affiché uniquement dans la première réponse privée à la création. Il n'est pas récupérable depuis la liste, un GET ou un rejeu du formulaire ; seule son empreinte est conservée. Réenvoyer exactement le même acte garde l'invitation existante sans générer de nouveau token. Si le lien est perdu, créer explicitement une autre invitation : cela révoque les anciens liens non utilisés du même email, rôle et variété. Les autres invitations restent inchangées. Une invitation révoquée, expirée ou déjà acceptée n'est pas réactivée par un rejeu.
+
+L'accès d'un publicateur déjà présent pour la même variété n'est pas modifié ; il doit être examiné directement. L'acceptation n'atteste pas les compétences du relecteur : sa déclaration, sa vérification indépendante et les revues du contenu exact restent nécessaires. Aucune activité n'est approuvée ou publiée par cette remise de lien.
+
+Ce parcours concerne les invitations éditoriales. Il ne configure pas les courriels, la récupération de mot de passe ni les invitations de familles ou de praticiens.
