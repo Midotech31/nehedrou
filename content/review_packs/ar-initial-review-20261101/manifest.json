@@ -13,7 +13,7 @@
       "included_rows": 42
     },
     "docs/arabic-library-v2.json": {
-      "sha256": "95e56145590072134f648dea416848305d9a3803638c062725149a245ad6bf96",
+      "sha256": "7b2f660d463ced96201da354088adc490545e0df430d5a7940de55a56b1fdaed",
       "variety": "ar-dz-pilot",
       "version": 2,
       "status": "draft_metadata_rebinding_pending_clinical_linguistic_review",
@@ -64,7 +64,7 @@
       "size_bytes": 9631
     },
     "candidates_for_review.csv": {
-      "sha256": "aac4c8326259a2aab4ff7d42dce6ac01a59897322959048503f919e9b647dc31",
+      "sha256": "5bc43482ab594dcfda1f262f932a2b79135f770de0bb9564523d419da861c533",
       "size_bytes": 60013
     },
     "evidence_sources_for_review.csv": {

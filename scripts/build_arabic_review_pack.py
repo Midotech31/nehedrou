@@ -21,7 +21,7 @@ SOURCES = (
      "737e95b4f21616a235d8e4f2a4bdc5e0eed87210f01ef74e9948dca6de0655a2",
      "ar-msa-pilot", 1, 42, "original_editorial_drafts_not_approved"),
     ("docs/arabic-library-v2.json",
-     "95e56145590072134f648dea416848305d9a3803638c062725149a245ad6bf96",
+     "7b2f660d463ced96201da354088adc490545e0df430d5a7940de55a56b1fdaed",
      "ar-dz-pilot", 2, 32, "draft_metadata_rebinding_pending_clinical_linguistic_review"),
 )
 REVIEW_FIELDS = (
@@ -64,7 +64,7 @@ def load_candidates():
     for path, expected_sha, variety, version, count, expected_status in SOURCES:
         source_path = ROOT / path
         raw = source_path.read_bytes()
-        actual_sha = digest(raw)
+        actual_sha = digest(canonical_text_bytes(raw))
         if actual_sha != expected_sha:
             raise ValueError(f"Source changed; create a new review-pack version: {path}")
         document = json.loads(raw.decode("utf-8"))
