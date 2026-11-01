@@ -402,3 +402,6 @@ html:lang(ar) :is(.helptext,.program-meta,.report-row small,footer,.sidebar-note
  .sidebar .practice-box label{grid-column:1/-1}
  .sidebar .practice-box :is(select,button){min-inline-size:0;max-inline-size:100%;min-block-size:44px}
 }
+
+/* Long authored task identifiers must remain readable on narrow screens. */
+.protocol-description{overflow-wrap:anywhere}
