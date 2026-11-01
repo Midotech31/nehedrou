@@ -28,7 +28,7 @@ Le workspace ne contient pas de base Render gérée. Le blueprint indique l’us
 
 ## Instantané en lecture seule du catalogue (1 novembre 2026)
 
-Une requête agrégée en lecture seule sur la branche principale du projet Neon « Nehedrou Demo » dénombre 124 fiches non démonstratives, toutes à l’état brouillon : 22 pour le français de France, 17 pour l’anglais général des États-Unis, 52 pour l’arabe standard et 33 pour la Darija algérienne pilote. Aucun contenu non démonstratif n’est en état de relecture ou publié. Les tables de relecture et de décision de disponibilité ne contiennent aucune ligne. Les 114 fiches publiées dans cet instantané sont des copies de démonstration, auxquelles s’ajoutent 8 brouillons et 3 fiches en état de relecture de démonstration.
+Une requête agrégée en lecture seule sur la branche principale du projet Neon « Nehedrou Demo » dénombre 124 fiches non démonstratives, toutes à l’état brouillon : 22 pour le français de France, 17 pour l’anglais général des États-Unis, 52 pour l’arabe standard et 33 pour la Darija algérienne pilote. Aucun contenu non démonstratif n’est en état de relecture ou publié. Les tables de relecture et de décision de disponibilité ne contiennent aucune ligne. Aucun des 124 brouillons ne référence de fichier audio. Les 114 fiches publiées dans cet instantané sont des copies de démonstration, auxquelles s’ajoutent 8 brouillons et 3 fiches en état de relecture de démonstration.
 
 Cet inventaire agrégé n’expose aucun compte ni dossier individuel. Il confirme qu’aucune fiche réelle n’a encore passé la revue humaine ou reçu une autorisation d’usage. Il décrit la base consultée à cet instant; il ne constitue ni une recette complète de la connexion Render–Neon, ni une validation clinique.
 
