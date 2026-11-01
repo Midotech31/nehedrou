@@ -5448,3 +5448,12 @@ msgstr "Currently available versions"
 
 msgid "Availability is checked for the exact module, spoken variety and content fingerprint; interface-language coverage does not imply approval."
 msgstr "Availability is checked for the exact module, spoken variety and content fingerprint; interface-language coverage does not imply approval."
+
+msgid "Check word-specific family vocabulary candidates"
+msgstr "Check word-specific family vocabulary candidates"
+
+msgid "Confirm that the candidate lists belong to the intended word and local variety. Record the rationale if the same forms are intentionally shared; otherwise correct the draft before reviewing it."
+msgstr "Confirm that the candidate lists belong to the intended word and local variety. Record the rationale if the same forms are intentionally shared; otherwise correct the draft before reviewing it."
+
+msgid "The two different words have identical family-vocabulary candidate lists; this may be intentional, but requires an explicit linguistic check."
+msgstr "The two different words have identical family-vocabulary candidate lists; this may be intentional, but requires an explicit linguistic check."
