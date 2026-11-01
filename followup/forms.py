@@ -81,7 +81,7 @@ class DefinitionForm(forms.Form):
     protocol = forms.CharField(label=_('Original protocol and permitted support'), widget=forms.Textarea(attrs={'rows': 4}))
     task = forms.CharField(label=_('Elicitation task'), max_length=160)
     target_phoneme = forms.CharField(label=_('Target phoneme'), max_length=80, widget=forms.TextInput(attrs={'dir': 'ltr'}))
-    target_position = forms.ChoiceField(label=_('Target position'), choices=POSITION_CHOICES)
+    target_position = forms.ChoiceField(label=_('Target position'), choices=[('', _('Choose a target position'))] + POSITION_CHOICES)
     context_key = forms.RegexField(label=_('Structured target context'), regex=r'^[a-z0-9][a-z0-9_-]{0,99}$', max_length=100, help_text=CONTEXT_HELP)
     rights = forms.CharField(label=_('Rights and provenance documentation'), required=False, widget=forms.Textarea(attrs={'rows': 3}))
     rights_status = forms.ChoiceField(label=_('Rights status'), choices=RIGHTS_CHOICES)

@@ -5992,3 +5992,6 @@ msgstr "Cette page est indisponible. Utilisez la navigation ou revenez à l’ac
 
 msgid "This page is not available with your current access. Return to your overview or the home page."
 msgstr "Cette page n’est pas disponible avec vos accès actuels. Revenez à votre vue d’ensemble ou à l’accueil."
+
+msgid "Choose a target position"
+msgstr "Choisir une position cible"

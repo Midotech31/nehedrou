@@ -5992,3 +5992,6 @@ msgstr "هذه الصفحة غير متاحة. استخدموا قائمة ال�
 
 msgid "This page is not available with your current access. Return to your overview or the home page."
 msgstr "هذه الصفحة غير متاحة بصلاحياتكم الحالية. عودوا إلى النظرة العامة أو الصفحة الرئيسية."
+
+msgid "Choose a target position"
+msgstr "اختاروا موضع الصوت المستهدف"
