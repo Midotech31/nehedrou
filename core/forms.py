@@ -126,8 +126,8 @@ class FamilyFeedbackForm(forms.Form):
 class HistoryFilterForm(forms.Form):
     kind = forms.ChoiceField(label=_('Record type'), choices=[('reports', _('Parent reports')), ('runs', _('Practice runs')), ('feedback', _('Clinician feedback'))])
     status = forms.ChoiceField(label=_('Status'), required=False, choices=[('', _('All')), ('completed', _('Completed')), ('stopped', _('Stopped'))])
-    start = forms.DateField(label=_('From date'), required=False, widget=forms.DateInput(attrs={'type':'date'}))
-    end = forms.DateField(label=_('To date'), required=False, widget=forms.DateInput(attrs={'type':'date'}))
+    start = forms.DateField(label=_('From date'), required=False, widget=forms.DateInput(attrs={'type':'date'}, format='%Y-%m-%d'))
+    end = forms.DateField(label=_('To date'), required=False, widget=forms.DateInput(attrs={'type':'date'}, format='%Y-%m-%d'))
     def clean(self):
         data = super().clean()
         if data.get('start') and data.get('end') and data['start'] > data['end']:

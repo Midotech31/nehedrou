@@ -3,6 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from catalog.models import Variety
+from catalog.media_labels import media_choice_label
 from .models import EvidenceDocument, ReviewerCompetence, AvailabilityDecision, LexicalPack, LexicalCandidate, FamiliarityStudy, PackReview
 from .services import evidence_snapshot, REQUIRED_EVIDENCE
 
@@ -45,7 +46,7 @@ class CompetenceForm(LabelledModelForm):
 class CompetenceDecisionForm(forms.Form):
     expected_digest = forms.CharField(min_length=64, max_length=64, widget=forms.HiddenInput)
     status = forms.ChoiceField(choices=[('verified', _('Independently checked')), ('rejected', _('Not verified'))], label=_('Verification result'))
-    checked_on = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}),label=_('Verification date'))
+    checked_on = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}, format='%Y-%m-%d'),label=_('Verification date'))
     basis = forms.CharField(min_length=20, max_length=2000, widget=forms.Textarea(attrs={'rows': 4}),
                             label=_('Verification basis'),
                             help_text=_('Record what you checked, how, and when. Do not include identity-document numbers or unnecessary personal data.'))
@@ -118,6 +119,8 @@ class CandidateForm(LabelledModelForm):
         labels = {'role':_('Training or untrained reserve')}
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
+        for name in ('image', 'audio'):
+            self.fields[name].label_from_instance = media_choice_label
         self.fields['segment_list'].initial = ' '.join(self.instance.segments)
         self.fields['target_list'].initial = '\n'.join(f"{item['index']+1} ; {item['phoneme']} ; {item['position']}" for item in self.instance.occurrences)
         self.fields['variant_list'].initial = '\n'.join(f"{item['ipa']} ; {item['reason']}" for item in self.instance.accepted_variants)

@@ -5977,3 +5977,24 @@ msgstr "L’envoi par email est indisponible. Vous pouvez créer un lien à reme
 
 msgid "This draft must be submitted by an editor before the review form becomes available."
 msgstr "Un éditeur doit soumettre ce brouillon avant l’ouverture du formulaire de relecture."
+
+msgid "First consonant"
+msgstr "Première consonne"
+
+msgid "Page unavailable"
+msgstr "Page indisponible"
+
+msgid "Access unavailable"
+msgstr "Accès indisponible"
+
+msgid "This page is unavailable. Use the navigation or return to the home page."
+msgstr "Cette page est indisponible. Utilisez la navigation ou revenez à l’accueil."
+
+msgid "This page is not available with your current access. Return to your overview or the home page."
+msgstr "Cette page n’est pas disponible avec vos accès actuels. Revenez à votre vue d’ensemble ou à l’accueil."
+
+msgid "Choose a target position"
+msgstr "Choisir une position cible"
+
+msgid "Home page"
+msgstr "Accueil"

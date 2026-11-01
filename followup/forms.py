@@ -3,6 +3,7 @@ from django import forms
 from django.forms import formset_factory
 from django.utils.translation import gettext_lazy as _
 from catalog.models import Variety, MediaAsset
+from catalog.media_labels import media_choice_label
 from .models import ProbeDefinition
 from .validation import target_match_errors, validate_observation_target
 from types import SimpleNamespace
@@ -54,7 +55,7 @@ class GoalForm(forms.Form):
     expected_realization = forms.CharField(label=_('Expected realization'), widget=forms.Textarea(attrs={'rows': 2}))
     accepted_variants = VariantsField(label=_('Documented acceptable variants'))
     functional_goal = forms.CharField(label=_('Functional goal'), widget=forms.Textarea(attrs={'rows': 2}))
-    review_date = forms.DateField(label=_('Next professional review'), required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    review_date = forms.DateField(label=_('Next professional review'), required=False, widget=forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
 
     def __init__(self, *args, child, definitions=None, **kwargs):
         super().__init__(*args, **kwargs)
@@ -81,7 +82,7 @@ class DefinitionForm(forms.Form):
     protocol = forms.CharField(label=_('Original protocol and permitted support'), widget=forms.Textarea(attrs={'rows': 4}))
     task = forms.CharField(label=_('Elicitation task'), max_length=160)
     target_phoneme = forms.CharField(label=_('Target phoneme'), max_length=80, widget=forms.TextInput(attrs={'dir': 'ltr'}))
-    target_position = forms.ChoiceField(label=_('Target position'), choices=POSITION_CHOICES)
+    target_position = forms.ChoiceField(label=_('Target position'), choices=[('', _('Choose a target position'))] + POSITION_CHOICES)
     context_key = forms.RegexField(label=_('Structured target context'), regex=r'^[a-z0-9][a-z0-9_-]{0,99}$', max_length=100, help_text=CONTEXT_HELP)
     rights = forms.CharField(label=_('Rights and provenance documentation'), required=False, widget=forms.Textarea(attrs={'rows': 3}))
     rights_status = forms.ChoiceField(label=_('Rights status'), choices=RIGHTS_CHOICES)
@@ -128,7 +129,7 @@ class SegmentsField(forms.CharField):
 
 class MediaChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
-        return f"{obj.file.name.rsplit('/', 1)[-1]} · {str(obj.pk)[:8]} · {obj.get_rights_status_display()}"
+        return media_choice_label(obj)
 
 
 class ItemForm(forms.Form):
@@ -269,7 +270,7 @@ class CoachingForm(forms.Form):
     accompanied_trial = forms.CharField(label=_('Accompanied practice trial'), widget=forms.Textarea(attrs={'rows': 3}))
     understanding_checked = forms.BooleanField(label=_('The clinician checked caregiver understanding'), required=False, help_text=_('This is recorded by the responsible clinician after checking; it is not a caregiver self-approval.'))
     clinician_note = forms.CharField(label=_('Private clinician note'), required=False, widget=forms.Textarea(attrs={'rows': 2}))
-    next_review = forms.DateField(label=_('Next review'), required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    next_review = forms.DateField(label=_('Next review'), required=False, widget=forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
 
     def __init__(self, *args, child, **kwargs):
         super().__init__(*args, **kwargs)

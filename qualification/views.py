@@ -3,6 +3,7 @@ from io import BytesIO
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
+from django.db.models import Q
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
@@ -195,11 +196,14 @@ def availability_revoke(request, pk):
 @login_required
 def pack_edit(request,pk=None):
     require_workspace(request.user)
-    obj = get_object_or_404(LexicalPack,variety__in=varieties(request.user,'edit'),pk=pk) if pk else LexicalPack(created_by=request.user)
+    editable_varieties = varieties(request.user, 'edit')
+    if not pk and not editable_varieties.exists():
+        raise PermissionDenied
+    obj = get_object_or_404(LexicalPack,variety__in=editable_varieties,pk=pk) if pk else LexicalPack(created_by=request.user)
     if pk and obj.state!='draft':
         raise PermissionDenied
     form = PackForm(request.POST or None,instance=obj)
-    form.fields['variety'].queryset = varieties(request.user,'edit')
+    form.fields['variety'].queryset = editable_varieties
     if request.method=='POST' and form.is_valid():
         with transaction.atomic():
             if pk:
@@ -253,7 +257,8 @@ def candidate_edit(request,pack_id,pk=None):
     pack = get_object_or_404(LexicalPack,variety__in=varieties(request.user,'edit'),pk=pack_id,state='draft')
     obj = get_object_or_404(LexicalCandidate,pack=pack,pk=pk) if pk else LexicalCandidate(pack=pack)
     form = CandidateForm(request.POST or None,instance=obj)
-    permitted_media = MediaAsset.objects.filter(uploaded_by=request.user) if not request.user.is_superuser else MediaAsset.objects.all()
+    existing_media = [asset_id for asset_id in (obj.image_id, obj.audio_id) if asset_id]
+    permitted_media = MediaAsset.objects.filter(Q(uploaded_by=request.user) | Q(pk__in=existing_media)) if not request.user.is_superuser else MediaAsset.objects.all()
     form.fields['image'].queryset = permitted_media.filter(kind='image')
     form.fields['audio'].queryset = permitted_media.filter(kind='audio')
     if request.method=='POST' and form.is_valid():
