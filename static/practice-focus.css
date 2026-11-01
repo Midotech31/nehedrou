@@ -48,3 +48,8 @@ html:lang(ar) .practice-workspace .audio-model small { font-size: 15px; }
   .practice-workspace .guided-controls .button { padding-inline: 10px; }
 }
 @media print { .practice-workspace .guided-controls { display: none!important; } }
+
+/* On short mobile viewports, keep the controls in document flow so they cannot cover the current stimulus. */
+@media (max-width: 700px) and (max-height: 700px) {
+  .practice-workspace .guided-controls { position: static; bottom: auto; }
+}
