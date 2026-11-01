@@ -3,12 +3,14 @@ import uuid
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.utils.translation import gettext as _
-from catalog.models import Variety
+from catalog.models import EditorialGrant, Variety
 from catalog.services import allowed
 from core.services import audit
 from .models import EvidenceDocument, ReviewerCompetence, ReviewerCompetenceDecision, AvailabilityDecision, LexicalPack, LexicalCandidate, FamiliarityStudy, PackReview
 
 REQUIRED_EVIDENCE = ('clinical_content', 'rights', 'governance', 'pilot', 'operations')
+COMPETENCE_DECLARATION_FIELDS = ('variety', 'discipline', 'professional_role', 'experience',
+                                 'credential_reference', 'evidence', 'active')
 
 def has_competence(user, variety, discipline):
     if not user.is_active:
@@ -21,13 +23,44 @@ def has_competence(user, variety, discipline):
     return bool(competence and competence.professional_role.strip() and competence.experience.strip() and competence.independently_verified)
 
 @transaction.atomic
-def record_competence_decision(actor, competence_id, status, basis, checked_on):
-    competence = ReviewerCompetence.objects.select_for_update().select_related('user', 'variety', 'evidence').get(pk=competence_id)
+def save_competence_declaration(actor, data, competence_id=None):
+    """Save the owner's declaration without writing a stale verification pointer."""
+    if not actor.is_active:
+        raise PermissionDenied
+    if competence_id:
+        competence = (ReviewerCompetence.objects.select_for_update()
+            .filter(pk=competence_id, user=actor).first())
+        if competence is None:
+            raise PermissionDenied
+    else:
+        competence = ReviewerCompetence(user=actor)
+    for field in COMPETENCE_DECLARATION_FIELDS:
+        if field in data:
+            setattr(competence, field, data[field])
+    if not competence.variety_id or (not actor.is_superuser and not
+            EditorialGrant.objects.filter(user=actor, variety_id=competence.variety_id).exists()):
+        raise PermissionDenied
+    if competence._state.adding:
+        competence.save()
+    else:
+        competence.save(update_fields=[*COMPETENCE_DECLARATION_FIELDS, 'declared_at'])
+    audit(actor, 'qualification.competence_declared', competence)
+    return competence
+
+
+@transaction.atomic
+def record_competence_decision(actor, competence_id, status, basis, checked_on, *, expected_digest):
+    competence = ReviewerCompetence.objects.select_for_update(of=('self',)).select_related('user', 'variety', 'evidence').get(pk=competence_id)
     if not allowed(actor, competence.variety, 'publish'):
         raise PermissionDenied
+    current_digest = competence.fingerprint()
+    if expected_digest != current_digest:
+        raise ValidationError(
+            _('This reviewer declaration changed. Reload this page and read the current declaration before recording a decision.'),
+            code='competence_snapshot_changed')
     decision = ReviewerCompetenceDecision(
         competence=competence,
-        snapshot_digest=competence.fingerprint(),
+        snapshot_digest=current_digest,
         status=status,
         checked_on=checked_on,
         basis=basis,

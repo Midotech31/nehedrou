@@ -168,7 +168,7 @@ def review_dossier(activity):
         else:
             capability = 'clinical_review' if discipline == 'clinical' else 'linguistic_review'
             if not allowed(decision.reviewer, activity.variety, capability) or not has_competence(decision.reviewer, activity.variety, discipline):
-                issues.append(('review_authority', _('The decision owner no longer has the required permission or current competence declaration.')))
+                issues.append(('review_authority', _('The decision owner no longer has the required permission or independently verified competence for this variety.')))
             if not binding:
                 issues.append(('review_media_binding', _('Complete the current media evidence before a review can qualify.')))
         selected.append(decision)

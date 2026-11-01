@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth
 from django.urls import path, include
 from core import views
-from core import security, complete_views
+from core import security, complete_views, billing_views
 from catalog import views as editorial_views
 from catalog import editorial_access_views
 from catalog import working, quality, guided_audio
@@ -78,6 +78,8 @@ urlpatterns += i18n_patterns(
     path('billing/', complete_views.billing, name='billing_index'),
     path('billing/<uuid:pk>/', complete_views.billing, name='billing_detail'),
     path('billing/<uuid:pk>/invoice/', complete_views.invoice_create, name='invoice_create'),
+    path('billing/invoices/<uuid:pk>/', billing_views.invoice_detail, name='invoice_detail'),
+    path('billing/invoices/<uuid:pk>/status/', billing_views.invoice_status, name='invoice_status'),
     path('members/invitations/<uuid:pk>/revoke/', complete_views.revoke_member_invitation, name='revoke_member_invitation'),
     path('editorial/invite/<str:token>/', editorial_access_views.accept_editorial_invite, name='accept_editorial_invite'),
     path('editorial/', editorial_views.index, name='editorial_index'),

@@ -5801,3 +5801,119 @@ msgstr "أحدث النسخ"
 
 msgid "Activities to review"
 msgstr "أنشطة للمراجعة"
+
+
+msgid "A paid invoice requires its payment recording date."
+msgstr "تتطلب الفاتورة المدفوعة تاريخ تسجيل الدفع."
+
+
+msgid "After recording payment or cancellation, this invoice status is final. Handle any refund or replacement separately."
+msgstr "بعد تسجيل الدفع أو الإلغاء، تصبح حالة هذه الفاتورة نهائية. تُعالج أي مبالغ مستردة أو فاتورة بديلة بشكل منفصل."
+
+
+msgid "Cancellation recorded"
+msgstr "تم تسجيل الإلغاء"
+
+
+msgid "Choose paid or cancelled for an issued invoice."
+msgstr "اختاروا مدفوعة أو ملغاة لفاتورة صادرة."
+
+
+msgid "Invoice details"
+msgstr "تفاصيل الفاتورة"
+
+
+msgid "Invoice history"
+msgstr "سجل الفاتورة"
+
+
+msgid "Invoice recorded"
+msgstr "تم تسجيل الفاتورة"
+
+
+msgid "Invoice recorded on"
+msgstr "تاريخ تسجيل الفاتورة"
+
+
+msgid "Manual invoice"
+msgstr "فاتورة يدوية"
+
+
+msgid "New invoice status"
+msgstr "حالة الفاتورة الجديدة"
+
+
+msgid "No earlier invoice event is recorded."
+msgstr "لا يوجد حدث سابق مسجّل لهذه الفاتورة."
+
+
+msgid "Only a paid invoice can have a payment recording date."
+msgstr "يمكن للفاتورة المدفوعة فقط أن تحمل تاريخ تسجيل الدفع."
+
+
+msgid "Payment or cancellation reference"
+msgstr "مرجع الدفع أو الإلغاء"
+
+
+msgid "Payment recorded"
+msgstr "تم تسجيل الدفع"
+
+
+msgid "Payment recorded on"
+msgstr "تاريخ تسجيل الدفع"
+
+
+msgid "Record invoice status"
+msgstr "تسجيل حالة الفاتورة"
+
+
+msgid "Record payments received outside Nehedrou. Access rights are managed separately."
+msgstr "سجّلوا المدفوعات المستلمة خارج نهدروا. تُدار صلاحيات الوصول بشكل منفصل."
+
+
+msgid "The invoice status was recorded."
+msgstr "تم تسجيل حالة الفاتورة."
+
+
+msgid "The recorded invoice number, practice, amount, currency and issue date cannot be changed."
+msgstr "لا يمكن تغيير رقم الفاتورة المسجّلة أو العيادة أو المبلغ أو العملة أو تاريخ الإصدار."
+
+
+msgid "The recorded number, amount and currency are fixed for this invoice."
+msgstr "الرقم والمبلغ والعملة المسجّلة ثابتة لهذه الفاتورة."
+
+
+msgid "This invoice already has a final status. No new status was recorded."
+msgstr "هذه الفاتورة لها حالة نهائية بالفعل. لم تُسجّل حالة جديدة."
+
+
+msgid "This invoice has a final status. Its recorded details remain available."
+msgstr "هذه الفاتورة لها حالة نهائية. تبقى تفاصيلها المسجّلة متاحة للاطلاع."
+
+
+msgid "Use the reference of the payment received or the cancellation record."
+msgstr "استخدموا مرجع الدفع المستلم أو سجل الإلغاء."
+
+
+msgid "This reviewer declaration changed. Reload this page and read the current declaration before recording a decision."
+msgstr "تم تعديل تصريح كفاءة هذا المراجع. أعد تحميل هذه الصفحة واقرأ التصريح الحالي قبل تسجيل قرار."
+
+
+msgid "Reload current declaration"
+msgstr "إعادة تحميل التصريح الحالي"
+
+
+msgid "The decision owner no longer has the required permission or independently verified competence for this variety."
+msgstr "لم يعد صاحب القرار يملك الصلاحية المطلوبة أو كفاءة تم التحقق منها بشكل مستقل في هذا التنوع اللغوي."
+
+
+msgid "Independently verified competence for this variety is required."
+msgstr "يشترط توفر كفاءة تم التحقق منها بشكل مستقل في هذا التنوع اللغوي."
+
+
+msgid "Two distinct human reviewers with current, independently verified clinical and linguistic competence are required."
+msgstr "يشترط وجود مراجعين بشريين مختلفين: أحدهما ذو كفاءة سريرية والآخر ذو كفاءة لغوية، مع تحقق مستقل وساري المفعول من كفاءة كل منهما."
+
+
+msgid "Use exactly three uppercase Latin letters for the currency (for example, DZD)."
+msgstr "استخدموا ثلاثة أحرف لاتينية كبيرة بالضبط للعملة (مثل DZD)."

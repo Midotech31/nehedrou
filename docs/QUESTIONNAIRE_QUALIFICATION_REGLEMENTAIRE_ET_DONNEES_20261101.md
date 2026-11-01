@@ -2,7 +2,7 @@
 
 **Version de travail : 1 novembre 2026.** Document préparatoire à compléter avec le porteur du projet, l’ANPP et un conseil compétent en données personnelles. Ce n’est ni une demande déjà envoyée, ni un avis juridique, ni une qualification de dispositif médical. Ne pas y joindre de dossier ou d’exemple identifiable d’enfant.
 
-**Marché initial choisi par le porteur le 1 novembre 2026 : cabinets d’orthophonie en Algérie (B2B).** La pratique à domicile reste accompagnée par un parent, avec objectifs et activités choisis par l’orthophoniste. L’entité vendeuse, son statut, ses coordonnées et les conditions de l’offre restent à renseigner; aucun client payant n’est ouvert par ce choix.
+**Marché initial choisi par le porteur le 1 novembre 2026 : cabinets d’orthophonie en Algérie (B2B).** La pratique à domicile reste accompagnée par un parent, avec objectifs et activités choisis par l’orthophoniste. L’entité vendeuse, son statut, ses coordonnées et les conditions de l’offre restent à renseigner; aucun client payant n’est ouvert par ce choix. Le porteur a précisé qu’une startup est envisagée, mais que l’entité juridique n’est pas encore définie. Ne pas assimiler le nom du porteur ou son surnom à une société constituée; compléter les mentions et contrats après confirmation du statut, du nom légal, de l’adresse et du contact professionnel.
 
 ## Objet et réponse attendue
 

@@ -45,3 +45,12 @@ La suite complète PostgreSQL passe 316 tests ; 31 tests ciblés passent ensuite
 Les recettes HTTPS et les captures de la publication sont livrées séparément et doivent être datées de cette publication. Elles ne certifient pas tous les navigateurs, une conformité intégrale WCAG, une charge de production, une compréhension native ou une efficacité thérapeutique.
 
 La qualité fonctionnelle pilote peut être appréciée séparément de la préparation à une vente clinique. Restent nécessaires : relectures cliniques et linguistiques des versions exactes, enregistrements adultes natifs et droits, essais avec utilisateurs, courriels réellement reçus, exploitation et offre commerciale qualifiées. L'application continue à rendre ces limites visibles.
+
+
+## Vérifications et facturation manuelle — 1 novembre 2026
+
+Un vérificateur consulte la déclaration actuelle du relecteur avant de consigner son contrôle indépendant. Si son contenu change entre l’ouverture du formulaire et l’enregistrement, la décision est refusée : recharger la déclaration, la relire, puis enregistrer la décision. Modifier une déclaration ne rétablit jamais un ancien contrôle positif après un rejet. Le dernier contrôle historique et le statut effectif restent distincts.
+
+Le gestionnaire disposant de `core.manage_entitlements` ouvre le cabinet dans la facturation. La consultation seule ne crée aucun droit d’accès. L’enregistrement explicite du formulaire crée ou met à jour les droits et inscrit l’opération dans l’audit; un montant négatif est refusé. La devise comporte exactement trois lettres latines majuscules, par exemple DZD. Ce contrôle de forme ne vérifie pas l’existence d’une devise ISO et ne convertit aucun montant.
+
+Chaque facture enregistrée possède désormais une fiche accessible depuis sa liste. Une facture émise peut être marquée payée ou annulée, avec une référence de paiement ou d’annulation. Le numéro, le cabinet, le montant, la devise et la date d’enregistrement sont conservés; un statut final ne peut pas être remplacé ou rejoué. Le paiement est seulement consigné : aucune somme n’est débitée et les droits d’accès se gèrent séparément. Cette fiche interne ne constitue pas une attestation de conformité fiscale; l’entité vendeuse et le format des documents clients restent à définir avant lancement.

@@ -5801,3 +5801,119 @@ msgstr "Dernières versions"
 
 msgid "Activities to review"
 msgstr "Activités à relire"
+
+
+msgid "A paid invoice requires its payment recording date."
+msgstr "Une facture payée nécessite sa date d’enregistrement du paiement."
+
+
+msgid "After recording payment or cancellation, this invoice status is final. Handle any refund or replacement separately."
+msgstr "Après l’enregistrement du paiement ou de l’annulation, le statut de cette facture est définitif. Traitez séparément tout remboursement ou remplacement."
+
+
+msgid "Cancellation recorded"
+msgstr "Annulation enregistrée"
+
+
+msgid "Choose paid or cancelled for an issued invoice."
+msgstr "Choisissez payée ou annulée pour une facture émise."
+
+
+msgid "Invoice details"
+msgstr "Détails de la facture"
+
+
+msgid "Invoice history"
+msgstr "Historique de la facture"
+
+
+msgid "Invoice recorded"
+msgstr "Facture enregistrée"
+
+
+msgid "Invoice recorded on"
+msgstr "Facture enregistrée le"
+
+
+msgid "Manual invoice"
+msgstr "Facture manuelle"
+
+
+msgid "New invoice status"
+msgstr "Nouveau statut de la facture"
+
+
+msgid "No earlier invoice event is recorded."
+msgstr "Aucun événement antérieur n’est enregistré pour cette facture."
+
+
+msgid "Only a paid invoice can have a payment recording date."
+msgstr "Seule une facture payée peut avoir une date d’enregistrement du paiement."
+
+
+msgid "Payment or cancellation reference"
+msgstr "Référence du paiement ou de l’annulation"
+
+
+msgid "Payment recorded"
+msgstr "Paiement enregistré"
+
+
+msgid "Payment recorded on"
+msgstr "Paiement enregistré le"
+
+
+msgid "Record invoice status"
+msgstr "Enregistrer le statut de la facture"
+
+
+msgid "Record payments received outside Nehedrou. Access rights are managed separately."
+msgstr "Enregistrez les paiements reçus en dehors de Nehedrou. Les droits d’accès se gèrent séparément."
+
+
+msgid "The invoice status was recorded."
+msgstr "Le statut de la facture a été enregistré."
+
+
+msgid "The recorded invoice number, practice, amount, currency and issue date cannot be changed."
+msgstr "Le numéro, le cabinet, le montant, la devise et la date d’émission de la facture enregistrée ne peuvent pas être modifiés."
+
+
+msgid "The recorded number, amount and currency are fixed for this invoice."
+msgstr "Le numéro, le montant et la devise enregistrés sont fixes pour cette facture."
+
+
+msgid "This invoice already has a final status. No new status was recorded."
+msgstr "Cette facture a déjà un statut définitif. Aucun nouveau statut n’a été enregistré."
+
+
+msgid "This invoice has a final status. Its recorded details remain available."
+msgstr "Cette facture a un statut définitif. Ses détails enregistrés restent consultables."
+
+
+msgid "Use the reference of the payment received or the cancellation record."
+msgstr "Utilisez la référence du paiement reçu ou de la trace d’annulation."
+
+
+msgid "This reviewer declaration changed. Reload this page and read the current declaration before recording a decision."
+msgstr "Cette déclaration de compétence a été modifiée. Rechargez cette page et lisez la déclaration actuelle avant d’enregistrer une décision."
+
+
+msgid "Reload current declaration"
+msgstr "Recharger la déclaration actuelle"
+
+
+msgid "The decision owner no longer has the required permission or independently verified competence for this variety."
+msgstr "L’auteur de la décision ne dispose plus de l’autorisation requise ou d’une compétence vérifiée de manière indépendante pour cette variété linguistique."
+
+
+msgid "Independently verified competence for this variety is required."
+msgstr "Une compétence vérifiée de manière indépendante pour cette variété linguistique est requise."
+
+
+msgid "Two distinct human reviewers with current, independently verified clinical and linguistic competence are required."
+msgstr "Deux relecteurs humains distincts sont requis : l’un avec une compétence clinique actuellement vérifiée de manière indépendante, l’autre avec une compétence linguistique répondant au même critère."
+
+
+msgid "Use exactly three uppercase Latin letters for the currency (for example, DZD)."
+msgstr "Utilisez exactement trois lettres latines majuscules pour la devise (par exemple, DZD)."

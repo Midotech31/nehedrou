@@ -2,12 +2,14 @@ import hashlib
 import secrets
 import uuid
 from datetime import timedelta
+from decimal import Decimal
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from .billing_validation import validate_billing_currency
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
@@ -67,6 +69,18 @@ class Entitlement(CheckedModel):
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     currency = models.CharField(max_length=3, default='EUR')
     billing_reference = models.CharField(max_length=100, blank=True)
+    def clean(self):
+        super().clean()
+        errors = {}
+        # Field validation may already have rejected a non-numeric value.
+        if isinstance(self.amount, Decimal) and self.amount.is_finite() and self.amount < 0:
+            errors['amount'] = _('The amount cannot be negative.')
+        try:
+            validate_billing_currency(self.currency)
+        except ValidationError as error:
+            errors['currency'] = error.messages
+        if errors:
+            raise ValidationError(errors)
     class Meta:
         permissions = [('manage_entitlements', 'Can manage manual billing and access')]
     @property
@@ -215,6 +229,25 @@ class Invoice(CheckedModel):
     def clean(self):
         if self.amount is not None and self.amount < 0:
             raise ValidationError(_('The amount cannot be negative.'))
+        old = Invoice.objects.filter(pk=self.pk).first()
+        # Retain legacy recorded currencies when finalising an existing invoice.
+        if old is None:
+            try:
+                validate_billing_currency(self.currency)
+            except ValidationError as error:
+                raise ValidationError({'currency': error.messages})
+        if old:
+            fixed = ('organization_id', 'number', 'amount', 'currency', 'issued_at')
+            if any(getattr(self, field) != getattr(old, field) for field in fixed):
+                raise ValidationError(_('The recorded invoice number, practice, amount, currency and issue date cannot be changed.'))
+            if old.status in ('paid', 'cancelled') and (self.status != old.status or self.paid_at != old.paid_at or self.reference != old.reference):
+                raise ValidationError(_('This invoice already has a final status. No new status was recorded.'))
+            if self.status != old.status and (old.status != 'issued' or self.status not in ('paid', 'cancelled')):
+                raise ValidationError(_('Choose paid or cancelled for an issued invoice.'))
+        if self.status == 'paid' and self.paid_at is None:
+            raise ValidationError(_('A paid invoice requires its payment recording date.'))
+        if self.status != 'paid' and self.paid_at is not None:
+            raise ValidationError(_('Only a paid invoice can have a payment recording date.'))
 
 class NoticeAcknowledgement(CheckedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

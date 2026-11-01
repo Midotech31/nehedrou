@@ -146,7 +146,7 @@ class ProbeReview(CheckedModel):
             from qualification.services import has_competence
             from .services import content_reasons
             if not has_competence(self.author, self.definition.variety, self.kind):
-                raise ValidationError(_('A current competence declaration for this variety is required.'))
+                raise ValidationError(_('Independently verified competence for this variety is required.'))
             reasons = content_reasons(self.definition)
             if reasons:
                 raise ValidationError(reasons)
