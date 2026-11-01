@@ -5917,3 +5917,11 @@ msgstr "Deux relecteurs humains distincts sont requis : l’un avec une compéte
 
 msgid "Use exactly three uppercase Latin letters for the currency (for example, DZD)."
 msgstr "Utilisez exactement trois lettres latines majuscules pour la devise (par exemple, DZD)."
+
+
+msgid "This content changed. Reload this page and read the current version before submitting a review."
+msgstr "Ce contenu a été modifié. Rechargez cette page et lisez la version actuelle avant d’envoyer une relecture."
+
+
+msgid "Reload current content"
+msgstr "Recharger le contenu actuel"

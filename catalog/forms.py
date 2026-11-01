@@ -40,6 +40,7 @@ class ActivityForm(forms.ModelForm):
         return data
 
 class ReviewForm(forms.ModelForm):
+    expected_digest = forms.CharField(min_length=64, max_length=64, widget=forms.HiddenInput)
     def __init__(self, *args, allowed_kinds=None, **kwargs):
         super().__init__(*args, **kwargs)
         if allowed_kinds is not None:

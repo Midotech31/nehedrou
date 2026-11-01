@@ -75,7 +75,7 @@ class EditorialVersionNavigationTests(TestCase):
         self.assertContains(detail, reverse('editorial_detail', args=[current.pk]))
         self.assertTrue(detail.context['can_review'])
         response = self.client.post(reverse('editorial_detail', args=[older.pk]),
-            {'kind':'clinical', 'note':'Fictional review requests changes to this historical version.'})
+            {'expected_digest':older.fingerprint(), 'kind':'clinical', 'note':'Fictional review requests changes to this historical version.'})
         self.assertEqual(response.status_code, 302)
         decision = Review.objects.get()
         self.assertEqual(decision.activity_id, older.pk)

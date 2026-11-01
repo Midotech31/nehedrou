@@ -43,7 +43,8 @@ def start_run(actor, reference):
         raise ValidationError(_('This activity is no longer available. Contact your clinician.'))
     items = list(program.items.order_by('position', 'pk'))
     activities = {a.pk: a for a in Activity.objects.select_related('variety').select_for_update(of=('self',)).filter(pk__in=[i.activity_id for i in items]).order_by('pk')}
-    from catalog.integrity import prepare_activities
+    from catalog.integrity import invalidate_integrity, prepare_activities
+    invalidate_integrity()
     prepare_activities(activities.values())
     if not items or any(not activities[i.activity_id].usable for i in items):
         raise ValidationError(_('This activity is no longer available. Contact your clinician.'))

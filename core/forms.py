@@ -74,6 +74,12 @@ class ProgramForm(forms.Form):
 class InvitationForm(forms.Form):
     email = forms.EmailField(label=_('Caregiver email'))
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email__iexact=email, is_active=False).exists():
+            raise forms.ValidationError(_('This email belongs to an inactive account. Contact the platform manager before inviting it.'))
+        return email
+
 class PracticeForm(forms.Form):
     ticket = forms.CharField(widget=forms.HiddenInput)
     answer = forms.ChoiceField(label=_('Choose the matching image'), choices=[('', '—'), ('a', 'A'), ('b', 'B')], required=False, widget=forms.RadioSelect)

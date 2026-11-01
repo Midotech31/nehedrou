@@ -195,14 +195,16 @@ def definition_detail(request, pk):
     can_review = bool(kinds) and definition.state in ['review', 'approved']
     if request.method == 'POST' and (not can_review or request.POST.get('kind') not in kinds):
         raise PermissionDenied
-    form = ReviewForm(request.POST or None, kinds=kinds)
+    form = ReviewForm(request.POST or None, kinds=kinds, initial={'expected_digest': definition.fingerprint()})
+    review_snapshot_changed = False
     if request.method == 'POST' and form.is_valid():
         try:
             services.review_definition(request.user, definition, **form.cleaned_data)
             return redirect('followup:definition_detail', pk=pk)
         except ValidationError as error:
             service_error(form, error)
-    return render(request, 'followup/definition.html', {'definition': definition, 'state_label': STATE_LABELS[definition.state], 'can_edit': can_edit, 'can_clone': can_clone, 'can_edit_content': can_edit and definition.state == 'draft' and not definition.administrations.exists() and not definition.clinicalgoal_set.exists(), 'can_publish': can_publish, 'can_review': can_review, 'review_form': form, 'reviews': definition.reviews.select_related('author').order_by('-created_at'), 'readiness_reasons': services.readiness_reasons(definition)})
+            review_snapshot_changed = getattr(error, 'code', None) == 'review_snapshot_changed'
+    return render(request, 'followup/definition.html', {'definition': definition, 'state_label': STATE_LABELS[definition.state], 'can_edit': can_edit, 'can_clone': can_clone, 'can_edit_content': can_edit and definition.state == 'draft' and not definition.administrations.exists() and not definition.clinicalgoal_set.exists(), 'can_publish': can_publish, 'can_review': can_review, 'review_form': form, 'reviews': definition.reviews.select_related('author').order_by('-created_at'), 'readiness_reasons': services.readiness_reasons(definition), 'review_snapshot_changed':review_snapshot_changed})
 
 
 def item_media_response(item, kind, frozen_media=None, request=None):

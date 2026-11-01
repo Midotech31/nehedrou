@@ -121,7 +121,7 @@ class ContentQualificationTests(TestCase):
     def test_review_form_requires_bound_actor_and_activity_before_model_validation(self):
         from catalog.forms import ReviewForm
         self.candidate.state='review';self.candidate.save()
-        data={'kind':'clinical','note':'Fictional changes requested'}
+        data={'expected_digest':self.candidate.fingerprint(),'kind':'clinical','note':'Fictional changes requested'}
         incomplete=ReviewForm(data,allowed_kinds=['clinical'])
         self.assertFalse(incomplete.is_valid())
         self.assertTrue(incomplete.non_field_errors())

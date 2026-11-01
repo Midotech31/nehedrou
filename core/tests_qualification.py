@@ -97,9 +97,9 @@ class QualificationTests(TestCase):
         publisher=User.objects.get(username='editorial')
         competence_fixture(publisher,activity.variety,'clinical')
         transition(publisher,activity.pk,'approved')
-        review_version(publisher,activity,'clinical',False,'Rejected fixture')
+        review_version(publisher,activity,'clinical',False,'Rejected fixture',expected_digest=activity.fingerprint())
         with self.assertRaises(ValidationError): transition(publisher,activity.pk,'published')
-        review_version(publisher,activity,'clinical',True,'New approved fixture')
+        review_version(publisher,activity,'clinical',True,'New approved fixture',expected_digest=activity.fingerprint())
         self.assertEqual(transition(publisher,activity.pk,'published').state,'published')
         self.assertEqual(activity.reviews.count(),4)
 

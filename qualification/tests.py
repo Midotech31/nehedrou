@@ -34,9 +34,9 @@ class DocumentaryQualificationTests(TestCase):
         unqualified=User.objects.create_user(username='unqualified',email='unqualified@fictional.example',password='Fictional-Test-2026!')
         EditorialGrant.objects.create(user=unqualified,variety=self.variety,clinical_review=True)
         activity=self.activity();activity.state='review';activity.save()
-        review_version(unqualified,activity,'clinical',False,'Needs qualified review')
+        review_version(unqualified,activity,'clinical',False,'Needs qualified review',expected_digest=activity.fingerprint())
         with self.assertRaises(ValidationError):
-            review_version(unqualified,activity,'clinical',True,'Permission is not expertise')
+            review_version(unqualified,activity,'clinical',True,'Permission is not expertise',expected_digest=activity.fingerprint())
         self.assertEqual(activity.reviews.count(),1)
 
     def test_review_approval_requires_a_current_independent_competence_check(self):
@@ -47,7 +47,7 @@ class DocumentaryQualificationTests(TestCase):
         self.assertFalse(has_competence(self.actor,self.variety,'clinical'))
         activity=self.activity();activity.state='review';activity.save()
         with self.assertRaises(ValidationError):
-            review_version(self.actor,activity,'clinical',True,'Fictional self-assertion')
+            review_version(self.actor,activity,'clinical',True,'Fictional self-assertion',expected_digest=activity.fingerprint())
 
         with self.assertRaises(ValidationError):
             record_competence_decision(self.actor,declaration.pk,'verified','Self-check is not permitted for this declaration.',date(2026,1,1),expected_digest=declaration.fingerprint())
@@ -103,10 +103,10 @@ class DocumentaryQualificationTests(TestCase):
     def test_two_disciplines_from_same_person_cannot_publish(self):
         activity=self.activity();prepare_activity_fixture(activity,self.actor,self.other)
         competence_fixture(self.actor,self.variety,'linguistic')
-        review_version(self.actor,activity,'linguistic',True,'Same person, separate discipline')
+        review_version(self.actor,activity,'linguistic',True,'Same person, separate discipline',expected_digest=activity.fingerprint())
         self.assertFalse(activity.has_current_reviews())
         with self.assertRaises(ValidationError): transition(self.actor,activity.pk,'approved')
-        review_version(self.other,activity,'linguistic',True,'Independent latest approval')
+        review_version(self.other,activity,'linguistic',True,'Independent latest approval',expected_digest=activity.fingerprint())
         self.assertTrue(activity.has_current_reviews())
 
     def test_exact_byte_hash_and_rights_changes_block_reviews_and_new_use(self):

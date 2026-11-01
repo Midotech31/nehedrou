@@ -4,7 +4,7 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.utils.translation import gettext as _
 from catalog.models import EditorialGrant, Variety
-from catalog.services import allowed
+from catalog.services import allowed, require_review_snapshot
 from core.services import audit
 from .models import EvidenceDocument, ReviewerCompetence, ReviewerCompetenceDecision, AvailabilityDecision, LexicalPack, LexicalCandidate, FamiliarityStudy, PackReview
 
@@ -141,9 +141,25 @@ def pack_readiness_reasons(pack):
         reasons.append(_('Clinical and linguistic approval must come from two different people.'))
     return list(dict.fromkeys(reasons))
 
+
+@transaction.atomic
+def review_pack(actor, pack, kind, approved, note, *, expected_digest):
+    pack = LexicalPack.objects.select_for_update().get(pk=pack.pk)
+    from catalog.integrity import invalidate_integrity
+    invalidate_integrity()
+    if kind not in ['clinical', 'linguistic'] or not allowed(actor, pack.variety, kind + '_review'):
+        raise PermissionDenied
+    require_review_snapshot(pack, expected_digest)
+    review = PackReview.objects.create(pack=pack, reviewer=actor, kind=kind, approved=approved, note=note)
+    audit(actor, 'qualification.pack_reviewed', review)
+    return review
+
+
 @transaction.atomic
 def change_pack_state(actor, pack_id, target):
     pack = LexicalPack.objects.select_for_update().get(pk=pack_id)
+    from catalog.integrity import invalidate_integrity
+    invalidate_integrity()
     capability = 'publish' if target in ['published', 'withdrawn'] else 'edit'
     if not allowed(actor, pack.variety, capability):
         raise PermissionDenied

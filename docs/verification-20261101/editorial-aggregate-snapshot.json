@@ -1,0 +1,40 @@
+{
+  "schema": "nehedrou-editorial-aggregate-snapshot-v1",
+  "source": "Neon Nehedrou Demo; read-only aggregate SQL",
+  "scope": "Editorial counts only. No account, child dossier, text, credential or clinical approval is exported.",
+  "observed_at": "2026-11-01T16:26:50.752Z",
+  "non_demo_by_variety": [
+    {
+      "code": "ar-dz-pilot",
+      "latest_drafts": 33,
+      "latest_series": 33,
+      "historical_versions": 33,
+      "latest_missing_audio": 33
+    },
+    {
+      "code": "ar-msa-pilot",
+      "latest_drafts": 42,
+      "latest_series": 42,
+      "historical_versions": 52,
+      "latest_missing_audio": 42
+    },
+    {
+      "code": "en-us-general-pilot",
+      "latest_drafts": 17,
+      "latest_series": 17,
+      "historical_versions": 17,
+      "latest_missing_audio": 17
+    },
+    {
+      "code": "fr-fr-pilot",
+      "latest_drafts": 19,
+      "latest_series": 19,
+      "historical_versions": 22,
+      "latest_missing_audio": 19
+    }
+  ],
+  "activity_review_records": "0",
+  "availability_records": "0",
+  "competence_declarations": "0",
+  "audio_asset_records": "5"
+}
