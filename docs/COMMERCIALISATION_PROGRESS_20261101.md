@@ -56,6 +56,8 @@ Pour une commercialisation dans l’Union européenne, le règlement MDR et la g
 
 **Décision avant lancement :** suspendre toute offre payante ou usage avec des profils réels tant que (1) le ou les marchés et l’usage prévu ne sont pas écrits; (2) l’ANPP ou le régulateur compétent n’a pas clarifié le statut du logiciel; (3) un spécialiste local n’a pas validé le traitement des données de mineurs, les formalités ANPDP et les transferts internationaux; (4) les contrôles techniques, contrats, notices, durées d’effacement et procédure d’incident ne sont pas vérifiés en environnement de production.
 
+Un dossier prérempli pour obtenir ces avis est disponible dans [le questionnaire de qualification réglementaire et données](QUESTIONNAIRE_QUALIFICATION_REGLEMENTAIRE_ET_DONNEES_20261101.md). Il décrit les champs actuels du produit, sépare les faits des inconnues, et contient des brouillons de demande à compléter; aucune demande n’a été envoyée.
+
 Sources primaires consultées le 1 novembre 2026 : [Journal officiel algérien, loi n° 08-13 et définition du dispositif médical (art. 173)](https://www.joradp.dz/FTP/jo-francais/2008/F2008044.PDF), [ANPP, homologation des dispositifs médicaux](https://anpp.dz/fr/), [Journal officiel algérien, loi n° 18-07 (données sensibles, art. 3 et 18; information, art. 32; transferts, art. 44–45)](https://www.joradp.dz/FTP/JO-FRANCAIS/2018/F2018034.pdf), [loi n° 25-11 de 2025 (délégué, registre et journal des traitements)](https://www.joradp.dz/FTP/jo-francais/2025/F2025048.pdf), [Règlement (UE) 2017/745](https://eur-lex.europa.eu/eli/reg/2017/745/oj/eng), [guidance MDCG 2019-11 rev.1, juin 2025](https://health.ec.europa.eu/system/files/2025-06/mdcg_2019_11_en.pdf).
 
 ## Ce que le plan gratuit permet — et ne permet pas
