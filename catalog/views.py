@@ -28,7 +28,10 @@ def editor(user):
 @login_required
 def index(request):
     editor(request.user)
-    qs = editorial_activities(request.user).select_related('variety')
+    from .content_catalog import editorial_versions
+    scoped = editorial_activities(request.user)
+    qs = editorial_versions(scoped.select_related('variety'),
+        include_history=request.GET.get('versions') == 'all', content=request.GET.get('content', ''))
     state = request.GET.get('state', '')
     if state:
         qs = qs.filter(state=state)
@@ -47,11 +50,12 @@ def index(request):
         if copy.dismissed and len(set_aside) >= 20:
             continue
         (set_aside if copy.dismissed else recoverable).append({'id':copy.pk,'title':copy.data.get('title') or _('Untitled working copy'), 'url':recover_url(copy), 'updated_at':copy.updated_at})
-    return render(request, 'editorial/index.html', {'recoverable': recoverable, 'set_aside':set_aside, 'page': Paginator(qs.order_by('variety__label', 'title', '-version'), 20).get_page(request.GET.get('page')), 'states': Activity._meta.get_field('state').choices, 'varieties': Variety.objects.all(), 'selected_state': state, 'selected': variety, 'can_create': request.user.is_superuser or EditorialGrant.objects.filter(user=request.user, edit=True).exists()})
+    return render(request, 'editorial/index.html', {'recoverable': recoverable, 'set_aside':set_aside, 'page': Paginator(qs.order_by('variety__label', 'title', '-version', 'pk'), 20).get_page(request.GET.get('page')), 'states': Activity._meta.get_field('state').choices, 'varieties': Variety.objects.filter(pk__in=scoped.values('variety_id')), 'selected_state': state, 'selected': variety, 'selected_versions':request.GET.get('versions', ''), 'selected_content':request.GET.get('content', ''), 'can_create': request.user.is_superuser or EditorialGrant.objects.filter(user=request.user, edit=True).exists()})
 
 @login_required
 def detail(request, pk):
     activity = get_object_or_404(editorial_activities(request.user).select_related('variety'), pk=pk)
+    latest_version = editorial_activities(request.user).filter(series=activity.series).only('id', 'version').order_by('-version').first() or activity
     review_kinds = [kind for kind, capability in [('clinical', 'clinical_review'), ('linguistic', 'linguistic_review')]
                     if allowed(request.user, activity.variety, capability)]
     can_review = bool(review_kinds) and activity.state in ['review', 'approved']
@@ -71,7 +75,7 @@ def detail(request, pk):
     for field in ['rights', 'population', 'image_a', 'image_b', 'audio_a', 'audio_b', 'transcription_a', 'transcription_b']:
         if not getattr(activity, field):
             issues.append(checklist_labels[field])
-    return render(request, 'editorial/detail.html', {'activity': activity, 'form': form, 'issues': issues, 'can_edit': allowed(request.user, activity.variety, 'edit'), 'can_publish': allowed(request.user, activity.variety, 'publish'), 'can_review': can_review, 'reviews': activity.reviews.select_related('reviewer'), 'affected': ProgramItem.objects.filter(activity=activity).count(), 'readiness': readiness, 'content_digest': activity.fingerprint()})
+    return render(request, 'editorial/detail.html', {'activity': activity, 'latest_version':latest_version, 'is_latest_version':latest_version.pk == activity.pk, 'form': form, 'issues': issues, 'can_edit': allowed(request.user, activity.variety, 'edit'), 'can_publish': allowed(request.user, activity.variety, 'publish'), 'can_review': can_review, 'reviews': activity.reviews.select_related('reviewer'), 'affected': ProgramItem.objects.filter(activity=activity).count(), 'readiness': readiness, 'content_digest': activity.fingerprint()})
 
 @login_required
 def edit(request, pk=None):

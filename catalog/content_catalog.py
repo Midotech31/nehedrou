@@ -30,6 +30,22 @@ def current_catalog(queryset):
             .annotate(_newer_published=Exists(newer)).filter(_newer_published=False))
 
 
+def editorial_versions(queryset, *, include_history=False, content=''):
+    """Choose latest authored versions independently of later state/type filters.
+
+    A newer draft or withdrawal must not make an older filtered version appear
+    current. Explicit history and exact-version links retain their normal scope.
+    """
+    if not include_history:
+        newer = Activity.objects.filter(series=OuterRef('series'), version__gt=OuterRef('version'))
+        queryset = queryset.annotate(_newer_editorial_version=Exists(newer)).filter(_newer_editorial_version=False)
+    if content == 'candidate':
+        queryset = queryset.filter(is_demo=False)
+    elif content == 'demo':
+        queryset = queryset.filter(is_demo=True)
+    return queryset
+
+
 def public_example(language):
     # Read-only metadata; no ORM access, child data, history or persistence.
     pairs = {'fr': ('chat', 'rat'), 'en': ('coat', 'goat'), 'ar': ('دار', 'نار')}

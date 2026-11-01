@@ -5757,3 +5757,47 @@ msgstr "Seuls les comptes actifs peuvent consigner une vérification de compéte
 
 msgid "Record a meaningful verification basis."
 msgstr "Consignez un fondement de vérification suffisamment précis."
+
+msgid "Versions"
+msgstr "Versions"
+
+
+msgid "All versions (history)"
+msgstr "Toutes les versions (historique)"
+
+msgid "Content"
+msgstr "Contenu"
+
+msgid "All content"
+msgstr "Tous les contenus"
+
+
+msgid "Demonstration examples"
+msgstr "Exemples de démonstration"
+
+msgid "Exact version selected"
+msgstr "Version précise sélectionnée"
+
+msgid "Browse latest versions"
+msgstr "Parcourir les dernières versions"
+
+msgid "Content version"
+msgstr "Version du contenu"
+
+msgid "Historical version"
+msgstr "Ancienne version"
+
+msgid "A newer version exists. Decisions recorded here apply only to the version shown."
+msgstr "Une version plus récente existe. Les décisions prises ici concernent uniquement la version affichée."
+
+msgid "Open latest version"
+msgstr "Ouvrir la dernière version"
+
+msgid "Latest version"
+msgstr "Dernière version"
+
+msgid "Latest versions"
+msgstr "Dernières versions"
+
+msgid "Activities to review"
+msgstr "Activités à relire"

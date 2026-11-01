@@ -1,0 +1,20 @@
+{% load i18n %}
+{% if not selected_activity %}
+<div class="filter-field">
+<label for="editorial-versions">{% translate "Versions" %}</label>
+<select id="editorial-versions" name="versions">
+  <option value="">{% translate "Latest versions" %}</option>
+  <option value="all"{% if selected_versions == 'all' %} selected{% endif %}>{% translate "All versions (history)" %}</option>
+</select>
+</div>
+{% else %}
+<input type="hidden" name="versions" value="{{ selected_versions }}">
+{% endif %}
+<div class="filter-field">
+<label for="editorial-content">{% translate "Content" %}</label>
+<select id="editorial-content" name="content">
+  <option value="">{% translate "All content" %}</option>
+  <option value="candidate"{% if selected_content == 'candidate' %} selected{% endif %}>{% translate "Activities to review" %}</option>
+  <option value="demo"{% if selected_content == 'demo' %} selected{% endif %}>{% translate "Demonstration examples" %}</option>
+</select>
+</div>

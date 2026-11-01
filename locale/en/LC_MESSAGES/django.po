@@ -5757,3 +5757,47 @@ msgstr "Only active users can record reviewer competence checks."
 
 msgid "Record a meaningful verification basis."
 msgstr "Record a meaningful verification basis."
+
+msgid "Versions"
+msgstr "Versions"
+
+
+msgid "All versions (history)"
+msgstr "All versions (history)"
+
+msgid "Content"
+msgstr "Content"
+
+msgid "All content"
+msgstr "All content"
+
+
+msgid "Demonstration examples"
+msgstr "Demonstration examples"
+
+msgid "Exact version selected"
+msgstr "Exact version selected"
+
+msgid "Browse latest versions"
+msgstr "Browse latest versions"
+
+msgid "Content version"
+msgstr "Content version"
+
+msgid "Historical version"
+msgstr "Historical version"
+
+msgid "A newer version exists. Decisions recorded here apply only to the version shown."
+msgstr "A newer version exists. Decisions recorded here apply only to the version shown."
+
+msgid "Open latest version"
+msgstr "Open latest version"
+
+msgid "Latest version"
+msgstr "Latest version"
+
+msgid "Latest versions"
+msgstr "Latest versions"
+
+msgid "Activities to review"
+msgstr "Activities to review"
