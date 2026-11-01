@@ -5995,3 +5995,6 @@ msgstr "This page is not available with your current access. Return to your over
 
 msgid "Choose a target position"
 msgstr "Choose a target position"
+
+msgid "Home page"
+msgstr "Homepage"

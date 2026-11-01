@@ -5995,3 +5995,6 @@ msgstr "هذه الصفحة غير متاحة بصلاحياتكم الحالي�
 
 msgid "Choose a target position"
 msgstr "اختاروا موضع الصوت المستهدف"
+
+msgid "Home page"
+msgstr "الصفحة الرئيسية"

@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.utils import translation
 from django.views.defaults import page_not_found, permission_denied
 
-from catalog.models import EditorialGrant, Variety
+from catalog.models import Activity, EditorialGrant, Variety
 from core.models import AuditEvent, User
 from .models import LexicalPack
 
@@ -19,6 +19,8 @@ SETTINGS = dict(DEBUG=False, DEMO_MODE=True, MFA_REQUIRED=False, SECURE_SSL_REDI
     PASSWORD_HASHERS=['django.contrib.auth.hashers.MD5PasswordHasher'],
     STORAGES={'default':{'BACKEND':'django.core.files.storage.InMemoryStorage'},
               'staticfiles':{'BACKEND':'django.contrib.staticfiles.storage.StaticFilesStorage'}})
+HOME_NAVIGATION = {'fr':'Accueil','en':'Homepage','ar':'الصفحة الرئيسية'}
+HOME_THEME = {'fr':'Maison','en':'Home','ar':'المنزل'}
 LABELS = {
     'fr':{403:'Accès indisponible',404:'Page indisponible'},
     'en':{403:'Access unavailable',404:'Page unavailable'},
@@ -32,6 +34,8 @@ class ErrorPageDOM(HTMLParser):
         self.document = {}
         self.main_ids = []
         self.links = []
+        self.anchors = []
+        self.active_anchor = None
         self.headings = []
         self.in_h1 = False
         self.in_title = False
@@ -46,6 +50,8 @@ class ErrorPageDOM(HTMLParser):
             self.main_ids.append(attrs.get('id'))
         elif tag=='a':
             self.links.append(attrs.get('href'))
+            self.active_anchor = {'href':attrs.get('href'),'classes':attrs.get('class','').split(),'label':''}
+            self.anchors.append(self.active_anchor)
         elif tag=='title':
             self.in_title = True
         elif tag=='h1':
@@ -53,12 +59,16 @@ class ErrorPageDOM(HTMLParser):
             self.headings.append('')
 
     def handle_endtag(self, tag):
+        if tag=='a':
+            self.active_anchor = None
         if tag=='title':
             self.in_title = False
         if tag=='h1':
             self.in_h1 = False
 
     def handle_data(self, data):
+        if self.active_anchor is not None:
+            self.active_anchor['label'] += data
         if self.in_title:
             self.title += data
         if self.in_h1:
@@ -75,6 +85,11 @@ def assert_error_page(case, response, language, status, *, authenticated):
     case.assertEqual(dom.title.strip(),LABELS[language][status]+' · Nehedrou')
     case.assertEqual([heading.strip() for heading in dom.headings],[LABELS[language][status]])
     case.assertIn('/'+language+'/',dom.links)
+    home_buttons = [anchor for anchor in dom.anchors if anchor['href']=='/'+language+'/' and 'button' in anchor['classes']]
+    case.assertEqual([anchor['label'].strip() for anchor in home_buttons],[HOME_NAVIGATION[language]])
+    # The physical-house theme retains its vocabulary translation.
+    with translation.override(language):
+        case.assertEqual(str(dict(Activity.THEME_CHOICES)['home']),HOME_THEME[language])
     if authenticated:
         case.assertIn('/'+language+'/app/',dom.links)
     case.assertIn('nehedrou-child-profile',text)

@@ -5995,3 +5995,6 @@ msgstr "Cette page n’est pas disponible avec vos accès actuels. Revenez à vo
 
 msgid "Choose a target position"
 msgstr "Choisir une position cible"
+
+msgid "Home page"
+msgstr "Accueil"
