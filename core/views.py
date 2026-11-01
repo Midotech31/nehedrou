@@ -20,7 +20,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from care.models import Child, FamilyLink, Program, ProgramItem, PracticeSession, Observation, PracticeRun, PracticeRunTask, ProgramFeedback
 from catalog.models import Activity, Variety
-from .access import membership, manager, visible_children, visible_programs, clinician_child, professional_children, is_family_workspace, workspace_children, notice_gate
+from .access import membership, manager, visible_children, visible_programs, clinician_child, professional_children, is_family_workspace, workspace_children, notice_gate, notice_acknowledged
 from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .invitation_delivery import invitation_delivery_status
 from .forms import SignupForm, InviteSignupForm, ChildForm, ProgramForm, InvitationForm, PracticeForm, ObservationForm, PreferencesForm, DemoPracticeForm, FamilyFeedbackForm, HistoryFilterForm
@@ -272,6 +272,9 @@ def invite(request, token):
     form = InviteSignupForm(request.POST or None) if not request.user.is_authenticated and not existing_account else None
     if request.method == 'POST':
         if request.user.is_authenticated:
+            if not settings.DEMO_MODE and not notice_acknowledged(request.user, invitation.organization):
+                request.session['pending_notice_invitation_token'] = token
+                return redirect('data_notice')
             try:
                 accept_invitation(request.user, token)
                 select_invitation_workspace(request, invitation)
@@ -284,8 +287,12 @@ def invite(request, token):
                     user = form.save(commit=False)
                     user.email = invitation.email
                     user.save()
-                    accept_invitation(user, token)
+                    if settings.DEMO_MODE:
+                        accept_invitation(user, token)
                 login(request, user)
+                if not settings.DEMO_MODE:
+                    request.session['pending_notice_invitation_token'] = token
+                    return redirect('data_notice')
                 select_invitation_workspace(request, invitation)
                 return redirect('dashboard')
             except ValidationError as error:

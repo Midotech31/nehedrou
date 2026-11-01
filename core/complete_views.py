@@ -1,3 +1,4 @@
+import hashlib
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
@@ -16,7 +17,7 @@ from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .forms import ChildForm, ProgramForm, ReassignForm, PrivacyDecisionForm
 from .models import Organization, PrivacyRequest, Invitation, Entitlement, Invoice, NoticeAcknowledgement
 from .access import CURRENT_NOTICE_VERSION, notice_gate
-from .services import audit, log_child_access, check_entitlement, create_program, lock_clinical_child
+from .services import audit, log_child_access, check_entitlement, create_program, lock_clinical_child, accept_invitation
 
 @login_required
 def child_edit(request, pk):
@@ -203,17 +204,42 @@ def revoke_member_invitation(request, pk):
     audit(request.user, 'invitation.revoked', invite, member.organization)
     return redirect('members')
 
+def pending_notice_invitation(request):
+    token = request.session.get('pending_notice_invitation_token', '')
+    if not token:
+        return None
+    token_hash = hashlib.sha256(token.encode()).hexdigest()
+    invitation = Invitation.objects.filter(token_hash=token_hash, email__iexact=request.user.email).select_related('organization').first()
+    if not invitation or not invitation.available:
+        request.session.pop('pending_notice_invitation_token', None)
+        return None
+    return invitation
+
+
 @login_required
 def notice(request):
+    pending = pending_notice_invitation(request)
     member = membership(request)
-    org = member.organization if member else visible_children(request.user).first().organization if visible_children(request.user).exists() else None
+    linked = visible_children(request.user).select_related('organization').first()
+    org = pending.organization if pending else member.organization if member else linked.organization if linked else None
     scope, scope_valid = practice_form_scope(request, org, 'notice_acknowledgement')
     if request.method == 'POST' and scope_valid and org:
-        from django.utils.translation import get_language
-        obj, _created = NoticeAcknowledgement.objects.get_or_create(user=request.user, organization=org, version=CURRENT_NOTICE_VERSION, defaults={'language': get_language()})
-        audit(request.user, 'notice.acknowledged', obj, org)
-        messages.success(request, _('Information acknowledgement recorded.'))
-        return redirect('dashboard')
+        try:
+            with transaction.atomic():
+                from django.utils.translation import get_language
+                obj, _created = NoticeAcknowledgement.objects.get_or_create(user=request.user, organization=org, version=CURRENT_NOTICE_VERSION, defaults={'language': get_language()})
+                audit(request.user, 'notice.acknowledged', obj, org)
+                if pending:
+                    accept_invitation(request.user, request.session['pending_notice_invitation_token'])
+            if pending:
+                request.session.pop('pending_notice_invitation_token', None)
+                request.session['workspace'] = 'family' if pending.kind == 'family' else 'professional'
+                if pending.kind == 'clinician':
+                    request.session['organization'] = str(pending.organization_id)
+            messages.success(request, _('Information acknowledgement recorded.'))
+            return redirect('dashboard')
+        except ValidationError as error:
+            messages.error(request, ' '.join(error.messages))
     return render(request, 'privacy/notice.html', {'organization': org, 'practice_scope': scope, 'scope_error': PRACTICE_SCOPE_ERROR if not scope_valid else ''}, status=200 if scope_valid else 409)
 
 class OrganizationForm(forms.ModelForm):
