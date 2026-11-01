@@ -56,6 +56,12 @@ La catégorie `phonological_contrast` des fiches est une annotation éditoriale 
 
 ## Reproduire et vérifier le paquet
 
+### Concordance avec le CMS de démonstration
+
+Une comparaison Neon en lecture seule après le déploiement du 1 novembre 2026 a trouvé **42 dernières séries MSA et 33 dernières séries Darija** dans le CMS, toutes en brouillon et sans référence audio. Le présent paquet couvre les **42 séries MSA v1** et **32 séries Darija v2** : 32 versions MSA ont le même numéro que le CMS et 10 sont en décalage; les 32 versions Darija diffèrent toutes du CMS, où elles sont encore v1. Le CMS contient une série Darija supplémentaire absente du paquet.
+
+La comparaison porte seulement sur le code de variété, l’identifiant opaque de série et le numéro de version; elle **ne compare pas le texte ni l’empreinte de contenu**. Utiliser ces feuilles pour la revue de propositions source uniquement. Ne reporter aucune approbation sur une fiche CMS ni ouvrir la disponibilité avant d’avoir aligné/importé la version décidée dans l’environnement contrôlé, recalculé son empreinte CMS et obtenu les revues requises sur cette empreinte exacte. L’import reste une étape séparée et n’est pas effectué par ce paquet.
+
 À la racine du dépôt :
 
 ```powershell

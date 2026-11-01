@@ -372,6 +372,19 @@ class MediaQualificationRegressionTests(TestCase):
             for forbidden in ['care_child', 'care_program', 'followup_clinicalgoal', 'followup_probeadministration']:
                 self.assertNotIn(forbidden, sql)
         report = json.loads(output)
+        alignment = report['review_pack_alignment']
+        self.assertEqual(alignment['status'], 'review_preparation_only_not_approved')
+        self.assertEqual(alignment['candidate_rows'], 74)
+        self.assertIn('ar-dz-pilot', alignment['by_variety'])
+        self.assertIn('version_mismatch', alignment['by_variety']['ar-dz-pilot'])
+        self.assertIn('Does not compare content fingerprints', alignment['scope'])
+        self.assertNotIn('PRIVATE-CHILD-SENTINEL', json.dumps(alignment))
+        from types import SimpleNamespace
+        from uuid import UUID
+        from catalog.management.commands.content_inventory import _review_pack_alignment
+        drift = _review_pack_alignment([SimpleNamespace(variety=SimpleNamespace(code='ar-dz-pilot'),
+            series=UUID('01bfe5ec-57f0-5d3c-a7fb-0a8abbdd3d9a'), version=1)])
+        self.assertEqual(drift['by_variety']['ar-dz-pilot']['version_mismatch'], 1)
         row = next(row for row in report['varieties'] if row['variety'] == self.variety.code)
         self.assertEqual(row['database']['candidate_series'], 1)
         self.assertEqual(row['database']['candidate_versions'], 2)
