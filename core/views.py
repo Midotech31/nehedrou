@@ -20,7 +20,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from care.models import Child, FamilyLink, Program, ProgramItem, PracticeSession, Observation, PracticeRun, PracticeRunTask, ProgramFeedback
 from catalog.models import Activity, Variety
-from .access import membership, manager, visible_children, visible_programs, clinician_child, professional_children, is_family_workspace, workspace_children
+from .access import membership, manager, visible_children, visible_programs, clinician_child, professional_children, is_family_workspace, workspace_children, notice_acknowledged
 from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .invitation_delivery import invitation_delivery_status
 from .forms import SignupForm, InviteSignupForm, ChildForm, ProgramForm, InvitationForm, PracticeForm, ObservationForm, PreferencesForm, DemoPracticeForm, FamilyFeedbackForm, HistoryFilterForm
@@ -29,6 +29,15 @@ from .services import audit, log_child_access, check_entitlement, create_program
 from .reserves import activity_is_reserved, reserved_activity_ids, family_catalog_exclusions
 from .product_views import program_calendar
 from .planning import decorate_plan, activity_overview
+
+def notice_gate(request, organization):
+    """Require a current notice acknowledgement before real data is processed.
+
+    Fictional demo workspaces remain usable without an acknowledgement.
+    """
+    if settings.DEMO_MODE or notice_acknowledged(request.user, organization):
+        return None
+    return redirect('data_notice')
 
 def home(request):
     return render(request, 'home.html')
@@ -185,6 +194,9 @@ def child_create(request):
     if not scope_valid:
         form.add_error(None, PRACTICE_SCOPE_ERROR)
     if request.method == 'POST' and scope_valid and form.is_valid():
+        gated = notice_gate(request, member.organization)
+        if gated:
+            return gated
         try:
             with transaction.atomic():
                 org = Organization.objects.select_for_update().get(pk=member.organization_id)
@@ -208,6 +220,9 @@ def child_detail(request, pk):
     if request.method == 'POST':
         if not professional:
             raise Http404
+        gated = notice_gate(request, child.organization)
+        if gated:
+            return gated
         if form.is_valid():
             try:
                 invitation = issue_and_deliver_invitation(request.user, child.organization, child, form.cleaned_data['email'])
@@ -347,6 +362,10 @@ def program_create(request, pk):
     form = ProgramForm(request.POST or None, child=child)
     preview = None
     if request.method == 'POST' and form.is_valid():
+        if request.POST.get('action') != 'preview':
+            gated = notice_gate(request, child.organization)
+            if gated:
+                return gated
         if request.POST.get('action') == 'preview':
             preview = form.cleaned_data
         else:
@@ -475,6 +494,9 @@ def report_detail(request, pk):
 def practice_run_start(request, pk):
     from .practice_runs import start_run
     program = get_object_or_404(visible_programs(request.user), pk=pk)
+    gated = notice_gate(request, program.organization)
+    if gated:
+        return gated
     try:
         run = start_run(request.user, program)
         return redirect('practice_run_detail', pk=run.pk)
@@ -555,6 +577,9 @@ def practice(request, pk):
             raise signing.BadSignature
         return loaded
     if request.method == 'POST' and form.is_valid():
+        gated = notice_gate(request, item.program.organization)
+        if gated:
+            return gated
         try:
             ticket_data = read_ticket(form.cleaned_data['ticket'])
             report = record_practice(request.user, item, form.cleaned_data, ticket_data)

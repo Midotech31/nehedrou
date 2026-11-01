@@ -4,6 +4,19 @@ from django.http import Http404
 from care.models import Child, Program
 from .models import Membership
 
+# Bump this value whenever the privacy notice changes materially. Existing
+# acknowledgements do not acknowledge a newer version of the notice.
+CURRENT_NOTICE_VERSION = '2026-10-09'
+
+
+def notice_acknowledged(user, organization):
+    if not user or not user.is_authenticated or organization is None:
+        return False
+    from .models import NoticeAcknowledgement
+    return NoticeAcknowledgement.objects.filter(
+        user=user, organization=organization, version=CURRENT_NOTICE_VERSION,
+    ).exists()
+
 def membership(request):
     request.practice_selection_required = False
     if request.session.get('workspace') == 'family':

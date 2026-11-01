@@ -15,6 +15,7 @@ from .access import clinician_child, professional_children, manager, visible_chi
 from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .forms import ChildForm, ProgramForm, ReassignForm, PrivacyDecisionForm
 from .models import Organization, PrivacyRequest, Invitation, Entitlement, Invoice, NoticeAcknowledgement
+from .access import CURRENT_NOTICE_VERSION
 from .services import audit, log_child_access, check_entitlement, create_program, lock_clinical_child
 
 @login_required
@@ -198,7 +199,7 @@ def notice(request):
     scope, scope_valid = practice_form_scope(request, org, 'notice_acknowledgement')
     if request.method == 'POST' and scope_valid and org:
         from django.utils.translation import get_language
-        obj, _created = NoticeAcknowledgement.objects.get_or_create(user=request.user, organization=org, version='2026-10-09', defaults={'language': get_language()})
+        obj, _created = NoticeAcknowledgement.objects.get_or_create(user=request.user, organization=org, version=CURRENT_NOTICE_VERSION, defaults={'language': get_language()})
         audit(request.user, 'notice.acknowledged', obj, org)
         messages.success(request, _('Information acknowledgement recorded.'))
         return redirect('dashboard')
