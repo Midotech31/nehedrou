@@ -63,6 +63,51 @@ class NoticeGateTests(TestCase):
         self.assertRedirects(response, reverse('data_notice'), fetch_redirect_response=False)
         self.assertFalse(self.organization.child_set.exists())
 
+    def test_restoring_archived_profile_requires_current_notice(self):
+        child = Child.objects.create(code='Fictional archived profile', age_years=5,
+            responsible=self.user, organization=self.organization, active=False)
+        response = self.client.post(reverse('child_restore', kwargs={'pk': child.pk}))
+        self.assertRedirects(response, reverse('data_notice'), fetch_redirect_response=False)
+        child.refresh_from_db()
+        self.assertFalse(child.active)
+        notice_path = reverse('data_notice')
+        self.client.post(notice_path, practice_form_data(self.client, notice_path))
+        response = self.client.post(reverse('child_restore', kwargs={'pk': child.pk}))
+        self.assertRedirects(response, reverse('child_detail', kwargs={'pk': child.pk}), fetch_redirect_response=False)
+        child.refresh_from_db()
+        self.assertTrue(child.active)
+
+    def test_professional_invitation_creation_requires_current_notice(self):
+        path = reverse('members')
+        data = practice_form_data(self.client, path, {'email': 'new-clinician@example.test'})
+        response = self.client.post(path, data)
+        self.assertRedirects(response, reverse('data_notice'), fetch_redirect_response=False)
+        self.assertFalse(Invitation.objects.filter(organization=self.organization,
+            kind='clinician').exists())
+        notice_path = reverse('data_notice')
+        self.client.post(notice_path, practice_form_data(self.client, notice_path))
+        response = self.client.post(path, practice_form_data(self.client, path,
+            {'email': 'new-clinician@example.test'}))
+        self.assertRedirects(response, path, fetch_redirect_response=False)
+        self.assertTrue(Invitation.objects.filter(organization=self.organization,
+            kind='clinician', email='new-clinician@example.test').exists())
+
+    def test_professional_invitation_resend_requires_current_notice(self):
+        invitation, _token = Invitation.issue(self.organization, None,
+            'resend-clinician@example.test', self.user, kind='clinician')
+        response = self.client.post(reverse('resend_invitation', kwargs={'pk': invitation.pk}))
+        self.assertRedirects(response, reverse('data_notice'), fetch_redirect_response=False)
+        self.assertEqual(Invitation.objects.filter(organization=self.organization,
+            kind='clinician').count(), 1)
+        invitation.refresh_from_db()
+        self.assertIsNone(invitation.used_at)
+        notice_path = reverse('data_notice')
+        self.client.post(notice_path, practice_form_data(self.client, notice_path))
+        response = self.client.post(reverse('resend_invitation', kwargs={'pk': invitation.pk}))
+        self.assertRedirects(response, reverse('members'), fetch_redirect_response=False)
+        self.assertEqual(Invitation.objects.filter(organization=self.organization,
+            kind='clinician').count(), 2)
+
     def test_clinical_followup_goal_cannot_be_written_before_notice_acknowledgement(self):
         child = Child.objects.create(code='Fictional follow-up profile', age_years=5,
             responsible=self.user, organization=self.organization)

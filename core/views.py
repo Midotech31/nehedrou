@@ -686,6 +686,9 @@ def members(request):
     if not scope_valid:
         form.add_error(None, PRACTICE_SCOPE_ERROR)
     if request.method == 'POST' and scope_valid and form.is_valid():
+        gated = notice_gate(request, member.organization)
+        if gated:
+            return gated
         try:
             invitation = issue_and_deliver_invitation(request.user, member.organization, None, form.cleaned_data['email'], kind='clinician')
             invitation_message(request, invitation)
@@ -716,6 +719,9 @@ def resend_invitation(request, pk):
         member = manager(request)
         if invitation.organization_id != member.organization_id:
             raise Http404
+        gated = notice_gate(request, member.organization)
+        if gated:
+            return gated
         child = None
         destination = reverse('members')
     delivery = invitation_delivery_status()

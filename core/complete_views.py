@@ -53,6 +53,9 @@ def child_edit(request, pk):
 @require_POST
 def restore_child(request, pk):
     child = clinician_child(request.user, pk)
+    gated = notice_gate(request, child.organization)
+    if gated:
+        return gated
     try:
         with transaction.atomic():
             org = Organization.objects.select_for_update().get(pk=child.organization_id)
