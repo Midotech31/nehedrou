@@ -1,12 +1,18 @@
 # État de préparation commerciale — 1 novembre 2026
 
+## Publication après fusion - 1 novembre 2026, 03:53 UTC
+
+La PR #30 a été fusionnée en squash sous le commit fddb41b3e6a97ba25d9ef808af77004aeca7a169. Render confirme le déploiement dep-dbjbehetlv9c73cobt9g au statut live sur https://nehedrou-demo.onrender.com/; les migrations n’ont rien eu à appliquer, Gunicorn écoute et les journaux après démarrage contiennent une réponse HTTP 200.
+
+La recette HTTP externe directe des pages localisées n’a pas pu être répétée depuis cette session (accès réseau et noyau navigateur indisponibles). Le service reste sur l’offre gratuite, avec healthCheckPath vide dans sa configuration active; render.yaml déclare /healthz/. La démo est publiée pour des essais fictifs seulement et n’est pas prête pour une vente clinique.
+
 ## Revalidation du checkout de la PR - 1 novembre 2026, 03:45 UTC
 
 Sur le commit bcd9229eb95f873e8df0c7f7325052aec81f00b1 : la suite Django complète exécute **684 tests, dont 20 ignorés et aucun en échec**; le dossier de relecture ciblé exécute 11 tests. manage.py check et makemigrations --check --dry-run réussissent; compilation et contrôle des catalogues FR/EN/AR trouvent 1755 clés d’interface, sans manque. Les 20 tests ignorés comprennent les cas réservés à PostgreSQL lorsqu’ils tournent sur SQLite. Le build/smoke Docker n’a pas pu être réexécuté localement, Docker n’est pas disponible dans cet environnement. Le nouveau commit n’a pas encore de statut CI GitHub retourné; le vert #150 documenté plus bas appartient au commit antérieur 02d55fe.
 
 L’instantané Neon agrégé a été rafraîchi le 1 novembre à 03:45 UTC; voir [l’inventaire courant](INVENTAIRE_CONTENUS.md). Il confirme 111 versions courantes non démo, toutes brouillons, sans audio référencé, revue ou décision de disponibilité.
 
-Une nouvelle requête HTTP depuis cette session a été refusée par la couche réseau; la dernière observation via l’API Render indique toujours le déploiement live de main au SHA 60ad20c53bae19780992d0c8cb890ec7a1170a17, offre gratuite, région Frankfurt et healthCheckPath vide. La PR #30 n’est donc pas déployée. Les contrôles navigateur/hors-ligne consignés ci-dessous restent des observations antérieures, pas une nouvelle recette de cette session.
+Le test HTTP direct des pages localisées n’a pas pu être répété depuis cette session; les observations HTTP et navigateur précédentes sont datées et ne constituent pas une recette après ce déploiement.
 
 Cette note consolide des vérifications reproductibles du dépôt et l’état observé des services le 1 novembre 2026. Elle distingue les tests de code, la démonstration hébergée et les preuves requises avant une commercialisation. Elle ne vaut ni approbation clinique, ni qualification juridique, ni engagement d’exploitation.
 
@@ -14,14 +20,14 @@ Cette note consolide des vérifications reproductibles du dépôt et l’état o
 
 - Les 16 tests de `catalog.tests_authoring` passent sur le checkout local. Ils couvrent la création d’activité à partir d’une fiche vide, les permissions d’édition séparées de la relecture/publication, les interfaces FR/EN/AR, et le compte fictif Pitou sans privilèges staff ou superuser.
 - La PR #25 fournit une préparation hors ligne à la relecture de 42 brouillons MSA v1 et 32 brouillons Darija v2, avec une grille audio, images, sources et dix affectations de relecture encore vierges. Elle n’importe ni n’approuve les contenus.
-- Les PR #25, #26, #27 et #28 ont été fusionnées après CI verte. Le SHA de `main` reste `60ad20c53bae19780992d0c8cb890ec7a1170a17`; la PR #30 est encore ouverte et ses changements ne sont pas publiés.
-- La CI GitHub complète #146 réussit sur le commit de tête `7ba6aaa5789621fd1c64bdba9638689db4759d9a` : compilation et contrôle des traductions, vérifications Django et des migrations, suite complète, build de production et smoke test HTTP. Les 9 tests ciblés de `core.tests_notice_gate` passent localement. Ces preuves portent sur la branche de la PR; elles ne changent pas le commit de `main` ni le service publié.
+- Les PR #25, #26, #27 et #28 ont été fusionnées; la PR #30 a été fusionnée en squash sous fddb41b3. Render est live sur ce commit; le service gratuit et son healthCheckPath vide restent des limites de démo.
+La CI GitHub #146 verte est un contrôle historique sur le commit 7ba6aaa. Elle ne couvre pas le dernier correctif linguistique du commit bcd9229; la suite complète locale de ce dernier est détaillée plus haut. Le squash fddb41b contenant le correctif est le code live sur Render; aucun statut CI GitHub n’a été retourné pour ce correctif.
 
 Ces résultats établissent des comportements logiciels dans leur périmètre testé. Ils ne démontrent ni l’efficacité thérapeutique de Nehedrou, ni la justesse de chaque mot ou de chaque variété, ni la sécurité de l’exploitation sur des dossiers réels.
 
 ## Configuration Render observée après mise à jour
 
-L’API Render confirme que `nehedrou-demo` est un service web au plan gratuit, dans la région Frankfurt, rattaché à `main`. Le déploiement `dep-dbj8457lk1mc738gthkg` est `live` sur le même SHA `60ad20c53bae19780992d0c8cb890ec7a1170a17` que `main`. Le service est donc à jour avec le code fusionné.
+Au contrôle précédent, l’API Render indiquait le déploiement dep-dbj8457lk1mc738gthkg au SHA 60ad20c53bae19780992d0c8cb890ec7a1170a17. Après la fusion, le nouveau déploiement dep-dbjbehetlv9c73cobt9g au commit fddb41b3e6a97ba25d9ef808af77004aeca7a169 est live; le journal confirme migrations à jour et processus Gunicorn démarré.
 
 Le service conserve `healthCheckPath` vide alors que `render.yaml` déclare `/healthz/`. L’API indique `autoDeploy=yes`, mais le dépôt est rattaché par URL publique; la documentation Render précise qu’une telle source doit être déployée manuellement. Le déploiement observé a été déclenché par API. Ne pas déduire du seul champ API qu’un push Git déclenche une publication. Aucun appel de synchronisation Blueprint n’a été fait.
 
@@ -42,7 +48,7 @@ Cet inventaire agrégé n’expose aucun compte ni dossier individuel. Il confir
 
 Le rapprochement exact précédemment effectué avec `content/review_packs/ar-initial-review-20261101/candidates_for_review.csv` ne doit pas servir d’inventaire actuel : le paquet statique est daté et ses versions ne concordent pas avec la base. Le CMS propose un export daté des contenus du périmètre de l’éditeur; il faut générer un nouvel export depuis le CMS, comparer chaque identifiant et empreinte de version à la liste ci-dessus, puis affecter les revues. La grille de relecture actuelle reste vierge; aucune correspondance passée ne vaut avis humain.
 
-Un contrôle structurel complémentaire, en lecture seule, a trouvé des listes family_word_candidates A/B identiques dans 32 des 33 brouillons Darija v1; dans 17 fiches, le premier candidat B est exactement le mot A alors que les deux mots principaux diffèrent. Ce signal ne prouve pas à lui seul une erreur : des formes partagées peuvent être intentionnelles et doivent être confirmées par un locuteur compétent de la variété retenue. La PR #30 ajoute une tâche explicite au dossier de relecture pour faire vérifier ces listes; elle se clôt uniquement après une décision linguistique positive sur l’empreinte exacte, donnée par une personne dont l’autorisation et la compétence restent valides pour cette variété. Aucun texte du CMS n’est modifié, et aucune approbation ou disponibilité n’est créée par cette alerte. Le test local ciblé (11 tests du dossier) passe; ce changement n’est pas encore dans le commit Render publié.
+Un contrôle structurel complémentaire, en lecture seule, a trouvé des listes family_word_candidates A/B identiques dans 32 des 33 brouillons Darija v1; dans 17 fiches, le premier candidat B est exactement le mot A alors que les deux mots principaux diffèrent. Ce signal ne prouve pas à lui seul une erreur : des formes partagées peuvent être intentionnelles et doivent être confirmées par un locuteur compétent de la variété retenue. La PR #30 ajoute une tâche explicite au dossier de relecture pour faire vérifier ces listes; elle se clôt uniquement après une décision linguistique positive sur l’empreinte exacte, donnée par une personne dont l’autorisation et la compétence restent valides pour cette variété. Aucun texte du CMS n’est modifié, et aucune approbation ou disponibilité n’est créée par cette alerte. Le test local ciblé (11 tests du dossier) passe; l’alerte est fusionnée et incluse dans le code Render fddb41b. Elle ne crée toujours aucune approbation.
 
 Les 82 versions sans correspondance exacte concernent le paquet statique hors ligne, pas l’absence d’un export dans l’application. Le CMS fournit déjà à l’éditeur un téléchargement daté depuis l’espace « Content quality and review preparation » : il inclut les activités de son périmètre, leurs empreintes exactes, le dossier des pièces à examiner et des champs de revue vierges. Le code testé par la CI de la PR génère ces archives sans dossiers d’enfants, comptes ou secrets, et sans créer de décisions. Le parcours authentifié et le ZIP complet n’ont toutefois pas été testés sur Render; il faut le faire sur place avant d’envoyer le paquet aux relecteurs. Réexporter après chaque modification, puis affecter les versions exactes aux personnes compétentes.
 
@@ -90,7 +96,7 @@ Le budget communiqué pour le moment est de 0 EUR/mois. Dans ce cadre, le servic
 ### Exploitation et obligations
 
 - Obtenir l’accord pour un budget durable ; choisir un service web qui ne s’endort pas, une base et un stockage durables, des sauvegardes hors site et une procédure de restauration testée.
-- Configurer puis vérifier dans Render le health check `/healthz/` et la politique d’auto-déploiement; les réglages du service actif n’ont pas encore été modifiés. Le commit applicatif déployé `60ad20c53bae19780992d0c8cb890ec7a1170a17` a une recette publique FR/EN/AR, mais aucune recette authentifiée.
+- Configurer puis vérifier dans Render le health check /healthz/ et la politique d’auto-déploiement; le champ healthCheckPath actif reste vide et la source publique Git est déployée manuellement. Le commit applicatif actif est fddb41b3; la recette authentifiée reste à réaliser.
 - Tester réellement l’envoi et la réception des invitations et de la récupération de compte avec un transport HTTPS ou SMTP autorisé ; le résultat de readiness de configuration seul n’atteste pas la livraison.
 - Confirmer le registre de traitements, les durées de conservation, les responsabilités, l’assistance, les conditions d’usage et les obligations des marchés ciblés avec les personnes compétentes.
 - Compléter le rapport `check_readiness --strict` sur la configuration de production réelle, sans transmettre ni consigner les secrets, et réaliser un exercice de restauration à partir d’une sauvegarde de production autorisée.
