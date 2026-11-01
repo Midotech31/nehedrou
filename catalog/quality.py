@@ -60,13 +60,15 @@ def completeness(activity):
 
 def scoped_catalogue(request):
     from .views import editor, editorial_activities
+    from .content_catalog import editorial_versions
     editor(request.user)
-    qs = editorial_activities(request.user).select_related('variety')
+    target = request.GET.get('activity')
+    qs = editorial_versions(editorial_activities(request.user).select_related('variety'),
+        include_history=bool(target) or request.GET.get('versions') == 'all', content=request.GET.get('content', ''))
     if request.GET.get('variety'):
         qs = qs.filter(variety__code=request.GET['variety'])
     if request.GET.get('kind'):
         qs = qs.filter(kind=request.GET['kind'])
-    target = request.GET.get('activity')
     if target:
         try:
             qs = qs.filter(pk=UUID(target))
@@ -79,7 +81,17 @@ def scoped_catalogue(request):
         qs = qs.filter(state=request.GET['state'])
     elif not target:
         qs = qs.exclude(state='withdrawn')
-    return qs.order_by('variety__code', 'title', '-version')
+    return qs.order_by('variety__code', 'title', '-version', 'pk')
+
+
+def filter_gaps(catalogue, gap):
+    if gap == 'audio':
+        # Reference completeness only; no whole-catalogue storage scan.
+        return catalogue.filter(Q(audio_a='') | Q(audio_b=''))
+    if gap == 'guide':
+        identifiers = [activity.pk for activity in catalogue.only('id','practice_guide','variety_id','variety__language') if not guide_complete(activity)]
+        return catalogue.filter(pk__in=identifiers)
+    return catalogue
 
 
 @login_required
@@ -90,13 +102,7 @@ def dashboard(request):
     catalogue = scoped_catalogue(request)
     total_content = catalogue.count()
     varieties = Variety.objects.filter(pk__in=catalogue.values('variety_id')).distinct()
-    if request.GET.get('gap') == 'audio':
-        # A structural filter: absent references, not a whole-catalogue storage scan.
-        catalogue = catalogue.filter(Q(audio_a='') | Q(audio_b=''))
-    elif request.GET.get('gap') == 'guide':
-        # Guides are small local DB values; do not touch any media for this filter.
-        identifiers = [activity.pk for activity in catalogue.only('id','practice_guide','variety_id','variety__language') if not guide_complete(activity)]
-        catalogue = catalogue.filter(pk__in=identifiers)
+    catalogue = filter_gaps(catalogue, request.GET.get('gap'))
     page = Paginator(catalogue, 16).get_page(request.GET.get('page'))
     activities = prepare_activities(list(page.object_list))
     page.object_list = [{'activity': activity, **completeness(activity), 'dossier': review_dossier(activity)} for activity in activities]
@@ -104,7 +110,8 @@ def dashboard(request):
     response = render(request, 'editorial/quality.html', {'page':page, 'total_content':total_content, 'missing_audio':missing_audio,
         'varieties':varieties, 'kinds':Activity.KIND_CHOICES, 'selected_variety':request.GET.get('variety',''),
         'selected_kind':request.GET.get('kind',''), 'selected_gap':request.GET.get('gap',''),
-        'selected_activity':request.GET.get('activity',''), 'selected_state':request.GET.get('state','')})
+        'selected_activity':request.GET.get('activity',''), 'selected_state':request.GET.get('state',''),
+        'selected_versions':request.GET.get('versions',''), 'selected_content':request.GET.get('content','')})
     response['Cache-Control'] = 'private, no-store'
     return response
 
@@ -112,7 +119,7 @@ def dashboard(request):
 @login_required
 @require_GET
 def review_pack(request):
-    catalogue = prepare_activities(list(scoped_catalogue(request)))
+    catalogue = prepare_activities(list(filter_gaps(scoped_catalogue(request), request.GET.get('gap'))))
     # Export contains editorial text only: no patients, accounts, recordings or private evidence files.
     records = []
     tasks, media_rows = io.StringIO(newline=''), io.StringIO(newline='')
@@ -124,7 +131,7 @@ def review_pack(request):
     audio_writer.writerow(['activity_id','version','content_sha256','spoken_variety','side','word','intended_meaning','proposed_transcription','adult_speaker_reference','regional_usage','recording_filename','consent_evidence_reference','linguistic_decision','clinical_decision'])
     table = io.StringIO(newline='')
     writer = csv.writer(table)
-    writer.writerow(['activity_id','version','content_sha256','variety','kind','word_a','word_b','missing_editorial_items','clinical_decision','linguistic_decision','reviewer_note'])
+    writer.writerow(['activity_id','version','content_sha256','variety','kind','word_a','word_b','missing_editorial_items','clinical_decision','linguistic_decision','reviewer_note','series_uuid'])
     for activity in catalogue:
         quality = completeness(activity)
         dossier = review_dossier(activity)
@@ -139,7 +146,7 @@ def review_pack(request):
                 media.get('rights_valid_until',''), media.get('revoked',''), media.get('voice_source',''),
                 ' / '.join(media.get('missing_rights_fields',[])), media['evidence'].get('id',''),
                 media['evidence'].get('sha256',''), ' / '.join(media['reason_codes']), ' / '.join(media['reasons'])])
-        record = {'id':str(activity.pk), 'version':activity.version, 'content_sha256':activity.fingerprint(),
+        record = {'id':str(activity.pk), 'series':str(activity.series), 'version':activity.version, 'content_sha256':activity.fingerprint(),
             'title':activity.title, 'variety':activity.variety.code, 'kind':activity.kind, 'theme':activity.theme,
             'response_mode':activity.response_mode, 'contrast':activity.contrast,
             'words':{'a':activity.word_a,'b':activity.word_b}, 'transcriptions':{'a':activity.transcription_a,'b':activity.transcription_b},
@@ -154,13 +161,17 @@ def review_pack(request):
             audio_writer.writerow(["'" + str(value) if str(value).lstrip().startswith(('=','+','-','@','\t','\r')) else value for value in audio_row])
         records.append(record)
         row = [str(activity.pk), activity.version, activity.fingerprint(), activity.variety.code, activity.kind, activity.word_a, activity.word_b,
-               ' / '.join(str(value) for value in quality['missing']), '', '', '']
+               ' / '.join(str(value) for value in quality['missing']), '', '', '', str(activity.series)]
         # Spreadsheet formula injection must not turn authored text into executable cells.
         writer.writerow(["'" + str(value) if str(value).lstrip().startswith(('=','+','-','@','\t','\r')) else value for value in row])
     dossier_payload = json.dumps({'schema':'nehedrou-evidence-dossiers-v1',
         'scope':'Read-only documentary gaps for exact editorial versions; no clinical validation or imported approval.',
         'activities':[record['evidence_dossier'] for record in records]}, ensure_ascii=False, default=str, indent=2).encode('utf-8')
-    payload = json.dumps({'schema':'nehedrou-review-pack-v1','scope':'Editorial review only. No imported approval is accepted.', 'activities':records}, ensure_ascii=False, default=str, indent=2).encode('utf-8')
+    selection = {'versions': 'exact' if request.GET.get('activity') else 'all' if request.GET.get('versions') == 'all' else 'latest',
+        'content':request.GET.get('content') if request.GET.get('content') in ('candidate', 'demo') else 'all',
+        'gap':request.GET.get('gap') if request.GET.get('gap') in ('audio', 'guide') else ''}
+    payload = json.dumps({'schema':'nehedrou-review-pack-v1','scope':'Editorial review only. No imported approval is accepted.',
+        'selection':selection, 'activities':records}, ensure_ascii=False, default=str, indent=2).encode('utf-8')
     checklist = (_('Review each exact version: indication, intended meaning, local familiarity, image recognition, recording and transcription, allowable variants, instructions, rights and limits.') + '\n\n' +
         _('Darja: document the region and family usage. Do not assume a Standard Arabic word or synthetic voice represents the child’s variety.') + '\n\n' +
         _('Minimal pairs: check phonemic contrast, aligned position and structure, meaningful words and the child’s actual error profile. A spelling difference alone is insufficient.') + '\n\n' +

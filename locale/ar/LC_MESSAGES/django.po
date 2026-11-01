@@ -5757,3 +5757,47 @@ msgstr "لا يمكن تسجيل تحقق من كفاءة المراجع إلا 
 
 msgid "Record a meaningful verification basis."
 msgstr "يرجى تسجيل أساس واضح للتحقق."
+
+msgid "Versions"
+msgstr "النسخ"
+
+
+msgid "All versions (history)"
+msgstr "كل النسخ (السجل)"
+
+msgid "Content"
+msgstr "المحتوى"
+
+msgid "All content"
+msgstr "كل المحتوى"
+
+
+msgid "Demonstration examples"
+msgstr "أمثلة تجريبية"
+
+msgid "Exact version selected"
+msgstr "نسخة محددة مختارة"
+
+msgid "Browse latest versions"
+msgstr "تصفّح أحدث النسخ"
+
+msgid "Content version"
+msgstr "نسخة المحتوى"
+
+msgid "Historical version"
+msgstr "نسخة سابقة"
+
+msgid "A newer version exists. Decisions recorded here apply only to the version shown."
+msgstr "توجد نسخة أحدث. القرارات المسجّلة هنا تخصّ النسخة المعروضة فقط."
+
+msgid "Open latest version"
+msgstr "فتح أحدث نسخة"
+
+msgid "Latest version"
+msgstr "أحدث نسخة"
+
+msgid "Latest versions"
+msgstr "أحدث النسخ"
+
+msgid "Activities to review"
+msgstr "أنشطة للمراجعة"

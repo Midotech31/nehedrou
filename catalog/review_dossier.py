@@ -194,7 +194,7 @@ def review_dossier(activity):
     readiness = activity_readiness(activity, require_availability=True)
     tasks = [check for check in checks if not check['complete']]
     return {'schema': 'nehedrou-evidence-dossier-v1', 'checked_at': timezone.now().isoformat(),
-        'activity_id': str(activity.pk), 'version': activity.version, 'content_sha256': digest,
+        'activity_id': str(activity.pk), 'series': str(activity.series), 'version': activity.version, 'content_sha256': digest,
         'variety': activity.variety.code, 'is_demo': activity.is_demo, 'state': activity.state,
         'clinical_validation': 'not_assessed_by_dossier', 'checks': checks, 'tasks': tasks,
         'task_count': len(tasks), 'media': media, 'blocking_reasons': readiness['reasons']}
