@@ -286,7 +286,8 @@ def record_practice(actor, item, payload, ticket):
     # Serialize same-user submissions for idempotency, including requests racing on PostgreSQL.
     from .models import User
     Organization.objects.select_for_update().get(pk=item.program.organization_id)
-    User.objects.select_for_update().get(pk=actor.pk)
+    # Serialise actor mutations while allowing independent FK audit references.
+    User.objects.select_for_update(no_key=True).get(pk=actor.pk)
     from .access import visible_programs
     if not Child.objects.select_for_update().filter(pk=item.program.child_id).first():
         raise ValidationError(_('Access is no longer available.'))

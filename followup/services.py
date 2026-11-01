@@ -325,7 +325,8 @@ def _exposure_status(child, variety, word, at):
 @transaction.atomic
 def start_administration(actor, goal, definition, conditions=None, familiarity=None, key=None, *, observation_scope='goal', alternate_context_label='', alternate_context_reason=''):
     child = lock_clinical_child(actor, goal.child)
-    User.objects.select_for_update().get(pk=actor.pk)
+    # Serialise actor mutations while allowing independent FK audit references.
+    User.objects.select_for_update(no_key=True).get(pk=actor.pk)
     goal = ClinicalGoal.objects.select_for_update().get(pk=goal.pk, child=child)
     definition = ProbeDefinition.objects.select_for_update().get(pk=definition.pk)
     if not child.active or not goal.active or not definition_queryset(actor).filter(pk=definition.pk).exists():

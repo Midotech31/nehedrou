@@ -15,7 +15,8 @@ from .services import audit
 def lock_program(actor, reference):
     # Same order as clinical mutations; the practice lock serializes erasure/revocation.
     Organization.objects.select_for_update().get(pk=reference.organization_id)
-    User.objects.select_for_update().get(pk=actor.pk)
+    # Serialise actor mutations while allowing independent FK audit references.
+    User.objects.select_for_update(no_key=True).get(pk=actor.pk)
     child = Child.objects.select_for_update().filter(pk=reference.child_id).first()
     program = Program.objects.select_for_update().filter(pk=reference.pk).first()
     if not child or not program or not visible_programs(actor).filter(pk=program.pk).exists():

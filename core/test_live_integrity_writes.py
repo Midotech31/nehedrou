@@ -8,6 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 import threading
 import time
 import uuid
+from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
@@ -235,6 +236,160 @@ class LiveIntegrityWriteTests(LiveIntegrityFixture, TestCase):
 
 @override_settings(**TEST_SETTINGS)
 class LiveIntegrityPostgreSQLTests(LiveIntegrityFixture, TransactionTestCase):
+    @staticmethod
+    def worker_timeouts():
+        with connection.cursor() as cursor:
+            cursor.execute("SET lock_timeout = '8s'")
+            cursor.execute("SET statement_timeout = '12s'")
+            cursor.execute('SELECT pg_backend_pid()')
+            return cursor.fetchone()[0]
+
+    @skipUnlessDBFeature('has_select_for_update')
+    def test_same_editor_practice_and_revocation_do_not_deadlock_on_actor_foreign_keys(self):
+        self.install()
+        user_locked = threading.Event()
+        target_locked = threading.Event()
+        resume_practice = threading.Event()
+        practice_thread = []
+        original_user_select = User.objects.select_for_update
+        from qualification.opening import _lock_recorded_target
+
+        def pause_after_real_user_lock(*args, **kwargs):
+            queryset = original_user_select(*args, **kwargs)
+            original_get = queryset.get
+
+            def get_then_pause(*get_args, **get_kwargs):
+                actor = original_get(*get_args, **get_kwargs)
+                if practice_thread and threading.get_ident() == practice_thread[0]:
+                    user_locked.set()
+                    if not resume_practice.wait(6):
+                        raise AssertionError('Practice was not released after its real User lock.')
+                return actor
+
+            queryset.get = get_then_pause
+            return queryset
+
+        def signal_after_real_target_lock(decision):
+            _lock_recorded_target(decision)
+            target_locked.set()
+
+        def practice_as_editor():
+            connections.close_all()
+            try:
+                self.worker_timeouts()
+                practice_thread.append(threading.get_ident())
+                actor = User.objects.get(pk=self.pro.pk)
+                item = ProgramItem.objects.select_related('activity__variety', 'program__child').get(pk=self.item.pk)
+                with integrity_scope():
+                    self.assertTrue(item.activity.usable)
+                    try:
+                        record_practice(actor, item, self.payload(), {'key': str(uuid.uuid4()), 'target': 'a'})
+                    except ValidationError:
+                        return 'refused'
+                return 'recorded'
+            finally:
+                connections.close_all()
+
+        def revoke_as_same_editor():
+            connections.close_all()
+            try:
+                self.worker_timeouts()
+                actor = User.objects.get(pk=self.pro.pk)
+                return revoke_decision(actor, self.decision.pk, 'Fictional same-actor concurrent revocation').pk
+            finally:
+                connections.close_all()
+
+        with patch.object(User.objects, 'select_for_update', side_effect=pause_after_real_user_lock), \
+                patch('qualification.opening._lock_recorded_target', side_effect=signal_after_real_target_lock), \
+                ThreadPoolExecutor(max_workers=2) as pool:
+            practice = pool.submit(practice_as_editor)
+            try:
+                self.assertTrue(user_locked.wait(4), 'Practice did not acquire its User lock.')
+                revocation = pool.submit(revoke_as_same_editor)
+                self.assertTrue(target_locked.wait(4), 'Revocation did not acquire its exact Activity lock.')
+            finally:
+                resume_practice.set()
+            # Both are real service transactions. With User FOR UPDATE, the
+            # revocation's actor foreign keys wait for practice while practice
+            # waits for its Activity: neither future may be silently retried.
+            revoked_id = revocation.result(timeout=14)
+            self.assertEqual(practice.result(timeout=14), 'refused')
+        revoked = AvailabilityDecision.objects.get(pk=revoked_id)
+        self.assertEqual((revoked.status, revoked.decided_by_id), ('revoked', self.pro.pk))
+        self.assertFalse(PracticeSession.objects.exists())
+        self.assertFalse(AuditEvent.objects.filter(action='practice.recorded').exists())
+        self.assertEqual(AuditEvent.objects.filter(action='qualification.availability_revoked').count(), 1)
+
+    @skipUnlessDBFeature('has_select_for_update')
+    def test_practice_serialisation_still_blocks_concurrent_account_deactivation(self):
+        self.install()
+        user_locked = threading.Event()
+        updater_started = threading.Event()
+        resume_practice = threading.Event()
+        practice_thread = []
+        practice_pid, updater_pid = [], []
+        original_user_select = User.objects.select_for_update
+
+        def pause_after_real_user_lock(*args, **kwargs):
+            queryset = original_user_select(*args, **kwargs)
+            original_get = queryset.get
+
+            def get_then_pause(*get_args, **get_kwargs):
+                actor = original_get(*get_args, **get_kwargs)
+                if practice_thread and threading.get_ident() == practice_thread[0]:
+                    user_locked.set()
+                    if not resume_practice.wait(6):
+                        raise AssertionError('Practice was not released after its real User lock.')
+                return actor
+
+            queryset.get = get_then_pause
+            return queryset
+
+        def practice_as_editor():
+            connections.close_all()
+            try:
+                practice_pid.append(self.worker_timeouts())
+                practice_thread.append(threading.get_ident())
+                actor = User.objects.get(pk=self.pro.pk)
+                item = ProgramItem.objects.select_related('activity__variety', 'program__child').get(pk=self.item.pk)
+                return record_practice(actor, item, self.payload(), {'key': str(uuid.uuid4()), 'target': 'a'}).pk
+            finally:
+                connections.close_all()
+
+        def deactivate_account():
+            connections.close_all()
+            try:
+                updater_pid.append(self.worker_timeouts())
+                updater_started.set()
+                return User.objects.filter(pk=self.pro.pk).update(is_active=False)
+            finally:
+                connections.close_all()
+
+        with patch.object(User.objects, 'select_for_update', side_effect=pause_after_real_user_lock), \
+                ThreadPoolExecutor(max_workers=2) as pool:
+            practice = pool.submit(practice_as_editor)
+            try:
+                self.assertTrue(user_locked.wait(4), 'Practice did not acquire its User lock.')
+                update = pool.submit(deactivate_account)
+                self.assertTrue(updater_started.wait(3), 'Account update did not start.')
+                deadline = time.monotonic() + 4
+                blocked = False
+                while time.monotonic() < deadline and not update.done():
+                    with connection.cursor() as cursor:
+                        cursor.execute('SELECT %s = ANY(pg_blocking_pids(%s))', [practice_pid[0], updater_pid[0]])
+                        blocked = cursor.fetchone()[0]
+                    if blocked:
+                        break
+                    resume_practice.wait(0.01)
+                self.assertTrue(blocked, 'The real practice User lock must still block an account UPDATE.')
+            finally:
+                resume_practice.set()
+            report_id = practice.result(timeout=14)
+            self.assertEqual(update.result(timeout=14), 1)
+        self.pro.refresh_from_db()
+        self.assertFalse(self.pro.is_active)
+        self.assertEqual(PracticeSession.objects.get().pk, report_id)
+
     @skipUnlessDBFeature('has_select_for_update')
     def test_revocation_waits_for_exact_activity_row_lock_before_recording_a_decision(self):
         self.install()
