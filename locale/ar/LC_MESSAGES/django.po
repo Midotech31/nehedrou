@@ -658,8 +658,8 @@ msgstr "إنشاء مساحة تجريبية"
 msgid "I already have access"
 msgstr "لديّ وصول بالفعل"
 
-msgid "French, English and Arabic interfaces. Clinical content availability depends on the reviewed spoken variety."
-msgstr "واجهات بالفرنسية والإنجليزية والعربية. إتاحة المحتوى السريري تعتمد على التنوع اللغوي الذي تمت مراجعته."
+msgid "French, English and Arabic interfaces. All current activities are demonstrations; no spoken variety has clinically approved activities."
+msgstr "الواجهات متاحة بالفرنسية والإنجليزية والعربية. الأنشطة الحالية أمثلة تجريبية فقط؛ ولا توجد أنشطة معتمدة سريريًا لأي تنوع لغوي حتى الآن."
 
 msgid "HOW IT WORKS"
 msgstr "كيف يعمل التطبيق"
@@ -5448,3 +5448,12 @@ msgstr "النسخ المتاحة حاليًا"
 
 msgid "Availability is checked for the exact module, spoken variety and content fingerprint; interface-language coverage does not imply approval."
 msgstr "يُتحقق من الإتاحة على مستوى الوحدة والتنوع اللغوي المنطوق وبصمة المحتوى المحددة؛ ولا تعني تغطية لغة الواجهة اعتماد المحتوى."
+
+msgid "Check word-specific family vocabulary candidates"
+msgstr "تحقّق من المقترحات المعجمية الخاصة بكل كلمة"
+
+msgid "Confirm that the candidate lists belong to the intended word and local variety. Record the rationale if the same forms are intentionally shared; otherwise correct the draft before reviewing it."
+msgstr "تحقّق من أن قوائم المقترحات تخص الكلمة المقصودة والتنوع المحلي. إذا كان اشتراك الكلمات في الأشكال مقصودًا، فسجّل السبب؛ وإلا فصحّح المسودة قبل مراجعتها."
+
+msgid "The two different words have identical family-vocabulary candidate lists; this may be intentional, but requires an explicit linguistic check."
+msgstr "للكلمتين المختلفتين قوائم متطابقة للمقترحات المعجمية العائلية. قد يكون ذلك مقصودًا، لكنه يتطلب تحققًا لغويًا صريحًا."

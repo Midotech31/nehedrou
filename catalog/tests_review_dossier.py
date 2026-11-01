@@ -16,7 +16,7 @@ from catalog.models import Activity, EditorialGrant, MediaAsset, Review, Variety
 from catalog.quality import completeness
 from catalog.readiness import referenced_asset
 from catalog.review_dossier import review_dossier
-from catalog.services import review_version
+from catalog.services import review_version, transition
 from core.models import User
 from qualification.models import AvailabilityDecision, EvidenceDocument, _digest_file
 from qualification.test_support import availability_fixture, competence_fixture, prepare_activity_fixture
@@ -75,6 +75,40 @@ class EvidenceDossierTests(TestCase):
         activity.refresh_from_db()
         self.assertEqual(activity.state, 'review')
         self.assertEqual(activity.reviews.count(), 2)
+
+    def test_identical_side_specific_family_candidates_are_sent_to_linguistic_review(self):
+        activity = self.activity()
+        candidates = [{'word': 'cat', 'family_alternatives': ['kitty'], 'scope': 'Fictional local proposal'}]
+        activity.item_metadata = {
+            'a': {'meaning': 'cat', 'family_word_candidates': candidates},
+            'b': {'meaning': 'dog', 'family_word_candidates': candidates},
+        }
+        activity.save(update_fields=['item_metadata'])
+        dossier = review_dossier(activity)
+        task = next(row for row in dossier['tasks'] if row['key'] == 'family_candidate_lists')
+        self.assertIn('candidate_list_reuse', task['reason_codes'])
+        self.assertEqual(dossier['clinical_validation'], 'not_assessed_by_dossier')
+        self.assertEqual(activity.state, 'draft')
+        self.assertFalse(activity.reviews.exists())
+
+        activity.is_demo = True  # The fixture may use the demo-only review path.
+        activity.save(update_fields=['is_demo'])
+        transition(self.editor, activity.pk, 'review')
+        review_version(self.linguist, activity, 'linguistic', True,
+            'Fictional confirmation: shared candidates are intentional.')
+        dossier = review_dossier(activity)
+        self.assertNotIn('family_candidate_lists', [row['key'] for row in dossier['tasks']])
+        review_version(self.linguist, activity, 'linguistic', False,
+            'Fictional rejection: the shared candidates need correction.')
+        dossier = review_dossier(activity)
+        self.assertIn('family_candidate_lists', [row['key'] for row in dossier['tasks']])
+        linguistic_task = next(row for row in dossier['tasks'] if row['key'] == 'review_linguistic')
+        self.assertIn('changes_requested', linguistic_task['reason_codes'])
+        EditorialGrant.objects.filter(user=self.linguist, variety=self.variety).update(linguistic_review=False)
+        dossier = review_dossier(activity)
+        self.assertIn('family_candidate_lists', [row['key'] for row in dossier['tasks']])
+        activity.refresh_from_db()
+        self.assertEqual(activity.state, 'review')  # A review decision does not publish content.
 
     def test_valid_recorded_gates_never_become_a_dossier_approval(self):
         activity = self.activity(complete=True)

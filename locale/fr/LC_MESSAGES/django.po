@@ -658,8 +658,8 @@ msgstr "Créer un espace de démonstration"
 msgid "I already have access"
 msgstr "J’ai déjà un accès"
 
-msgid "French, English and Arabic interfaces. Clinical content availability depends on the reviewed spoken variety."
-msgstr "Interfaces en français, anglais et arabe. La disponibilité des contenus cliniques dépend de la variété parlée relue."
+msgid "French, English and Arabic interfaces. All current activities are demonstrations; no spoken variety has clinically approved activities."
+msgstr "Interfaces en français, anglais et arabe. Toutes les activités actuelles sont des exemples de démonstration; aucune variété parlée ne dispose d’activités approuvées pour un usage clinique."
 
 msgid "HOW IT WORKS"
 msgstr "COMMENT ÇA MARCHE"
@@ -5448,3 +5448,12 @@ msgstr "Versions actuellement disponibles"
 
 msgid "Availability is checked for the exact module, spoken variety and content fingerprint; interface-language coverage does not imply approval."
 msgstr "La disponibilité est vérifiée pour le module, la variété parlée et l’empreinte exacts ; la couverture de l’interface ne vaut pas approbation."
+
+msgid "Check word-specific family vocabulary candidates"
+msgstr "Vérifier les propositions lexicales propres à chaque mot"
+
+msgid "Confirm that the candidate lists belong to the intended word and local variety. Record the rationale if the same forms are intentionally shared; otherwise correct the draft before reviewing it."
+msgstr "Confirmez que les listes de propositions correspondent au mot visé et à la variété locale. Si les mêmes formes sont partagées intentionnellement, consignez la raison ; sinon, corrigez le brouillon avant sa relecture."
+
+msgid "The two different words have identical family-vocabulary candidate lists; this may be intentional, but requires an explicit linguistic check."
+msgstr "Les deux mots différents ont des listes identiques de propositions lexicales familiales. Cela peut être intentionnel, mais nécessite une vérification linguistique explicite."

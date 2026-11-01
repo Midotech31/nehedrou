@@ -12,7 +12,7 @@ from django.views.decorators.http import require_POST
 from care.models import Child, FamilyLink
 from catalog.services import allowed
 from catalog.models import EditorialGrant, MediaAsset
-from core.access import professional_children, visible_children, clinician_child, is_family_workspace
+from core.access import professional_children, visible_children, clinician_child, is_family_workspace, notice_gate
 from core.models import Membership
 from core.services import log_child_access
 from . import services
@@ -83,6 +83,9 @@ def goal_create(request, child_id):
         log_child_access(request.user, child, resource='goal_create', purpose_code='clinical_followup')
     form = GoalForm(request.POST or None, child=child, definitions=services.definition_queryset(request.user).filter(variety__in=child.varieties.all()).exclude(state='withdrawn'))
     if request.method == 'POST' and form.is_valid():
+        gated = notice_gate(request, child.organization)
+        if gated:
+            return gated
         try:
             goal = services.create_goal(request.user, child, form.cleaned_data)
             return redirect('followup:goal_detail', pk=goal.pk)
@@ -120,6 +123,9 @@ def exposure_create(request, child_id):
         log_child_access(request.user, child, resource='probe_exposure', purpose_code='clinical_followup')
     form = ExposureForm(request.POST or None, child=child)
     if request.method == 'POST' and form.is_valid():
+        gated = notice_gate(request, child.organization)
+        if gated:
+            return gated
         try:
             services.record_exposure(request.user, child, **form.cleaned_data)
             messages.success(request, _('The external exposure record has been saved. Previous observation exposure remains unchanged.'))
@@ -286,6 +292,9 @@ def administration_start(request, goal_id):
     form.fields['definition'].disabled = True
     familiarity = FamiliarityForm(request.POST or None, items=selected.items if selected else [], prefix='familiarity')
     if request.method == 'POST' and form.is_valid() and familiarity.is_valid():
+        gated = notice_gate(request, goal.child.organization)
+        if gated:
+            return gated
         try:
             context_data = {key: form.cleaned_data[key] for key in ['observation_scope', 'alternate_context_label', 'alternate_context_reason']}
             conditions = {key: value for key, value in form.cleaned_data.items() if key not in ['definition', 'key', *context_data]}
@@ -332,6 +341,9 @@ def rating(request, pk, item_key):
     form = RatingForm(request.POST or None, variants=list(variants.values()), existing=bool(existing), initial=initial)
     form.fields['attempt_index'].disabled = True
     if request.method == 'POST' and form.is_valid():
+        gated = notice_gate(request, admin.child.organization)
+        if gated:
+            return gated
         try:
             data = dict(form.cleaned_data)
             reason = data.pop('reason')
@@ -351,6 +363,9 @@ def administration_finalize(request, pk):
         log_child_access(request.user, admin.child, resource='probe_finalize_review', purpose_code='clinical_followup')
     form = FinalizeForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
+        gated = notice_gate(request, admin.child.organization)
+        if gated:
+            return gated
         try:
             services.finalize_administration(request.user, admin)
             return redirect('followup:report', pk=pk)
@@ -444,6 +459,10 @@ def share(request, pk):
         log_child_access(request.user, admin.child, resource='probe_share', purpose_code='clinical_followup')
     form = ShareForm(request.POST or None, initial={'text': admin.shared_text})
     if request.method == 'POST' and form.is_valid():
+        if form.cleaned_data['text']:
+            gated = notice_gate(request, admin.child.organization)
+            if gated:
+                return gated
         try:
             services.share_summary(request.user, admin, form.cleaned_data['text'])
             return redirect('followup:report', pk=pk)
@@ -480,6 +499,9 @@ def coaching_create(request, child_id):
         log_child_access(request.user, child, resource='caregiver_coaching_create', purpose_code='care_delivery')
     form = CoachingForm(request.POST or None, child=child, initial={'instruction_language': get_language()})
     if request.method == 'POST' and form.is_valid():
+        gated = notice_gate(request, child.organization)
+        if gated:
+            return gated
         try:
             coaching = services.create_coaching(request.user, child, form.cleaned_data)
             return redirect('followup:coaching_detail', pk=coaching.pk)
@@ -523,6 +545,9 @@ def home_feedback(request, pk):
     services.coaching_family_data(request.user, coaching)
     form = HomeFeedbackForm(request.POST or None, initial={'key': uuid.uuid4()})
     if request.method == 'POST' and form.is_valid():
+        gated = notice_gate(request, coaching.child.organization)
+        if gated:
+            return gated
         try:
             data = dict(form.cleaned_data)
             key = data.pop('key')

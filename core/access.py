@@ -1,8 +1,29 @@
 from uuid import UUID
+from django.conf import settings
 from django.db.models import Q
+from django.shortcuts import redirect
 from django.http import Http404
 from care.models import Child, Program
 from .models import Membership
+
+# Bump this value whenever the privacy notice changes materially. Existing
+# acknowledgements do not acknowledge a newer version of the notice.
+CURRENT_NOTICE_VERSION = '2026-10-09'
+
+
+def notice_acknowledged(user, organization):
+    if not user or not user.is_authenticated or organization is None:
+        return False
+    from .models import NoticeAcknowledgement
+    return NoticeAcknowledgement.objects.filter(
+        user=user, organization=organization, version=CURRENT_NOTICE_VERSION,
+    ).exists()
+
+def notice_gate(request, organization):
+    """Block child-data writes until the actor acknowledges the current notice."""
+    if settings.DEMO_MODE or notice_acknowledged(request.user, organization):
+        return None
+    return redirect('data_notice')
 
 def membership(request):
     request.practice_selection_required = False

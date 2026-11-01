@@ -135,6 +135,27 @@ def review_dossier(activity):
         _('Complete the media evidence, then submit the draft for review to bind its current media manifest.'),
         [] if binding else [('manifest_stale', _('The exact media and commercial rights manifest is missing, changed or revoked.'))])
     reviews = activity_reviews(activity)
+    # Exact duplicate side-specific candidates are a human review prompt only;
+    # shared forms may be intentional in a local variety.
+    metadata = activity.item_metadata if isinstance(activity.item_metadata, dict) else {}
+    definition_a, definition_b = metadata.get('a', {}), metadata.get('b', {})
+    candidates_a = definition_a.get('family_word_candidates', []) if isinstance(definition_a, dict) else []
+    candidates_b = definition_b.get('family_word_candidates', []) if isinstance(definition_b, dict) else []
+    current_linguistic_decision = next(
+        (row for row in reviews if row.kind == 'linguistic' and row.content_digest == digest),
+        None,
+    )
+    current_linguistic_approval = bool(
+        current_linguistic_decision and current_linguistic_decision.approved
+        and allowed(current_linguistic_decision.reviewer, activity.variety, 'linguistic_review')
+        and has_competence(current_linguistic_decision.reviewer, activity.variety, 'linguistic')
+    )
+    if (activity.word_a.strip() != activity.word_b.strip() and candidates_a and
+            candidates_a == candidates_b and not current_linguistic_approval):
+        _check(checks, 'family_candidate_lists', 'linguistic_metadata',
+            _('Check word-specific family vocabulary candidates'), linguist,
+            _('Confirm that the candidate lists belong to the intended word and local variety. Record the rationale if the same forms are intentionally shared; otherwise correct the draft before reviewing it.'),
+            [('candidate_list_reuse', _('The two different words have identical family-vocabulary candidate lists; this may be intentional, but requires an explicit linguistic check.'))])
     selected = []
     for discipline, owner in (('clinical', clinician), ('linguistic', linguist)):
         decision = next((row for row in reviews if row.kind == discipline and row.content_digest == digest), None)

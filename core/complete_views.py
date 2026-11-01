@@ -1,3 +1,4 @@
+import hashlib
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
@@ -15,7 +16,8 @@ from .access import clinician_child, professional_children, manager, visible_chi
 from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .forms import ChildForm, ProgramForm, ReassignForm, PrivacyDecisionForm
 from .models import Organization, PrivacyRequest, Invitation, Entitlement, Invoice, NoticeAcknowledgement
-from .services import audit, log_child_access, check_entitlement, create_program, lock_clinical_child
+from .access import CURRENT_NOTICE_VERSION, notice_gate
+from .services import audit, log_child_access, check_entitlement, create_program, lock_clinical_child, accept_invitation
 
 @login_required
 def child_edit(request, pk):
@@ -24,6 +26,9 @@ def child_edit(request, pk):
         log_child_access(request.user, child, resource='child_profile_edit', purpose_code='care_delivery')
     form = ChildForm(request.POST or None, instance=child)
     if request.method == 'POST' and form.is_valid():
+        gated = notice_gate(request, child.organization)
+        if gated:
+            return gated
         try:
             with transaction.atomic():
                 locked = lock_clinical_child(request.user, child)
@@ -48,6 +53,9 @@ def child_edit(request, pk):
 @require_POST
 def restore_child(request, pk):
     child = clinician_child(request.user, pk)
+    gated = notice_gate(request, child.organization)
+    if gated:
+        return gated
     try:
         with transaction.atomic():
             org = Organization.objects.select_for_update().get(pk=child.organization_id)
@@ -66,6 +74,10 @@ def reassign(request, pk):
     child = clinician_child(request.user, pk)
     form = ReassignForm(request.POST or None, organization=child.organization)
     if request.method == 'POST' and form.is_valid():
+        gated = notice_gate(request, child.organization)
+        if gated:
+            return gated
+    if request.method == 'POST' and form.is_valid():
         try:
             from .services import transfer_child
             transfer_child(request.user, child, form.cleaned_data['responsible'])
@@ -80,6 +92,10 @@ def program_replace(request, pk):
     form = ProgramForm(request.POST or None, child=program.child, initial={'title': program.title, 'variety': program.variety, 'activities': list(program.items.values_list('activity_id', flat=True)), 'guidance': program.guidance, 'schedule': program.schedule, 'goal': program.goal, **{field: getattr(program, field) for field in ['practice_start', 'practice_end', 'practice_days', 'practice_minutes']}, 'activity_order': ','.join(str(pk) for pk in program.items.values_list('activity_id', flat=True))})
     preview = None
     if request.method == 'POST' and form.is_valid():
+        if request.POST.get('action') != 'preview':
+            gated = notice_gate(request, program.organization)
+            if gated:
+                return gated
         if request.POST.get('action') == 'preview':
             preview = form.cleaned_data
         else:
@@ -191,17 +207,42 @@ def revoke_member_invitation(request, pk):
     audit(request.user, 'invitation.revoked', invite, member.organization)
     return redirect('members')
 
+def pending_notice_invitation(request):
+    token = request.session.get('pending_notice_invitation_token', '')
+    if not token:
+        return None
+    token_hash = hashlib.sha256(token.encode()).hexdigest()
+    invitation = Invitation.objects.filter(token_hash=token_hash, email__iexact=request.user.email).select_related('organization').first()
+    if not invitation or not invitation.available:
+        request.session.pop('pending_notice_invitation_token', None)
+        return None
+    return invitation
+
+
 @login_required
 def notice(request):
+    pending = pending_notice_invitation(request)
     member = membership(request)
-    org = member.organization if member else visible_children(request.user).first().organization if visible_children(request.user).exists() else None
+    linked = visible_children(request.user).select_related('organization').first()
+    org = pending.organization if pending else member.organization if member else linked.organization if linked else None
     scope, scope_valid = practice_form_scope(request, org, 'notice_acknowledgement')
     if request.method == 'POST' and scope_valid and org:
-        from django.utils.translation import get_language
-        obj, _created = NoticeAcknowledgement.objects.get_or_create(user=request.user, organization=org, version='2026-10-09', defaults={'language': get_language()})
-        audit(request.user, 'notice.acknowledged', obj, org)
-        messages.success(request, _('Information acknowledgement recorded.'))
-        return redirect('dashboard')
+        try:
+            with transaction.atomic():
+                from django.utils.translation import get_language
+                obj, _created = NoticeAcknowledgement.objects.get_or_create(user=request.user, organization=org, version=CURRENT_NOTICE_VERSION, defaults={'language': get_language()})
+                audit(request.user, 'notice.acknowledged', obj, org)
+                if pending:
+                    accept_invitation(request.user, request.session['pending_notice_invitation_token'])
+            if pending:
+                request.session.pop('pending_notice_invitation_token', None)
+                request.session['workspace'] = 'family' if pending.kind == 'family' else 'professional'
+                if pending.kind == 'clinician':
+                    request.session['organization'] = str(pending.organization_id)
+            messages.success(request, _('Information acknowledgement recorded.'))
+            return redirect('dashboard')
+        except ValidationError as error:
+            messages.error(request, ' '.join(error.messages))
     return render(request, 'privacy/notice.html', {'organization': org, 'practice_scope': scope, 'scope_error': PRACTICE_SCOPE_ERROR if not scope_valid else ''}, status=200 if scope_valid else 409)
 
 class OrganizationForm(forms.ModelForm):

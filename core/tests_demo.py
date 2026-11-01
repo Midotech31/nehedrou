@@ -58,6 +58,16 @@ class PublicDemonstrationTests(SimpleTestCase):
         token = client.cookies['csrftoken'].value
         self.assertEqual(client.post('/en/try/', {**data, 'csrfmiddlewaretoken': token}).status_code, 200)
 
+    def test_home_discloses_demo_only_content_in_all_interface_languages(self):
+        messages = {
+            'fr': 'Toutes les activités actuelles sont des exemples de démonstration; aucune variété parlée ne dispose d’activités approuvées pour un usage clinique.',
+            'en': 'All current activities are demonstrations; no spoken variety has clinically approved activities.',
+            'ar': 'الأنشطة الحالية أمثلة تجريبية فقط؛ ولا توجد أنشطة معتمدة سريريًا لأي تنوع لغوي حتى الآن.',
+        }
+        for language, message in messages.items():
+            with self.subTest(language=language):
+                self.assertContains(self.client.get(f'/{language}/'), message)
+
     def test_home_links_to_the_interactive_preview(self):
         self.assertContains(self.client.get('/en/'), 'href="/en/try/"')
         self.assertEqual(self.client.put('/en/try/').status_code, 405)

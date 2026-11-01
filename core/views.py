@@ -20,7 +20,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from care.models import Child, FamilyLink, Program, ProgramItem, PracticeSession, Observation, PracticeRun, PracticeRunTask, ProgramFeedback
 from catalog.models import Activity, Variety
-from .access import membership, manager, visible_children, visible_programs, clinician_child, professional_children, is_family_workspace, workspace_children
+from .access import membership, manager, visible_children, visible_programs, clinician_child, professional_children, is_family_workspace, workspace_children, notice_gate, notice_acknowledged
 from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .invitation_delivery import invitation_delivery_status
 from .forms import SignupForm, InviteSignupForm, ChildForm, ProgramForm, InvitationForm, PracticeForm, ObservationForm, PreferencesForm, DemoPracticeForm, FamilyFeedbackForm, HistoryFilterForm
@@ -185,6 +185,9 @@ def child_create(request):
     if not scope_valid:
         form.add_error(None, PRACTICE_SCOPE_ERROR)
     if request.method == 'POST' and scope_valid and form.is_valid():
+        gated = notice_gate(request, member.organization)
+        if gated:
+            return gated
         try:
             with transaction.atomic():
                 org = Organization.objects.select_for_update().get(pk=member.organization_id)
@@ -208,6 +211,9 @@ def child_detail(request, pk):
     if request.method == 'POST':
         if not professional:
             raise Http404
+        gated = notice_gate(request, child.organization)
+        if gated:
+            return gated
         if form.is_valid():
             try:
                 invitation = issue_and_deliver_invitation(request.user, child.organization, child, form.cleaned_data['email'])
@@ -266,6 +272,9 @@ def invite(request, token):
     form = InviteSignupForm(request.POST or None) if not request.user.is_authenticated and not existing_account else None
     if request.method == 'POST':
         if request.user.is_authenticated:
+            if not settings.DEMO_MODE and not notice_acknowledged(request.user, invitation.organization):
+                request.session['pending_notice_invitation_token'] = token
+                return redirect('data_notice')
             try:
                 accept_invitation(request.user, token)
                 select_invitation_workspace(request, invitation)
@@ -278,8 +287,12 @@ def invite(request, token):
                     user = form.save(commit=False)
                     user.email = invitation.email
                     user.save()
-                    accept_invitation(user, token)
+                    if settings.DEMO_MODE:
+                        accept_invitation(user, token)
                 login(request, user)
+                if not settings.DEMO_MODE:
+                    request.session['pending_notice_invitation_token'] = token
+                    return redirect('data_notice')
                 select_invitation_workspace(request, invitation)
                 return redirect('dashboard')
             except ValidationError as error:
@@ -347,6 +360,10 @@ def program_create(request, pk):
     form = ProgramForm(request.POST or None, child=child)
     preview = None
     if request.method == 'POST' and form.is_valid():
+        if request.POST.get('action') != 'preview':
+            gated = notice_gate(request, child.organization)
+            if gated:
+                return gated
         if request.POST.get('action') == 'preview':
             preview = form.cleaned_data
         else:
@@ -367,6 +384,9 @@ def program_detail(request, pk):
     if request.method == 'POST':
         if not professional:
             raise Http404
+        gated = notice_gate(request, program.organization)
+        if gated:
+            return gated
         if form.is_valid():
             try:
                 with transaction.atomic():
@@ -411,6 +431,9 @@ def family_feedback_create(request, pk):
         source = get_object_or_404(PracticeSession.objects.select_related('item__activity'), pk=source_id, item__program=program)
     form = FamilyFeedbackForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
+        gated = notice_gate(request, program.organization)
+        if gated:
+            return gated
         try:
             publish_feedback(request.user, program, form.cleaned_data['text'], source)
             messages.success(request, _('Your feedback is now visible to the authorized caregivers.'))
@@ -475,6 +498,9 @@ def report_detail(request, pk):
 def practice_run_start(request, pk):
     from .practice_runs import start_run
     program = get_object_or_404(visible_programs(request.user), pk=pk)
+    gated = notice_gate(request, program.organization)
+    if gated:
+        return gated
     try:
         run = start_run(request.user, program)
         return redirect('practice_run_detail', pk=run.pk)
@@ -555,6 +581,9 @@ def practice(request, pk):
             raise signing.BadSignature
         return loaded
     if request.method == 'POST' and form.is_valid():
+        gated = notice_gate(request, item.program.organization)
+        if gated:
+            return gated
         try:
             ticket_data = read_ticket(form.cleaned_data['ticket'])
             report = record_practice(request.user, item, form.cleaned_data, ticket_data)
@@ -657,6 +686,9 @@ def members(request):
     if not scope_valid:
         form.add_error(None, PRACTICE_SCOPE_ERROR)
     if request.method == 'POST' and scope_valid and form.is_valid():
+        gated = notice_gate(request, member.organization)
+        if gated:
+            return gated
         try:
             invitation = issue_and_deliver_invitation(request.user, member.organization, None, form.cleaned_data['email'], kind='clinician')
             invitation_message(request, invitation)
@@ -679,11 +711,17 @@ def resend_invitation(request, pk):
     invitation = get_object_or_404(Invitation, pk=pk)
     if invitation.kind == 'family':
         child = clinician_child(request.user, invitation.child_id)
+        gated = notice_gate(request, child.organization)
+        if gated:
+            return gated
         destination = reverse('child_detail', args=[child.pk])
     else:
         member = manager(request)
         if invitation.organization_id != member.organization_id:
             raise Http404
+        gated = notice_gate(request, member.organization)
+        if gated:
+            return gated
         child = None
         destination = reverse('members')
     delivery = invitation_delivery_status()
