@@ -98,6 +98,9 @@ class EvidenceDossierTests(TestCase):
             'Fictional confirmation: shared candidates are intentional.')
         dossier = review_dossier(activity)
         self.assertNotIn('family_candidate_lists', [row['key'] for row in dossier['tasks']])
+        EditorialGrant.objects.filter(user=self.linguist, variety=self.variety).update(linguistic_review=False)
+        dossier = review_dossier(activity)
+        self.assertIn('family_candidate_lists', [row['key'] for row in dossier['tasks']])
         activity.refresh_from_db()
         self.assertEqual(activity.state, 'review')  # A review decision does not publish content.
 
