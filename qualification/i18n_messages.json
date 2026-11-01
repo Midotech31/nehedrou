@@ -590,5 +590,153 @@
   "No content authorised for real use": {
     "fr": "Aucun contenu autorisé pour l’usage réel",
     "ar": "لا يوجد محتوى مصرّح به للاستخدام الفعلي"
+  },
+  "Independently checked": {
+    "fr": "Compétence vérifiée indépendamment",
+    "ar": "تم التحقق من الكفاءة بشكل مستقل"
+  },
+  "Independent check required": {
+    "fr": "Vérification indépendante requise",
+    "ar": "يلزم تحقق مستقل"
+  },
+  "Review other reviewers' qualifications": {
+    "fr": "Vérifier les compétences des relecteurs",
+    "ar": "التحقق من كفاءات المراجعين الآخرين"
+  },
+  "Independent reviewer checks": {
+    "fr": "Vérifications indépendantes des relecteurs",
+    "ar": "التحقق المستقل من المراجعين"
+  },
+  "Verify another person's identity and competence for the exact spoken variety before their approval can count.": {
+    "fr": "Vérifiez l’identité et la compétence d’une autre personne dans la variété parlée exacte avant que son approbation puisse être prise en compte.",
+    "ar": "تحققوا من هوية شخص آخر وكفاءته في التنوع اللغوي المنطوق المحدد قبل اعتماد مراجعته."
+  },
+  "A verification records a human check. It is not a licence, clinical certification or validation of the application. Do not store identity-document numbers or unnecessary personal data.": {
+    "fr": "Cette vérification consigne un contrôle humain. Elle ne constitue ni un agrément, ni une certification clinique, ni une validation de l’application. Ne stockez pas de numéro de pièce d’identité ni de donnée personnelle superflue.",
+    "ar": "يوثّق هذا التحقق مراجعة بشرية؛ ولا يُعد ترخيصًا أو اعتمادًا سريريًا أو تصديقًا على التطبيق. لا تحفظوا أرقام وثائق الهوية أو بيانات شخصية غير لازمة."
+  },
+  "Reviewer account": {
+    "fr": "Compte du relecteur",
+    "ar": "حساب المراجع"
+  },
+  "Declared professional reference": {
+    "fr": "Référence professionnelle déclarée",
+    "ar": "مرجع مهني مصرّح به"
+  },
+  "Review private supporting document": {
+    "fr": "Consulter la pièce justificative privée",
+    "ar": "عرض الوثيقة الداعمة الخاصة"
+  },
+  "Latest independent check": {
+    "fr": "Dernière vérification indépendante",
+    "ar": "آخر تحقق مستقل"
+  },
+  "No independent check recorded for this declaration.": {
+    "fr": "Aucune vérification indépendante n’est consignée pour cette déclaration.",
+    "ar": "لم يُسجّل تحقق مستقل لهذا التصريح."
+  },
+  "Record a check": {
+    "fr": "Consigner une vérification",
+    "ar": "تسجيل تحقق"
+  },
+  "No other active reviewer declarations are available for varieties you can publish.": {
+    "fr": "Aucune autre déclaration active de relecteur n’est disponible pour les variétés que vous pouvez publier.",
+    "ar": "لا توجد تصريحات نشطة لمراجعين آخرين ضمن التنوعات اللغوية التي يمكنكم النشر فيها."
+  },
+  "Check reviewer competence": {
+    "fr": "Vérifier la compétence du relecteur",
+    "ar": "التحقق من كفاءة المراجع"
+  },
+  "Back to reviewer checks": {
+    "fr": "Retour aux vérifications des relecteurs",
+    "ar": "العودة إلى التحقق من المراجعين"
+  },
+  "Current declaration status": {
+    "fr": "Statut actuel de la déclaration",
+    "ar": "حالة التصريح الحالية"
+  },
+  "Check the person's identity and competence in this specific variety outside the application. Record the source or method and date, using only the minimum necessary detail.": {
+    "fr": "Vérifiez hors application l’identité de la personne et sa compétence dans cette variété précise. Consignez la source ou la méthode et la date, avec le minimum de détails nécessaire.",
+    "ar": "تحققوا خارج التطبيق من هوية الشخص وكفاءته في هذا التنوع اللغوي المحدد. سجّلوا المصدر أو الطريقة والتاريخ مع الحد الأدنى من التفاصيل اللازمة."
+  },
+  "Record independent check": {
+    "fr": "Enregistrer la vérification indépendante",
+    "ar": "تسجيل التحقق المستقل"
+  },
+  "Verification result": {
+    "fr": "Résultat de la vérification",
+    "ar": "نتيجة التحقق"
+  },
+  "Verification basis and date": {
+    "fr": "Fondement et date de la vérification",
+    "ar": "أساس التحقق وتاريخه"
+  },
+  "Verification basis": {
+    "fr": "Fondement de la vérification",
+    "ar": "أساس التحقق"
+  },
+  "Verification date": {
+    "fr": "Date de la vérification",
+    "ar": "تاريخ التحقق"
+  },
+  "The verification date must be today or earlier.": {
+    "fr": "La date de vérification doit être aujourd’hui ou antérieure.",
+    "ar": "يجب أن يكون تاريخ التحقق اليوم أو قبله."
+  },
+  "Not verified": {
+    "fr": "Non vérifiée",
+    "ar": "لم يتم التحقق"
+  },
+  "Record what you checked, how, and when. Do not include identity-document numbers or unnecessary personal data.": {
+    "fr": "Indiquez ce que vous avez contrôlé, comment et quand. N’incluez aucun numéro de pièce d’identité ni donnée personnelle superflue.",
+    "ar": "اذكروا ما الذي تحققتم منه وكيف ومتى. لا تدرجوا أرقام وثائق الهوية أو بيانات شخصية غير لازمة."
+  },
+  "Verification must identify the exact current competence declaration.": {
+    "fr": "La vérification doit désigner la déclaration de compétence actuelle exacte.",
+    "ar": "يجب أن يخص التحقق تصريح الكفاءة الحالي المحدد."
+  },
+  "A reviewer cannot verify their own competence.": {
+    "fr": "Un relecteur ne peut pas vérifier sa propre compétence.",
+    "ar": "لا يمكن للمراجع التحقق من كفاءته بنفسه."
+  },
+  "Publishing authority for this variety is required to verify reviewer competence.": {
+    "fr": "Un droit de publication sur cette variété est nécessaire pour vérifier la compétence d’un relecteur.",
+    "ar": "يلزم امتلاك صلاحية النشر في هذا التنوع للتحقق من كفاءة المراجع."
+  },
+  "Inactive reviewer declarations cannot be verified.": {
+    "fr": "Une déclaration inactive ne peut pas être vérifiée.",
+    "ar": "لا يمكن التحقق من تصريح مراجع غير نشط."
+  },
+  "Only active users can record reviewer competence checks.": {
+    "fr": "Seuls les comptes actifs peuvent consigner une vérification de compétence.",
+    "ar": "لا يمكن تسجيل تحقق من كفاءة المراجع إلا بواسطة حساب نشط."
+  },
+  "Record a meaningful verification basis.": {
+    "fr": "Consignez un fondement de vérification suffisamment précis.",
+    "ar": "يرجى تسجيل أساس واضح للتحقق."
+  },
+  "Record a meaningful verification basis and date.": {
+    "fr": "Consignez un fondement de vérification et une date suffisamment précis.",
+    "ar": "يرجى تسجيل أساس واضح للتحقق وتاريخه."
+  },
+  "Verification decisions are immutable; record a new decision.": {
+    "fr": "Les décisions de vérification sont immuables ; consignez une nouvelle décision.",
+    "ar": "قرارات التحقق غير قابلة للتعديل؛ سجّلوا قرارًا جديدًا."
+  },
+  "Availability requires publishing permission and independently verified clinical competence.": {
+    "fr": "La disponibilité nécessite un droit de publication et une compétence clinique vérifiée indépendamment.",
+    "ar": "تتطلب الإتاحة صلاحية نشر وكفاءة سريرية تم التحقق منها بشكل مستقل."
+  },
+  "Approval requires independently verified competence for this discipline and variety.": {
+    "fr": "L’approbation nécessite une compétence vérifiée indépendamment dans cette discipline et cette variété.",
+    "ar": "يتطلب الاعتماد كفاءة تم التحقق منها بشكل مستقل في هذا الاختصاص والتنوع اللغوي."
+  },
+  "The availability decision owner no longer has the required authority or independently verified competence.": {
+    "fr": "L’auteur de la décision de disponibilité ne dispose plus du droit requis ou d’une compétence vérifiée indépendamment.",
+    "ar": "لم يعد صاحب قرار الإتاحة يمتلك الصلاحية المطلوبة أو الكفاءة التي تم التحقق منها بشكل مستقل."
+  },
+  "Two current approvals by distinct reviewers with independently verified competence are required.": {
+    "fr": "Deux approbations actuelles de relecteurs distincts dont la compétence a été vérifiée indépendamment sont nécessaires.",
+    "ar": "يلزم اعتمادان حاليان من مراجعين مختلفين تم التحقق من كفاءتهما بشكل مستقل."
   }
 }

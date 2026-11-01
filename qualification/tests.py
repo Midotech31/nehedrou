@@ -2,7 +2,8 @@ import hashlib
 import json
 import tempfile
 import uuid
-from django.core.exceptions import ValidationError
+from datetime import date, timedelta
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase,override_settings
 from django.urls import reverse
@@ -10,8 +11,8 @@ from catalog.models import Activity, Variety, EditorialGrant, Review, MediaAsset
 from catalog.readiness import activity_readiness,snapshot_media
 from catalog.services import transition,review_version,clone_version
 from core.models import User
-from .models import EvidenceDocument,ReviewerCompetence,AvailabilityDecision,LexicalPack,LexicalCandidate,FamiliarityStudy,PackReview
-from .services import availability_for,evidence_snapshot,REQUIRED_EVIDENCE,change_pack_state,clone_pack
+from .models import EvidenceDocument,ReviewerCompetence,ReviewerCompetenceDecision,AvailabilityDecision,LexicalPack,LexicalCandidate,FamiliarityStudy,PackReview
+from .services import availability_for,evidence_snapshot,REQUIRED_EVIDENCE,change_pack_state,clone_pack,has_competence,record_competence_decision
 from .test_support import evidence_fixture,competence_fixture,media_fixture,prepare_activity_fixture,availability_fixture
 
 @override_settings(DEMO_MODE=False,MFA_REQUIRED=False)
@@ -30,12 +31,74 @@ class DocumentaryQualificationTests(TestCase):
         return Activity.objects.create(variety=self.variety,series=uuid.uuid4(),title='Fictional contrast',contrast='p/b',word_a='pa',word_b='ba',instructions={'fr':'Fictif','en':'Fictional','ar':'مثال وهمي'},population='Fictional target',rights='Fictional only',is_demo=False)
 
     def test_permission_does_not_create_competence_and_changes_request_allowed(self):
-        ReviewerCompetence.objects.filter(user=self.actor).delete()
+        unqualified=User.objects.create_user(username='unqualified',email='unqualified@fictional.example',password='Fictional-Test-2026!')
+        EditorialGrant.objects.create(user=unqualified,variety=self.variety,clinical_review=True)
         activity=self.activity();activity.state='review';activity.save()
-        review_version(self.actor,activity,'clinical',False,'Needs qualified review')
+        review_version(unqualified,activity,'clinical',False,'Needs qualified review')
         with self.assertRaises(ValidationError):
-            review_version(self.actor,activity,'clinical',True,'Permission is not expertise')
+            review_version(unqualified,activity,'clinical',True,'Permission is not expertise')
         self.assertEqual(activity.reviews.count(),1)
+
+    def test_review_approval_requires_a_current_independent_competence_check(self):
+        declaration=ReviewerCompetence.objects.get(user=self.actor,variety=self.variety,discipline='clinical')
+        declaration.professional_role='Fictional SLP'
+        declaration.experience='Fictional regional experience'
+        declaration.save()
+        self.assertFalse(has_competence(self.actor,self.variety,'clinical'))
+        activity=self.activity();activity.state='review';activity.save()
+        with self.assertRaises(ValidationError):
+            review_version(self.actor,activity,'clinical',True,'Fictional self-assertion')
+
+        with self.assertRaises(ValidationError):
+            record_competence_decision(self.actor,declaration.pk,'verified','Self-check is not permitted for this declaration.',date(2026,1,1))
+
+        verifier=User.objects.create_user(username='variety-publisher',email='variety-publisher@fictional.example',password='Fictional-Test-2026!')
+        with self.assertRaises(PermissionDenied):
+            record_competence_decision(verifier,declaration.pk,'verified','Identity and regional competence checked using a fictional source.',date(2026,1,1))
+        EditorialGrant.objects.create(user=verifier,variety=self.variety,publish=True)
+        with self.assertRaises(ValidationError):
+            record_competence_decision(verifier,declaration.pk,'verified','Fictional check cannot be dated in the future.',date.today()+timedelta(days=1))
+        decision=record_competence_decision(verifier,declaration.pk,'verified','Identity and regional competence checked using a fictional source.',date(2026,1,1))
+        self.assertEqual(decision.snapshot_digest,declaration.fingerprint())
+        self.assertTrue(has_competence(self.actor,self.variety,'clinical'))
+
+        declaration.experience='Edited after the independent verification.'
+        declaration.save()
+        self.assertFalse(has_competence(self.actor,self.variety,'clinical'))
+        with self.assertRaises(ValidationError):
+            ReviewerCompetenceDecision.objects.create(competence=declaration,snapshot_digest=decision.snapshot_digest,status='verified',checked_on=date(2026,1,1),basis='Fictional stale decision for an older declaration.',decided_by=verifier)
+
+    def test_competence_decision_is_immutable_and_a_later_rejection_takes_effect(self):
+        declaration=ReviewerCompetence.objects.get(user=self.actor,variety=self.variety,discipline='clinical')
+        verifier=declaration.current_verification.decided_by
+        decision=declaration.current_verification
+        self.assertTrue(has_competence(self.actor,self.variety,'clinical'))
+        with self.assertRaises(ValidationError):
+            decision.basis='Altered historical check';decision.save()
+        record_competence_decision(verifier,declaration.pk,'rejected','Fictional identity check failed on this date.',date(2026,1,2))
+        self.assertFalse(has_competence(self.actor,self.variety,'clinical'))
+
+    def test_verification_view_is_scoped_to_publishers_and_never_self_verifies(self):
+        declaration=ReviewerCompetence.objects.get(user=self.other,variety=self.variety,discipline='linguistic')
+        self.client.force_login(self.actor)
+        index=self.client.get(reverse('qualification:competence_verification_index'))
+        self.assertEqual(index.status_code,200)
+        self.assertContains(index,'linguistic')
+        self.assertEqual(self.client.get(reverse('qualification:competence_verification',args=[declaration.pk])).status_code,200)
+        self.assertEqual(self.client.get(reverse('qualification:competence_verification',args=[ReviewerCompetence.objects.get(user=self.actor,variety=self.variety,discipline='clinical').pk])).status_code,404)
+        declaration.experience+=' updated after the old check'
+        declaration.save()
+        path=reverse('qualification:competence_verification',args=[declaration.pk])
+        invalid=self.client.post(path,{'status':'verified','checked_on':'2026-01-01','basis':'too short'})
+        self.assertEqual(invalid.status_code,200)
+        self.assertFalse(has_competence(self.other,self.variety,'linguistic'))
+        accepted=self.client.post(path,{'status':'verified','checked_on':'2026-01-01','basis':'Fictional independent identity and variety check recorded.'})
+        self.assertEqual(accepted.status_code,302)
+        self.assertTrue(has_competence(self.other,self.variety,'linguistic'))
+        outsider=User.objects.create_user(username='no-publish-scope',email='no-publish-scope@fictional.example',password='Fictional-Test-2026!')
+        self.client.force_login(outsider)
+        self.assertEqual(self.client.get(reverse('qualification:competence_verification_index')).context['rows'],[])
+        self.assertEqual(self.client.get(reverse('qualification:competence_verification',args=[declaration.pk])).status_code,404)
 
     def test_two_disciplines_from_same_person_cannot_publish(self):
         activity=self.activity();prepare_activity_fixture(activity,self.actor,self.other)

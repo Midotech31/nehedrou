@@ -12,8 +12,8 @@ from core.services import audit
 from core.storage_health import STORAGE_ERRORS
 from core.storage_io import read_bounded
 from .models import EvidenceDocument, ReviewerCompetence, AvailabilityDecision, LexicalPack, LexicalCandidate, FamiliarityStudy, PackReview
-from .forms import EvidenceForm, CompetenceForm, AvailabilityForm, PackForm, CandidateForm, FamiliarityForm, PackReviewForm, OpeningTargetForm, AvailabilityRevocationForm
-from .services import change_pack_state, clone_pack, pack_readiness_reasons
+from .forms import EvidenceForm, CompetenceForm, CompetenceDecisionForm, AvailabilityForm, PackForm, CandidateForm, FamiliarityForm, PackReviewForm, OpeningTargetForm, AvailabilityRevocationForm
+from .services import change_pack_state, clone_pack, pack_readiness_reasons, record_competence_decision
 
 def varieties(user, capability=None):
     if user.is_superuser:
@@ -37,7 +37,8 @@ def form_page(request,form,title):
 def index(request):
     require_workspace(request.user)
     visible = varieties(request.user)
-    return render(request,'qualification/index.html',{'packs':LexicalPack.objects.filter(variety__in=visible).select_related('variety'), 'competences':ReviewerCompetence.objects.filter(user=request.user).select_related('variety'), 'documents':private_documents(request.user).order_by('-created_at')[:30], 'can_edit':varieties(request.user,'edit').exists(), 'can_publish':varieties(request.user,'publish').exists()})
+    competences = ReviewerCompetence.objects.filter(user=request.user).select_related('variety','evidence','current_decision__decided_by')
+    return render(request,'qualification/index.html',{'packs':LexicalPack.objects.filter(variety__in=visible).select_related('variety'), 'competences':competences, 'documents':private_documents(request.user).order_by('-created_at')[:30], 'can_edit':varieties(request.user,'edit').exists(), 'can_publish':varieties(request.user,'publish').exists()})
 
 @login_required
 def evidence_upload(request):
@@ -100,6 +101,26 @@ def competence(request,pk=None):
         audit(request.user,'qualification.competence_declared',obj)
         return redirect('qualification:index')
     return form_page(request,form,_('Declare reviewer experience'))
+
+@login_required
+def competence_verification_index(request):
+    declarations = list(ReviewerCompetence.objects.filter(variety__in=varieties(request.user,'publish'),active=True).exclude(user=request.user).select_related('user','variety','evidence','current_decision__decided_by').order_by('variety__code','discipline','user__username'))
+    rows = [{'declaration': declaration, 'decision': declaration.current_verification,
+             'effective': declaration.independently_verified} for declaration in declarations]
+    return render(request,'qualification/competence_verification_index.html',{'rows':rows})
+
+@login_required
+def competence_verification(request,pk):
+    declaration = get_object_or_404(ReviewerCompetence.objects.filter(variety__in=varieties(request.user,'publish'),active=True).exclude(user=request.user).select_related('user','variety','evidence'),pk=pk)
+    declaration = ReviewerCompetence.objects.select_related('user','variety','evidence','current_decision__decided_by').get(pk=declaration.pk)
+    form = CompetenceDecisionForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        try:
+            record_competence_decision(request.user,declaration.pk,form.cleaned_data['status'],form.cleaned_data['basis'],form.cleaned_data['checked_on'])
+            return redirect('qualification:competence_verification_index')
+        except ValidationError as exc:
+            form.add_error(None,' '.join(exc.messages))
+    return render(request,'qualification/competence_verification.html',{'declaration':declaration,'decision':declaration.current_verification,'form':form})
 
 @login_required
 def availability(request):

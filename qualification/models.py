@@ -4,6 +4,7 @@ import json
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from core.models import CheckedModel
 from core.storage_health import file_exists, STORAGE_ERRORS
@@ -91,12 +92,78 @@ class ReviewerCompetence(CheckedModel):
     evidence = models.ForeignKey(EvidenceDocument, on_delete=models.PROTECT, null=True, blank=True)
     declared_at = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
+    current_decision = models.ForeignKey('qualification.ReviewerCompetenceDecision', on_delete=models.PROTECT, null=True, blank=True, related_name='current_for')
     class Meta:
         constraints = [models.UniqueConstraint(fields=['user', 'variety', 'discipline'], name='unique_reviewer_competence')]
+
+    def fingerprint(self):
+        """Bind human verification to the exact current competence declaration."""
+        return digest_value({
+            'user_id': str(self.user_id),
+            'variety_id': str(self.variety_id),
+            'discipline': self.discipline,
+            'professional_role': self.professional_role,
+            'experience': self.experience,
+            'credential_reference': self.credential_reference,
+            'evidence_id': str(self.evidence_id) if self.evidence_id else None,
+            'evidence_sha256': self.evidence.sha256 if self.evidence_id else None,
+            'active': self.active,
+        })
 
     def clean(self):
         if self.evidence_id and self.evidence.variety_id != self.variety_id:
             raise ValidationError(_('Evidence must concern the same spoken variety.'))
+
+    @property
+    def current_verification(self):
+        if hasattr(self, '_current_verification_cache'):
+            return self._current_verification_cache
+        return self.current_decision
+
+    @property
+    def independently_verified(self):
+        decision = self.current_verification
+        return bool(self.active and decision and decision.competence_id == self.pk and decision.snapshot_digest == self.fingerprint()
+                    and decision.status == 'verified' and decision.decided_by_id != self.user_id
+                    and (not self.evidence_id or self.evidence.usable))
+
+
+class ReviewerCompetenceDecision(CheckedModel):
+    """Append-only independent check of identity/variety competence, never a certificate."""
+    competence = models.ForeignKey(ReviewerCompetence, on_delete=models.PROTECT, related_name='decisions')
+    snapshot_digest = models.CharField(max_length=64, editable=False)
+    status = models.CharField(max_length=10, choices=[('verified', _('Independently checked')), ('rejected', _('Not verified'))])
+    checked_on = models.DateField(verbose_name=_('Verification date'))
+    basis = models.TextField(verbose_name=_('Verification basis'))
+    decided_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='reviewer_competence_decisions')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at', '-pk']
+        indexes = [models.Index(fields=['competence', 'snapshot_digest', 'created_at'])]
+
+    def clean(self):
+        from catalog.services import allowed
+        if self.pk and ReviewerCompetenceDecision.objects.filter(pk=self.pk).exists():
+            raise ValidationError(_('Verification decisions are immutable; record a new decision.'))
+        if not self.competence_id:
+            raise ValidationError({'competence': _('Verification must identify the exact current competence declaration.')})
+        if not self.decided_by_id:
+            raise ValidationError({'decided_by': _('Only active users can record reviewer competence checks.')})
+        if self.snapshot_digest != self.competence.fingerprint():
+            raise ValidationError(_('Verification must identify the exact current competence declaration.'))
+        if self.decided_by_id == self.competence.user_id:
+            raise ValidationError(_('A reviewer cannot verify their own competence.'))
+        if not self.decided_by.is_active:
+            raise ValidationError(_('Only active users can record reviewer competence checks.'))
+        if not allowed(self.decided_by, self.competence.variety, 'publish'):
+            raise ValidationError(_('Publishing authority for this variety is required to verify reviewer competence.'))
+        if not self.competence.active:
+            raise ValidationError(_('Inactive reviewer declarations cannot be verified.'))
+        if not self.checked_on or self.checked_on > timezone.localdate():
+            raise ValidationError(_('The verification date must be today or earlier.'))
+        if len((self.basis or '').strip()) < 20:
+            raise ValidationError(_('Record a meaningful verification basis.'))
 
 class AvailabilityDecision(CheckedModel):
     module = models.CharField(max_length=24, choices=MODULES)
@@ -126,7 +193,7 @@ class AvailabilityDecision(CheckedModel):
         validate_decision_target(self)
         if self.status == 'available':
             if not has_competence(self.decided_by, self.variety, 'clinical'):
-                raise ValidationError(_('Availability requires publishing permission and declared clinical competence.'))
+                raise ValidationError(_('Availability requires publishing permission and independently verified clinical competence.'))
             reasons = decision_evidence_reasons(self)
             if reasons:
                 raise ValidationError(reasons)
@@ -241,7 +308,7 @@ class PackReview(CheckedModel):
             raise ValidationError(_('Review permission for this discipline and variety is required.'))
         if self.approved:
             if not has_competence(self.reviewer, self.pack.variety, self.kind):
-                raise ValidationError(_('Approval requires a declared competence for this discipline and variety.'))
+                raise ValidationError(_('Approval requires independently verified competence for this discipline and variety.'))
             reasons = pack_content_reasons(self.pack)
             if reasons:
                 raise ValidationError(reasons)
