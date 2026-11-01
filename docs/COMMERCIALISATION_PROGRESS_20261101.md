@@ -6,21 +6,25 @@ Cette note consolide des vérifications reproductibles du dépôt et l’état o
 
 - La CI GitHub de la PR #26 (run 97) réussit la suite de tests complète, le build de l’image Docker, le démarrage de cette image sous un compte non privilégié, l’exécution des migrations sur une base SQLite fictive jetable, et la requête database-aware `/healthz/`.
 - Les 16 tests de `catalog.tests_authoring` passent sur le checkout local. Ils couvrent la création d’activité à partir d’une fiche vide, les permissions d’édition séparées de la relecture/publication, les interfaces FR/EN/AR, et le compte fictif Pitou sans privilèges staff ou superuser.
-- La PR #25 fournit une préparation hors ligne à la relecture de 42 brouillons MSA v1 et 32 brouillons Darija v2, avec une grille audio, images et sources. Elle n’importe ni n’approuve les contenus.
-- Les PR #25 et #26 sont ouvertes, CI verte, non fusionnées et non déployées au moment de cette observation.
+- La PR #25 fournit une préparation hors ligne à la relecture de 42 brouillons MSA v1 et 32 brouillons Darija v2, avec une grille audio, images, sources et dix affectations de relecture encore vierges. Elle n’importe ni n’approuve les contenus.
+- Les PR #25, #26, #27 et #28 ont été fusionnées après CI verte. Le SHA de `main` est `60ad20c53bae19780992d0c8cb890ec7a1170a17`.
 
 Ces résultats établissent des comportements logiciels dans leur périmètre testé. Ils ne démontrent ni l’efficacité thérapeutique de Nehedrou, ni la justesse de chaque mot ou de chaque variété, ni la sécurité de l’exploitation sur des dossiers réels.
 
-## Configuration Render observée
+## Configuration Render observée après mise à jour
 
-L’API Render a indiqué que `nehedrou-demo` est un service web au plan gratuit, dans la région Frankfurt, rattaché à `main`, avec un déploiement déclaré `live` sur le commit `85a66603cfbcadc0a8490c1c5b8fbc964bcaff08`. `main` était au commit `feed05dbf76a159a4fcebac1737784ff4d6d188f`; la seule différence entre les deux révisions était une note dans `docs/COMMERCIALISATION_PROGRESS_20261031.md`.
+L’API Render confirme que `nehedrou-demo` est un service web au plan gratuit, dans la région Frankfurt, rattaché à `main`. Le déploiement `dep-dbj8457lk1mc738gthkg` est `live` sur le même SHA `60ad20c53bae19780992d0c8cb890ec7a1170a17` que `main`. Le service est donc à jour avec le code fusionné.
 
-Deux écarts de configuration sont à résoudre dans le tableau de bord Render, puis à relire dans l’API après application :
+Le service conserve `healthCheckPath` vide alors que `render.yaml` déclare `/healthz/`. L’API indique aussi `autoDeploy=yes`; le dépôt est branché par URL publique et Render documente que cette source exige un déploiement manuel. Le dernier déploiement a donc été déclenché manuellement sur le dernier commit de `main`. Aucun appel de synchronisation Blueprint n’a été fait.
 
-1. le service actif a `healthCheckPath` vide alors que `render.yaml` déclare `/healthz/` ;
-2. le service actif a l’auto-déploiement sur commits activé alors que `render.yaml` demande `autoDeployTrigger: "off"`.
+La vérification HTTP après déploiement a retourné 200 pour `/healthz/`, `/fr/`, `/en/` et `/ar/`. Les pages FR/EN/AR répondent avec le `lang` attendu; AR est `dir=rtl` et référence Tajawal. L’interface arabe charge `nehedrou-child-profile` et réutilise ce fichier comme favicon. Les journaux de requête n’ont montré aucun 5xx entre 00:06 et 00:07 UTC, et les journaux applicatifs aucun niveau `error` entre 00:04 et 00:08 UTC. Cette observation courte est une recette de fumée, pas une mesure de disponibilité ou une recette visuelle exhaustive; l’accès UI automatisé n’a pas été établi dans cette session.
 
-Le workspace ne contient pas de base Render gérée. Le blueprint du service indique l’usage d’une base PostgreSQL et d’un stockage média S3 externes ; cela ne prouve ni la persistance de chaque objet, ni une sauvegarde restaurable, ni le statut du projet externe. Render indique que le déploiement de ce commit est `live` ; une vérification HTTP et une recette navigateur publique des trois langues n’ont pas été répétées dans le cadre de cette note.
+Deux points de configuration restent à aligner et confirmer dans Render :
+
+1. le service actif a `healthCheckPath` vide alors que `render.yaml` déclare `/healthz/`; le endpoint renvoie 200 mais n’est pas utilisé comme health check HTTP par Render;
+2. le service actif indique `autoDeploy=yes` alors que `render.yaml` demande `autoDeployTrigger: "off"`. Comme le dépôt est relié par URL publique, la méthode observée est le déploiement manuel; conserver une politique explicite et revérifier le réglage dans l’API après synchronisation autorisée.
+
+Le workspace ne contient pas de base Render gérée. Le blueprint indique l’usage d’une base PostgreSQL et d’un stockage média S3 externes; cela ne prouve ni la persistance de chaque objet, ni une sauvegarde restaurable. La version actuelle est une démo gratuite. Une recette navigateur complète avec interactions authentifiées et captures visuelles reste à faire.
 
 ## Ce que le plan gratuit permet — et ne permet pas
 
