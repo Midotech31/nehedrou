@@ -1,6 +1,8 @@
 # Inventaire courant et historiques de contenu
 
-Mis à jour le 30 octobre 2026. Aucun décompte historique ne doit être présenté comme
+Instantané agrégé de la base Neon, interrogé en lecture seule le 1 novembre 2026 à 03:45 UTC : 124 lignes non démonstratives (22 fr-FR, 17 en-US, 52 ar-MSA, 33 ar-DZ). Les 111 versions courantes sont toutes en brouillon : 19 fr-FR, 17 en-US, 42 ar-MSA et 33 ar-DZ; les 13 lignes restantes sont des versions antérieures (3 FR, 10 MSA). Aucune ne référence d’audio et aucune revue ou décision de disponibilité n’est enregistrée. La table contient cinq actifs audio sans référence à ces contenus. Ce relevé est un instantané daté; il ne vaut ni validation ni inventaire d’une autre base.
+
+Mis à jour le 1 novembre 2026. Aucun décompte historique ne doit être présenté comme
 une qualification clinique ou comme l'état d'une autre base.
 
 ```text

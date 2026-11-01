@@ -1,5 +1,13 @@
 # État de préparation commerciale — 1 novembre 2026
 
+## Revalidation du checkout de la PR - 1 novembre 2026, 03:45 UTC
+
+Sur le commit bcd9229eb95f873e8df0c7f7325052aec81f00b1 : la suite Django complète exécute **684 tests, dont 20 ignorés et aucun en échec**; le dossier de relecture ciblé exécute 11 tests. manage.py check et makemigrations --check --dry-run réussissent; compilation et contrôle des catalogues FR/EN/AR trouvent 1755 clés d’interface, sans manque. Les 20 tests ignorés comprennent les cas réservés à PostgreSQL lorsqu’ils tournent sur SQLite. Le build/smoke Docker n’a pas pu être réexécuté localement, Docker n’est pas disponible dans cet environnement. Le nouveau commit n’a pas encore de statut CI GitHub retourné; le vert #150 documenté plus bas appartient au commit antérieur 02d55fe.
+
+L’instantané Neon agrégé a été rafraîchi le 1 novembre à 03:45 UTC; voir [l’inventaire courant](INVENTAIRE_CONTENUS.md). Il confirme 111 versions courantes non démo, toutes brouillons, sans audio référencé, revue ou décision de disponibilité.
+
+Une nouvelle requête HTTP depuis cette session a été refusée par la couche réseau; la dernière observation via l’API Render indique toujours le déploiement live de main au SHA 60ad20c53bae19780992d0c8cb890ec7a1170a17, offre gratuite, région Frankfurt et healthCheckPath vide. La PR #30 n’est donc pas déployée. Les contrôles navigateur/hors-ligne consignés ci-dessous restent des observations antérieures, pas une nouvelle recette de cette session.
+
 Cette note consolide des vérifications reproductibles du dépôt et l’état observé des services le 1 novembre 2026. Elle distingue les tests de code, la démonstration hébergée et les preuves requises avant une commercialisation. Elle ne vaut ni approbation clinique, ni qualification juridique, ni engagement d’exploitation.
 
 ## État technique vérifié
