@@ -4,7 +4,7 @@
 
 La PR #30 a été fusionnée en squash sous le commit fddb41b3e6a97ba25d9ef808af77004aeca7a169. Render confirme le déploiement dep-dbjbehetlv9c73cobt9g au statut live sur https://nehedrou-demo.onrender.com/; les migrations n’ont rien eu à appliquer, Gunicorn écoute et les journaux après démarrage contiennent une réponse HTTP 200.
 
-La recette HTTP externe directe des pages localisées n’a pas pu être répétée depuis cette session (accès réseau et noyau navigateur indisponibles). Le service reste sur l’offre gratuite, avec healthCheckPath vide dans sa configuration active; render.yaml déclare /healthz/. La démo est publiée pour des essais fictifs seulement et n’est pas prête pour une vente clinique.
+Une recette publique post-déploiement a été réalisée le 1 novembre 2026 avec BrowserAct 1.5.0 et le Chrome local vierge `nehdrou-recette`; aucune connexion ni donnée réelle n’a été utilisée. Les routes, sélecteur de langue, direction RTL et essais publics ont été vérifiés sur ordinateur; le contrôle arabe final a été interrompu par une erreur BrowserAct « No space left on device » et reste incomplet. Voir le détail et les limites ci-dessous. Le service reste sur l’offre gratuite, avec `healthCheckPath` vide dans sa configuration active alors que `render.yaml` déclare `/healthz/`. La démo sert aux essais fictifs et n’est pas prête pour une vente clinique.
 
 ## Revalidation du checkout de la PR - 1 novembre 2026, 03:45 UTC
 
@@ -12,7 +12,7 @@ Sur le commit bcd9229eb95f873e8df0c7f7325052aec81f00b1 : la suite Django locale 
 
 L’instantané Neon agrégé a été rafraîchi le 1 novembre à 03:45 UTC; voir [l’inventaire courant](INVENTAIRE_CONTENUS.md). Il confirme 111 versions courantes non démo, toutes brouillons, sans audio référencé, revue ou décision de disponibilité.
 
-Le test HTTP direct des pages localisées n’a pas pu être répété depuis cette session; les observations HTTP et navigateur précédentes sont datées et ne constituent pas une recette après ce déploiement.
+La recette BrowserAct desktop post-déploiement du 1 novembre est détaillée dans la section « Recette UI publique réalisée »; sa portée s’arrête avant l’authentification et le dernier écran de l’essai arabe.
 
 Cette note consolide des vérifications reproductibles du dépôt et l’état observé des services le 1 novembre 2026. Elle distingue les tests de code, la démonstration hébergée et les preuves requises avant une commercialisation. Elle ne vaut ni approbation clinique, ni qualification juridique, ni engagement d’exploitation.
 
@@ -54,9 +54,13 @@ Les 82 versions sans correspondance exacte concernent le paquet statique hors li
 
 ## Recette UI publique réalisée
 
-La recette a utilisé un profil de navigateur Chrome vierge et isolé, sans importer de profil personnel ni accéder à des données réelles. Les pages `/fr/`, `/en/` et `/ar/` ont été ouvertes; leur sélecteur de langue, les liens vers les essais et la navigation publique ont été exercés. Les essais `/fr/try/`, `/en/try/` et `/ar/try/` s’ouvrent et progressent dans les trois étapes. L’essai bloque l’étape suivante lorsqu’aucune réponse n’est sélectionnée. Les écrans présentent explicitement les exemples comme non validés, signalent l’absence d’un score de prononciation et indiquent que le profil/rapport de l’enfant n’est pas conservé. La recette s’est arrêtée avant l’envoi final d’un rapport.
+**Recette après le déploiement Render `fddb41b`, le 1 novembre 2026, avec BrowserAct 1.5.0.** Chrome local vierge et isolé `nehdrou-recette`, nouvelle session créée pour cette recette, sans connexion, import de profil ou donnée réelle. La page française s’est affichée; le sélecteur a réellement navigué vers `/en/` puis `/ar/`. Les pages anglaise et arabe présentaient les libellés traduits; `documentElement.lang` était `en`/`ar`, et la page arabe portait `dir=rtl`. Le pied de page exact `Designed by Benabdeloued Mohamed Alias Pitou` est présent. La capture arabe est conservée uniquement dans le dossier local temporaire de recette, pas dans le dépôt public.
 
-Les contrôles responsive sur FR/EN/AR à 390×844 et sur AR à 320×640 ont confirmé que la largeur du document ne dépasse pas celle de la fenêtre. Le document conserve `lang` approprié et l’arabe `dir=rtl`; les boutons et textes se replient sans défilement horizontal. Les captures de recette restent locales et ne contiennent pas de données utilisateur; elles ne sont pas ajoutées au dépôt public. Aucune connexion à un compte, aucun test des permissions privées et aucune validation clinique ou audio n’ont été effectués.
+L’essai `/fr/try/` a parcouru ses trois étapes et généré la synthèse de démonstration avec réponses fictives. Sans choix d’image, la deuxième étape affiche `Choisissez une réponse ou interrompez l’activité.` et ne progresse pas. La synthèse porte `Aperçu uniquement · aucun enregistrement`, précise qu’un choix d’image et le retour familial ne mesurent ni prononciation ni progrès clinique, et le code de `demo_activity` ne lit ni n’écrit de profil, dossier ou séance; sa réponse est `no-store`. L’essai `/en/try/` a aussi atteint la synthèse anglaise, avec `Preview only · nothing saved` et l’avertissement sur la prononciation et les progrès cliniques.
+
+L’essai `/ar/try/` a confirmé les libellés arabes, la direction RTL, le contenu `دار`/`نار` et l’étiquette visible `الدارجة الجزائرية · اقتراح محلي ينتظر المراجعة`. L’étape de sélection d’image a été atteinte et une réponse fictive choisie, mais le navigateur a ensuite retourné `Error 230305: Session communication error: [Errno 28] No space left on device` avant l’ouverture du formulaire de retour; sa synthèse arabe finale n’est donc pas vérifiée. La session de recette a été fermée. E: disposait de 716 Go libres tandis que C: indiquait environ 1,1 Go libres; aucun fichier personnel n’a été supprimé. Aucune opération d’ouverture de compte ni de permission privée n’a été effectuée.
+
+Cette recette directe est desktop, à 1889 px de largeur de fenêtre. Elle ne revalide pas les affichages mobiles, le clavier/zoom, les rôles authentifiés, invitations, emails, stockage/restauration, ni le contenu clinique ou audio. Les mesures responsive plus anciennes consignées précédemment restent des observations antérieures, pas une preuve de recette mobile après ce déploiement.
 
 ## Porte réglementaire et données personnelles — préanalyse documentaire
 
