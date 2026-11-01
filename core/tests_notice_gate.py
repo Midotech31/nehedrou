@@ -4,7 +4,9 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
+from care.models import Child
 from catalog.models import Variety
+from followup.models import ClinicalGoal
 from .access import CURRENT_NOTICE_VERSION
 from .models import Entitlement, Membership, NoticeAcknowledgement, Organization, User
 from .testing import practice_form_data
@@ -60,3 +62,21 @@ class NoticeGateTests(TestCase):
         response = self.client.post(path, form)
         self.assertRedirects(response, reverse('data_notice'), fetch_redirect_response=False)
         self.assertFalse(self.organization.child_set.exists())
+
+    def test_clinical_followup_goal_cannot_be_written_before_notice_acknowledgement(self):
+        child = Child.objects.create(code='Fictional follow-up profile', age_years=5,
+            responsible=self.user, organization=self.organization)
+        child.varieties.add(self.variety)
+        path = reverse('followup:goal_create', kwargs={'child_id': child.pk})
+        response = self.client.post(path, {
+            'variety': str(self.variety.pk),
+            'external_assessment_status': 'confirmed',
+            'target_phoneme': 'p',
+            'target_position': 'initial',
+            'context_key': 'isolated_word',
+            'rationale': 'Fictional test rationale',
+            'expected_realization': '/p/',
+            'functional_goal': 'Fictional test goal',
+        })
+        self.assertRedirects(response, reverse('data_notice'), fetch_redirect_response=False)
+        self.assertFalse(ClinicalGoal.objects.filter(child=child).exists())

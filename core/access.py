@@ -1,5 +1,7 @@
 from uuid import UUID
+from django.conf import settings
 from django.db.models import Q
+from django.shortcuts import redirect
 from django.http import Http404
 from care.models import Child, Program
 from .models import Membership
@@ -16,6 +18,12 @@ def notice_acknowledged(user, organization):
     return NoticeAcknowledgement.objects.filter(
         user=user, organization=organization, version=CURRENT_NOTICE_VERSION,
     ).exists()
+
+def notice_gate(request, organization):
+    """Block child-data writes until the actor acknowledges the current notice."""
+    if settings.DEMO_MODE or notice_acknowledged(request.user, organization):
+        return None
+    return redirect('data_notice')
 
 def membership(request):
     request.practice_selection_required = False

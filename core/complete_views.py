@@ -15,7 +15,7 @@ from .access import clinician_child, professional_children, manager, visible_chi
 from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .forms import ChildForm, ProgramForm, ReassignForm, PrivacyDecisionForm
 from .models import Organization, PrivacyRequest, Invitation, Entitlement, Invoice, NoticeAcknowledgement
-from .access import CURRENT_NOTICE_VERSION
+from .access import CURRENT_NOTICE_VERSION, notice_gate
 from .services import audit, log_child_access, check_entitlement, create_program, lock_clinical_child
 
 @login_required
@@ -25,6 +25,9 @@ def child_edit(request, pk):
         log_child_access(request.user, child, resource='child_profile_edit', purpose_code='care_delivery')
     form = ChildForm(request.POST or None, instance=child)
     if request.method == 'POST' and form.is_valid():
+        gated = notice_gate(request, child.organization)
+        if gated:
+            return gated
         try:
             with transaction.atomic():
                 locked = lock_clinical_child(request.user, child)
@@ -67,6 +70,10 @@ def reassign(request, pk):
     child = clinician_child(request.user, pk)
     form = ReassignForm(request.POST or None, organization=child.organization)
     if request.method == 'POST' and form.is_valid():
+        gated = notice_gate(request, child.organization)
+        if gated:
+            return gated
+    if request.method == 'POST' and form.is_valid():
         try:
             from .services import transfer_child
             transfer_child(request.user, child, form.cleaned_data['responsible'])
@@ -81,6 +88,10 @@ def program_replace(request, pk):
     form = ProgramForm(request.POST or None, child=program.child, initial={'title': program.title, 'variety': program.variety, 'activities': list(program.items.values_list('activity_id', flat=True)), 'guidance': program.guidance, 'schedule': program.schedule, 'goal': program.goal, **{field: getattr(program, field) for field in ['practice_start', 'practice_end', 'practice_days', 'practice_minutes']}, 'activity_order': ','.join(str(pk) for pk in program.items.values_list('activity_id', flat=True))})
     preview = None
     if request.method == 'POST' and form.is_valid():
+        if request.POST.get('action') != 'preview':
+            gated = notice_gate(request, program.organization)
+            if gated:
+                return gated
         if request.POST.get('action') == 'preview':
             preview = form.cleaned_data
         else:
