@@ -145,4 +145,3 @@ Recette interactive sur la version Render live `c629e9053ad6da965862de9e8982c031
 | `gestionnaire` | Connexion réussie; `/fr/billing/`; navigation gestion de plateforme et facturation visible. | Aucun plan ni facture modifié. |
 
 La recette confirme les connexions et les écrans d’entrée de ces sept comptes sur ce commit. Elle ne remplace pas les tests de refus détaillés de la suite automatisée ni les recettes de toutes les actions protégées. Le compte `pitou`, distinct des sept, est actif et doté de droits d’édition de brouillons d’après la lecture Neon, mais son mot de passe est absent du tableau privé consulté; aucune connexion Pitou n’a été soumise.
-
