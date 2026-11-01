@@ -52,7 +52,7 @@ class PrivateOperationsViewTests(TestCase):
         report = {
             'technical_gates_passed': False,
             'checks': {'current_available_nondemo_content_in_each_offered_variety': False},
-            'manual_gates_required': ['professional_content_and_audio_validation'],
+            'manual_gates_required': ['professional_content_and_audio_validation', 'reviewer_identity_and_variety_competence_independently_verified'],
             'scope': 'Technical report only.',
             'offered_content_varieties': ['ar-dz-pilot'],
             'published_nondemo_counts_by_variety': {'ar-dz-pilot': 2},
@@ -79,6 +79,7 @@ class PrivateOperationsViewTests(TestCase):
         self.assertContains(response, '<td>4</td><td>3</td><td>1</td><td>0</td><td>0</td><td>0</td><td>3</td>', html=False)
         self.assertContains(response, 'Des blocages techniques empêchent le lancement')
         self.assertContains(response, 'Relecture professionnelle des activités et des fichiers audio exacts')
+        self.assertContains(response, 'Identité des relecteurs, expertise déclarée et compétence dans la variété parlée vérifiées indépendamment')
         self.assertContains(response, 'Couverture du registre des traitements de la plateforme')
         self.assertContains(response, 'Module de sondes professionnelles')
         self.assertContains(response, '3')
@@ -90,7 +91,7 @@ class PrivateOperationsViewTests(TestCase):
     def test_technical_pass_still_displays_manual_review_gates(self):
         self.client.force_login(self.operator)
         report = {'technical_gates_passed': True, 'checks': {'debug_disabled': True},
-                  'manual_gates_required': ['professional_content_and_audio_validation'],
+                  'manual_gates_required': ['professional_content_and_audio_validation', 'reviewer_identity_and_variety_competence_independently_verified'],
                   'scope': 'Technical report only.'}
         with patch('core.operations_views.call_command', side_effect=lambda command, *, json, stdout: stdout.write(__import__('json').dumps(report))):
             response = self.client.get('/en/operations/readiness/')
@@ -98,6 +99,7 @@ class PrivateOperationsViewTests(TestCase):
         self.assertContains(response, 'Technical checks passed')
         self.assertContains(response, 'Human review and acceptance still required')
         self.assertContains(response, 'Professional review of activity content and exact audio')
+        self.assertContains(response, 'Reviewer identity, declared expertise and spoken-variety competence independently verified')
         self.assertContains(response, 'does not approve clinical content, legal compliance or commercial release')
 
     def test_invalid_configuration_has_a_safe_localized_html_state(self):
@@ -113,6 +115,7 @@ class PrivateOperationsViewTests(TestCase):
         self.client.force_login(self.operator)
         report = {
             'technical_gates_passed': False, 'checks': {}, 'scope': 'Technical report only.',
+            'manual_gates_required': ['reviewer_identity_and_variety_competence_independently_verified'],
             'offered_content_varieties': ['ar-dz-pilot'],
             'editorial_pipeline_by_variety': {'ar-dz-pilot': {'latest_versions': 1}},
         }
@@ -125,6 +128,7 @@ class PrivateOperationsViewTests(TestCase):
         self.assertContains(english, 'Editorial queue by spoken variety')
         self.assertContains(arabic, 'الجاهزية للإطلاق')
         self.assertContains(arabic, 'قائمة التحرير حسب التنوع اللغوي المنطوق')
+        self.assertContains(arabic, 'التحقق المستقل من هوية المراجعين وخبرتهم المعلنة وكفاءتهم في التنوع اللغوي المنطوق')
         self.assertIn('dir="rtl"', arabic.content.decode())
         self.assertIn('Observed at', english.content.decode())
 

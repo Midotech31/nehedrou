@@ -5472,3 +5472,6 @@ msgstr "Dernière version de chaque série de contenus"
 
 msgid "Missing one or more audio references"
 msgstr "Au moins une référence audio manquante"
+
+msgid "Reviewer identity, declared expertise and spoken-variety competence independently verified"
+msgstr "Identité des relecteurs, expertise déclarée et compétence dans la variété parlée vérifiées indépendamment"

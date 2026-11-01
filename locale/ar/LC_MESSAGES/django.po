@@ -5472,3 +5472,6 @@ msgstr "أحدث نسخة في كل سلسلة محتوى"
 
 msgid "Missing one or more audio references"
 msgstr "مرجع صوتي واحد أو أكثر غير متوفر"
+
+msgid "Reviewer identity, declared expertise and spoken-variety competence independently verified"
+msgstr "التحقق المستقل من هوية المراجعين وخبرتهم المعلنة وكفاءتهم في التنوع اللغوي المنطوق"

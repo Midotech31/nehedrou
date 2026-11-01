@@ -55,6 +55,7 @@ class SpokenVarietyReadinessTests(TestCase):
         self.assertEqual(report['current_available_nondemo_counts_by_variety']['ar-dz-pilot'], 0)
         self.assertFalse(report['checks']['current_available_nondemo_content_in_each_offered_variety'])
         self.assertFalse(report['technical_gates_passed'])
+        self.assertIn('reviewer_identity_and_variety_competence_independently_verified', report['manual_gates_required'])
         with self.assertRaises(CommandError):
             self.report(strict=True)
 

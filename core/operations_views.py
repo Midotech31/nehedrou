@@ -51,6 +51,7 @@ READINESS_CHECK_LABELS = {
 MANUAL_READINESS_LABELS = {
     'professional_content_and_audio_validation': _('Professional review of activity content and exact audio'),
     'native_language_review': _('Native-speaker review for every offered spoken variety'),
+    'reviewer_identity_and_variety_competence_independently_verified': _('Reviewer identity, declared expertise and spoken-variety competence independently verified'),
     'browser_and_accessibility_acceptance': _('Browser, mobile and accessibility acceptance'),
     'backup_restore_and_concurrency_acceptance': _('Backup, restoration and concurrent-use acceptance'),
     'applicable_launch_obligations': _('Applicable privacy, legal and launch obligations reviewed'),

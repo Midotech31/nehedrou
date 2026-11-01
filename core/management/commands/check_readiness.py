@@ -115,7 +115,7 @@ class Command(BaseCommand):
             'editorial_pipeline_scope': 'Counts the highest-numbered non-demo version in each series regardless of editorial state. Missing audio counts blank A/B references only; it does not verify file integrity, variety, rights, review or availability.',
             'content_coverage_scope': 'Interface-language counts are descriptive only. Every explicitly offered spoken variety requires its own currently usable non-demo practice version, exact media, current reviews and authorised availability; MSA never covers Algerian Darja.',
             'versions_with_unavailable_audio_or_reviews': unavailable,
-            'manual_gates_required': ['professional_content_and_audio_validation', 'native_language_review', 'browser_and_accessibility_acceptance', 'backup_restore_and_concurrency_acceptance', 'applicable_launch_obligations', 'processing_register_accuracy_and_legal_review', 'clinical_effectiveness_claims_require_separate_evidence'],
+            'manual_gates_required': ['professional_content_and_audio_validation', 'native_language_review', 'reviewer_identity_and_variety_competence_independently_verified', 'browser_and_accessibility_acceptance', 'backup_restore_and_concurrency_acceptance', 'applicable_launch_obligations', 'processing_register_accuracy_and_legal_review', 'clinical_effectiveness_claims_require_separate_evidence'],
             'storage_scope': 'Durability is operator-declared; verify persistence across restart, backup scheduling, off-host retention and restoration before launch.',
             'scope': 'A technical report, never clinical validation or commercial approval.',
         }
