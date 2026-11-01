@@ -1,3 +1,12 @@
+# Mise à jour de vérification — 1 novembre 2026, 06:27 UTC
+
+La PR #36 est ouverte et mergeable sur `443d51f86263ff026a6c5b3a2ec5ec215ae4fc2f`. GitHub Actions CI #200 a réussi sur ce commit : contrôles Django/traductions/migrations, suite de tests, construction de l’image Docker de production et smoke test de démarrage. Le changement n’est pas fusionné et n’est donc pas publié sur Render.
+
+Recette interactive BrowserAct 1.5.0 sur la version Render `c629e9053ad6da965862de9e8982c031ce77bfb5` : connexion et arrivée dans l’espace attendu vérifiées pour les sept comptes fictifs `responsable`, `orthophoniste`, `accompagnant`, `editeur`, `relecteur_clinique`, `relecteur_linguistique` et `gestionnaire`. La création de contenu, les décisions éditoriales, les actions sensibles et les refus d’accès à toutes les ressources hors périmètre n’ont pas été rejoués intégralement sur le navigateur; la suite automatisée couvre une partie distincte de ces cas. Aucun dossier, rapport, brouillon, décision, plan ou facture n’a été modifié. Le compte `pitou` n’a pas fait l’objet d’une nouvelle connexion.
+
+État Render relu à 06:25 UTC : `nehedrou-demo` reste sur le plan gratuit, commit `c629e905`, branche `main`, déclenchement automatique configuré sur commit et `healthCheckPath` vide. Les déploiements récents restent déclenchés par API. Le Blueprint contient `/healthz/`, mais l’API Render n’offre pas ici d’outil de mise à jour de ce paramètre; la configuration effective n’est pas alignée. Le service gratuit reste une démo, pas une base pour une offre commerciale avec données réelles.
+
+Les relecteurs professionnels et linguistiques peuvent être mobilisés par le porteur du projet. Leurs identités, compétences régionales et décisions ne sont pas encore consignées dans le CMS; aucune validation n’est déduite de cette disponibilité. Le dernier instantané Neon agrégé (05:07 UTC) constatait 111 versions courantes non démo, toutes brouillons, sans audio référencé, avis ni décision de disponibilité. Avant tout usage payant ou clinique, restent notamment les validations humaines par empreinte exacte, les voix et droits, la qualification réglementaire et données, l’hébergement et la restauration durables, et une décision de prix/support/contrats.
 # Revalidation du code et état du service — 1 novembre 2026, 05:03 UTC
 
 Sur le checkout `418e217264f02f5ecc40459d2535ca9f20dca26f`, la suite Django complète passe : **684 tests réussis, 20 ignorés**; le contrôle `manage.py check` ne signale aucune erreur. Les 20 ignorés comprennent des vérifications dépendant de PostgreSQL lorsqu’elles tournent sur SQLite. Le delta entre ce checkout et le commit applicatif actuellement publié `c629e9053ad6da965862de9e8982c031ce77bfb5` ne porte que sur ce document; le code exécuté par les tests est donc celui du déploiement Render actif.
@@ -136,3 +145,4 @@ Recette interactive sur la version Render live `c629e9053ad6da965862de9e8982c031
 | `gestionnaire` | Connexion réussie; `/fr/billing/`; navigation gestion de plateforme et facturation visible. | Aucun plan ni facture modifié. |
 
 La recette confirme les connexions et les écrans d’entrée de ces sept comptes sur ce commit. Elle ne remplace pas les tests de refus détaillés de la suite automatisée ni les recettes de toutes les actions protégées. Le compte `pitou`, distinct des sept, est actif et doté de droits d’édition de brouillons d’après la lecture Neon, mais son mot de passe est absent du tableau privé consulté; aucune connexion Pitou n’a été soumise.
+
