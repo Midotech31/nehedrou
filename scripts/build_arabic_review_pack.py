@@ -167,7 +167,7 @@ def rows_for_pack(candidates, predecessors):
         path = ROOT / "static" / reference
         if not path.is_file():
             raise ValueError(f"Missing referenced SVG: {reference}")
-        raw = path.read_bytes()
+        raw = canonical_text_bytes(path.read_bytes())
         asset_rows.append({
             "static_reference": reference, "sha256": digest(raw), "size_bytes": len(raw),
             "candidate_side_uses": uses, "visual_review_code_and_date": "",
