@@ -51,6 +51,7 @@ READINESS_CHECK_LABELS = {
 MANUAL_READINESS_LABELS = {
     'professional_content_and_audio_validation': _('Professional review of activity content and exact audio'),
     'native_language_review': _('Native-speaker review for every offered spoken variety'),
+    'reviewer_identity_and_variety_competence_independently_verified': _('Reviewer identity, declared expertise and spoken-variety competence independently verified'),
     'browser_and_accessibility_acceptance': _('Browser, mobile and accessibility acceptance'),
     'backup_restore_and_concurrency_acceptance': _('Backup, restoration and concurrent-use acceptance'),
     'applicable_launch_obligations': _('Applicable privacy, legal and launch obligations reviewed'),
@@ -133,6 +134,12 @@ def launch_readiness_report(request):
             'content_rows': [
                 (code, report.get('published_nondemo_counts_by_variety', {}).get(code, 0),
                  report.get('current_available_nondemo_counts_by_variety', {}).get(code, 0))
+                for code in report.get('offered_content_varieties', [])
+            ],
+            'content_pipeline_rows': [
+                (code, *(report.get('editorial_pipeline_by_variety', {}).get(code, {}).get(key, 0)
+                         for key in ['latest_versions', 'draft', 'review', 'approved', 'published',
+                                     'withdrawn', 'missing_one_or_more_audio_references']))
                 for code in report.get('offered_content_varieties', [])
             ],
             'manual_gate_rows': [MANUAL_READINESS_LABELS.get(key, key) for key in report.get('manual_gates_required', [])],

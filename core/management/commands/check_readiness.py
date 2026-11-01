@@ -36,6 +36,28 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         offered = offered_content_varieties()
+        # Show the editorial workload without treating drafts as clinically ready.
+        # Count only the highest numbered version in each series, across states.
+        latest_by_series = {}
+        candidates = Activity.objects.filter(is_demo=False).select_related('variety').order_by('series', '-version', '-pk')
+        for activity in candidates.iterator():
+            latest_by_series.setdefault(activity.series, activity)
+        pipeline_records = {code: [] for code in offered}
+        for activity in latest_by_series.values():
+            if activity.variety.code in pipeline_records:
+                pipeline_records[activity.variety.code].append(activity)
+        editorial_pipeline = {}
+        for code, records in pipeline_records.items():
+            states = Counter(activity.state for activity in records)
+            editorial_pipeline[code] = {
+                'latest_versions': len(records),
+                'draft': states['draft'],
+                'review': states['review'],
+                'approved': states['approved'],
+                'published': states['published'],
+                'withdrawn': states['withdrawn'],
+                'missing_one_or_more_audio_references': sum(not activity.audio_a.strip() or not activity.audio_b.strip() for activity in records),
+            }
         published = Activity.objects.filter(state='published', is_demo=False).select_related('variety')
         current_ids = set(current_catalog(published).values_list('pk', flat=True))
         # Share byte checks only within this invocation, never with a later run.
@@ -89,9 +111,11 @@ class Command(BaseCommand):
             'offered_content_varieties': list(offered),
             'published_nondemo_counts_by_variety': published_by_variety,
             'current_available_nondemo_counts_by_variety': available_by_variety,
+            'editorial_pipeline_by_variety': editorial_pipeline,
+            'editorial_pipeline_scope': 'Counts the highest-numbered non-demo version in each series regardless of editorial state. Missing audio counts blank A/B references only; it does not verify file integrity, variety, rights, review or availability.',
             'content_coverage_scope': 'Interface-language counts are descriptive only. Every explicitly offered spoken variety requires its own currently usable non-demo practice version, exact media, current reviews and authorised availability; MSA never covers Algerian Darja.',
             'versions_with_unavailable_audio_or_reviews': unavailable,
-            'manual_gates_required': ['professional_content_and_audio_validation', 'native_language_review', 'browser_and_accessibility_acceptance', 'backup_restore_and_concurrency_acceptance', 'applicable_launch_obligations', 'processing_register_accuracy_and_legal_review', 'clinical_effectiveness_claims_require_separate_evidence'],
+            'manual_gates_required': ['professional_content_and_audio_validation', 'native_language_review', 'reviewer_identity_and_variety_competence_independently_verified', 'browser_and_accessibility_acceptance', 'backup_restore_and_concurrency_acceptance', 'applicable_launch_obligations', 'processing_register_accuracy_and_legal_review', 'clinical_effectiveness_claims_require_separate_evidence'],
             'storage_scope': 'Durability is operator-declared; verify persistence across restart, backup scheduling, off-host retention and restoration before launch.',
             'scope': 'A technical report, never clinical validation or commercial approval.',
         }
@@ -109,6 +133,8 @@ class Command(BaseCommand):
         else:
             for name, passed in checks.items():
                 self.stdout.write(('PASS ' if passed else 'BLOCK ') + name)
+            for code, counts in editorial_pipeline.items():
+                self.stdout.write('CONTENT ' + code + ': ' + json.dumps(counts, sort_keys=True))
             self.stdout.write(report['scope'])
         if options['strict'] and not report['technical_gates_passed']:
             raise CommandError('Technical launch gates are not met.')

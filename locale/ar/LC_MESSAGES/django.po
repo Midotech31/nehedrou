@@ -5457,3 +5457,192 @@ msgstr "تحقّق من أن قوائم المقترحات تخص الكلمة �
 
 msgid "The two different words have identical family-vocabulary candidate lists; this may be intentional, but requires an explicit linguistic check."
 msgstr "للكلمتين المختلفتين قوائم متطابقة للمقترحات المعجمية العائلية. قد يكون ذلك مقصودًا، لكنه يتطلب تحققًا لغويًا صريحًا."
+
+msgid "Editorial queue by spoken variety"
+msgstr "قائمة التحرير حسب التنوع اللغوي المنطوق"
+
+msgid "Counts use the highest numbered version in each series, regardless of state."
+msgstr "تعرض الأعداد أعلى رقم إصدار في كل سلسلة، بغض النظر عن حالته."
+
+msgid "Missing audio counts blank references only; referenced files still need current rights and review."
+msgstr "يُحتسب الصوت مفقودًا عند فراغ مرجع واحد أو أكثر فقط؛ أما الملفات المشار إليها فتحتاج أيضًا إلى حقوق سارية ومراجعات حديثة."
+
+msgid "Latest version per content series"
+msgstr "أحدث نسخة في كل سلسلة محتوى"
+
+msgid "Missing one or more audio references"
+msgstr "مرجع صوتي واحد أو أكثر غير متوفر"
+
+msgid "Reviewer identity, declared expertise and spoken-variety competence independently verified"
+msgstr "التحقق المستقل من هوية المراجعين وخبرتهم المعلنة وكفاءتهم في التنوع اللغوي المنطوق"
+
+msgid "Edit draft content"
+msgstr "تحرير المسودات"
+
+msgid "Review clinical content"
+msgstr "مراجعة المحتوى السريري"
+
+msgid "Review language and spoken variety"
+msgstr "مراجعة اللغة والتنوع اللغوي المنطوق"
+
+msgid "Choose a limited editorial role."
+msgstr "اختر صلاحية تحريرية محدودة."
+
+msgid "The spoken variety is unavailable."
+msgstr "هذا التنوع اللغوي المنطوق غير متاح."
+
+msgid "This email belongs to an inactive account. Contact the platform manager before inviting it."
+msgstr "هذا البريد مرتبط بحساب غير نشط. تواصل مع مدير المنصة قبل إرسال الدعوة."
+
+msgid "This account already has this editorial access."
+msgstr "يملك هذا الحساب هذه الصلاحية التحريرية بالفعل."
+
+msgid "Nehedrou editorial access invitation"
+msgstr "دعوة للحصول على صلاحية تحريرية في نهدروا"
+
+msgid "You have been invited to a limited Nehedrou editorial role for %(variety)s. This link expires in seven days and does not grant access to practice records:"
+msgstr "لقد دُعيت إلى صلاحية تحريرية محدودة في نهدروا للتنوع %(variety)s. تنتهي صلاحية هذا الرابط بعد سبعة أيام ولا يمنح الوصول إلى ملفات الممارسة:"
+
+msgid "This editorial invitation has expired or is no longer available."
+msgstr "انتهت صلاحية هذه الدعوة التحريرية أو لم تعد متاحة."
+
+msgid "Sign in with the email address to which this invitation was sent."
+msgstr "سجّل الدخول باستخدام عنوان البريد الإلكتروني الذي تلقى هذه الدعوة."
+
+msgid "Editorial access was activated for the invited spoken variety."
+msgstr "تم تفعيل الصلاحية التحريرية للتنوع اللغوي المدعو إليه."
+
+msgid "An account already exists for this email. Sign in with the invited address to accept the invitation."
+msgstr "يوجد حساب بالفعل لهذا البريد. سجّل الدخول بعنوان البريد المدعو لقبول الدعوة."
+
+msgid "This editorial invitation is unavailable."
+msgstr "هذه الدعوة التحريرية غير متاحة."
+
+msgid "Manage editorial access"
+msgstr "إدارة صلاحيات التحرير"
+
+msgid "Invite a named editor or reviewer for one spoken variety. This access does not add a practice membership or expose child records."
+msgstr "ادعُ محررًا أو مراجعًا محددًا لتنوع لغوي واحد. لا تنشئ هذه الصلاحية عضوية في عيادة ولا تتيح الاطلاع على ملفات الأطفال."
+
+msgid "Invite an editor or reviewer"
+msgstr "دعوة محرر أو مراجع"
+
+msgid "An expiring link will be sent to the entered email. The account is created only when its recipient accepts. Receipt is not guaranteed by the recorded delivery status."
+msgstr "سيُرسل رابط مؤقت إلى البريد المحدد. لن يُنشأ الحساب إلا بعد قبول المستلم للدعوة. لا تؤكد حالة الإرسال استلام الرسالة."
+
+msgid "Only draft editing, clinical review, or linguistic review can be assigned here. Publishing is not granted by this form."
+msgstr "تتيح هذه الصفحة فقط تحرير المسودات أو المراجعة السريرية أو اللغوية. لا تمنح صلاحية النشر."
+
+msgid "Send editorial invitation"
+msgstr "إرسال الدعوة التحريرية"
+
+msgid "Invitations"
+msgstr "الدعوات"
+
+msgid "Expires"
+msgstr "تنتهي في"
+
+msgid "Accepted by"
+msgstr "قُبلت من طرف"
+
+msgid "Sent means handed to the configured mail transport; it does not prove receipt. Failed links grant no access."
+msgstr "تعني «أُرسلت» إحالة الرسالة إلى خدمة البريد المُعدة، ولا تثبت استلامها. لا تمنح الروابط الفاشلة أي صلاحية."
+
+msgid "Active editorial permissions"
+msgstr "الصلاحيات التحريرية النشطة"
+
+msgid "Draft editing"
+msgstr "تحرير المسودات"
+
+msgid "Revoke"
+msgstr "إلغاء"
+
+msgid "No active editorial permissions."
+msgstr "لا توجد صلاحيات تحريرية نشطة."
+
+msgid "Reviewer experience is self-declared in the review workspace; independently verify qualifications and regional spoken-variety competence before relying on any approval."
+msgstr "يصرّح المراجعون بخبرتهم بأنفسهم في مساحة المراجعة. تحقّق بصورة مستقلة من مؤهلاتهم وكفاءتهم في التنوع اللغوي المحلي قبل الاعتماد على أي موافقة."
+
+msgid "Editorial access invitation"
+msgstr "دعوة صلاحية تحريرية"
+
+msgid "You have been invited to a limited editorial role for"
+msgstr "لقد دُعيت إلى صلاحية تحريرية محدودة لـ"
+
+msgid "This invitation does not grant access to practice records or permission to publish content."
+msgstr "لا تمنح هذه الدعوة الوصول إلى ملفات الممارسة أو صلاحية نشر المحتوى."
+
+msgid "Invited email"
+msgstr "البريد الإلكتروني المدعو"
+
+msgid "Sign out and sign in with the invited email address to accept this invitation."
+msgstr "سجّل الخروج ثم ادخل باستخدام البريد المدعو لقبول هذه الدعوة."
+
+msgid "This email already has an account. Sign in with the invited address to accept the invitation."
+msgstr "يوجد حساب لهذا البريد. سجّل الدخول بعنوان البريد المدعو لقبول الدعوة."
+
+msgid "Sign in to accept"
+msgstr "تسجيل الدخول للقبول"
+
+msgid "Create an account with a password to accept this invitation. Your email is fixed to the invited address."
+msgstr "أنشئ حسابًا بكلمة مرور لقبول الدعوة. عنوان البريد مثبت على العنوان المدعو."
+
+msgid "Create account and accept"
+msgstr "إنشاء الحساب والقبول"
+
+msgid "Accept editorial invitation"
+msgstr "قبول الدعوة التحريرية"
+
+msgid "The invitation was recorded, but email delivery failed. Configure email or try again; no account was granted access."
+msgstr "سُجلت الدعوة لكن تعذّر إرسال البريد. أعد إعداد البريد أو حاول مجددًا؛ لم يُمنح أي حساب صلاحية."
+
+msgid "Development only: the invitation link was written to the local mail console."
+msgstr "للتطوير فقط: كُتب رابط الدعوة في سجل البريد المحلي."
+
+msgid "The invitation was handed to the mail service. Receipt has not been confirmed."
+msgstr "أُحيلت الدعوة إلى خدمة البريد. لم يتم تأكيد استلامها."
+
+msgid "The editorial invitation was revoked."
+msgstr "تم إلغاء الدعوة التحريرية."
+
+msgid "The selected editorial permission was revoked."
+msgstr "تم إلغاء الصلاحية التحريرية المحددة."
+
+msgid "Reviewer or editor email"
+msgstr "بريد المراجع أو المحرر"
+
+msgid "Limited editorial role"
+msgstr "صلاحية تحريرية محدودة"
+
+msgid "Editorial access"
+msgstr "صلاحيات التحرير"
+
+msgid "Editorial invitation unavailable"
+msgstr "الدعوة التحريرية غير متاحة"
+
+msgid "This editorial access is unavailable."
+msgstr "هذه الصلاحية التحريرية غير متاحة."
+
+msgid "This invitation may have expired, been revoked or already used. Ask the platform manager for a new invitation."
+msgstr "ربما انتهت صلاحية الدعوة أو أُلغيت أو استُخدمت. اطلب دعوة جديدة من مدير المنصة."
+
+msgid "To replace a failed or expired link, submit the same email, variety and role again. Any older unused link will be revoked."
+msgstr "لاستبدال رابط منتهي الصلاحية أو فشل إرساله، أعد إدخال البريد والتنوع والصلاحية نفسها. ستُلغى الروابط السابقة غير المستخدمة."
+
+msgid "Only draft editing, clinical review, or linguistic review can be assigned here. This invitation does not grant publishing or practice-record access; any permissions already on the account remain unchanged."
+msgstr "يمكن هنا منح صلاحية تحرير المسودات أو المراجعة السريرية أو اللغوية فقط. لا تمنح هذه الدعوة صلاحية النشر أو الاطلاع على سجلات المتابعة، ولا تغيّر أي صلاحيات موجودة على الحساب."
+
+msgid "This account already has publishing access for this spoken variety. Ask the platform manager to review its existing access."
+msgstr "يملك هذا الحساب صلاحية النشر لهذا التنوع اللغوي. اطلب من مدير المنصة مراجعة صلاحياته الحالية."
+
+msgid "This account already has publishing access for this spoken variety. Review its existing access directly instead of sending a limited-role invitation."
+msgstr "يملك هذا الحساب صلاحية النشر لهذا التنوع اللغوي. راجع صلاحياته الحالية مباشرة بدلاً من إرسال دعوة بدور محدود."
+
+msgid "This account also has existing publishing access for this variety; an invitation does not change it."
+msgstr "يملك هذا الحساب أيضاً صلاحية نشر سابقة لهذا التنوع؛ ولا تغيّرها الدعوة."
+
+msgid "This invitation grants only the selected editorial capability. It does not add practice-record access or publishing permission; any permissions already on the account remain unchanged."
+msgstr "تمنح هذه الدعوة صلاحية التحرير المحددة فقط. ولا تضيف صلاحية النشر أو الاطلاع على سجلات المتابعة، كما لا تغيّر الصلاحيات الموجودة على الحساب."
+
+msgid "You have been invited to a limited Nehedrou editorial role for %(variety)s. This link expires in seven days. It grants only the selected editorial capability and does not add practice-record access; any permissions already on your account remain unchanged:"
+msgstr "لقد دُعيت إلى دور تحريري محدود في نهدرو للتنوع %(variety)s. تنتهي صلاحية هذا الرابط بعد سبعة أيام. وهو يمنح صلاحية التحرير المحددة فقط، ولا يضيف الاطلاع على سجلات المتابعة ولا يغيّر الصلاحيات الموجودة على حسابك:"

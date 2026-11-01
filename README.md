@@ -35,7 +35,7 @@ Le praticien crée un profil minimal, choisit la variété parlée, attribue un 
 
 Nouveautés : retour partagé du praticien, historique complet filtrable/paginé, rapports lisibles, médias vérifiés et immuables, export professionnel complet et export familial filtré au schéma 3 ; parcours ordonné avec reprise, essai conservé après rechargement, bilan partagé et clôture sans rapport fictif ; objectif du programme, ordre réglable et synthèse avant attribution, accueil familial direct, arrêt précoce, réponses explicites et revue hebdomadaire des difficultés. Voir [le parcours de pratique](docs/PARCOURS_PRATIQUE.md) et [les fonctions finalisées](docs/FINALISATION_FONCTIONNELLE.md).
 
-Fonctions présentes : cabinets et droits par dossier, invitations révocables, MFA TOTP et récupération, catalogue versionné, droits éditoriaux par variété, deux relectures avant publication réelle, médias protégés, programmes ajustables, archivage/réattribution, historique, impression/export, facturation manuelle et demandes d’effacement avec décision documentée.
+Fonctions présentes : cabinets et droits par dossier, invitations révocables, MFA TOTP et récupération, catalogue versionné, droits éditoriaux par variété, invitations éditoriales à privilèges limités et révocables, deux relectures avant publication réelle, médias protégés, programmes ajustables, archivage/réattribution, historique, impression/export, facturation manuelle et demandes d’effacement avec décision documentée.
 
 La langue de l’interface, celle des consignes et la variété parlée sont distinctes. Changer un menu ne traduit pas les mots d’un exercice ni le texte écrit par un professionnel. Les copies fictives du catalogue ne sont attribuables qu’en DEMO_MODE.
 

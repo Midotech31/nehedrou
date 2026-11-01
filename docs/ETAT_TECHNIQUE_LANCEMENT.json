@@ -19,6 +19,7 @@
   "manual_gates_required": [
     "professional_content_and_audio_validation",
     "native_language_review",
+    "reviewer_identity_and_variety_competence_independently_verified",
     "browser_and_accessibility_acceptance",
     "backup_restore_and_concurrency_acceptance",
     "applicable_launch_obligations",

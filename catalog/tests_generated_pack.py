@@ -14,6 +14,7 @@ from django.core.exceptions import ValidationError, PermissionDenied
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import SimpleTestCase, TestCase, override_settings
+from django.utils import translation
 from django.urls import reverse
 from catalog import generated_pack
 from catalog.generated_pack import install_pack, PACK_ID
@@ -22,6 +23,7 @@ from catalog.media_validation import validate_media
 from catalog.templatetags.editorial import editorial_image_srcset
 from core.models import User
 from qualification.models import EvidenceDocument, AvailabilityDecision
+from scripts import build_arabic_review_pack
 
 
 @override_settings(DEMO_MODE=False, MFA_REQUIRED=False, PUBLIC_ORIGIN='https://demo.example',
@@ -199,17 +201,20 @@ class GeneratedReviewPackTests(TestCase):
         media = result['record']['media']['bread-v1']
         activity = next(row for row in result['record']['activities'] if row['words'] == ['pain', 'bain'])
         self.client.force_login(self.actor)
-        response = self.client.get(reverse('editorial_detail', args=[activity['id']]))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'srcset="/fr/media/' + media['256']['id'] + '/ 256w, /fr/media/' + media['512']['id'] + '/ 512w"')
-        self.assertContains(response, 'sizes="(max-width: 700px) 130px, 160px"')
-        with self.assertNumQueries(0):
-            self.assertEqual(editorial_image_srcset('editorial/bread.svg'), '')
-            self.assertEqual(editorial_image_srcset('editorial/asset-' + str(uuid.uuid4())), '')
-        # The actual ordinary-source editorial page keeps its historical src URL.
-        source_response = self.client.get(reverse('editorial_detail', args=[self.sources[0].pk]))
-        self.assertEqual(source_response.status_code, 200)
-        self.assertContains(source_response, 'srcset=""')
+        # Reverse i18n_patterns under a fixed locale; test-run order must not
+        # inherit a language activated by an earlier request.
+        with translation.override('fr'):
+            response = self.client.get(reverse('editorial_detail', args=[activity['id']]))
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, 'srcset="/fr/media/' + media['256']['id'] + '/ 256w, /fr/media/' + media['512']['id'] + '/ 512w"')
+            self.assertContains(response, 'sizes="(max-width: 700px) 130px, 160px"')
+            with self.assertNumQueries(0):
+                self.assertEqual(editorial_image_srcset('editorial/bread.svg'), '')
+                self.assertEqual(editorial_image_srcset('editorial/asset-' + str(uuid.uuid4())), '')
+            # The actual ordinary-source editorial page keeps its historical src URL.
+            source_response = self.client.get(reverse('editorial_detail', args=[self.sources[0].pk]))
+            self.assertEqual(source_response.status_code, 200)
+            self.assertContains(source_response, 'srcset=""')
 
 
 class GeneratedReviewPackBundleTests(SimpleTestCase):
@@ -225,3 +230,13 @@ class GeneratedReviewPackBundleTests(SimpleTestCase):
             source = pack_dir / 'sources' / concept['source']['file']
             self.assertEqual(source.stat().st_size, concept['source']['bytes'])
             self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), concept['source']['sha256'])
+
+
+class ArabicReviewPackReproducibilityTests(SimpleTestCase):
+    def test_review_pack_manifest_is_stable_across_windows_line_endings(self):
+        expected = build_arabic_review_pack.build()
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            for name, data in expected.items():
+                (output / name).write_bytes(data.replace(b"\n", b"\r\n"))
+            self.assertEqual(build_arabic_review_pack.output_mismatches(output, expected), [])

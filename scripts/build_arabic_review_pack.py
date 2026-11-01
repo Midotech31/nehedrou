@@ -21,7 +21,7 @@ SOURCES = (
      "737e95b4f21616a235d8e4f2a4bdc5e0eed87210f01ef74e9948dca6de0655a2",
      "ar-msa-pilot", 1, 42, "original_editorial_drafts_not_approved"),
     ("docs/arabic-library-v2.json",
-     "95e56145590072134f648dea416848305d9a3803638c062725149a245ad6bf96",
+     "7b2f660d463ced96201da354088adc490545e0df430d5a7940de55a56b1fdaed",
      "ar-dz-pilot", 2, 32, "draft_metadata_rebinding_pending_clinical_linguistic_review"),
 )
 REVIEW_FIELDS = (
@@ -37,6 +37,11 @@ REVIEW_FIELDS = (
     "decision", "decision_reason", "exact_cms_fingerprint_after_import",
     "availability_decision_ref", "release_scope",
 )
+
+
+def canonical_text_bytes(data: bytes) -> bytes:
+    """Normalize Git/platform text line endings for stable manifest hashes."""
+    return data.replace(b"\r\n", b"\n")
 
 
 def digest(data: bytes) -> str:
@@ -59,7 +64,7 @@ def load_candidates():
     for path, expected_sha, variety, version, count, expected_status in SOURCES:
         source_path = ROOT / path
         raw = source_path.read_bytes()
-        actual_sha = digest(raw)
+        actual_sha = digest(canonical_text_bytes(raw))
         if actual_sha != expected_sha:
             raise ValueError(f"Source changed; create a new review-pack version: {path}")
         document = json.loads(raw.decode("utf-8"))
@@ -162,7 +167,7 @@ def rows_for_pack(candidates, predecessors):
         path = ROOT / "static" / reference
         if not path.is_file():
             raise ValueError(f"Missing referenced SVG: {reference}")
-        raw = path.read_bytes()
+        raw = canonical_text_bytes(path.read_bytes())
         asset_rows.append({
             "static_reference": reference, "sha256": digest(raw), "size_bytes": len(raw),
             "candidate_side_uses": uses, "visual_review_code_and_date": "",
@@ -244,6 +249,12 @@ def assignment_rows(candidate_rows, recording_rows, asset_rows, evidence_rows):
             for scope_id, variety, role, competence, task, independence in scopes]
 
 
+def output_mismatches(directory: Path, expected: dict[str, bytes]) -> list[str]:
+    return [name for name, data in expected.items()
+            if not (directory / name).is_file()
+            or canonical_text_bytes((directory / name).read_bytes()) != data]
+
+
 def build():
     candidates, sources, predecessors = load_candidates()
     candidate_rows, recordings, assets, evidence = rows_for_pack(candidates, predecessors)
@@ -270,7 +281,7 @@ def build():
     readme_path = OUT / "README.md"
     if not readme_path.is_file():
         raise ValueError("Write the reviewer README before generating the manifest")
-    files["README.md"] = readme_path.read_bytes()
+    files["README.md"] = canonical_text_bytes(readme_path.read_bytes())
     manifest = {
         "pack_id": PACK_ID, "prepared_on": "2026-11-01",
         "status": "review_preparation_only_not_approved",
@@ -317,8 +328,7 @@ def main():
             (OUT / name).write_bytes(data)
         print(f"Wrote {len(expected)} files to {OUT}")
         return 0
-    mismatches = [name for name, data in expected.items()
-                  if not (OUT / name).is_file() or (OUT / name).read_bytes() != data]
+    mismatches = output_mismatches(OUT, expected)
     if mismatches:
         print("Review pack mismatch: " + ", ".join(mismatches))
         return 1

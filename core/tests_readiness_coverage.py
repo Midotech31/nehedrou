@@ -55,8 +55,36 @@ class SpokenVarietyReadinessTests(TestCase):
         self.assertEqual(report['current_available_nondemo_counts_by_variety']['ar-dz-pilot'], 0)
         self.assertFalse(report['checks']['current_available_nondemo_content_in_each_offered_variety'])
         self.assertFalse(report['technical_gates_passed'])
+        self.assertIn('reviewer_identity_and_variety_competence_independently_verified', report['manual_gates_required'])
         with self.assertRaises(CommandError):
             self.report(strict=True)
+
+    def test_editorial_pipeline_counts_latest_series_state_and_audio_reference_gaps(self):
+        series = uuid.uuid4()
+        base = {
+            'variety': self.varieties['ar-dz-pilot'], 'series': series,
+            'title': 'Fictional editorial queue fixture', 'contrast': 'fictional',
+            'word_a': 'fictif-a', 'word_b': 'fictif-b',
+            'instructions': {'fr': 'Fictif', 'en': 'Fictional', 'ar': 'مثال'},
+            'population': 'Fictional software fixture', 'rights': 'Fictional rights only',
+            'is_demo': False,
+        }
+        Activity.objects.create(**base, version=1, state='draft')
+        Activity.objects.create(**base, version=2, state='review')
+        Activity.objects.create(
+            **{**base, 'series': uuid.uuid4()}, version=1, state='draft',
+            audio_a='https://fictional.example/fr/media/00000000-0000-0000-0000-000000000001',
+            audio_b='https://fictional.example/fr/media/00000000-0000-0000-0000-000000000002',
+        )
+
+        report = self.report(offered=('ar-dz-pilot',))
+        queue = report['editorial_pipeline_by_variety']['ar-dz-pilot']
+        self.assertEqual(queue, {
+            'latest_versions': 2, 'draft': 1, 'review': 1, 'approved': 0,
+            'published': 0, 'withdrawn': 0,
+            'missing_one_or_more_audio_references': 1,
+        })
+        self.assertIn('highest-numbered non-demo version', report['editorial_pipeline_scope'])
 
     def test_publication_without_authorised_availability_does_not_cover_a_variety(self):
         self.content('ar-dz-pilot', available=False)

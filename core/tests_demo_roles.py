@@ -304,6 +304,8 @@ class DemoRoleWorkflowTests(TestCase):
 
     def test_billing_manager_has_operational_ui_and_no_clinical_access(self):
         client = self.login('gestionnaire')
+        register = client.get(reverse('processing_register'))
+        self.assertEqual(register.status_code, 200)
         index = client.get(reverse('billing_index'))
         self.assertContains(index, ROLE_PRACTICE_NAME)
         self.assertNotContains(index, self.child.code)
