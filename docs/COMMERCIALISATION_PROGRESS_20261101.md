@@ -8,6 +8,8 @@ Cette revalidation établit la stabilité de la suite logicielle et l’état de
 
 Instantané Neon agrégé et strictement en lecture seule, relevé à 05:07 UTC sur le projet Nehedrou Demo : les versions courantes non démo sont 19 FR, 17 EN général US, 42 arabe standard et 33 Darija algérienne pilote. Les 111 sont toutes en brouillon; aucune ne référence `audio_a` ou `audio_b`. Les tables de revue de contenu et de décisions de disponibilité ne contiennent aucune ligne. La requête ne sélectionne aucun profil, commentaire, nom de compte ni texte d’activité. Ce résultat confirme que les avis humains n’ont pas été consignés dans le CMS au moment du contrôle; il ne dit pas si des échanges de relecture ont lieu hors application.
 
+À 05:12 UTC, une lecture agrégée des seuls comptes de rôle de démonstration a confirmé les sept comptes attendus, tous non-staff et non-superutilisateurs, avec affiliations fictives du responsable, de l’orthophoniste et de l’accompagnant, et les capacités éditoriales distinctes configurées. Le compte `gestionnaire` n’avait qu’une des deux permissions opérationnelles prévues. Une insertion ciblée et idempotente a ajouté `core.manage_processing_register` à ce seul compte fictif; une nouvelle lecture a confirmé ses deux permissions (`core.manage_entitlements` et `core.manage_processing_register`). Aucun mot de passe ni compte réel n’a été modifié. Ce contrôle de la base ne constitue pas un essai de connexion ou de parcours navigateur; ceux-ci restent à réaliser avec les secrets privés et la démo publiée.
+
 # État de préparation commerciale — 1 novembre 2026
 
 ## Publication après fusion - 1 novembre 2026, 03:53 UTC
