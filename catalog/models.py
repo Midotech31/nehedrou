@@ -1,11 +1,14 @@
 from core.storage_health import file_exists
 import hashlib
 import json
+import secrets
+from datetime import timedelta
 from pathlib import Path
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 from core.models import CheckedModel
 from qualification.validity import VALIDITY_CHOICES
 
@@ -230,6 +233,39 @@ class EditorialGrant(CheckedModel):
     publish = models.BooleanField(default=False)
     class Meta:
         constraints = [models.UniqueConstraint(fields=['user', 'variety'], name='unique_editorial_grant')]
+
+class EditorialAccessInvitation(CheckedModel):
+    CAPABILITIES = [
+        ('edit', _('Edit draft content')),
+        ('clinical_review', _('Review clinical content')),
+        ('linguistic_review', _('Review language and spoken variety')),
+    ]
+    email = models.EmailField()
+    variety = models.ForeignKey(Variety, on_delete=models.PROTECT)
+    capability = models.CharField(max_length=20, choices=CAPABILITIES)
+    token_hash = models.CharField(max_length=64, unique=True, editable=False)
+    expires_at = models.DateTimeField()
+    revoked = models.BooleanField(default=False)
+    used_at = models.DateTimeField(null=True, blank=True)
+    accepted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True, related_name='accepted_editorial_invitations')
+    delivery = models.CharField(max_length=12, default='pending', choices=[('pending', _('Pending delivery')), ('sent', _('Sent to mail service')), ('failed', _('Delivery failed')), ('console', _('Local console only'))])
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='created_editorial_invitations')
+
+    class Meta:
+        indexes = [models.Index(fields=['email', 'variety', 'capability', 'used_at'])]
+
+    @classmethod
+    def issue(cls, email, variety, capability, actor):
+        token = secrets.token_urlsafe(32)
+        obj = cls.objects.create(email=email.strip().lower(), variety=variety, capability=capability,
+            created_by=actor, token_hash=hashlib.sha256(token.encode()).hexdigest(),
+            expires_at=timezone.now() + timedelta(days=7))
+        return obj, token
+
+    @property
+    def available(self):
+        return not self.revoked and self.used_at is None and self.expires_at > timezone.now()
+
 
 class MediaAsset(CheckedModel):
     file = models.FileField(upload_to='editorial/%Y/%m/')

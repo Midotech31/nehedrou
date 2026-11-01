@@ -7,6 +7,7 @@ from django.urls import path, include
 from core import views
 from core import security, complete_views
 from catalog import views as editorial_views
+from catalog import editorial_access_views
 from catalog import working, quality, guided_audio
 from core.health import health
 from core import operations_views
@@ -71,10 +72,14 @@ urlpatterns += i18n_patterns(
     path('operations/readiness/', operations_views.launch_readiness_report, name='launch_readiness_report'),
     path('operations/register/', operations_views.processing_register, name='processing_register'),
     path('operations/register/<uuid:pk>/', operations_views.processing_register, name='processing_register_edit'),
+    path('operations/editorial-access/', editorial_access_views.manage_editorial_access, name='editorial_access_management'),
+    path('operations/editorial-access/invitations/<uuid:pk>/revoke/', editorial_access_views.revoke_editorial_invitation_view, name='editorial_invitation_revoke'),
+    path('operations/editorial-access/grants/<uuid:pk>/<str:capability>/revoke/', editorial_access_views.revoke_editorial_capability_view, name='editorial_capability_revoke'),
     path('billing/', complete_views.billing, name='billing_index'),
     path('billing/<uuid:pk>/', complete_views.billing, name='billing_detail'),
     path('billing/<uuid:pk>/invoice/', complete_views.invoice_create, name='invoice_create'),
     path('members/invitations/<uuid:pk>/revoke/', complete_views.revoke_member_invitation, name='revoke_member_invitation'),
+    path('editorial/invite/<str:token>/', editorial_access_views.accept_editorial_invite, name='accept_editorial_invite'),
     path('editorial/', editorial_views.index, name='editorial_index'),
     path('followup/', include('followup.urls')),
     path('qualification/', include('qualification.urls')),

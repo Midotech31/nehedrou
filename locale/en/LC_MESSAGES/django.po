@@ -5475,3 +5475,174 @@ msgstr "Missing one or more audio references"
 
 msgid "Reviewer identity, declared expertise and spoken-variety competence independently verified"
 msgstr "Reviewer identity, declared expertise and spoken-variety competence independently verified"
+
+msgid "Edit draft content"
+msgstr "Edit draft content"
+
+msgid "Review clinical content"
+msgstr "Review clinical content"
+
+msgid "Review language and spoken variety"
+msgstr "Review language and spoken variety"
+
+msgid "Choose a limited editorial role."
+msgstr "Choose a limited editorial role."
+
+msgid "The spoken variety is unavailable."
+msgstr "The spoken variety is unavailable."
+
+msgid "This email belongs to an inactive account. Contact the platform manager before inviting it."
+msgstr "This email belongs to an inactive account. Contact the platform manager before inviting it."
+
+msgid "This account already has this editorial access."
+msgstr "This account already has this editorial access."
+
+msgid "Nehedrou editorial access invitation"
+msgstr "Nehedrou editorial access invitation"
+
+msgid "You have been invited to a limited Nehedrou editorial role for %(variety)s. This link expires in seven days and does not grant access to practice records:"
+msgstr "You have been invited to a limited Nehedrou editorial role for %(variety)s. This link expires in seven days and does not grant access to practice records:"
+
+msgid "This editorial invitation has expired or is no longer available."
+msgstr "This editorial invitation has expired or is no longer available."
+
+msgid "Sign in with the email address to which this invitation was sent."
+msgstr "Sign in with the email address to which this invitation was sent."
+
+msgid "Editorial access was activated for the invited spoken variety."
+msgstr "Editorial access was activated for the invited spoken variety."
+
+msgid "An account already exists for this email. Sign in with the invited address to accept the invitation."
+msgstr "An account already exists for this email. Sign in with the invited address to accept the invitation."
+
+msgid "This editorial invitation is unavailable."
+msgstr "This editorial invitation is unavailable."
+
+msgid "Manage editorial access"
+msgstr "Manage editorial access"
+
+msgid "Invite a named editor or reviewer for one spoken variety. This access does not add a practice membership or expose child records."
+msgstr "Invite a named editor or reviewer for one spoken variety. This access does not add a practice membership or expose child records."
+
+msgid "Invite an editor or reviewer"
+msgstr "Invite an editor or reviewer"
+
+msgid "An expiring link will be sent to the entered email. The account is created only when its recipient accepts. Receipt is not guaranteed by the recorded delivery status."
+msgstr "An expiring link will be sent to the entered email. The account is created only when its recipient accepts. Receipt is not guaranteed by the recorded delivery status."
+
+msgid "Only draft editing, clinical review, or linguistic review can be assigned here. Publishing is not granted by this form."
+msgstr "Only draft editing, clinical review, or linguistic review can be assigned here. Publishing is not granted by this form."
+
+msgid "Send editorial invitation"
+msgstr "Send editorial invitation"
+
+msgid "Invitations"
+msgstr "Invitations"
+
+msgid "Expires"
+msgstr "Expires"
+
+msgid "Accepted by"
+msgstr "Accepted by"
+
+msgid "Sent means handed to the configured mail transport; it does not prove receipt. Failed links grant no access."
+msgstr "Sent means handed to the configured mail transport; it does not prove receipt. Failed links grant no access."
+
+msgid "Active editorial permissions"
+msgstr "Active editorial permissions"
+
+msgid "Draft editing"
+msgstr "Draft editing"
+
+msgid "Revoke"
+msgstr "Revoke"
+
+msgid "No active editorial permissions."
+msgstr "No active editorial permissions."
+
+msgid "Reviewer experience is self-declared in the review workspace; independently verify qualifications and regional spoken-variety competence before relying on any approval."
+msgstr "Reviewer experience is self-declared in the review workspace; independently verify qualifications and regional spoken-variety competence before relying on any approval."
+
+msgid "Editorial access invitation"
+msgstr "Editorial access invitation"
+
+msgid "You have been invited to a limited editorial role for"
+msgstr "You have been invited to a limited editorial role for"
+
+msgid "This invitation does not grant access to practice records or permission to publish content."
+msgstr "This invitation does not grant access to practice records or permission to publish content."
+
+msgid "Invited email"
+msgstr "Invited email"
+
+msgid "Sign out and sign in with the invited email address to accept this invitation."
+msgstr "Sign out and sign in with the invited email address to accept this invitation."
+
+msgid "This email already has an account. Sign in with the invited address to accept the invitation."
+msgstr "This email already has an account. Sign in with the invited address to accept the invitation."
+
+msgid "Sign in to accept"
+msgstr "Sign in to accept"
+
+msgid "Create an account with a password to accept this invitation. Your email is fixed to the invited address."
+msgstr "Create an account with a password to accept this invitation. Your email is fixed to the invited address."
+
+msgid "Create account and accept"
+msgstr "Create account and accept"
+
+msgid "Accept editorial invitation"
+msgstr "Accept editorial invitation"
+
+msgid "The invitation was recorded, but email delivery failed. Configure email or try again; no account was granted access."
+msgstr "The invitation was recorded, but email delivery failed. Configure email or try again; no account was granted access."
+
+msgid "Development only: the invitation link was written to the local mail console."
+msgstr "Development only: the invitation link was written to the local mail console."
+
+msgid "The invitation was handed to the mail service. Receipt has not been confirmed."
+msgstr "The invitation was handed to the mail service. Receipt has not been confirmed."
+
+msgid "The editorial invitation was revoked."
+msgstr "The editorial invitation was revoked."
+
+msgid "The selected editorial permission was revoked."
+msgstr "The selected editorial permission was revoked."
+
+msgid "Reviewer or editor email"
+msgstr "Reviewer or editor email"
+
+msgid "Limited editorial role"
+msgstr "Limited editorial role"
+
+msgid "Editorial access"
+msgstr "Editorial access"
+
+msgid "Editorial invitation unavailable"
+msgstr "Editorial invitation unavailable"
+
+msgid "This editorial access is unavailable."
+msgstr "This editorial access is unavailable."
+
+msgid "This invitation may have expired, been revoked or already used. Ask the platform manager for a new invitation."
+msgstr "This invitation may have expired, been revoked or already used. Ask the platform manager for a new invitation."
+
+msgid "To replace a failed or expired link, submit the same email, variety and role again. Any older unused link will be revoked."
+msgstr "To replace a failed or expired link, submit the same email, variety and role again. Any older unused link will be revoked."
+
+msgid "Only draft editing, clinical review, or linguistic review can be assigned here. This invitation does not grant publishing or practice-record access; any permissions already on the account remain unchanged."
+msgstr "Only draft editing, clinical review, or linguistic review can be assigned here. This invitation does not grant publishing or practice-record access; any permissions already on the account remain unchanged."
+
+msgid "This account already has publishing access for this spoken variety. Ask the platform manager to review its existing access."
+msgstr "This account already has publishing access for this spoken variety. Ask the platform manager to review its existing access."
+
+msgid "This account already has publishing access for this spoken variety. Review its existing access directly instead of sending a limited-role invitation."
+msgstr "This account already has publishing access for this spoken variety. Review its existing access directly instead of sending a limited-role invitation."
+
+msgid "This account also has existing publishing access for this variety; an invitation does not change it."
+msgstr "This account also has existing publishing access for this variety; an invitation does not change it."
+
+msgid "This invitation grants only the selected editorial capability. It does not add practice-record access or publishing permission; any permissions already on the account remain unchanged."
+msgstr "This invitation grants only the selected editorial capability. It does not add practice-record access or publishing permission; any permissions already on the account remain unchanged."
+
+msgid "You have been invited to a limited Nehedrou editorial role for %(variety)s. This link expires in seven days. It grants only the selected editorial capability and does not add practice-record access; any permissions already on your account remain unchanged:"
+msgstr "You have been invited to a limited Nehedrou editorial role for %(variety)s. This link expires in seven days. It grants only the selected editorial capability and does not add practice-record access; any permissions already on your account remain unchanged:"

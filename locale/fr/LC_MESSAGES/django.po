@@ -5475,3 +5475,174 @@ msgstr "Au moins une référence audio manquante"
 
 msgid "Reviewer identity, declared expertise and spoken-variety competence independently verified"
 msgstr "Identité des relecteurs, expertise déclarée et compétence dans la variété parlée vérifiées indépendamment"
+
+msgid "Edit draft content"
+msgstr "Modifier les brouillons"
+
+msgid "Review clinical content"
+msgstr "Relire le contenu clinique"
+
+msgid "Review language and spoken variety"
+msgstr "Relire la langue et la variété parlée"
+
+msgid "Choose a limited editorial role."
+msgstr "Choisissez un rôle éditorial limité."
+
+msgid "The spoken variety is unavailable."
+msgstr "Cette variété parlée est indisponible."
+
+msgid "This email belongs to an inactive account. Contact the platform manager before inviting it."
+msgstr "Cette adresse est liée à un compte inactif. Contactez le gestionnaire de la plateforme avant de l’inviter."
+
+msgid "This account already has this editorial access."
+msgstr "Ce compte possède déjà cet accès éditorial."
+
+msgid "Nehedrou editorial access invitation"
+msgstr "Invitation d’accès éditorial à Nehedrou"
+
+msgid "You have been invited to a limited Nehedrou editorial role for %(variety)s. This link expires in seven days and does not grant access to practice records:"
+msgstr "Vous êtes invité à un rôle éditorial limité de Nehedrou pour %(variety)s. Ce lien expire dans sept jours et ne donne pas accès aux dossiers de pratique :"
+
+msgid "This editorial invitation has expired or is no longer available."
+msgstr "Cette invitation éditoriale a expiré ou n’est plus disponible."
+
+msgid "Sign in with the email address to which this invitation was sent."
+msgstr "Connectez-vous avec l’adresse email ayant reçu cette invitation."
+
+msgid "Editorial access was activated for the invited spoken variety."
+msgstr "L’accès éditorial à la variété parlée invitée est activé."
+
+msgid "An account already exists for this email. Sign in with the invited address to accept the invitation."
+msgstr "Un compte existe déjà pour cette adresse. Connectez-vous avec l’adresse invitée pour accepter l’invitation."
+
+msgid "This editorial invitation is unavailable."
+msgstr "Cette invitation éditoriale est indisponible."
+
+msgid "Manage editorial access"
+msgstr "Gérer les accès éditoriaux"
+
+msgid "Invite a named editor or reviewer for one spoken variety. This access does not add a practice membership or expose child records."
+msgstr "Invitez un éditeur ou un relecteur identifié pour une variété parlée. Cet accès ne crée pas d’adhésion à un cabinet et ne donne pas accès aux dossiers d’enfants."
+
+msgid "Invite an editor or reviewer"
+msgstr "Inviter un éditeur ou un relecteur"
+
+msgid "An expiring link will be sent to the entered email. The account is created only when its recipient accepts. Receipt is not guaranteed by the recorded delivery status."
+msgstr "Un lien temporaire sera envoyé à l’adresse indiquée. Le compte ne sera créé que lorsque son destinataire acceptera l’invitation. Le statut d’envoi ne garantit pas la réception."
+
+msgid "Only draft editing, clinical review, or linguistic review can be assigned here. Publishing is not granted by this form."
+msgstr "Cette page permet uniquement d’accorder l’édition des brouillons, la relecture clinique ou la relecture linguistique. Elle n’accorde aucun droit de publication."
+
+msgid "Send editorial invitation"
+msgstr "Envoyer l’invitation éditoriale"
+
+msgid "Invitations"
+msgstr "Invitations"
+
+msgid "Expires"
+msgstr "Expire le"
+
+msgid "Accepted by"
+msgstr "Acceptée par"
+
+msgid "Sent means handed to the configured mail transport; it does not prove receipt. Failed links grant no access."
+msgstr "« Envoyée » signifie transmise au service de messagerie configuré, sans confirmer sa réception. Un lien non délivré n’accorde aucun accès."
+
+msgid "Active editorial permissions"
+msgstr "Autorisations éditoriales actives"
+
+msgid "Draft editing"
+msgstr "Édition des brouillons"
+
+msgid "Revoke"
+msgstr "Révoquer"
+
+msgid "No active editorial permissions."
+msgstr "Aucune autorisation éditoriale active."
+
+msgid "Reviewer experience is self-declared in the review workspace; independently verify qualifications and regional spoken-variety competence before relying on any approval."
+msgstr "L’expérience des relecteurs est déclarée par eux-mêmes dans l’espace de relecture. Vérifiez séparément leurs qualifications et leur compétence dans la variété régionale avant de vous appuyer sur un avis."
+
+msgid "Editorial access invitation"
+msgstr "Invitation d’accès éditorial"
+
+msgid "You have been invited to a limited editorial role for"
+msgstr "Vous êtes invité à un rôle éditorial limité pour"
+
+msgid "This invitation does not grant access to practice records or permission to publish content."
+msgstr "Cette invitation ne donne accès ni aux dossiers de pratique ni à la publication de contenus."
+
+msgid "Invited email"
+msgstr "Adresse email invitée"
+
+msgid "Sign out and sign in with the invited email address to accept this invitation."
+msgstr "Déconnectez-vous, puis connectez-vous avec l’adresse invitée pour accepter cette invitation."
+
+msgid "This email already has an account. Sign in with the invited address to accept the invitation."
+msgstr "Cette adresse possède déjà un compte. Connectez-vous avec l’adresse invitée pour accepter l’invitation."
+
+msgid "Sign in to accept"
+msgstr "Se connecter pour accepter"
+
+msgid "Create an account with a password to accept this invitation. Your email is fixed to the invited address."
+msgstr "Créez un compte avec un mot de passe pour accepter l’invitation. L’adresse email est fixée à celle qui a reçu l’invitation."
+
+msgid "Create account and accept"
+msgstr "Créer le compte et accepter"
+
+msgid "Accept editorial invitation"
+msgstr "Accepter l’invitation éditoriale"
+
+msgid "The invitation was recorded, but email delivery failed. Configure email or try again; no account was granted access."
+msgstr "L’invitation est enregistrée, mais l’envoi du courriel a échoué. Configurez la messagerie ou réessayez ; aucun compte n’a reçu d’accès."
+
+msgid "Development only: the invitation link was written to the local mail console."
+msgstr "Développement uniquement : le lien de l’invitation a été écrit dans la console locale de messagerie."
+
+msgid "The invitation was handed to the mail service. Receipt has not been confirmed."
+msgstr "L’invitation a été transmise au service de messagerie. Sa réception n’est pas confirmée."
+
+msgid "The editorial invitation was revoked."
+msgstr "L’invitation éditoriale a été révoquée."
+
+msgid "The selected editorial permission was revoked."
+msgstr "L’autorisation éditoriale sélectionnée a été révoquée."
+
+msgid "Reviewer or editor email"
+msgstr "Courriel du relecteur ou de l’éditeur"
+
+msgid "Limited editorial role"
+msgstr "Rôle éditorial limité"
+
+msgid "Editorial access"
+msgstr "Accès éditoriaux"
+
+msgid "Editorial invitation unavailable"
+msgstr "Invitation éditoriale indisponible"
+
+msgid "This editorial access is unavailable."
+msgstr "Cet accès éditorial est indisponible."
+
+msgid "This invitation may have expired, been revoked or already used. Ask the platform manager for a new invitation."
+msgstr "Cette invitation a peut-être expiré, été révoquée ou déjà utilisée. Demandez une nouvelle invitation au gestionnaire de la plateforme."
+
+msgid "To replace a failed or expired link, submit the same email, variety and role again. Any older unused link will be revoked."
+msgstr "Pour remplacer un lien expiré ou dont l’envoi a échoué, soumettez de nouveau la même adresse, variété et rôle. Les anciens liens inutilisés seront révoqués."
+
+msgid "Only draft editing, clinical review, or linguistic review can be assigned here. This invitation does not grant publishing or practice-record access; any permissions already on the account remain unchanged."
+msgstr "Ici, seuls l’édition de brouillons et les avis clinique ou linguistique peuvent être attribués. Cette invitation n’accorde aucun droit de publication ni accès aux dossiers de pratique ; elle ne modifie pas les autorisations déjà associées au compte."
+
+msgid "This account already has publishing access for this spoken variety. Ask the platform manager to review its existing access."
+msgstr "Ce compte dispose déjà d’un droit de publication pour cette variété parlée. Demandez au gestionnaire de la plateforme de vérifier ses autorisations existantes."
+
+msgid "This account already has publishing access for this spoken variety. Review its existing access directly instead of sending a limited-role invitation."
+msgstr "Ce compte dispose déjà d’un droit de publication pour cette variété parlée. Vérifiez directement ses autorisations au lieu de lui envoyer une invitation à rôle limité."
+
+msgid "This account also has existing publishing access for this variety; an invitation does not change it."
+msgstr "Ce compte possède également un droit de publication préexistant pour cette variété ; l’invitation ne le modifie pas."
+
+msgid "This invitation grants only the selected editorial capability. It does not add practice-record access or publishing permission; any permissions already on the account remain unchanged."
+msgstr "Cette invitation accorde uniquement la capacité éditoriale sélectionnée. Elle n’ajoute aucun accès aux dossiers de pratique ni droit de publication et ne modifie pas les autorisations déjà associées au compte."
+
+msgid "You have been invited to a limited Nehedrou editorial role for %(variety)s. This link expires in seven days. It grants only the selected editorial capability and does not add practice-record access; any permissions already on your account remain unchanged:"
+msgstr "Vous êtes invité à exercer un rôle éditorial limité dans Nehedrou pour la variété %(variety)s. Ce lien expire dans sept jours. Il accorde uniquement la capacité éditoriale sélectionnée, n’ajoute aucun accès aux dossiers de pratique et ne modifie pas les autorisations déjà associées à votre compte :"
