@@ -1,4 +1,5 @@
 """Aggregate editorial inventory. No care, goal, administration or patient rows."""
+import csv
 import json
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -27,10 +28,56 @@ def _latest(rows):
     return list(result.values())
 
 
+def _review_pack_alignment(latest_rows):
+    """Compare only opaque series IDs, variety codes and versions; never content text."""
+    root = Path(settings.BASE_DIR)
+    manifest_path = root / 'content' / 'review_packs' / 'ar-initial-review-20261101' / 'manifest.json'
+    candidates_path = manifest_path.parent / 'candidates_for_review.csv'
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+        with candidates_path.open(encoding='utf-8-sig', newline='') as stream:
+            candidates = list(csv.DictReader(stream))
+        packaged = {}
+        for row in candidates:
+            code, series, version = row['variety_code'], row['series_uuid'], int(row['version'])
+            key = (code, series)
+            if key in packaged:
+                raise ValueError('duplicate review-pack series')
+            packaged[key] = version
+        if manifest.get('status') != 'review_preparation_only_not_approved':
+            raise ValueError('unexpected review-pack status')
+    except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError, csv.Error):
+        return {'status': 'unavailable_or_invalid', 'scope': 'Review-pack alignment could not be checked.'}
+
+    database = {(row.variety.code, str(row.series)): row.version for row in latest_rows}
+    codes = sorted({code for code, _series in packaged} | {code for code, _series in database})
+    by_variety = {}
+    for code in codes:
+        package_rows = {series: version for (variety, series), version in packaged.items() if variety == code}
+        database_rows = {series: version for (variety, series), version in database.items() if variety == code}
+        shared = set(package_rows) & set(database_rows)
+        same_version = sum(package_rows[series] == database_rows[series] for series in shared)
+        by_variety[code] = {
+            'package_series': len(package_rows),
+            'database_latest_series': len(database_rows),
+            'same_series_and_version': same_version,
+            'version_mismatch': len(shared) - same_version,
+            'package_series_not_in_database': len(set(package_rows) - set(database_rows)),
+            'database_series_not_in_package': len(set(database_rows) - set(package_rows)),
+        }
+    return {
+        'status': 'review_preparation_only_not_approved',
+        'pack_id': manifest.get('pack_id'),
+        'candidate_rows': len(packaged),
+        'by_variety': by_variety,
+        'scope': 'Compares opaque series IDs, variety codes and latest version numbers only. Does not compare content fingerprints, approve, import, or read care records.',
+    }
+
+
 def build_inventory(*, verify=True):
     source_files = []
     definitions = Counter()
-    for filename in ['catalog-candidates.json', 'arabic-library-v1.json']:
+    for filename in ['catalog-candidates.json', 'arabic-library-v1.json', 'arabic-library-v2.json']:
         path = Path(settings.BASE_DIR) / 'docs' / filename
         document = json.loads(path.read_text(encoding='utf-8'))
         entries = document if isinstance(document, list) else document['activities']
@@ -78,6 +125,8 @@ def build_inventory(*, verify=True):
                 if definition.ready and availability_for('production_followup', definition.variety, definition.fingerprint())['available']:
                     ready_probes[definition.variety_id] += 1
     rows = []
+    latest_real = _latest([row for row in activities if not row.is_demo])
+    review_pack_alignment = _review_pack_alignment(latest_real)
     by_code = {variety.code: variety for variety in varieties}
     for code in sorted(set(by_code) | set(definitions)):
         variety = by_code.get(code)
@@ -118,7 +167,8 @@ def build_inventory(*, verify=True):
         'database_engine': settings.DATABASES['default']['ENGINE'].rsplit('.', 1)[-1],
         'scope': 'Editorial aggregates only; no patient, care, goal, administration, user or contract text in output',
         'availability_verification': 'Exact published-version files, current rights, current reviews and authorisation checked' if verify else 'Metadata only; availability is unknown',
-        'source_definition_files': source_files, 'varieties': rows,
+        'source_definition_files': source_files, 'review_pack_alignment': review_pack_alignment,
+        'varieties': rows,
         'uploaded_media_global': {'total': len(assets), 'kinds': dict(Counter(asset.kind for asset in assets)),
             'rights_status': dict(Counter(asset.rights_status for asset in assets)),
             'structured_validity': dict(Counter(asset.rights_validity for asset in assets)),
