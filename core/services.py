@@ -54,6 +54,7 @@ def issue_and_deliver_invitation(actor, organization, child, email, kind='family
     from smtplib import SMTPException
     from django.core.mail import send_mail
     from django.urls import reverse
+    from .models import User
     with transaction.atomic():
         org = Organization.objects.select_for_update().get(pk=organization.pk)
         if kind == 'family':
@@ -63,6 +64,11 @@ def issue_and_deliver_invitation(actor, organization, child, email, kind='family
                 raise ValidationError(_('Access is no longer available.'))
         elif not Membership.objects.filter(user=actor, organization=org, active=True, role='owner').exists():
             raise ValidationError(_('Access is no longer available.'))
+        email = email.strip().lower()
+        # Recheck persisted recipient state even after a form was validated,
+        # before creating a token or revoking the invitation being replaced.
+        if User.objects.filter(email__iexact=email, is_active=False).exists():
+            raise ValidationError(_('This email belongs to an inactive account. Contact the platform manager before inviting it.'))
         if replacing:
             old = Invitation.objects.select_for_update().get(pk=replacing.pk, organization=org)
             if not old.available:
@@ -210,6 +216,9 @@ def create_program(actor, child, data):
     if not selected or len(locked) != len(selected) or not child.varieties.filter(pk=data['variety'].pk).exists():
         raise ValidationError(_('All activities must match the selected variety.'))
     activities = [locked[a.pk] for a in selected]
+    from catalog.integrity import invalidate_integrity, prepare_activities
+    invalidate_integrity()
+    prepare_activities(activities)
     if any(not a.usable or a.variety_id != data['variety'].pk for a in activities):
         raise ValidationError(_('This activity is no longer available. Contact your clinician.'))
     from .reserves import reserved_activity_ids
@@ -277,7 +286,8 @@ def record_practice(actor, item, payload, ticket):
     # Serialize same-user submissions for idempotency, including requests racing on PostgreSQL.
     from .models import User
     Organization.objects.select_for_update().get(pk=item.program.organization_id)
-    User.objects.select_for_update().get(pk=actor.pk)
+    # Serialise actor mutations while allowing independent FK audit references.
+    User.objects.select_for_update(no_key=True).get(pk=actor.pk)
     from .access import visible_programs
     if not Child.objects.select_for_update().filter(pk=item.program.child_id).first():
         raise ValidationError(_('Access is no longer available.'))
@@ -315,6 +325,8 @@ def record_practice(actor, item, payload, ticket):
         return existing
     if response_mode == 'matching' and item.activity.requested_target and ticket['target'] != item.activity.requested_target:
         raise ValidationError(_('The requested picture must match this activity’s instruction.'))
+    from catalog.integrity import invalidate_integrity
+    invalidate_integrity()
     if not item.program.child.active or item.program.state != 'active' or not item.activity.usable:
         raise ValidationError(_('This activity is no longer available. Contact your clinician.'))
     from .reserves import activity_is_reserved

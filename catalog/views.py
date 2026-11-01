@@ -61,13 +61,16 @@ def detail(request, pk):
     can_review = bool(review_kinds) and activity.state in ['review', 'approved']
     if request.method == 'POST' and (not can_review or request.POST.get('kind') not in review_kinds):
         raise PermissionDenied
-    form = ReviewForm(request.POST or None, instance=Review(activity=activity, reviewer=request.user), allowed_kinds=review_kinds)
+    form = ReviewForm(request.POST or None, instance=Review(activity=activity, reviewer=request.user), allowed_kinds=review_kinds,
+        initial={'expected_digest': activity.fingerprint()})
+    review_snapshot_changed = False
     if request.method == 'POST' and form.is_valid():
         try:
-            review_version(request.user, activity, form.cleaned_data['kind'], form.cleaned_data['approved'], form.cleaned_data['note'])
+            review_version(request.user, activity, form.cleaned_data['kind'], form.cleaned_data['approved'], form.cleaned_data['note'], expected_digest=form.cleaned_data['expected_digest'])
             return redirect('editorial_detail', pk=pk)
         except ValidationError as error:
             form.add_error(None, error)
+            review_snapshot_changed = getattr(error, 'code', None) == 'review_snapshot_changed'
     from .readiness import activity_readiness
     readiness = activity_readiness(activity, require_availability=True) if not activity.is_demo else {'ready': True, 'reasons': []}
     checklist_labels = {'rights': _('Usage rights'), 'population': _('Intended population'), 'image_a': _('First illustration reference'), 'image_b': _('Second illustration reference'), 'audio_a': _('First audio URL'), 'audio_b': _('Second audio URL'), 'transcription_a': _('First word transcription'), 'transcription_b': _('Second word transcription')}
@@ -75,7 +78,7 @@ def detail(request, pk):
     for field in ['rights', 'population', 'image_a', 'image_b', 'audio_a', 'audio_b', 'transcription_a', 'transcription_b']:
         if not getattr(activity, field):
             issues.append(checklist_labels[field])
-    return render(request, 'editorial/detail.html', {'activity': activity, 'latest_version':latest_version, 'is_latest_version':latest_version.pk == activity.pk, 'form': form, 'issues': issues, 'can_edit': allowed(request.user, activity.variety, 'edit'), 'can_publish': allowed(request.user, activity.variety, 'publish'), 'can_review': can_review, 'reviews': activity.reviews.select_related('reviewer'), 'affected': ProgramItem.objects.filter(activity=activity).count(), 'readiness': readiness, 'content_digest': activity.fingerprint()})
+    return render(request, 'editorial/detail.html', {'activity': activity, 'latest_version':latest_version, 'is_latest_version':latest_version.pk == activity.pk, 'form': form, 'issues': issues, 'can_edit': allowed(request.user, activity.variety, 'edit'), 'can_publish': allowed(request.user, activity.variety, 'publish'), 'can_review': can_review, 'reviews': activity.reviews.select_related('reviewer'), 'affected': ProgramItem.objects.filter(activity=activity).count(), 'readiness': readiness, 'content_digest': activity.fingerprint(), 'review_snapshot_changed':review_snapshot_changed})
 
 @login_required
 def edit(request, pk=None):

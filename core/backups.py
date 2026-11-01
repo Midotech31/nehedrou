@@ -166,6 +166,79 @@ def inspect_backup(source):
     return manifest, entries
 
 
+# The dump includes the whole database, so the destination check must include
+# more than public tables. These catalog names are fixed, never operator input.
+_NAMESPACED_RESTORE_CATALOGS = (
+    ('pg_class', 'relnamespace'), ('pg_proc', 'pronamespace'),
+    ('pg_type', 'typnamespace'), ('pg_constraint', 'connamespace'),
+    ('pg_collation', 'collnamespace'), ('pg_conversion', 'connamespace'),
+    ('pg_operator', 'oprnamespace'), ('pg_opclass', 'opcnamespace'),
+    ('pg_opfamily', 'opfnamespace'), ('pg_statistic_ext', 'stxnamespace'),
+    ('pg_ts_config', 'cfgnamespace'), ('pg_ts_dict', 'dictnamespace'),
+    ('pg_ts_parser', 'prsnamespace'), ('pg_ts_template', 'tmplnamespace'),
+)
+_DATABASE_RESTORE_CATALOGS = (
+    'pg_largeobject_metadata', 'pg_event_trigger', 'pg_foreign_data_wrapper',
+    'pg_foreign_server', 'pg_publication',
+    'pg_transform', 'pg_default_acl',
+)
+
+
+def postgres_target_has_user_objects(connection):
+    """Reject existing application objects, accepting extension infrastructure.
+
+    A fresh target may contain public and installed extension members (including
+    internally generated types). Stateful extension relations and configured
+    database objects are refused; extension versions and infrastructure identity
+    are not compared by this check.
+    The operator must still provide a new isolated database without other writers.
+    """
+    selections = [
+        "SELECT 'pg_catalog.pg_namespace'::regclass AS classid, n.oid AS objid, true AS extension_code_allowed "
+        "FROM pg_catalog.pg_namespace n WHERE n.nspname <> 'public' "
+        "AND n.nspname <> 'information_schema' AND n.nspname !~ '^pg_'"
+    ]
+    for catalog, namespace in _NAMESPACED_RESTORE_CATALOGS:
+        # Even an extension-owned table/sequence can hold pre-existing state.
+        extension_code = "o.relkind NOT IN ('r', 'p', 'm', 'f', 'S')" if catalog == 'pg_class' else 'true'
+        selections.append(
+            f"SELECT 'pg_catalog.{catalog}'::regclass, o.oid, {extension_code} FROM pg_catalog.{catalog} o "
+            f"JOIN pg_catalog.pg_namespace n ON n.oid = o.{namespace} "
+            "WHERE n.nspname <> 'information_schema' AND n.nspname !~ '^pg_'"
+        )
+    for catalog in _DATABASE_RESTORE_CATALOGS:
+        extension_code = 'true' if catalog in ('pg_foreign_data_wrapper', 'pg_transform') else 'false'
+        selections.append(f"SELECT 'pg_catalog.{catalog}'::regclass, o.oid, {extension_code} FROM pg_catalog.{catalog} o")
+    # The public mapping view avoids access to its credential-bearing catalog.
+    # Subscriptions are cluster-shared, and only this database is in scope.
+    selections.extend([
+        "SELECT 'pg_catalog.pg_user_mapping'::regclass, o.umid, false "
+        "FROM pg_catalog.pg_user_mappings o",
+        "SELECT 'pg_catalog.pg_subscription'::regclass, o.oid, false "
+        "FROM pg_catalog.pg_subscription o WHERE o.subdbid = "
+        "(SELECT oid FROM pg_catalog.pg_database WHERE datname = pg_catalog.current_database())",
+    ])
+    query = """
+        WITH RECURSIVE extension_objects(classid, objid) AS (
+            SELECT d.classid, d.objid FROM pg_catalog.pg_depend d
+            WHERE d.refclassid = 'pg_catalog.pg_extension'::regclass
+              AND d.deptype = 'e'
+            UNION
+            SELECT d.classid, d.objid FROM pg_catalog.pg_depend d
+            JOIN extension_objects e ON e.classid = d.refclassid AND e.objid = d.refobjid
+            WHERE d.deptype = 'i'
+        ), candidate_objects(classid, objid, extension_code_allowed) AS (
+    """ + ' UNION ALL '.join(selections) + """
+        )
+        SELECT 1 FROM candidate_objects o
+        WHERE NOT o.extension_code_allowed OR NOT EXISTS (
+            SELECT 1 FROM extension_objects e
+            WHERE e.classid = o.classid AND e.objid = o.objid
+        ) LIMIT 1
+    """
+    return connection.execute(query).fetchone() is not None
+
+
 def restore_backup(source, media_destination, sqlite_destination=None, postgres_database=None):
     manifest, entries = inspect_backup(source)
     media = private_path(media_destination)
@@ -197,8 +270,8 @@ def restore_backup(source, media_destination, sqlite_destination=None, postgres_
         config=settings.DATABASES['default']
         with psycopg.connect(host=os.getenv('POSTGRES_MIGRATION_HOST') or config.get('HOST') or 'localhost',port=config.get('PORT') or 5432,
                 user=config.get('USER'),password=config.get('PASSWORD'),dbname=postgres_database,connect_timeout=5, **({'sslmode':config['OPTIONS']['sslmode']} if config.get('OPTIONS',{}).get('sslmode') else {})) as connection:
-            objects=connection.execute("SELECT 1 FROM pg_class c JOIN pg_namespace n ON c.relnamespace=n.oid WHERE n.nspname='public' LIMIT 1").fetchone()
-            if objects:raise CommandError('The PostgreSQL target is not empty. No restoration was attempted.')
+            if postgres_target_has_user_objects(connection):
+                raise CommandError('The PostgreSQL target is not empty. No restoration was attempted.')
         with tempfile.TemporaryDirectory(prefix='nehedrou-restore-',dir=media.parent) as directory:
             temporary=Path(directory)/'database.bin';temporary.write_bytes(entries['database.bin'])
             pg_command('pg_restore',postgres_database,['--exit-on-error','--single-transaction','--no-owner','--no-acl',str(temporary)])
@@ -210,4 +283,8 @@ def restore_backup(source, media_destination, sqlite_destination=None, postgres_
         target.parent.mkdir(parents=True,exist_ok=True)
         descriptor=os.open(target,os.O_CREAT|os.O_EXCL|os.O_WRONLY,0o600)
         with os.fdopen(descriptor,'wb') as output:output.write(data)
-    return {'restored':True,'database_engine':manifest['database_engine'],'file_count':len(entries), 'target_was_fresh':True}
+    result = {'restored':True,'database_engine':manifest['database_engine'],'file_count':len(entries), 'target_was_fresh':True}
+    if manifest['database_engine'] == 'postgresql':
+        result.update(target_precondition='no_application_objects_or_stateful_extension_relations',
+            extension_code_may_preexist=True, operator_isolation_required=True)
+    return result

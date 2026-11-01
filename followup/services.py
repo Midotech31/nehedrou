@@ -15,7 +15,7 @@ from core.access import professional_children, visible_children
 from core.models import Organization, Membership, User, AuditEvent
 from core.services import audit, check_entitlement, lock_clinical_child
 from catalog.models import MediaAsset
-from catalog.services import allowed
+from catalog.services import allowed, require_review_snapshot
 from .models import (ClinicalGoal, ProbeDefinition, ProbeReview, ProbeAdministration, ProbeRating,
                      ProbeRatingRevision, ProbeExposure, ParentCoaching, HomePracticeFeedback, RATING_FIELDS)
 from .validation import validate_items, validate_conditions, validate_variants, validate_rating, word_key, phoneme_key, reserve_word_key, target_match_errors, validate_observation_target
@@ -256,10 +256,13 @@ def clone_definition(actor, definition):
 
 
 @transaction.atomic
-def review_definition(actor, definition, kind, approved, note, competence):
+def review_definition(actor, definition, kind, approved, note, competence, *, expected_digest):
     definition = _lock_definition(definition)
+    from catalog.integrity import invalidate_integrity
+    invalidate_integrity()
     if kind not in ['clinical', 'linguistic'] or not allowed(actor, definition.variety, kind + '_review'):
         raise PermissionDenied
+    require_review_snapshot(definition, expected_digest)
     if approved:
         from qualification.services import has_competence
         if not has_competence(actor, definition.variety, kind):
@@ -272,6 +275,8 @@ def review_definition(actor, definition, kind, approved, note, competence):
 @transaction.atomic
 def transition_definition(actor, definition, target):
     definition = _lock_definition(definition)
+    from catalog.integrity import invalidate_integrity
+    invalidate_integrity()
     capability = 'publish' if target in ['approved', 'published', 'withdrawn'] else 'edit'
     if not (allowed(actor, definition.variety, capability) or (capability == 'edit' and can_edit_definition(actor, definition))):
         raise PermissionDenied
@@ -320,7 +325,8 @@ def _exposure_status(child, variety, word, at):
 @transaction.atomic
 def start_administration(actor, goal, definition, conditions=None, familiarity=None, key=None, *, observation_scope='goal', alternate_context_label='', alternate_context_reason=''):
     child = lock_clinical_child(actor, goal.child)
-    User.objects.select_for_update().get(pk=actor.pk)
+    # Serialise actor mutations while allowing independent FK audit references.
+    User.objects.select_for_update(no_key=True).get(pk=actor.pk)
     goal = ClinicalGoal.objects.select_for_update().get(pk=goal.pk, child=child)
     definition = ProbeDefinition.objects.select_for_update().get(pk=definition.pk)
     if not child.active or not goal.active or not definition_queryset(actor).filter(pk=definition.pk).exists():
@@ -348,6 +354,8 @@ def start_administration(actor, goal, definition, conditions=None, familiarity=N
     for item in definition.items:
         if any(variant['id'] in goal_variants and variant != goal_variants[variant['id']] for variant in item.get('accepted_variants', [])):
             raise ValidationError(_('Variant identifiers shared by the goal and an item must have identical definitions.'))
+    from catalog.integrity import invalidate_integrity
+    invalidate_integrity()
     if definition.state == 'withdrawn':
         raise ValidationError(_('A withdrawn protocol cannot start a new observation.'))
     if definition.is_demo:

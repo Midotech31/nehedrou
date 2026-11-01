@@ -5917,3 +5917,11 @@ msgstr "Two distinct human reviewers with current, independently verified clinic
 
 msgid "Use exactly three uppercase Latin letters for the currency (for example, DZD)."
 msgstr "Use exactly three uppercase Latin letters for the currency (for example, DZD)."
+
+
+msgid "This content changed. Reload this page and read the current version before submitting a review."
+msgstr "This content changed. Reload this page and read the current version before submitting a review."
+
+
+msgid "Reload current content"
+msgstr "Reload current content"

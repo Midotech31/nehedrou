@@ -134,6 +134,8 @@ jobs:
           qualification
           core.tests_billing_lifecycle
           core.tests_billing_entitlements
+          core.test_live_integrity_writes
+          core.tests_restore_targets
           core.tests_concurrency.ConcurrentQualificationTests
           core.tests_access_auth.ConcurrentResponsibilityTests
           core.tests_access_auth.ConcurrentAuthThrottleTests

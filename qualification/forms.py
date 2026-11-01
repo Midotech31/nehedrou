@@ -158,6 +158,7 @@ class FamiliarityForm(LabelledModelForm):
         return data
 
 class PackReviewForm(LabelledModelForm):
+    expected_digest = forms.CharField(min_length=64, max_length=64, widget=forms.HiddenInput)
     class Meta:
         model = PackReview
         fields = ['kind','approved','note']

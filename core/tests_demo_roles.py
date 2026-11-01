@@ -278,11 +278,11 @@ class DemoRoleWorkflowTests(TestCase):
         for username, allowed_kind, forbidden_kind in [('relecteur_clinique', 'clinical', 'linguistic'), ('relecteur_linguistique', 'linguistic', 'clinical')]:
             client = self.login(username)
             page = client.get(reverse('editorial_detail', args=[activity.pk]))
-            response = client.post(reverse('editorial_detail', args=[activity.pk]), {'kind': allowed_kind, 'approved': True, 'note': 'Permission is not a competence declaration', 'csrfmiddlewaretoken': self.csrf(page)})
+            response = client.post(reverse('editorial_detail', args=[activity.pk]), {'expected_digest':page.context['form']['expected_digest'].value(), 'kind': allowed_kind, 'approved': True, 'note': 'Permission is not a competence declaration', 'csrfmiddlewaretoken': self.csrf(page)})
             self.assertEqual(response.status_code, 200)
             self.assertTrue(response.context['form'].errors)
             self.assertFalse(Review.objects.filter(activity=activity, reviewer__username=username).exists())
-            response = client.post(reverse('editorial_detail', args=[activity.pk]), {'kind': allowed_kind, 'note': 'Fictional changes requested only', 'csrfmiddlewaretoken': self.csrf(page)})
+            response = client.post(reverse('editorial_detail', args=[activity.pk]), {'expected_digest':page.context['form']['expected_digest'].value(), 'kind': allowed_kind, 'note': 'Fictional changes requested only', 'csrfmiddlewaretoken': self.csrf(page)})
             self.assertEqual(response.status_code, 302)
             self.assertEqual(Review.objects.filter(activity=activity, reviewer__username=username, kind=allowed_kind).count(), 1)
             self.assertEqual(client.post(reverse('editorial_detail', args=[activity.pk]), {'kind': forbidden_kind, 'approved': True, 'note': 'Forbidden', 'csrfmiddlewaretoken': self.csrf(page)}).status_code, 403)

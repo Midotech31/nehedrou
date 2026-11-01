@@ -95,11 +95,11 @@ class EvidenceDossierTests(TestCase):
         activity.save(update_fields=['is_demo'])
         transition(self.editor, activity.pk, 'review')
         review_version(self.linguist, activity, 'linguistic', True,
-            'Fictional confirmation: shared candidates are intentional.')
+            'Fictional confirmation: shared candidates are intentional.',expected_digest=activity.fingerprint())
         dossier = review_dossier(activity)
         self.assertNotIn('family_candidate_lists', [row['key'] for row in dossier['tasks']])
         review_version(self.linguist, activity, 'linguistic', False,
-            'Fictional rejection: the shared candidates need correction.')
+            'Fictional rejection: the shared candidates need correction.',expected_digest=activity.fingerprint())
         dossier = review_dossier(activity)
         self.assertIn('family_candidate_lists', [row['key'] for row in dossier['tasks']])
         linguistic_task = next(row for row in dossier['tasks'] if row['key'] == 'review_linguistic')
@@ -157,13 +157,13 @@ class EvidenceDossierTests(TestCase):
 
     def test_latest_rejection_and_same_person_do_not_appear_complete(self):
         activity = self.activity(complete=True)
-        review_version(self.editor, activity, 'clinical', False, 'Private reviewer note')
+        review_version(self.editor, activity, 'clinical', False, 'Private reviewer note',expected_digest=activity.fingerprint())
         dossier = review_dossier(activity)
         task = next(row for row in dossier['tasks'] if row['key'] == 'review_clinical')
         self.assertIn('changes_requested', task['reason_codes'])
         competence_fixture(self.editor, self.variety, 'linguistic')
-        review_version(self.editor, activity, 'clinical', True, 'Fictional test only')
-        review_version(self.editor, activity, 'linguistic', True, 'Fictional test only')
+        review_version(self.editor, activity, 'clinical', True, 'Fictional test only',expected_digest=activity.fingerprint())
+        review_version(self.editor, activity, 'linguistic', True, 'Fictional test only',expected_digest=activity.fingerprint())
         dossier = review_dossier(activity)
         self.assertIn('independent_reviews', [row['key'] for row in dossier['tasks']])
         self.assertTrue(dossier['blocking_reasons'])

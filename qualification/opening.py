@@ -109,6 +109,8 @@ def validate_decision_target(decision):
 @transaction.atomic
 def record_decision(actor, key, expected_version, data):
     module, target = resolve_target(actor, key, lock=True)
+    from catalog.integrity import invalidate_integrity
+    invalidate_integrity()
     digest = target.fingerprint()
     if digest != expected_version:
         raise ContentChanged(_('The content changed. Review the current version before recording a decision.'))
@@ -126,13 +128,39 @@ def record_decision(actor, key, expected_version, data):
     return decision
 
 
+def _lock_recorded_target(decision):
+    """Serialise revocation with writes using this exact activity/protocol row.
+
+    Historical decisions without a surviving target remain revocable. They do
+    not acquire a target row lock, and no target or approval is manufactured.
+    """
+    from followup.models import ProbeDefinition
+    snapshot = decision.target_snapshot
+    if not isinstance(snapshot, dict) or not snapshot.get('id'):
+        return
+    model = Activity if decision.module == 'practice' else ProbeDefinition
+    try:
+        target = model.objects.filter(pk=snapshot['id'], variety_id=decision.variety_id).first()
+    except (ValueError, TypeError, ValidationError):
+        return
+    if target is None:
+        return
+    if decision.module == 'production_followup' and target.organization_id:
+        Organization.objects.select_for_update().get(pk=target.organization_id)
+    model.objects.select_for_update().get(pk=target.pk)
+
+
 @transaction.atomic
 def revoke_decision(actor, reference, reason):
     from catalog.services import allowed
     try:
+        previous = decision_queryset(actor, publish=True).select_related('variety').get(pk=reference)
+        _lock_recorded_target(previous)
         previous = decision_queryset(actor, publish=True).select_for_update(of=('self',)).select_related('variety').get(pk=reference)
     except AvailabilityDecision.DoesNotExist:
         raise PermissionDenied from None
+    from catalog.integrity import invalidate_integrity
+    invalidate_integrity()
     if not allowed(actor, previous.variety, 'publish') or not actor.is_active:
         raise PermissionDenied
     if not reason.strip():

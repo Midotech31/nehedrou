@@ -20,6 +20,18 @@ def integrity_scope():
         _state.reset(token)
 
 
+def invalidate_integrity():
+    """Re-read decision records and bytes after a transactional target lock.
+
+    A view may have populated this request's cache before a service waited for
+    a concurrent withdrawal or revocation. Such reads cannot authorise a write.
+    Clearing in place also prevents a later render reusing those cached gates.
+    """
+    state = _state.get()
+    if state is not None:
+        state.clear()
+
+
 class IntegrityMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response

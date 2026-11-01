@@ -2,6 +2,7 @@ import hashlib
 from io import BytesIO
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.db import transaction
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
@@ -13,7 +14,7 @@ from core.storage_health import STORAGE_ERRORS
 from core.storage_io import read_bounded
 from .models import EvidenceDocument, ReviewerCompetence, AvailabilityDecision, LexicalPack, LexicalCandidate, FamiliarityStudy, PackReview
 from .forms import EvidenceForm, CompetenceForm, CompetenceDecisionForm, AvailabilityForm, PackForm, CandidateForm, FamiliarityForm, PackReviewForm, OpeningTargetForm, AvailabilityRevocationForm
-from .services import change_pack_state, clone_pack, pack_readiness_reasons, record_competence_decision, save_competence_declaration
+from .services import change_pack_state, clone_pack, pack_readiness_reasons, record_competence_decision, save_competence_declaration, review_pack
 
 def varieties(user, capability=None):
     if user.is_superuser:
@@ -200,25 +201,32 @@ def pack_edit(request,pk=None):
     form = PackForm(request.POST or None,instance=obj)
     form.fields['variety'].queryset = varieties(request.user,'edit')
     if request.method=='POST' and form.is_valid():
-        obj = form.save()
-        audit(request.user,'qualification.pack_saved',obj)
-        return redirect('qualification:pack_detail',pk=obj.pk)
+        with transaction.atomic():
+            if pk:
+                get_object_or_404(LexicalPack.objects.select_for_update(),variety__in=varieties(request.user,'edit'),pk=pk,state='draft')
+            obj = form.save()
+            audit(request.user,'qualification.pack_saved',obj)
+            return redirect('qualification:pack_detail',pk=obj.pk)
     return form_page(request,form,_('Define a regional lexical pack'))
 
 @login_required
 def pack_detail(request,pk):
     pack = get_object_or_404(LexicalPack,variety__in=varieties(request.user),pk=pk)
     kinds = [kind for kind,cap in [('clinical','clinical_review'),('linguistic','linguistic_review')] if allowed(request.user,pack.variety,cap)]
-    form = PackReviewForm(request.POST or None,instance=PackReview(pack=pack,reviewer=request.user))
+    form = PackReviewForm(request.POST or None,instance=PackReview(pack=pack,reviewer=request.user),initial={'expected_digest':pack.fingerprint()})
+    review_snapshot_changed = False
     form.fields['kind'].choices = [choice for choice in form.fields['kind'].choices if choice[0] in kinds]
     if request.method=='POST':
         if pack.state!='review' or request.POST.get('kind') not in kinds:
             raise PermissionDenied
         if form.is_valid():
-            review = form.save()
-            audit(request.user,'qualification.pack_reviewed',review)
-            return redirect('qualification:pack_detail',pk=pk)
-    return render(request,'qualification/pack.html',{'pack':pack,'candidates':pack.candidates.prefetch_related('familiarity'), 'form':form, 'can_edit':allowed(request.user,pack.variety,'edit'), 'can_publish':allowed(request.user,pack.variety,'publish'), 'can_review':bool(kinds) and pack.state=='review', 'issues':pack_readiness_reasons(pack),'digest':pack.fingerprint(),'reviews':pack.reviews.select_related('reviewer')})
+            try:
+                review_pack(request.user,pack,form.cleaned_data['kind'],form.cleaned_data['approved'],form.cleaned_data['note'],expected_digest=form.cleaned_data['expected_digest'])
+                return redirect('qualification:pack_detail',pk=pk)
+            except ValidationError as error:
+                form.add_error(None, error)
+                review_snapshot_changed = getattr(error, 'code', None) == 'review_snapshot_changed'
+    return render(request,'qualification/pack.html',{'pack':pack,'candidates':pack.candidates.prefetch_related('familiarity'), 'form':form, 'can_edit':allowed(request.user,pack.variety,'edit'), 'can_publish':allowed(request.user,pack.variety,'publish'), 'can_review':bool(kinds) and pack.state=='review', 'issues':pack_readiness_reasons(pack),'digest':pack.fingerprint(),'reviews':pack.reviews.select_related('reviewer'),'review_snapshot_changed':review_snapshot_changed})
 
 @login_required
 @require_POST
@@ -247,9 +255,11 @@ def candidate_edit(request,pack_id,pk=None):
     form.fields['image'].queryset = permitted_media.filter(kind='image')
     form.fields['audio'].queryset = permitted_media.filter(kind='audio')
     if request.method=='POST' and form.is_valid():
-        obj = form.save()
-        audit(request.user,'qualification.lexical_candidate_saved',obj)
-        return redirect('qualification:pack_detail',pk=pack.pk)
+        with transaction.atomic():
+            obj.pack = get_object_or_404(LexicalPack.objects.select_for_update(),variety__in=varieties(request.user,'edit'),pk=pack.pk,state='draft')
+            obj = form.save()
+            audit(request.user,'qualification.lexical_candidate_saved',obj)
+            return redirect('qualification:pack_detail',pk=pack.pk)
     return form_page(request,form,_('Document a lexical candidate'))
 
 @login_required
@@ -258,7 +268,9 @@ def familiarity(request,pk):
     form = FamiliarityForm(request.POST or None,instance=FamiliarityStudy(candidate=candidate,recorded_by=request.user))
     form.fields['evidence'].queryset = private_documents(request.user).filter(variety=candidate.pack.variety,category='familiarity',revoked=False)
     if request.method=='POST' and form.is_valid():
-        obj = form.save()
-        audit(request.user,'qualification.familiarity_documented',obj)
-        return redirect('qualification:pack_detail',pk=candidate.pack.pk)
+        with transaction.atomic():
+            candidate.pack = get_object_or_404(LexicalPack.objects.select_for_update(),variety__in=varieties(request.user,'edit'),pk=candidate.pack_id,state='draft')
+            obj = form.save()
+            audit(request.user,'qualification.familiarity_documented',obj)
+            return redirect('qualification:pack_detail',pk=candidate.pack.pk)
     return form_page(request,form,_('Document exploratory word and image familiarity'))

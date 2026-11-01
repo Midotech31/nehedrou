@@ -1,0 +1,221 @@
+{
+  "operations": {
+    "schema": "nehedrou-operations-readiness-v1",
+    "execution": {
+      "observed_at": "2026-11-01T16:26:17.864602+00:00",
+      "process": "render",
+      "build_commit": "7a74258fe8f699f34b97b5a0b70fcbf8c267b40a",
+      "demonstration_mode": true,
+      "privileged_mfa_required": false,
+      "scope": "Values come from this running Django process. Configuration does not prove delivery, retention, restoration or clinical qualification.",
+      "delivery": "authenticated_private_web_view"
+    },
+    "configuration": {
+      "debug_disabled": true,
+      "postgresql_configured": true,
+      "ephemeral_database_disabled": true,
+      "durability_declared": true,
+      "private_remote_media_configured": true,
+      "https_canonical_origin": true
+    },
+    "smtp": {
+      "configured": false,
+      "checks": {
+        "smtp_backend": false,
+        "host_present": false,
+        "port_valid": true,
+        "one_transport_security_mode": true,
+        "bounded_timeout": true,
+        "credentials_present": false,
+        "sender_address": true,
+        "sender_not_reserved": false
+      },
+      "network_attempted": false,
+      "delivery_verified": false,
+      "missing": [
+        "smtp_backend",
+        "host_present",
+        "credentials_present",
+        "sender_not_reserved"
+      ],
+      "scope": "Configuration only. TLS/authentication, DNS sender policy, actual delivery and recovery/invitation receipt require an authorized live acceptance test."
+    },
+    "email": {
+      "backend": "disabled",
+      "transport": "none",
+      "configured": false,
+      "checks": {
+        "delivery_backend_selected": false
+      },
+      "network_attempted": false,
+      "delivery_verified": false,
+      "missing": [
+        "delivery_backend_selected"
+      ],
+      "scope": "Selected transport configuration only. No network, domain verification, API authentication, message submission or recipient delivery has been tested."
+    },
+    "configuration_ready": false,
+    "database": {
+      "requested": false
+    },
+    "storage": {
+      "requested": false
+    },
+    "scope": "Technical preparation only. Configuration and timing samples do not establish clinical release, durable operation, an S3 latency benchmark, or verified email delivery.",
+    "operator_acceptance_required": [
+      "trusted_proxy_chain",
+      "private_storage_access_and_restart",
+      "offhost_backup_destination_and_schedule",
+      "key_custody_and_retention",
+      "recent_restore_and_dossier_access",
+      "alert_recipients_and_escalation",
+      "live_email_delivery",
+      "validated_recovery_objectives"
+    ]
+  },
+  "readiness": {
+    "technical_gates_passed": false,
+    "checks": {
+      "processing_register_present_and_populated": false,
+      "demonstration_disabled": false,
+      "debug_disabled": true,
+      "postgresql": true,
+      "private_durable_media_configured": true,
+      "privileged_mfa_required": false,
+      "public_https_origin": true,
+      "email_configured": false,
+      "offered_content_varieties_exist": true,
+      "current_available_nondemo_content_in_each_offered_variety": false,
+      "published_audio_and_current_reviews_available": false
+    },
+    "processing_register": {
+      "active_platform_records": 0,
+      "active_by_capacity": {
+        "controller": 0,
+        "processor": 0
+      },
+      "populated_platform_records": 0,
+      "scope": "Only operator-entered platform records are counted. This completeness check does not assess legal accuracy or replace registers maintained by other controllers or processors."
+    },
+    "smtp": {
+      "configured": false,
+      "checks": {
+        "smtp_backend": false,
+        "host_present": false,
+        "port_valid": true,
+        "one_transport_security_mode": true,
+        "bounded_timeout": true,
+        "credentials_present": false,
+        "sender_address": true,
+        "sender_not_reserved": false
+      },
+      "network_attempted": false,
+      "delivery_verified": false,
+      "missing": [
+        "smtp_backend",
+        "host_present",
+        "credentials_present",
+        "sender_not_reserved"
+      ],
+      "scope": "Configuration only. TLS/authentication, DNS sender policy, actual delivery and recovery/invitation receipt require an authorized live acceptance test."
+    },
+    "email": {
+      "backend": "disabled",
+      "transport": "none",
+      "configured": false,
+      "checks": {
+        "delivery_backend_selected": false
+      },
+      "network_attempted": false,
+      "delivery_verified": false,
+      "missing": [
+        "delivery_backend_selected"
+      ],
+      "scope": "Selected transport configuration only. No network, domain verification, API authentication, message submission or recipient delivery has been tested."
+    },
+    "published_nondemo_counts": {
+      "fr": 0,
+      "en": 0,
+      "ar": 0
+    },
+    "offered_content_varieties": [
+      "fr-fr-pilot",
+      "en-us-general-pilot",
+      "ar-msa-pilot",
+      "ar-dz-pilot"
+    ],
+    "unknown_offered_content_varieties": [],
+    "published_nondemo_counts_by_variety": {
+      "fr-fr-pilot": 0,
+      "en-us-general-pilot": 0,
+      "ar-msa-pilot": 0,
+      "ar-dz-pilot": 0
+    },
+    "current_available_nondemo_counts_by_variety": {
+      "fr-fr-pilot": 0,
+      "en-us-general-pilot": 0,
+      "ar-msa-pilot": 0,
+      "ar-dz-pilot": 0
+    },
+    "editorial_pipeline_by_variety": {
+      "fr-fr-pilot": {
+        "latest_versions": 19,
+        "draft": 19,
+        "review": 0,
+        "approved": 0,
+        "published": 0,
+        "withdrawn": 0,
+        "missing_one_or_more_audio_references": 19
+      },
+      "en-us-general-pilot": {
+        "latest_versions": 17,
+        "draft": 17,
+        "review": 0,
+        "approved": 0,
+        "published": 0,
+        "withdrawn": 0,
+        "missing_one_or_more_audio_references": 17
+      },
+      "ar-msa-pilot": {
+        "latest_versions": 42,
+        "draft": 42,
+        "review": 0,
+        "approved": 0,
+        "published": 0,
+        "withdrawn": 0,
+        "missing_one_or_more_audio_references": 42
+      },
+      "ar-dz-pilot": {
+        "latest_versions": 33,
+        "draft": 33,
+        "review": 0,
+        "approved": 0,
+        "published": 0,
+        "withdrawn": 0,
+        "missing_one_or_more_audio_references": 33
+      }
+    },
+    "editorial_pipeline_scope": "Counts the highest-numbered non-demo version in each series regardless of editorial state. Missing audio counts blank A/B references only; it does not verify file integrity, variety, rights, review or availability.",
+    "content_coverage_scope": "Interface-language counts are descriptive only. Every explicitly offered spoken variety requires its own currently usable non-demo practice version, exact media, current reviews and authorised availability; MSA never covers Algerian Darja.",
+    "versions_with_unavailable_audio_or_reviews": 0,
+    "manual_gates_required": [
+      "professional_content_and_audio_validation",
+      "native_language_review",
+      "reviewer_identity_and_variety_competence_independently_verified",
+      "browser_and_accessibility_acceptance",
+      "backup_restore_and_concurrency_acceptance",
+      "applicable_launch_obligations",
+      "processing_register_accuracy_and_legal_review",
+      "clinical_effectiveness_claims_require_separate_evidence"
+    ],
+    "storage_scope": "Durability is operator-declared; verify persistence across restart, backup scheduling, off-host retention and restoration before launch.",
+    "scope": "A technical report, never clinical validation or commercial approval.",
+    "production_followup": {
+      "original_drafts": 2,
+      "published_versions": 0,
+      "available_versions": 0,
+      "scope": "Availability is specific to module, spoken variety and exact content SHA-256. Interface languages do not approve oral content."
+    },
+    "generated_at": "2026-11-01T16:26:18+00:00"
+  }
+}

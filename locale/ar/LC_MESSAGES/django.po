@@ -5917,3 +5917,11 @@ msgstr "يشترط وجود مراجعين بشريين مختلفين: أحده
 
 msgid "Use exactly three uppercase Latin letters for the currency (for example, DZD)."
 msgstr "استخدموا ثلاثة أحرف لاتينية كبيرة بالضبط للعملة (مثل DZD)."
+
+
+msgid "This content changed. Reload this page and read the current version before submitting a review."
+msgstr "تم تعديل هذا المحتوى. أعد تحميل هذه الصفحة واقرأ النسخة الحالية قبل إرسال المراجعة."
+
+
+msgid "Reload current content"
+msgstr "إعادة تحميل المحتوى الحالي"

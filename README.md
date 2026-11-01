@@ -1,6 +1,6 @@
 # Nehedrou — نهدروا
 
-Dernière étape logicielle : [état de préparation commerciale du 1 novembre 2026](docs/COMMERCIALISATION_PROGRESS_20261101.md). Les validations humaines et la mise en service réelle restent distinctes de la recette logicielle.
+État courant : [checklist de lancement Algérie du 1 novembre 2026](docs/CHECKLIST_LANCEMENT_ALGERIE_20261101.md). Les validations humaines, l’entité vendeuse et l’exploitation de production restent distinctes de la recette logicielle.
 Application Django de pratique à domicile choisie par un orthophoniste et accompagnée par la famille. Interface FR/EN/AR, Tajawal locale et RTL pour l’arabe. Le premier module vise les enfants de 4–7 ans déjà évalués par un professionnel.
 
 **Situation au 1 novembre 2026 : démonstration fonctionnelle avec données fictives, sans ouverture clinique.** Le relevé Neon en lecture seule a compté 124 candidats non démonstratifs, tous en brouillon : 22 pour fr-FR, 17 pour en-US, 52 pour ar-MSA et 33 pour ar-DZ pilote. Aucun brouillon ne référence de fichier audio, et aucune revue ou décision de disponibilité positive ne figure dans les tables dédiées. Les copies de démonstration sont des objets distincts et ne valident pas ces contenus. Cet instantané est daté; régénérer la situation de la base configurée avec manage.py content_inventory --json ; voir [les définitions et la portée du catalogue](docs/INVENTAIRE_CONTENUS.md), [les pièces manquantes](docs/PIECES_MANQUANTES.md) et [les conditions de lancement](docs/LANCEMENT.md).

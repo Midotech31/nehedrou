@@ -178,6 +178,7 @@ ItemFormSet = formset_factory(ItemForm, formset=UniqueItemsFormSet, extra=2, can
 
 
 class ReviewForm(forms.Form):
+    expected_digest = forms.CharField(min_length=64, max_length=64, widget=forms.HiddenInput)
     kind = forms.ChoiceField(label=_('Review discipline'))
     competence = forms.CharField(label=_('Declared competence for this spoken variety'), widget=forms.Textarea(attrs={'rows': 2}))
     approved = forms.BooleanField(label=_('Internal review accepted for this exact version'), required=False)

@@ -12,9 +12,19 @@ def allowed(user, variety, capability):
     grant = request_value('grants', (user.pk, variety.pk), lambda: EditorialGrant.objects.filter(user=user, variety=variety).first())
     return bool(grant and getattr(grant, capability, False))
 
+
+def require_review_snapshot(content, expected_digest):
+    """Call after locking the content, before recording a human review."""
+    if expected_digest != content.fingerprint():
+        raise ValidationError(
+            _('This content changed. Reload this page and read the current version before submitting a review.'),
+            code='review_snapshot_changed')
+
 @transaction.atomic
 def transition(actor, activity_id, target):
     activity = Activity.objects.select_for_update().get(pk=activity_id)
+    from .integrity import invalidate_integrity
+    invalidate_integrity()
     capability = 'publish' if target in ['published', 'withdrawn', 'approved'] else 'edit'
     if not allowed(actor, activity.variety, capability):
         raise PermissionDenied
@@ -47,13 +57,16 @@ def clone_version(actor, source):
     return activity
 
 @transaction.atomic
-def review_version(actor, activity, kind, approved, note):
+def review_version(actor, activity, kind, approved, note, *, expected_digest):
     activity = Activity.objects.select_for_update().get(pk=activity.pk)
+    from .integrity import invalidate_integrity
+    invalidate_integrity()
     if kind not in ['clinical', 'linguistic']:
         raise PermissionDenied
     capability = 'clinical_review' if kind == 'clinical' else 'linguistic_review'
     if not allowed(actor, activity.variety, capability):
         raise PermissionDenied
+    require_review_snapshot(activity, expected_digest)
     review = Review.objects.create(activity=activity, reviewer=actor, kind=kind, approved=approved, note=note)
     audit(actor, 'catalog.reviewed', activity)
     return review
