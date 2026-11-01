@@ -1,3 +1,11 @@
+# Revalidation du code et état du service — 1 novembre 2026, 05:03 UTC
+
+Sur le checkout `418e217264f02f5ecc40459d2535ca9f20dca26f`, la suite Django complète passe : **684 tests réussis, 20 ignorés**; le contrôle `manage.py check` ne signale aucune erreur. Les 20 ignorés comprennent des vérifications dépendant de PostgreSQL lorsqu’elles tournent sur SQLite. Le delta entre ce checkout et le commit applicatif actuellement publié `c629e9053ad6da965862de9e8982c031ce77bfb5` ne porte que sur ce document; le code exécuté par les tests est donc celui du déploiement Render actif.
+
+Relecture de l’API Render à 05:03 UTC : le déploiement actif est `dep-dbjc6e142hec73cjl04g`, commit `c629e90`, statut `live`; le service `nehedrou-demo` utilise le plan web `free` en région Frankfurt, suit la branche `main`, et rapporte `autoDeploy=yes` / `autoDeployTrigger=commit`. Les déploiements récents visibles ont néanmoins tous `trigger=api`; la publication automatique par commit n’est donc pas démontrée par cet historique. Le `healthCheckPath` actif est vide alors que `render.yaml` déclare `/healthz/`. Le endpoint est testé par la suite et la route répondait 200 lors des contrôles HTTP antérieurs, mais le health check Render n’a pas encore été aligné.
+
+Cette revalidation établit la stabilité de la suite logicielle et l’état de la configuration au moment indiqué; elle ne vaut pas recette authentifiée en production, validation clinique, avis réglementaire, sauvegarde restaurable ni disponibilité commerciale. Le service gratuit reste une démonstration et ne convient pas à l’ouverture d’un service commercial avec données réelles. La configuration Render n’a pas été modifiée pendant ce contrôle.
+
 # État de préparation commerciale — 1 novembre 2026
 
 ## Publication après fusion - 1 novembre 2026, 03:53 UTC
