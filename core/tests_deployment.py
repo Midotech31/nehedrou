@@ -25,6 +25,31 @@ class DeploymentSettingsTests(SimpleTestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn('STARTUP_VERIFIED', result.stdout)
 
+    def test_real_mode_requires_strict_readiness_before_gunicorn(self):
+        import runpy
+        from unittest.mock import patch
+        with override_settings(DEBUG=False, DEMO_MODE=False, DEMO_EPHEMERAL=False), \
+                patch.dict(os.environ, {'DEMO_SEED_ON_START':'0'}), \
+                patch('subprocess.run') as command, patch('os.execvp') as handoff:
+            runpy.run_path(str(settings.BASE_DIR/'scripts/render_start.py'), run_name='__main__')
+        self.assertEqual(command.call_count, 2)
+        self.assertEqual(command.call_args.args[0][1:], ['manage.py', 'check_readiness', '--strict'])
+        self.assertTrue(command.call_args.kwargs['check'])
+        self.assertEqual(handoff.call_count, 1)
+
+    def test_failed_real_mode_readiness_prevents_server_start(self):
+        import runpy
+        from subprocess import CalledProcessError
+        from unittest.mock import patch
+        failure = CalledProcessError(1, ['manage.py', 'check_readiness', '--strict'])
+        with override_settings(DEBUG=False, DEMO_MODE=False, DEMO_EPHEMERAL=False), \
+                patch.dict(os.environ, {'DEMO_SEED_ON_START':'0'}), \
+                patch('subprocess.run', side_effect=[None, failure]), \
+                patch('os.execvp') as handoff:
+            with self.assertRaises(CalledProcessError):
+                runpy.run_path(str(settings.BASE_DIR/'scripts/render_start.py'), run_name='__main__')
+        handoff.assert_not_called()
+
     def test_disabled_demo_seeding_preserves_initialized_database(self):
         import runpy
         from unittest.mock import patch
