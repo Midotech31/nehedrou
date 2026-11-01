@@ -155,15 +155,31 @@ def review_pack(actor, pack, kind, approved, note, *, expected_digest):
     return review
 
 
+PACK_TRANSITIONS = {
+    'draft': ('review',), 'review': ('draft', 'published'),
+    'published': ('withdrawn',), 'withdrawn': (),
+}
+
+
+def pack_transition_capability(target):
+    return 'publish' if target in ['published', 'withdrawn'] else 'edit'
+
+
+def pack_transition_choices(actor, pack):
+    labels = dict(LexicalPack._meta.get_field('state').choices)
+    return [(target, labels[target]) for target in PACK_TRANSITIONS.get(pack.state, ())
+            if allowed(actor, pack.variety, pack_transition_capability(target))]
+
+
 @transaction.atomic
 def change_pack_state(actor, pack_id, target):
     pack = LexicalPack.objects.select_for_update().get(pk=pack_id)
     from catalog.integrity import invalidate_integrity
     invalidate_integrity()
-    capability = 'publish' if target in ['published', 'withdrawn'] else 'edit'
+    capability = pack_transition_capability(target)
     if not allowed(actor, pack.variety, capability):
         raise PermissionDenied
-    if target not in {'draft':['review'], 'review':['draft','published'], 'published':['withdrawn'], 'withdrawn':[]}[pack.state]:
+    if target not in PACK_TRANSITIONS[pack.state]:
         raise ValidationError(_('This editorial transition is not allowed.'))
     pack.state = target
     pack.save()

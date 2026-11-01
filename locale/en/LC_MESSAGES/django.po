@@ -5974,3 +5974,6 @@ msgstr "This creation request was already processed. No new link was created and
 
 msgid "Email delivery is unavailable. You can create a link to hand over personally."
 msgstr "Email delivery is unavailable. You can create a link to hand over personally."
+
+msgid "This draft must be submitted by an editor before the review form becomes available."
+msgstr "This draft must be submitted by an editor before the review form becomes available."

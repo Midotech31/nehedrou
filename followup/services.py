@@ -272,16 +272,38 @@ def review_definition(actor, definition, kind, approved, note, competence, *, ex
     return decision
 
 
+DEFINITION_TRANSITIONS = {
+    'draft': ('review',), 'review': ('draft', 'approved'),
+    'approved': ('draft', 'published'), 'published': ('withdrawn',), 'withdrawn': (),
+}
+
+
+def definition_transition_capability(target):
+    return 'publish' if target in ['approved', 'published', 'withdrawn'] else 'edit'
+
+
+def can_transition_definition(actor, definition, target):
+    capability = definition_transition_capability(target)
+    return (allowed(actor, definition.variety, capability)
+            or (capability == 'edit' and can_edit_definition(actor, definition)))
+
+
+def definition_transition_choices(actor, definition):
+    labels = dict(ProbeDefinition._meta.get_field('state').choices)
+    labels['approved'] = _('Internally reviewed')
+    return [(target, labels[target]) for target in DEFINITION_TRANSITIONS.get(definition.state, ())
+            if can_transition_definition(actor, definition, target)
+            and not (definition.is_demo and target in ['approved', 'published'])]
+
+
 @transaction.atomic
 def transition_definition(actor, definition, target):
     definition = _lock_definition(definition)
     from catalog.integrity import invalidate_integrity
     invalidate_integrity()
-    capability = 'publish' if target in ['approved', 'published', 'withdrawn'] else 'edit'
-    if not (allowed(actor, definition.variety, capability) or (capability == 'edit' and can_edit_definition(actor, definition))):
+    if not can_transition_definition(actor, definition, target):
         raise PermissionDenied
-    transitions = {'draft': ['review'], 'review': ['draft', 'approved'], 'approved': ['draft', 'published'], 'published': ['withdrawn'], 'withdrawn': []}
-    if target not in transitions[definition.state]:
+    if target not in DEFINITION_TRANSITIONS[definition.state]:
         raise ValidationError(_('This protocol transition is not allowed.'))
     if definition.is_demo and target in ['approved', 'published']:
         raise ValidationError(_('A demonstration remains an unapproved simulation.'))
