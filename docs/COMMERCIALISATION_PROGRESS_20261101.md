@@ -26,6 +26,11 @@ Deux points de configuration restent à aligner et confirmer dans Render :
 
 Le workspace ne contient pas de base Render gérée. Le blueprint indique l’usage d’une base PostgreSQL et d’un stockage média S3 externes; cela ne prouve ni la persistance de chaque objet, ni une sauvegarde restaurable. La version actuelle est une démo gratuite. Les parcours publics ont été testés sans connexion authentifiée; les rôles protégés, permissions et scénarios de sauvegarde/restauration ne sont pas couverts par cette recette.
 
+## Instantané en lecture seule du catalogue (1 novembre 2026)
+
+Une requête agrégée en lecture seule sur la branche principale du projet Neon « Nehedrou Demo » dénombre 124 fiches non démonstratives, toutes à l’état brouillon : 22 pour le français de France, 17 pour l’anglais général des États-Unis, 52 pour l’arabe standard et 33 pour la Darija algérienne pilote. Aucun contenu non démonstratif n’est en état de relecture ou publié. Les tables de relecture et de décision de disponibilité ne contiennent aucune ligne. Les 114 fiches publiées dans cet instantané sont des copies de démonstration, auxquelles s’ajoutent 8 brouillons et 3 fiches en état de relecture de démonstration.
+
+Cet inventaire agrégé n’expose aucun compte ni dossier individuel. Il confirme qu’aucune fiche réelle n’a encore passé la revue humaine ou reçu une autorisation d’usage. Il décrit la base consultée à cet instant; il ne constitue ni une recette complète de la connexion Render–Neon, ni une validation clinique.
 ## Recette UI publique réalisée
 
 La recette a utilisé un profil de navigateur Chrome vierge et isolé, sans importer de profil personnel ni accéder à des données réelles. Les pages `/fr/`, `/en/` et `/ar/` ont été ouvertes; leur sélecteur de langue, les liens vers les essais et la navigation publique ont été exercés. Les essais `/fr/try/`, `/en/try/` et `/ar/try/` s’ouvrent et progressent dans les trois étapes. L’essai bloque l’étape suivante lorsqu’aucune réponse n’est sélectionnée. Les écrans présentent explicitement les exemples comme non validés, signalent l’absence d’un score de prononciation et indiquent que le profil/rapport de l’enfant n’est pas conservé. La recette s’est arrêtée avant l’envoi final d’un rapport.
