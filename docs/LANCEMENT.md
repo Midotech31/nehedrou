@@ -2,6 +2,8 @@
 
 Version du 9 octobre 2026. Le code livré peut servir à une démonstration avec données fictives. **La vente pour un usage clinique réel reste non qualifiée.** Cette fiche fixe les preuves nécessaires, sans inventer de validation, de tarif ni de résultat thérapeutique.
 
+Protocole de test des parcours sur démonstration et critères d’arrêt : [PROTOCOLE_PILOTE_UTILISABILITE.md](PROTOCOLE_PILOTE_UTILISABILITE.md). Il est distinct d’une étude clinique et requiert l’approbation du protocole avant recrutement.
+
 ## Démonstration utilisable aujourd’hui
 
 1. Ouvrir `/fr/`, `/en/` ou `/ar/` et essayer l’exemple interactif sans compte. Montrer le bénéfice : des activités choisies au cabinet, accompagnées à la maison, avec un retour pour préparer le rendez-vous.
