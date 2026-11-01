@@ -2,6 +2,8 @@
 
 **Version de travail : 1 novembre 2026.** Document préparatoire à compléter avec le porteur du projet, l’ANPP et un conseil compétent en données personnelles. Ce n’est ni une demande déjà envoyée, ni un avis juridique, ni une qualification de dispositif médical. Ne pas y joindre de dossier ou d’exemple identifiable d’enfant.
 
+**Marché initial choisi par le porteur le 1 novembre 2026 : cabinets d’orthophonie en Algérie (B2B).** La pratique à domicile reste accompagnée par un parent, avec objectifs et activités choisis par l’orthophoniste. L’entité vendeuse, son statut, ses coordonnées et les conditions de l’offre restent à renseigner; aucun client payant n’est ouvert par ce choix.
+
 ## Objet et réponse attendue
 
 Obtenir une décision écrite ou une orientation officielle pour le marché de départ envisagé, avant vente, importation, mise à disposition clinique ou collecte de données réelles. Les questions ci-dessous séparent la qualification du produit, les formalités applicables et la protection des données. Chaque réponse doit préciser son périmètre, son fondement, les pièces à fournir et l’autorité compétente.
@@ -35,7 +37,7 @@ Nous préparons la mise à disposition en Algérie de Nehedrou, une application 
 
 Nous sollicitons votre orientation sur les points suivants :
 
-1. Au regard de l’usage décrit, de la définition de l’article 173 de la loi n° 85-05 telle que modifiée et complétée, et des règles en vigueur, Nehedrou relève-t-elle du régime des dispositifs médicaux ou d’un autre régime? Le fait qu’il s’agisse d’une application autonome, sans capteur ni analyse automatique de la voix, modifie-t-il cette qualification?
+1. Au regard de l’usage décrit, de l’article 212 de la loi n° 18-11 relative à la santé, modifiée et complétée, et du cadre d’homologation du décret exécutif n° 20-324, Nehedrou relève-t-elle du régime des dispositifs médicaux ou d’un autre régime? Comment qualifier ce logiciel autonome sans capteur ni analyse automatique de la voix? Merci de confirmer les textes applicables à la date de la demande.
 2. Quelles fonctions ou formulations (notamment « thérapie », « traitement », « rééducation », « amélioration » ou choix de parcours à partir de données de pratique) déterminent l’usage prévu et la qualification?
 3. Si une homologation ou autre autorisation s’applique, quelle catégorie et quelle procédure concernent un logiciel de ce type? Qui peut légalement en être fabricant, exploitant ou demandeur en Algérie?
 4. Quelles pièces sont attendues concernant sécurité, performance, évaluation clinique, gestion des risques, cycle logiciel, cybersécurité, surveillance après mise sur le marché et gestion des incidents?
@@ -44,7 +46,7 @@ Nous sollicitons votre orientation sur les points suivants :
 
 Nous pouvons transmettre la description fonctionnelle, captures d’écran, architecture, modèles de données et documentation qualité, sans inclure de données personnelles. Merci d’indiquer le service compétent, le formulaire, le fondement juridique et les étapes à suivre.
 
-**À compléter avant envoi :** personne morale/éditeur : [à renseigner]; adresse : [à renseigner]; responsable : [à renseigner]; marché et modèle de distribution envisagés : [à renseigner]; coordonnées : [à renseigner].
+**À compléter avant envoi :** personne morale/éditeur : [à renseigner]; adresse : [à renseigner]; responsable : [à renseigner]; marché et modèle de distribution envisagés : cabinets d’orthophonie en Algérie, offre B2B à préciser; coordonnées : [à renseigner].
 
 ## Demande d’avis données personnelles — brouillon à remettre au spécialiste/ANPDP
 
@@ -61,11 +63,12 @@ Nous demandons un avis écrit portant sur :
 - les contrats de sous-traitance, durées, effacement et propagation aux sauvegardes, export/accès/rectification/opposition, contrôle des comptes, journalisation, notification de violation et analyse d’impact éventuelle;
 - les limites de données nécessaires : pseudonyme plutôt que nom, restriction des commentaires libres, durée la plus courte justifiée, désactivation des données réelles avant validation.
 
-**À compléter avant avis :** entité exploitante : [à renseigner]; responsable proposé : [à renseigner]; contact DPO : [à renseigner]; fournisseurs/régions et sous-traitants : [à renseigner]; besoins de conservation : [à justifier]; marchés concernés : [à renseigner].
+**À compléter avant avis :** entité exploitante : [à renseigner]; responsable proposé : [à renseigner]; contact DPO : [à renseigner]; fournisseurs/régions et sous-traitants : [à renseigner]; besoins de conservation : [à justifier]; marché initial : cabinets d’orthophonie en Algérie, flux internationaux à examiner séparément.
 
 ## Questions de décision interne à fermer avant usage réel
 
-- [ ] Le marché de lancement est déterminé et un avis écrit porte sur son régime applicable.
+- [x] Le marché initial est choisi : cabinets d’orthophonie en Algérie.
+- [ ] Un avis écrit porte sur le régime applicable au produit et au lancement B2B algérien.
 - [ ] L’intended purpose, les claims autorisés et les formulations FR/EN/AR/Darija sont approuvés pour ce marché.
 - [ ] Les rôles de responsable/sous-traitant sont contractualisés; le registre de traitement est exact et revu.
 - [ ] Les bases juridiques, l’information des titulaires de l’autorité parentale et les droits sont validés.
@@ -76,7 +79,8 @@ Nous demandons un avis écrit portant sur :
 
 ## Références primaires consultées le 1 novembre 2026
 
-- [Journal officiel algérien, loi n° 08-13 du 20 juillet 2008, définition à l’article 173 de la loi n° 85-05](https://www.joradp.dz/FTP/jo-francais/2008/F2008044.PDF).
+- [Journal officiel algérien, loi n° 18-11 relative à la santé, article 212 et dispositions finales de l’article 449](https://www.joradp.dz/FTP/jo-francais/2018/F2018046.pdf).
+- [Journal officiel algérien, décret exécutif n° 20-324 relatif aux modalités d’homologation des dispositifs médicaux](https://www.joradp.dz/FTP/jo-francais/2020/F2020069.pdf).
 - [ANPP, mission d’homologation des dispositifs médicaux](https://anpp.dz/fr/).
 - [Journal officiel algérien, loi n° 18-07 du 10 juin 2018](https://www.joradp.dz/FTP/JO-FRANCAIS/2018/F2018034.pdf).
 - [Journal officiel algérien, loi n° 25-11 du 24 juillet 2025 modifiant la loi n° 18-07](https://www.joradp.dz/FTP/jo-francais/2025/F2025048.pdf).
