@@ -6,6 +6,8 @@ Relecture de l’API Render à 05:03 UTC : le déploiement actif est `dep-dbjc6e
 
 Cette revalidation établit la stabilité de la suite logicielle et l’état de la configuration au moment indiqué; elle ne vaut pas recette authentifiée en production, validation clinique, avis réglementaire, sauvegarde restaurable ni disponibilité commerciale. Le service gratuit reste une démonstration et ne convient pas à l’ouverture d’un service commercial avec données réelles. La configuration Render n’a pas été modifiée pendant ce contrôle.
 
+Instantané Neon agrégé et strictement en lecture seule, relevé à 05:07 UTC sur le projet Nehedrou Demo : les versions courantes non démo sont 19 FR, 17 EN général US, 42 arabe standard et 33 Darija algérienne pilote. Les 111 sont toutes en brouillon; aucune ne référence `audio_a` ou `audio_b`. Les tables de revue de contenu et de décisions de disponibilité ne contiennent aucune ligne. La requête ne sélectionne aucun profil, commentaire, nom de compte ni texte d’activité. Ce résultat confirme que les avis humains n’ont pas été consignés dans le CMS au moment du contrôle; il ne dit pas si des échanges de relecture ont lieu hors application.
+
 # État de préparation commerciale — 1 novembre 2026
 
 ## Publication après fusion - 1 novembre 2026, 03:53 UTC
