@@ -658,8 +658,8 @@ msgstr "Créer un espace de démonstration"
 msgid "I already have access"
 msgstr "J’ai déjà un accès"
 
-msgid "French, English and Arabic interfaces. Clinical content availability depends on the reviewed spoken variety."
-msgstr "Interfaces en français, anglais et arabe. La disponibilité des contenus cliniques dépend de la variété parlée relue."
+msgid "French, English and Arabic interfaces. All current activities are demonstrations; no spoken variety has clinically approved activities."
+msgstr "Interfaces en français, anglais et arabe. Toutes les activités actuelles sont des exemples de démonstration; aucune variété parlée ne dispose d’activités approuvées pour un usage clinique."
 
 msgid "HOW IT WORKS"
 msgstr "COMMENT ÇA MARCHE"

@@ -658,8 +658,8 @@ msgstr "إنشاء مساحة تجريبية"
 msgid "I already have access"
 msgstr "لديّ وصول بالفعل"
 
-msgid "French, English and Arabic interfaces. Clinical content availability depends on the reviewed spoken variety."
-msgstr "واجهات بالفرنسية والإنجليزية والعربية. إتاحة المحتوى السريري تعتمد على التنوع اللغوي الذي تمت مراجعته."
+msgid "French, English and Arabic interfaces. All current activities are demonstrations; no spoken variety has clinically approved activities."
+msgstr "الواجهات متاحة بالفرنسية والإنجليزية والعربية. الأنشطة الحالية أمثلة تجريبية فقط؛ ولا توجد أنشطة معتمدة سريريًا لأي تنوع لغوي حتى الآن."
 
 msgid "HOW IT WORKS"
 msgstr "كيف يعمل التطبيق"
