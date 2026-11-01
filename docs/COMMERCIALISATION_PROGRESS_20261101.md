@@ -158,3 +158,7 @@ Recette interactive sur la version Render live `c629e9053ad6da965862de9e8982c031
 | `gestionnaire` | Connexion réussie; `/fr/billing/`; navigation gestion de plateforme et facturation visible. | Aucun plan ni facture modifié. |
 
 La recette confirme les connexions et les écrans d’entrée de ces sept comptes sur ce commit. Elle ne remplace pas les tests de refus détaillés de la suite automatisée ni les recettes de toutes les actions protégées. Le compte `pitou`, distinct des sept, est actif et doté de droits d’édition de brouillons d’après la lecture Neon, mais son mot de passe est absent du tableau privé consulté; aucune connexion Pitou n’a été soumise.
+
+## Pré-analyse des marchés pilotes — 1 novembre 2026
+
+Les obligations potentielles pour l’Algérie, la France/UE et les États-Unis sont synthétisées dans [la pré-analyse des marchés pilotes](OBLIGATIONS_MARCHES_PILOTES_20261101.md), avec sources officielles et actions de vérification. Le document reste un cadrage, pas un avis juridique ni une attestation. La vente clinique reste bloquée tant que le marché initial, les rôles de traitement, la qualification de la finalité et les exigences applicables ne sont pas documentés et revus. La démo publiée n’a pas de preuve HDS ; aucun enregistrement de voix d’enfant ne doit être activé avant décision juridique et contrôle de bout en bout.
