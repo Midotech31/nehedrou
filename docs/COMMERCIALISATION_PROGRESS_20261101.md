@@ -112,3 +112,11 @@ Le budget communiqué pour le moment est de 0 EUR/mois. Dans ce cadre, le servic
 - Compléter le rapport `check_readiness --strict` sur la configuration de production réelle, sans transmettre ni consigner les secrets, et réaliser un exercice de restauration à partir d’une sauvegarde de production autorisée.
 
 Les tests automatisés ne peuvent pas combler l’absence de validation humaine, d’un budget accepté, d’une livraison email vérifiée, d’une sauvegarde opérationnelle ou d’une conformité vérifiée pour les marchés visés. Nehedrou n’est donc pas encore qualifiée pour une vente telle quelle.
+
+## Recette publique complémentaire — 1 novembre 2026
+
+Sur la version Render active `c629e905`, un profil Chrome isolé BrowserAct `nehedrou-qa2`, sans connexion ni profil utilisateur importé, a permis de reprendre le parcours `/ar/try/` après avoir placé les fichiers temporaires de l’outil sur E:. La page reste identifiée comme démonstration et les propositions Darija comme en attente de revue.
+
+Le parcours a progressé de l’étape 2 (« اختيار صورة », choix d’image) à l’étape 3 (prévisualisation du rapport). Le rapport demande explicitement des réponses fictives, ne mesure pas la parole et ne note pas la prononciation. La commande pause a remplacé l’activité par un état « متوقف مؤقتًا », avec une action « استئناف »; la reprise a ramené le formulaire de prévisualisation. L’action « التوقف لهذا اليوم » a rendu le champ d’achèvement « متوقف (stopped) » valide, en restant sur le formulaire pour compléter le signalement de fin. Aucune voix, aucun profil d’enfant ni rapport réel n’a été créé.
+
+Cette recette vérifie le rendu et ces interactions publiques sur un navigateur de bureau de 1889 px de largeur; elle ne vérifie pas l’envoi du formulaire final, le stockage, les permissions authentifiées, les parcours mobiles, les comptes par rôle ou l’audio de production. La tentative précédente BrowserAct a d’abord échoué faute de répertoire temporaire système; la session a été récupérée après configuration de `TEMP`/`TMP` dans `E:\NehedrouTestTemp`. Le test a été effectué sur le commit actuellement servi, pas sur la PR #36.
