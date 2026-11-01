@@ -20,10 +20,6 @@ def offered_content_varieties():
     configured = getattr(settings, 'OFFERED_CONTENT_VARIETIES', DEFAULT_OFFERED_CONTENT_VARIETIES)
     if not isinstance(configured, (tuple, list)) or not configured or any(not isinstance(code, str) or not code or code != code.strip() for code in configured) or len(set(configured)) != len(configured):
         raise CommandError('OFFERED_CONTENT_VARIETIES must be a nonempty list or tuple of unique exact variety codes.')
-    known = set(Variety.objects.filter(code__in=configured).values_list('code', flat=True))
-    unknown = set(configured) - known
-    if unknown:
-        raise CommandError('Unknown offered content varieties: ' + ', '.join(repr(code) for code in sorted(unknown)))
     return tuple(configured)
 
 
@@ -36,6 +32,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         offered = offered_content_varieties()
+        known_offered = set(Variety.objects.filter(code__in=offered).values_list('code', flat=True))
+        unknown_offered = sorted(set(offered) - known_offered)
         # Show the editorial workload without treating drafts as clinically ready.
         # Count only the highest numbered version in each series, across states.
         latest_by_series = {}
@@ -92,7 +90,8 @@ class Command(BaseCommand):
             'privileged_mfa_required': settings.MFA_REQUIRED,
             'public_https_origin': origin.scheme == 'https' and bool(origin.netloc) and not origin.username and not origin.password,
             'email_configured': email['configured'],
-            'current_available_nondemo_content_in_each_offered_variety': all(available_by_variety.values()),
+            'offered_content_varieties_exist': not unknown_offered,
+            'current_available_nondemo_content_in_each_offered_variety': not unknown_offered and all(available_by_variety.values()),
             'published_audio_and_current_reviews_available': bool(catalogue) and unavailable == 0,
         }
         report = {
@@ -109,6 +108,7 @@ class Command(BaseCommand):
             'email': email,
             'published_nondemo_counts': coverage,
             'offered_content_varieties': list(offered),
+            'unknown_offered_content_varieties': unknown_offered,
             'published_nondemo_counts_by_variety': published_by_variety,
             'current_available_nondemo_counts_by_variety': available_by_variety,
             'editorial_pipeline_by_variety': editorial_pipeline,
@@ -135,6 +135,8 @@ class Command(BaseCommand):
                 self.stdout.write(('PASS ' if passed else 'BLOCK ') + name)
             for code, counts in editorial_pipeline.items():
                 self.stdout.write('CONTENT ' + code + ': ' + json.dumps(counts, sort_keys=True))
+            if unknown_offered:
+                self.stdout.write('BLOCK unknown offered content varieties: ' + ', '.join(unknown_offered))
             self.stdout.write(report['scope'])
         if options['strict'] and not report['technical_gates_passed']:
             raise CommandError('Technical launch gates are not met.')

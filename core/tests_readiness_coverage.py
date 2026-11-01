@@ -137,16 +137,31 @@ class SpokenVarietyReadinessTests(TestCase):
         self.assertEqual(report['published_nondemo_counts'], {'fr':1,'en':0,'ar':0})
         self.assertTrue(report['technical_gates_passed'])
 
-    def test_unknown_empty_duplicate_or_string_configuration_is_rejected(self):
-        for configured in [('ar-missing',), (), ('ar-dz-pilot','ar-dz-pilot'), 'ar-dz-pilot', (None,)]:
+    def test_empty_duplicate_or_string_configuration_is_rejected(self):
+        for configured in [(), ('ar-dz-pilot','ar-dz-pilot'), 'ar-dz-pilot', (None,)]:
             with self.subTest(configured=configured), override_settings(OFFERED_CONTENT_VARIETIES=configured):
                 with patch('core.management.commands.check_readiness.offered_content_varieties', wraps=__import__('core.management.commands.check_readiness', fromlist=['offered_content_varieties']).offered_content_varieties):
                     with self.assertRaises(CommandError):
                         call_command('check_readiness', json=True, stdout=io.StringIO())
+
+    def test_unknown_offered_variety_is_reported_without_aborting_the_json_report(self):
+        report = self.report(offered=('ar-missing',))
+        self.assertEqual(report['unknown_offered_content_varieties'], ['ar-missing'])
+        self.assertEqual(report['published_nondemo_counts_by_variety'], {'ar-missing':0})
+        self.assertEqual(report['current_available_nondemo_counts_by_variety'], {'ar-missing':0})
+        self.assertFalse(report['checks']['offered_content_varieties_exist'])
+        self.assertFalse(report['checks']['current_available_nondemo_content_in_each_offered_variety'])
+        self.assertFalse(report['technical_gates_passed'])
+
+    def test_missing_variety_record_is_reported_without_aborting_the_json_report(self):
         self.varieties['ar-dz-pilot'].delete()
         with patch('core.management.commands.check_readiness.offered_content_varieties', wraps=__import__('core.management.commands.check_readiness', fromlist=['offered_content_varieties']).offered_content_varieties):
-            with self.assertRaisesMessage(CommandError, 'ar-dz-pilot'):
-                call_command('check_readiness', json=True, stdout=io.StringIO())
+            output = io.StringIO()
+            call_command('check_readiness', json=True, stdout=output)
+        report = json.loads(output.getvalue())
+        self.assertEqual(report['unknown_offered_content_varieties'], ['ar-dz-pilot'])
+        self.assertFalse(report['checks']['offered_content_varieties_exist'])
+        self.assertFalse(report['technical_gates_passed'])
 
     def test_historical_published_version_cannot_cover_newer_unavailable_version(self):
         old = self.content('ar-dz-pilot')
