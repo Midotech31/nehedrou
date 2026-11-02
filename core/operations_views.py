@@ -44,6 +44,7 @@ READINESS_CHECK_LABELS = {
     'privileged_mfa_required': _('Multi-factor authentication required for privileged access'),
     'public_https_origin': _('Public HTTPS address configured'),
     'email_configured': _('Supported email delivery configured'),
+    'offered_content_varieties_exist': _('Offered spoken varieties exist in the catalogue'),
     'current_available_nondemo_content_in_each_offered_variety': _('Current approved non-demo activity available for every offered spoken variety'),
     'published_audio_and_current_reviews_available': _('Published activities have usable audio and current reviews'),
 }

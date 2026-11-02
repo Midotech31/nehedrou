@@ -132,9 +132,28 @@ class PrivateOperationsViewTests(TestCase):
         self.assertIn('dir="rtl"', arabic.content.decode())
         self.assertIn('Observed at', english.content.decode())
 
+    def test_all_shared_readiness_checks_have_human_labels_in_each_interface_language(self):
+        self.client.force_login(self.operator)
+        labels = {
+            'fr': 'Les variétés parlées proposées existent dans le catalogue',
+            'en': 'Offered spoken varieties exist in the catalogue',
+            'ar': 'التنوعات اللغوية المنطوقة المعروضة موجودة في الفهرس',
+        }
+        for language, expected in labels.items():
+            with self.subTest(language=language):
+                response = self.client.get(f'/{language}/operations/readiness/')
+                self.assertEqual(response.status_code, 200)
+                # Use the real shared command so a newly emitted check cannot
+                # silently fall back to its machine key in the HTML checklist.
+                checks = response.context['report']['checks']
+                self.assertIn('offered_content_varieties_exist', checks)
+                self.assertContains(response, expected)
+                for key in checks:
+                    self.assertNotContains(response, key)
+
     def test_launch_readiness_json_download_preserves_shared_report(self):
         self.client.force_login(self.operator)
-        report = {'technical_gates_passed': False, 'checks': {}, 'scope': 'Technical report only.'}
+        report = {'technical_gates_passed': False, 'checks': {'offered_content_varieties_exist': False}, 'scope': 'Technical report only.'}
         with patch('core.operations_views.call_command', side_effect=lambda command, *, json, stdout: stdout.write(__import__('json').dumps(report))):
             response = self.client.get('/en/operations/readiness/?format=json')
         self.assertEqual(response.status_code, 200)

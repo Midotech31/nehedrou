@@ -5998,3 +5998,6 @@ msgstr "اختاروا موضع الصوت المستهدف"
 
 msgid "Home page"
 msgstr "الصفحة الرئيسية"
+
+msgid "Offered spoken varieties exist in the catalogue"
+msgstr "التنوعات اللغوية المنطوقة المعروضة موجودة في الفهرس"
