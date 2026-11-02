@@ -137,3 +137,7 @@ python manage.py test
 ```
 
 Ne remplacer un état « en attente » que par une preuve réellement obtenue dans le périmètre concerné.
+
+## Reprise du 3 novembre
+
+La [recette connectée publiée FR/EN/AR du 3 novembre](RECETTE_CONNECTEE_FR_EN_AR_20261103.md) complète la reprise auparavant bloquée du navigateur : 36 connexions distinctes, refus par rôle et fenêtres mobile/tablette observés sur225b114. Les limites cliniques, humaines et commerciales restent explicitement séparées.

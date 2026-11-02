@@ -5998,3 +5998,6 @@ msgstr "Choisir une position cible"
 
 msgid "Home page"
 msgstr "Accueil"
+
+msgid "Offered spoken varieties exist in the catalogue"
+msgstr "Les variétés parlées proposées existent dans le catalogue"
