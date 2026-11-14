@@ -71,6 +71,9 @@ class ActivityAuthoringForm(forms.ModelForm):
                 except ValueError: pass
             media = MediaAsset.objects.filter(Q(uploaded_by=actor) | Q(pk__in=valid_images + audio_ids)).distinct()
         for side in ['a', 'b']:
+            # The upload selector and surrounding guide already explain images.
+            # Do not expose the model's internal English static-path hint.
+            self.fields['image_' + side].help_text = ''
             self.fields['choose_image_' + side] = forms.ModelChoiceField(
                 label=_('Choose an uploaded illustration'), queryset=media.filter(kind='image').order_by('-created_at'), required=False)
             self.fields['choose_audio_' + side] = forms.ModelChoiceField(
@@ -88,6 +91,33 @@ class ActivityAuthoringForm(forms.ModelForm):
             self.fields[f'segments_{side}'].widget.attrs.update(lang='und-fonipa', dir='ltr')
             self.fields[f'segments_{side}'].help_text = _('Separate phonemes with spaces, for example k a t. This does not verify the transcription.')
             self.fields[f'targets_{side}'].help_text = _('Indices start at 0; separate multiple indices with commas. Example: 0 for the first phoneme.')
+        # Only documents already private to this actor can be offered. A new
+        # unsaved form may not have a variety yet, so show that existing scope
+        # with variety labels and enforce the selected variety again in clean.
+        from qualification.views import private_documents
+        documents = private_documents(actor).filter(category='familiarity', revoked=False)
+        if variety:
+            documents = documents.filter(variety=variety)
+        for side in ['a', 'b']:
+            item = self.instance.item_metadata.get(side, {})
+            proof = item.get('familiarity', {})
+            proof = proof if isinstance(proof, dict) else {}
+            self.fields['familiarity_evidence_' + side] = forms.ModelChoiceField(
+                label=_('Word and image familiarity evidence'), queryset=documents.order_by('-created_at', 'pk'),
+                required=False, initial=proof.get('evidence'),
+                empty_label=_('Keep the existing reference') if proof.get('evidence') else _('No evidence has been supplied.'),
+                help_text=_('Choose an existing private document for this spoken variety. Upload evidence in the qualification workspace first; saving a reference does not approve its contents.'))
+            self.fields['familiarity_evidence_' + side].label_from_instance = lambda document: f'{document.title} · {document.variety.display_label}'
+            self.fields['remove_familiarity_evidence_' + side] = forms.BooleanField(
+                label=_('Remove the existing familiarity evidence reference'), required=False,
+                help_text=_('An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it.'))
+            self.fields['variants_' + side] = forms.CharField(
+                label=_('Admissible variants and reasons'), required=False, max_length=16000,
+                widget=forms.Textarea(attrs={'rows': 3, 'dir': 'auto'}),
+                initial='\n'.join(f"{variant['ipa']} ; {variant['reason']}" for variant in item.get('accepted_variants', [])),
+                help_text=_('One variant per line: IPA form ; reason. Leave empty when no alternative is admitted.'))
+            for name in ['meaning_' + side, 'familiarity_' + side]:
+                self.fields[name].widget.attrs['dir'] = 'auto'
         self.language_sections = []
         for code, label in LANGUAGE_LABELS.items():
             self.fields['instructions_' + code] = forms.CharField(label=labels.fields['instructions_' + code].label,
@@ -146,7 +176,7 @@ class ActivityAuthoringForm(forms.ModelForm):
                 sources.append(row)
         self.instance.evidence_sources = sources
         metadata = copy.deepcopy(self.instance.item_metadata)
-        has_items = bool(metadata) or any(data.get(f'{key}_{side}') for key in ['meaning', 'segments', 'targets', 'familiarity'] for side in ['a', 'b'])
+        has_items = bool(metadata) or any(data.get(f'{key}_{side}') for key in ['meaning', 'segments', 'targets', 'familiarity', 'familiarity_evidence', 'remove_familiarity_evidence', 'variants'] for side in ['a', 'b'])
         if has_items:
             for side in ['a', 'b']:
                 item = metadata.setdefault(side, {})
@@ -170,7 +200,59 @@ class ActivityAuthoringForm(forms.ModelForm):
                 except ValueError:
                     self.add_error('targets_' + side, _('Use unique indices that exist in the ordered phoneme list.'))
                 item['target_occurrences'] = occurrences
+                variant_field = 'variants_' + side
+                # Old clients and recoverable working copies do not contain the
+                # new fields. Their omission must preserve authored metadata.
+                if variant_field in self.data:
+                    variants = []
+                    try:
+                        for line in data.get(variant_field, '').splitlines():
+                            if not line.strip():
+                                continue
+                            ipa, reason = [part.strip() for part in line.split(';', 1)]
+                            if not ipa or not reason:
+                                raise ValueError
+                            variants.append({'ipa': ipa, 'reason': reason})
+                    except ValueError:
+                        self.add_error(variant_field, _('Use IPA form ; reason for every variant.'))
+                    previous_variants = item.get('accepted_variants', [])
+                    # Match exact authored content, consuming duplicate entries
+                    # in their original order. Reordering an unchanged variant
+                    # retains its metadata; changed or new text inherits none.
+                    previous_by_text = {}
+                    for previous in previous_variants:
+                        previous_by_text.setdefault((previous['ipa'], previous['reason']), []).append(previous)
+                    for index, value in enumerate(variants):
+                        matches = previous_by_text.get((value['ipa'], value['reason']), [])
+                        if matches:
+                            variants[index] = copy.deepcopy(matches.pop(0))
+                    item['accepted_variants'] = variants
                 item.setdefault('accepted_variants', [])
+                selected = data.get('familiarity_evidence_' + side)
+                if data.get('remove_familiarity_evidence_' + side):
+                    proof = item.get('familiarity', {})
+                    if isinstance(proof, dict):
+                        proof.pop('evidence', None)
+                        proof.pop('sha256', None)
+                elif selected:
+                    field = 'familiarity_evidence_' + side
+                    if not data.get('variety') or selected.variety_id != data['variety'].pk:
+                        self.add_error(field, _('The familiarity evidence must concern the activity’s spoken variety.'))
+                    elif not selected.usable:
+                        self.add_error(field, _('The selected familiarity evidence is missing, changed, expired or revoked.'))
+                    else:
+                        proof = item.get('familiarity', {})
+                        if not isinstance(proof, dict):
+                            proof = {'note': proof}
+                            item['familiarity'] = proof
+                        # A normal save must never silently repair an old or
+                        # mistyped fingerprint for the same document identifier.
+                        try:
+                            same_document = uuid.UUID(str(proof.get('evidence', ''))) == selected.pk
+                        except (ValueError, TypeError, AttributeError):
+                            same_document = False
+                        if not same_document:
+                            proof.update(evidence=str(selected.pk), sha256=selected.sha256)
         self.instance.item_metadata = metadata
         for side in ['a', 'b']:
             image, audio = data.get('choose_image_' + side), data.get('choose_audio_' + side)

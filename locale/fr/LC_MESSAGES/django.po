@@ -6001,3 +6001,25 @@ msgstr "Accueil"
 
 msgid "Offered spoken varieties exist in the catalogue"
 msgstr "Les variétés parlées proposées existent dans le catalogue"
+
+
+msgid "Word and image familiarity evidence"
+msgstr "Justificatif de familiarité des mots et des images"
+
+msgid "Choose an existing private document for this spoken variety. Upload evidence in the qualification workspace first; saving a reference does not approve its contents."
+msgstr "Choisissez un document privé existant pour cette variété parlée. Déposez d’abord le justificatif dans l’espace de qualification ; enregistrer une référence ne vaut pas approbation de son contenu."
+
+msgid "Keep the existing reference"
+msgstr "Conserver la référence existante"
+
+msgid "Remove the existing familiarity evidence reference"
+msgstr "Retirer la référence existante au justificatif de familiarité"
+
+msgid "The selected familiarity evidence is missing, changed, expired or revoked."
+msgstr "Le justificatif de familiarité sélectionné est manquant, a changé, a expiré ou a été révoqué."
+
+msgid "The familiarity evidence must concern the activity’s spoken variety."
+msgstr "Le justificatif de familiarité doit concerner la variété parlée de l’activité."
+
+msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
+msgstr "Une sélection inchangée conserve son empreinte enregistrée. Pour effacer une référence, demandez explicitement son retrait."
