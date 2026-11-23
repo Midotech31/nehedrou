@@ -19,7 +19,8 @@ if settings.DEBUG:
 if settings.DEMO_EPHEMERAL and not settings.DEMO_MODE:
     raise SystemExit('Temporary storage requires fictional demonstration mode.')
 
-migration_env = dict(os.environ)
+runtime_env = dict(os.environ)
+migration_env = runtime_env.copy()
 if os.getenv('POSTGRES_MIGRATION_HOST'):
     migration_env['POSTGRES_HOST'] = os.environ['POSTGRES_MIGRATION_HOST']
 subprocess.run([sys.executable, 'manage.py', 'migrate', '--noinput'], check=True, env=migration_env)
@@ -31,7 +32,7 @@ if settings.DEMO_MODE and os.getenv('DEMO_SEED_ON_START', '1') == '1':
 elif not settings.DEMO_MODE:
     # Do not start a real-data deployment until all technical readiness gates
     # pass against the migrated database and exact current content.
-    subprocess.run([sys.executable, 'manage.py', 'check_readiness', '--strict'], check=True, env=migration_env)
+    subprocess.run([sys.executable, 'manage.py', 'check_readiness', '--strict'], check=True, env=runtime_env)
 
 port = int(os.getenv('PORT', '10000'))
 if not 1 <= port <= 65535:
