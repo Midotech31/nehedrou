@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<section class="card" aria-labelledby="manual-handoff-heading">
+  {% if manual_already_created %}
+  <h1 id="manual-handoff-heading">{% translate "Invitation request already processed" %}</h1>
+  <p role="status">{% translate "The link is no longer shown. Return to the invitation form to create a new one if needed." %}</p>
+  {% else %}
+  <h1 id="manual-handoff-heading">{% translate "Link created for manual handoff" %}</h1>
+  <p><strong dir="ltr">{{ manual_invitation.email }}</strong> · {{ manual_invitation.get_kind_display }}</p>
+  <p>{% translate "Expires" %}: <bdi dir="ltr">{{ manual_invitation.expires_at|date:'Y-m-d H:i T' }}</bdi></p>
+  <p id="manual-link-help">{% translate "Copy this link before leaving this page. It is shown only once. Share it personally with the intended recipient after checking their identity. No email has been sent." %}</p>
+  <label for="manual-practice-link">{% translate "Invitation link to copy" %}</label>
+  <input id="manual-practice-link" type="text" dir="ltr" readonly value="{{ manual_link }}" aria-describedby="manual-link-help" autocomplete="off" spellcheck="false">
+  <p>{% translate "Access starts after acceptance. The link does not verify the recipient’s email address." %}</p>
+  {% endif %}
+  <a class="button secondary" href="{{ invitation_return_url }}">{% translate "Back to invitations" %}</a>
+</section>
+{% endblock %}

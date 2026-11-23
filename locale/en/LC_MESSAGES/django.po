@@ -6023,3 +6023,24 @@ msgstr "The familiarity evidence must concern the activity’s spoken variety."
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
+
+msgid "Create a link to hand over personally"
+msgstr "Create a link to hand over personally"
+
+msgid "A new personal handoff link replaces open invitations for this recipient and this access only."
+msgstr "A new personal handoff link replaces open invitations for this recipient and this access only."
+
+msgid "Invitation request already processed"
+msgstr "Invitation request already processed"
+
+msgid "The link is no longer shown. Return to the invitation form to create a new one if needed."
+msgstr "The link is no longer shown. Return to the invitation form to create a new one if needed."
+
+msgid "Access starts after acceptance. The link does not verify the recipient’s email address."
+msgstr "Access starts after acceptance. The link does not verify the recipient’s email address."
+
+msgid "Back to invitations"
+msgstr "Back to invitations"
+
+msgid "Choose how to deliver the invitation."
+msgstr "Choose how to deliver the invitation."
