@@ -51,3 +51,11 @@ Une invitation n’est marquée `sent` qu’après l’acceptation du transport 
 Le formulaire de récupération conserve les jetons Django, leur expiration, leur usage unique et la réponse neutre pour un compte inconnu ou un échec de transport. Il construit maintenant l’adresse complète du lien depuis `PUBLIC_ORIGIN`, indépendamment du Host de la requête, y compris un alias autorisé. Cette origine doit être une origine HTTP(S) complète, sans identifiants, chemin supplémentaire, query, fragment, caractères de contrôle, espace ou antislash ; une valeur incorrecte arrête le démarrage avec un message générique. Le diagnostic de lancement exige HTTPS. HTTP reste disponible pour le développement local.
 
 Les tests des parcours utilisent le vrai backend avec uniquement `HTTPSConnection` simulé. Les liens, langues et autorisations sont traités par les vues et services réels sur des comptes fictifs. Ils ne contactent aucun fournisseur et ne démontrent pas la réception dans une boîte réelle.
+
+## Remise personnelle aux accompagnants et praticiens
+
+Depuis la fiche d’un enfant actif ou la gestion des membres du cabinet, la personne habilitée choisit « Créer un lien à remettre en personne ». La confirmation indique le destinataire, le type d’accès et l’expiration de trois jours. Vérifier l’identité du destinataire avant de lui remettre le lien en privé.
+
+Le lien est affiché une seule fois. Si le formulaire est soumis de nouveau, le lien précédent n’est pas réaffiché. Créer une nouvelle invitation invalide les liens encore ouverts pour le même destinataire et le même accès. Les autres dossiers et cabinets restent indépendants. Les invitations inutilisées peuvent être révoquées depuis leur liste.
+
+Le destinataire suit le parcours habituel d’acceptation. Le lien ne vérifie pas la maîtrise de sa boîte de courriel. L’application conserve une empreinte du lien et journalise la création sans recopier le jeton. Le transport de courriel et la vérification de la réception restent nécessaires pour la récupération des comptes en production.

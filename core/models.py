@@ -96,7 +96,7 @@ class Invitation(CheckedModel):
     expires_at = models.DateTimeField()
     revoked = models.BooleanField(default=False)
     used_at = models.DateTimeField(null=True, blank=True)
-    delivery = models.CharField(max_length=12, default='pending', choices=[('pending', _('Pending delivery')), ('sent', _('Sent to mail service')), ('failed', _('Delivery failed')), ('console', _('Local console only'))])
+    delivery = models.CharField(max_length=12, default='pending', choices=[('pending', _('Pending delivery')), ('sent', _('Sent to mail service')), ('failed', _('Delivery failed')), ('console', _('Local console only')), ('manual', _('Link created for manual handoff'))])
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     def clean(self):
         if self.kind == 'family' and not self.child_id:
@@ -106,9 +106,11 @@ class Invitation(CheckedModel):
         if self.child_id and self.child.organization_id != self.organization_id:
             raise ValidationError(_('The child must belong to this practice.'))
     @classmethod
-    def issue(cls, organization, child, email, actor, kind='family'):
+    def issue(cls, organization, child, email, actor, kind='family', *, invitation_id=None, delivery='pending'):
         token = secrets.token_urlsafe(32)
-        obj = cls.objects.create(organization=organization, child=child, kind=kind, email=email.lower(), created_by=actor, token_hash=hashlib.sha256(token.encode()).hexdigest(), expires_at=timezone.now() + timedelta(days=3))
+        obj = cls.objects.create(id=invitation_id or uuid.uuid4(), organization=organization, child=child,
+            kind=kind, email=email.lower(), created_by=actor, token_hash=hashlib.sha256(token.encode()).hexdigest(),
+            expires_at=timezone.now() + timedelta(days=3), delivery=delivery)
         return obj, token
     @property
     def available(self):

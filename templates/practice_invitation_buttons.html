@@ -1,0 +1,10 @@
+{% load i18n %}
+<div class="actions">
+  <button type="submit" class="button{% if can_hand_off_invitation and invitation_delivery.known_unavailable %} secondary{% endif %}">{{ invitation_delivery.submit_label }}</button>
+  {% if can_hand_off_invitation %}
+  <button type="submit" class="button{% if not invitation_delivery.known_unavailable %} secondary{% endif %}" name="delivery_method" value="manual">{% translate "Create a link to hand over personally" %}</button>
+  {% endif %}
+</div>
+{% if can_hand_off_invitation %}
+<p class="muted">{% translate "A new personal handoff link replaces open invitations for this recipient and this access only." %}</p>
+{% endif %}
