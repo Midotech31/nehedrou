@@ -60,9 +60,8 @@ class PasswordRecoveryCopyTests(TestCase):
 
     def test_real_disabled_post_is_neutral_for_known_unknown_inactive_and_unusable_accounts(self):
         before = list(User.objects.order_by('pk').values_list('pk', 'password', 'last_login', 'is_active'))
-        original_send = DisabledEmailBackend.send_messages
-        with patch.object(DisabledEmailBackend, 'send_messages', autospec=True, side_effect=original_send) as disabled, \
-                patch('django.contrib.auth.forms.logger.error'), patch('smtplib.SMTP') as smtp, \
+        with patch.object(DisabledEmailBackend, 'send_messages', autospec=True) as disabled, \
+                patch.object(CanonicalPasswordResetForm, 'get_users') as accounts, patch('smtplib.SMTP') as smtp, \
                 patch('http.client.HTTPSConnection') as https:
             for language in ('fr', 'en', 'ar'):
                 with translation.override(language):
@@ -74,8 +73,8 @@ class PasswordRecoveryCopyTests(TestCase):
                             self.assertEqual(response.status_code, 302)
                             self.assertEqual(response.url, reverse('password_reset_done'))
                             self.assert_unavailable(client.get(response.url))
-            # Only the active usable account reaches Django's real disabled transport.
-            self.assertEqual(disabled.call_count, 3)
+            accounts.assert_not_called()
+            disabled.assert_not_called()
             smtp.assert_not_called()
             https.assert_not_called()
         self.assertEqual(list(User.objects.order_by('pk').values_list('pk', 'password', 'last_login', 'is_active')), before)
@@ -134,10 +133,45 @@ class PasswordRecoveryCopyTests(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertContains(self.client.get(response.url), _(ATTEMPT_COPY))
 
-    @override_settings(EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend', EMAIL_HOST='')
-    def test_known_incomplete_supported_profile_uses_the_existing_configuration_helper(self):
-        self.assertTrue(invitation_delivery_status()['known_unavailable'])
-        self.assert_unavailable(self.client.get(reverse('password_reset')))
+    def test_stale_form_posts_with_known_unavailable_profiles_never_dispatch(self):
+        profiles = (
+            dict(EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend', EMAIL_HOST='smtp.fixture.invalid',
+                 EMAIL_PORT=587, EMAIL_USE_TLS=False, EMAIL_USE_SSL=False, EMAIL_TIMEOUT=10,
+                 EMAIL_HOST_USER='fixture-user', EMAIL_HOST_PASSWORD='fixture-password',
+                 DEFAULT_FROM_EMAIL='access@fictional-mail.tld'),
+            dict(EMAIL_BACKEND='core.email_backends.ResendEmailBackend', RESEND_ENABLED=False),
+            dict(EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend', DEBUG=False),
+        )
+        for profile in profiles:
+            with self.subTest(backend=profile['EMAIL_BACKEND']), override_settings(**profile), \
+                    patch.object(CanonicalPasswordResetForm, 'get_users') as accounts, \
+                    patch('smtplib.SMTP') as smtp, patch('http.client.HTTPSConnection') as https, \
+                    patch('django.core.mail.backends.console.EmailBackend.send_messages') as console:
+                self.assertTrue(invitation_delivery_status()['known_unavailable'])
+                path = reverse('password_reset')
+                self.assert_unavailable(self.client.get(path))
+                for address in (self.user.email, 'copy-reset-unknown@example.test'):
+                    response = self.client.post(path, {'email': address})
+                    self.assertRedirects(response, reverse('password_reset_done'))
+                accounts.assert_not_called()
+                smtp.assert_not_called()
+                https.assert_not_called()
+                console.assert_not_called()
+
+    @override_settings(EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend', DEBUG=True, IS_RENDER=False)
+    def test_local_development_console_still_accepts_recovery_messages(self):
+        with patch('django.core.mail.backends.console.EmailBackend.send_messages', return_value=1) as console:
+            response = self.client.post(reverse('password_reset'), {'email': self.user.email})
+        self.assertRedirects(response, reverse('password_reset_done'))
+        console.assert_called_once()
+
+    def test_known_unavailable_reset_requests_still_consume_the_attempt_limit(self):
+        path = reverse('password_reset')
+        for _index in range(3):
+            self.assertEqual(self.client.post(path, {'email': self.user.email}).status_code, 302)
+        limited = self.client.post(path, {'email': self.user.email})
+        self.assertEqual(limited.status_code, 429)
+        self.assertIn('Retry-After', limited)
 
     def test_routes_keep_django_views_canonical_form_and_csrf_protection(self):
         request_view = resolve(reverse('password_reset')).func

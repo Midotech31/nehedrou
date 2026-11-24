@@ -327,11 +327,9 @@ class HttpEmailWorkflowTests(TestCase):
         self.assertNotContains(self.client.get(response.url), settings.RESEND_API_KEY)
 
     @override_settings(EMAIL_BACKEND='core.email_backends.DisabledEmailBackend')
-    def test_disabled_backend_keeps_reset_neutral_with_only_generic_error_logging(self):
-        with self.provider() as (transport, _connection), self.assertLogs('django.contrib.auth', level='ERROR') as logged:
+    def test_disabled_backend_keeps_reset_neutral_without_constructing_transport(self):
+        with self.provider() as (transport, _connection), self.assertNoLogs('django.contrib.auth', level='ERROR'):
             response = Client().post(reverse('password_reset'), {'email':self.recipient.email})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, reverse('password_reset_done'))
         transport.assert_not_called()
-        self.assert_private_failure_logs(logged.output, email=self.recipient.email)
-        self.assertNotIn('A password reset was requested for your Nehedrou account.', '\n'.join(logged.output))
