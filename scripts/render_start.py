@@ -19,10 +19,20 @@ if settings.DEBUG:
 if settings.DEMO_EPHEMERAL and not settings.DEMO_MODE:
     raise SystemExit('Temporary storage requires fictional demonstration mode.')
 
+try:
+    port = int(os.getenv('PORT', '10000'))
+except ValueError:
+    raise SystemExit('Invalid listening port.') from None
+if not 1 <= port <= 65535:
+    raise SystemExit('Invalid listening port.')
+
 runtime_env = dict(os.environ)
 migration_env = runtime_env.copy()
-if os.getenv('POSTGRES_MIGRATION_HOST'):
-    migration_env['POSTGRES_HOST'] = os.environ['POSTGRES_MIGRATION_HOST']
+migration_host = runtime_env.get('POSTGRES_MIGRATION_HOST')
+if migration_host:
+    from core.startup_database import verify_migration_database
+    verify_migration_database(migration_host)
+    migration_env['POSTGRES_HOST'] = migration_host
 subprocess.run([sys.executable, 'manage.py', 'migrate', '--noinput'], check=True, env=migration_env)
 if settings.DEMO_MODE and os.getenv('DEMO_SEED_ON_START', '1') == '1':
     subprocess.run([sys.executable, 'manage.py', 'seed_demo_roles'], check=True)
@@ -34,7 +44,4 @@ elif not settings.DEMO_MODE:
     # pass against the migrated database and exact current content.
     subprocess.run([sys.executable, 'manage.py', 'check_readiness', '--strict'], check=True, env=runtime_env)
 
-port = int(os.getenv('PORT', '10000'))
-if not 1 <= port <= 65535:
-    raise SystemExit('Invalid listening port.')
 os.execvp('gunicorn', ['gunicorn', 'config.wsgi:application', '--bind', f'0.0.0.0:{port}', '--workers', '1', '--threads', '4', '--timeout', '60', '--access-logfile', '-', '--access-logformat', 'method=%(m)s status=%(s)s duration_s=%(L)s bytes=%(B)s', '--error-logfile', '-'])
