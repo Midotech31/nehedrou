@@ -6,13 +6,16 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError, transaction
 from django.db.models import Q
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.cache import patch_cache_control
 from django.utils.translation import gettext as _
-from django.views.decorators.http import require_POST
+from django.views.decorators.cache import never_cache
+from django.views.decorators.debug import sensitive_variables
+from django.views.decorators.http import require_POST, require_http_methods
 from catalog.editorial_access import (
-    accept_editorial_access_invitation, issue_editorial_access_invitation,
+    accept_editorial_access_invitation, accept_editorial_access_invitation_digest, issue_editorial_access_invitation,
     issue_manual_editorial_access_invitation,
     revoke_editorial_capability, revoke_editorial_invitation,
 )
@@ -20,6 +23,7 @@ from catalog.editorial_access_forms import EditorialAccessInvitationForm
 from catalog.models import EditorialAccessInvitation, EditorialGrant
 from core.forms import InviteSignupForm
 from core.invitation_delivery import invitation_delivery_status
+from core.invitation_mfa import SESSION_KEY as MFA_INVITATION_KEY, invitation_digest
 from core.models import User
 
 @login_required
@@ -90,24 +94,61 @@ def revoke_editorial_capability_view(request, pk, capability):
         messages.error(request, ' '.join(error.messages))
     return redirect('editorial_access_management')
 
+def _editorial_invitation_unavailable(request):
+    return render(request, 'notice.html', {
+        'title': _('Editorial invitation unavailable'),
+        'body': _('This invitation may have expired, been revoked or already used. Ask the platform manager for a new invitation.'),
+    }, status=410)
+
+
+def _accept_signed_in_editorial_invitation(request, invitation):
+    try:
+        accept_editorial_access_invitation_digest(request.user, invitation.token_hash)
+    except ValidationError as error:
+        messages.error(request, ' '.join(error.messages))
+        return None
+    messages.success(request, _('Editorial access was activated for the invited spoken variety.'))
+    return redirect('editorial_index')
+
+
+@never_cache
+@login_required
+@require_http_methods(['GET', 'HEAD', 'POST'])
+def resume_editorial_invitation(request):
+    if not request.user.is_verified():
+        raise Http404
+    digest = invitation_digest(request, kind='editorial')
+    invitation = EditorialAccessInvitation.objects.filter(
+        token_hash=digest,
+    ).select_related('variety').first() if digest else None
+    if (not invitation or not invitation.available
+            or request.user.email.strip().lower() != invitation.email.strip().lower()):
+        if digest:
+            request.session.pop(MFA_INVITATION_KEY, None)
+        return _editorial_invitation_unavailable(request)
+    if request.method == 'POST':
+        response = _accept_signed_in_editorial_invitation(request, invitation)
+        if response is not None:
+            request.session.pop(MFA_INVITATION_KEY, None)
+            return response
+    return render(request, 'editorial_invite_accept.html', {
+        'invitation': invitation, 'existing_account': True, 'email_matches': True,
+    })
+
+
+@sensitive_variables('token')
 def accept_editorial_invite(request, token):
     token_digest = hashlib.sha256(token.encode()).hexdigest()
     invitation = EditorialAccessInvitation.objects.filter(token_hash=token_digest).select_related('variety').first()
     if not invitation or not invitation.available:
-        return render(request, 'notice.html', {
-            'title': _('Editorial invitation unavailable'),
-            'body': _('This invitation may have expired, been revoked or already used. Ask the platform manager for a new invitation.'),
-        }, status=410)
+        return _editorial_invitation_unavailable(request)
     existing_account = User.objects.filter(email__iexact=invitation.email).exists()
     form = InviteSignupForm(request.POST or None) if not request.user.is_authenticated and not existing_account else None
     if request.method == 'POST':
         if request.user.is_authenticated:
-            try:
-                accept_editorial_access_invitation(request.user, token)
-                messages.success(request, _('Editorial access was activated for the invited spoken variety.'))
-                return redirect('editorial_index')
-            except ValidationError as error:
-                messages.error(request, ' '.join(error.messages))
+            response = _accept_signed_in_editorial_invitation(request, invitation)
+            if response is not None:
+                return response
         elif form and form.is_valid():
             try:
                 with transaction.atomic():

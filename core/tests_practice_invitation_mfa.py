@@ -94,7 +94,8 @@ class PracticeInvitationMFAContinuationTests(TestCase):
                 marker = self.marker(gate, language)
                 self.assertNotIn(raw, gate['Location'])
                 session = client.session[SESSION_KEY]
-                self.assertEqual(set(session), {'actor', 'digest', 'started_at'})
+                self.assertEqual(set(session), {'actor', 'digest', 'started_at', 'kind'})
+                self.assertEqual(session['kind'], 'practice')
                 self.assertEqual((session['actor'], session['digest']), (str(user.pk), invitation.token_hash))
                 self.assertNotIn(raw, json.dumps(dict(client.session)))
                 invalid = self.verify(client, device, language, marker, token='not-a-fictional-code')

@@ -354,7 +354,7 @@ def _accept_signed_in_invitation(request, invitation):
 def resume_practice_invitation(request):
     if not request.user.is_verified():
         raise Http404
-    digest = invitation_digest(request)
+    digest = invitation_digest(request, kind='practice')
     invitation = Invitation.objects.filter(
         token_hash=digest, email__iexact=request.user.email,
     ).select_related('organization').first() if digest else None

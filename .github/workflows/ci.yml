@@ -153,6 +153,7 @@ jobs:
           core.tests_access_auth.ConcurrentAuthThrottleTests
           core.tests_account_onboarding.ConcurrentMFAOnboardingTests
           core.tests_practice_invitation_mfa
+          catalog.tests_editorial_invite_mfa
           core.tests_password_change.PasswordChangeConcurrencyTests
           core.tests_form_scope.PracticeFormScopeConcurrencyTests
           core.tests_deployment.RuntimeStartupPostgreSQLTests

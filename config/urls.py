@@ -93,6 +93,8 @@ urlpatterns += i18n_patterns(
     path('billing/invoices/<uuid:pk>/sharing/', billing_views.invoice_sharing, name='invoice_sharing'),
     path('members/invitations/<uuid:pk>/revoke/', complete_views.revoke_member_invitation, name='revoke_member_invitation'),
     path('editorial/invite/<str:token>/', editorial_access_views.accept_editorial_invite, name='accept_editorial_invite'),
+    path('editorial/invitation/resume/', editorial_access_views.resume_editorial_invitation,
+         name='resume_editorial_invitation'),
     path('editorial/', editorial_views.index, name='editorial_index'),
     path('followup/', include('followup.urls')),
     path('qualification/', include('qualification.urls')),

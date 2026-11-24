@@ -16,7 +16,7 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 from .models import RecoveryCode, Membership, User
 from .services import audit
 from .auth_throttle import authentication_succeeded
-from .invitation_mfa import challenge_marker, challenge_url, remember_invitation
+from .invitation_mfa import challenge_context, challenge_url, remember_invitation
 
 class MFAMiddleware:
     def __init__(self, get_response):
@@ -51,12 +51,12 @@ def setup(request):
     # concurrent first visits cannot create competing provisioning secrets.
     User.objects.select_for_update().get(pk=request.user.pk)
     confirmed = TOTPDevice.objects.filter(user=request.user, confirmed=True).order_by('pk').first()
-    marker = challenge_marker(request)
+    marker, resume = challenge_context(request)
     if confirmed:
         if not request.user.is_verified():
             return redirect(challenge_url('mfa_verify', marker))
         if marker:
-            return redirect(challenge_url('resume_practice_invitation', marker))
+            return redirect(resume)
         return render(request, 'notice.html', {'title': _('Two-factor authentication'), 'body': _('Protection is active. Recovery codes can be regenerated after verification.')})
     device = TOTPDevice.objects.filter(user=request.user, name='primary', confirmed=False).order_by('pk').first()
     if device is None:
@@ -82,7 +82,7 @@ def setup(request):
             if valid:
                 return render(request, 'security_codes.html', {
                     'codes': codes,
-                    'invitation_continue_url': challenge_url('resume_practice_invitation', marker) if marker else '',
+                    'invitation_continue_url': resume,
                 })
             form.add_error('token', _('Invalid or already used code.'))
     return render(request, 'security_setup.html', {'form': form, 'secret': b32encode(device.bin_key).decode()})
@@ -105,7 +105,7 @@ def qr(request):
 
 @login_required
 def verify(request):
-    marker = challenge_marker(request)
+    marker, resume = challenge_context(request)
     device = TOTPDevice.objects.filter(user=request.user, confirmed=True).first()
     if not device:
         return redirect(challenge_url('mfa_setup', marker))
@@ -124,7 +124,7 @@ def verify(request):
             otp_login(request, verified)
             authentication_succeeded(request)
             if marker:
-                return redirect(challenge_url('resume_practice_invitation', marker))
+                return redirect(resume)
             return redirect('dashboard')
         form.add_error('token', _('Invalid or already used code.'))
     return render(request, 'form.html', {'title': _('Verify your identity'), 'form': form, 'submit': _('Verify')})
