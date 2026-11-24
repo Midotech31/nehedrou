@@ -16,6 +16,6 @@ Le résultat JSON final indique le chemin de `summary.json`. Le reçu n’attrib
 
 ## Portée
 
-La recette ne requiert aucun service hébergé, secret de production ou dossier réel. Elle vérifie un schéma et des données fictives avec les primitives de sauvegarde et de restauration du checkout, sur un même serveur PostgreSQL 17 isolé. La vérification des exports appelle les vues avec des identités fictives et un accès en lecture seule. L’écriture de leur événement d’audit est neutralisée pendant cette étape.
+La recette ne requiert aucun service hébergé, secret de production ou dossier réel. Elle vérifie un schéma et des données fictives avec les primitives de sauvegarde et de restauration du checkout, sur un même serveur PostgreSQL 17 isolé. La vérification des exports appelle les vues avec des identités fictives et un accès en lecture seule. L’écriture de leur événement d’audit est neutralisée pendant cette étape. Le manifeste WhiteNoise est compilé dans le dossier de la recette avec `DEBUG=0` pour vérifier le rendu du guide restauré.
 
 Le déclenchement périodique, la copie hors machine, la reprise des services, le stockage distant, les engagements de reprise et la recette de connexion navigateur se vérifient séparément avec la [procédure d’exploitation](../../docs/EXPLOITATION.md).

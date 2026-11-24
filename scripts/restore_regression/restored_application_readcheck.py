@@ -32,8 +32,16 @@ def main():
     require(not any(name.startswith('PG') and name != 'PGOPTIONS' for name in os.environ),
             'INHERITED_LIBPQ_ENVIRONMENT_REFUSED')
     import django
-    django.setup()
     from django.conf import settings
+    from django.contrib.staticfiles.storage import staticfiles_storage
+
+    root = Path(os.environ['NEHEDROU_RESTORE_REGRESSION_ROOT']).resolve(strict=True)
+    static_root = (root / 'staticfiles').resolve(strict=True)
+    require(static_root.parent == root and not root.is_relative_to(Path(settings.BASE_DIR).resolve()),
+            'ISOLATED_STATIC_PATH_REQUIRED')
+    require(not settings.DEBUG and (static_root / 'staticfiles.json').is_file(), 'STATIC_MANIFEST_REQUIRED')
+    settings.STATIC_ROOT = static_root
+    django.setup()
     from django.db import connection, transaction
     from django.http import Http404
     from django.test import RequestFactory
@@ -46,11 +54,9 @@ def main():
     from qualification.models import EvidenceDocument
     from core.views import export_child
 
-    root = Path(os.environ['NEHEDROU_RESTORE_REGRESSION_ROOT']).resolve(strict=True)
     cluster = Path(os.environ['NEHEDROU_RESTORE_REGRESSION_CLUSTER']).resolve(strict=True)
     media = Path(settings.MEDIA_ROOT).resolve(strict=True)
-    require(cluster.parent == root and media.parent == root and
-            not root.is_relative_to(Path(settings.BASE_DIR).resolve()), 'ISOLATED_PATHS_REQUIRED')
+    require(cluster.parent == root and media.parent == root, 'ISOLATED_PATHS_REQUIRED')
     require(settings.DATABASES['default']['HOST'] == '127.0.0.1' and
             settings.DATABASES['default']['NAME'] == database, 'RESTORED_CONFIGURATION_REQUIRED')
     identities = json.loads(os.environ['NEHEDROU_RESTORE_REGRESSION_IDENTITIES'])
@@ -127,6 +133,9 @@ def main():
         require(comparison.status_code == 200 and 'no-store' in comparison['Cache-Control']
                 and b'FICTIONAL_PRIVATE_RESTORED_GUIDE' in comparison.content
                 and b'OLD_FICTIONAL_WORD' not in comparison.content, 'RESTORED_GUIDE_COMPARISON_CHANGED')
+        stylesheet = staticfiles_storage.url('product.css')
+        require(stylesheet != settings.STATIC_URL + 'product.css' and stylesheet.encode() in comparison.content,
+                'RESTORED_GUIDE_STATIC_ASSET_MISSING')
         request.user = User.objects.get(pk=identities['family'])
         try:
             reconcile(request, copy.pk)
@@ -144,7 +153,8 @@ def main():
         'practice_invitation_delivery_preserved': True, 'editorial_invitation_delivery_preserved': True,
         'referenced_evidence_intact': True, 'referenced_image_intact': True,
         'operator_evidence_reference_preserved': True, 'illustration_predecessor_preserved': True,
-        'documented_audio_origin_preserved': True, 'private_guide_comparison_preserved': True}))
+        'documented_audio_origin_preserved': True, 'private_guide_comparison_preserved': True,
+        'private_guide_uses_manifest_assets': True}))
 
 
 if __name__ == '__main__':

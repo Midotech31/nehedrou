@@ -285,7 +285,8 @@ class CurrentSchemaPostgreSQLRoundtripTests(TransactionTestCase):
                 'practice_invitation_delivery_preserved', 'editorial_invitation_delivery_preserved',
                 'referenced_evidence_intact', 'referenced_image_intact',
                 'operator_evidence_reference_preserved', 'illustration_predecessor_preserved',
-                'documented_audio_origin_preserved', 'private_guide_comparison_preserved'})
+                'documented_audio_origin_preserved', 'private_guide_comparison_preserved',
+                'private_guide_uses_manifest_assets'})
             self.assertTrue(all(value is True for value in checks.values()))
             with psycopg.connect(**target_local) as conn:
                 conn.execute('SET TRANSACTION READ ONLY')
