@@ -337,8 +337,10 @@ class PasswordChangeConcurrencyTests(PasswordChangeHelpers, TransactionTestCase)
     def setUp(self):
         install_fixture(self)
         self.clients = [self.verified_client() for _index in range(2)]
-        path = reverse('password_change')
-        self.payloads = [self.payload(client, path, new=NEW_PASSWORD + '-' + str(index))
+        with translation.override('fr'):
+            self.change_url = reverse('password_change')
+            self.done_url = reverse('password_change_done')
+        self.payloads = [self.payload(client, self.change_url, new=NEW_PASSWORD + '-' + str(index))
                          for index, client in enumerate(self.clients)]
 
     def worker(self, index, start):
@@ -348,7 +350,7 @@ class PasswordChangeConcurrencyTests(PasswordChangeHelpers, TransactionTestCase)
                 cursor.execute("SET lock_timeout = '8s'")
                 cursor.execute("SET statement_timeout = '12s'")
             start.wait(timeout=5)
-            response = self.clients[index].post(reverse('password_change'), self.payloads[index])
+            response = self.clients[index].post(self.change_url, self.payloads[index])
             return {'index': index, 'status': response.status_code,
                     'url': response.headers.get('Location'),
                     'old_password_error': bool(response.context and response.context.get('form')
@@ -356,7 +358,9 @@ class PasswordChangeConcurrencyTests(PasswordChangeHelpers, TransactionTestCase)
         finally:
             connections.close_all()
 
+    @translation.override('ar')
     def test_same_old_password_race_changes_once_after_both_requests_authenticated(self):
+        self.assertEqual(translation.get_language(), 'ar')
         before = self.security_snapshot()
         before_lock = Barrier(2)
         start = Barrier(2)
@@ -375,11 +379,12 @@ class PasswordChangeConcurrencyTests(PasswordChangeHelpers, TransactionTestCase)
             with ThreadPoolExecutor(max_workers=2) as pool:
                 futures = [pool.submit(self.worker, index, start) for index in range(2)]
                 results = [future.result(timeout=20) for future in futures]
+        self.assertEqual(translation.get_language(), 'ar')
         self.assertEqual(lock_attempts, [self.user.pk, self.user.pk])
         self.assertCountEqual([result['status'] for result in results], [302, 200])
         winner = next(result for result in results if result['status'] == 302)
         loser = next(result for result in results if result['status'] == 200)
-        self.assertEqual(winner['url'], reverse('password_change_done'))
+        self.assertEqual(winner['url'], self.done_url)
         self.assertTrue(loser['old_password_error'])
         self.assert_password(NEW_PASSWORD + '-' + str(winner['index']))
         self.assertEqual(AuditEvent.objects.filter(action='security.password_changed').count(), 1)
