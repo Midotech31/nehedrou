@@ -17,8 +17,9 @@ from django.utils import translation
 from care.models import Child, FamilyLink, Observation, PracticeSession, Program, ProgramItem
 from catalog.models import Activity, EditorialGrant, Review, Variety
 from core.management.commands.seed_demo import LEGACY_DEMO_USERNAMES
-from core.management.commands.seed_demo_roles import ROLE_PASSWORD_ENV, ROLE_PRACTICE_ID, ROLE_PRACTICE_NAME, ROLE_USERNAMES
+from core.management.commands.seed_demo_roles import MSA_CODE, MSA_DEMO_SERIES, ROLE_PASSWORD_ENV, ROLE_PRACTICE_ID, ROLE_PRACTICE_NAME, ROLE_USERNAMES
 from core.models import Entitlement, Membership, Organization, User
+from followup.models import ClinicalGoal
 
 
 # Synthetic test credentials only. The deployed values never enter this file.
@@ -168,10 +169,19 @@ class DemoRoleWorkflowTests(TestCase):
 
     def test_new_role_programs_use_guided_current_examples_without_replacing_legacy(self):
         programs = Program.objects.filter(organization=self.organization).prefetch_related('items__activity')
-        self.assertEqual(programs.count(), 6)
+        self.assertEqual(programs.count(), 8)
+        expected_codes = {'fr-fr-pilot', 'en-us-general-pilot', 'ar-dz-pilot', MSA_CODE}
+        for child in (self.child, self.owner_child):
+            self.assertCountEqual(child.programs.values_list('variety__code', flat=True), expected_codes)
         for program in programs:
             activity = program.items.get().activity
-            self.assertEqual(activity.version, 2)
+            if program.variety.code == MSA_CODE:
+                self.assertEqual(activity.series, MSA_DEMO_SERIES)
+                self.assertEqual(activity.version, 1)
+                self.assertEqual(activity.response_mode, 'matching')
+                self.assertEqual(activity.requested_target, 'a')
+            else:
+                self.assertEqual(activity.version, 2)
             self.assertTrue(activity.is_demo)
             self.assertEqual(activity.state, 'published')
             self.assertEqual(set(activity.practice_guide), {'fr', 'en', 'ar'})
@@ -190,7 +200,7 @@ class DemoRoleWorkflowTests(TestCase):
         existing_program.state = 'completed'
         existing_program.save()
         self.child.varieties.remove(existing_program.variety)
-        withdrawn = self.child.programs.get(variety__language='ar').items.get().activity
+        withdrawn = self.child.programs.get(variety__code='ar-dz-pilot').items.get().activity
         withdrawn.state = 'withdrawn'
         withdrawn.save()
         Membership.objects.filter(user__username='orthophoniste').update(active=False)
@@ -220,6 +230,50 @@ class DemoRoleWorkflowTests(TestCase):
         for secret in changed.values():
             self.assertNotIn(secret, output)
 
+    def test_seed_adds_msa_to_an_original_profile_without_changing_existing_programs(self):
+        self.child.programs.filter(variety__code=MSA_CODE).delete()
+        other_programs = list(self.child.programs.order_by('pk').values())
+        seed()
+        msa = self.child.programs.get(variety__code=MSA_CODE)
+        self.assertEqual(msa.items.get().activity.series, MSA_DEMO_SERIES)
+        self.assertEqual(list(self.child.programs.exclude(pk=msa.pk).order_by('pk').values()), other_programs)
+        seed()
+        self.assertEqual(self.child.programs.get(variety__code=MSA_CODE).pk, msa.pk)
+
+    def test_seed_does_not_assign_a_reserved_msa_example(self):
+        program = self.child.programs.get(variety__code=MSA_CODE)
+        variety = program.variety
+        program.delete()
+        original_programs = set(self.child.programs.values_list('pk', flat=True))
+        goal = ClinicalGoal.objects.create(
+            organization=self.child.organization, child=self.child, author=self.child.responsible,
+            variety=variety, target_phoneme='b', target_position='initial',
+            target_scope={'position': 'initial', 'context': 'isolated_word'},
+            rationale='Fictional reserve fixture', expected_realization='/b/',
+            functional_goal='Fictional observation', reserved_words=['باب'],
+        )
+        stderr = io.StringIO()
+        with patch.dict(os.environ, TEST_ENV):
+            call_command('seed_demo_roles', verbosity=0, stdout=io.StringIO(), stderr=stderr)
+        self.assertIn('uses a reserved word', stderr.getvalue())
+        self.assertFalse(self.child.programs.filter(variety=variety).exists())
+        self.assertSetEqual(set(self.child.programs.values_list('pk', flat=True)), original_programs)
+        goal.refresh_from_db()
+        self.assertEqual(goal.reserved_words, ['باب'])
+
+    def test_seed_respects_existing_msa_program_and_removed_variety(self):
+        existing = self.child.programs.get(variety__code=MSA_CODE)
+        existing.state = 'completed'
+        existing.title = 'Fictional existing Standard Arabic plan'
+        existing.save()
+        self.owner_child.programs.filter(variety__code=MSA_CODE).delete()
+        self.owner_child.varieties.remove(Variety.objects.get(code=MSA_CODE))
+        seed()
+        kept = self.child.programs.get(variety__code=MSA_CODE)
+        self.assertEqual((kept.pk, kept.title, kept.state), (existing.pk, existing.title, 'completed'))
+        self.assertFalse(self.owner_child.programs.filter(variety__code=MSA_CODE).exists())
+        self.assertFalse(self.owner_child.varieties.filter(code=MSA_CODE).exists())
+
     def test_owner_manages_practice_but_only_explicit_responsible_profiles(self):
         client = self.login('responsable')
         for name in ['members', 'subscription', 'organization_settings']:
@@ -238,10 +292,11 @@ class DemoRoleWorkflowTests(TestCase):
         for child in [self.owner_child, self.legacy_child]:
             self.assertEqual(client.get(reverse('child_detail', args=[child.pk])).status_code, 404)
 
-    def test_accompanist_can_submit_assigned_three_varieties_without_clinician_rights(self):
+    def test_accompanist_can_submit_assigned_four_varieties_without_clinician_rights(self):
         client = self.login('accompagnant')
-        for language in ['fr', 'en', 'ar']:
-            program = self.child.programs.get(variety__language=language)
+        for code in ('fr-fr-pilot', 'en-us-general-pilot', 'ar-dz-pilot', MSA_CODE):
+            language = code[:2]
+            program = self.child.programs.get(variety__code=code)
             page = client.get(f'/{language}/programs/{program.pk}/')
             run = client.post(f'/{language}/programs/{program.pk}/start/', {'csrfmiddlewaretoken': self.csrf(page)}, follow=True)
             self.assertEqual(run.status_code, 200)
@@ -251,7 +306,9 @@ class DemoRoleWorkflowTests(TestCase):
             saved = client.post(run.context['resume_url'], {'ticket': ticket, 'answer': answer, 'completion': 'completed', 'parent_report': 'help', 'comment': 'Fictional accompanist report', 'csrfmiddlewaretoken': self.csrf(exercise)}, follow=True)
             self.assertEqual(saved.status_code, 200)
             self.assertContains(saved, 'Fictional accompanist report')
-        self.assertEqual(PracticeSession.objects.filter(user__username='accompagnant').count(), 3)
+        reports = PracticeSession.objects.filter(user__username='accompagnant')
+        self.assertCountEqual(reports.values_list('item__program__variety__code', flat=True),
+                              ('fr-fr-pilot', 'en-us-general-pilot', 'ar-dz-pilot', MSA_CODE))
         forbidden = client.post(reverse('archive_child', args=[self.child.pk]), {'csrfmiddlewaretoken': self.csrf(page)})
         self.assertEqual(forbidden.status_code, 404)
         self.assertEqual(client.get(reverse('child_edit', args=[self.child.pk])).status_code, 404)
