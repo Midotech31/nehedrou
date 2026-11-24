@@ -32,7 +32,7 @@ def notice_gate(request, organization):
         return None
     return redirect('data_notice')
 
-def membership(request):
+def membership(request, *, persist_selection=True):
     request.practice_selection_required = False
     if request.session.get('workspace') == 'family':
         return None
@@ -55,7 +55,7 @@ def membership(request):
     # Bind the first displayed cabinet before serving any old-style forms.
     # Never persist a fallback for an existing invalid selection.
     first = qs.first()
-    if first is not None and 'organization' not in request.session and request.method in ('GET', 'HEAD', 'OPTIONS'):
+    if persist_selection and first is not None and 'organization' not in request.session and request.method in ('GET', 'HEAD', 'OPTIONS'):
         request.session['organization'] = str(first.organization_id)
     return first
 

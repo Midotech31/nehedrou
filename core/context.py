@@ -14,7 +14,7 @@ def navigation(request):
         return common
     from catalog.models import EditorialGrant
     from care.models import FamilyLink
-    member = membership(request)
+    member = membership(request, persist_selection=route != 'editorial_rehearsal')
     family_workspace = is_family_workspace(request)
     memberships = Membership.objects.filter(user=request.user, active=True).select_related('organization')
     has_editorial_access = request.user.is_superuser or EditorialGrant.objects.filter(user=request.user).exists()

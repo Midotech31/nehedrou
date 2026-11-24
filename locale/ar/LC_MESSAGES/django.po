@@ -6647,3 +6647,30 @@ msgstr "صلاحية المراجعة غير متاحة لهذا الاختصا�
 
 msgid "Reviewer requirements met for this discipline and variety"
 msgstr "شروط المراجعة مستوفاة لهذا الاختصاص وهذا التنوع اللغوي"
+
+msgid "Private activity rehearsal"
+msgstr "تجربة خاصة للنشاط"
+
+msgid "Try this version privately"
+msgstr "تجربة هذه النسخة بشكل خاص"
+
+msgid "Try this exact version using fictional choices only. Nothing is saved, assigned, approved or made available for real use."
+msgstr "جرّبوا هذه النسخة نفسها باختيارات وهمية فقط. لا يُحفظ شيء ولا يُسند نشاط ولا يُعتمد المحتوى ولا يُتاح للاستخدام الفعلي."
+
+msgid "Do not enter child information. This rehearsal omits patient identifiers and free-text comments."
+msgstr "لا تُدخلوا معلومات عن طفل. لا تتضمن هذه التجربة معرّفات مرضى أو تعليقات حرة."
+
+msgid "This rehearsal changed or expired. Reload the exact version and review it before trying again."
+msgstr "تغيّرت هذه التجربة أو انتهت صلاحيتها. أعيدوا تحميل النسخة نفسها وراجعوها قبل إعادة المحاولة."
+
+msgid "No instructions have been entered in the selected language. The family activity cannot start with this language."
+msgstr "لم تُدخل تعليمات باللغة المختارة. لا يمكن بدء النشاط العائلي بهذه اللغة."
+
+msgid "Show the rehearsal summary"
+msgstr "عرض ملخّص التجربة"
+
+msgid "Illustration unavailable"
+msgstr "الصورة غير متاحة"
+
+msgid "Some linked media cannot be used in this rehearsal. Check the draft media and exact word bindings in the editorial workspace."
+msgstr "لا يمكن استخدام بعض الوسائط المرتبطة في هذه التجربة. راجعوا وسائط المسودة وارتباطها الدقيق بالكلمات في مساحة التحرير."

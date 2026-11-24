@@ -6647,3 +6647,30 @@ msgstr "Droit de relecture manquant pour cette discipline et cette variété"
 
 msgid "Reviewer requirements met for this discipline and variety"
 msgstr "Conditions de relecture réunies pour cette discipline et cette variété"
+
+msgid "Private activity rehearsal"
+msgstr "Essai privé de l’activité"
+
+msgid "Try this version privately"
+msgstr "Essayer cette version en privé"
+
+msgid "Try this exact version using fictional choices only. Nothing is saved, assigned, approved or made available for real use."
+msgstr "Essayez cette version précise avec des réponses fictives. Rien n’est enregistré, attribué, approuvé ou ouvert à un usage réel."
+
+msgid "Do not enter child information. This rehearsal omits patient identifiers and free-text comments."
+msgstr "Ne saisissez aucune information sur un enfant. Cet essai ne comporte ni identifiant de patient ni commentaire libre."
+
+msgid "This rehearsal changed or expired. Reload the exact version and review it before trying again."
+msgstr "Cet essai a changé ou a expiré. Rechargez la version précise et relisez-la avant de réessayer."
+
+msgid "No instructions have been entered in the selected language. The family activity cannot start with this language."
+msgstr "Aucune consigne n’a été saisie dans la langue choisie. L’activité familiale ne peut pas démarrer dans cette langue."
+
+msgid "Show the rehearsal summary"
+msgstr "Afficher le bilan de l’essai"
+
+msgid "Illustration unavailable"
+msgstr "Illustration indisponible"
+
+msgid "Some linked media cannot be used in this rehearsal. Check the draft media and exact word bindings in the editorial workspace."
+msgstr "Certains médias liés ne peuvent pas être utilisés dans cet essai. Vérifiez les médias du brouillon et leur association exacte aux mots dans l’espace éditorial."

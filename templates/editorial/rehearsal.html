@@ -1,0 +1,30 @@
+{% extends 'base.html' %}{% load i18n static content_guide content_language %}
+{% block body_class %}practice-page{% endblock %}
+{% block title %}{% translate "Private activity rehearsal" %} · {{ activity.title }} · Nehedrou{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'practice-focus.css' %}">{% endblock %}
+{% block content %}
+<div class="practice-workspace">
+<a href="{% url 'editorial_detail' activity.pk %}"><span class="direction-arrow" aria-hidden="true">←</span> {% translate "Review the selected content version" %}</a>
+<header class="practice-heading"><h1>{% translate "Private activity rehearsal" %}</h1><p dir="auto">{{ activity.title }} · <bdi>v{{ activity.version }}</bdi> · {{ activity.variety.display_label }}</p></header>
+<aside class="callout" data-rehearsal-notice><span class="badge warning">{{ activity.get_state_display }}</span><p>{% translate "Try this exact version using fictional choices only. Nothing is saved, assigned, approved or made available for real use." %}</p><p>{% translate "Do not enter child information. This rehearsal omits patient identifiers and free-text comments." %}</p></aside>
+<form method="get" class="filters">{{ selection_form.as_p }}<button class="button secondary" type="submit">{% translate "Choose your instruction language" %}</button></form>
+{% if snapshot_changed %}
+<section class="card" role="alert"><p>{% translate "This rehearsal changed or expired. Reload the exact version and review it before trying again." %}</p><a class="button secondary" href="{% url 'editorial_rehearsal' activity.pk %}?guide_language={{ instruction_language }}">{% translate "Reload current content" %}</a></section>
+{% elif not selection_invalid %}
+{% with guide=activity.practice_guide|guide_language:instruction_language word_language=activity.variety|spoken_language %}
+{% if media_omitted %}<p class="message warning" role="status">{% translate "Some linked media cannot be used in this rehearsal. Check the draft media and exact word bindings in the editorial workspace." %}</p>{% endif %}
+{% if not instruction %}
+<section class="card" role="status"><h2>{% translate "Instructions unavailable" %}</h2><p>{% translate "No instructions have been entered in the selected language. The family activity cannot start with this language." %}</p></section>
+{% elif summary %}
+<section class="card demo-summary" data-rehearsal-summary><span class="badge neutral">{% translate "Preview only · nothing saved" %}</span><h2>{% translate "This is how a practice report is presented" %}</h2><dl><dt>{% translate "Picture choice" %}</dt><dd lang="{{ word_language }}" dir="{{ word_language|language_direction }}">{{ summary.answer }}</dd><dt>{% translate "Participation" %}</dt><dd>{{ summary.completion }}</dd><dt>{% translate "Parent report" %}</dt><dd>{{ summary.parent_report }}</dd><dt>{% translate "Support reported by the caregiver" %}</dt><dd>{{ summary.support_used }}</dd><dt>{% translate "Reason for stopping (optional)" %}</dt><dd>{{ summary.stop_reason }}</dd></dl><p>{% translate "A picture choice and a caregiver report do not measure pronunciation or clinical progress." %}</p><a class="button secondary" href="{% url 'editorial_rehearsal' activity.pk %}?guide_language={{ instruction_language }}">{% translate "Try again" %}</a></section>
+{% else %}
+<div class="activity-steps"><nav class="activity-progress" aria-label="{% translate 'Activity steps' %}"><span class="badge" data-step-counter dir="ltr">1 / 3</span><strong data-step-label>{% translate "Discover the words" %}</strong></nav>
+{% include 'practice_steps.html' with activity=practice_activity rehearsal_mode=True %}</div>
+<script src="{% static 'activity.js' %}" defer></script>
+{% endif %}
+<details class="callout practice-brief"><summary>{% translate "Before you begin" %} · {% translate "Support without pressure" %}</summary>{% include 'content_guide.html' with sources=activity.evidence_sources %}{% if not guide %}<p lang="und" dir="auto">{{ activity.population }}</p><p lang="und" dir="auto">{{ activity.limitations }}</p>{% endif %}</details>
+{% endwith %}
+{% endif %}
+<details><summary>{% translate "Exact content fingerprint" %}</summary><code class="editorial-fingerprint" dir="ltr">{{ content_digest }}</code></details>
+</div>
+{% endblock %}

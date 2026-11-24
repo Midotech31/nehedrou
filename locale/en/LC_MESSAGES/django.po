@@ -6647,3 +6647,30 @@ msgstr "Review permission missing for this discipline and variety"
 
 msgid "Reviewer requirements met for this discipline and variety"
 msgstr "Reviewer requirements met for this discipline and variety"
+
+msgid "Private activity rehearsal"
+msgstr "Private activity rehearsal"
+
+msgid "Try this version privately"
+msgstr "Try this version privately"
+
+msgid "Try this exact version using fictional choices only. Nothing is saved, assigned, approved or made available for real use."
+msgstr "Try this exact version using fictional choices only. Nothing is saved, assigned, approved or made available for real use."
+
+msgid "Do not enter child information. This rehearsal omits patient identifiers and free-text comments."
+msgstr "Do not enter child information. This rehearsal omits patient identifiers and free-text comments."
+
+msgid "This rehearsal changed or expired. Reload the exact version and review it before trying again."
+msgstr "This rehearsal changed or expired. Reload the exact version and review it before trying again."
+
+msgid "No instructions have been entered in the selected language. The family activity cannot start with this language."
+msgstr "No instructions have been entered in the selected language. The family activity cannot start with this language."
+
+msgid "Show the rehearsal summary"
+msgstr "Show the rehearsal summary"
+
+msgid "Illustration unavailable"
+msgstr "Illustration unavailable"
+
+msgid "Some linked media cannot be used in this rehearsal. Check the draft media and exact word bindings in the editorial workspace."
+msgstr "Some linked media cannot be used in this rehearsal. Check the draft media and exact word bindings in the editorial workspace."

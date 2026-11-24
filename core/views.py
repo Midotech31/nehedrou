@@ -722,7 +722,7 @@ def practice(request, pk):
     step_two_title = {'matching': _('Listen and choose'), 'free': _('Choose a picture freely'), 'observation': _('Play together')}[item.activity.response_mode]
     if request.method == 'GET':
         log_child_access(request.user, item.program.child, resource='home_practice', purpose_code='family_practice')
-    return render(request, 'practice.html', {'item': item, 'form': form, 'instruction': instruction, 'target': target, 'audio': audio, 'response_mode': item.activity.response_mode, 'step_two_title': step_two_title, 'run_task': task, 'run_count': task.run.tasks.count() if task else None})
+    return render(request, 'practice.html', {'item': item, 'form': form, 'instruction': instruction, 'target': target, 'target_side': ticket_data['target'], 'audio': audio, 'response_mode': item.activity.response_mode, 'step_two_title': step_two_title, 'run_task': task, 'run_count': task.run.tasks.count() if task else None})
 
 @login_required
 def practice_report(request, pk):

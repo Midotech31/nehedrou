@@ -8,6 +8,7 @@ from core import views
 from core import security, complete_views, billing_views, practice_access_views
 from catalog import views as editorial_views
 from catalog import editorial_access_views
+from catalog import rehearsal
 from catalog import working, quality, guided_audio, recording_retention, image_rights, guide_recovery
 from core.health import health
 from core import operations_views, operator_evidence_views
@@ -106,6 +107,7 @@ urlpatterns += i18n_patterns(
     path('editorial/new/', editorial_views.edit, name='editorial_create'),
     path('editorial/<uuid:pk>/', editorial_views.detail, name='editorial_detail'),
     path('editorial/<uuid:pk>/edit/', editorial_views.edit, name='editorial_edit'),
+    path('editorial/<uuid:pk>/rehearse/', rehearsal.rehearse, name='editorial_rehearsal'),
     path('editorial/<uuid:pk>/transition/', editorial_views.change_state, name='editorial_transition'),
     path('editorial/<uuid:pk>/clone/', editorial_views.clone, name='editorial_clone'),
     path('editorial/upload/', editorial_views.upload, name='editorial_upload'),
