@@ -35,7 +35,7 @@ from .models import Organization, Membership, Entitlement, Invitation, PrivacyRe
 from .services import (
     accept_invitation, audit, check_entitlement, create_program,
     issue_and_deliver_invitation, issue_manual_practice_invitation, lock_clinical_child,
-    log_child_access, publish_feedback, record_practice, revoke_practice_invitation,
+    log_child_access, publish_feedback, record_practice, revoke_family_link, revoke_practice_invitation,
 )
 from .reserves import activity_is_reserved, reserved_activity_ids, family_catalog_exclusions
 from .product_views import program_calendar
@@ -302,11 +302,10 @@ def archive_child(request, pk):
 @require_POST
 def revoke_link(request, pk):
     link = get_object_or_404(FamilyLink, pk=pk, child__in=professional_children(request.user))
-    with transaction.atomic():
-        lock_clinical_child(request.user, link.child)
-        link.active = False
-        link.save()
-        audit(request.user, 'family.revoked', link, link.child.organization)
+    try:
+        revoke_family_link(request.user, link)
+    except ValidationError:
+        raise Http404 from None
     return redirect('child_detail', pk=link.child_id)
 
 @login_required

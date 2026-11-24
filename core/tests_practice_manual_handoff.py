@@ -2,6 +2,7 @@
 import hashlib
 import json
 import threading
+import time
 import uuid
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
@@ -11,7 +12,7 @@ from unittest.mock import patch
 from urllib.parse import urlsplit
 
 from django.core.exceptions import PermissionDenied, ValidationError
-from django.db import connection, connections
+from django.db import connection, connections, transaction
 from django.test import Client, TestCase, TransactionTestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone, translation
@@ -102,6 +103,60 @@ class PracticeManualHandoffServiceTests(Fixture, TestCase):
                     self.assertEqual(self.snapshot(), before)
             mail.assert_not_called(); smtp.assert_not_called(); https.assert_not_called()
         self.assertEqual((User.objects.count(), Membership.objects.count(), FamilyLink.objects.count()), counts)
+
+    def historical_revocation_cases(self):
+        practitioner = User.objects.create_user('legacy-practitioner', 'legacy-practitioner@example.test')
+        return (
+            ('family', self.family, FamilyLink.objects.get(child=self.child, user=self.family), 'family.revoked'),
+            ('clinician', practitioner, Membership.objects.create(user=practitioner,
+                organization=self.organization, role='clinician'), 'member.revoked'),
+        )
+
+    def test_audited_legacy_revocation_requires_a_later_issuance_even_at_an_equal_timestamp(self):
+        stamp = timezone.now()
+        for kind, recipient, access, action in self.historical_revocation_cases():
+            with self.subTest(kind=kind), patch('django.utils.timezone.now', return_value=stamp):
+                stale, old_token = self.issue(kind, email=recipient.email)
+                stale_event = AuditEvent.objects.get(action='invitation.created', object_id=str(stale.pk))
+                access.active = False
+                access.save(update_fields=['active'])
+                revocation = services.audit(self.owner, action, access, self.organization)
+                self.assertTrue(stale.available)
+                self.assertEqual(stale_event.created_at, revocation.created_at)
+                self.assertLess(stale_event.pk, revocation.pk)
+                with self.assertRaises(ValidationError):
+                    services.accept_invitation(recipient, old_token)
+
+                unsupported, unproven_token = Invitation.issue(self.organization,
+                    self.child if kind == 'family' else None, recipient.email,
+                    self.clinician if kind == 'family' else self.owner, kind=kind, delivery='manual')
+                self.assertFalse(AuditEvent.objects.filter(action='invitation.created',
+                    object_id=str(unsupported.pk)).exists())
+                with self.assertRaises(ValidationError):
+                    services.accept_invitation(recipient, unproven_token)
+                access.refresh_from_db()
+                self.assertFalse(access.active)
+                stale.refresh_from_db()
+                self.assertIsNone(stale.used_at)
+
+                new, fresh_token = self.issue(kind, email=recipient.email)
+                created = AuditEvent.objects.get(action='invitation.created', object_id=str(new.pk))
+                self.assertEqual(created.created_at, revocation.created_at)
+                self.assertGreater(created.pk, revocation.pk)
+                services.accept_invitation(recipient, fresh_token)
+                access.refresh_from_db()
+                self.assertTrue(access.active)
+
+    def test_inactive_existing_access_without_a_revocation_audit_retains_its_acceptance_behavior(self):
+        for kind, recipient, access, action in self.historical_revocation_cases():
+            with self.subTest(kind=kind):
+                access.active = False
+                access.save(update_fields=['active'])
+                self.assertFalse(AuditEvent.objects.filter(action=action, object_id=str(access.pk)).exists())
+                _new, token = self.issue(kind, email=recipient.email)
+                services.accept_invitation(recipient, token)
+                access.refresh_from_db()
+                self.assertTrue(access.active)
 
     def test_creation_id_cannot_change_recipient_scope_kind_or_sender(self):
         creation_id = uuid.uuid4()
@@ -449,6 +504,99 @@ class PracticeManualHandoffViewTests(Fixture, TestCase):
                     self.assertEqual((member.organization_id, member.role), (self.organization.pk, 'clinician'))
                     self.assertFalse(FamilyLink.objects.filter(user=recipient).exists())
 
+    def test_revoking_existing_access_blocks_old_links_and_allows_an_explicit_new_link(self):
+        practitioner = User.objects.create_user('revoke-practitioner', 'revoke-practitioner@example.test')
+        access_cases = (
+            ('family', self.family, FamilyLink.objects.get(child=self.child, user=self.family), 'revoke_link'),
+            ('clinician', practitioner, Membership.objects.create(user=practitioner,
+                organization=self.organization, role='clinician'), 'revoke_member'),
+        )
+        for kind, user, access, route in access_cases:
+            with self.subTest(kind=kind):
+                NoticeAcknowledgement.objects.create(user=user, organization=self.organization,
+                    version=CURRENT_NOTICE_VERSION, language='en')
+                recipient = Client()
+                recipient.force_login(user)
+                self.sender(kind)
+                issue_url, payload = self.form(kind, email=user.email)
+                issued = self.client.post(issue_url, payload)
+                self.assertEqual(issued.status_code, 200)
+                stale = issued.context['manual_invitation']
+                stale_url = urlsplit(issued.context['manual_link']).path
+                other_org = self.organization if kind == 'family' else self.other_organization
+                other_child = self.sibling if kind == 'family' else None
+                unrelated, _ = self.issue(kind, email=user.email, organization=other_org, child=other_child)
+                other_recipient, _ = self.issue(kind, email='other-'+kind+'@example.test')
+                revoke_url = reverse(route, args=[access.pk])
+
+                self.assertEqual(self.client.post(revoke_url).status_code, 302)
+                access.refresh_from_db()
+                stale.refresh_from_db()
+                self.assertFalse(access.active)
+                self.assertTrue(stale.revoked)
+                actor = self.clinician if kind == 'family' else self.owner
+                self.assertTrue(AuditEvent.objects.filter(actor=actor, object_id=str(stale.pk),
+                    action='invitation.revoked', purpose_code='practice_admin').exists())
+                unrelated.refresh_from_db()
+                other_recipient.refresh_from_db()
+                self.assertTrue(unrelated.available)
+                self.assertTrue(other_recipient.available)
+
+                self.assertEqual(recipient.get(stale_url).status_code, 410)
+                self.assertEqual(recipient.post(stale_url).status_code, 410)
+                if kind == 'family':
+                    self.assertEqual(recipient.get(issue_url).status_code, 404)
+                else:
+                    select_url = reverse('switch_practice')
+                    self.assertEqual(recipient.post(select_url, {'membership': access.pk}).status_code, 404)
+                access.refresh_from_db()
+                self.assertFalse(access.active)
+
+                issue_url, payload = self.form(kind, email=user.email)
+                fresh = self.client.post(issue_url, payload)
+                self.assertEqual(fresh.status_code, 200)
+                new_invitation = fresh.context['manual_invitation']
+                self.assertEqual(self.client.post(revoke_url).status_code, 302)
+                new_invitation.refresh_from_db()
+                self.assertTrue(new_invitation.available)
+                self.assertEqual(recipient.post(urlsplit(fresh.context['manual_link']).path).status_code, 302)
+                access.refresh_from_db()
+                self.assertTrue(access.active)
+                if kind == 'family':
+                    self.assertEqual(recipient.get(issue_url).status_code, 200)
+
+    def test_notice_session_cannot_finish_acceptance_after_access_is_revoked(self):
+        access = FamilyLink.objects.get(child=self.child, user=self.family)
+        invitation, token = self.issue(email=self.family.email)
+        recipient = Client()
+        recipient.force_login(self.family)
+        self.assertRedirects(recipient.post(reverse('invite', args=[token])), reverse('data_notice'))
+        pending_key = 'pending_notice_invitation_digest'
+        self.assertEqual(recipient.session[pending_key], invitation.token_hash)
+        notice_url = reverse('data_notice')
+        form = practice_form_data(recipient, notice_url)
+        self.sender('family')
+        self.assertEqual(self.client.post(reverse('revoke_link', args=[access.pk])).status_code, 302)
+        self.assertEqual(recipient.post(notice_url, form).status_code, 409)
+        self.assertNotIn(pending_key, recipient.session)
+        invitation.refresh_from_db()
+        access.refresh_from_db()
+        self.assertTrue(invitation.revoked)
+        self.assertIsNone(invitation.used_at)
+        self.assertFalse(access.active)
+        self.assertFalse(NoticeAcknowledgement.objects.filter(user=self.family, organization=self.organization).exists())
+
+    def test_refused_practitioner_revocation_preserves_their_pending_invitation(self):
+        membership = Membership.objects.get(user=self.clinician, organization=self.organization)
+        invitation, _ = self.issue('clinician', email=self.clinician.email)
+        self.sender('clinician')
+        self.assertEqual(self.client.post(reverse('revoke_member', args=[membership.pk])).status_code, 302)
+        invitation.refresh_from_db()
+        membership.refresh_from_db()
+        self.assertTrue(invitation.available)
+        self.assertTrue(membership.active)
+        self.assertFalse(AuditEvent.objects.filter(object_id=str(invitation.pk), action='invitation.revoked').exists())
+
     def test_legacy_pending_session_migrates_to_digest_then_accepts_the_same_invitation(self):
         invitation, token = Invitation.issue(self.organization, self.child,
             'legacy-pending@example.test', self.clinician)
@@ -514,6 +662,77 @@ class PracticeManualHandoffViewTests(Fixture, TestCase):
 class PracticeManualHandoffConcurrencyTests(Fixture, TransactionTestCase):
     def setUp(self):
         fixture(self)
+
+    def worker(self, operation, backend, ready):
+        connections.close_all()
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SET lock_timeout = '8s'")
+                cursor.execute("SET statement_timeout = '12s'")
+                cursor.execute('SELECT pg_backend_pid()')
+                backend.append(cursor.fetchone()[0])
+            ready.set()
+            try:
+                return operation()
+            except ValidationError:
+                return None
+        finally:
+            connections.close_all()
+
+    def assert_waits_on_practice_lock(self, backend, ready):
+        self.assertTrue(ready.wait(4))
+        deadline = time.monotonic() + 4
+        with connection.cursor() as cursor:
+            while time.monotonic() < deadline:
+                cursor.execute('SELECT pg_backend_pid() = ANY(pg_blocking_pids(%s))', [backend[0]])
+                if cursor.fetchone()[0]:
+                    return
+                time.sleep(0.01)
+        self.fail('The second operation did not wait on the held practice lock.')
+
+    def revocation_cases(self):
+        family_access = FamilyLink.objects.get(child=self.child, user=self.family)
+        practitioner = User.objects.create_user('revoke-race-practitioner', 'revoke-race@example.test')
+        member = Membership.objects.create(user=practitioner, organization=self.organization, role='clinician')
+        return (
+            ('family', self.family, family_access, lambda: services.revoke_family_link(self.clinician, family_access)),
+            ('clinician', practitioner, member, lambda: services.revoke_membership(self.owner, self.organization, member.pk)),
+        )
+
+    def test_revocation_wins_against_a_concurrent_acceptance(self):
+        for kind, recipient, access, revoke in self.revocation_cases():
+            with self.subTest(kind=kind), ThreadPoolExecutor(max_workers=1) as pool:
+                invitation, token = self.issue(kind, email=recipient.email)
+                backend, ready = [], threading.Event()
+
+                def attempt_acceptance():
+                    services.accept_invitation(recipient, token)
+                    return True
+
+                with transaction.atomic():
+                    revoke()
+                    accepting = pool.submit(self.worker, attempt_acceptance, backend, ready)
+                    self.assert_waits_on_practice_lock(backend, ready)
+                self.assertIsNone(accepting.result(timeout=15))
+                invitation.refresh_from_db()
+                access.refresh_from_db()
+                self.assertTrue(invitation.revoked)
+                self.assertIsNone(invitation.used_at)
+                self.assertFalse(access.active)
+
+    def test_revocation_cancels_a_link_created_by_the_preceding_issuer(self):
+        for kind, recipient, access, revoke in self.revocation_cases():
+            with self.subTest(kind=kind), ThreadPoolExecutor(max_workers=1) as pool:
+                backend, ready = [], threading.Event()
+                with transaction.atomic():
+                    invitation, _ = self.issue(kind, email=recipient.email)
+                    revoking = pool.submit(self.worker, revoke, backend, ready)
+                    self.assert_waits_on_practice_lock(backend, ready)
+                self.assertIsNotNone(revoking.result(timeout=15))
+                invitation.refresh_from_db()
+                access.refresh_from_db()
+                self.assertTrue(invitation.revoked)
+                self.assertFalse(access.active)
 
     def test_duplicate_creation_id_discloses_once_without_rotation_or_extra_audit(self):
         baseline, _ = self.issue(email='baseline@example.test')

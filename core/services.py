@@ -149,6 +149,18 @@ def _manual_practice_creation_replay(invitation, actor, organization, child, ema
     return invitation, None
 
 
+def _revoke_open_practice_invitations(actor, *, organization, child, kind, email, keep_id=None):
+    invitations = Invitation.objects.select_for_update().filter(
+        organization=organization, child=child, kind=kind, email__iexact=email,
+        revoked=False, used_at__isnull=True, expires_at__gt=timezone.now()).order_by('pk')
+    if keep_id is not None:
+        invitations = invitations.exclude(pk=keep_id)
+    for invitation in invitations:
+        invitation.revoked = True
+        invitation.save(update_fields=['revoked'])
+        audit(actor, 'invitation.revoked', invitation, organization)
+
+
 def issue_manual_practice_invitation(actor, organization, child, email, kind, creation_id):
     """Create one scoped personal-handoff link; never send or persist its token."""
     try:
@@ -169,13 +181,8 @@ def issue_manual_practice_invitation(actor, organization, child, email, kind, cr
                 invitation_id=creation_id, delivery='manual')
             # Insert before revoking: a UUID collision must roll back without
             # invalidating a link from a different creation request.
-            prior = Invitation.objects.select_for_update().filter(organization=org, child=scoped_child,
-                kind=kind, email__iexact=email, revoked=False, used_at__isnull=True,
-                expires_at__gt=timezone.now()).exclude(pk=invitation.pk).order_by('pk')
-            for previous in prior:
-                previous.revoked = True
-                previous.save(update_fields=['revoked'])
-                audit(current_actor, 'invitation.revoked', previous, org)
+            _revoke_open_practice_invitations(current_actor, organization=org, child=scoped_child,
+                kind=kind, email=email, keep_id=invitation.pk)
             audit(current_actor, 'invitation.created', invitation, org)
             audit(current_actor, 'invitation.manual_created', invitation, org)
             return invitation, token
@@ -249,6 +256,21 @@ def resolve_privacy(actor, request_id, data):
     audit(actor, 'privacy.resolved', obj, org)
 
 @transaction.atomic
+def revoke_family_link(actor, reference):
+    child = lock_clinical_child(actor, reference.child)
+    link = FamilyLink.objects.select_for_update().filter(pk=reference.pk, child=child).first()
+    if link is None:
+        raise ValidationError(_('Access is no longer available.'))
+    if link.active:
+        link.active = False
+        link.save(update_fields=['active'])
+        audit(actor, 'family.revoked', link, child.organization)
+        _revoke_open_practice_invitations(actor, organization=child.organization, child=child,
+            kind='family', email=link.user.email)
+    return link
+
+
+@transaction.atomic
 def revoke_membership(actor, organization, membership_id):
     """Use the same practice lock as creation, transfer and clinical mutations."""
     org = Organization.objects.select_for_update().get(pk=organization.pk)
@@ -266,6 +288,8 @@ def revoke_membership(actor, organization, membership_id):
         target.active = False
         target.save(update_fields=['active'])
         audit(actor, 'member.revoked', target, org)
+        _revoke_open_practice_invitations(actor, organization=org, child=None,
+            kind='clinician', email=target.user.email)
     return target
 
 
@@ -365,6 +389,20 @@ def publish_feedback(actor, reference, text, source_report=None):
     audit(actor, 'family_feedback.published', feedback, program.organization)
     return feedback
 
+def _require_invitation_after_revocation(invitation, access, action):
+    # Older releases did not cancel open links when access was revoked. Require
+    # a later, exact issuance event for an explicitly revoked access record.
+    revoked = AuditEvent.objects.filter(organization_id=invitation.organization_id,
+        action=action, object_id=str(access.pk)).order_by('-created_at', '-pk').values_list('created_at', 'pk').first()
+    if revoked is None:
+        return
+    time, event_id = revoked
+    later = Q(created_at__gt=time) | Q(created_at=time, pk__gt=event_id)
+    if not AuditEvent.objects.filter(later, organization_id=invitation.organization_id,
+            action='invitation.created', object_id=str(invitation.pk)).exists():
+        raise ValidationError(_('This invitation is unavailable or belongs to another account.'))
+
+
 def accept_invitation(actor, token):
     return accept_invitation_digest(actor, hashlib.sha256(token.encode()).hexdigest())
 
@@ -396,6 +434,8 @@ def accept_invitation_digest(actor, digest):
         check_entitlement(org)
         member = Membership.objects.filter(organization=org, user=actor).first()
         if not member or not member.active:
+            if member is not None:
+                _require_invitation_after_revocation(invite, member, 'member.revoked')
             if Membership.objects.filter(organization=org, active=True).count() >= org.entitlement.practitioner_quota:
                 raise ValidationError(_('The practitioner quota has been reached.'))
             if member:
@@ -406,6 +446,7 @@ def accept_invitation_digest(actor, digest):
     else:
         link, _created = FamilyLink.objects.get_or_create(child=invite.child, user=actor)
         if not link.active:
+            _require_invitation_after_revocation(invite, link, 'family.revoked')
             link.active = True
             link.save()
     invite.used_at = timezone.now()
