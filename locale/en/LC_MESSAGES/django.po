@@ -6089,3 +6089,9 @@ msgstr "Available home activities match the declared spoken varieties"
 
 msgid "Available home activities outside the declared offer"
 msgstr "Available home activities outside the declared offer"
+
+msgid "The interface language and the sample's spoken variety are separate. Changing the variety starts a new sample."
+msgstr "The interface language and the sample's spoken variety are separate. Changing the variety starts a new sample."
+
+msgid "Choose a supported spoken variety for this sample."
+msgstr "Choose a supported spoken variety for this sample."

@@ -46,9 +46,21 @@ def editorial_versions(queryset, *, include_history=False, content=''):
     return queryset
 
 
-def public_example(language):
+@lru_cache(maxsize=1)
+def public_arabic_definitions():
+    # Read the shipped proposals only. No catalogue objects or clinical records.
+    return json.loads((Path(settings.BASE_DIR) / 'docs/arabic-library-v1.json').read_text(encoding='utf-8'))['activities']
+
+
+def public_example(language, variety_code=None):
     # Read-only metadata; no ORM access, child data, history or persistence.
-    pairs = {'fr': ('chat', 'rat'), 'en': ('coat', 'goat'), 'ar': ('دار', 'نار')}
-    pair = pairs.get(language)
-    return next((row for row in candidate_definitions() if row['variety_code'].startswith(language + '-')
+    defaults = {'fr': 'fr-fr-pilot', 'en': 'en-us-general-pilot', 'ar': 'ar-dz-pilot'}
+    variety_code = variety_code or defaults.get(language)
+    pairs = {'fr-fr-pilot': ('chat', 'rat'), 'en-us-general-pilot': ('coat', 'goat'),
+             'ar-dz-pilot': ('دار', 'نار'), 'ar-msa-pilot': ('قط', 'كلب')}
+    pair = pairs.get(variety_code)
+    if pair is None:
+        return None
+    rows = public_arabic_definitions() if variety_code == 'ar-msa-pilot' else candidate_definitions()
+    return next((row for row in rows if row['variety_code'] == variety_code
                  and (row['word_a'], row['word_b']) == pair), None)

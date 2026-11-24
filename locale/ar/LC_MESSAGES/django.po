@@ -6089,3 +6089,9 @@ msgstr "الأنشطة المنزلية المتاحة توافق التنوعا
 
 msgid "Available home activities outside the declared offer"
 msgstr "أنشطة منزلية متاحة خارج العرض المعلن"
+
+msgid "The interface language and the sample's spoken variety are separate. Changing the variety starts a new sample."
+msgstr "لغة الواجهة والتنوع اللغوي المنطوق في المثال مستقلّان. يبدأ مثال جديد عند تغيير التنوع اللغوي."
+
+msgid "Choose a supported spoken variety for this sample."
+msgstr "اختاروا أحد التنوعات اللغوية المنطوقة المتاحة لهذا المثال."

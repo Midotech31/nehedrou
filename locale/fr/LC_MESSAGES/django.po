@@ -6089,3 +6089,9 @@ msgstr "Les activités à domicile disponibles correspondent aux variétés parl
 
 msgid "Available home activities outside the declared offer"
 msgstr "Activités à domicile disponibles en dehors de l’offre déclarée"
+
+msgid "The interface language and the sample's spoken variety are separate. Changing the variety starts a new sample."
+msgstr "La langue de l’interface et la variété parlée de l’exemple sont distinctes. Changer de variété démarre un nouvel exemple."
+
+msgid "Choose a supported spoken variety for this sample."
+msgstr "Choisissez une variété parlée proposée pour cet exemple."
