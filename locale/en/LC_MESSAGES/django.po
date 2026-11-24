@@ -6550,3 +6550,30 @@ msgstr "This save request already created a draft with different content. Open t
 
 msgid "Inviting practice"
 msgstr "Inviting practice"
+
+msgid "Document recording rights"
+msgstr "Document recording rights"
+
+msgid "The draft or recording changed. Open the current draft and check the recording again."
+msgstr "The draft or recording changed. Open the current draft and check the recording again."
+
+msgid "Recording rights saved and linked to the draft."
+msgstr "Recording rights saved and linked to the draft."
+
+msgid "I confirm this evidence covers this adult voice recording and the stated uses."
+msgstr "I confirm this evidence covers this adult voice recording and the stated uses."
+
+msgid "This links the same adult recording to the draft with its rights evidence. Review and publication are separate steps."
+msgstr "This links the same adult recording to the draft with its rights evidence. Review and publication are separate steps."
+
+msgid "Save rights and link recording"
+msgstr "Save rights and link recording"
+
+msgid "The recorded source and voice details cannot be changed."
+msgstr "The recorded source and voice details cannot be changed."
+
+msgid "The source recording must have the same bytes and voice details."
+msgstr "The source recording must have the same bytes and voice details."
+
+msgid "The selected rights evidence is missing, expired, changed or revoked."
+msgstr "The selected rights evidence is missing, expired, changed or revoked."

@@ -109,6 +109,8 @@ urlpatterns += i18n_patterns(
     path('editorial/uploads/<uuid:pk>/', recording_retention.result, name='editorial_upload_result'),
     path('editorial/<uuid:pk>/audio/<str:side>/associate/', guided_audio.associate, name='editorial_audio_associate'),
     path('editorial/<uuid:pk>/image/<str:side>/rights/', image_rights.document, name='editorial_image_rights'),
+    path('editorial/<uuid:pk>/audio/<str:side>/rights/', image_rights.document,
+        {'kind': 'audio'}, name='editorial_audio_rights'),
     path('media/<uuid:pk>/', editorial_views.media, name='editorial_media'),
     path('editorial/media/<uuid:pk>/revoke/', editorial_views.revoke_media, name='editorial_media_revoke'),
 )

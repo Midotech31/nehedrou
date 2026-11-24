@@ -192,7 +192,7 @@ def review_pack(request):
                 task['key'], task['category'], task['side'], task['responsible_role'], ' / '.join(task['reason_codes']),
                 ' / '.join(task['reasons']), task['action'], '', '', '', ''])
         for media in dossier['media']:
-            origin = media.get('image_origin', {})
+            origin = media.get('image_origin') or media.get('audio_origin', {})
             generated = origin.get('generated', {})
             write_csv(media_writer, [str(activity.pk), activity.version, dossier['content_sha256'], activity.variety.code,
                 media['field'], media['word'], media['kind'], media.get('asset_id',''), media.get('sha256',''),

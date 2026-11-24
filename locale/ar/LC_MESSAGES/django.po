@@ -6550,3 +6550,30 @@ msgstr "أنشأ طلب الحفظ هذا مسودة بمحتوى مختلف. ا
 
 msgid "Inviting practice"
 msgstr "العيادة صاحبة الدعوة"
+
+msgid "Document recording rights"
+msgstr "توثيق حقوق التسجيل"
+
+msgid "The draft or recording changed. Open the current draft and check the recording again."
+msgstr "تغيّرت المسودة أو التسجيل. افتح المسودة الحالية وتحقّق من التسجيل مرة أخرى."
+
+msgid "Recording rights saved and linked to the draft."
+msgstr "حُفظت حقوق التسجيل ورُبطت بالمسودة."
+
+msgid "I confirm this evidence covers this adult voice recording and the stated uses."
+msgstr "أؤكّد أن هذا المستند يشمل تسجيل صوت الشخص البالغ هذا والاستخدامات المصرّح بها."
+
+msgid "This links the same adult recording to the draft with its rights evidence. Review and publication are separate steps."
+msgstr "يُربط تسجيل صوت الشخص البالغ نفسه بالمسودة مع مستند حقوقه. وتُجرى المراجعة والنشر في خطوات منفصلة."
+
+msgid "Save rights and link recording"
+msgstr "حفظ الحقوق وربط التسجيل"
+
+msgid "The recorded source and voice details cannot be changed."
+msgstr "لا يمكن تغيير المصدر المسجّل أو بيانات الصوت."
+
+msgid "The source recording must have the same bytes and voice details."
+msgstr "يجب أن يتطابق التسجيل المصدر في وحدات البايت وبيانات الصوت."
+
+msgid "The selected rights evidence is missing, expired, changed or revoked."
+msgstr "مستند الحقوق المحدّد مفقود أو منتهي الصلاحية أو تغيّر أو أُلغي."

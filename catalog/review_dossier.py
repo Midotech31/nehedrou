@@ -122,6 +122,9 @@ def review_dossier(activity):
                 origin = image_origin(asset, activity.variety_id)
                 if origin:
                     summary['image_origin'] = origin
+                if kind == 'audio' and asset.audio_predecessor_id:
+                    summary['audio_origin'] = {'predecessor_asset_id': str(asset.audio_predecessor_id),
+                        'predecessor_sha256': asset.technical_metadata.get('sha256', '')}
             label = (_('Illustration: %(word)s') if kind == 'image' else _('Recording: %(word)s')) % {'word': word}
             check = _check(checks, field, kind, label, editor,
                 _('Obtain the actual permissions and valid evidence, then upload documented media; a written rights claim alone is insufficient.'),

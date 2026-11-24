@@ -1,17 +1,18 @@
-{% extends 'base.html' %}{% load i18n content_language %}
-{% block title %}{% translate "Document illustration rights" %} · Nehedrou{% endblock %}
+{% extends 'base.html' %}{% load i18n content_language editorial %}
+{% block title %}{% if is_audio %}{% translate "Document recording rights" %}{% else %}{% translate "Document illustration rights" %}{% endif %} · Nehedrou{% endblock %}
 {% block content %}
 <a href="{% url 'editorial_detail' activity.pk %}"><span class="direction-arrow" aria-hidden="true">←</span> {% translate "Reload current content" %}</a>
-<div class="page-heading"><div><h1>{% translate "Document illustration rights" %}</h1>
+<div class="page-heading"><div><h1>{% if is_audio %}{% translate "Document recording rights" %}{% else %}{% translate "Document illustration rights" %}{% endif %}</h1>
 <p><bdi>{{ activity.title }}</bdi> · v{{ activity.version }} · <bdi>{{ activity.variety.display_label }}</bdi></p></div></div>
 <section class="card form-card">
 {% if error %}<p role="alert">{{ error }}</p>{% endif %}
 {% if form %}{% with word_language=activity.variety|spoken_language %}
-<figure><img class="editorial-media-preview" src="{% url 'editorial_media' asset.pk %}" alt="{{ word }}" lang="{{ word_language }}"><figcaption><bdi lang="{{ word_language }}">{{ word }}</bdi></figcaption></figure>{% endwith %}
-<p>{% translate "This links a new copy of the same illustration to this word in the draft. Review and publication are separate steps." %}</p>
+{% if is_audio %}<p><bdi lang="{{ word_language }}">{{ word }}</bdi></p>{% media_audio asset %}{% else %}
+<figure><img class="editorial-media-preview" src="{% url 'editorial_media' asset.pk %}" alt="{{ word }}" lang="{{ word_language }}"><figcaption><bdi lang="{{ word_language }}">{{ word }}</bdi></figcaption></figure>{% endif %}{% endwith %}
+{% if is_audio %}<p>{% translate "This links the same adult recording to the draft with its rights evidence. Review and publication are separate steps." %}</p>{% else %}<p>{% translate "This links a new copy of the same illustration to this word in the draft. Review and publication are separate steps." %}</p>{% endif %}
 <p><a href="{% url 'qualification:evidence_upload' %}" target="_blank" rel="noopener">{% translate "Upload private evidence" %}</a></p>
-<form method="post" data-image-rights-form>{% csrf_token %}<input type="hidden" name="rights_context" value="{{ rights_context }}">
+<form method="post" {% if is_audio %}data-audio-rights-form{% else %}data-image-rights-form{% endif %}>{% csrf_token %}<input type="hidden" name="rights_context" value="{{ rights_context }}">
 {% include 'error_summary.html' %}{% for field in form.rights_fields %}{% include 'editorial/field.html' %}{% endfor %}
-<button class="button" type="submit">{% translate "Save rights and link illustration" %}</button></form>{% endif %}
+<button class="button" type="submit">{% if is_audio %}{% translate "Save rights and link recording" %}{% else %}{% translate "Save rights and link illustration" %}{% endif %}</button></form>{% endif %}
 </section>
 {% endblock %}
