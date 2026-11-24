@@ -6095,3 +6095,9 @@ msgstr "The interface language and the sample's spoken variety are separate. Cha
 
 msgid "Choose a supported spoken variety for this sample."
 msgstr "Choose a supported spoken variety for this sample."
+
+msgid "These access rights may have changed since you opened the form. Reload and review the current values before saving."
+msgstr "These access rights may have changed since you opened the form. Reload and review the current values before saving."
+
+msgid "Reload current access rights"
+msgstr "Reload current access rights"

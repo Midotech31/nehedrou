@@ -6095,3 +6095,9 @@ msgstr "La langue de l’interface et la variété parlée de l’exemple sont d
 
 msgid "Choose a supported spoken variety for this sample."
 msgstr "Choisissez une variété parlée proposée pour cet exemple."
+
+msgid "These access rights may have changed since you opened the form. Reload and review the current values before saving."
+msgstr "Les droits d’accès ont peut-être changé depuis l’ouverture du formulaire. Rechargez la page et vérifiez les valeurs en vigueur avant d’enregistrer."
+
+msgid "Reload current access rights"
+msgstr "Recharger les droits d’accès en vigueur"

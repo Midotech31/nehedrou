@@ -14,6 +14,7 @@ from care.models import Child, Program, PracticeSession, ProgramItem, Observatio
 from catalog.models import Activity
 from .access import clinician_child, professional_children, manager, visible_children, membership
 from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
+from .billing import ENTITLEMENT_EDIT_FIELDS, entitlement_form_snapshot
 from .forms import ChildForm, ProgramForm, ReassignForm, PrivacyDecisionForm
 from .models import Organization, PrivacyRequest, Invitation, Entitlement, Invoice, NoticeAcknowledgement
 from .access import CURRENT_NOTICE_VERSION, notice_gate, PENDING_NOTICE_INVITATION_DIGEST, LEGACY_PENDING_NOTICE_INVITATION_TOKEN
@@ -160,7 +161,7 @@ def resolve_request(request, pk):
 class BillingForm(forms.ModelForm):
     class Meta:
         model = Entitlement
-        fields = ['plan', 'status', 'expires_at', 'child_quota', 'practitioner_quota', 'amount', 'currency', 'billing_reference']
+        fields = ENTITLEMENT_EDIT_FIELDS
         labels = {'plan': _('Plan name'), 'status': _('Status'), 'expires_at': _('Access until'), 'child_quota': _('Child profile quota'), 'practitioner_quota': _('Practitioner quota'), 'amount': _('Amount'), 'currency': _('Currency'), 'billing_reference': _('Billing reference')}
 
 class InvoiceForm(forms.ModelForm):
@@ -182,25 +183,29 @@ class InvoiceForm(forms.ModelForm):
 def billing(request, pk=None):
     if pk is None:
         return render(request, 'billing/index.html', {'organizations': Organization.objects.all().order_by('name')})
-    org = get_object_or_404(Organization, pk=pk)
     if request.method == 'POST':
-        # Lock the parent even when no entitlement exists: concurrent first
-        # saves must share one lock, not race to create a OneToOne record.
+        # Serialize first-time creation and edits with other practice mutations.
         with transaction.atomic():
             org = get_object_or_404(Organization.objects.select_for_update(), pk=pk)
             entitlement = Entitlement.objects.filter(organization=org).first()
-            created = entitlement is None
-            form = BillingForm(request.POST, instance=entitlement or Entitlement(organization=org))
-            if form.is_valid():
-                entitlement = form.save()
-                audit(request.user, 'entitlement.created' if created else 'entitlement.updated', entitlement, org)
-                return redirect('billing_detail', pk=pk)
+            token, matches = entitlement_form_snapshot(request, org, entitlement)
+            form = None
+            if matches:
+                instance = entitlement if entitlement is not None else Entitlement(organization=org)
+                form = BillingForm(request.POST, instance=instance)
+                if form.is_valid():
+                    saved = form.save()
+                    audit(request.user, 'entitlement.created' if entitlement is None else 'entitlement.updated', saved, org)
+                    return redirect('billing_detail', pk=pk)
     else:
-        # Display defaults on an unsaved instance. Visiting this page must not
-        # grant access, create billing data, or alter existing rights.
+        org = get_object_or_404(Organization, pk=pk)
         entitlement = Entitlement.objects.filter(organization=org).first()
+        token, matches = entitlement_form_snapshot(request, org, entitlement)
         form = BillingForm(instance=entitlement or Entitlement(organization=org))
-    return render(request, 'billing/detail.html', {'organization': org, 'form': form, 'invoices': org.invoice_set.all().order_by('-issued_at')})
+    return render(request, 'billing/detail.html', {
+        'organization': org, 'form': form, 'entitlement_snapshot': token,
+        'invoices': org.invoice_set.all().order_by('-issued_at'),
+    }, status=200 if matches else 409)
 
 @login_required
 @permission_required('core.manage_entitlements', raise_exception=True)
