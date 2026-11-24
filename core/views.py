@@ -403,7 +403,12 @@ def library(request):
     arabic_base = arabic_base.exclude(pk__in=family_catalog_exclusions(request.user, arabic_base))
     collections = [{'code': v.code, 'label': v.display_label, 'count': arabic_base.filter(variety=v).count()}
                    for v in Variety.objects.filter(code__in=['ar-msa-pilot', 'ar-dz-pilot']).order_by('-code')]
-    return render(request, 'library.html', {'page': Paginator(qs.order_by('title', 'pk'), 12).get_page(request.GET.get('page')),
+    from catalog.presentation_availability import prepare_availability
+    page = Paginator(qs.order_by('title', 'pk'), 12).get_page(request.GET.get('page'))
+    page.object_list = prepare_availability(page.object_list, include_audio=True)
+    available_on_page = sum(activity.presentation_available for activity in page)
+    return render(request, 'library.html', {'page': page,
+        'available_on_page': available_on_page, 'unavailable_on_page': len(page.object_list) - available_on_page,
         'varieties': Variety.objects.filter(language=language) if language in dict(settings.LANGUAGES) else Variety.objects.all(),
         'selected': code, 'query': query, 'content_language': language, 'result_count': qs.count(),
         'kinds': Activity.KIND_CHOICES, 'themes': Activity.THEME_CHOICES, 'selected_kind': kind, 'selected_theme': theme,
@@ -416,7 +421,14 @@ def activity_detail(request, pk):
         raise Http404
     if activity.pk in family_catalog_exclusions(request.user, [activity]):
         raise Http404
-    return render(request, 'activity_detail.html', {'activity': activity, 'instruction': activity.instructions.get(request.user.instruction_language), 'missing_instruction': not activity.instructions.get(request.user.instruction_language)})
+    from catalog.presentation_availability import prepare_availability
+    available = prepare_availability([activity])[0].presentation_available
+    assigned_history = not available and ProgramItem.objects.filter(
+        activity=activity, program__in=visible_programs(request.user)).exists()
+    if not available and not assigned_history:
+        raise Http404
+    return render(request, 'activity_detail.html', {'activity': activity,
+        'activity_available': available, 'assigned_history': assigned_history, 'instruction': activity.instructions.get(request.user.instruction_language), 'missing_instruction': not activity.instructions.get(request.user.instruction_language)})
 
 @login_required
 def program_create(request, pk):

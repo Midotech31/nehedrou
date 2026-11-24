@@ -6134,3 +6134,33 @@ msgstr "تم تغيير كلمة المرور"
 
 msgid "Your password has been changed. Other sessions will require you to sign in again."
 msgstr "تم تغيير كلمة المرور. ستتطلب الجلسات الأخرى تسجيل الدخول مجددًا."
+
+msgid "Availability is checked when you preview or save this program."
+msgstr "تُفحص إتاحة الأنشطة عند معاينة البرنامج أو حفظه."
+
+msgid "catalogue entries"
+msgstr "مدخلات المكتبة"
+
+msgid "catalogue entries found"
+msgstr "مدخلات في المكتبة"
+
+msgid "Available on this page"
+msgstr "متاح في هذه الصفحة"
+
+msgid "Unavailable on this page"
+msgstr "غير متاح في هذه الصفحة"
+
+msgid "The total includes unavailable entries; availability is checked for this page."
+msgstr "يشمل الإجمالي المدخلات غير المتاحة؛ تُفحص إتاحة المدخلات الظاهرة في هذه الصفحة."
+
+msgid "Unavailable for new practice"
+msgstr "غير متاح لممارسة جديدة"
+
+msgid "Assigned historical content"
+msgstr "محتوى مُسند محفوظ في السجل"
+
+msgid "This assigned version is shown for reference. It is unavailable for new practice."
+msgstr "تُعرض هذه النسخة المسندة للرجوع إليها، وهي غير متاحة لممارسة جديدة."
+
+msgid "Media unavailable for this version"
+msgstr "الوسائط غير متاحة لهذه النسخة"

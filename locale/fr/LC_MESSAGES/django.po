@@ -6134,3 +6134,33 @@ msgstr "Mot de passe modifié"
 
 msgid "Your password has been changed. Other sessions will require you to sign in again."
 msgstr "Votre mot de passe a été modifié. Les autres sessions nécessiteront une nouvelle connexion."
+
+msgid "Availability is checked when you preview or save this program."
+msgstr "La disponibilité des activités est vérifiée lors de la prévisualisation ou de l’enregistrement du programme."
+
+msgid "catalogue entries"
+msgstr "entrées du catalogue"
+
+msgid "catalogue entries found"
+msgstr "entrées du catalogue trouvées"
+
+msgid "Available on this page"
+msgstr "Disponibles sur cette page"
+
+msgid "Unavailable on this page"
+msgstr "Indisponibles sur cette page"
+
+msgid "The total includes unavailable entries; availability is checked for this page."
+msgstr "Le total inclut les entrées indisponibles ; la disponibilité est vérifiée pour cette page."
+
+msgid "Unavailable for new practice"
+msgstr "Indisponible pour une nouvelle pratique"
+
+msgid "Assigned historical content"
+msgstr "Contenu affecté conservé dans l’historique"
+
+msgid "This assigned version is shown for reference. It is unavailable for new practice."
+msgstr "Cette version déjà affectée reste consultable à titre de référence. Elle est indisponible pour une nouvelle pratique."
+
+msgid "Media unavailable for this version"
+msgstr "Médias indisponibles pour cette version"
