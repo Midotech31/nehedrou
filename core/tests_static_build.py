@@ -24,7 +24,9 @@ class ProductionStaticBuildTests(SimpleTestCase):
         build_command = settings.BASE_DIR / 'scripts' / 'render_build.py'
         real_run = subprocess.run
         assets = (
-            'brand/nehedrou-child-profile.png',
+            'brand/nehedrou-child-profile-header.png',
+            'brand/nehedrou-child-profile-favicon.png',
+            'brand/nehedrou-child-profile-touch.png',
             'product.css',
             'child-theme.css',
             'fonts/tajawal/Tajawal-Medium.ttf',
