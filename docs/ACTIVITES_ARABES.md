@@ -123,3 +123,19 @@ Une vérification éditoriale a repéré que, dans les propositions darija du pa
 V2 n'ajoute aucun lexème, prononciation, transcription phonétique, enregistrement, avis, approbation ni statut de disponibilité. Les listes de mots familiaux sont des pistes à vérifier avec la famille et des spécialistes de la région concernée ; elles ne constituent ni une norme de darija algérienne ni une recommandation thérapeutique. Les descriptions d'Oran et de Dellys citées plus haut sont locales et ne valident pas les formes de l'ensemble de l'Algérie. Le principe de tenir compte des systèmes linguistiques et usages de la personne est cohérent avec le [guide ASHA sur les services multilingues](https://www.asha.org/practice-portal/professional-issues/multilingual-service-delivery/) ; ce guide ne valide pas ces fiches ni l'application.
 
 L'importeur peut créer ces versions comme brouillons non démonstratifs. L'option `--demo-copies` reste conditionnée à `DEMO_MODE=1`; aucun import dans la base publiée ni aucune copie démonstrative n'a été réalisé par la préparation du paquet. Avant tout usage clinique, chaque version exacte doit encore recevoir une relecture linguistique locale et clinique, une vérification d'adéquation des images et une revue des droits et médias. La preuve de l'efficacité thérapeutique de Nehedrou n'est pas établie.
+
+### Préparer une sélection dans un catalogue existant
+
+L’aperçu demande le compte éditorial actif de la variété `ar-dz-pilot`. Il compare le brouillon courant de chaque série au v1 fourni et vérifie que le v2 source modifie uniquement les métadonnées des mots. Les statuts du rapport JSON indiquent les séries éligibles, déjà à jour, à traiter manuellement ou absentes.
+
+```text
+python manage.py prepare_darja_metadata_revisions --actor NOM_UTILISATEUR --series UUID_SERIE_A --series UUID_SERIE_B
+```
+
+Omettre les options `--series` pour vérifier les 32 séries. Pour une intervention autorisée, reprendre les mêmes identifiants et la valeur `plan_sha256` de l’aperçu.
+
+```text
+python manage.py prepare_darja_metadata_revisions --actor NOM_UTILISATEUR --series UUID_SERIE_A --series UUID_SERIE_B --expect-plan EMPREINTE_DU_PLAN --apply
+```
+
+Une fiche retouchée, un état différent, une copie de travail ouverte ou un avis existant requièrent un examen manuel. Un plan périmé ou une sélection comportant une fiche à traiter manuellement fait refuser l’ensemble. Une série éligible produit un nouveau brouillon v2 avec un évènement d’audit. Le rapport donne l’identifiant et l’empreinte du nouveau brouillon pour les relectures ultérieures. Les formes orales régionales, les médias, les droits, les avis et la disponibilité suivent le circuit normal.
