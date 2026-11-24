@@ -6534,3 +6534,16 @@ msgstr "These entries are shared by the platform operator. Use the original bill
 
 msgid "No billing summaries have been shared with this practice."
 msgstr "No billing summaries have been shared with this practice."
+
+# First draft save receipt (2026-11-24).
+msgid "Draft already saved"
+msgstr "Draft already saved"
+
+msgid "Open saved draft"
+msgstr "Open saved draft"
+
+msgid "Reload the creation page and choose the spoken variety again."
+msgstr "Reload the creation page and choose the spoken variety again."
+
+msgid "This save request already created a draft with different content. Open the saved draft or start a new creation page."
+msgstr "This save request already created a draft with different content. Open the saved draft or start a new creation page."

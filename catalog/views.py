@@ -120,7 +120,17 @@ def edit(request, pk=None):
         if working and request.method != 'POST':
             form.initial.update(working.data)
     form.fields['variety'].queryset = Variety.objects.all() if request.user.is_superuser else Variety.objects.filter(editorialgrant__user=request.user, editorialgrant__edit=True)
-    if request.method == 'POST' and form.is_valid():
+    save_status, finalization_conflict = 200, None
+    if request.method == 'POST' and not pk and request.POST.get('working_copy'):
+        from .finalization import save_new_draft
+        saved, save_status, finalization_conflict = save_new_draft(request, form, working.pk if working else uuid.UUID(request.POST['working_copy']))
+        if saved:
+            return redirect('editorial_detail', pk=saved.pk)
+        if finalization_conflict:
+            from .finalization import CONFLICT_MESSAGE
+            return render(request, 'editorial/finalization_conflict.html',
+                {'saved_activity': finalization_conflict, 'body': CONFLICT_MESSAGE}, status=409)
+    elif request.method == 'POST' and form.is_valid():
         if not allowed(request.user, form.cleaned_data['variety'], 'edit'):
             raise PermissionDenied
         with transaction.atomic():
@@ -157,7 +167,7 @@ def edit(request, pk=None):
                    'capacity':_('You have 30 active working copies. Save an activity or set a copy aside in the editorial workspace.'), 'unchanged':_('No unsaved changes.'), 'pending':_('Changes waiting to be saved.'), 'failed':_('Working copy not saved. Keep this page open and retry.'),
                    'conflict':_('Another session or the source changed. Open your saved copy to reconcile changes.')}
     }
-    response = render(request, 'form.html' if advanced else 'editorial/author.html', {'title': _('Edit content draft') if pk else _('Create an activity from scratch'), 'form': form, 'submit': _('Save draft'), 'activity': activity, 'activity_add': not pk, 'working_id':working_id, 'base_digest':base_digest, 'author_config':config})
+    response = render(request, 'form.html' if advanced else 'editorial/author.html', {'title': _('Edit content draft') if pk else _('Create an activity from scratch'), 'form': form, 'submit': _('Save draft'), 'activity': activity, 'activity_add': not pk, 'working_id':working_id, 'base_digest':base_digest, 'author_config':config, 'finalization_conflict':finalization_conflict}, status=save_status)
     response['Cache-Control'] = 'private, no-store'
     return response
 

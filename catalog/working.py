@@ -25,18 +25,31 @@ def authorize_copy(user, copy):
 
 
 def resume_copy(request, activity):
-    value = request.GET.get('resume') or request.POST.get('working_copy')
+    resumed = request.GET.get('resume')
+    posted = request.POST.get('working_copy')
+    if request.method == 'POST' and resumed and 'working_copy' in request.POST:
+        try:
+            if uuid.UUID(resumed) != uuid.UUID(posted):
+                raise Http404
+        except (ValueError, TypeError, AttributeError):
+            raise Http404 from None
+    value = resumed or posted
     if not value:
         return None
     try:
         identifier = uuid.UUID(value)
     except (ValueError, AttributeError):
         raise Http404
-    copy = DraftWorkingCopy.objects.filter(pk=identifier, owner=request.user, committed=False, dismissed=False).select_related('activity__variety').first()
+    copy = DraftWorkingCopy.objects.filter(pk=identifier, owner=request.user, dismissed=False).select_related('activity__variety').first()
     if not copy:
         # An unsaved first page submits its preallocated UUID before autosave starts.
         if request.method == 'POST' and not DraftWorkingCopy.objects.filter(pk=identifier).exists():
             return None
+        raise Http404
+    if copy.committed:
+        from .finalization import new_draft_receipt
+        if request.method == 'POST' and activity._state.adding and new_draft_receipt(copy):
+            return copy
         raise Http404
     if copy.activity_id != (activity.pk if not activity._state.adding else None):
         raise Http404

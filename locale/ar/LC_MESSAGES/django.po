@@ -6534,3 +6534,16 @@ msgstr "يشارك مسؤول المنصة هذه المعلومات. احتفظ
 
 msgid "No billing summaries have been shared with this practice."
 msgstr "لم تُشارَك أي ملخّصات للفواتير مع هذه العيادة."
+
+# First draft save receipt (2026-11-24).
+msgid "Draft already saved"
+msgstr "المسودة محفوظة بالفعل"
+
+msgid "Open saved draft"
+msgstr "فتح المسودة المحفوظة"
+
+msgid "Reload the creation page and choose the spoken variety again."
+msgstr "أعيدوا تحميل صفحة الإنشاء واختاروا التنوع اللغوي المنطوق من جديد."
+
+msgid "This save request already created a draft with different content. Open the saved draft or start a new creation page."
+msgstr "أنشأ طلب الحفظ هذا مسودة بمحتوى مختلف. افتحوا المسودة المحفوظة أو ابدؤوا صفحة إنشاء جديدة."

@@ -6534,3 +6534,16 @@ msgstr "Le gestionnaire de la plateforme partage ces informations. Conservez le 
 
 msgid "No billing summaries have been shared with this practice."
 msgstr "Aucun récapitulatif de facturation n’a été partagé avec ce cabinet."
+
+# First draft save receipt (2026-11-24).
+msgid "Draft already saved"
+msgstr "Brouillon déjà enregistré"
+
+msgid "Open saved draft"
+msgstr "Ouvrir le brouillon enregistré"
+
+msgid "Reload the creation page and choose the spoken variety again."
+msgstr "Rechargez la page de création et choisissez de nouveau la variété parlée."
+
+msgid "This save request already created a draft with different content. Open the saved draft or start a new creation page."
+msgstr "Cette demande d’enregistrement a déjà créé un brouillon avec un contenu différent. Ouvrez le brouillon enregistré ou commencez une nouvelle création."
