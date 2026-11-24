@@ -136,7 +136,7 @@ class CurrentSchemaPostgreSQLRoundtripTests(TransactionTestCase):
         self.addCleanup(self.overrides.disable)
 
     def fixture(self):
-        from core.models import User, Organization, Membership, Entitlement, Invitation
+        from core.models import User, Organization, Membership, Entitlement, Invitation, OperatorAcceptanceObservation
         from catalog.models import Variety, MediaAsset, EditorialAccessInvitation
         from qualification.models import EvidenceDocument
         from care.models import Child, FamilyLink, Program, Observation, ProgramFeedback
@@ -172,11 +172,18 @@ class CurrentSchemaPostgreSQLRoundtripTests(TransactionTestCase):
         Image.new('RGB', (8, 8), (30, 90, 150)).save(image, format='PNG')
         asset = MediaAsset.objects.create(file=ContentFile(image.getvalue(), name='fictional.png'),
             kind='image', rights='Synthetic local test image', uploaded_by=professional)
+        derivative = MediaAsset.objects.create(file=ContentFile(image.getvalue(), name='fictional-derived.png'),
+            kind='image', rights='Synthetic derived fixture image', uploaded_by=professional, image_predecessor=asset)
+        operator_observation = OperatorAcceptanceObservation.objects.create(
+            check_code='recent_restore_and_dossier_access', scope='local_fictional', outcome='gap_found',
+            observed_on=timezone.localdate(), evidence_sha256=document.sha256, recorded_by=professional)
         (self.source_media / 'unreferenced').mkdir()
         (self.source_media / 'unreferenced' / 'fictional.bin').write_bytes(b'Unreferenced fictional media\x00\xff')
         return {'professional': professional.pk, 'family': family.pk, 'outsider': outsider.pk,
             'child': str(child.pk), 'invitation': str(invitation.pk), 'editorial': str(editorial.pk),
-            'document': str(document.pk), 'asset': str(asset.pk),
+            'document': str(document.pk), 'asset': str(asset.pk), 'derived_asset':str(derivative.pk),
+            'operator_observation':str(operator_observation.pk),
+            'operator_observed_on':operator_observation.observed_on.isoformat(),
             'invitation_delivery': invitation_delivery, 'editorial_delivery': editorial_delivery}
 
     def test_actual_current_schema_dump_encrypt_restore_and_scoped_reads(self):
@@ -225,7 +232,7 @@ class CurrentSchemaPostgreSQLRoundtripTests(TransactionTestCase):
                 actual = inventory(conn)
             self.assertEqual(expected, actual)
             media = {name[6:]: data for name, data in entries.items() if name.startswith('media/')}
-            self.assertEqual(len(media), 3)
+            self.assertEqual(len(media), 4)
             self.assertEqual({file.relative_to(self.target_media).as_posix() for file in self.target_media.rglob('*') if file.is_file()}, set(media))
             for name, data in media.items():
                 self.assertEqual((self.target_media / name).read_bytes(), data)
@@ -242,7 +249,8 @@ class CurrentSchemaPostgreSQLRoundtripTests(TransactionTestCase):
             self.assertEqual(set(checks), {'professional_export', 'family_private_observation_excluded',
                 'family_shared_feedback_preserved', 'unrelated_account_denied',
                 'practice_invitation_delivery_preserved', 'editorial_invitation_delivery_preserved',
-                'referenced_evidence_intact', 'referenced_image_intact'})
+                'referenced_evidence_intact', 'referenced_image_intact',
+                'operator_evidence_reference_preserved', 'illustration_predecessor_preserved'})
             self.assertTrue(all(value is True for value in checks.values()))
             with psycopg.connect(**target_local) as conn:
                 conn.execute('SET TRANSACTION READ ONLY')

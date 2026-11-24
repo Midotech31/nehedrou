@@ -37,7 +37,7 @@ def main():
     from django.db import connection, transaction
     from django.http import Http404
     from django.test import RequestFactory
-    from core.models import User, Invitation
+    from core.models import User, Invitation, OperatorAcceptanceObservation
     from catalog.models import EditorialAccessInvitation, MediaAsset
     from care.models import Child
     from qualification.models import EvidenceDocument
@@ -94,12 +94,24 @@ def main():
                 'PRACTICE_INVITATION_DELIVERY_CHANGED')
         require(EditorialAccessInvitation.objects.get(pk=identities['editorial']).delivery == expected_editorial,
                 'EDITORIAL_INVITATION_DELIVERY_CHANGED')
-        require(EvidenceDocument.objects.get(pk=identities['document']).intact, 'RESTORED_EVIDENCE_CHANGED')
-        require(MediaAsset.objects.get(pk=identities['asset']).intact, 'RESTORED_IMAGE_CHANGED')
+        proof = EvidenceDocument.objects.get(pk=identities['document'])
+        original = MediaAsset.objects.get(pk=identities['asset'])
+        require(proof.intact, 'RESTORED_EVIDENCE_CHANGED')
+        require(original.intact, 'RESTORED_IMAGE_CHANGED')
+        derived = MediaAsset.objects.get(pk=identities['derived_asset'])
+        require(derived.image_predecessor_id == original.pk and derived.file.name != original.file.name and
+                derived.intact and derived.technical_metadata['sha256'] == original.technical_metadata['sha256'],
+                'RESTORED_ILLUSTRATION_ORIGIN_CHANGED')
+        observation = OperatorAcceptanceObservation.objects.get(pk=identities['operator_observation'])
+        require(observation.recorded_by_id == identities['professional'] and
+                observation.check_code == 'recent_restore_and_dossier_access' and observation.scope == 'local_fictional' and
+                observation.outcome == 'gap_found' and observation.observed_on.isoformat() == identities['operator_observed_on'] and
+                observation.evidence_sha256 == proof.sha256, 'RESTORED_OPERATOR_EVIDENCE_CHANGED')
     print(json.dumps({'professional_export': True, 'family_private_observation_excluded': True,
         'family_shared_feedback_preserved': True, 'unrelated_account_denied': True,
         'practice_invitation_delivery_preserved': True, 'editorial_invitation_delivery_preserved': True,
-        'referenced_evidence_intact': True, 'referenced_image_intact': True}))
+        'referenced_evidence_intact': True, 'referenced_image_intact': True,
+        'operator_evidence_reference_preserved': True, 'illustration_predecessor_preserved': True}))
 
 
 if __name__ == '__main__':
