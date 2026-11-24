@@ -3,7 +3,7 @@ from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import ValidationError
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
@@ -206,14 +206,27 @@ def billing(request, pk=None):
 @permission_required('core.manage_entitlements', raise_exception=True)
 def invoice_create(request, pk):
     org = get_object_or_404(Organization, pk=pk)
-    form = InvoiceForm(request.POST or None, instance=Invoice(organization=org))
+    data = request.POST if request.method == 'POST' else None
+    form = InvoiceForm(data, instance=Invoice(organization=org))
     if request.method == 'POST' and form.is_valid():
         invoice = form.save(commit=False)
-        if invoice.status == 'paid':
-            invoice.paid_at = timezone.now()
-        invoice.save()
-        audit(request.user, 'invoice.recorded', invoice, org)
-        return redirect('billing_detail', pk=pk)
+        saved = False
+        try:
+            with transaction.atomic():
+                invoice.save()
+                saved = True
+                audit(request.user, 'invoice.recorded', invoice, org)
+        except ValidationError as error:
+            if saved:
+                raise
+            form.add_error(None, error)
+        except IntegrityError:
+            # The number may have been recorded after model validation.
+            if saved or not Invoice.objects.filter(number=invoice.number).exists():
+                raise
+            form.add_error('number', invoice.unique_error_message(Invoice, ['number']))
+        else:
+            return redirect('billing_detail', pk=pk)
     return render(request, 'form.html', {'title': _('Record a manual invoice'), 'form': form, 'submit': _('Save')})
 
 @login_required
