@@ -1,6 +1,6 @@
 # Recette PostgreSQL 17 sur données fictives
 
-Cette recette lance un nouveau cluster PostgreSQL 17 sur l’interface locale, applique les migrations du checkout examiné, puis exerce la sauvegarde chiffrée et la restauration réelles de Nehedrou. Elle compare les empreintes des lignes, les définitions de clés étrangères, les séquences et les octets des médias. Après restauration, elle vérifie les exports professionnel et familial, le refus d’un compte tiers et la conservation des invitations et documents fictifs.
+Cette recette lance un nouveau cluster PostgreSQL 17 sur l’interface locale, applique les migrations du checkout examiné, puis exerce la sauvegarde chiffrée et la restauration réelles de Nehedrou. Elle compare les empreintes des lignes, les définitions de clés étrangères, les séquences et les octets des médias. Après restauration, elle vérifie les exports professionnel et familial, le refus d’un compte tiers et la conservation des invitations et documents fictifs. La recette retrouve aussi le justificatif et l’origine d’une prise, puis ouvre la comparaison d’un guide conservé dans une copie privée.
 
 ## Exécution
 

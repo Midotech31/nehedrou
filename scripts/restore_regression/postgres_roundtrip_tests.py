@@ -137,8 +137,11 @@ class CurrentSchemaPostgreSQLRoundtripTests(TransactionTestCase):
 
     def fixture(self):
         from core.models import User, Organization, Membership, Entitlement, Invitation, OperatorAcceptanceObservation
-        from catalog.models import Variety, MediaAsset, EditorialAccessInvitation
+        from catalog.guided_audio import media_reference
+        from catalog.models import Activity, DraftWorkingCopy, EditorialAccessInvitation, EditorialGrant, MediaAsset, Variety
+        from core.testing import pcm_fixture
         from qualification.models import EvidenceDocument
+        from qualification.test_support import evidence_fixture
         from care.models import Child, FamilyLink, Program, Observation, ProgramFeedback
         professional = User.objects.create_user('fictional-professional', 'professional@example.test', password=None)
         family = User.objects.create_user('fictional-family', 'family@example.test', password=None)
@@ -174,6 +177,34 @@ class CurrentSchemaPostgreSQLRoundtripTests(TransactionTestCase):
             kind='image', rights='Synthetic local test image', uploaded_by=professional)
         derivative = MediaAsset.objects.create(file=ContentFile(image.getvalue(), name='fictional-derived.png'),
             kind='image', rights='Synthetic derived fixture image', uploaded_by=professional, image_predecessor=asset)
+        EditorialGrant.objects.create(user=professional, variety=variety, edit=True)
+        audio_bytes = pcm_fixture()
+        # Generated PCM only. The declared human profile exercises the test-only adult branch.
+        profile = {'source': 'human', 'text': 'باب', 'variety': variety.code,
+                   'region': 'Fictional test scope'}
+        recording = MediaAsset.objects.create(
+            file=ContentFile(audio_bytes, name='fictional-original.wav'), kind='audio',
+            provenance={'audio': profile}, rights='Fictional pending evidence', uploaded_by=professional)
+        activity = Activity.objects.create(
+            series=uuid.uuid4(), variety=variety, title='Fictional draft with audio',
+            kind='vocabulary', contrast='Fictional vocabulary', word_a='باب', word_b='مفتاح',
+            instructions={'ar': 'تعليمات حالية وهمية'}, audio_a=media_reference(recording),
+            is_demo=False)
+        copy = DraftWorkingCopy.objects.create(
+            activity=activity, owner=professional, revision=1, base_digest=activity.fingerprint(),
+            data={'guide_ar_objective': 'FICTIONAL_PRIVATE_RESTORED_GUIDE', 'word_a': 'OLD_FICTIONAL_WORD'})
+        rights = evidence_fixture(variety, professional, 'rights')
+        audio_rights = {key: 'Fictional software proof only' for key in (
+            'holder', 'licence', 'permitted_use', 'territory', 'duration', 'attribution', 'adult_speaker_permission')}
+        documented_recording = MediaAsset.objects.create(
+            file=ContentFile(audio_bytes, name='fictional-documented.wav'), kind='audio',
+            provenance={**audio_rights, 'audio': profile}, rights='Fictional documented scope',
+            rights_status='original_documented', rights_validity='unlimited', rights_evidence=rights,
+            uploaded_by=professional, audio_predecessor=recording)
+        activity.audio_a = media_reference(documented_recording)
+        activity.save(update_fields=['audio_a'])
+        self.assertTrue(documented_recording.documented)
+        self.assertNotEqual(copy.base_digest, activity.fingerprint())
         operator_observation = OperatorAcceptanceObservation.objects.create(
             check_code='recent_restore_and_dossier_access', scope='local_fictional', outcome='gap_found',
             observed_on=timezone.localdate(), evidence_sha256=document.sha256, recorded_by=professional)
@@ -182,6 +213,9 @@ class CurrentSchemaPostgreSQLRoundtripTests(TransactionTestCase):
         return {'professional': professional.pk, 'family': family.pk, 'outsider': outsider.pk,
             'child': str(child.pk), 'invitation': str(invitation.pk), 'editorial': str(editorial.pk),
             'document': str(document.pk), 'asset': str(asset.pk), 'derived_asset':str(derivative.pk),
+            'editorial_activity': str(activity.pk), 'working_copy': str(copy.pk),
+            'audio_origin': str(recording.pk), 'documented_audio': str(documented_recording.pk),
+            'audio_rights': str(rights.pk),
             'operator_observation':str(operator_observation.pk),
             'operator_observed_on':operator_observation.observed_on.isoformat(),
             'invitation_delivery': invitation_delivery, 'editorial_delivery': editorial_delivery}
@@ -232,7 +266,7 @@ class CurrentSchemaPostgreSQLRoundtripTests(TransactionTestCase):
                 actual = inventory(conn)
             self.assertEqual(expected, actual)
             media = {name[6:]: data for name, data in entries.items() if name.startswith('media/')}
-            self.assertEqual(len(media), 4)
+            self.assertEqual(len(media), 7)
             self.assertEqual({file.relative_to(self.target_media).as_posix() for file in self.target_media.rglob('*') if file.is_file()}, set(media))
             for name, data in media.items():
                 self.assertEqual((self.target_media / name).read_bytes(), data)
@@ -250,7 +284,8 @@ class CurrentSchemaPostgreSQLRoundtripTests(TransactionTestCase):
                 'family_shared_feedback_preserved', 'unrelated_account_denied',
                 'practice_invitation_delivery_preserved', 'editorial_invitation_delivery_preserved',
                 'referenced_evidence_intact', 'referenced_image_intact',
-                'operator_evidence_reference_preserved', 'illustration_predecessor_preserved'})
+                'operator_evidence_reference_preserved', 'illustration_predecessor_preserved',
+                'documented_audio_origin_preserved', 'private_guide_comparison_preserved'})
             self.assertTrue(all(value is True for value in checks.values()))
             with psycopg.connect(**target_local) as conn:
                 conn.execute('SET TRANSACTION READ ONLY')

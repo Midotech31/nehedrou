@@ -38,7 +38,10 @@ def main():
     from django.http import Http404
     from django.test import RequestFactory
     from core.models import User, Invitation, OperatorAcceptanceObservation
-    from catalog.models import EditorialAccessInvitation, MediaAsset
+    from catalog.guide_recovery import reconcile
+    from catalog.models import Activity, DraftWorkingCopy, EditorialAccessInvitation, MediaAsset
+    from catalog.readiness import referenced_asset
+    from catalog.review_dossier import review_dossier
     from care.models import Child
     from qualification.models import EvidenceDocument
     from core.views import export_child
@@ -102,6 +105,35 @@ def main():
         require(derived.image_predecessor_id == original.pk and derived.file.name != original.file.name and
                 derived.intact and derived.technical_metadata['sha256'] == original.technical_metadata['sha256'],
                 'RESTORED_ILLUSTRATION_ORIGIN_CHANGED')
+        audio_origin = MediaAsset.objects.get(pk=identities['audio_origin'])
+        activity = Activity.objects.get(pk=identities['editorial_activity'])
+        audio = referenced_asset(activity.audio_a, 'audio')
+        require(audio and str(audio.pk) == identities['documented_audio']
+                and audio.audio_predecessor_id == audio_origin.pk and audio.file.name != audio_origin.file.name
+                and audio.provenance['audio'] == audio_origin.provenance['audio']
+                and audio.technical_metadata['sha256'] == audio_origin.technical_metadata['sha256']
+                and str(audio.rights_evidence_id) == identities['audio_rights']
+                and audio_origin.intact and audio.documented, 'RESTORED_AUDIO_RIGHTS_ORIGIN_CHANGED')
+        audio_row = next(item for item in review_dossier(activity)['media'] if item['field'] == 'audio_a')
+        require(audio_row['audio_origin'] == {'predecessor_asset_id': str(audio_origin.pk),
+                'predecessor_sha256': audio_origin.technical_metadata['sha256']}, 'RESTORED_AUDIO_DOSSIER_CHANGED')
+        copy = DraftWorkingCopy.objects.get(pk=identities['working_copy'])
+        require(copy.activity_id == activity.pk and not copy.committed
+                and copy.base_digest != activity.fingerprint(), 'RESTORED_WORKING_COPY_CONTEXT_CHANGED')
+        request = factory.get('/fictional-restore-guide')
+        request.session = {}
+        request.user = User.objects.get(pk=identities['professional'])
+        comparison = reconcile(request, copy.pk)
+        require(comparison.status_code == 200 and 'no-store' in comparison['Cache-Control']
+                and b'FICTIONAL_PRIVATE_RESTORED_GUIDE' in comparison.content
+                and b'OLD_FICTIONAL_WORD' not in comparison.content, 'RESTORED_GUIDE_COMPARISON_CHANGED')
+        request.user = User.objects.get(pk=identities['family'])
+        try:
+            reconcile(request, copy.pk)
+        except Http404:
+            pass
+        else:
+            raise ReadcheckFailure('RESTORED_PRIVATE_GUIDE_DISCLOSED')
         observation = OperatorAcceptanceObservation.objects.get(pk=identities['operator_observation'])
         require(observation.recorded_by_id == identities['professional'] and
                 observation.check_code == 'recent_restore_and_dossier_access' and observation.scope == 'local_fictional' and
@@ -111,7 +143,8 @@ def main():
         'family_shared_feedback_preserved': True, 'unrelated_account_denied': True,
         'practice_invitation_delivery_preserved': True, 'editorial_invitation_delivery_preserved': True,
         'referenced_evidence_intact': True, 'referenced_image_intact': True,
-        'operator_evidence_reference_preserved': True, 'illustration_predecessor_preserved': True}))
+        'operator_evidence_reference_preserved': True, 'illustration_predecessor_preserved': True,
+        'documented_audio_origin_preserved': True, 'private_guide_comparison_preserved': True}))
 
 
 if __name__ == '__main__':
