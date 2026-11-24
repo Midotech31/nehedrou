@@ -114,6 +114,49 @@ class ManualEditorialHandoffTests(TestCase):
         manual_issue.assert_not_called()
         self.assertEqual(EditorialAccessInvitation.objects.get(email=legacy['email']).delivery, 'failed')
 
+    def test_email_unavailable_keeps_an_existing_personal_handoff(self):
+        recipient = User.objects.create_user('manual-recipient', 'manual-reviewer@example.test')
+        handoff, token = self.issue()
+        with patch('catalog.editorial_access.send_mail') as send:
+            attempt = issue_editorial_access_invitation(
+                self.manager, recipient.email, self.variety, 'clinical_review')
+        send.assert_not_called()
+        self.assertEqual(attempt.delivery, 'failed')
+        self.assertTrue(AuditEvent.objects.filter(
+            action='catalog.editorial_invitation_delivery_failed', object_id=str(attempt.pk)).exists())
+        handoff.refresh_from_db()
+        self.assertTrue(handoff.available)
+        self.assertFalse(AuditEvent.objects.filter(
+            action='catalog.editorial_invitation_revoked', object_id=str(handoff.pk)).exists())
+        grant = accept_editorial_access_invitation(recipient, token)
+        self.assertTrue(grant.clinical_review)
+        self.assertFalse(grant.edit or grant.linguistic_review or grant.publish)
+
+    @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
+    def test_transport_failure_preserves_handoff_until_a_later_send_succeeds(self):
+        handoff, _token = self.issue()
+        with patch('catalog.editorial_access.send_mail', side_effect=OSError('fictional outage')):
+            failed = issue_editorial_access_invitation(
+                self.manager, handoff.email, self.variety, handoff.capability)
+        self.assertEqual(failed.delivery, 'failed')
+        handoff.refresh_from_db()
+        self.assertTrue(handoff.available)
+        unrelated, _token = self.issue(capability='linguistic_review')
+        with patch('catalog.editorial_access.send_mail', return_value=1) as send:
+            sent = issue_editorial_access_invitation(
+                self.manager, handoff.email, self.variety, handoff.capability)
+        send.assert_called_once()
+        handoff.refresh_from_db()
+        failed.refresh_from_db()
+        unrelated.refresh_from_db()
+        self.assertEqual(sent.delivery, 'sent')
+        self.assertTrue(sent.available)
+        self.assertTrue(handoff.revoked)
+        self.assertTrue(failed.revoked)
+        self.assertTrue(unrelated.available)
+        self.assertTrue(AuditEvent.objects.filter(
+            action='catalog.editorial_invitation_revoked', object_id=str(handoff.pk)).exists())
+
     def test_manual_post_shows_link_once_with_recipient_scope_and_private_headers(self):
         payload = self.payload(email='  MANUAL-REVIEWER@EXAMPLE.TEST  ')
         with patch('catalog.editorial_access.send_mail') as send:
