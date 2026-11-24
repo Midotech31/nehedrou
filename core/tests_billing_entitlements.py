@@ -7,6 +7,7 @@ from unittest.mock import patch
 
 from django.contrib import admin
 from django.contrib.auth.models import Permission
+from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.exceptions import ValidationError
 from django.db import close_old_connections, connections
 from django.test import Client, RequestFactory, TestCase, TransactionTestCase, override_settings, skipUnlessDBFeature
@@ -14,6 +15,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from core.admin import EntitlementAdmin
+from core.complete_views import billing
 from core.models import AuditEvent, Entitlement, Invoice, Organization, User
 from core.billing import transition_invoice
 
@@ -237,19 +239,21 @@ class ConcurrentEntitlementTests(TransactionTestCase):
                 barrier = threading.Barrier(2)
 
                 def attempt(data):
-                    client, amount, token = data
+                    amount, token = data
                     close_old_connections()
                     try:
-                        barrier.wait(timeout=10)
                         payload = entitlement_data(amount=amount, entitlement_snapshot=token)
-                        return client.post(url, payload).status_code
+                        request = RequestFactory().post(url, payload)
+                        SessionMiddleware(lambda request: None).process_request(request)
+                        request.user = User.objects.get(pk=operator.pk)
+                        barrier.wait(timeout=10)
+                        return billing(request, pk=organization.pk).status_code
                     finally:
                         connections.close_all()
 
                 with ThreadPoolExecutor(max_workers=2) as executor:
                     amounts = ['100.00', '200.00']
-                    requests = zip((first_view, second_view), amounts, (first, second))
-                    results = list(executor.map(attempt, requests))
+                    results = list(executor.map(attempt, zip(amounts, (first, second))))
                 self.assertCountEqual(results, [302, 409])
                 entitlement = Entitlement.objects.get(organization=organization)
                 self.assertEqual(entitlement.amount, Decimal(amounts[results.index(302)]))
