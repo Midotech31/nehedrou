@@ -8,7 +8,7 @@ from core import views
 from core import security, complete_views, billing_views
 from catalog import views as editorial_views
 from catalog import editorial_access_views
-from catalog import working, quality, guided_audio
+from catalog import working, quality, guided_audio, recording_retention
 from core.health import health
 from core import operations_views
 from core.email_forms import CanonicalPasswordResetForm
@@ -99,6 +99,7 @@ urlpatterns += i18n_patterns(
     path('editorial/<uuid:pk>/transition/', editorial_views.change_state, name='editorial_transition'),
     path('editorial/<uuid:pk>/clone/', editorial_views.clone, name='editorial_clone'),
     path('editorial/upload/', editorial_views.upload, name='editorial_upload'),
+    path('editorial/uploads/<uuid:pk>/', recording_retention.result, name='editorial_upload_result'),
     path('editorial/<uuid:pk>/audio/<str:side>/associate/', guided_audio.associate, name='editorial_audio_associate'),
     path('media/<uuid:pk>/', editorial_views.media, name='editorial_media'),
     path('editorial/media/<uuid:pk>/revoke/', editorial_views.revoke_media, name='editorial_media_revoke'),

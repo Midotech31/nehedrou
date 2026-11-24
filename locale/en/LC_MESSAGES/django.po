@@ -6194,3 +6194,42 @@ msgstr "The link is shown only once. If you did not copy it, create another pers
 
 msgid "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role."
 msgstr "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role."
+
+msgid "Your attached recording stays in this tab if saving fails. Keep this tab open or download the WAV before leaving."
+msgstr "Your attached recording stays in this tab if saving fails. Keep this tab open or download the WAV before leaving."
+
+msgid "Download your WAV before saving in this browser. The normal upload will reload this page."
+msgstr "Download your WAV before saving in this browser. The normal upload will reload this page."
+
+msgid "Saving this recording… Keep this page open."
+msgstr "Saving this recording… Keep this page open."
+
+msgid "Check the form. Your recording is still here."
+msgstr "Check the form. Your recording is still here."
+
+msgid "The save outcome could not be confirmed. Your WAV is still here. Retry the unchanged form or download it before leaving."
+msgstr "The save outcome could not be confirmed. Your WAV is still here. Retry the unchanged form or download it before leaving."
+
+msgid "This attempt was already used for different content. Open the saved result before starting another upload."
+msgstr "This attempt was already used for different content. Open the saved result before starting another upload."
+
+msgid "Your recording was saved. Open the saved media."
+msgstr "Your recording was saved. Open the saved media."
+
+msgid "Open saved media"
+msgstr "Open saved media"
+
+msgid "This recording upload request is invalid. Keep your WAV and reload the collection page."
+msgstr "This recording upload request is invalid. Keep your WAV and reload the collection page."
+
+msgid "Upload receipts are immutable."
+msgstr "Upload receipts are immutable."
+
+msgid "An upload receipt must belong to the uploader of its media."
+msgstr "An upload receipt must belong to the uploader of its media."
+
+msgid "An upload receipt requires an exact request fingerprint."
+msgstr "An upload receipt requires an exact request fingerprint."
+
+msgid "The saved recording is unavailable or changed. Your WAV is still here. Check the saved result before starting another upload."
+msgstr "The saved recording is unavailable or changed. Your WAV is still here. Check the saved result before starting another upload."

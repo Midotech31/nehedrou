@@ -28,6 +28,7 @@
     objectURL = undefined; blob = undefined;
     preview.hidden = use.hidden = download.hidden = true;
     download.removeAttribute('href');
+    form.dispatchEvent(new CustomEvent('nehdrou:recording-cleared'));
   }
   function idle() {
     busy = false; start.disabled = false; stop.disabled = cancel.disabled = true;
@@ -112,7 +113,9 @@
       form.elements.file.files = transfer.files; attachedFile = transfer.files[0];
       if (!form.elements.file.files.length) throw new Error('file');
       form.elements.kind.value = 'audio'; form.elements.audio_source.value = 'human';
-      message('attached'); form.elements.audio_text?.focus();
+      message('attached');
+      form.dispatchEvent(new CustomEvent('nehdrou:recording-attached',{detail:{file:form.elements.file.files[0]}}));
+      form.elements.audio_text?.focus();
     } catch (_) { message('download'); }
   });
   form.elements.file.addEventListener('change',clearPreview);
