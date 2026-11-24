@@ -142,6 +142,7 @@ jobs:
           core.tests_billing_lifecycle
           core.tests_billing_entitlements
           core.test_live_integrity_writes
+          core.tests_practice_active_actor
           core.tests_restore_targets
           core.tests_startup_database.PostgreSQLMigrationDatabaseRouteTests
           core.tests_concurrency.ConcurrentQualificationTests

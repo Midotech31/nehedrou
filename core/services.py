@@ -470,13 +470,28 @@ def accept_invitation_digest(actor, digest):
     audit(actor, 'invitation.accepted', invite, invite.organization)
     return invite.child
 
+def lock_active_practice_actor(actor):
+    """Recheck the persisted account under the existing care-write User lock.
+
+    Call after the Organization lock and inside the caller's transaction. A
+    request authenticated before deactivation must not use its stale snapshot.
+    NO KEY UPDATE preserves independent audit/record foreign-key references.
+    """
+    from .models import User
+    try:
+        current = User.objects.select_for_update(no_key=True).get(pk=getattr(actor, 'pk', None))
+    except User.DoesNotExist:
+        raise ValidationError(_('Access is no longer available.'))
+    if not current.is_active:
+        raise ValidationError(_('Access is no longer available.'))
+    return current
+
+
 @transaction.atomic
 def record_practice(actor, item, payload, ticket):
     # Serialize same-user submissions for idempotency, including requests racing on PostgreSQL.
-    from .models import User
     Organization.objects.select_for_update().get(pk=item.program.organization_id)
-    # Serialise actor mutations while allowing independent FK audit references.
-    User.objects.select_for_update(no_key=True).get(pk=actor.pk)
+    actor = lock_active_practice_actor(actor)
     from .access import visible_programs
     if not Child.objects.select_for_update().filter(pk=item.program.child_id).first():
         raise ValidationError(_('Access is no longer available.'))

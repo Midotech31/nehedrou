@@ -8,15 +8,14 @@ from django.utils.translation import gettext as _
 from care.models import Child, Program, ProgramItem, PracticeRun, PracticeRunTask
 from catalog.models import Activity
 from .access import visible_programs
-from .models import Organization, User
-from .services import audit
+from .models import Organization
+from .services import audit, lock_active_practice_actor
 
 
 def lock_program(actor, reference):
     # Same order as clinical mutations; the practice lock serializes erasure/revocation.
     Organization.objects.select_for_update().get(pk=reference.organization_id)
-    # Serialise actor mutations while allowing independent FK audit references.
-    User.objects.select_for_update(no_key=True).get(pk=actor.pk)
+    actor = lock_active_practice_actor(actor)
     child = Child.objects.select_for_update().filter(pk=reference.child_id).first()
     program = Program.objects.select_for_update().filter(pk=reference.pk).first()
     if not child or not program or not visible_programs(actor).filter(pk=program.pk).exists():
