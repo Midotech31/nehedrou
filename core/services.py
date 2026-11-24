@@ -311,6 +311,11 @@ def revoke_membership(actor, organization, membership_id):
 @transaction.atomic
 def transfer_child(actor, reference, recipient):
     from .models import ChildResponsibilityTransfer, User
+    Organization.objects.select_for_update().get(pk=reference.organization_id)
+    # The shared clinical entry point locks the actor. A transfer also locks a
+    # recipient, so acquire both accounts in stable order across practices.
+    list(User.objects.select_for_update(no_key=True).filter(
+        pk__in=[actor.pk, recipient.pk]).order_by('pk'))
     child = lock_clinical_child(actor, reference)
     # Recheck current account and membership after locking: form choices can become stale.
     recipient = User.objects.select_for_update().filter(pk=recipient.pk, is_active=True).first()
@@ -341,26 +346,23 @@ def check_entitlement(organization, creating_child=False):
         raise ValidationError(_('The active child quota has been reached.'))
 
 def lock_clinical_child(actor, child):
-    """All clinical mutations lock practice, then child, then dependent records."""
-    Organization.objects.select_for_update().get(pk=child.organization_id)
-    locked = Child.objects.select_for_update().filter(pk=child.pk).first()
+    """Clinical writes lock practice, current active actor, then child/records."""
+    organization = Organization.objects.select_for_update().get(pk=child.organization_id)
+    actor = lock_active_practice_actor(actor)
+    locked = Child.objects.select_for_update().filter(pk=child.pk, organization=organization).first()
     if not locked:
         raise ValidationError(_('Access is no longer available.'))
     from .access import professional_children
     if not professional_children(actor).filter(pk=locked.pk).exists():
         raise ValidationError(_('Access is no longer available.'))
+    locked.organization = organization
     return locked
 
 @transaction.atomic
 def create_program(actor, child, data):
-    org = Organization.objects.select_for_update().get(pk=child.organization_id)
-    child = Child.objects.select_for_update().filter(pk=child.pk).first()
-    if child is None:
-        raise ValidationError(_('Access is no longer available.'))
-    from .access import professional_children
+    child = lock_clinical_child(actor, child)
+    org = child.organization
     from catalog.models import Activity
-    if not professional_children(actor).filter(pk=child.pk).exists():
-        raise ValidationError(_('Access is no longer available.'))
     if not child.active:
         raise ValidationError(_('This profile is archived. Existing records remain accessible.'))
     check_entitlement(org)
