@@ -6638,3 +6638,12 @@ msgstr "Le dossier a été effacé lors du traitement d’une autre demande conc
 
 msgid "Erasing this profile also resolves pending erasure requests for the same profile."
 msgstr "L’effacement de ce profil clôt également les demandes d’effacement en attente qui le concernent."
+
+msgid "Reviewer account inactive"
+msgstr "Compte de relecture inactif"
+
+msgid "Review permission missing for this discipline and variety"
+msgstr "Droit de relecture manquant pour cette discipline et cette variété"
+
+msgid "Reviewer requirements met for this discipline and variety"
+msgstr "Conditions de relecture réunies pour cette discipline et cette variété"

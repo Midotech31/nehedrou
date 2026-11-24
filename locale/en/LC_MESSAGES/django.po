@@ -6638,3 +6638,12 @@ msgstr "The dossier was erased while processing another request for the same pro
 
 msgid "Erasing this profile also resolves pending erasure requests for the same profile."
 msgstr "Erasing this profile also resolves pending erasure requests for the same profile."
+
+msgid "Reviewer account inactive"
+msgstr "Reviewer account inactive"
+
+msgid "Review permission missing for this discipline and variety"
+msgstr "Review permission missing for this discipline and variety"
+
+msgid "Reviewer requirements met for this discipline and variety"
+msgstr "Reviewer requirements met for this discipline and variety"

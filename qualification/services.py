@@ -2,6 +2,7 @@
 import uuid
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
+from django.db.models import Case, Exists, OuterRef, Value, When
 from django.utils.translation import gettext as _
 from catalog.models import EditorialGrant, Variety
 from catalog.services import allowed, require_review_snapshot
@@ -13,6 +14,11 @@ REQUIRED_EVIDENCE = ('clinical_content', 'rights', 'governance', 'pilot', 'opera
 COMPETENCE_DECLARATION_FIELDS = ('variety', 'discipline', 'professional_role', 'experience',
                                  'credential_reference', 'evidence', 'active')
 
+def _has_current_check(competence):
+    return bool(competence and competence.professional_role.strip()
+                and competence.experience.strip() and competence.independently_verified)
+
+
 def has_competence(user, variety, discipline):
     if not user.is_active:
         return False
@@ -21,7 +27,32 @@ def has_competence(user, variety, discipline):
         rows = list(ReviewerCompetence.objects.filter(user=user, variety=variety, discipline=discipline, active=True).select_related('evidence','current_decision__decided_by'))
         return rows[0] if rows else None
     competence = request_value('competences', (user.pk, variety.pk, discipline), load_competence)
-    return bool(competence and competence.professional_role.strip() and competence.experience.strip() and competence.independently_verified)
+    return _has_current_check(competence)
+
+
+def with_review_permission(declarations):
+    """Load the exact variety and discipline authority for each declaration."""
+    grants = EditorialGrant.objects.filter(user_id=OuterRef('user_id'), variety_id=OuterRef('variety_id'))
+    return declarations.select_related('user', 'variety', 'evidence', 'current_decision__decided_by').annotate(
+        has_review_permission=Case(
+            When(user__is_superuser=True, then=Value(True)),
+            When(discipline='clinical', then=Exists(grants.filter(clinical_review=True))),
+            When(discipline='linguistic', then=Exists(grants.filter(linguistic_review=True))),
+            default=Value(False),
+        )
+    )
+
+
+def competence_actionability(declaration):
+    """Explain whether this person's approval could count in the declared scope."""
+    if not declaration.user.is_active:
+        return 'account_inactive'
+    if not declaration.has_review_permission:
+        return 'permission_missing'
+    if not _has_current_check(declaration):
+        return 'check_required'
+    return 'eligible'
+
 
 @transaction.atomic
 def save_competence_declaration(actor, data, competence_id=None):

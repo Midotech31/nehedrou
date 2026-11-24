@@ -6638,3 +6638,12 @@ msgstr "مُحي الملف عند معالجة طلب آخر يتعلق بال�
 
 msgid "Erasing this profile also resolves pending erasure requests for the same profile."
 msgstr "يؤدي محو هذا الملف أيضًا إلى إغلاق طلبات المحو المعلّقة التي تخصّه."
+
+msgid "Reviewer account inactive"
+msgstr "حساب المراجع غير نشط"
+
+msgid "Review permission missing for this discipline and variety"
+msgstr "صلاحية المراجعة غير متاحة لهذا الاختصاص وهذا التنوع اللغوي"
+
+msgid "Reviewer requirements met for this discipline and variety"
+msgstr "شروط المراجعة مستوفاة لهذا الاختصاص وهذا التنوع اللغوي"
