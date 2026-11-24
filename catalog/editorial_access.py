@@ -164,6 +164,10 @@ def accept_editorial_access_invitation(actor, raw_token):
     invitation.used_at = timezone.now()
     invitation.accepted_by = user
     invitation.save(update_fields=['used_at', 'accepted_by'])
+    # An email replacement can still be pending during acceptance. Consume
+    # any other links for this one grant before it could later be revoked.
+    alternatives = _live_editorial_invitations(invitation.email, variety, invitation.capability)
+    _revoke_replaced_invitations(user, alternatives)
     audit(user, 'catalog.editorial_invitation_accepted', invitation)
     return grant
 

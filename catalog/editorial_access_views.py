@@ -44,7 +44,9 @@ def manage_editorial_access(request):
                 form = EditorialAccessInvitationForm(initial={'delivery_method': 'manual'})
             else:
                 invitation = issue_editorial_access_invitation(request.user, **data)
-                if invitation.delivery == 'failed':
+                if invitation.revoked:
+                    messages.warning(request, _('The editorial invitation was revoked.'))
+                elif invitation.delivery == 'failed':
                     messages.warning(request, _('The invitation was recorded, but email delivery failed. Configure email or try again; no account was granted access.'))
                 elif invitation.delivery == 'console':
                     messages.info(request, _('Development only: the invitation link was written to the local mail console.'))
