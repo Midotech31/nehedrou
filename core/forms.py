@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
@@ -73,6 +75,15 @@ class ProgramForm(forms.Form):
 
 class InvitationForm(forms.Form):
     email = forms.EmailField(label=_('Caregiver email'))
+    creation_id = forms.UUIDField(required=False, initial=uuid4, widget=forms.HiddenInput)
+
+    def clean(self):
+        data = super().clean()
+        method = self.data.get('delivery_method', 'email')
+        if method not in ('email', 'manual'):
+            raise forms.ValidationError(_('Choose how to deliver the invitation.'))
+        data['delivery_method'] = method
+        return data
 
     def clean_email(self):
         email = self.cleaned_data['email']

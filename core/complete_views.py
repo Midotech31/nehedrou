@@ -16,8 +16,8 @@ from .access import clinician_child, professional_children, manager, visible_chi
 from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .forms import ChildForm, ProgramForm, ReassignForm, PrivacyDecisionForm
 from .models import Organization, PrivacyRequest, Invitation, Entitlement, Invoice, NoticeAcknowledgement
-from .access import CURRENT_NOTICE_VERSION, notice_gate
-from .services import audit, log_child_access, check_entitlement, create_program, lock_clinical_child, accept_invitation
+from .access import CURRENT_NOTICE_VERSION, notice_gate, PENDING_NOTICE_INVITATION_DIGEST, LEGACY_PENDING_NOTICE_INVITATION_TOKEN
+from .services import audit, log_child_access, check_entitlement, create_program, lock_clinical_child, accept_invitation_digest, revoke_practice_invitation
 
 @login_required
 def child_edit(request, pk):
@@ -221,20 +221,28 @@ def invoice_create(request, pk):
 def revoke_member_invitation(request, pk):
     member = manager(request)
     invite = get_object_or_404(Invitation, pk=pk, organization=member.organization, kind='clinician')
-    invite.revoked = True
-    invite.save()
-    audit(request.user, 'invitation.revoked', invite, member.organization)
+    try:
+        revoke_practice_invitation(request.user, invite.pk, member.organization, None, 'clinician')
+    except ValidationError as error:
+        messages.error(request, ' '.join(error.messages))
     return redirect('members')
 
 def pending_notice_invitation(request):
-    token = request.session.get('pending_notice_invitation_token', '')
-    if not token:
-        return None
-    token_hash = hashlib.sha256(token.encode()).hexdigest()
-    invitation = Invitation.objects.filter(token_hash=token_hash, email__iexact=request.user.email).select_related('organization').first()
+    digest = request.session.get(PENDING_NOTICE_INVITATION_DIGEST)
+    if not digest:
+        # Sessions created by older releases can finish the same notice step.
+        legacy_token = request.session.pop(LEGACY_PENDING_NOTICE_INVITATION_TOKEN, '')
+        if not legacy_token:
+            return None
+        digest = hashlib.sha256(legacy_token.encode()).hexdigest()
+    invitation = Invitation.objects.filter(
+        token_hash=digest, email__iexact=request.user.email,
+    ).select_related('organization').first()
     if not invitation or not invitation.available:
-        request.session.pop('pending_notice_invitation_token', None)
+        request.session.pop(PENDING_NOTICE_INVITATION_DIGEST, None)
         return None
+    if not request.session.get(PENDING_NOTICE_INVITATION_DIGEST):
+        request.session[PENDING_NOTICE_INVITATION_DIGEST] = digest
     return invitation
 
 
@@ -252,9 +260,9 @@ def notice(request):
                 obj, _created = NoticeAcknowledgement.objects.get_or_create(user=request.user, organization=org, version=CURRENT_NOTICE_VERSION, defaults={'language': get_language()})
                 audit(request.user, 'notice.acknowledged', obj, org)
                 if pending:
-                    accept_invitation(request.user, request.session['pending_notice_invitation_token'])
+                    accept_invitation_digest(request.user, pending.token_hash)
             if pending:
-                request.session.pop('pending_notice_invitation_token', None)
+                request.session.pop(PENDING_NOTICE_INVITATION_DIGEST, None)
                 request.session['workspace'] = 'family' if pending.kind == 'family' else 'professional'
                 if pending.kind == 'clinician':
                     request.session['organization'] = str(pending.organization_id)
