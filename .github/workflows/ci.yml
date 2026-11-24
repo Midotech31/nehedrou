@@ -145,4 +145,5 @@ jobs:
           catalog.tests_guided_audio.GuidedAudioConcurrencyTests
           catalog.tests_working_concurrency.WorkingCopyConcurrencyTests
           catalog.tests_editorial_manual_concurrency.ManualEditorialHandoffConcurrencyTests
+          catalog.tests_publishing_access.PublishingAccessConcurrencyTests
           followup.tests.FollowupConcurrencyTests

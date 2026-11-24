@@ -59,3 +59,5 @@ Le compte `gestionnaire` peut inviter des éditeurs et relecteurs par remise man
 Le porteur a confirmé le 1 novembre 2026 que les responsables de publication des vraies relectures ne sont pas encore désignés. Leur identité, leur périmètre par variété et leur provisionnement explicite restent à établir. Les invitations limitées n'accordent pas ce rôle et ne doivent pas être utilisées pour le contourner. Aucun rôle réel, contrôle de compétence, avis ou ouverture clinique n'est créé par cette documentation.
 
 Pour une relecture : accepter l'invitation de sa propre variété, déclarer son expérience dans **Contenu et droits**, faire vérifier la déclaration par une autre personne autorisée, puis examiner la version soumise par l'éditeur. Une décision porte sur son empreinte exacte. La validation des approches, la revue d'un contenu et la qualification clinique de l'application restent des niveaux distincts.
+
+L’exploitant dispose d’une procédure dédiée pour attribuer ou retirer la publication d’un compte existant sur une variété précise, après sa désignation. Voir [le provisionnement opérateur](EXPLOITATION.md#attribuer-ou-retirer-la-publication-pour-une-variété).
