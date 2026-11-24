@@ -6023,3 +6023,15 @@ msgstr "Le justificatif de familiarité doit concerner la variété parlée de l
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "Une sélection inchangée conserve son empreinte enregistrée. Pour effacer une référence, demandez explicitement son retrait."
+
+msgid "Change password"
+msgstr "Changer le mot de passe"
+
+msgid "Enter your current password and choose a new password. No email is needed."
+msgstr "Saisissez votre mot de passe actuel et choisissez un nouveau mot de passe. Aucun courriel n’est nécessaire."
+
+msgid "Password changed"
+msgstr "Mot de passe modifié"
+
+msgid "Your password has been changed. Other sessions will require you to sign in again."
+msgstr "Votre mot de passe a été modifié. Les autres sessions nécessiteront une nouvelle connexion."

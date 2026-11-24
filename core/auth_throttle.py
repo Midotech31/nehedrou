@@ -26,6 +26,7 @@ LIMITS = {
     'invite': (10, 30, 120),
     'password_reset': (3, 5, 100),
     'password_reset_confirm': (5, 10, 100),
+    'password_change': (5, 10, 120),
     'mfa_setup': (5, 10, 120),
     'mfa_verify': (5, 10, 120),
     'mfa_recovery': (5, 10, 120),
@@ -71,7 +72,7 @@ def client_origin(request):
 
 
 def attempt_identity(request, operation):
-    if operation.startswith('mfa_'):
+    if operation.startswith('mfa_') or operation == 'password_change':
         return 'user:' + str(request.user.pk) if request.user.is_authenticated else 'anonymous'
     if operation == 'invite':
         return request.resolver_match.kwargs.get('token', '')[:256]
