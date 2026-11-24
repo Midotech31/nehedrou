@@ -6164,3 +6164,27 @@ msgstr "This assigned version is shown for reference. It is unavailable for new 
 
 msgid "Media unavailable for this version"
 msgstr "Media unavailable for this version"
+
+msgid "Your reviewer experience"
+msgstr "Your reviewer experience"
+
+msgid "For this spoken variety, review permission and independently checked experience are separate requirements. This status does not approve the content."
+msgstr "For this spoken variety, review permission and independently checked experience are separate requirements. This status does not approve the content."
+
+msgid "Experience declaration needed"
+msgstr "Experience declaration needed"
+
+msgid "Declaration inactive"
+msgstr "Declaration inactive"
+
+msgid "Independent check current"
+msgstr "Independent check current"
+
+msgid "View or update your declaration"
+msgstr "View or update your declaration"
+
+msgid "An authorised publisher must check your declaration independently. You cannot verify your own experience."
+msgstr "An authorised publisher must check your declaration independently. You cannot verify your own experience."
+
+msgid "You may request changes without approving this content. Approval also requires complete exact-version content and media."
+msgstr "You may request changes without approving this content. Approval also requires complete exact-version content and media."

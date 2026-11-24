@@ -99,6 +99,16 @@ def competence(request,pk=None):
     form = CompetenceForm(request.POST or None,instance=obj)
     form.fields['variety'].queryset = varieties(request.user)
     form.fields['evidence'].queryset = private_documents(request.user)
+
+    if not pk and request.method == 'GET':
+        # A personal review link only prefills an unsaved declaration. The scoped
+        # queryset and the existing POST/service checks remain authoritative.
+        selected = form.fields['variety'].queryset.filter(code=request.GET.get('variety', '')).first()
+        if selected:
+            form.initial['variety'] = selected.pk
+        discipline = request.GET.get('discipline', '')
+        if discipline in dict(form.fields['discipline'].choices):
+            form.initial['discipline'] = discipline
     if request.method=='POST' and form.is_valid():
         try:
             obj = save_competence_declaration(request.user, form.cleaned_data, obj.pk if pk else None)

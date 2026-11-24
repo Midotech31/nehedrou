@@ -6164,3 +6164,27 @@ msgstr "Cette version déjà affectée reste consultable à titre de référence
 
 msgid "Media unavailable for this version"
 msgstr "Médias indisponibles pour cette version"
+
+msgid "Your reviewer experience"
+msgstr "Votre expérience de relecture"
+
+msgid "For this spoken variety, review permission and independently checked experience are separate requirements. This status does not approve the content."
+msgstr "Pour cette variété parlée, l’autorisation de relire et la vérification indépendante de l’expérience sont deux exigences distinctes. Cet état n’approuve pas le contenu."
+
+msgid "Experience declaration needed"
+msgstr "Déclaration d’expérience requise"
+
+msgid "Declaration inactive"
+msgstr "Déclaration inactive"
+
+msgid "Independent check current"
+msgstr "Vérification indépendante à jour"
+
+msgid "View or update your declaration"
+msgstr "Consulter ou modifier votre déclaration"
+
+msgid "An authorised publisher must check your declaration independently. You cannot verify your own experience."
+msgstr "Une personne habilitée à publier doit vérifier votre déclaration de manière indépendante. Vous ne pouvez pas vérifier votre propre expérience."
+
+msgid "You may request changes without approving this content. Approval also requires complete exact-version content and media."
+msgstr "Vous pouvez demander des corrections sans approuver ce contenu. Une approbation exige aussi le contenu et les médias complets de la version exacte."

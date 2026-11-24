@@ -1,0 +1,17 @@
+{% load i18n %}
+{% if reviewer_experience %}
+<section class="card reviewer-experience" aria-labelledby="reviewer-experience-title">
+  <h2 id="reviewer-experience-title">{% translate "Your reviewer experience" %}</h2>
+  <p>{% translate "For this spoken variety, review permission and independently checked experience are separate requirements. This status does not approve the content." %}</p>
+  {% for row in reviewer_experience %}
+  <div class="report-row" data-reviewer-discipline="{{ row.kind }}" data-experience-state="{{ row.state }}">
+    <div><strong>{{ row.kind_label }} · {{ activity.variety.display_label }}</strong>
+      <p><span class="badge">{{ row.state_label }}</span></p>
+      {% if row.state == 'check_required' %}<p>{% translate "An authorised publisher must check your declaration independently. You cannot verify your own experience." %}</p>{% endif %}
+      <a class="button secondary" href="{{ row.url }}">{{ row.action_label }}</a>
+    </div>
+  </div>
+  {% endfor %}
+  {% if can_review %}<p>{% translate "You may request changes without approving this content. Approval also requires complete exact-version content and media." %}</p>{% endif %}
+</section>
+{% endif %}
