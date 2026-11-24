@@ -10,7 +10,7 @@ from catalog import views as editorial_views
 from catalog import editorial_access_views
 from catalog import working, quality, guided_audio, recording_retention, image_rights
 from core.health import health
-from core import operations_views
+from core import operations_views, operator_evidence_views
 from core.email_forms import CanonicalPasswordResetForm
 from core.password_views import AccountPasswordChangeView
 from core.email_views import PasswordRecoveryView, PasswordRecoveryDoneView
@@ -75,6 +75,7 @@ urlpatterns += i18n_patterns(
     path('practice/settings/', complete_views.organization_settings, name='organization_settings'),
     path('operations/', operations_views.diagnostics, name='operations_diagnostics'),
     path('operations/readiness/', operations_views.launch_readiness_report, name='launch_readiness_report'),
+    path('operations/readiness/evidence/', operator_evidence_views.operator_evidence, name='operator_acceptance_evidence'),
     path('operations/register/', operations_views.processing_register, name='processing_register'),
     path('operations/register/<uuid:pk>/', operations_views.processing_register, name='processing_register_edit'),
     path('operations/editorial-access/', editorial_access_views.manage_editorial_access, name='editorial_access_management'),

@@ -10,6 +10,10 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from .billing_validation import validate_billing_currency
+from .operator_acceptance import (
+    OperatorAcceptanceCheck, OperatorObservationOutcome, OperatorObservationScope,
+    validate_evidence_sha256, validate_observed_on,
+)
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
@@ -210,6 +214,37 @@ class ProcessingActivityRevision(models.Model):
 
     def delete(self, *args, **kwargs):
         raise ValidationError(_('Register history entries cannot be deleted.'))
+
+
+class OperatorAcceptanceObservation(CheckedModel):
+    """Append-only metadata for a check performed outside the application."""
+    check_code = models.CharField(max_length=40, choices=OperatorAcceptanceCheck.choices)
+    scope = models.CharField(max_length=20, choices=OperatorObservationScope.choices)
+    outcome = models.CharField(max_length=14, choices=OperatorObservationOutcome.choices)
+    observed_on = models.DateField(validators=[validate_observed_on])
+    evidence_sha256 = models.CharField(max_length=64, validators=[validate_evidence_sha256])
+    recorded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='+')
+    recorded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-observed_on', '-recorded_at', '-pk']
+        indexes = [
+            models.Index(fields=['check_code', 'scope', '-observed_on', '-recorded_at'],
+                         name='ops_observation_by_scope'),
+        ]
+
+    def clean(self):
+        super().clean()
+        if isinstance(self.evidence_sha256, str):
+            self.evidence_sha256 = self.evidence_sha256.lower()
+
+    def save(self, *args, **kwargs):
+        if not self._state.adding:
+            raise ValidationError(_('Operator evidence history is append-only.'))
+        return super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        raise ValidationError(_('Operator evidence history cannot be deleted.'))
 
 
 class PrivacyRequest(CheckedModel):

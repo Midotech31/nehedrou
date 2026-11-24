@@ -9,19 +9,11 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import connection, DatabaseError, transaction
+from core.operator_acceptance import OperatorAcceptanceCheck
 from core.storage_health import STORAGE_ERRORS
 
 MAX_PROBE_BYTES = 1024 * 1024
-OPERATOR_ACCEPTANCE_REQUIRED = (
-    'trusted_proxy_chain',
-    'private_storage_access_and_restart',
-    'offhost_backup_destination_and_schedule',
-    'key_custody_and_retention',
-    'recent_restore_and_dossier_access',
-    'alert_recipients_and_escalation',
-    'live_email_delivery',
-    'validated_recovery_objectives',
-)
+OPERATOR_ACCEPTANCE_REQUIRED = tuple(OperatorAcceptanceCheck.values)
 
 
 def operator_acceptance_report():

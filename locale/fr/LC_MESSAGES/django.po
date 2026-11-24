@@ -6353,3 +6353,78 @@ msgstr "Illustration d’origine"
 
 msgid "Generated review pack"
 msgstr "Lot d’images générées pour la relecture"
+
+msgid "Local test with fictional data"
+msgstr "Essai local avec des données fictives"
+
+msgid "Hosted demonstration"
+msgstr "Démonstration hébergée"
+
+msgid "Intended live service"
+msgstr "Service réel visé"
+
+msgid "Reported successful check"
+msgstr "Vérification déclarée concluante"
+
+msgid "Reported issue or incomplete result"
+msgstr "Problème ou résultat incomplet signalé"
+
+msgid "Enter a SHA-256 digest with exactly 64 hexadecimal characters."
+msgstr "Saisissez une empreinte SHA-256 de 64 caractères hexadécimaux exactement."
+
+msgid "The observation date cannot be in the future."
+msgstr "La date de l’observation ne peut pas être dans le futur."
+
+msgid "Operator evidence history is append-only."
+msgstr "L’historique des preuves accepte uniquement de nouvelles entrées."
+
+msgid "Operator evidence history cannot be deleted."
+msgstr "Les entrées du registre des preuves ne peuvent pas être supprimées."
+
+msgid "Operator check"
+msgstr "Contrôle d’exploitation"
+
+msgid "Observed environment"
+msgstr "Environnement observé"
+
+msgid "Reported outcome"
+msgstr "Résultat déclaré"
+
+msgid "Evidence SHA-256"
+msgstr "Empreinte SHA-256 du justificatif"
+
+msgid "Submit only the listed operator evidence fields."
+msgstr "Renseignez uniquement les champs de preuve affichés."
+
+msgid "The operator observation was recorded."
+msgstr "L’observation d’exploitation a été enregistrée."
+
+msgid "Operator evidence register"
+msgstr "Registre des preuves d’exploitation"
+
+msgid "Recorded operator observations"
+msgstr "Observations d’exploitation consignées"
+
+msgid "The latest observation is shown for each check and environment."
+msgstr "L’observation la plus récente est affichée pour chaque contrôle et chaque environnement."
+
+msgid "Open the evidence register"
+msgstr "Ouvrir le registre des preuves"
+
+msgid "Keep the evidence in private storage. The SHA-256 identifies the retained file. The operator verifies the evidence and the reported outcome."
+msgstr "Conservez le justificatif dans un espace privé. L’empreinte SHA-256 identifie le fichier conservé. La vérification du justificatif et du résultat déclaré relève de l’exploitant."
+
+msgid "No operator observations recorded yet."
+msgstr "Aucune observation d’exploitation n’a encore été consignée."
+
+msgid "Record an operator observation"
+msgstr "Consigner une observation d’exploitation"
+
+msgid "Enter the date and environment of the original check. Use a new record to correct or update an observation."
+msgstr "Indiquez la date et l’environnement du contrôle initial. Ajoutez une entrée pour corriger ou actualiser une observation."
+
+msgid "Record observation"
+msgstr "Consigner l’observation"
+
+msgid "Operator observation history"
+msgstr "Historique des observations d’exploitation"

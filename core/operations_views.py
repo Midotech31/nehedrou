@@ -13,6 +13,8 @@ from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_http_methods
 from core.ops_readiness import operations_report, operator_acceptance_report
 from core.forms import ProcessingActivityForm
+from core.operator_acceptance import OperatorAcceptanceCheck
+from core.operator_evidence_views import latest_operator_observations
 from core.models import ProcessingActivity
 from core.technical_storage_probe import PROBE_KEY, PROBE_SHA256
 
@@ -61,16 +63,7 @@ MANUAL_READINESS_LABELS = {
     'clinical_effectiveness_claims_require_separate_evidence': _('Any clinical-effectiveness claim supported by separate evidence'),
 }
 
-OPERATOR_ACCEPTANCE_LABELS = {
-    'trusted_proxy_chain': _('Verification of the trusted proxy chain'),
-    'private_storage_access_and_restart': _('Test of private storage access and persistence after restart'),
-    'offhost_backup_destination_and_schedule': _('Test of the encrypted off-host backup destination and schedule'),
-    'key_custody_and_retention': _('Verification of backup key custody and archive retention'),
-    'recent_restore_and_dossier_access': _('Recent restore test and access to restored dossiers'),
-    'alert_recipients_and_escalation': _('Test of alert recipients and escalation procedure'),
-    'live_email_delivery': _('Receipt of invitation and recovery emails and successful use of their links'),
-    'validated_recovery_objectives': _('Validation of recovery time and data-loss objectives'),
-}
+OPERATOR_ACCEPTANCE_LABELS = dict(OperatorAcceptanceCheck.choices)
 
 EMAIL_LABELS = {
     **SMTP_LABELS,
@@ -137,7 +130,13 @@ def launch_readiness_report(request):
         }
         status = 503
     report.setdefault('generated_at', timezone.localtime().isoformat(timespec='seconds'))
+    observations = list(latest_operator_observations())
     if request.GET.get('format') == 'json':
+        report['operator_acceptance_observations'] = [{
+            'check': observation.check_code, 'scope': observation.scope, 'outcome': observation.outcome,
+            'observed_on': observation.observed_on.isoformat(), 'evidence_sha256': observation.evidence_sha256,
+            'recorded_at': observation.recorded_at.isoformat(),
+        } for observation in observations]
         response = HttpResponse(json.dumps(report, ensure_ascii=True, indent=2), content_type='application/json', status=status)
         response['Content-Disposition'] = 'attachment; filename="nehdrou-launch-readiness.json"'
     else:
@@ -146,6 +145,7 @@ def launch_readiness_report(request):
             'nav_section': 'operations',
             'report': report,
             'report_status': status,
+            'observations': observations,
             'check_rows': [(READINESS_CHECK_LABELS.get(key, key), bool(value)) for key, value in report.get('checks', {}).items()],
             'content_rows': [
                 (code, report.get('published_nondemo_counts_by_variety', {}).get(code, 0),

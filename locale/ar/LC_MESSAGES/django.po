@@ -6353,3 +6353,78 @@ msgstr "الصورة الأصلية"
 
 msgid "Generated review pack"
 msgstr "حزمة الصور المولَّدة للمراجعة"
+
+msgid "Local test with fictional data"
+msgstr "اختبار محلي ببيانات وهمية"
+
+msgid "Hosted demonstration"
+msgstr "العرض التجريبي المستضاف"
+
+msgid "Intended live service"
+msgstr "الخدمة الفعلية المستهدفة"
+
+msgid "Reported successful check"
+msgstr "تحقّق ناجح بحسب الإفادة"
+
+msgid "Reported issue or incomplete result"
+msgstr "مشكلة أو نتيجة غير مكتملة بحسب الإفادة"
+
+msgid "Enter a SHA-256 digest with exactly 64 hexadecimal characters."
+msgstr "أدخلوا بصمة SHA-256 من 64 محرفًا سداسيًا عشريًا بالضبط."
+
+msgid "The observation date cannot be in the future."
+msgstr "لا يمكن أن يكون تاريخ الملاحظة في المستقبل."
+
+msgid "Operator evidence history is append-only."
+msgstr "يتيح سجل الأدلة إضافة سجلات جديدة فقط."
+
+msgid "Operator evidence history cannot be deleted."
+msgstr "لا يمكن حذف سجلات الأدلة."
+
+msgid "Operator check"
+msgstr "فحص تشغيلي"
+
+msgid "Observed environment"
+msgstr "البيئة المرصودة"
+
+msgid "Reported outcome"
+msgstr "النتيجة المبلّغ عنها"
+
+msgid "Evidence SHA-256"
+msgstr "بصمة SHA-256 للدليل"
+
+msgid "Submit only the listed operator evidence fields."
+msgstr "أرسلوا الحقول المعروضة في سجل الأدلة فقط."
+
+msgid "The operator observation was recorded."
+msgstr "سُجّلت الملاحظة التشغيلية."
+
+msgid "Operator evidence register"
+msgstr "سجل الأدلة التشغيلية"
+
+msgid "Recorded operator observations"
+msgstr "الملاحظات التشغيلية المسجّلة"
+
+msgid "The latest observation is shown for each check and environment."
+msgstr "تُعرض أحدث ملاحظة لكل فحص ولكل بيئة."
+
+msgid "Open the evidence register"
+msgstr "فتح سجل الأدلة"
+
+msgid "Keep the evidence in private storage. The SHA-256 identifies the retained file. The operator verifies the evidence and the reported outcome."
+msgstr "احتفظوا بالدليل في مكان خاص. تحدّد بصمة SHA-256 الملف المحفوظ. وتقع مسؤولية التحقّق من الدليل والنتيجة المبلّغ عنها على مشغّل الخدمة."
+
+msgid "No operator observations recorded yet."
+msgstr "لم تُسجّل أي ملاحظات تشغيلية بعد."
+
+msgid "Record an operator observation"
+msgstr "تسجيل ملاحظة تشغيلية"
+
+msgid "Enter the date and environment of the original check. Use a new record to correct or update an observation."
+msgstr "أدخلوا تاريخ الفحص الأصلي وبيئته. أضيفوا سجلًا جديدًا لتصحيح ملاحظة أو تحديثها."
+
+msgid "Record observation"
+msgstr "تسجيل الملاحظة"
+
+msgid "Operator observation history"
+msgstr "تاريخ الملاحظات التشغيلية"

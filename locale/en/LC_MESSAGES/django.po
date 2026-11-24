@@ -6353,3 +6353,78 @@ msgstr "Original illustration"
 
 msgid "Generated review pack"
 msgstr "Generated review pack"
+
+msgid "Local test with fictional data"
+msgstr "Local test with fictional data"
+
+msgid "Hosted demonstration"
+msgstr "Hosted demonstration"
+
+msgid "Intended live service"
+msgstr "Intended live service"
+
+msgid "Reported successful check"
+msgstr "Reported successful check"
+
+msgid "Reported issue or incomplete result"
+msgstr "Reported issue or incomplete result"
+
+msgid "Enter a SHA-256 digest with exactly 64 hexadecimal characters."
+msgstr "Enter a SHA-256 digest with exactly 64 hexadecimal characters."
+
+msgid "The observation date cannot be in the future."
+msgstr "The observation date cannot be in the future."
+
+msgid "Operator evidence history is append-only."
+msgstr "Operator evidence history is append-only."
+
+msgid "Operator evidence history cannot be deleted."
+msgstr "Operator evidence history cannot be deleted."
+
+msgid "Operator check"
+msgstr "Operator check"
+
+msgid "Observed environment"
+msgstr "Observed environment"
+
+msgid "Reported outcome"
+msgstr "Reported outcome"
+
+msgid "Evidence SHA-256"
+msgstr "Evidence SHA-256"
+
+msgid "Submit only the listed operator evidence fields."
+msgstr "Submit only the listed operator evidence fields."
+
+msgid "The operator observation was recorded."
+msgstr "The operator observation was recorded."
+
+msgid "Operator evidence register"
+msgstr "Operator evidence register"
+
+msgid "Recorded operator observations"
+msgstr "Recorded operator observations"
+
+msgid "The latest observation is shown for each check and environment."
+msgstr "The latest observation is shown for each check and environment."
+
+msgid "Open the evidence register"
+msgstr "Open the evidence register"
+
+msgid "Keep the evidence in private storage. The SHA-256 identifies the retained file. The operator verifies the evidence and the reported outcome."
+msgstr "Keep the evidence in private storage. The SHA-256 identifies the retained file. The operator verifies the evidence and the reported outcome."
+
+msgid "No operator observations recorded yet."
+msgstr "No operator observations recorded yet."
+
+msgid "Record an operator observation"
+msgstr "Record an operator observation"
+
+msgid "Enter the date and environment of the original check. Use a new record to correct or update an observation."
+msgstr "Enter the date and environment of the original check. Use a new record to correct or update an observation."
+
+msgid "Record observation"
+msgstr "Record observation"
+
+msgid "Operator observation history"
+msgstr "Operator observation history"

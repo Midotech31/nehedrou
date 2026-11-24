@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="page-heading">
+  <div><h1>{% translate "Operator evidence register" %}</h1></div>
+  <div class="actions"><a class="button secondary" href="{% url 'launch_readiness_report' %}">{% translate "Launch readiness" %}</a></div>
+</div>
+<section class="card form-card" aria-labelledby="operator-evidence-form-title">
+  <h2 id="operator-evidence-form-title">{% translate "Record an operator observation" %}</h2>
+  {% include 'operator_evidence_explanation.html' %}
+  <p>{% translate "Enter the date and environment of the original check. Use a new record to correct or update an observation." %}</p>
+  <form method="post" id="operator-evidence-form">
+    {% csrf_token %}
+    {% include 'error_summary.html' %}
+    {{ form.as_p }}
+    <button class="button" type="submit">{% translate "Record observation" %}</button>
+  </form>
+</section>
+<section class="card" id="operator-evidence-history" aria-labelledby="operator-evidence-history-heading">
+  <h2 id="operator-evidence-history-heading">{% translate "Operator observation history" %}</h2>
+  {% include 'operator_evidence_table.html' %}
+  {% if page.has_other_pages %}
+  <nav class="pagination" aria-label="{% translate 'History pages' %}">
+    {% if page.has_previous %}<a class="button secondary" href="?page={{ page.previous_page_number }}">{% translate "Previous" %}</a>{% endif %}
+    <span>{% translate "Page" %} <bdi dir="ltr">{{ page.number }} / {{ page.paginator.num_pages }}</bdi></span>
+    {% if page.has_next %}<a class="button secondary" href="?page={{ page.next_page_number }}">{% translate "Next" %}</a>{% endif %}
+  </nav>
+  {% endif %}
+</section>
+{% endblock %}
