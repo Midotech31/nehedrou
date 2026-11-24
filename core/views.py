@@ -46,26 +46,42 @@ def demo_activity(request):
         from django.http import HttpResponseNotAllowed
         return HttpResponseNotAllowed(['GET', 'HEAD', 'POST'])
     from django.utils.translation import get_language
+    from urllib.parse import urlencode
+    language = get_language()
     examples = {
-        'fr': ('chat', 'rat', 'cat', 'rat', _('French · illustrative contrast')),
-        'en': ('coat', 'goat', 'coat', 'goat', _('English · illustrative contrast')),
-        'ar': ('دار', 'نار', 'house', 'fire', _('Algerian Darja · local proposal awaiting review')),
+        'fr-fr-pilot': ('chat', 'rat', 'cat', 'rat', _('French · illustrative contrast'), 'fr-FR'),
+        'en-us-general-pilot': ('coat', 'goat', 'coat', 'goat', _('English · illustrative contrast'), 'en-US'),
+        'ar-msa-pilot': ('قط', 'كلب', 'cat', 'dog', _('Standard Arabic · educational pilot'), 'ar'),
+        'ar-dz-pilot': ('دار', 'نار', 'house', 'fire', _('Algerian Darja · local proposal awaiting review'), 'ar-DZ'),
     }
-    word_a, word_b, image_a, image_b, example_variety = examples.get(get_language(), examples['fr'])
+    default_code = {'fr': 'fr-fr-pilot', 'en': 'en-us-general-pilot', 'ar': 'ar-dz-pilot'}.get(language, 'fr-fr-pilot')
+    query_choices = request.GET.getlist('variety')
+    posted_choices = request.POST.getlist('variety') if request.method == 'POST' else []
+    invalid_selection = (len(query_choices) > 1 or len(posted_choices) > 1
+        or any(code not in examples for code in query_choices + posted_choices)
+        or bool(query_choices and posted_choices and query_choices[0] != posted_choices[0]))
+    variety_code = (posted_choices or query_choices or [default_code])[0] if not invalid_selection else default_code
+    word_a, word_b, image_a, image_b, example_variety, word_language = examples[variety_code]
+    retry_url = reverse('demo_activity') + '?' + urlencode({'variety': variety_code})
+    variety_choices = [{'label': spec[4], 'selected': code == variety_code,
+                        'url': reverse('demo_activity') + '?' + urlencode({'variety': code})}
+                       for code, spec in examples.items()]
     form = DemoPracticeForm(request.POST if request.method == 'POST' else None)
     summary = None
-    if request.method == 'POST' and form.is_valid():
+    if request.method == 'POST' and not invalid_selection and form.is_valid():
         summary = {
             'completion': dict(form.fields['completion'].choices)[form.cleaned_data['completion']],
             'parent_report': dict(form.fields['parent_report'].choices)[form.cleaned_data['parent_report']],
             'answer': _('Stopped · no answer counted') if form.cleaned_data['completion'] == 'stopped' else _('Matching picture selected') if form.cleaned_data['answer'] == 'a' else _('A different picture selected'),
         }
     from catalog.content_catalog import public_example
-    example = public_example(get_language()) or {}
-    guide = dict(example.get('practice_guide', {}).get(get_language(), {}))
+    example = public_example(language, variety_code) or {}
+    guide = dict(example.get('practice_guide', {}).get(language, {}))
     if guide:
-        guide['language'] = get_language()
-    response = render(request, 'demo_activity.html', {'form': form, 'summary': summary, 'word_a': word_a, 'word_b': word_b, 'image_a': f'editorial/{image_a}.svg', 'image_b': f'editorial/{image_b}.svg', 'example_variety': example_variety, 'sample_guide': guide, 'sample_sources': example.get('evidence_sources', []), 'word_language': 'ar-DZ' if get_language() == 'ar' else 'en-US' if get_language() == 'en' else 'fr-FR', 'guide_language': get_language()})
+        guide['language'] = language
+    response = render(request, 'demo_activity.html', {'form': form, 'summary': summary, 'word_a': word_a, 'word_b': word_b, 'image_a': f'editorial/{image_a}.svg', 'image_b': f'editorial/{image_b}.svg', 'example_variety': example_variety, 'sample_guide': guide, 'sample_sources': example.get('evidence_sources', []), 'word_language': word_language, 'guide_language': language,
+        'sample_variety_code': variety_code, 'sample_variety_choices': variety_choices, 'demo_retry_url': retry_url,
+        'language_next_url': retry_url, 'sample_selection_error': invalid_selection}, status=400 if invalid_selection else 200)
     from django.utils.cache import patch_cache_control
     patch_cache_control(response, no_store=True)
     return response

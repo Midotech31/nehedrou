@@ -6023,3 +6023,9 @@ msgstr "يجب أن يخص دليل معرفة الكلمات والصور ال�
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "يحتفظ الاختيار غير المعدّل ببصمته المسجّلة. امسحوا الإحالة باختيار إزالتها صراحةً."
+
+msgid "The interface language and the sample's spoken variety are separate. Changing the variety starts a new sample."
+msgstr "لغة الواجهة والتنوع اللغوي المنطوق في المثال مستقلّان. يبدأ مثال جديد عند تغيير التنوع اللغوي."
+
+msgid "Choose a supported spoken variety for this sample."
+msgstr "اختاروا أحد التنوعات اللغوية المنطوقة المتاحة لهذا المثال."

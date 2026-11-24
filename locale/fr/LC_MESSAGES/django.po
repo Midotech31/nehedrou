@@ -6023,3 +6023,9 @@ msgstr "Le justificatif de familiarité doit concerner la variété parlée de l
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "Une sélection inchangée conserve son empreinte enregistrée. Pour effacer une référence, demandez explicitement son retrait."
+
+msgid "The interface language and the sample's spoken variety are separate. Changing the variety starts a new sample."
+msgstr "La langue de l’interface et la variété parlée de l’exemple sont distinctes. Changer de variété démarre un nouvel exemple."
+
+msgid "Choose a supported spoken variety for this sample."
+msgstr "Choisissez une variété parlée proposée pour cet exemple."

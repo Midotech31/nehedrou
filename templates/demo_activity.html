@@ -5,17 +5,19 @@
 <div class="demo-workspace practice-workspace">
 <a href="{% url 'home' %}">{% translate "Back to overview" %}</a>
 <header class="practice-heading"><h1>{% translate "Explore a sample activity" %}</h1><p class="practice-notice"><span class="badge warning">{% translate "Unvalidated example" %}</span> <span>{{ example_variety }}</span></p></header>
+<section class="callout" aria-labelledby="sample-variety-title"><h2 id="sample-variety-title">{% translate "Spoken variety" %}</h2><p>{% translate "The interface language and the sample's spoken variety are separate. Changing the variety starts a new sample." %}</p><nav class="actions" aria-label="{% translate 'Spoken variety' %}">{% for choice in sample_variety_choices %}<a class="button{% if not choice.selected %} secondary{% endif %}" href="{{ choice.url }}"{% if choice.selected %} aria-current="true"{% endif %}>{{ choice.label }}</a>{% endfor %}</nav></section>
+{% if sample_selection_error %}<p class="message error" role="alert">{% translate "Choose a supported spoken variety for this sample." %}</p>{% endif %}
 {% if summary %}
 <section class="card demo-summary" aria-labelledby="summary-title">
 <span class="badge neutral">{% translate "Preview only · nothing saved" %}</span><h2 id="summary-title">{% translate "This is how a practice report is presented" %}</h2>
 <dl><dt>{% translate "Picture choice" %}</dt><dd>{{ summary.answer }}</dd><dt>{% translate "Participation" %}</dt><dd>{{ summary.completion }}</dd><dt>{% translate "Parent report" %}</dt><dd>{{ summary.parent_report }}</dd></dl>
 <p>{% translate "A picture choice and a caregiver report do not measure pronunciation or clinical progress." %}</p>
 <p>{% translate "In an assigned program, the authorized family and responsible clinician can review the saved practice reports." %}</p>
-<div class="actions"><a class="button" href="{% url 'signup' %}">{% translate "Create a demonstration space" %}</a><a class="button secondary" href="{% url 'demo_activity' %}">{% translate "Try again" %}</a></div>
+<div class="actions"><a class="button" href="{% url 'signup' %}">{% translate "Create a demonstration space" %}</a><a class="button secondary" href="{{ demo_retry_url }}">{% translate "Try again" %}</a></div>
 </section>
 {% else %}
 <nav class="activity-progress" aria-label="{% translate 'Activity steps' %}"><span class="badge" data-step-counter dir="ltr">1 / 3</span><strong data-step-label>{% translate "Discover the words" %}</strong></nav>
-<form method="post" data-guided-activity data-response-mode="matching" novalidate>{% csrf_token %}{% include 'error_summary.html' %}
+<form method="post" action="{{ demo_retry_url }}" data-guided-activity data-response-mode="matching" novalidate>{% csrf_token %}<input type="hidden" name="variety" value="{{ sample_variety_code }}">{% include 'error_summary.html' %}
 <section class="card" data-activity-step="1" data-title="{% translate 'Discover the words' %}"><span class="step">01</span><h2 tabindex="-1">{% translate "Discover the words" %}</h2>
 <div class="picture-pair" lang="{{ word_language }}" dir="{{ word_language|language_direction }}"><figure><img lang="{{ word_language }}" src="{% static image_a %}" alt="{{ word_a }}" width="160" height="160"><figcaption><bdi>{{ word_a }}</bdi></figcaption></figure><figure><img lang="{{ word_language }}" src="{% static image_b %}" alt="{{ word_b }}" width="160" height="160"><figcaption><bdi>{{ word_b }}</bdi></figcaption></figure></div></section>
 <section class="card" data-activity-step="2" data-title="{% translate 'Choose a picture' %}"><span class="step">02</span><h2 tabindex="-1">{% translate "Choose a picture" %}</h2><p class="target" lang="{{ word_language }}" dir="{{ word_language|language_direction }}"><bdi>{{ word_a }}</bdi></p>
