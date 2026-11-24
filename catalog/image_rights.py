@@ -147,6 +147,7 @@ def document(request, pk, side):
                 return page(asset=source, form=form, token=token, status=422)
             asset = form.instance
             asset.rights_evidence = evidence
+            asset.image_predecessor = source
             try:
                 asset.save()
             finally:

@@ -6335,3 +6335,21 @@ msgstr "The result could not be confirmed. Reopen the draft before trying again.
 
 msgid "Illustration rights saved and linked to the draft."
 msgstr "Illustration rights saved and linked to the draft."
+
+msgid "An illustration’s recorded predecessor cannot be changed."
+msgstr "An illustration’s recorded predecessor cannot be changed."
+
+msgid "An illustration predecessor must be a different existing image with the same bytes."
+msgstr "An illustration predecessor must be a different existing image with the same bytes."
+
+msgid "Illustration origin"
+msgstr "Illustration origin"
+
+msgid "Previous illustration"
+msgstr "Previous illustration"
+
+msgid "Original illustration"
+msgstr "Original illustration"
+
+msgid "Generated review pack"
+msgstr "Generated review pack"

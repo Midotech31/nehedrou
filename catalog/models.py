@@ -270,6 +270,8 @@ class EditorialAccessInvitation(CheckedModel):
 
 class MediaAsset(CheckedModel):
     file = models.FileField(upload_to='editorial/%Y/%m/')
+    image_predecessor = models.ForeignKey('self', on_delete=models.PROTECT, null=True, blank=True,
+        editable=False, related_name='+')
     kind = models.CharField(max_length=8, choices=[('image', _('Image')), ('audio', _('Audio'))])
     rights = models.TextField()
     rights_status = models.CharField(max_length=28, default='unknown', choices=[('original_documented', _('Documented original rights')), ('open_commercial_compatible', _('Compatible commercial licence')), ('permission_required', _('Permission required')), ('unknown', _('Unknown')), ('excluded', _('Excluded'))])
@@ -289,6 +291,7 @@ class MediaAsset(CheckedModel):
         evidence_actual_sha256 = digest_file(evidence.file) if evidence else ''
         return digest_value({
             'asset': str(self.pk), 'kind': self.kind,
+            **({'image_predecessor': str(self.image_predecessor_id)} if self.image_predecessor_id else {}),
             'sha256': self.technical_metadata.get('sha256', ''),
             'actual_file_sha256': digest_file(self.file),
             'rights': self.rights, 'rights_status': self.rights_status,
@@ -345,6 +348,8 @@ class MediaAsset(CheckedModel):
                 raise ValidationError(_('Audio provenance must specify a valid voice source, exact text and spoken variety.'))
         old = MediaAsset.objects.filter(pk=self.pk).first()
         if old:
+            if old.image_predecessor_id != self.image_predecessor_id:
+                raise ValidationError(_('An illustration’s recorded predecessor cannot be changed.'))
             if old.revoked and not self.revoked:
                 raise ValidationError(_('Revoked media cannot be silently reinstated. Upload a new version.'))
             if not self.file._committed or old.file.name != self.file.name or old.kind != self.kind or old.technical_metadata != self.technical_metadata:
@@ -352,6 +357,11 @@ class MediaAsset(CheckedModel):
         elif self.file and self.kind:
             from .media_validation import validate_media
             self.technical_metadata = validate_media(self.file, self.kind)
+        if not old and self.image_predecessor_id:
+            source = MediaAsset.objects.filter(pk=self.image_predecessor_id, kind='image', revoked=False).first()
+            if (self.kind != 'image' or not self.file or not source or self.pk == source.pk
+                    or source.technical_metadata.get('sha256') != self.technical_metadata.get('sha256')):
+                raise ValidationError(_('An illustration predecessor must be a different existing image with the same bytes.'))
 
 
 class DraftWorkingCopy(CheckedModel):

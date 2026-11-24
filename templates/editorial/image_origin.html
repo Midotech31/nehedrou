@@ -1,0 +1,8 @@
+{% load i18n %}
+{% for media in media_rows %}{% with origin=media.image_origin %}{% if origin %}
+<details data-image-origin="{{ media.field }}"><summary>{% translate "Illustration origin" %} · <bdi>{{ media.word }}</bdi></summary>
+<dl><dt>{% translate "Previous illustration" %}</dt><dd><code class="content-fingerprint" dir="ltr">{{ origin.predecessor_asset_id }}</code> · <code class="content-fingerprint" dir="ltr">{{ origin.predecessor_sha256 }}</code></dd>
+{% if origin.original_asset_id %}<dt>{% translate "Original illustration" %}</dt><dd><code class="content-fingerprint" dir="ltr">{{ origin.original_asset_id }}</code></dd>{% endif %}
+{% if origin.generated %}<dt>{% translate "Generated review pack" %}</dt><dd><bdi>{{ origin.generated.pack_id }} · {{ origin.generated.concept_id }} · {{ origin.generated.variant }}</bdi> · <code class="content-fingerprint" dir="ltr">{{ origin.generated.manifest_sha256 }}</code></dd>{% endif %}</dl>
+</details>
+{% endif %}{% endwith %}{% endfor %}

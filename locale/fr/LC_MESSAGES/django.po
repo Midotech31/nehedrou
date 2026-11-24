@@ -6335,3 +6335,21 @@ msgstr "Le résultat reste à confirmer. Rouvrez le brouillon avant de réessaye
 
 msgid "Illustration rights saved and linked to the draft."
 msgstr "Les droits ont été enregistrés et l’illustration a été liée au brouillon."
+
+msgid "An illustration’s recorded predecessor cannot be changed."
+msgstr "Impossible de changer l’illustration précédente enregistrée."
+
+msgid "An illustration predecessor must be a different existing image with the same bytes."
+msgstr "L’illustration précédente doit être une autre image existante aux octets identiques."
+
+msgid "Illustration origin"
+msgstr "Origine de l’illustration"
+
+msgid "Previous illustration"
+msgstr "Illustration précédente"
+
+msgid "Original illustration"
+msgstr "Illustration d’origine"
+
+msgid "Generated review pack"
+msgstr "Lot d’images générées pour la relecture"

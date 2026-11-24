@@ -6335,3 +6335,21 @@ msgstr "تعذّر التأكّد من النتيجة. أعد فتح المسو�
 
 msgid "Illustration rights saved and linked to the draft."
 msgstr "حُفظت حقوق الصورة ورُبطت بالمسودة."
+
+msgid "An illustration’s recorded predecessor cannot be changed."
+msgstr "لا يمكن تغيير الصورة السابقة المسجلة."
+
+msgid "An illustration predecessor must be a different existing image with the same bytes."
+msgstr "يجب أن تكون الصورة السابقة صورة أخرى موجودة ذات وحدات بايت مطابقة."
+
+msgid "Illustration origin"
+msgstr "مصدر الصورة"
+
+msgid "Previous illustration"
+msgstr "الصورة السابقة"
+
+msgid "Original illustration"
+msgstr "الصورة الأصلية"
+
+msgid "Generated review pack"
+msgstr "حزمة الصور المولَّدة للمراجعة"

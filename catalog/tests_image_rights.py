@@ -1,8 +1,12 @@
 """Draft illustration documentation against fictional local bytes only."""
+import csv
 import io
+import json
 from unittest.mock import patch
 from uuid import uuid4
+from zipfile import ZipFile
 
+from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import IntegrityError
 from django.test import TestCase, override_settings
@@ -12,7 +16,8 @@ from PIL import Image
 from core.models import AuditEvent, User
 from qualification.models import AvailabilityDecision
 from qualification.test_support import evidence_fixture
-from .models import Activity, EditorialGrant, MediaAsset, Review, Variety
+from .models import Activity, EditorialGrant, GeneratedReviewPackImport, MediaAsset, Review, Variety
+from .review_dossier import review_dossier
 from .readiness import reference_asset_id
 
 
@@ -95,6 +100,79 @@ class ImageRightsTests(TestCase):
         self.assertEqual(AuditEvent.objects.filter(action='catalog.image_rights_documented', object_id=self.activity.pk).count(), 1)
         self.assertEqual(self.client.post(self.path, payload, secure=True).status_code, 409)
         self.assertEqual(MediaAsset.objects.count(), 3)
+
+    def test_generated_origin_requires_exact_same_variety_receipt_and_survives_renewal(self):
+        raw = MediaAsset.objects.create(uploaded_by=self.other, kind='image', rights='Fictional fixture only',
+            file=SimpleUploadedFile('fictional-raw-source.png', self.bytes))
+        # The private raw hints are deliberately untrusted and must never be exported.
+        self.source.provenance = {'generation': {'pack_id': 'untrusted-hint',
+            'prompt': 'PRIVATE-FICTIONAL-IMAGE-PROMPT'}}
+        self.source.save()
+        digest = self.source.technical_metadata['sha256']
+        variants = {'source': {'id': str(raw.pk), 'sha256': raw.technical_metadata['sha256']},
+                    '512': {'id': str(self.source.pk), 'sha256': digest}}
+        record = {'media_ids': [str(raw.pk), str(self.source.pk)], 'media': {'sample': variants}}
+        GeneratedReviewPackImport.objects.create(pack_id='foreign-private-receipt', manifest_digest='a' * 64,
+            variety=self.other_variety, actor=self.other, record=record)
+        GeneratedReviewPackImport.objects.create(pack_id='invalid-byte-receipt', manifest_digest='b' * 64,
+            variety=self.variety, actor=self.other, record={**record, 'media': {'sample': {
+                **variants, '512': {**variants['512'], 'sha256': 'c' * 64}}}})
+        self.assertEqual(self.client.post(self.path, self.payload(), secure=True).status_code, 302)
+        self.activity.refresh_from_db()
+        first = MediaAsset.objects.get(pk=reference_asset_id(self.activity.image_a, 'image'))
+        first_origin = self.origin()
+        self.assertEqual(first_origin, {'predecessor_asset_id': str(self.source.pk),
+            'predecessor_sha256': digest, 'original_asset_id': str(self.source.pk)})
+
+        GeneratedReviewPackImport.objects.create(pack_id='fictional-review-pack', manifest_digest='d' * 64,
+            variety=self.variety, actor=self.other, record=record)
+        self.assertEqual(self.client.post(self.path, self.payload(), secure=True).status_code, 302)
+        self.activity.refresh_from_db()
+        second = MediaAsset.objects.get(pk=reference_asset_id(self.activity.image_a, 'image'))
+        origin = self.origin()
+        self.assertEqual(second.image_predecessor_id, first.pk)
+        self.assertEqual(origin['predecessor_asset_id'], str(first.pk))
+        self.assertEqual(origin['original_asset_id'], str(self.source.pk))
+        self.assertEqual(origin['generated'], {'pack_id': 'fictional-review-pack', 'concept_id': 'sample',
+            'variant': '512', 'manifest_sha256': 'd' * 64, 'source_asset_id': str(raw.pk),
+            'source_sha256': raw.technical_metadata['sha256']})
+        path = reverse('editorial_quality')
+        self.assertContains(self.client.get(path, {'activity': self.activity.pk}, secure=True),
+            'data-image-origin="image_a"')
+        response = self.client.get(reverse('editorial_review_pack'), {'activity': self.activity.pk}, secure=True)
+        with ZipFile(io.BytesIO(response.content)) as archive:
+            dossier = json.loads(archive.read('evidence_dossiers.json'))
+            exported = next(media for media in dossier['activities'][0]['media'] if media['field'] == 'image_a')
+            self.assertEqual(exported['image_origin'], origin)
+            rows = csv.DictReader(io.StringIO(archive.read('media_requirements.csv').decode('utf-8-sig')))
+            media = next(row for row in rows if row['field'] == 'image_a')
+            self.assertEqual(media['predecessor_asset_id'], str(first.pk))
+            self.assertEqual(media['generation_manifest_sha256'], 'd' * 64)
+            payload = b''.join(archive.read(name) for name in archive.namelist())
+            for excluded in (b'PRIVATE-FICTIONAL-IMAGE-PROMPT', b'untrusted-hint', b'foreign-private-receipt',
+                    b'invalid-byte-receipt'):
+                self.assertNotIn(excluded, payload)
+        self.assertFalse(Review.objects.exists())
+        self.assertFalse(AvailabilityDecision.objects.exists())
+
+    def origin(self):
+        return next(row['image_origin'] for row in review_dossier(self.activity)['media'] if row['field'] == 'image_a')
+
+    def test_predecessor_cannot_be_reassigned_or_match_other_bytes(self):
+        self.assertEqual(self.client.post(self.path, self.payload(), secure=True).status_code, 302)
+        self.activity.refresh_from_db()
+        asset = MediaAsset.objects.get(pk=reference_asset_id(self.activity.image_a, 'image'))
+        self.assertEqual(asset.image_predecessor_id, self.source.pk)
+        asset.image_predecessor = self.other_image  # Even identical bytes cannot rewrite the provenance.
+        with self.assertRaises(ValidationError):
+            asset.save()
+        different = io.BytesIO()
+        Image.new('RGB', (24, 24), 'white').save(different, format='PNG')
+        with self.assertRaises(ValidationError):
+            MediaAsset.objects.create(uploaded_by=self.editor, kind='image', rights='Fictional fixture only',
+                image_predecessor=self.source, file=SimpleUploadedFile('different.png', different.getvalue()))
+        asset.refresh_from_db()
+        self.assertEqual(asset.image_predecessor_id, self.source.pk)
 
     def test_source_and_evidence_are_rechecked_after_preparation(self):
         for change in ('draft', 'revoked', 'bytes'):
