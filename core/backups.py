@@ -134,13 +134,17 @@ def create_backup(destination):
     return {'encrypted':True,'database_engine':engine,'file_count':len(entries),'sha256':hashlib.sha256(token).hexdigest()}
 
 
-def inspect_backup(source):
+def _inspect_backup(source):
     from cryptography.fernet import InvalidToken
     path = Path(source).resolve()
-    if not path.is_file() or path.stat().st_size > LIMIT * 2:
+    if not path.is_file():
         raise CommandError('Missing or oversized encrypted backup.')
     try:
-        decrypted = cipher().decrypt(path.read_bytes())
+        with path.open('rb') as source_file:
+            token = source_file.read(LIMIT * 2 + 1)
+        if len(token) > LIMIT * 2:
+            raise CommandError('Missing or oversized encrypted backup.')
+        decrypted = cipher().decrypt(token)
         archive = zipfile.ZipFile(io.BytesIO(decrypted))
         infos = archive.infolist()
         names = [info.filename for info in infos]
@@ -161,9 +165,20 @@ def inspect_backup(source):
             if expected['bytes'] != len(data) or expected['sha256'] != hashlib.sha256(data).hexdigest():
                 raise ValueError
         archive.close()
-    except (InvalidToken, zipfile.BadZipFile, ValueError, KeyError, TypeError, UnicodeError):
+    except (InvalidToken, OSError, zipfile.BadZipFile, ValueError, KeyError, TypeError, UnicodeError):
         raise CommandError('The backup key, authenticated content or file manifest is invalid. Nothing was restored.')
+    return manifest, entries, hashlib.sha256(token).hexdigest()
+
+
+def inspect_backup(source):
+    manifest, entries, _sha256 = _inspect_backup(source)
     return manifest, entries
+
+
+def verify_backup(source):
+    manifest, entries, sha256 = _inspect_backup(source)
+    return {'verified': True, 'database_engine': manifest['database_engine'],
+            'file_count': len(entries), 'sha256': sha256}
 
 
 # The dump includes the whole database, so the destination check must include
@@ -239,10 +254,23 @@ def postgres_target_has_user_objects(connection):
     return connection.execute(query).fetchone() is not None
 
 
+def _write_staged_media(stage, entries):
+    for name, data in entries.items():
+        if not name.startswith('media/'):
+            continue
+        target = stage / Path(*PurePosixPath(name).parts[1:])
+        if not target.resolve().is_relative_to(stage):
+            raise CommandError('Unsafe media restoration path.')
+        target.parent.mkdir(parents=True, exist_ok=True)
+        descriptor = os.open(target, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+        with os.fdopen(descriptor, 'wb') as output:
+            output.write(data)
+
+
 def restore_backup(source, media_destination, sqlite_destination=None, postgres_database=None):
-    manifest, entries = inspect_backup(source)
+    manifest, entries, sha256 = _inspect_backup(source)
     media = private_path(media_destination)
-    if media.exists():
+    if media.exists() or media.is_symlink():
         raise CommandError('Restore media into a fresh directory only.')
     if manifest['database_engine'] == 'sqlite':
         if postgres_database or not sqlite_destination:
@@ -261,8 +289,6 @@ def restore_backup(source, media_destination, sqlite_destination=None, postgres_
                         raise CommandError('SQLite integrity verification failed.')
             except sqlite3.DatabaseError:
                 raise CommandError('SQLite integrity verification failed.')
-        descriptor=os.open(database,os.O_CREAT|os.O_EXCL|os.O_WRONLY,0o600)
-        with os.fdopen(descriptor,'wb') as output:output.write(entries['database.bin'])
     else:
         if sqlite_destination or not postgres_database or postgres_database == str(settings.DATABASES['default']['NAME']) or postgres_database == manifest['source_database']:
             raise CommandError('Provide a distinct, existing empty PostgreSQL database.')
@@ -272,18 +298,46 @@ def restore_backup(source, media_destination, sqlite_destination=None, postgres_
                 user=config.get('USER'),password=config.get('PASSWORD'),dbname=postgres_database,connect_timeout=5, **({'sslmode':config['OPTIONS']['sslmode']} if config.get('OPTIONS',{}).get('sslmode') else {})) as connection:
             if postgres_target_has_user_objects(connection):
                 raise CommandError('The PostgreSQL target is not empty. No restoration was attempted.')
-        with tempfile.TemporaryDirectory(prefix='nehedrou-restore-',dir=media.parent) as directory:
-            temporary=Path(directory)/'database.bin';temporary.write_bytes(entries['database.bin'])
-            pg_command('pg_restore',postgres_database,['--exit-on-error','--single-transaction','--no-owner','--no-acl',str(temporary)])
-    media.mkdir(mode=0o700)
-    for name,data in entries.items():
-        if not name.startswith('media/'):continue
-        target=media/Path(*PurePosixPath(name).parts[1:])
-        if not target.resolve().is_relative_to(media):raise CommandError('Unsafe media restoration path.')
-        target.parent.mkdir(parents=True,exist_ok=True)
-        descriptor=os.open(target,os.O_CREAT|os.O_EXCL|os.O_WRONLY,0o600)
-        with os.fdopen(descriptor,'wb') as output:output.write(data)
-    result = {'restored':True,'database_engine':manifest['database_engine'],'file_count':len(entries), 'target_was_fresh':True}
+    # Prepare the complete tree on the destination filesystem before any
+    # database restore. Both destinations must stay isolated from other writers.
+    stage = None
+    database_started = database_restored = False
+    try:
+        stage = Path(tempfile.mkdtemp(prefix='nehedrou-restore-media-', dir=media.parent))
+        _write_staged_media(stage, entries)
+        if manifest['database_engine'] == 'sqlite':
+            descriptor = os.open(database, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+            database_started = True
+            with os.fdopen(descriptor, 'wb') as output:
+                output.write(entries['database.bin'])
+            database_restored = True
+        else:
+            with tempfile.TemporaryDirectory(prefix='nehedrou-restore-', dir=media.parent) as directory:
+                temporary = Path(directory) / 'database.bin'
+                temporary.write_bytes(entries['database.bin'])
+                database_started = True
+                pg_command('pg_restore', postgres_database, ['--exit-on-error', '--single-transaction',
+                    '--no-owner', '--no-acl', str(temporary)])
+                database_restored = True
+        if media.exists() or media.is_symlink():
+            raise FileExistsError
+        stage.rename(media)
+    except (OSError, CommandError):
+        if database_started:
+            # A client timeout can follow a real commit. Keep the already
+            # complete media and have the operator inspect the database.
+            status = ('The database restore completed, but media publication failed.' if database_restored
+                      else 'The database restore outcome could not be confirmed.')
+            raise CommandError(f'{status} Complete staged media remains in the private directory '
+                f'{stage.name}, beside the requested media destination. Keep both targets isolated. '
+                'Verify the database and staged media before finishing manually. Do not retry on this database.') from None
+        raise CommandError('The restore could not be prepared. No database restore was attempted.') from None
+    finally:
+        if (stage is not None and not database_started and not stage.is_symlink()
+                and stage.resolve().parent == media.parent and stage.name.startswith('nehedrou-restore-media-')):
+            shutil.rmtree(stage, ignore_errors=True)
+    result = {'restored': True, 'database_engine': manifest['database_engine'],
+              'file_count': len(entries), 'target_was_fresh': True, 'sha256': sha256}
     if manifest['database_engine'] == 'postgresql':
         result.update(target_precondition='no_application_objects_or_stateful_extension_relations',
             extension_code_may_preexist=True, operator_isolation_required=True)

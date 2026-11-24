@@ -22,7 +22,7 @@ class NamedPostgreSQLRestoreTargetTests(SimpleTestCase):
             media = root / 'fresh-media'
             manifest = {'database_engine': 'postgresql', 'source_database': 'fictional_source_database'}
             for name in [manifest['source_database'], str(settings.DATABASES['default']['NAME'])]:
-                with self.subTest(target=name), patch('core.backups.inspect_backup', return_value=(manifest, {})), patch('psycopg.connect') as connect:
+                with self.subTest(target=name), patch('core.backups._inspect_backup', return_value=(manifest, {}, '1' * 64)), patch('psycopg.connect') as connect:
                     with self.assertRaisesMessage(CommandError, 'distinct, existing empty PostgreSQL'):
                         restore_backup('fictional-backup.encrypted', media, postgres_database=name)
                     connect.assert_not_called()
@@ -76,7 +76,7 @@ class PostgreSQLRestoreTargetTests(TransactionTestCase):
         media = self.root / ('restored-media-' + uuid.uuid4().hex)
         manifest = {'database_engine': 'postgresql', 'source_database': 'fictional_other_source'}
         entries = {'database.bin': b'Fictional dump fixture; pg_restore is mocked'}
-        with patch('core.backups.inspect_backup', return_value=(manifest, entries)), patch('core.backups.pg_command') as restore:
+        with patch('core.backups._inspect_backup', return_value=(manifest, entries, '1' * 64)), patch('core.backups.pg_command') as restore:
             if rejected:
                 with self.assertRaisesMessage(CommandError, 'target is not empty'):
                     restore_backup('fictional-backup.encrypted', media, postgres_database=name)

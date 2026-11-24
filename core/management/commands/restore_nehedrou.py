@@ -1,6 +1,6 @@
 import json
 from django.core.management.base import BaseCommand
-from core.backups import inspect_backup, restore_backup
+from core.backups import verify_backup, restore_backup
 
 class Command(BaseCommand):
     help='Verify an encrypted backup or restore into a new isolated database and media directory.'
@@ -12,8 +12,7 @@ class Command(BaseCommand):
         parser.add_argument('--postgres-database')
     def handle(self,*args,**options):
         if options['verify_only']:
-            manifest,entries=inspect_backup(options['source'])
-            result={'verified':True,'database_engine':manifest['database_engine'],'file_count':len(entries)}
+            result=verify_backup(options['source'])
         else:
             from django.core.management.base import CommandError
             if not options['media_destination']:raise CommandError('Provide a fresh private media destination.')
