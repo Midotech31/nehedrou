@@ -6023,3 +6023,9 @@ msgstr "يجب أن يخص دليل معرفة الكلمات والصور ال�
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "يحتفظ الاختيار غير المعدّل ببصمته المسجّلة. امسحوا الإحالة باختيار إزالتها صراحةً."
+
+msgid "These access rights may have changed since you opened the form. Reload and review the current values before saving."
+msgstr "ربما تغيّرت حقوق الوصول منذ فتح النموذج. أعِد تحميل الصفحة وراجع القيم الحالية قبل الحفظ."
+
+msgid "Reload current access rights"
+msgstr "إعادة تحميل حقوق الوصول الحالية"

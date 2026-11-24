@@ -6023,3 +6023,9 @@ msgstr "Le justificatif de familiarité doit concerner la variété parlée de l
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "Une sélection inchangée conserve son empreinte enregistrée. Pour effacer une référence, demandez explicitement son retrait."
+
+msgid "These access rights may have changed since you opened the form. Reload and review the current values before saving."
+msgstr "Les droits d’accès ont peut-être changé depuis l’ouverture du formulaire. Rechargez la page et vérifiez les valeurs en vigueur avant d’enregistrer."
+
+msgid "Reload current access rights"
+msgstr "Recharger les droits d’accès en vigueur"
