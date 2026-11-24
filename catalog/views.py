@@ -191,6 +191,9 @@ def upload(request):
     form.fields['rights_evidence'].queryset = EvidenceDocument.objects.filter(category='rights', revoked=False) if request.user.is_superuser else EvidenceDocument.objects.filter(category='rights', revoked=False, variety__editorialgrant__user=request.user).distinct()
     if collection:
         configure_upload_form(form, collection)
+    from .recording_retention import requested, save_recording
+    if requested(request):
+        return save_recording(request, form, draft, collection)
     valid = request.method == 'POST' and form.is_valid()
     if valid and collection:
         valid = validate_upload_form(form, collection)

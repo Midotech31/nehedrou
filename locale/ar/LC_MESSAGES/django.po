@@ -6194,3 +6194,42 @@ msgstr "يظهر الرابط مرةً واحدة. إذا لم تنسخه، فأ
 
 msgid "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role."
 msgstr "يبقى الرابط السابق غير المستخدم صالحًا إذا تعذّر إرسال البريد الإلكتروني. يحلّ رابط جديد للتسليم الشخصي أو رسالة قبلتها خدمة البريد محلّ الروابط السابقة لعنوان البريد نفسه والتنوّع اللغوي المنطوق نفسه والدور نفسه."
+
+msgid "Your attached recording stays in this tab if saving fails. Keep this tab open or download the WAV before leaving."
+msgstr "إذا فشل الحفظ، يبقى التسجيل المرفق في علامة التبويب هذه. أبقها مفتوحة أو نزّل ملف WAV قبل المغادرة."
+
+msgid "Download your WAV before saving in this browser. The normal upload will reload this page."
+msgstr "نزّل ملف WAV قبل الحفظ في هذا المتصفح. سيعيد الرفع العادي تحميل الصفحة."
+
+msgid "Saving this recording… Keep this page open."
+msgstr "جارٍ حفظ التسجيل… أبق هذه الصفحة مفتوحة."
+
+msgid "Check the form. Your recording is still here."
+msgstr "راجع الاستمارة. ما زال تسجيلك موجودًا هنا."
+
+msgid "The save outcome could not be confirmed. Your WAV is still here. Retry the unchanged form or download it before leaving."
+msgstr "تعذّر تأكيد نتيجة الحفظ. ما زال ملف WAV هنا. أعد المحاولة دون تغيير الاستمارة أو نزّله قبل المغادرة."
+
+msgid "This attempt was already used for different content. Open the saved result before starting another upload."
+msgstr "استُخدمت هذه المحاولة لمحتوى مختلف. افتح النتيجة المحفوظة قبل بدء رفع جديد."
+
+msgid "Your recording was saved. Open the saved media."
+msgstr "حُفظ تسجيلك. افتح الوسائط المحفوظة."
+
+msgid "Open saved media"
+msgstr "فتح الوسائط المحفوظة"
+
+msgid "This recording upload request is invalid. Keep your WAV and reload the collection page."
+msgstr "طلب رفع التسجيل غير صالح. احتفظ بملف WAV وأعد تحميل صفحة جمع التسجيل."
+
+msgid "Upload receipts are immutable."
+msgstr "لا يمكن تعديل إيصالات الرفع."
+
+msgid "An upload receipt must belong to the uploader of its media."
+msgstr "يجب أن يخص إيصال الرفع الشخص الذي رفع الوسائط."
+
+msgid "An upload receipt requires an exact request fingerprint."
+msgstr "يتطلب إيصال الرفع بصمة دقيقة للطلب."
+
+msgid "The saved recording is unavailable or changed. Your WAV is still here. Check the saved result before starting another upload."
+msgstr "التسجيل المحفوظ غير متاح أو تغيّر. ما زال ملف WAV هنا. تحقّق من النتيجة المحفوظة قبل بدء رفع جديد."

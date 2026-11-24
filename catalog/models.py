@@ -383,3 +383,21 @@ class GeneratedReviewPackImport(CheckedModel):
             raise ValidationError('Generated review-pack import receipts are immutable.')
         if not isinstance(self.record, dict) or len(self.manifest_digest) != 64:
             raise ValidationError('A named exact manifest and structured import receipt are required.')
+
+
+class MediaUploadReceipt(CheckedModel):
+    """Private immutable retry receipt, never a rights or clinical decision."""
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    asset = models.OneToOneField(MediaAsset, on_delete=models.CASCADE)
+    draft = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
+    payload_digest = models.CharField(max_length=64)
+    capture_context = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def clean(self):
+        if MediaUploadReceipt.objects.filter(pk=self.pk).exists():
+            raise ValidationError(_('Upload receipts are immutable.'))
+        if not self.actor_id or not self.asset_id or self.asset.uploaded_by_id != self.actor_id:
+            raise ValidationError(_('An upload receipt must belong to the uploader of its media.'))
+        if len(self.payload_digest) != 64 or any(c not in '0123456789abcdef' for c in self.payload_digest) or len(self.capture_context) > 8192:
+            raise ValidationError(_('An upload receipt requires an exact request fingerprint.'))
