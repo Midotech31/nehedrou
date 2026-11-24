@@ -1,17 +1,91 @@
 """Exact spoken-variety launch coverage, using fictional software fixtures only."""
 import io
 import json
+import os
+import subprocess
+import sys
 import uuid
 from types import SimpleNamespace
 from unittest.mock import patch
+from django.conf import settings
 from django.core.management import call_command
 from django.core.management.base import CommandError
-from django.test import TestCase, override_settings
+from django.test import SimpleTestCase, TestCase, override_settings
 from catalog.models import Activity, Variety
 from catalog.services import transition
 from core.models import User, ProcessingActivity
 from core.management.commands.check_readiness import DEFAULT_OFFERED_CONTENT_VARIETIES
 from qualification.test_support import prepare_activity_fixture, availability_fixture
+
+
+class SpokenVarietyEnvironmentTests(SimpleTestCase):
+    def report_process(self, value=None, *, prepare_db=False, strict=False):
+        prefixes = ('DJANGO_', 'POSTGRES_', 'PG', 'DEMO_', 'RENDER', 'NEHEDROU_',
+                    'AWS_', 'EMAIL_', 'RESEND_', 'MFA_')
+        env = {key: value for key, value in os.environ.items()
+               if not key.upper().startswith(prefixes) and key.upper() not in (
+                   'PUBLIC_ORIGIN', 'PYTHONPATH', 'DATABASE_URL')}
+        env.update(DJANGO_SETTINGS_MODULE='config.settings', DJANGO_DEBUG='1', DEMO_MODE='1',
+                   DEMO_EPHEMERAL='1', DEMO_DATABASE_PATH=':memory:',
+                   EMAIL_BACKEND='core.email_backends.DisabledEmailBackend')
+        if value is not None:
+            env['NEHEDROU_OFFERED_CONTENT_VARIETIES'] = value
+        source = """
+import sys
+from unittest.mock import patch
+
+import django
+django.setup()
+from django.db import connection
+from django.core.management import call_command, execute_from_command_line
+from catalog.models import Variety
+
+assert connection.vendor == 'sqlite' and str(connection.settings_dict['NAME']) == ':memory:'
+with patch('socket.socket.connect', side_effect=AssertionError('Network is unavailable in this fixture')):
+    if sys.argv[1] == 'seed':
+        call_command('migrate', interactive=False, verbosity=0)
+        for code in ('fr-fr-pilot', 'en-us-general-pilot', 'ar-msa-pilot', 'ar-dz-pilot'):
+            Variety.objects.create(code=code, language=code[:2], label='Fictional ' + code)
+    command = ['manage.py', 'check_readiness', '--json'] + sys.argv[2:]
+    execute_from_command_line(command)
+"""
+        args = [sys.executable, '-B', '-c', source, 'seed' if prepare_db else 'none']
+        if strict:
+            args.append('--strict')
+        return subprocess.run(args, cwd=settings.BASE_DIR, env=env, text=True,
+                              capture_output=True, timeout=60)
+
+    def test_unset_preserves_defaults_and_explicit_list_reaches_the_report(self):
+        for value, expected in ((None, list(DEFAULT_OFFERED_CONTENT_VARIETIES)),
+                                ('ar-dz-pilot,fr-fr-pilot', ['ar-dz-pilot', 'fr-fr-pilot'])):
+            with self.subTest(value=value):
+                result = self.report_process(value, prepare_db=True)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                report = json.loads(result.stdout)
+                self.assertEqual(report['offered_content_varieties'], expected)
+                self.assertTrue(report['checks']['offered_content_varieties_exist'])
+                self.assertEqual(report['current_available_nondemo_counts_by_variety'],
+                                 dict.fromkeys(expected, 0))
+                self.assertFalse(report['technical_gates_passed'])
+
+    def test_empty_duplicate_or_malformed_environment_fails_without_falling_back(self):
+        for value in ('', 'ar-dz-pilot,', 'ar-dz-pilot,,fr-fr-pilot', 'ar-dz-pilot, ar-msa-pilot',
+                      'ar-dz-pilot,ar-dz-pilot', 'ar-*', 'ar-malformed-code!'):
+            with self.subTest(value=value):
+                result = self.report_process(value)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertEqual(result.stdout, '')
+                self.assertIn('unique exact variety codes', result.stderr)
+                self.assertNotIn('ar-malformed-code!', result.stderr)
+
+    def test_unknown_exact_slug_remains_visible_and_blocks_the_strict_report(self):
+        result = self.report_process('ar-absent-fixture', prepare_db=True, strict=True)
+        self.assertNotEqual(result.returncode, 0)
+        report = json.loads(result.stdout)
+        self.assertEqual(report['offered_content_varieties'], ['ar-absent-fixture'])
+        self.assertEqual(report['unknown_offered_content_varieties'], ['ar-absent-fixture'])
+        self.assertFalse(report['checks']['offered_content_varieties_exist'])
+        self.assertIn('Technical launch gates are not met', result.stderr)
 
 
 @override_settings(DEMO_MODE=False, DEBUG=False, DEMO_EPHEMERAL=False,

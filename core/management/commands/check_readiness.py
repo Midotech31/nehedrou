@@ -4,6 +4,7 @@ from collections import Counter
 from pathlib import Path
 from urllib.parse import urlsplit
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.management.base import BaseCommand, CommandError
 from django.db import connection
 from catalog.models import Activity, Variety
@@ -18,8 +19,17 @@ DEFAULT_OFFERED_CONTENT_VARIETIES = ('fr-fr-pilot', 'en-us-general-pilot', 'ar-m
 
 def offered_content_varieties():
     configured = getattr(settings, 'OFFERED_CONTENT_VARIETIES', DEFAULT_OFFERED_CONTENT_VARIETIES)
-    if not isinstance(configured, (tuple, list)) or not configured or any(not isinstance(code, str) or not code or code != code.strip() for code in configured) or len(set(configured)) != len(configured):
-        raise CommandError('OFFERED_CONTENT_VARIETIES must be a nonempty list or tuple of unique exact variety codes.')
+    error = 'OFFERED_CONTENT_VARIETIES must be a nonempty list or tuple of unique exact variety codes.'
+    if (not isinstance(configured, (tuple, list)) or not configured
+            or any(not isinstance(code, str) for code in configured)
+            or len(set(configured)) != len(configured)):
+        raise CommandError(error)
+    code_field = Variety._meta.get_field('code')
+    try:
+        for code in configured:
+            code_field.clean(code, None)
+    except ValidationError:
+        raise CommandError(error) from None
     return tuple(configured)
 
 
