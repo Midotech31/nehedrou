@@ -6317,3 +6317,21 @@ msgstr "Aucune demande d’accès de cabinet n’attend d’examen."
 
 msgid "The cabinet access request is acknowledged."
 msgstr "La réception de la demande d’accès du cabinet est enregistrée."
+
+msgid "Document illustration rights"
+msgstr "Documenter les droits de l’illustration"
+
+msgid "This links a new copy of the same illustration to this word in the draft. Review and publication are separate steps."
+msgstr "Une nouvelle copie de la même illustration sera associée à ce mot dans le brouillon. La relecture et la publication se font séparément."
+
+msgid "Save rights and link illustration"
+msgstr "Enregistrer les droits et associer l’illustration"
+
+msgid "The draft or illustration changed. Open the current draft and review the illustration again."
+msgstr "Le brouillon ou l’illustration a changé. Rouvrez le brouillon et vérifiez l’illustration."
+
+msgid "The result could not be confirmed. Reopen the draft before trying again."
+msgstr "Le résultat reste à confirmer. Rouvrez le brouillon avant de réessayer."
+
+msgid "Illustration rights saved and linked to the draft."
+msgstr "Les droits ont été enregistrés et l’illustration a été liée au brouillon."

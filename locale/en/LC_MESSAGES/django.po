@@ -6317,3 +6317,21 @@ msgstr "No practice access requests are awaiting review."
 
 msgid "The cabinet access request is acknowledged."
 msgstr "The cabinet access request is acknowledged."
+
+msgid "Document illustration rights"
+msgstr "Document illustration rights"
+
+msgid "This links a new copy of the same illustration to this word in the draft. Review and publication are separate steps."
+msgstr "This links a new copy of the same illustration to this word in the draft. Review and publication are separate steps."
+
+msgid "Save rights and link illustration"
+msgstr "Save rights and link illustration"
+
+msgid "The draft or illustration changed. Open the current draft and review the illustration again."
+msgstr "The draft or illustration changed. Open the current draft and review the illustration again."
+
+msgid "The result could not be confirmed. Reopen the draft before trying again."
+msgstr "The result could not be confirmed. Reopen the draft before trying again."
+
+msgid "Illustration rights saved and linked to the draft."
+msgstr "Illustration rights saved and linked to the draft."

@@ -87,11 +87,14 @@ def detail(request, pk):
     digest = activity.fingerprint()
     history = decision_history(activity_reviews(activity), digest)
     can_publish = allowed(request.user, activity.variety, 'publish')
+    can_edit = allowed(request.user, activity.variety, 'edit')
+    from .image_rights import eligible_images
+    image_rights_sides = eligible_images(activity) if can_edit else []
     availability_prepare_url = ''
     if can_publish and not activity.is_demo:
         from qualification.opening import target_key
         availability_prepare_url = reverse('qualification:availability') + '?' + urlencode({'target': target_key('practice', activity)})
-    return render(request, 'editorial/detail.html', {'activity': activity, 'latest_version':latest_version, 'is_latest_version':latest_version.pk == activity.pk, 'form': form, 'issues': issues, 'can_edit': allowed(request.user, activity.variety, 'edit'), 'can_publish': can_publish, 'can_review': can_review, 'reviews': [row['review'] for row in history], 'review_history': history, 'affected': ProgramItem.objects.filter(activity=activity).count(), 'readiness': readiness, 'content_digest': digest, 'review_snapshot_changed':review_snapshot_changed,
+    return render(request, 'editorial/detail.html', {'activity': activity, 'latest_version':latest_version, 'is_latest_version':latest_version.pk == activity.pk, 'form': form, 'issues': issues, 'can_edit': can_edit, 'image_rights_sides': image_rights_sides, 'can_publish': can_publish, 'can_review': can_review, 'reviews': [row['review'] for row in history], 'review_history': history, 'affected': ProgramItem.objects.filter(activity=activity).count(), 'readiness': readiness, 'content_digest': digest, 'review_snapshot_changed':review_snapshot_changed,
         'transition_choices': activity_transition_choices(request.user, activity),
         'availability_prepare_url': availability_prepare_url,
         'reviewer_experience': reviewer_experience, 'review_waiting_for_submission': bool(review_kinds) and activity.state == 'draft' and not allowed(request.user, activity.variety, 'edit')})

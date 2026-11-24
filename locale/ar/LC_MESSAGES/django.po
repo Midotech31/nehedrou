@@ -6317,3 +6317,21 @@ msgstr "لا توجد طلبات وصول للعيادات تنتظر المرا
 
 msgid "The cabinet access request is acknowledged."
 msgstr "سُجّل استلام طلب وصول العيادة."
+
+msgid "Document illustration rights"
+msgstr "توثيق حقوق الصورة"
+
+msgid "This links a new copy of the same illustration to this word in the draft. Review and publication are separate steps."
+msgstr "تُربط نسخة جديدة من الصورة نفسها بهذه الكلمة في المسودة. تُجرى المراجعة والنشر في خطوات منفصلة."
+
+msgid "Save rights and link illustration"
+msgstr "حفظ الحقوق وربط الصورة"
+
+msgid "The draft or illustration changed. Open the current draft and review the illustration again."
+msgstr "تغيّرت المسودة أو الصورة. افتح المسودة الحالية وتحقّق من الصورة من جديد."
+
+msgid "The result could not be confirmed. Reopen the draft before trying again."
+msgstr "تعذّر التأكّد من النتيجة. أعد فتح المسودة قبل المحاولة مرة أخرى."
+
+msgid "Illustration rights saved and linked to the draft."
+msgstr "حُفظت حقوق الصورة ورُبطت بالمسودة."
