@@ -8,7 +8,7 @@ from core import views
 from core import security, complete_views, billing_views, practice_access_views
 from catalog import views as editorial_views
 from catalog import editorial_access_views
-from catalog import working, quality, guided_audio, recording_retention, image_rights
+from catalog import working, quality, guided_audio, recording_retention, image_rights, guide_recovery
 from core.health import health
 from core import operations_views, operator_evidence_views
 from core.email_forms import CanonicalPasswordResetForm
@@ -99,6 +99,7 @@ urlpatterns += i18n_patterns(
     path('followup/', include('followup.urls')),
     path('qualification/', include('qualification.urls')),
     path('editorial/work/<uuid:pk>/set-aside/', working.set_aside, name='editorial_working_status'),
+    path('editorial/work/<uuid:pk>/reconcile/', guide_recovery.reconcile, name='editorial_working_reconcile'),
     path('editorial/work/<uuid:pk>/', working.autosave, name='editorial_autosave'),
     path('editorial/quality/', quality.dashboard, name='editorial_quality'),
     path('editorial/quality/export/', quality.review_pack, name='editorial_review_pack'),

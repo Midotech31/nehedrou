@@ -6577,3 +6577,55 @@ msgstr "The source recording must have the same bytes and voice details."
 
 msgid "The selected rights evidence is missing, expired, changed or revoked."
 msgstr "The selected rights evidence is missing, expired, changed or revoked."
+
+# Explicit family-guide recovery (2026-11-24).
+msgid "Choose saved instructions or guide sections to place in a new private working copy based on the current draft. This does not change or approve the activity."
+msgstr "Choose saved instructions or guide sections to place in a new private working copy based on the current draft. This does not change or approve the activity."
+
+msgid "Choose the family-guide fields to recover"
+msgstr "Choose the family-guide fields to recover"
+
+msgid "Compare and recover saved family-guide fields"
+msgstr "Compare and recover saved family-guide fields"
+
+msgid "Compare the last saved family guide with the current draft. Text entered since the working copy’s last save stays on this page."
+msgstr "Compare the last saved family guide with the current draft. Text entered since the working copy’s last save stays on this page."
+
+msgid "Create the private recovery copy"
+msgstr "Create the private recovery copy"
+
+msgid "Current draft value"
+msgstr "Current draft value"
+
+msgid "Current words, media, variety and other draft details are kept. All other saved fields remain in the original working copy and are not applied here."
+msgstr "Current words, media, variety and other draft details are kept. All other saved fields remain in the original working copy and are not applied here."
+
+msgid "Empty value"
+msgstr "Empty value"
+
+msgid "No saved family-guide differences to recover."
+msgstr "No saved family-guide differences to recover."
+
+msgid "Only the checked fields will be recovered. Choosing an empty saved value keeps it empty; normal draft validation still applies afterwards."
+msgstr "Only the checked fields will be recovered. Choosing an empty saved value keeps it empty; normal draft validation still applies afterwards."
+
+msgid "Open current draft"
+msgstr "Open current draft"
+
+msgid "Recover saved family-guide fields"
+msgstr "Recover saved family-guide fields"
+
+msgid "Reload the comparison"
+msgstr "Reload the comparison"
+
+msgid "Saved working-copy value"
+msgstr "Saved working-copy value"
+
+msgid "The comparison link is invalid or expired. Open a new comparison."
+msgstr "The comparison link is invalid or expired. Open a new comparison."
+
+msgid "The recovered working copy would exceed the existing size limit."
+msgstr "The recovered working copy would exceed the existing size limit."
+
+msgid "The working copy or current draft changed. Reload the comparison before choosing fields again."
+msgstr "The working copy or current draft changed. Reload the comparison before choosing fields again."

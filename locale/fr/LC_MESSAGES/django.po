@@ -6577,3 +6577,55 @@ msgstr "L’enregistrement source doit avoir les mêmes octets et les mêmes ren
 
 msgid "The selected rights evidence is missing, expired, changed or revoked."
 msgstr "Le justificatif de droits choisi est absent, expiré, altéré ou révoqué."
+
+# Explicit family-guide recovery (2026-11-24).
+msgid "Choose saved instructions or guide sections to place in a new private working copy based on the current draft. This does not change or approve the activity."
+msgstr "Choisissez les consignes ou sections enregistrées à placer dans une nouvelle copie de travail privée fondée sur le brouillon courant. Cela ne modifie ni n’approuve l’activité."
+
+msgid "Choose the family-guide fields to recover"
+msgstr "Choisissez les champs du guide familial à récupérer"
+
+msgid "Compare and recover saved family-guide fields"
+msgstr "Comparer et récupérer les champs du guide familial enregistré"
+
+msgid "Compare the last saved family guide with the current draft. Text entered since the working copy’s last save stays on this page."
+msgstr "Comparez le dernier guide familial enregistré avec le brouillon courant. Le texte saisi depuis le dernier enregistrement de la copie de travail reste sur cette page."
+
+msgid "Create the private recovery copy"
+msgstr "Créer la copie privée de reprise"
+
+msgid "Current draft value"
+msgstr "Valeur du brouillon courant"
+
+msgid "Current words, media, variety and other draft details are kept. All other saved fields remain in the original working copy and are not applied here."
+msgstr "Les mots, médias, la variété et les autres détails actuels du brouillon sont conservés. Tous les autres champs enregistrés restent dans la copie de travail d’origine et ne sont pas appliqués ici."
+
+msgid "Empty value"
+msgstr "Valeur vide"
+
+msgid "No saved family-guide differences to recover."
+msgstr "Aucune différence du guide familial enregistré à récupérer."
+
+msgid "Only the checked fields will be recovered. Choosing an empty saved value keeps it empty; normal draft validation still applies afterwards."
+msgstr "Seuls les champs cochés seront récupérés. Une valeur enregistrée vide restera vide si vous la choisissez ; les contrôles habituels du brouillon s’appliqueront ensuite."
+
+msgid "Open current draft"
+msgstr "Ouvrir le brouillon courant"
+
+msgid "Recover saved family-guide fields"
+msgstr "Récupérer les champs du guide familial enregistré"
+
+msgid "Reload the comparison"
+msgstr "Recharger la comparaison"
+
+msgid "Saved working-copy value"
+msgstr "Valeur de la copie de travail enregistrée"
+
+msgid "The comparison link is invalid or expired. Open a new comparison."
+msgstr "Le lien de comparaison est invalide ou expiré. Ouvrez une nouvelle comparaison."
+
+msgid "The recovered working copy would exceed the existing size limit."
+msgstr "La copie de travail récupérée dépasserait la limite de taille existante."
+
+msgid "The working copy or current draft changed. Reload the comparison before choosing fields again."
+msgstr "La copie de travail ou le brouillon courant a changé. Rechargez la comparaison avant de choisir de nouveau les champs."

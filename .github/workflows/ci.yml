@@ -164,6 +164,7 @@ jobs:
           catalog.tests_recording_retention.RecordingRetentionConcurrencyTests
           catalog.tests_working_concurrency.WorkingCopyConcurrencyTests
           catalog.tests_draft_finalization.DraftFinalizationConcurrencyTests
+          catalog.tests_guide_recovery.GuideRecoveryConcurrencyTests
           catalog.tests_darja_metadata_revisions.DarjaMetadataRevisionConcurrencyTests
           catalog.tests_editorial_manual_concurrency.ManualEditorialHandoffConcurrencyTests
           core.tests_practice_manual_handoff.PracticeManualHandoffConcurrencyTests

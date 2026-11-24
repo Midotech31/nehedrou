@@ -168,7 +168,7 @@ def edit(request, pk=None):
                    'capacity':_('You have 30 active working copies. Save an activity or set a copy aside in the editorial workspace.'), 'unchanged':_('No unsaved changes.'), 'pending':_('Changes waiting to be saved.'), 'failed':_('Working copy not saved. Keep this page open and retry.'),
                    'conflict':_('Another session or the source changed. Open your saved copy to reconcile changes.')}
     }
-    response = render(request, 'form.html' if advanced else 'editorial/author.html', {'title': _('Edit content draft') if pk else _('Create an activity from scratch'), 'form': form, 'submit': _('Save draft'), 'activity': activity, 'activity_add': not pk, 'working_id':working_id, 'base_digest':base_digest, 'author_config':config, 'finalization_conflict':finalization_conflict}, status=save_status)
+    response = render(request, 'form.html' if advanced else 'editorial/author.html', {'title': _('Edit content draft') if pk else _('Create an activity from scratch'), 'form': form, 'submit': _('Save draft'), 'activity': activity, 'activity_add': not pk, 'working_id':working_id, 'base_digest':base_digest, 'author_config':config, 'finalization_conflict':finalization_conflict, 'guide_recovery_url':reverse('editorial_working_reconcile', args=[working.pk]) if working and pk else ''}, status=save_status)
     response['Cache-Control'] = 'private, no-store'
     return response
 

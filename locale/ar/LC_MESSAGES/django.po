@@ -6577,3 +6577,55 @@ msgstr "يجب أن يتطابق التسجيل المصدر في وحدات ا�
 
 msgid "The selected rights evidence is missing, expired, changed or revoked."
 msgstr "مستند الحقوق المحدّد مفقود أو منتهي الصلاحية أو تغيّر أو أُلغي."
+
+# Explicit family-guide recovery (2026-11-24).
+msgid "Choose saved instructions or guide sections to place in a new private working copy based on the current draft. This does not change or approve the activity."
+msgstr "اختاروا التعليمات أو أقسام الدليل المحفوظة لوضعها في نسخة عمل خاصة جديدة مبنية على المسودة الحالية. لا يؤدي ذلك إلى تعديل النشاط أو اعتماده."
+
+msgid "Choose the family-guide fields to recover"
+msgstr "اختاروا حقول الدليل الأسري المراد استرجاعها"
+
+msgid "Compare and recover saved family-guide fields"
+msgstr "مقارنة حقول الدليل الأسري المحفوظ واسترجاعها"
+
+msgid "Compare the last saved family guide with the current draft. Text entered since the working copy’s last save stays on this page."
+msgstr "قارنوا آخر دليل أسري محفوظ بالمسودة الحالية. يبقى النص المدخل منذ آخر حفظ لنسخة العمل في هذه الصفحة."
+
+msgid "Create the private recovery copy"
+msgstr "إنشاء نسخة الاسترجاع الخاصة"
+
+msgid "Current draft value"
+msgstr "القيمة في المسودة الحالية"
+
+msgid "Current words, media, variety and other draft details are kept. All other saved fields remain in the original working copy and are not applied here."
+msgstr "تُحفظ الكلمات والوسائط والتنوع اللغوي وسائر تفاصيل المسودة الحالية. تبقى جميع الحقول المحفوظة الأخرى في نسخة العمل الأصلية ولا تُطبَّق هنا."
+
+msgid "Empty value"
+msgstr "قيمة فارغة"
+
+msgid "No saved family-guide differences to recover."
+msgstr "لا توجد اختلافات محفوظة في الدليل الأسري لاسترجاعها."
+
+msgid "Only the checked fields will be recovered. Choosing an empty saved value keeps it empty; normal draft validation still applies afterwards."
+msgstr "ستُسترجع الحقول المحددة فقط. اختيار قيمة محفوظة فارغة يُبقيها فارغة؛ وتظل ضوابط المسودة المعتادة مطبّقة بعد ذلك."
+
+msgid "Open current draft"
+msgstr "فتح المسودة الحالية"
+
+msgid "Recover saved family-guide fields"
+msgstr "استرجاع حقول الدليل الأسري المحفوظ"
+
+msgid "Reload the comparison"
+msgstr "إعادة تحميل المقارنة"
+
+msgid "Saved working-copy value"
+msgstr "القيمة المحفوظة في نسخة العمل"
+
+msgid "The comparison link is invalid or expired. Open a new comparison."
+msgstr "رابط المقارنة غير صالح أو منتهي المدة. افتحوا مقارنة جديدة."
+
+msgid "The recovered working copy would exceed the existing size limit."
+msgstr "ستتجاوز نسخة العمل المسترجعة الحدّ الحالي للحجم."
+
+msgid "The working copy or current draft changed. Reload the comparison before choosing fields again."
+msgstr "تغيّرت نسخة العمل أو المسودة الحالية. أعيدوا تحميل المقارنة قبل اختيار الحقول من جديد."
