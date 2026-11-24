@@ -1,3 +1,4 @@
+from catalog.review_history import decision_history
 import hashlib
 from io import BytesIO
 from django.contrib.auth.decorators import login_required
@@ -230,7 +231,10 @@ def pack_detail(request,pk):
             except ValidationError as error:
                 form.add_error(None, error)
                 review_snapshot_changed = getattr(error, 'code', None) == 'review_snapshot_changed'
-    return render(request,'qualification/pack.html',{'pack':pack,'candidates':pack.candidates.prefetch_related('familiarity'), 'form':form, 'can_edit':allowed(request.user,pack.variety,'edit'), 'can_publish':allowed(request.user,pack.variety,'publish'), 'can_review':bool(kinds) and pack.state=='review', 'issues':pack_readiness_reasons(pack),'digest':pack.fingerprint(),'reviews':pack.reviews.select_related('reviewer'),'review_snapshot_changed':review_snapshot_changed,
+    digest = pack.fingerprint()
+    reviews = pack.reviews.select_related('reviewer').order_by('-created_at', '-pk')
+    history = decision_history(reviews, digest)
+    return render(request,'qualification/pack.html',{'pack':pack,'candidates':pack.candidates.prefetch_related('familiarity'), 'form':form, 'can_edit':allowed(request.user,pack.variety,'edit'), 'can_publish':allowed(request.user,pack.variety,'publish'), 'can_review':bool(kinds) and pack.state=='review', 'issues':pack_readiness_reasons(pack),'digest':digest,'reviews':reviews,'review_history':history,'review_snapshot_changed':review_snapshot_changed,
         'transition_choices': pack_transition_choices(request.user, pack),
         'review_waiting_for_submission': bool(kinds) and pack.state == 'draft' and not allowed(request.user, pack.variety, 'edit')})
 

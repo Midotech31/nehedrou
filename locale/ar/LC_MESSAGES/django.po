@@ -6023,3 +6023,15 @@ msgstr "يجب أن يخص دليل معرفة الكلمات والصور ال�
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "يحتفظ الاختيار غير المعدّل ببصمته المسجّلة. امسحوا الإحالة باختيار إزالتها صراحةً."
+
+msgid "Latest decision for this content fingerprint"
+msgstr "آخر قرار لبصمة هذا المحتوى"
+
+msgid "Superseded decision for this content fingerprint"
+msgstr "قرار تجاوزه قرار أحدث لبصمة هذا المحتوى"
+
+msgid "Decision for different content"
+msgstr "قرار يخص محتوى مختلفًا"
+
+msgid "Decision labels describe content matching and decision order. They do not establish current clinical qualification."
+msgstr "تبيّن التسميات مطابقة المحتوى وترتيب القرارات، ولا تثبت اعتمادًا سريريًا حاليًا."

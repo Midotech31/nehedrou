@@ -1,3 +1,4 @@
+from catalog.review_history import decision_history
 import csv
 import io
 import uuid
@@ -204,7 +205,10 @@ def definition_detail(request, pk):
         except ValidationError as error:
             service_error(form, error)
             review_snapshot_changed = getattr(error, 'code', None) == 'review_snapshot_changed'
-    return render(request, 'followup/definition.html', {'definition': definition, 'state_label': STATE_LABELS[definition.state], 'can_edit': can_edit, 'can_clone': can_clone, 'can_edit_content': can_edit and definition.state == 'draft' and not definition.administrations.exists() and not definition.clinicalgoal_set.exists(), 'can_publish': can_publish, 'can_review': can_review, 'review_form': form, 'reviews': definition.reviews.select_related('author').order_by('-created_at'), 'readiness_reasons': services.readiness_reasons(definition), 'review_snapshot_changed':review_snapshot_changed,
+    digest = definition.fingerprint()
+    reviews = definition.reviews.select_related('author').order_by('-created_at', '-pk')
+    history = decision_history(reviews, digest)
+    return render(request, 'followup/definition.html', {'definition': definition, 'state_label': STATE_LABELS[definition.state], 'can_edit': can_edit, 'can_clone': can_clone, 'can_edit_content': can_edit and definition.state == 'draft' and not definition.administrations.exists() and not definition.clinicalgoal_set.exists(), 'can_publish': can_publish, 'can_review': can_review, 'review_form': form, 'reviews': reviews, 'review_history': history, 'readiness_reasons': services.readiness_reasons(definition), 'review_snapshot_changed':review_snapshot_changed,
         'transition_choices': services.definition_transition_choices(request.user, definition),
         'review_waiting_for_submission': bool(kinds) and definition.state == 'draft' and not can_edit})
 
