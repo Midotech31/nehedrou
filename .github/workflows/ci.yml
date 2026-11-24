@@ -150,4 +150,5 @@ jobs:
           catalog.tests_darja_metadata_revisions.DarjaMetadataRevisionConcurrencyTests
           catalog.tests_editorial_manual_concurrency.ManualEditorialHandoffConcurrencyTests
           core.tests_practice_manual_handoff.PracticeManualHandoffConcurrencyTests
+          catalog.tests_publishing_access.PublishingAccessConcurrencyTests
           followup.tests.FollowupConcurrencyTests
