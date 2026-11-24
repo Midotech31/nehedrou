@@ -68,7 +68,7 @@ class Command(BaseCommand):
                 'missing_one_or_more_audio_references': sum(not activity.audio_a.strip() or not activity.audio_b.strip() for activity in records),
             }
         published = Activity.objects.filter(state='published', is_demo=False).select_related('variety')
-        current_ids = set(current_catalog(published).values_list('pk', flat=True))
+        current_ids = set(current_catalog(published, real_only=True).values_list('pk', flat=True))
         # Share byte checks only within this invocation, never with a later run.
         with integrity_scope():
             catalogue = prepare_activities(list(published))

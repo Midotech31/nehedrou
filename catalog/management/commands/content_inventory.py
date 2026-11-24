@@ -118,7 +118,9 @@ def build_inventory(*, verify=True):
     ready_probes = Counter()
     if verify:
         with integrity_scope():
-            for activity in prepare_activities(current_catalog(Activity.objects.filter(is_demo=False, state='published').select_related('variety'))):
+            published = Activity.objects.filter(state='published').select_related('variety')
+            real_catalog = current_catalog(published, real_only=True)
+            for activity in prepare_activities(real_catalog):
                 if activity.usable:
                     ready_activities[activity.variety_id] += 1
             for definition in _latest([row for row in probes if not row.is_demo and row.state == 'published']):

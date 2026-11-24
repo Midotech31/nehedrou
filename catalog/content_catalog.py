@@ -22,10 +22,14 @@ def legacy_demo_series():
     ]
 
 
-def current_catalog(queryset):
+def current_catalog(queryset, *, real_only=False):
     # Known demonstration v1 records remain accessible through assigned history.
-    # Only discovery/new assignment uses this selector. Non-demo rows are intact.
+    # Only discovery and new assignments use this selector.
     newer = Activity.objects.filter(series=OuterRef('series'), version__gt=OuterRef('version'), state='published')
+    if real_only:
+        # A demonstration version cannot replace a real version in the live catalogue.
+        queryset = queryset.filter(is_demo=False)
+        newer = newer.filter(is_demo=False)
     return (queryset.exclude(Q(is_demo=True, series__in=legacy_demo_series(), version__lt=2))
             .annotate(_newer_published=Exists(newer)).filter(_newer_published=False))
 

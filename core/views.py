@@ -370,9 +370,7 @@ def invite(request, token):
 def library(request):
     from catalog.content_catalog import current_catalog
     qs = Activity.objects.filter(state='published').select_related('variety')
-    if not settings.DEMO_MODE:
-        qs = qs.filter(is_demo=False)
-    qs = current_catalog(qs)
+    qs = current_catalog(qs, real_only=not settings.DEMO_MODE)
     qs = qs.exclude(pk__in=family_catalog_exclusions(request.user, qs))
     language = request.GET.get('content_language', '')
     if language in dict(settings.LANGUAGES):
@@ -396,9 +394,9 @@ def library(request):
         normalized = search_key(query)
         qs = qs.filter(Q(search_text__contains=normalized) | Q(title__icontains=query) | Q(contrast__icontains=query)) if normalized else qs.none()
     from django.core.paginator import Paginator
-    arabic_base = current_catalog(Activity.objects.filter(state='published', variety__language='ar').select_related('variety'))
-    if not settings.DEMO_MODE:
-        arabic_base = arabic_base.filter(is_demo=False)
+    arabic_base = current_catalog(
+        Activity.objects.filter(state='published', variety__language='ar').select_related('variety'),
+        real_only=not settings.DEMO_MODE)
     arabic_base = arabic_base.exclude(pk__in=family_catalog_exclusions(request.user, arabic_base))
     collections = [{'code': v.code, 'label': v.display_label, 'count': arabic_base.filter(variety=v).count()}
                    for v in Variety.objects.filter(code__in=['ar-msa-pilot', 'ar-dz-pilot']).order_by('-code')]

@@ -366,7 +366,8 @@ def create_program(actor, child, data):
     check_entitlement(org)
     selected = list(data['activities'])
     from catalog.content_catalog import current_catalog
-    locked = {a.pk: a for a in current_catalog(Activity.objects.select_for_update().filter(pk__in=[a.pk for a in selected])).order_by('pk')}
+    choices = Activity.objects.select_for_update().filter(pk__in=[activity.pk for activity in selected])
+    locked = {a.pk: a for a in current_catalog(choices, real_only=not settings.DEMO_MODE).order_by('pk')}
     if not selected or len(locked) != len(selected) or not child.varieties.filter(pk=data['variety'].pk).exists():
         raise ValidationError(_('All activities must match the selected variety.'))
     activities = [locked[a.pk] for a in selected]

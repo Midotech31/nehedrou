@@ -52,10 +52,8 @@ class ProgramForm(forms.Form):
         if not self.is_bound and child.varieties.count() == 1 and not self.initial.get('variety'):
             self.fields['variety'].initial = child.varieties.first()
         qs = Activity.objects.filter(state='published', variety__in=child.varieties.all())
-        if not settings.DEMO_MODE:
-            qs = qs.filter(is_demo=False)
         from catalog.content_catalog import current_catalog
-        qs = current_catalog(qs)
+        qs = current_catalog(qs, real_only=not settings.DEMO_MODE)
         from .reserves import reserved_activity_ids
         qs = qs.exclude(pk__in=reserved_activity_ids(child, qs.select_related('variety')))
         self.fields['activities'].queryset = qs.select_related('variety').order_by('title', 'pk')
