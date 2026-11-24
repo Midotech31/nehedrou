@@ -23,6 +23,10 @@ ROLE_PRACTICE_ID = uuid.uuid5(uuid.NAMESPACE_URL, 'nehdrou-demo-role-practice')
 ROLE_PRACTICE_NAME = 'Cabinet Parcours des rôles · fictif'
 ROLE_CHILD_IDS = {name: uuid.uuid5(uuid.NAMESPACE_URL, 'nehdrou-demo-role-child:' + name)
                   for name in ['responsable', 'orthophoniste']}
+MSA_CODE = 'ar-msa-pilot'
+# Published fictional copy of the key/door exercise in arabic-library-v1.json.
+MSA_DEMO_SERIES = uuid.uuid5(uuid.NAMESPACE_URL, 'demo:86b44715-ab6b-57c3-bd0f-0c03ca71b7f7')
+MSA_PROGRAM_TITLE = 'Parcours fictif · arabe standard'
 EDITORIAL_CAPABILITIES = {
     'editeur': {'edit': True, 'publish': True},
     'relecteur_clinique': {'clinical_review': True},
@@ -69,10 +73,19 @@ class Command(BaseCommand):
         Entitlement.objects.get_or_create(organization=organization, defaults={
             'plan': 'Fictional role walkthrough', 'child_quota': 15, 'practitioner_quota': 5,
             'expires_at': timezone.now() + timedelta(days=30)})
+        organization = Organization.objects.select_for_update().get(pk=organization.pk)
+        memberships = {}
         for name, role in [('responsable', 'owner'), ('orthophoniste', 'clinician')]:
-            Membership.objects.get_or_create(organization=organization, user=accounts[name], defaults={'role': role})
+            memberships[name], _ = Membership.objects.get_or_create(
+                organization=organization, user=accounts[name], defaults={'role': role})
 
         varieties = list(Variety.objects.filter(code__in=DEMO_VARIETY_CODES).order_by('code'))
+        msa = Variety.objects.get(code=MSA_CODE)
+        msa_example = current_catalog(Activity.objects.filter(
+            variety=msa, series=MSA_DEMO_SERIES, is_demo=True, state='published',
+        )).exclude(practice_guide={}).first()
+        if msa_example is not None and not msa_example.usable:
+            msa_example = None
         examples = {}
         for variety in varieties:
             activity = current_catalog(Activity.objects.filter(variety=variety, is_demo=True, state='published', version__gte=2)).exclude(
@@ -84,29 +97,38 @@ class Command(BaseCommand):
                 child = Child.objects.filter(organization=organization, code=code).first()
             child_created = child is None
             if child_created:
-                if any(activity is None for activity in examples.values()):
+                if msa_example is None or any(activity is None for activity in examples.values()):
                     raise CommandError('A current, guided demonstration is required to create role programs.')
                 child = Child.objects.create(pk=ROLE_CHILD_IDS[name], organization=organization, code=code,
                                              age_years=5, responsible=accounts[name])
-                child.varieties.add(*varieties, *Variety.objects.filter(code='ar-msa-pilot'))
+                child.varieties.add(*varieties, msa)
             elif child.organization_id != organization.pk or not child.code.endswith('· fictif'):
                 raise CommandError('A reserved role profile is not explicitly fictional.')
             if name == 'orthophoniste' and (child_created or 'accompagnant' in new_accounts):
                 FamilyLink.objects.get_or_create(child=child, user=accounts['accompagnant'])
-            if not child_created:
-                continue
-            for variety in varieties:
-                activity = examples[variety.pk]
+            samples = [(variety, examples[variety.pk], 'Parcours fictif · ' + variety.language)
+                       for variety in varieties] if child_created else []
+            # Only the original active fixture profiles may receive the missing
+            # MSA sample on an upgrade. An existing MSA program is authoritative.
+            original_profile = (child.pk == ROLE_CHILD_IDS[name] and child.code == code
+                                and child.responsible_id == accounts[name].pk and child.active)
+            if (original_profile and memberships[name].active and child.varieties.filter(pk=msa.pk).exists()
+                    and not child.programs.filter(variety=msa).exists()):
+                if msa_example is None:
+                    self.stderr.write('The fictional Standard Arabic sample is unavailable.')
+                else:
+                    samples.append((msa, msa_example, MSA_PROGRAM_TITLE))
+            for variety, activity, title in samples:
                 program, created = Program.objects.get_or_create(
-                    organization=organization, child=child, title='Parcours fictif · ' + variety.language,
-                    defaults={'variety': variety, 'created_by': accounts[name],
+                    organization=organization, child=child, variety=variety, title=title,
+                    defaults={'created_by': accounts[name],
                               'goal': 'Découvrir les étapes et le bilan de pratique avec des données fictives.',
                               'guidance': 'Exemple illustratif non validé, sans mesure de prononciation.',
                               'schedule': 'Démonstration accompagnée ; aucune prescription réelle.'})
                 if created:
                     ProgramItem.objects.create(program=program, position=1, activity=activity)
 
-        editorial_varieties = varieties + list(Variety.objects.filter(code='ar-msa-pilot'))
+        editorial_varieties = [*varieties, msa]
         for name, capabilities in EDITORIAL_CAPABILITIES.items():
             for variety in editorial_varieties:
                 EditorialGrant.objects.get_or_create(user=accounts[name], variety=variety, defaults=capabilities)
