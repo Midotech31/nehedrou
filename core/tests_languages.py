@@ -1,9 +1,17 @@
+from datetime import timedelta
 from html.parser import HTMLParser
+from urllib.parse import parse_qsl, urlencode, urlsplit
+from uuid import uuid4
 
 from django.conf import settings
-from django.test import SimpleTestCase, Client
-from django.utils import translation
+from django.test import Client, SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
+from django.utils import timezone, translation
+
+from care.models import Child, FamilyLink
+from core.access import CURRENT_NOTICE_VERSION
+from core.models import Entitlement, Membership, NoticeAcknowledgement, Organization, User
+from core.testing import practice_form_data
 
 class LanguageSelectorDOM(HTMLParser):
     """Read actual rendered selectors without simulating native activation."""
@@ -54,6 +62,42 @@ class LanguageSwitchTests(SimpleTestCase):
     def test_external_destination_is_rejected(self):
         r=self.client.post('/i18n/setlang/',{'language':'ar','next':'https://evil.example/steal'})
         self.assertEqual(r.headers['Location'],'/ar/')
+    def test_login_continuation_preserves_query_parameters_and_fragments(self):
+        continuation = '/fr/library/?q=caf%C3%A9&variety=ar-dz-pilot#results'
+        query = urlencode([('next', continuation), ('view', ''), ('view', 'full')])
+        response = self.client.post('/i18n/setlang/', {
+            'language': 'ar', 'next': f'/fr/login/?{query}#sign-in',
+        })
+        self.assertEqual(response.status_code, 302)
+        redirect = urlsplit(response['Location'])
+        self.assertEqual((redirect.path, redirect.fragment), ('/ar/login/', 'sign-in'))
+        self.assertEqual(parse_qsl(redirect.query, keep_blank_values=True), [
+            ('next', '/ar/library/?q=caf%C3%A9&variety=ar-dz-pilot#results'),
+            ('view', ''), ('view', 'full'),
+        ])
+
+    def test_login_continuation_leaves_external_and_unknown_destinations_unchanged(self):
+        cases = (
+            ('https://outside.example/fr/library/', ''),
+            ('/fr/unknown-page/', '/fr/unknown-page/'),
+        )
+        for destination, login_next in cases:
+            with self.subTest(destination=destination):
+                query = urlencode({'next': destination})
+                altered = self.client.post('/i18n/setlang/', {
+                    'language': 'en', 'next': f'/fr/login/?{query}',
+                })
+                self.assertEqual(altered['Location'], f'/en/login/?{query}')
+                login = self.client.get(altered['Location'])
+                self.assertEqual(login.context['next'], login_next)
+
+    def test_language_switch_preserves_query_named_next_outside_login(self):
+        query = urlencode({'next': '/fr/library/?q=original'})
+        response = self.client.post('/i18n/setlang/', {
+            'language': 'ar', 'next': f'/fr/library/?{query}',
+        })
+        self.assertEqual(response['Location'], f'/ar/library/?{query}')
+
     def test_navigation_switch_requires_post(self):
         self.assertEqual(self.client.get('/i18n/setlang/').status_code,405)
 
@@ -98,3 +142,74 @@ class LanguageSwitchTests(SimpleTestCase):
                         self.assertEqual(attrs['aria-current'], 'true')
                         current.append(code)
                 self.assertEqual(current, [language])
+
+
+@override_settings(
+    DEMO_MODE=False, MFA_REQUIRED=False, SECURE_SSL_REDIRECT=False,
+    EMAIL_BACKEND='core.email_backends.DisabledEmailBackend', PUBLIC_ORIGIN='https://testserver',
+    PASSWORD_HASHERS=['django.contrib.auth.hashers.MD5PasswordHasher'],
+)
+class InvitationSignInLanguageTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.clinician = User.objects.create_user('language-clinician', 'clinician@example.test')
+        cls.organization = Organization.objects.create(name='Fictional Language Practice')
+        Membership.objects.create(user=cls.clinician, organization=cls.organization, role='clinician')
+        Entitlement.objects.create(
+            organization=cls.organization, expires_at=timezone.now() + timedelta(days=5),
+            practitioner_quota=3, child_quota=3,
+        )
+        cls.child = Child.objects.create(
+            organization=cls.organization, responsible=cls.clinician, code='Fictional child', age_years=5,
+        )
+        NoticeAcknowledgement.objects.create(
+            user=cls.clinician, organization=cls.organization, version=CURRENT_NOTICE_VERSION, language='fr',
+        )
+
+    def test_existing_caregiver_keeps_selected_language_from_login_through_acceptance(self):
+        self.client.force_login(self.clinician)
+        for source, language in (('fr', 'ar'), ('ar', 'en'), ('en', 'fr')):
+            with self.subTest(source=source, language=language):
+                caregiver = User.objects.create_user(
+                    f'language-caregiver-{source}', f'caregiver-{source}@example.test',
+                    password='FixtureOnly-19!', instruction_language=source,
+                )
+                handoff = self.client.post(f'/{source}/children/{self.child.pk}/', {
+                    'email': caregiver.email, 'delivery_method': 'manual', 'creation_id': str(uuid4()),
+                })
+                self.assertEqual(handoff.status_code, 200)
+                invitation = urlsplit(handoff.context['manual_link']).path
+                self.assertTrue(invitation.startswith(f'/{source}/invite/'))
+                target_invitation = f'/{language}/' + invitation.split('/', 2)[2]
+
+                recipient = Client()
+                invite_form = recipient.get(invitation)
+                sign_in = f'/{source}/login/?next={invitation}'
+                self.assertContains(invite_form, f'href="{sign_in}"')
+                login_form = recipient.get(sign_in)
+                change = recipient.post('/i18n/setlang/', {
+                    'language': language, 'next': login_form.wsgi_request.get_full_path(),
+                })
+                login = recipient.get(change['Location'])
+                self.assertEqual(login.wsgi_request.LANGUAGE_CODE, language)
+                self.assertEqual(login.context['next'], target_invitation)
+                auth = recipient.post(change['Location'], {
+                    'username': caregiver.username, 'password': 'FixtureOnly-19!', 'next': login.context['next'],
+                })
+                self.assertRedirects(auth, target_invitation, fetch_redirect_response=False)
+                invite_form = recipient.get(auth['Location'])
+                self.assertEqual(invite_form.wsgi_request.LANGUAGE_CODE, language)
+
+                queued = recipient.post(auth['Location'])
+                notice_path = f'/{language}/information/'
+                self.assertRedirects(queued, notice_path, fetch_redirect_response=False)
+                self.assertEqual(recipient.get(notice_path).wsgi_request.LANGUAGE_CODE, language)
+                self.assertFalse(FamilyLink.objects.filter(child=self.child, user=caregiver).exists())
+                accepted = recipient.post(notice_path, practice_form_data(recipient, notice_path))
+                self.assertRedirects(accepted, f'/{language}/app/', fetch_redirect_response=False)
+                self.assertTrue(FamilyLink.objects.filter(child=self.child, user=caregiver, active=True).exists())
+                self.assertEqual(NoticeAcknowledgement.objects.get(
+                    user=caregiver, organization=self.organization, version=CURRENT_NOTICE_VERSION,
+                ).language, language)
+                caregiver.refresh_from_db()
+                self.assertEqual(caregiver.instruction_language, source)
