@@ -6276,5 +6276,17 @@ msgstr "Receipt of invitation and recovery emails and successful use of their li
 msgid "Validation of recovery time and data-loss objectives"
 msgstr "Validation of recovery time and data-loss objectives"
 
-msgid "Verify these operating requirements before paid launch or actual clinical use. This report does not evaluate them."
-msgstr "Verify these operating requirements before paid launch or actual clinical use. This report does not evaluate them."
+msgid "The operator verifies these requirements before paid launch or clinical use."
+msgstr "The operator verifies these requirements before paid launch or clinical use."
+
+msgid "Email address shown on the data notice"
+msgstr "Email address shown on the data notice"
+
+msgid "Use a practice address for data questions. It is shown to authorized users and invited recipients for this practice."
+msgstr "Use a practice address for data questions. It is shown to authorized users and invited recipients for this practice."
+
+msgid "Before entering personal data, ask your practice for full information on data handling, retention and hosting."
+msgstr "Before entering personal data, ask your practice for full information on data handling, retention and hosting."
+
+msgid "Practice contact for data questions"
+msgstr "Practice contact for data questions"

@@ -6276,5 +6276,17 @@ msgstr "Réception des courriels d’invitation et de récupération et essai co
 msgid "Validation of recovery time and data-loss objectives"
 msgstr "Validation des objectifs de délai de reprise et de perte de données"
 
-msgid "Verify these operating requirements before paid launch or actual clinical use. This report does not evaluate them."
-msgstr "Vérifier ces conditions d’exploitation avant une ouverture payante ou un usage clinique réel. Ce rapport ne les évalue pas."
+msgid "The operator verifies these requirements before paid launch or clinical use."
+msgstr "L’exploitant vérifie ces conditions avant une ouverture payante ou un usage clinique."
+
+msgid "Email address shown on the data notice"
+msgstr "Adresse e-mail affichée dans la notice sur les données"
+
+msgid "Use a practice address for data questions. It is shown to authorized users and invited recipients for this practice."
+msgstr "Utilisez une adresse du cabinet pour les questions sur les données. Elle est visible par les personnes autorisées et invitées pour ce cabinet."
+
+msgid "Before entering personal data, ask your practice for full information on data handling, retention and hosting."
+msgstr "Avant de saisir des données personnelles, demandez à votre cabinet les informations complètes sur leur traitement, leur conservation et leur hébergement."
+
+msgid "Practice contact for data questions"
+msgstr "Contact du cabinet pour les questions sur les données"

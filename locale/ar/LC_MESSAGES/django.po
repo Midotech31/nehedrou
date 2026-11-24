@@ -6276,5 +6276,17 @@ msgstr "استلام رسائل الدعوة واستعادة الحساب وا�
 msgid "Validation of recovery time and data-loss objectives"
 msgstr "التحقق من أهداف زمن الاستعادة والحد الأقصى لفقدان البيانات"
 
-msgid "Verify these operating requirements before paid launch or actual clinical use. This report does not evaluate them."
-msgstr "تحقّقوا من شروط التشغيل الآتية قبل الإطلاق المدفوع أو الاستخدام السريري الفعلي. هذا التقرير لا يقيّمها."
+msgid "The operator verifies these requirements before paid launch or clinical use."
+msgstr "يتحقّق المشغّل من هذه الشروط قبل الإطلاق المدفوع أو الاستخدام السريري."
+
+msgid "Email address shown on the data notice"
+msgstr "عنوان البريد الإلكتروني المعروض في إشعار البيانات"
+
+msgid "Use a practice address for data questions. It is shown to authorized users and invited recipients for this practice."
+msgstr "استخدموا عنوانًا للعيادة مخصصًا لأسئلة البيانات. يظهر للمستخدمين المخوّلين ولمن تلقّوا دعوة من هذه العيادة."
+
+msgid "Before entering personal data, ask your practice for full information on data handling, retention and hosting."
+msgstr "قبل إدخال بيانات شخصية، اطلبوا من عيادتكم المعلومات الكاملة عن معالجتها والاحتفاظ بها واستضافتها."
+
+msgid "Practice contact for data questions"
+msgstr "عنوان العيادة لأسئلة البيانات"

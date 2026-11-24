@@ -33,6 +33,8 @@ class Organization(CheckedModel):
     country = models.CharField(max_length=2, default='DZ')
     created_at = models.DateTimeField(auto_now_add=True)
     retention_days = models.PositiveIntegerField(null=True, blank=True)
+    data_notice_contact_email = models.EmailField(max_length=254, blank=True)
+
     def __str__(self):
         return self.name
 
