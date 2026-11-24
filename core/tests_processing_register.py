@@ -10,6 +10,7 @@ from core.models import AuditEvent, Organization, ProcessingActivity, Processing
 
 class ProcessingRegisterAdminTests(TestCase):
     def setUp(self):
+        self.enterContext(translation.override('fr'))
         self.operator = User.objects.create_user(
             username='processing-register-operator', email='operator@fictional.example', password='Fictional-Test-Only-123!', is_staff=True)
         self.operator.user_permissions.add(Permission.objects.get(codename='manage_processing_register'))
