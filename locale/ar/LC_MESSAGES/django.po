@@ -6547,3 +6547,6 @@ msgstr "أعيدوا تحميل صفحة الإنشاء واختاروا الت�
 
 msgid "This save request already created a draft with different content. Open the saved draft or start a new creation page."
 msgstr "أنشأ طلب الحفظ هذا مسودة بمحتوى مختلف. افتحوا المسودة المحفوظة أو ابدؤوا صفحة إنشاء جديدة."
+
+msgid "Inviting practice"
+msgstr "العيادة صاحبة الدعوة"

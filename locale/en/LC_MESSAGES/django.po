@@ -6547,3 +6547,6 @@ msgstr "Reload the creation page and choose the spoken variety again."
 
 msgid "This save request already created a draft with different content. Open the saved draft or start a new creation page."
 msgstr "This save request already created a draft with different content. Open the saved draft or start a new creation page."
+
+msgid "Inviting practice"
+msgstr "Inviting practice"

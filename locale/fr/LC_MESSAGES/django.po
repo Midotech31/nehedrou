@@ -6547,3 +6547,6 @@ msgstr "Rechargez la page de création et choisissez de nouveau la variété par
 
 msgid "This save request already created a draft with different content. Open the saved draft or start a new creation page."
 msgstr "Cette demande d’enregistrement a déjà créé un brouillon avec un contenu différent. Ouvrez le brouillon enregistré ou commencez une nouvelle création."
+
+msgid "Inviting practice"
+msgstr "Cabinet qui vous invite"

@@ -42,6 +42,7 @@ urlpatterns += i18n_patterns(
     path('invitations/<uuid:pk>/revoke/', views.revoke_invite, name='revoke_invite'),
     path('invitations/<uuid:pk>/resend/', views.resend_invitation, name='resend_invitation'),
     path('invite/<str:token>/', views.invite, name='invite'),
+    path('invitation/resume/', views.resume_practice_invitation, name='resume_practice_invitation'),
     path('library/', views.library, name='library'),
     path('library/<uuid:pk>/', views.activity_detail, name='activity_detail'),
     path('programs/<uuid:pk>/', views.program_detail, name='program_detail'),

@@ -19,7 +19,7 @@ from django.utils import timezone
 from django.utils.cache import patch_cache_control
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_http_methods
 from django.views.decorators.debug import sensitive_variables
 from care.models import Child, FamilyLink, Program, ProgramItem, PracticeSession, Observation, PracticeRun, PracticeRunTask, ProgramFeedback
 from catalog.models import Activity, Variety
@@ -30,10 +30,11 @@ from .access import (
 )
 from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .invitation_delivery import invitation_delivery_status
+from .invitation_mfa import SESSION_KEY as MFA_INVITATION_KEY, invitation_digest
 from .forms import SignupForm, InviteSignupForm, ChildForm, ProgramForm, InvitationForm, PracticeForm, ObservationForm, PreferencesForm, DemoPracticeForm, FamilyFeedbackForm, HistoryFilterForm
 from .models import Organization, Membership, Entitlement, Invitation, PrivacyRequest
 from .services import (
-    accept_invitation, audit, check_entitlement, create_program,
+    accept_invitation, accept_invitation_digest, audit, check_entitlement, create_program,
     issue_and_deliver_invitation, issue_manual_practice_invitation, lock_clinical_child,
     log_child_access, publish_feedback, record_practice, revoke_family_link, revoke_practice_invitation,
 )
@@ -328,25 +329,63 @@ def select_invitation_workspace(request, invitation):
         request.session['organization'] = str(invitation.organization_id)
 
 
+def _invitation_unavailable(request):
+    return render(request, 'notice.html', {
+        'title': _('Invitation unavailable'), 'body': _('Ask your clinician for a new invitation.'),
+    }, status=410)
+
+
+def _accept_signed_in_invitation(request, invitation):
+    if not settings.DEMO_MODE and not notice_acknowledged(request.user, invitation.organization):
+        queue_invitation_notice(request, invitation)
+        return redirect('data_notice')
+    try:
+        accept_invitation_digest(request.user, invitation.token_hash)
+    except ValidationError as error:
+        messages.error(request, ' '.join(error.messages))
+        return None
+    select_invitation_workspace(request, invitation)
+    return redirect('dashboard')
+
+
 @never_cache
+@login_required
+@require_http_methods(['GET', 'HEAD', 'POST'])
+def resume_practice_invitation(request):
+    if not request.user.is_verified():
+        raise Http404
+    digest = invitation_digest(request)
+    invitation = Invitation.objects.filter(
+        token_hash=digest, email__iexact=request.user.email,
+    ).select_related('organization').first() if digest else None
+    if not invitation or not invitation.available:
+        if digest:
+            request.session.pop(MFA_INVITATION_KEY, None)
+        return _invitation_unavailable(request)
+    if request.method == 'POST':
+        response = _accept_signed_in_invitation(request, invitation)
+        if response is not None:
+            request.session.pop(MFA_INVITATION_KEY, None)
+            return response
+    return render(request, 'invite.html', {
+        'existing_account': True, 'inviting_practice': invitation.organization.name,
+    })
+
+
+@never_cache
+@sensitive_variables('token')
 def invite(request, token):
     invitation = get_object_or_404(Invitation, token_hash=hashlib.sha256(token.encode()).hexdigest())
     if not invitation.available:
-        return render(request, 'notice.html', {'title': _('Invitation unavailable'), 'body': _('Ask your clinician for a new invitation.')}, status=410)
+        return _invitation_unavailable(request)
     from .models import User
     existing_account = User.objects.filter(email__iexact=invitation.email).exists()
     form = InviteSignupForm(request.POST or None) if not request.user.is_authenticated and not existing_account else None
     if request.method == 'POST':
         if request.user.is_authenticated:
-            if not settings.DEMO_MODE and not notice_acknowledged(request.user, invitation.organization):
-                queue_invitation_notice(request, invitation)
-                return redirect('data_notice')
-            try:
-                accept_invitation(request.user, token)
-                select_invitation_workspace(request, invitation)
-                return redirect('dashboard')
-            except ValidationError as error:
-                messages.error(request, ' '.join(error.messages))
+            response = _accept_signed_in_invitation(request, invitation)
+            if response is not None:
+                return response
         elif form and form.is_valid():
             try:
                 with transaction.atomic():
