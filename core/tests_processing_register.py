@@ -138,6 +138,16 @@ class ProcessingRegisterAdminTests(TestCase):
         response = self.client.get(reverse('processing_register'))
         self.assertRedirects(response, reverse('mfa_setup'), fetch_redirect_response=False)
 
+    def test_technical_admin_records_a_revision_for_a_cabinet(self):
+        practice = Organization.objects.create(name='Fictional admin register cabinet')
+        payload = {**self.payload(), 'organization': str(practice.pk), '_save': 'Save'}
+        result = self.client.post(reverse('admin:core_processingactivity_add'), payload)
+        self.assertEqual(result.status_code, 302)
+        record = ProcessingActivity.objects.get(organization=practice)
+        self.assertEqual(record.revisions.get().snapshot['organization_id'], str(practice.pk))
+        self.assertTrue(AuditEvent.objects.filter(organization=practice, object_id=str(record.pk),
+                                                 action='privacy.register_activity_created').exists())
+
     def test_register_entries_cannot_be_deleted_from_admin(self):
         payload = self.payload()
         payload['organization'] = None

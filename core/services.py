@@ -46,6 +46,21 @@ def audit(actor, action, obj, organization=None, *, purpose_code=None, object_re
     )
 
 
+def record_processing_activity_revision(actor, activity, action):
+    """Snapshot the saved activity within the caller's write transaction."""
+    from .models import ProcessingActivityRevision
+    fields = ('register_capacity', 'name', 'controller_name', 'controller_contact',
+              'data_protection_contact', 'purposes', 'legal_basis', 'data_subject_categories',
+              'personal_data_categories', 'recipient_categories', 'international_transfers',
+              'retention_periods', 'security_measures', 'operations', 'active')
+    snapshot = {'organization_id': str(activity.organization_id) if activity.organization_id is not None else None}
+    snapshot.update((field, getattr(activity, field)) for field in fields)
+    previous = activity.revisions.order_by('-revision').values_list('revision', flat=True).first() or 0
+    ProcessingActivityRevision.objects.create(activity=activity, revision=previous + 1,
+                                               snapshot=snapshot, changed_by=actor)
+    audit(actor, action, activity, activity.organization)
+
+
 def log_child_access(actor, child, *, resource, purpose_code):
     """Log an authorized consultation by its actor, purpose, and pseudonymous subject ref."""
     if purpose_code not in {'care_delivery', 'family_practice', 'clinical_followup', 'data_portability'}:

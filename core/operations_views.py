@@ -183,19 +183,8 @@ def processing_register(request, pk=None):
         obj.updated_by = request.user
         with transaction.atomic():
             obj.save()
-            from core.models import ProcessingActivityRevision
-            from core.services import audit
-            snapshot_fields = ('organization_id', 'register_capacity', 'name', 'controller_name', 'controller_contact',
-                               'data_protection_contact', 'purposes', 'legal_basis', 'data_subject_categories',
-                               'personal_data_categories', 'recipient_categories', 'international_transfers',
-                               'retention_periods', 'security_measures', 'operations', 'active')
-            snapshot = {field: getattr(obj, field) for field in snapshot_fields}
-            snapshot['organization_id'] = str(obj.organization_id) if obj.organization_id is not None else None
-            revision_number = (ProcessingActivityRevision.objects.filter(activity=obj).order_by('-revision')
-                              .values_list('revision', flat=True).first() or 0) + 1
-            ProcessingActivityRevision.objects.create(activity=obj, revision=revision_number, snapshot=snapshot,
-                                                       changed_by=request.user)
-            audit(request.user, action, obj, obj.organization)
+            from core.services import record_processing_activity_revision
+            record_processing_activity_revision(request.user, obj, action)
         messages.success(request, _('Register entry saved. Have its accuracy and legal basis reviewed by the responsible people.'))
         return redirect('processing_register')
     entries = list(ProcessingActivity.objects.select_related('organization').prefetch_related('revisions__changed_by').order_by('organization__name', 'name'))
