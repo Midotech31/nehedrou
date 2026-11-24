@@ -137,6 +137,58 @@ class SpokenVarietyReadinessTests(TestCase):
         self.assertEqual(report['published_nondemo_counts'], {'fr':1,'en':0,'ar':0})
         self.assertTrue(report['technical_gates_passed'])
 
+    def covered_offer(self):
+        for code in DEFAULT_OFFERED_CONTENT_VARIETIES:
+            self.content(code)
+        self.processing_register()
+        report = self.report(strict=True)
+        self.assertEqual(
+            report['current_available_nondemo_counts_by_variety'],
+            {code: 1 for code in DEFAULT_OFFERED_CONTENT_VARIETIES},
+        )
+        return report
+
+    def unlisted_content(self, *, available):
+        code = 'fr-unlisted-fixture'
+        self.varieties[code] = Variety.objects.create(
+            code=code, language='fr', label='Fictional variety outside the declared offer',
+        )
+        return self.content(code, available=available)
+
+    def test_available_unlisted_practice_blocks_launch_without_changing_four_required_counts(self):
+        baseline = self.covered_offer()
+        unlisted = self.unlisted_content(available=True)
+        self.assertTrue(unlisted.usable)
+        self.assertTrue(unlisted.has_current_reviews())
+        report = self.report()
+
+        self.assertEqual(report['offered_content_varieties'], list(DEFAULT_OFFERED_CONTENT_VARIETIES))
+        self.assertEqual(report['published_nondemo_counts_by_variety'], baseline['published_nondemo_counts_by_variety'])
+        self.assertEqual(report['current_available_nondemo_counts_by_variety'], baseline['current_available_nondemo_counts_by_variety'])
+        self.assertTrue(report['checks']['current_available_nondemo_content_in_each_offered_variety'])
+        self.assertTrue(report['checks']['published_audio_and_current_reviews_available'])
+        self.assertFalse(report['checks']['current_available_practice_within_offered_varieties'])
+        self.assertEqual(
+            report['currently_available_unlisted_nondemo_counts_by_variety'],
+            {unlisted.variety.code: 1},
+        )
+        self.assertFalse(report['technical_gates_passed'])
+        with self.assertRaises(CommandError):
+            self.report(strict=True)
+
+    def test_unlisted_publication_without_availability_does_not_trigger_the_new_gate(self):
+        baseline = self.covered_offer()
+        unlisted = self.unlisted_content(available=False)
+        self.assertFalse(unlisted.usable)
+        report = self.report()
+
+        self.assertEqual(report['current_available_nondemo_counts_by_variety'], baseline['current_available_nondemo_counts_by_variety'])
+        self.assertTrue(report['checks']['current_available_nondemo_content_in_each_offered_variety'])
+        self.assertTrue(report['checks']['current_available_practice_within_offered_varieties'])
+        self.assertEqual(report['currently_available_unlisted_nondemo_counts_by_variety'], {})
+        # The older all-published-content gate is separate and still applies.
+        self.assertFalse(report['checks']['published_audio_and_current_reviews_available'])
+
     def test_empty_duplicate_or_string_configuration_is_rejected(self):
         for configured in [(), ('ar-dz-pilot','ar-dz-pilot'), 'ar-dz-pilot', (None,)]:
             with self.subTest(configured=configured), override_settings(OFFERED_CONTENT_VARIETIES=configured):

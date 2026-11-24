@@ -46,6 +46,7 @@ READINESS_CHECK_LABELS = {
     'email_configured': _('Supported email delivery configured'),
     'offered_content_varieties_exist': _('Offered spoken varieties exist in the catalogue'),
     'current_available_nondemo_content_in_each_offered_variety': _('Current approved non-demo activity available for every offered spoken variety'),
+    'current_available_practice_within_offered_varieties': _('Available home activities match the declared spoken varieties'),
     'published_audio_and_current_reviews_available': _('Published activities have usable audio and current reviews'),
 }
 
@@ -109,6 +110,8 @@ def launch_readiness_report(request):
     try:
         call_command('check_readiness', json=True, stdout=output)
         report = json.loads(output.getvalue())
+        if 'execution' in report:
+            report['execution']['delivery'] = 'authenticated_private_web_view'
         status = 200
     except CommandError:
         # A malformed or incomplete content-variety configuration must block
