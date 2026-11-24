@@ -12,6 +12,7 @@ from catalog import working, quality, guided_audio
 from core.health import health
 from core import operations_views
 from core.email_forms import CanonicalPasswordResetForm
+from core.email_views import PasswordRecoveryView, PasswordRecoveryDoneView
 
 urlpatterns = [path('healthz/', health, name='health'), path('i18n/setlang/', switch_language, name='set_language')]
 urlpatterns += i18n_patterns(
@@ -21,8 +22,8 @@ urlpatterns += i18n_patterns(
     path('signup/', views.signup, name='signup'),
     path('login/', auth.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('logout/', auth.LogoutView.as_view(), name='logout'),
-    path('password-reset/', auth.PasswordResetView.as_view(template_name='registration/password_reset_form.html', form_class=CanonicalPasswordResetForm), name='password_reset'),
-    path('password-reset/sent/', auth.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'), name='password_reset_done'),
+    path('password-reset/', PasswordRecoveryView.as_view(template_name='registration/password_reset_form.html', form_class=CanonicalPasswordResetForm), name='password_reset'),
+    path('password-reset/sent/', PasswordRecoveryDoneView.as_view(template_name='registration/password_reset_done.html'), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'), name='password_reset_confirm'),
     path('reset/done/', auth.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
     path('app/', views.dashboard, name='dashboard'),
