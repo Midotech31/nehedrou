@@ -6113,3 +6113,12 @@ msgstr "Decision for different content"
 
 msgid "Decision labels describe content matching and decision order. They do not establish current clinical qualification."
 msgstr "Decision labels describe content matching and decision order. They do not establish current clinical qualification."
+
+msgid "Password recovery unavailable"
+msgstr "Password recovery unavailable"
+
+msgid "Email delivery is unavailable on this service. This page cannot send a password recovery email."
+msgstr "Email delivery is unavailable on this service. This page cannot send a password recovery email."
+
+msgid "If an eligible account matches this email address, we try to send a recovery link. Delivery is not confirmed."
+msgstr "If an eligible account matches this email address, we try to send a recovery link. Delivery is not confirmed."

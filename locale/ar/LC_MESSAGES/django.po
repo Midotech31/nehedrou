@@ -6113,3 +6113,12 @@ msgstr "قرار يخص محتوى مختلفًا"
 
 msgid "Decision labels describe content matching and decision order. They do not establish current clinical qualification."
 msgstr "تبيّن التسميات مطابقة المحتوى وترتيب القرارات، ولا تثبت اعتمادًا سريريًا حاليًا."
+
+msgid "Password recovery unavailable"
+msgstr "استعادة كلمة المرور غير متاحة"
+
+msgid "Email delivery is unavailable on this service. This page cannot send a password recovery email."
+msgstr "إرسال البريد الإلكتروني غير متاح في هذه الخدمة. لا يمكن لهذه الصفحة إرسال رسالة لاستعادة كلمة المرور."
+
+msgid "If an eligible account matches this email address, we try to send a recovery link. Delivery is not confirmed."
+msgstr "إذا كان عنوان البريد الإلكتروني هذا مرتبطًا بحساب مؤهّل للاستعادة، نحاول إرسال رابط للاستعادة. لم يتم تأكيد وصول الرسالة."
