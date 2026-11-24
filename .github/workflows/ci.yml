@@ -76,6 +76,9 @@ jobs:
           done
           docker logs nehedrou-ci
           exit 1
+      - name: Smoke test durable PostgreSQL container and recovery
+        timeout-minutes: 8
+        run: python scripts/smoke_durable_postgres.py --image nehedrou-ci:pull-request
 
   postgres:
     name: PostgreSQL permission and concurrency checks
