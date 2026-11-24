@@ -4,10 +4,12 @@ from threading import Barrier
 from unittest import skipUnless
 
 from django.contrib.auth.models import Permission
+from django.core import signing
 from django.db import connection, connections
 from django.test import Client, TestCase, TransactionTestCase, override_settings
 from django.utils import timezone
 
+from core.form_scope import SALT as PRACTICE_SCOPE_SALT
 from core.models import AuditEvent, Entitlement, Invoice, Membership, Organization, PracticeAccessRequest, User
 
 
@@ -232,24 +234,32 @@ class PracticeAccessRequestPostgreSQLTests(TransactionTestCase):
             operator.user_permissions.add(permission)
 
         def parallel_post(accounts, path, owner_submission=False):
-            barrier = Barrier(len(accounts))
+            # Django's test client captures template contexts through a process-wide signal.
+            # Render each actor's form first, then run only the mutations concurrently.
+            submissions = []
+            for user in accounts:
+                client = Client()
+                client.force_login(user)
+                data = {}
+                if owner_submission:
+                    select(client, clinic)
+                    data = request_form(client)
+                    scope = signing.loads(data['practice_scope'], salt=PRACTICE_SCOPE_SALT)
+                    self.assertEqual(scope['actor'], str(user.pk))
+                    self.assertEqual(scope['organization'], str(clinic.pk))
+                submissions.append((client, data))
+            barrier = Barrier(len(submissions))
 
-            def attempt(user):
+            def attempt(submission):
+                client, data = submission
                 try:
-                    client = Client()
-                    client.force_login(user)
-                    if owner_submission:
-                        select(client, clinic)
-                        data = request_form(client)
-                    else:
-                        data = {}
                     barrier.wait(timeout=15)
                     return client.post(path, data).status_code
                 finally:
                     connections.close_all()
 
-            with ThreadPoolExecutor(max_workers=len(accounts)) as executor:
-                return list(executor.map(attempt, accounts))
+            with ThreadPoolExecutor(max_workers=len(submissions)) as executor:
+                return list(executor.map(attempt, submissions))
 
         self.assertEqual(parallel_post(owners, REQUEST, owner_submission=True), [302, 302])
         request = PracticeAccessRequest.objects.get(organization=clinic)
