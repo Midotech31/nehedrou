@@ -24,17 +24,20 @@ def _audit_purpose(action):
     return ''
 
 
-def audit(actor, action, obj, organization=None, *, purpose_code=None):
+def audit(actor, action, obj, organization=None, *, purpose_code=None, object_ref=None):
     """Append a purpose-coded event without copying clinical content into the log."""
     if organization is None:
         organization = getattr(obj, 'organization', None)
     actor_ref = str(actor.pk) if actor is not None and getattr(actor, 'pk', None) is not None else ''
+    subject_pk = getattr(obj, 'pk', None)
+    if object_ref is None:
+        object_ref = str(subject_pk) if subject_pk is not None else ''
     return AuditEvent.objects.create(
         actor=actor,
         actor_ref=actor_ref,
         action=action,
         purpose_code=purpose_code or _audit_purpose(action),
-        object_id=str(obj.pk) if obj is not None and getattr(obj, 'pk', None) is not None else '',
+        object_id=object_ref,
         organization=organization,
     )
 
