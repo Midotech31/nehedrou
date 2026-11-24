@@ -189,7 +189,7 @@ class Smoke:
 
     def verify_locale_and_static(self):
         code, _headers, body = self.response('/ar/')
-        require(code == 200, 'ARABIC_PAGE_NOT_OK')
+        require(code == 200, f'ARABIC_PAGE_HTTP_{code}')
         page = Page()
         page.feed(body.decode('utf-8'))
         require(page.language == 'ar' and page.direction == 'rtl', 'ARABIC_LOCALE_NOT_RENDERED')
