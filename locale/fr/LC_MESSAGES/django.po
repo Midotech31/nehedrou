@@ -6239,3 +6239,15 @@ msgstr "Avant de saisir des données personnelles, demandez à votre cabinet ses
 
 msgid "Enter an age from 4 to 7 years."
 msgstr "Indiquez un âge compris entre 4 et 7 ans."
+
+msgid "No access plan has been set"
+msgstr "Aucune offre d’accès n’a été définie"
+
+msgid "Profile creation and activity assignment are paused. You can view existing programs, history and authorized exports."
+msgstr "La création de profils et l’attribution d’activités sont suspendues. Vous pouvez consulter les programmes existants, l’historique et les exports autorisés."
+
+msgid "Contact the platform operator to arrange activation or renewal for this practice."
+msgstr "Contactez le gestionnaire de la plateforme pour activer ou renouveler l’accès de ce cabinet."
+
+msgid "An authorised operator manages publishing access for this spoken variety."
+msgstr "Un opérateur habilité gère le droit de publication pour cette variété parlée."

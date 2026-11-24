@@ -842,7 +842,21 @@ def revoke_member(request, pk):
 @login_required
 def subscription(request):
     member = manager(request)
-    return render(request, 'subscription.html', {'entitlement': Entitlement.objects.filter(organization=member.organization).first(), 'used_children': Child.objects.filter(organization=member.organization, active=True).count(), 'used_members': Membership.objects.filter(organization=member.organization, active=True).count()})
+    practice = member.organization
+    entitlement = Entitlement.objects.filter(organization=practice).first()
+    access_usable = bool(entitlement and entitlement.usable)
+    access_status = None
+    if entitlement is not None:
+        access_status = entitlement.get_status_display()
+        if entitlement.status == 'active' and not access_usable:
+            access_status = _('Expired')
+    return render(request, 'subscription.html', {
+        'entitlement': entitlement,
+        'access_usable': access_usable,
+        'access_status': access_status,
+        'used_children': Child.objects.filter(organization=practice, active=True).count(),
+        'used_members': Membership.objects.filter(organization=practice, active=True).count(),
+    })
 
 @login_required
 def preferences(request):

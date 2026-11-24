@@ -12,11 +12,12 @@ from django.core.exceptions import ValidationError
 from django.db import close_old_connections, connections
 from django.test import Client, RequestFactory, TestCase, TransactionTestCase, override_settings, skipUnlessDBFeature
 from django.urls import reverse
-from django.utils import timezone
+from django.utils import timezone, translation
 
+from care.models import Child
 from core.admin import EntitlementAdmin
 from core.complete_views import billing
-from core.models import AuditEvent, Entitlement, Invoice, Organization, User
+from core.models import AuditEvent, Entitlement, Invoice, Membership, Organization, User
 from core.billing import transition_invoice
 
 
@@ -260,3 +261,90 @@ class ConcurrentEntitlementTests(TransactionTestCase):
                 events = AuditEvent.objects.filter(organization=organization, object_id=str(entitlement.pk))
                 expected = 'entitlement.updated' if exists else 'entitlement.created'
                 self.assertEqual(list(events.values_list('action', flat=True)), [expected])
+
+
+@override_settings(DEMO_MODE=False, MFA_REQUIRED=False)
+class OwnerPlanAccessTests(TestCase):
+    labels = {
+        'en': {'active': 'Active', 'expired': 'Expired', 'cancelled': 'Cancelled',
+               'missing': 'No access plan has been set',
+               'manual': 'Contact the platform operator to arrange activation or renewal for this practice.'},
+        'fr': {'active': 'Actif', 'expired': 'Expiré', 'cancelled': 'Annulée',
+               'missing': 'Aucune offre d’accès n’a été définie',
+               'manual': 'Contactez le gestionnaire de la plateforme pour activer ou renouveler l’accès de ce cabinet.'},
+        'ar': {'active': 'نشط', 'expired': 'منتهي الصلاحية', 'cancelled': 'ملغاة',
+               'missing': 'لم تُحدَّد خطة وصول للعيادة',
+               'manual': 'تواصلوا مع مسؤول المنصة لتفعيل صلاحية وصول العيادة أو تجديدها.'},
+    }
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.organization = Organization.objects.create(name='Fictional plan practice')
+        cls.owner = User.objects.create_user('plan-owner', 'owner@example.test')
+        cls.practitioner = User.objects.create_user('plan-practitioner', 'practitioner@example.test')
+        inactive = User.objects.create_user('plan-inactive', 'inactive@example.test')
+        Membership.objects.create(organization=cls.organization, user=cls.owner, role='owner')
+        Membership.objects.create(organization=cls.organization, user=cls.practitioner, role='clinician')
+        Membership.objects.create(organization=cls.organization, user=inactive, role='clinician', active=False)
+        Child.objects.create(organization=cls.organization, responsible=cls.owner, code='Fictional active', age_years=5)
+        Child.objects.create(organization=cls.organization, responsible=cls.owner,
+                             code='Fictional archived', age_years=5, active=False)
+
+    def setUp(self):
+        self.client.force_login(self.owner)
+
+    def assert_language(self, response, language):
+        direction = 'rtl' if language == 'ar' else 'ltr'
+        self.assertContains(response, f'lang="{language}" dir="{direction}"')
+
+    def test_status_reflects_effective_access_with_quotas_and_manual_guidance(self):
+        now = timezone.now()
+        cases = (
+            ('active', now + timedelta(days=1), 'active'),
+            ('active', now, 'expired'),
+            ('active', now - timedelta(days=1), 'expired'),
+            ('expired', now + timedelta(days=1), 'expired'),
+            ('cancelled', now + timedelta(days=1), 'cancelled'),
+        )
+        for stored, expires_at, effective in cases:
+            with self.subTest(stored=stored, deadline=expires_at, effective=effective):
+                entitlement, _ = Entitlement.objects.update_or_create(organization=self.organization,
+                    defaults={'plan': 'Fictional manual plan', 'status': stored, 'expires_at': expires_at,
+                              'child_quota': 11, 'practitioner_quota': 8})
+                before = Entitlement.objects.values().get(pk=entitlement.pk)
+                with patch('core.models.timezone.now', return_value=now):
+                    for language, copy in self.labels.items():
+                        with self.subTest(language=language), translation.override(language):
+                            response = self.client.get(reverse('subscription'))
+                            self.assert_language(response, language)
+                            usable = effective == 'active'
+                            self.assertEqual(response.context['access_usable'], usable)
+                            badge = 'badge' if usable else 'badge warning'
+                            self.assertContains(response, f'<span class="{badge}">{copy[effective]}</span>')
+                            self.assertContains(response, '<bdi dir="ltr">1 / 11</bdi>')
+                            self.assertContains(response, '<bdi dir="ltr">2 / 8</bdi>')
+                            if usable:
+                                self.assertNotContains(response, copy['manual'])
+                            else:
+                                self.assertContains(response, copy['manual'])
+                self.assertEqual(Entitlement.objects.values().get(pk=entitlement.pk), before)
+        self.assertFalse(AuditEvent.objects.exists())
+
+    def test_missing_plan_shows_next_step_and_actual_counts_without_inventing_limits(self):
+        for language, copy in self.labels.items():
+            with self.subTest(language=language), translation.override(language):
+                response = self.client.get(reverse('subscription'))
+                self.assert_language(response, language)
+                self.assertIsNone(response.context['entitlement'])
+                self.assertFalse(response.context['access_usable'])
+                self.assertContains(response, copy['missing'])
+                self.assertContains(response, copy['manual'])
+                self.assertContains(response, '<bdi dir="ltr">1</bdi>')
+                self.assertContains(response, '<bdi dir="ltr">2</bdi>')
+                self.assertNotContains(response, '<strong class="date">')
+        self.assertFalse(Entitlement.objects.exists())
+        self.assertFalse(AuditEvent.objects.exists())
+
+    def test_practitioner_cannot_read_owner_plan_page(self):
+        self.client.force_login(self.practitioner)
+        self.assertEqual(self.client.get(reverse('subscription')).status_code, 404)

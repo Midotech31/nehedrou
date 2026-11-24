@@ -6239,3 +6239,15 @@ msgstr "قبل إدخال بيانات شخصية، اطلب من عيادتك �
 
 msgid "Enter an age from 4 to 7 years."
 msgstr "أدخل عمرًا من 4 إلى 7 سنوات."
+
+msgid "No access plan has been set"
+msgstr "لم تُحدَّد خطة وصول للعيادة"
+
+msgid "Profile creation and activity assignment are paused. You can view existing programs, history and authorized exports."
+msgstr "إضافة ملفات الأطفال وإسناد الأنشطة متوقفان حاليًا. يمكنكم الاطلاع على البرامج الحالية والسجل والتصديرات المصرّح بها."
+
+msgid "Contact the platform operator to arrange activation or renewal for this practice."
+msgstr "تواصلوا مع مسؤول المنصة لتفعيل صلاحية وصول العيادة أو تجديدها."
+
+msgid "An authorised operator manages publishing access for this spoken variety."
+msgstr "يدير مشغّل مخوّل صلاحية النشر لهذه اللغة أو اللهجة."

@@ -55,7 +55,7 @@ def manage_editorial_access(request):
                 return redirect('editorial_access_management')
         except ValidationError as error:
             form.add_error(None, error)
-    grants = EditorialGrant.objects.filter(Q(edit=True) | Q(clinical_review=True) | Q(linguistic_review=True)).select_related('user', 'variety').order_by('variety__code', 'user__username')
+    grants = EditorialGrant.objects.filter(Q(edit=True) | Q(clinical_review=True) | Q(linguistic_review=True) | Q(publish=True)).select_related('user', 'variety').order_by('variety__code', 'user__username')
     invitations = EditorialAccessInvitation.objects.filter(revoked=False).select_related('variety', 'created_by', 'accepted_by').order_by('-expires_at')[:100]
     response = render(request, 'editorial_access_management.html', {
         'form': form, 'grants': grants, 'invitations': invitations,

@@ -6239,3 +6239,15 @@ msgstr "Before entering personal data, ask your practice for its contact details
 
 msgid "Enter an age from 4 to 7 years."
 msgstr "Enter an age from 4 to 7 years."
+
+msgid "No access plan has been set"
+msgstr "No access plan has been set"
+
+msgid "Profile creation and activity assignment are paused. You can view existing programs, history and authorized exports."
+msgstr "Profile creation and activity assignment are paused. You can view existing programs, history and authorized exports."
+
+msgid "Contact the platform operator to arrange activation or renewal for this practice."
+msgstr "Contact the platform operator to arrange activation or renewal for this practice."
+
+msgid "An authorised operator manages publishing access for this spoken variety."
+msgstr "An authorised operator manages publishing access for this spoken variety."
