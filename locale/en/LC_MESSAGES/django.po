@@ -6023,3 +6023,9 @@ msgstr "The familiarity evidence must concern the activity’s spoken variety."
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
+
+msgid "The interface language and the sample's spoken variety are separate. Changing the variety starts a new sample."
+msgstr "The interface language and the sample's spoken variety are separate. Changing the variety starts a new sample."
+
+msgid "Choose a supported spoken variety for this sample."
+msgstr "Choose a supported spoken variety for this sample."
