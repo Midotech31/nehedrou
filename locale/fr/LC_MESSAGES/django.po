@@ -6023,3 +6023,42 @@ msgstr "Le justificatif de familiarité doit concerner la variété parlée de l
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "Une sélection inchangée conserve son empreinte enregistrée. Pour effacer une référence, demandez explicitement son retrait."
+
+msgid "Build a review batch"
+msgstr "Préparer un lot de relecture"
+
+msgid "Choose versions for the review pack"
+msgstr "Sélectionner les versions à relire"
+
+msgid "Select versions on this page. The download contains only the versions you select."
+msgstr "Cochez les versions sur cette page. Le téléchargement contient uniquement les versions cochées."
+
+msgid "Download selected versions"
+msgstr "Télécharger les versions sélectionnées"
+
+msgid "Review batch"
+msgstr "Lot de relecture"
+
+msgid "Return to content quality"
+msgstr "Revenir à la page Qualité des contenus"
+
+msgid "Choose one or more versions from the same page and try again."
+msgstr "Cochez une ou plusieurs versions sur la même page, puis réessayez."
+
+msgid "A selected version has changed. Review its current state and select it again."
+msgstr "Une version sélectionnée a changé. Vérifiez son état actuel, puis sélectionnez-la de nouveau."
+
+msgid "The recording prompts include the current audio status for each word and a link to the exact version. When available, the collection link opens the draft for that word. Check the version fingerprint again before changing any media."
+msgstr "La fiche d’enregistrement indique l’état audio de chaque mot et donne accès à la version exacte. Quand il est proposé, le lien de collecte ouvre le brouillon pour le mot concerné. Vérifiez de nouveau l’empreinte de la version avant de modifier un média."
+
+msgid "Record or attach an audio file"
+msgstr "Enregistrer ou joindre un fichier audio"
+
+msgid "Check the existing file and its link to this word"
+msgstr "Vérifier le fichier existant et son association à ce mot"
+
+msgid "Complete the audio documentation"
+msgstr "Compléter la documentation de l’audio"
+
+msgid "Listen and verify during human review"
+msgstr "Écouter et vérifier lors de la relecture"

@@ -30,6 +30,7 @@ Le téléchargement existant conserve `activities.json`, `review.csv`, `recordin
 | `evidence_dossiers.sha256` | SHA-256 des octets du JSON précédent. |
 | `evidence_tasks.csv` | Exigences non satisfaites, raisons et actions ; les colonnes personne affectée, preuve apportée, décision humaine et date restent vierges. |
 | `media_requirements.csv` | Les quatre médias attendus, mots, identifiants et empreintes connus, périodes, source vocale déclarée et manques documentaires. |
+| `recording_prompts.csv` | Pour chaque mot, l’état audio et ses raisons, les références et empreintes connues, le lien vers la version et, si le brouillon est modifiable et qu’une action est à préparer, le lien de collecte ciblé. Les décisions et les renseignements à recueillir restent vierges. |
 
 Le ZIP constitue une photographie datée. Revenir au CMS et recontrôler l’empreinte avant de consigner une décision dans le circuit habituel. Aucun import de ces feuilles ne peut approuver ou publier du contenu. Les cellules CSV susceptibles de devenir des formules sont neutralisées.
 
@@ -40,6 +41,8 @@ Les nouveaux fichiers n’exportent ni contrat, ni contenu d’une pièce privé
 L’accès suit strictement le périmètre éditorial existant : connexion et autorisation sur la variété de l’activité, ou compte superutilisateur. Une simple affiliation à un cabinet ou un lien familial ne donne pas accès au dossier éditorial. Une cible hors périmètre renvoie 404. Les réponses sont privées et `no-store`.
 
 La page est paginée en SQL avant les contrôles de fichiers : 16 versions au maximum. Le compteur de fichiers audio concerne explicitement cette page. Le filtre **Références audio manquantes** recherche les deux champs vides en SQL ; une référence présente dont le fichier est indisponible est signalée lors du contrôle de sa page. Le filtre du guide lit uniquement les valeurs JSON locales avant pagination. Le ZIP vérifie toutes les versions de son périmètre explicite ; utiliser le lien de téléchargement par version pour un dossier unique.
+
+Dans **Préparer un lot de relecture**, cocher une ou plusieurs des 16 versions affichées et télécharger le lot. Le ZIP reprend les filtres et le périmètre éditorial courants et ne contient que les versions cochées. Si l’empreinte ou l’état d’une version a changé, actualiser la sélection. Si une version ne correspond plus aux filtres ou aux droits, revenir à la page qualité et vérifier la sélection. Le lien pour exporter tout le filtre reste disponible séparément.
 
 Les relations et empreintes sont partagées uniquement dans la requête HTTP courante. Une requête suivante recharge les droits et relit les fichiers. La livraison des médias conserve son propre contrôle des octets de réponse, indépendant du dossier.
 
