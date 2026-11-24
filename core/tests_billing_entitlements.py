@@ -8,7 +8,7 @@ from unittest.mock import patch
 from django.contrib import admin
 from django.contrib.auth.models import Permission
 from django.core.exceptions import ValidationError
-from django.db import close_old_connections
+from django.db import close_old_connections, connections
 from django.test import Client, RequestFactory, TestCase, TransactionTestCase, override_settings, skipUnlessDBFeature
 from django.urls import reverse
 from django.utils import timezone
@@ -166,7 +166,7 @@ class ConcurrentEntitlementTests(TransactionTestCase):
                 barrier.wait(timeout=10)
                 return billing(request, pk=organization.pk).status_code
             finally:
-                close_old_connections()
+                connections.close_all()
 
         with ThreadPoolExecutor(max_workers=2) as executor:
             results = list(executor.map(attempt, ['100.00', '200.00']))
