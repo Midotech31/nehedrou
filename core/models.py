@@ -279,6 +279,7 @@ class Invoice(CheckedModel):
     issued_at = models.DateTimeField(auto_now_add=True)
     paid_at = models.DateTimeField(null=True, blank=True)
     reference = models.CharField(max_length=100, blank=True)
+    shared_with_practice_at = models.DateTimeField(null=True, blank=True, editable=False)
     def clean(self):
         if self.amount is not None and self.amount < 0:
             raise ValidationError(_('The amount cannot be negative.'))

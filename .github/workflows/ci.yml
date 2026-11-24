@@ -140,6 +140,7 @@ jobs:
           python manage.py test --noinput --verbosity 2
           qualification
           core.tests_billing_lifecycle
+          core.tests_practice_billing_summary
           core.tests_billing_entitlements
           core.tests_practice_access_requests
           core.test_live_integrity_writes

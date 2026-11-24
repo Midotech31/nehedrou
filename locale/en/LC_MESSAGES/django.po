@@ -6498,3 +6498,39 @@ msgstr "These are current editorial entries for the displayed fingerprint. They 
 
 msgid "Unknown stored task value."
 msgstr "Unknown stored task value."
+
+msgid "Practice billing summary"
+msgstr "Practice billing summary"
+
+msgid "Billing summary sharing"
+msgstr "Billing summary sharing"
+
+msgid "Reopen the invoice to review its current status and sharing setting before saving."
+msgstr "Reopen the invoice to review its current status and sharing setting before saving."
+
+msgid "Shared with the cabinet owner"
+msgstr "Shared with the cabinet owner"
+
+msgid "Private to platform billing"
+msgstr "Private to platform billing"
+
+msgid "The cabinet summary shows the invoice number, amount, status and dates."
+msgstr "The cabinet summary shows the invoice number, amount, status and dates."
+
+msgid "Share billing summary"
+msgstr "Share billing summary"
+
+msgid "Hide billing summary"
+msgstr "Hide billing summary"
+
+msgid "Billing summary shared"
+msgstr "Billing summary shared"
+
+msgid "Billing summary hidden"
+msgstr "Billing summary hidden"
+
+msgid "These entries are shared by the platform operator. Use the original billing document for your records."
+msgstr "These entries are shared by the platform operator. Use the original billing document for your records."
+
+msgid "No billing summaries have been shared with this practice."
+msgstr "No billing summaries have been shared with this practice."

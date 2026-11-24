@@ -6498,3 +6498,39 @@ msgstr "هذه بيانات تحريرية حالية مرتبطة بالبصم�
 
 msgid "Unknown stored task value."
 msgstr "قيمة المهمة المسجّلة غير معروفة."
+
+msgid "Practice billing summary"
+msgstr "ملخّص فواتير العيادة"
+
+msgid "Billing summary sharing"
+msgstr "مشاركة ملخّص الفواتير"
+
+msgid "Reopen the invoice to review its current status and sharing setting before saving."
+msgstr "أعيدوا فتح الفاتورة لمراجعة حالتها وإعداد المشاركة قبل الحفظ."
+
+msgid "Shared with the cabinet owner"
+msgstr "مشارَك مع مسؤول العيادة"
+
+msgid "Private to platform billing"
+msgstr "خاص بمسؤولي الفوترة في المنصة"
+
+msgid "The cabinet summary shows the invoice number, amount, status and dates."
+msgstr "يعرض ملخّص العيادة رقم الفاتورة والمبلغ والحالة والتواريخ."
+
+msgid "Share billing summary"
+msgstr "مشاركة ملخّص الفاتورة"
+
+msgid "Hide billing summary"
+msgstr "إخفاء ملخّص الفاتورة"
+
+msgid "Billing summary shared"
+msgstr "تمّت مشاركة ملخّص الفاتورة"
+
+msgid "Billing summary hidden"
+msgstr "تمّ إخفاء ملخّص الفاتورة"
+
+msgid "These entries are shared by the platform operator. Use the original billing document for your records."
+msgstr "يشارك مسؤول المنصة هذه المعلومات. احتفظوا بمستند الفوترة الأصلي لسجلاتكم."
+
+msgid "No billing summaries have been shared with this practice."
+msgstr "لم تُشارَك أي ملخّصات للفواتير مع هذه العيادة."

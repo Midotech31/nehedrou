@@ -21,6 +21,9 @@
   <p><strong>{% translate "Contact the platform operator to arrange activation or renewal for this practice." %}</strong></p>
   {% endif %}
   <p>{% translate "Billing is managed manually. No card information is collected." %}</p>
+  {% if not practice_selection_required %}
+  <p><a class="button secondary" id="practice-billing-summary-link" href="{% url 'practice_billing_summary' %}">{% translate "Practice billing summary" %}</a></p>
+  {% endif %}
 </section>
 {% if latest_access_request or access_request_scope %}
 <section class="card" id="practice-access-request">

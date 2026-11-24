@@ -6498,3 +6498,39 @@ msgstr "Ces données éditoriales actuelles correspondent à l’empreinte affic
 
 msgid "Unknown stored task value."
 msgstr "Valeur de tâche enregistrée inconnue."
+
+msgid "Practice billing summary"
+msgstr "Récapitulatif de facturation du cabinet"
+
+msgid "Billing summary sharing"
+msgstr "Partage du récapitulatif de facturation"
+
+msgid "Reopen the invoice to review its current status and sharing setting before saving."
+msgstr "Rouvrez la facture pour consulter son statut et son réglage de partage avant d’enregistrer."
+
+msgid "Shared with the cabinet owner"
+msgstr "Partagé avec le responsable du cabinet"
+
+msgid "Private to platform billing"
+msgstr "Réservé à la facturation de la plateforme"
+
+msgid "The cabinet summary shows the invoice number, amount, status and dates."
+msgstr "Le récapitulatif du cabinet indique le numéro de facture, le montant, le statut et les dates."
+
+msgid "Share billing summary"
+msgstr "Partager le récapitulatif"
+
+msgid "Hide billing summary"
+msgstr "Masquer le récapitulatif"
+
+msgid "Billing summary shared"
+msgstr "Récapitulatif partagé"
+
+msgid "Billing summary hidden"
+msgstr "Récapitulatif masqué"
+
+msgid "These entries are shared by the platform operator. Use the original billing document for your records."
+msgstr "Le gestionnaire de la plateforme partage ces informations. Conservez le document de facturation original pour votre comptabilité."
+
+msgid "No billing summaries have been shared with this practice."
+msgstr "Aucun récapitulatif de facturation n’a été partagé avec ce cabinet."

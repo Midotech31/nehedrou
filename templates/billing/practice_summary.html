@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% translate "Practice billing summary" %} · Nehedrou{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div><h1>{% translate "Practice billing summary" %}</h1><p>{% translate "These entries are shared by the platform operator. Use the original billing document for your records." %}</p></div>
+  <div class="actions"><a class="button secondary" href="{% url 'subscription' %}">{% translate "Plan and access" %}</a></div>
+</div>
+<section class="card" id="practice-invoice-summary" aria-label="{% translate "Practice billing summary" %}">
+  {% if invoices %}
+  <div class="table-scroll">
+    <table class="report-table">
+      <thead><tr>
+        <th scope="col">{% translate "Invoice number" %}</th>
+        <th scope="col">{% translate "Amount" %}</th>
+        <th scope="col">{% translate "Status" %}</th>
+        <th scope="col">{% translate "Invoice recorded on" %}</th>
+        <th scope="col">{% translate "Payment recorded on" %}</th>
+      </tr></thead>
+      <tbody>
+        {% for invoice in invoices %}
+        <tr>
+          <th scope="row"><bdi>{{ invoice.number }}</bdi></th>
+          <td><bdi dir="ltr">{{ invoice.amount }} {{ invoice.currency }}</bdi></td>
+          <td>{{ invoice.status_label }}</td>
+          <td>{{ invoice.issued_at|date:'DATE_FORMAT' }}</td>
+          <td>{% if invoice.status == 'paid' and invoice.paid_at %}{{ invoice.paid_at|date:'DATE_FORMAT' }}{% else %}—{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>{% translate "No billing summaries have been shared with this practice." %}</p>
+  {% endif %}
+  {% if page.has_other_pages %}
+  <nav class="pagination" aria-label="{% translate 'History pages' %}">
+    {% if page.has_previous %}<a class="button secondary" href="?page={{ page.previous_page_number }}">{% translate "Previous" %}</a>{% endif %}
+    <span>{% translate "Page" %} <bdi dir="ltr">{{ page.number }} / {{ page.paginator.num_pages }}</bdi></span>
+    {% if page.has_next %}<a class="button secondary" href="?page={{ page.next_page_number }}">{% translate "Next" %}</a>{% endif %}
+  </nav>
+  {% endif %}
+</section>
+{% endblock %}

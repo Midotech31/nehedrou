@@ -18,6 +18,9 @@ ENTITLEMENT_EDIT_FIELDS = (
     'amount', 'currency', 'billing_reference',
 )
 ENTITLEMENT_SCOPE = 'core.billing-entitlement-edit.v1'
+INVOICE_SHARING_SCOPE = 'core.invoice-sharing.v1'
+INVOICE_SHARING_ACTIONS = ('invoice.summary_shared', 'invoice.summary_unshared')
+INVOICE_SHAREABLE_STATUSES = ('issued', 'paid', 'cancelled')
 
 
 def entitlement_form_snapshot(request, organization, entitlement):
@@ -46,6 +49,24 @@ def entitlement_form_snapshot(request, organization, entitlement):
     except (signing.BadSignature, ValueError, TypeError):
         return '', False
     return token, state == expected
+
+
+def invoice_sharing_snapshot(request, invoice):
+    revision = AuditEvent.objects.filter(
+        organization_id=invoice.organization_id, object_id=str(invoice.pk), action__in=INVOICE_SHARING_ACTIONS,
+    ).order_by('-pk').values_list('pk', flat=True).first()
+    expected = {'actor': str(request.user.pk), 'invoice': str(invoice.pk), 'revision': revision,
+                'status': invoice.status, 'shared': bool(invoice.shared_with_practice_at)}
+    if request.method != 'POST':
+        return signing.dumps(expected, salt=INVOICE_SHARING_SCOPE), True
+    tokens = request.POST.getlist('invoice_sharing_snapshot')
+    if len(tokens) != 1 or not tokens[0] or len(tokens[0]) > 1024:
+        return '', False
+    try:
+        state = signing.loads(tokens[0], salt=INVOICE_SHARING_SCOPE, max_age=MAX_AGE)
+    except (signing.BadSignature, TypeError, ValueError):
+        return '', False
+    return tokens[0], state == expected
 
 
 @transaction.atomic
