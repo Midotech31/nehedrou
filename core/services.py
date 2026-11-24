@@ -227,13 +227,30 @@ def revoke_practice_invitation(actor, invite_id, organization, child, kind):
     return invitation
 
 @transaction.atomic
+def create_erasure_request(actor, reference):
+    from .access import visible_children
+    from .models import PrivacyRequest
+    organization = Organization.objects.select_for_update().get(pk=reference.organization_id)
+    actor = lock_active_practice_actor(actor)
+    child = Child.objects.select_for_update().filter(pk=reference.pk, organization=organization).first()
+    if child is None or not visible_children(actor).filter(pk=child.pk).exists():
+        raise ValidationError(_('Access is no longer available.'))
+    obj = PrivacyRequest.objects.create(
+        organization=organization, child=child, requester=actor, kind='erasure',
+    )
+    audit(actor, 'privacy.requested', obj, organization)
+    return obj
+
+
+@transaction.atomic
 def resolve_privacy(actor, request_id, data):
     from .models import PrivacyRequest
     from .access import professional_children
     from care.models import Observation
     reference = PrivacyRequest.objects.get(pk=request_id)
     org = Organization.objects.select_for_update().get(pk=reference.organization_id)
-    child = Child.objects.select_for_update().filter(pk=reference.child_id).first()
+    actor = lock_active_practice_actor(actor)
+    child = Child.objects.select_for_update().filter(pk=reference.child_id, organization=org).first()
     obj = PrivacyRequest.objects.select_for_update().get(pk=request_id)
     professional = child and professional_children(actor).filter(pk=child.pk).exists()
     owner = Membership.objects.filter(user=actor, organization=org, active=True, role='owner').exists()
@@ -241,7 +258,10 @@ def resolve_privacy(actor, request_id, data):
         raise ValidationError(_('Access is no longer available.'))
     if obj.status != 'pending':
         raise ValidationError(_('This request has already been resolved.'))
+    resolutions = [(obj, data['reason'])]
     if data['decision'] == 'erase':
+        if obj.kind != 'erasure':
+            raise ValidationError(_('Erasure requires an erasure request for this dossier.'))
         if not professional:
             raise ValidationError(_('Access is no longer available.'))
         if data['confirmation'] != child.code:
@@ -251,6 +271,11 @@ def resolve_privacy(actor, request_id, data):
         from .complete_views import retention_anchor
         if retention_anchor(child) + timezone.timedelta(days=org.retention_days) > timezone.now():
             raise ValidationError(_('The configured retention period has not elapsed. Retain with a documented reason.'))
+        related = list(
+            PrivacyRequest.objects.select_for_update().filter(
+                organization=org, child=child, kind='erasure', status='pending',
+            ).exclude(pk=obj.pk).order_by('pk')
+        )
         audit(actor, 'child.erased', child, org)
         from followup.services import erase_child_followup
         erase_child_followup(child)
@@ -263,12 +288,18 @@ def resolve_privacy(actor, request_id, data):
         FamilyLink.objects.filter(child=child).delete()
         Invitation.objects.filter(child=child).delete()
         child.delete()
-        obj.child = None
-    obj.status = 'resolved'
-    obj.decision_reason = data['reason']
-    obj.resolved_at = timezone.now()
-    obj.save()
-    audit(actor, 'privacy.resolved', obj, org)
+        related_reason = _('The dossier was erased while processing another request for the same profile.')
+        resolutions.extend((item, related_reason) for item in related)
+        for item, _reason in resolutions:
+            # Child deletion already cleared the persisted foreign keys.
+            item.child = None
+    resolved_at = timezone.now()
+    for item, reason in resolutions:
+        item.status = 'resolved'
+        item.decision_reason = reason
+        item.resolved_at = resolved_at
+        item.save(update_fields=['status', 'decision_reason', 'resolved_at'])
+        audit(actor, 'privacy.resolved', item, org)
 
 @transaction.atomic
 def revoke_family_link(actor, reference):

@@ -6629,3 +6629,12 @@ msgstr "ستتجاوز نسخة العمل المسترجعة الحدّ الح�
 
 msgid "The working copy or current draft changed. Reload the comparison before choosing fields again."
 msgstr "تغيّرت نسخة العمل أو المسودة الحالية. أعيدوا تحميل المقارنة قبل اختيار الحقول من جديد."
+
+msgid "Erasure requires an erasure request for this dossier."
+msgstr "يتطلب محو هذا الملف وجود طلب محو يخصّه."
+
+msgid "The dossier was erased while processing another request for the same profile."
+msgstr "مُحي الملف عند معالجة طلب آخر يتعلق بالملف نفسه."
+
+msgid "Erasing this profile also resolves pending erasure requests for the same profile."
+msgstr "يؤدي محو هذا الملف أيضًا إلى إغلاق طلبات المحو المعلّقة التي تخصّه."

@@ -32,9 +32,9 @@ from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .invitation_delivery import invitation_delivery_status
 from .invitation_mfa import SESSION_KEY as MFA_INVITATION_KEY, invitation_digest
 from .forms import SignupForm, InviteSignupForm, ChildForm, ProgramForm, InvitationForm, PracticeForm, ObservationForm, PreferencesForm, DemoPracticeForm, FamilyFeedbackForm, HistoryFilterForm
-from .models import Organization, Membership, Entitlement, Invitation, PrivacyRequest
+from .models import Organization, Membership, Entitlement, Invitation
 from .services import (
-    accept_invitation, accept_invitation_digest, audit, check_entitlement, create_program,
+    accept_invitation, accept_invitation_digest, audit, check_entitlement, create_erasure_request, create_program,
     issue_and_deliver_invitation, issue_manual_practice_invitation, lock_clinical_child,
     log_child_access, publish_feedback, record_practice, revoke_family_link, revoke_practice_invitation,
 )
@@ -911,8 +911,10 @@ def preferences(request):
 @require_POST
 def privacy_request(request, pk):
     child = get_object_or_404(visible_children(request.user), pk=pk)
-    obj = PrivacyRequest.objects.create(organization=child.organization, child=child, requester=request.user, kind='erasure')
-    audit(request.user, 'privacy.requested', obj, child.organization)
+    try:
+        create_erasure_request(request.user, child)
+    except ValidationError:
+        raise Http404 from None
     messages.success(request, _('Your request has been recorded for manual review by the practice.'))
     return redirect('child_detail', pk=pk)
 

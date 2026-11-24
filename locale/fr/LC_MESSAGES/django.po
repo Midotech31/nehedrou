@@ -6629,3 +6629,12 @@ msgstr "La copie de travail récupérée dépasserait la limite de taille exista
 
 msgid "The working copy or current draft changed. Reload the comparison before choosing fields again."
 msgstr "La copie de travail ou le brouillon courant a changé. Rechargez la comparaison avant de choisir de nouveau les champs."
+
+msgid "Erasure requires an erasure request for this dossier."
+msgstr "Pour effacer ce dossier, il faut une demande d’effacement qui le concerne."
+
+msgid "The dossier was erased while processing another request for the same profile."
+msgstr "Le dossier a été effacé lors du traitement d’une autre demande concernant le même profil."
+
+msgid "Erasing this profile also resolves pending erasure requests for the same profile."
+msgstr "L’effacement de ce profil clôt également les demandes d’effacement en attente qui le concernent."

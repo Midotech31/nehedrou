@@ -169,6 +169,14 @@ class PrivacyDecisionForm(forms.Form):
     reason = forms.CharField(label=_('Decision reason'), max_length=500, widget=forms.Textarea)
     confirmation = forms.CharField(label=_('Enter the child pseudonym to confirm'), max_length=60, required=False)
 
+    def __init__(self, *args, can_erase, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not can_erase:
+            self.fields['decision'].choices = [
+                (value, label) for value, label in self.fields['decision'].choices if value == 'retain'
+            ]
+            self.fields.pop('confirmation')
+
 
 class ProcessingActivityForm(forms.ModelForm):
     class Meta:

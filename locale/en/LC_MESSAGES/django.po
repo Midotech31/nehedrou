@@ -6629,3 +6629,12 @@ msgstr "The recovered working copy would exceed the existing size limit."
 
 msgid "The working copy or current draft changed. Reload the comparison before choosing fields again."
 msgstr "The working copy or current draft changed. Reload the comparison before choosing fields again."
+
+msgid "Erasure requires an erasure request for this dossier."
+msgstr "Erasure requires an erasure request for this dossier."
+
+msgid "The dossier was erased while processing another request for the same profile."
+msgstr "The dossier was erased while processing another request for the same profile."
+
+msgid "Erasing this profile also resolves pending erasure requests for the same profile."
+msgstr "Erasing this profile also resolves pending erasure requests for the same profile."

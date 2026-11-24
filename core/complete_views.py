@@ -150,8 +150,9 @@ def requests(request):
 def resolve_request(request, pk):
     obj = get_object_or_404(privacy_scope(request).select_related('child'), pk=pk)
     # A manager administers requests, but only the responsible clinician can erase clinical records.
-    can_erase = obj.child and professional_children(request.user).filter(pk=obj.child_id).exists()
-    form = PrivacyDecisionForm(request.POST or None)
+    can_erase = (obj.kind == 'erasure' and obj.child_id is not None
+        and professional_children(request.user).filter(pk=obj.child_id).exists())
+    form = PrivacyDecisionForm(request.POST or None, can_erase=can_erase)
     if request.method == 'POST' and form.is_valid():
         try:
             from .services import resolve_privacy
