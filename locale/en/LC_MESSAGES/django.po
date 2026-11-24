@@ -6023,3 +6023,9 @@ msgstr "The familiarity evidence must concern the activity’s spoken variety."
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
+
+msgid "Available home activities match the declared spoken varieties"
+msgstr "Available home activities match the declared spoken varieties"
+
+msgid "Available home activities outside the declared offer"
+msgstr "Available home activities outside the declared offer"

@@ -6023,3 +6023,9 @@ msgstr "يجب أن يخص دليل معرفة الكلمات والصور ال�
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "يحتفظ الاختيار غير المعدّل ببصمته المسجّلة. امسحوا الإحالة باختيار إزالتها صراحةً."
+
+msgid "Available home activities match the declared spoken varieties"
+msgstr "الأنشطة المنزلية المتاحة توافق التنوعات اللغوية المنطوقة المعلنة"
+
+msgid "Available home activities outside the declared offer"
+msgstr "أنشطة منزلية متاحة خارج العرض المعلن"

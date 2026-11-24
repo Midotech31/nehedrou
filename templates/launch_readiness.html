@@ -14,7 +14,13 @@
     <h2>{% translate "Technical launch blockers remain" %}</h2>
     <p>{% translate "At least one technical launch check is not met. Resolve the blocked items below; the report does not approve clinical content or commercial release." %}</p>
   {% endif %}
-  <p><strong>{% translate "Observed at" %}:</strong> <bdi dir="ltr">{{ report.generated_at|default:"—" }}</bdi></p>
+  <p><strong>{% translate "Observed at" %}:</strong> <bdi dir="ltr">{{ report.execution.observed_at|default:report.generated_at }}</bdi></p>
+  {% if report.execution %}
+  <dl>
+    <dt>{% translate "Process" %}</dt><dd>{% if report.execution.process == "render" %}Render{% else %}{% translate "Local or operator process" %}{% endif %}</dd>
+    <dt>{% translate "Build commit" %}</dt><dd>{% if report.execution.build_commit %}<bdi class="content-fingerprint" dir="ltr">{{ report.execution.build_commit }}</bdi>{% else %}{% translate "Not supplied by the hosting environment" %}{% endif %}</dd>
+  </dl>
+  {% endif %}
 </section>
 {% if check_rows %}
 <section class="card">
@@ -30,6 +36,19 @@
   <p>{% translate "Only currently available, non-demo versions with exact media and current reviews count as available. Interface translation does not approve spoken-language content." %}</p>
   <div class="table-scroll"><table class="report-table"><thead><tr><th scope="col">{% translate "Spoken variety code" %}</th><th scope="col">{% translate "Published non-demo versions" %}</th><th scope="col">{% translate "Currently available versions" %}</th></tr></thead><tbody>
   {% for code, published, available in content_rows %}<tr><th scope="row"><bdi dir="ltr">{{ code }}</bdi></th><td>{{ published }}</td><td>{{ available }}</td></tr>{% endfor %}
+  </tbody></table></div>
+</section>
+{% endif %}
+{% if report.currently_available_unlisted_nondemo_counts_by_variety %}
+<section class="card">
+  <h2>{% translate "Available home activities outside the declared offer" %}</h2>
+  <div class="table-scroll"><table class="report-table"><thead><tr>
+    <th scope="col">{% translate "Spoken variety code" %}</th>
+    <th scope="col">{% translate "Currently available versions" %}</th>
+  </tr></thead><tbody>
+  {% for code, available in report.currently_available_unlisted_nondemo_counts_by_variety.items %}
+    <tr><th scope="row"><bdi dir="ltr">{{ code }}</bdi></th><td>{{ available }}</td></tr>
+  {% endfor %}
   </tbody></table></div>
 </section>
 {% endif %}
