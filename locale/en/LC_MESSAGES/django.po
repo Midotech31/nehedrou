@@ -6023,3 +6023,33 @@ msgstr "The familiarity evidence must concern the activity’s spoken variety."
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
+
+msgid "Availability is checked when you preview or save this program."
+msgstr "Availability is checked when you preview or save this program."
+
+msgid "catalogue entries"
+msgstr "catalogue entries"
+
+msgid "catalogue entries found"
+msgstr "catalogue entries found"
+
+msgid "Available on this page"
+msgstr "Available on this page"
+
+msgid "Unavailable on this page"
+msgstr "Unavailable on this page"
+
+msgid "The total includes unavailable entries; availability is checked for this page."
+msgstr "The total includes unavailable entries; availability is checked for this page."
+
+msgid "Unavailable for new practice"
+msgstr "Unavailable for new practice"
+
+msgid "Assigned historical content"
+msgstr "Assigned historical content"
+
+msgid "This assigned version is shown for reference. It is unavailable for new practice."
+msgstr "This assigned version is shown for reference. It is unavailable for new practice."
+
+msgid "Media unavailable for this version"
+msgstr "Media unavailable for this version"
