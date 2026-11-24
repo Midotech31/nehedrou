@@ -6023,3 +6023,12 @@ msgstr "The familiarity evidence must concern the activity’s spoken variety."
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
+
+msgid "Password recovery unavailable"
+msgstr "Password recovery unavailable"
+
+msgid "Email delivery is unavailable on this service. This page cannot send a password recovery email."
+msgstr "Email delivery is unavailable on this service. This page cannot send a password recovery email."
+
+msgid "If an eligible account matches this email address, we try to send a recovery link. Delivery is not confirmed."
+msgstr "If an eligible account matches this email address, we try to send a recovery link. Delivery is not confirmed."
