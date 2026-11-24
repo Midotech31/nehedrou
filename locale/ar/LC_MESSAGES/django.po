@@ -6101,3 +6101,15 @@ msgstr "ربما تغيّرت حقوق الوصول منذ فتح النموذج
 
 msgid "Reload current access rights"
 msgstr "إعادة تحميل حقوق الوصول الحالية"
+
+msgid "Latest decision for this content fingerprint"
+msgstr "آخر قرار لبصمة هذا المحتوى"
+
+msgid "Superseded decision for this content fingerprint"
+msgstr "قرار تجاوزه قرار أحدث لبصمة هذا المحتوى"
+
+msgid "Decision for different content"
+msgstr "قرار يخص محتوى مختلفًا"
+
+msgid "Decision labels describe content matching and decision order. They do not establish current clinical qualification."
+msgstr "تبيّن التسميات مطابقة المحتوى وترتيب القرارات، ولا تثبت اعتمادًا سريريًا حاليًا."

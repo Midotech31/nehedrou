@@ -6101,3 +6101,15 @@ msgstr "These access rights may have changed since you opened the form. Reload a
 
 msgid "Reload current access rights"
 msgstr "Reload current access rights"
+
+msgid "Latest decision for this content fingerprint"
+msgstr "Latest decision for this content fingerprint"
+
+msgid "Superseded decision for this content fingerprint"
+msgstr "Superseded decision for this content fingerprint"
+
+msgid "Decision for different content"
+msgstr "Decision for different content"
+
+msgid "Decision labels describe content matching and decision order. They do not establish current clinical qualification."
+msgstr "Decision labels describe content matching and decision order. They do not establish current clinical qualification."

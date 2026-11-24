@@ -6101,3 +6101,15 @@ msgstr "Les droits d’accès ont peut-être changé depuis l’ouverture du for
 
 msgid "Reload current access rights"
 msgstr "Recharger les droits d’accès en vigueur"
+
+msgid "Latest decision for this content fingerprint"
+msgstr "Dernière décision pour cette empreinte de contenu"
+
+msgid "Superseded decision for this content fingerprint"
+msgstr "Décision remplacée pour cette empreinte de contenu"
+
+msgid "Decision for different content"
+msgstr "Décision portant sur un autre contenu"
+
+msgid "Decision labels describe content matching and decision order. They do not establish current clinical qualification."
+msgstr "Les libellés indiquent la correspondance du contenu et l’ordre des décisions. Ils ne prouvent pas une qualification clinique actuelle."
