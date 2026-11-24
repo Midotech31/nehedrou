@@ -1,7 +1,7 @@
 {% extends 'base.html' %}{% load i18n %}{% block content %}
 <div class="page-heading">
   <div><p class="eyebrow">{% translate "Platform operations" %}</p><h1>{% translate "Launch readiness" %}</h1><p>{% translate "A current technical checklist for this deployed service." %}</p></div>
-  <div class="actions"><a class="button secondary" href="?format=json">{% translate "Download JSON report" %}</a><a class="button secondary" href="{% url 'operations_diagnostics' %}">{% translate "Back to hosting diagnostics" %}</a></div>
+  <div class="actions"><a class="button secondary" href="?format=json">{% translate "Download JSON report" %}</a>{% if not operator_acceptance_rows %}<a class="button secondary" href="{% url 'operations_diagnostics' %}">{% translate "Back to hosting diagnostics" %}</a>{% endif %}</div>
 </div>
 <section class="card callout" role="status" aria-live="polite">
   {% if report.report_available == False %}
@@ -22,6 +22,14 @@
   </dl>
   {% endif %}
 </section>
+{% if operator_acceptance_rows %}
+<section class="card" aria-labelledby="operator-acceptance-heading">
+  <h2 id="operator-acceptance-heading">{% translate "Operator acceptance still required" %}</h2>
+  <p>{% translate "Verify these operating requirements before paid launch or actual clinical use. This report does not evaluate them." %}</p>
+  <ul>{% for label in operator_acceptance_rows %}<li>{{ label }}</li>{% endfor %}</ul>
+  <p><a class="button secondary" href="{% url 'operations_diagnostics' %}">{% translate "Hosting diagnostics" %}</a></p>
+</section>
+{% endif %}
 {% if check_rows %}
 <section class="card">
   <h2>{% translate "Technical checks" %}</h2>

@@ -6251,3 +6251,30 @@ msgstr "تواصلوا مع مسؤول المنصة لتفعيل صلاحية و
 
 msgid "An authorised operator manages publishing access for this spoken variety."
 msgstr "يدير مشغّل مخوّل صلاحية النشر لهذه اللغة أو اللهجة."
+
+msgid "Verification of the trusted proxy chain"
+msgstr "التحقق من سلسلة الوكلاء الموثوق بهم"
+
+msgid "Test of private storage access and persistence after restart"
+msgstr "اختبار الوصول إلى التخزين الخاص وبقاء الملفات بعد إعادة التشغيل"
+
+msgid "Test of the encrypted off-host backup destination and schedule"
+msgstr "اختبار وجهة النسخ الاحتياطية المشفّرة خارج الاستضافة وجدولتها"
+
+msgid "Verification of backup key custody and archive retention"
+msgstr "التحقق من حفظ مفاتيح النسخ الاحتياطي والاحتفاظ بالأرشيف"
+
+msgid "Recent restore test and access to restored dossiers"
+msgstr "اختبار حديث للاستعادة والوصول إلى الملفات المستعادة"
+
+msgid "Test of alert recipients and escalation procedure"
+msgstr "اختبار استلام التنبيهات وإجراءات التصعيد"
+
+msgid "Receipt of invitation and recovery emails and successful use of their links"
+msgstr "استلام رسائل الدعوة واستعادة الحساب واستخدام روابطها بنجاح"
+
+msgid "Validation of recovery time and data-loss objectives"
+msgstr "التحقق من أهداف زمن الاستعادة والحد الأقصى لفقدان البيانات"
+
+msgid "Verify these operating requirements before paid launch or actual clinical use. This report does not evaluate them."
+msgstr "تحقّقوا من شروط التشغيل الآتية قبل الإطلاق المدفوع أو الاستخدام السريري الفعلي. هذا التقرير لا يقيّمها."

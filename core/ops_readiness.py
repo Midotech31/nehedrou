@@ -12,6 +12,21 @@ from django.db import connection, DatabaseError, transaction
 from core.storage_health import STORAGE_ERRORS
 
 MAX_PROBE_BYTES = 1024 * 1024
+OPERATOR_ACCEPTANCE_REQUIRED = (
+    'trusted_proxy_chain',
+    'private_storage_access_and_restart',
+    'offhost_backup_destination_and_schedule',
+    'key_custody_and_retention',
+    'recent_restore_and_dossier_access',
+    'alert_recipients_and_escalation',
+    'live_email_delivery',
+    'validated_recovery_objectives',
+)
+
+
+def operator_acceptance_report():
+    """These requirements are independent of the application's technical gates."""
+    return {'status': 'not_evaluated', 'required': list(OPERATOR_ACCEPTANCE_REQUIRED)}
 
 
 def sender_checks():
@@ -141,8 +156,7 @@ def operations_report(*, probe_database=False, storage_object=None, storage_expe
         'database': database_probe() if probe_database else {'requested': False},
         'storage': storage_probe(storage_object, expected_sha256=storage_expected_sha256) if storage_object else {'requested': False},
         'scope': 'Technical preparation only. Configuration and timing samples do not establish clinical release, durable operation, an S3 latency benchmark, or verified email delivery.',
-        'operator_acceptance_required': ['trusted_proxy_chain', 'private_storage_access_and_restart', 'offhost_backup_destination_and_schedule',
-            'key_custody_and_retention', 'recent_restore_and_dossier_access', 'alert_recipients_and_escalation', 'live_email_delivery', 'validated_recovery_objectives']}
+        'operator_acceptance_required': list(OPERATOR_ACCEPTANCE_REQUIRED)}
 
 
 def execution_context():

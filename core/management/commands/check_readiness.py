@@ -10,7 +10,7 @@ from django.db import connection
 from catalog.models import Activity, Variety
 from catalog.content_catalog import current_catalog
 from catalog.integrity import integrity_scope, prepare_activities
-from core.ops_readiness import smtp_configuration, email_configuration, execution_context
+from core.ops_readiness import smtp_configuration, email_configuration, execution_context, operator_acceptance_report
 from core.models import ProcessingActivity
 
 
@@ -132,6 +132,7 @@ class Command(BaseCommand):
             'content_coverage_scope': 'Interface-language counts are descriptive only. Every explicitly offered spoken variety requires its own currently usable non-demo practice version, exact media, current reviews and authorised availability; MSA never covers Algerian Darja.',
             'versions_with_unavailable_audio_or_reviews': unavailable,
             'manual_gates_required': ['professional_content_and_audio_validation', 'native_language_review', 'reviewer_identity_and_variety_competence_independently_verified', 'browser_and_accessibility_acceptance', 'backup_restore_and_concurrency_acceptance', 'applicable_launch_obligations', 'processing_register_accuracy_and_legal_review', 'clinical_effectiveness_claims_require_separate_evidence'],
+            'operator_acceptance': operator_acceptance_report(),
             'storage_scope': 'Durability is operator-declared; verify persistence across restart, backup scheduling, off-host retention and restoration before launch.',
             'scope': 'A technical report, never clinical validation or commercial approval.',
         }
@@ -156,6 +157,8 @@ class Command(BaseCommand):
             if available_outside_offer:
                 self.stdout.write('BLOCK currently available practice outside the declared offer: ' +
                                   json.dumps(available_outside_offer))
+            for requirement in report['operator_acceptance']['required']:
+                self.stdout.write('NOT EVALUATED operator acceptance: ' + requirement)
             self.stdout.write(report['scope'])
         if options['strict'] and not report['technical_gates_passed']:
             raise CommandError('Technical launch gates are not met.')

@@ -6251,3 +6251,30 @@ msgstr "Contactez le gestionnaire de la plateforme pour activer ou renouveler l�
 
 msgid "An authorised operator manages publishing access for this spoken variety."
 msgstr "Un opérateur habilité gère le droit de publication pour cette variété parlée."
+
+msgid "Verification of the trusted proxy chain"
+msgstr "Vérification de la chaîne de proxys de confiance"
+
+msgid "Test of private storage access and persistence after restart"
+msgstr "Essai de l’accès au stockage privé et de la conservation des fichiers après redémarrage"
+
+msgid "Test of the encrypted off-host backup destination and schedule"
+msgstr "Essai de la destination hors hébergeur et de la planification des sauvegardes chiffrées"
+
+msgid "Verification of backup key custody and archive retention"
+msgstr "Vérification de la garde des clés de sauvegarde et de la conservation des archives"
+
+msgid "Recent restore test and access to restored dossiers"
+msgstr "Essai récent de restauration et d’accès aux dossiers restaurés"
+
+msgid "Test of alert recipients and escalation procedure"
+msgstr "Essai de la réception des alertes et de la procédure d’escalade"
+
+msgid "Receipt of invitation and recovery emails and successful use of their links"
+msgstr "Réception des courriels d’invitation et de récupération et essai concluant de leurs liens"
+
+msgid "Validation of recovery time and data-loss objectives"
+msgstr "Validation des objectifs de délai de reprise et de perte de données"
+
+msgid "Verify these operating requirements before paid launch or actual clinical use. This report does not evaluate them."
+msgstr "Vérifier ces conditions d’exploitation avant une ouverture payante ou un usage clinique réel. Ce rapport ne les évalue pas."

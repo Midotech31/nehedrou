@@ -15,6 +15,7 @@ from catalog.models import Activity, Variety
 from catalog.services import transition
 from core.models import User, ProcessingActivity
 from core.management.commands.check_readiness import DEFAULT_OFFERED_CONTENT_VARIETIES
+from core.ops_readiness import operations_report
 from qualification.test_support import prepare_activity_fixture, availability_fixture
 
 
@@ -116,7 +117,8 @@ class SpokenVarietyReadinessTests(TestCase):
 
     def report(self, *, strict=False, offered=None):
         output = io.StringIO()
-        with patch('core.management.commands.check_readiness.connection', SimpleNamespace(vendor='postgresql')), patch('core.management.commands.check_readiness.smtp_configuration', return_value={'configured':True}), patch('core.management.commands.check_readiness.email_configuration', return_value={'configured':True}), patch('core.management.commands.check_readiness.offered_content_varieties', return_value=tuple(DEFAULT_OFFERED_CONTENT_VARIETIES if offered is None else offered)):
+        email = {'configured': True, 'delivery_verified': False, 'network_attempted': False}
+        with patch('core.management.commands.check_readiness.connection', SimpleNamespace(vendor='postgresql')), patch('core.management.commands.check_readiness.smtp_configuration', return_value={'configured':True}), patch('core.management.commands.check_readiness.email_configuration', return_value=email), patch('core.management.commands.check_readiness.offered_content_varieties', return_value=tuple(DEFAULT_OFFERED_CONTENT_VARIETIES if offered is None else offered)):
             call_command('check_readiness', json=True, strict=strict, stdout=output)
         return json.loads(output.getvalue())
 
@@ -200,6 +202,13 @@ class SpokenVarietyReadinessTests(TestCase):
         self.processing_register()
         report = self.report(strict=True, offered=DEFAULT_OFFERED_CONTENT_VARIETIES)
         self.assertTrue(report['technical_gates_passed'])
+        self.assertTrue(report['checks']['email_configured'])
+        self.assertFalse(report['email']['delivery_verified'])
+        self.assertEqual(report['operator_acceptance'], {
+            'status': 'not_evaluated',
+            'required': operations_report()['operator_acceptance_required'],
+        })
+        self.assertIn('live_email_delivery', report['operator_acceptance']['required'])
         self.assertEqual(report['published_nondemo_counts']['ar'], 2)
         self.assertEqual(report['current_available_nondemo_counts_by_variety'], {code:1 for code in DEFAULT_OFFERED_CONTENT_VARIETIES})
 

@@ -6251,3 +6251,30 @@ msgstr "Contact the platform operator to arrange activation or renewal for this 
 
 msgid "An authorised operator manages publishing access for this spoken variety."
 msgstr "An authorised operator manages publishing access for this spoken variety."
+
+msgid "Verification of the trusted proxy chain"
+msgstr "Verification of the trusted proxy chain"
+
+msgid "Test of private storage access and persistence after restart"
+msgstr "Test of private storage access and persistence after restart"
+
+msgid "Test of the encrypted off-host backup destination and schedule"
+msgstr "Test of the encrypted off-host backup destination and schedule"
+
+msgid "Verification of backup key custody and archive retention"
+msgstr "Verification of backup key custody and archive retention"
+
+msgid "Recent restore test and access to restored dossiers"
+msgstr "Recent restore test and access to restored dossiers"
+
+msgid "Test of alert recipients and escalation procedure"
+msgstr "Test of alert recipients and escalation procedure"
+
+msgid "Receipt of invitation and recovery emails and successful use of their links"
+msgstr "Receipt of invitation and recovery emails and successful use of their links"
+
+msgid "Validation of recovery time and data-loss objectives"
+msgstr "Validation of recovery time and data-loss objectives"
+
+msgid "Verify these operating requirements before paid launch or actual clinical use. This report does not evaluate them."
+msgstr "Verify these operating requirements before paid launch or actual clinical use. This report does not evaluate them."

@@ -11,7 +11,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_http_methods
-from core.ops_readiness import operations_report
+from core.ops_readiness import operations_report, operator_acceptance_report
 from core.forms import ProcessingActivityForm
 from core.models import ProcessingActivity
 from core.technical_storage_probe import PROBE_KEY, PROBE_SHA256
@@ -59,6 +59,17 @@ MANUAL_READINESS_LABELS = {
     'applicable_launch_obligations': _('Applicable privacy, legal and launch obligations reviewed'),
     'processing_register_accuracy_and_legal_review': _('Processing-register accuracy and legal review'),
     'clinical_effectiveness_claims_require_separate_evidence': _('Any clinical-effectiveness claim supported by separate evidence'),
+}
+
+OPERATOR_ACCEPTANCE_LABELS = {
+    'trusted_proxy_chain': _('Verification of the trusted proxy chain'),
+    'private_storage_access_and_restart': _('Test of private storage access and persistence after restart'),
+    'offhost_backup_destination_and_schedule': _('Test of the encrypted off-host backup destination and schedule'),
+    'key_custody_and_retention': _('Verification of backup key custody and archive retention'),
+    'recent_restore_and_dossier_access': _('Recent restore test and access to restored dossiers'),
+    'alert_recipients_and_escalation': _('Test of alert recipients and escalation procedure'),
+    'live_email_delivery': _('Receipt of invitation and recovery emails and successful use of their links'),
+    'validated_recovery_objectives': _('Validation of recovery time and data-loss objectives'),
 }
 
 EMAIL_LABELS = {
@@ -120,6 +131,7 @@ def launch_readiness_report(request):
             'report_available': False,
             'technical_gates_passed': False,
             'checks': {},
+            'operator_acceptance': operator_acceptance_report(),
             'scope': 'Technical report only; this route never certifies clinical release or commercial approval.',
             'configuration_error': 'Readiness report could not run because the offered spoken-variety configuration is invalid or incomplete.',
         }
@@ -147,6 +159,8 @@ def launch_readiness_report(request):
                 for code in report.get('offered_content_varieties', [])
             ],
             'manual_gate_rows': [MANUAL_READINESS_LABELS.get(key, key) for key in report.get('manual_gates_required', [])],
+            'operator_acceptance_rows': [OPERATOR_ACCEPTANCE_LABELS[key]
+                                         for key in report.get('operator_acceptance', {}).get('required', [])],
         }, status=status)
     response['Cache-Control'] = 'private, no-store'
     response['X-Robots-Tag'] = 'noindex, nofollow'
