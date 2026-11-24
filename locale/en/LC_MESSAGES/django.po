@@ -6044,3 +6044,42 @@ msgstr "Back to invitations"
 
 msgid "Choose how to deliver the invitation."
 msgstr "Choose how to deliver the invitation."
+
+msgid "Build a review batch"
+msgstr "Build a review batch"
+
+msgid "Choose versions for the review pack"
+msgstr "Choose versions for the review pack"
+
+msgid "Select versions on this page. The download contains only the versions you select."
+msgstr "Select versions on this page. The download contains only the versions you select."
+
+msgid "Download selected versions"
+msgstr "Download selected versions"
+
+msgid "Review batch"
+msgstr "Review batch"
+
+msgid "Return to content quality"
+msgstr "Return to content quality"
+
+msgid "Choose one or more versions from the same page and try again."
+msgstr "Choose one or more versions from the same page and try again."
+
+msgid "A selected version has changed. Review its current state and select it again."
+msgstr "A selected version has changed. Review its current state and select it again."
+
+msgid "The recording prompts include the current audio status for each word and a link to the exact version. When available, the collection link opens the draft for that word. Check the version fingerprint again before changing any media."
+msgstr "The recording prompts include the current audio status for each word and a link to the exact version. When available, the collection link opens the draft for that word. Check the version fingerprint again before changing any media."
+
+msgid "Record or attach an audio file"
+msgstr "Record or attach an audio file"
+
+msgid "Check the existing file and its link to this word"
+msgstr "Check the existing file and its link to this word"
+
+msgid "Complete the audio documentation"
+msgstr "Complete the audio documentation"
+
+msgid "Listen and verify during human review"
+msgstr "Listen and verify during human review"

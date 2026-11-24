@@ -6044,3 +6044,42 @@ msgstr "العودة إلى الدعوات"
 
 msgid "Choose how to deliver the invitation."
 msgstr "اختر طريقة تسليم الدعوة."
+
+msgid "Build a review batch"
+msgstr "إعداد دفعة للمراجعة"
+
+msgid "Choose versions for the review pack"
+msgstr "اختيار إصدارات للمراجعة"
+
+msgid "Select versions on this page. The download contains only the versions you select."
+msgstr "حدّدوا الإصدارات في هذه الصفحة. يتضمّن الملف الإصدارات التي اخترتموها فقط."
+
+msgid "Download selected versions"
+msgstr "تنزيل الإصدارات المحدّدة"
+
+msgid "Review batch"
+msgstr "دفعة للمراجعة"
+
+msgid "Return to content quality"
+msgstr "العودة إلى صفحة جودة المحتوى"
+
+msgid "Choose one or more versions from the same page and try again."
+msgstr "حدّدوا إصدارًا واحدًا أو أكثر من الصفحة نفسها، ثم أعيدوا المحاولة."
+
+msgid "A selected version has changed. Review its current state and select it again."
+msgstr "تغيّر أحد الإصدارات المحدّدة. راجعوا حالته الحالية ثم اختاروه مجددًا."
+
+msgid "The recording prompts include the current audio status for each word and a link to the exact version. When available, the collection link opens the draft for that word. Check the version fingerprint again before changing any media."
+msgstr "تبيّن قائمة التسجيل حالة الملف الصوتي لكل كلمة، وتحتوي على رابط للإصدار المعني. يفتح رابط جمع التسجيلات، عند توفّره، مسوّدة الكلمة المعنيّة. أعيدوا فحص بصمة الإصدار قبل تغيير أي ملف وسائط."
+
+msgid "Record or attach an audio file"
+msgstr "سجّلوا ملفًا صوتيًا أو أرفقوه"
+
+msgid "Check the existing file and its link to this word"
+msgstr "تحقّقوا من الملف الحالي وربطه بهذه الكلمة"
+
+msgid "Complete the audio documentation"
+msgstr "أكملوا وثائق الملف الصوتي"
+
+msgid "Listen and verify during human review"
+msgstr "استمعوا وتحقّقوا من التسجيل أثناء المراجعة"
