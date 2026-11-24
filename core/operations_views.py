@@ -176,6 +176,7 @@ def processing_register(request, pk=None):
                                'personal_data_categories', 'recipient_categories', 'international_transfers',
                                'retention_periods', 'security_measures', 'operations', 'active')
             snapshot = {field: getattr(obj, field) for field in snapshot_fields}
+            snapshot['organization_id'] = str(obj.organization_id) if obj.organization_id is not None else None
             revision_number = (ProcessingActivityRevision.objects.filter(activity=obj).order_by('-revision')
                               .values_list('revision', flat=True).first() or 0) + 1
             ProcessingActivityRevision.objects.create(activity=obj, revision=revision_number, snapshot=snapshot,
