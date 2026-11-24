@@ -6122,3 +6122,15 @@ msgstr "L’envoi de courriels est indisponible sur ce service. Cette page ne pe
 
 msgid "If an eligible account matches this email address, we try to send a recovery link. Delivery is not confirmed."
 msgstr "Si cette adresse correspond à un compte pouvant être récupéré, nous tentons d’envoyer un lien de récupération. La réception n’est pas confirmée."
+
+msgid "Change password"
+msgstr "Changer le mot de passe"
+
+msgid "Enter your current password and choose a new password. No email is needed."
+msgstr "Saisissez votre mot de passe actuel et choisissez un nouveau mot de passe. Aucun courriel n’est nécessaire."
+
+msgid "Password changed"
+msgstr "Mot de passe modifié"
+
+msgid "Your password has been changed. Other sessions will require you to sign in again."
+msgstr "Votre mot de passe a été modifié. Les autres sessions nécessiteront une nouvelle connexion."

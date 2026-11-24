@@ -146,6 +146,7 @@ jobs:
           core.tests_access_auth.ConcurrentResponsibilityTests
           core.tests_access_auth.ConcurrentAuthThrottleTests
           core.tests_account_onboarding.ConcurrentMFAOnboardingTests
+          core.tests_password_change.PasswordChangeConcurrencyTests
           core.tests_form_scope.PracticeFormScopeConcurrencyTests
           core.tests_deployment.RuntimeStartupPostgreSQLTests
           core.tests_operations_views.DatabaseProbeTimeoutTests

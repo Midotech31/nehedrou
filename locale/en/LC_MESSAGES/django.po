@@ -6122,3 +6122,15 @@ msgstr "Email delivery is unavailable on this service. This page cannot send a p
 
 msgid "If an eligible account matches this email address, we try to send a recovery link. Delivery is not confirmed."
 msgstr "If an eligible account matches this email address, we try to send a recovery link. Delivery is not confirmed."
+
+msgid "Change password"
+msgstr "Change password"
+
+msgid "Enter your current password and choose a new password. No email is needed."
+msgstr "Enter your current password and choose a new password. No email is needed."
+
+msgid "Password changed"
+msgstr "Password changed"
+
+msgid "Your password has been changed. Other sessions will require you to sign in again."
+msgstr "Your password has been changed. Other sessions will require you to sign in again."

@@ -6122,3 +6122,15 @@ msgstr "إرسال البريد الإلكتروني غير متاح في هذه
 
 msgid "If an eligible account matches this email address, we try to send a recovery link. Delivery is not confirmed."
 msgstr "إذا كان عنوان البريد الإلكتروني هذا مرتبطًا بحساب مؤهّل للاستعادة، نحاول إرسال رابط للاستعادة. لم يتم تأكيد وصول الرسالة."
+
+msgid "Change password"
+msgstr "تغيير كلمة المرور"
+
+msgid "Enter your current password and choose a new password. No email is needed."
+msgstr "يرجى إدخال كلمة المرور الحالية واختيار كلمة مرور جديدة. لا حاجة إلى البريد الإلكتروني."
+
+msgid "Password changed"
+msgstr "تم تغيير كلمة المرور"
+
+msgid "Your password has been changed. Other sessions will require you to sign in again."
+msgstr "تم تغيير كلمة المرور. ستتطلب الجلسات الأخرى تسجيل الدخول مجددًا."
