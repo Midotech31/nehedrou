@@ -19,6 +19,7 @@ from catalog.models import Activity, EditorialGrant, Review, Variety
 from core.management.commands.seed_demo import LEGACY_DEMO_USERNAMES
 from core.management.commands.seed_demo_roles import MSA_CODE, MSA_DEMO_SERIES, ROLE_PASSWORD_ENV, ROLE_PRACTICE_ID, ROLE_PRACTICE_NAME, ROLE_USERNAMES
 from core.models import Entitlement, Membership, Organization, User
+from followup.models import ClinicalGoal
 
 
 # Synthetic test credentials only. The deployed values never enter this file.
@@ -238,6 +239,27 @@ class DemoRoleWorkflowTests(TestCase):
         self.assertEqual(list(self.child.programs.exclude(pk=msa.pk).order_by('pk').values()), other_programs)
         seed()
         self.assertEqual(self.child.programs.get(variety__code=MSA_CODE).pk, msa.pk)
+
+    def test_seed_does_not_assign_a_reserved_msa_example(self):
+        program = self.child.programs.get(variety__code=MSA_CODE)
+        variety = program.variety
+        program.delete()
+        original_programs = set(self.child.programs.values_list('pk', flat=True))
+        goal = ClinicalGoal.objects.create(
+            organization=self.child.organization, child=self.child, author=self.child.responsible,
+            variety=variety, target_phoneme='b', target_position='initial',
+            target_scope={'position': 'initial', 'context': 'isolated_word'},
+            rationale='Fictional reserve fixture', expected_realization='/b/',
+            functional_goal='Fictional observation', reserved_words=['باب'],
+        )
+        stderr = io.StringIO()
+        with patch.dict(os.environ, TEST_ENV):
+            call_command('seed_demo_roles', verbosity=0, stdout=io.StringIO(), stderr=stderr)
+        self.assertIn('uses a reserved word', stderr.getvalue())
+        self.assertFalse(self.child.programs.filter(variety=variety).exists())
+        self.assertSetEqual(set(self.child.programs.values_list('pk', flat=True)), original_programs)
+        goal.refresh_from_db()
+        self.assertEqual(goal.reserved_words, ['باب'])
 
     def test_seed_respects_existing_msa_program_and_removed_variety(self):
         existing = self.child.programs.get(variety__code=MSA_CODE)
