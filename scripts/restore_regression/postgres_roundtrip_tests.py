@@ -219,10 +219,10 @@ class CurrentSchemaPostgreSQLRoundtripTests(TransactionTestCase):
             with psycopg.connect(**{**self.local, 'dbname': 'postgres'}, autocommit=True) as admin:
                 admin.execute(sql.SQL('CREATE DATABASE {} TEMPLATE template0').format(sql.Identifier(target)))
                 created_target = True
-            def restore(name, dbname, extra):
-                self.assertEqual((name, dbname), ('pg_restore', target))
+            def restore(name, dbname, extra, *, verified_host):
+                self.assertEqual((name, dbname, verified_host), ('pg_restore', target, '127.0.0.1'))
                 commands.append(name)
-                return original_pg(name, dbname, extra)
+                return original_pg(name, dbname, extra, verified_host=verified_host)
             with patch.object(backups, 'pg_command', restore):
                 result = backups.restore_backup(archive, self.target_media, postgres_database=target)
             self.assertTrue(result['target_was_fresh'])
