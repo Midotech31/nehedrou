@@ -6164,3 +6164,27 @@ msgstr "تُعرض هذه النسخة المسندة للرجوع إليها، 
 
 msgid "Media unavailable for this version"
 msgstr "الوسائط غير متاحة لهذه النسخة"
+
+msgid "Your reviewer experience"
+msgstr "خبرتك في المراجعة"
+
+msgid "For this spoken variety, review permission and independently checked experience are separate requirements. This status does not approve the content."
+msgstr "الإذن بالمراجعة والتحقق المستقل من الخبرة شرطان منفصلان لهذه اللغة أو اللهجة. هذه الحالة لا تعني اعتماد المحتوى."
+
+msgid "Experience declaration needed"
+msgstr "يلزم التصريح بالخبرة"
+
+msgid "Declaration inactive"
+msgstr "التصريح غير نشط"
+
+msgid "Independent check current"
+msgstr "التحقق المستقل سارٍ"
+
+msgid "View or update your declaration"
+msgstr "عرض تصريحك أو تعديله"
+
+msgid "An authorised publisher must check your declaration independently. You cannot verify your own experience."
+msgstr "يجب أن يتحقق شخص مخوّل بالنشر من تصريحك بصورة مستقلة. لا يمكنك التحقق من خبرتك بنفسك."
+
+msgid "You may request changes without approving this content. Approval also requires complete exact-version content and media."
+msgstr "يمكنك طلب تعديلات دون اعتماد هذا المحتوى. ويتطلب الاعتماد أيضًا اكتمال المحتوى والوسائط للنسخة المحددة."
