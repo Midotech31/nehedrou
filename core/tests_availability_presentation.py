@@ -253,6 +253,24 @@ class AvailabilityPresentationTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Availability is checked when you preview or save this program.')
 
+    def test_builder_shows_simple_instructions_in_the_selected_language(self):
+        self.legacy_publication('Fictional alternative with English instructions only')
+        route = reverse('program_create', args=[self.child.pk])
+        for language, direction, wording in [
+            ('fr', 'ltr', 'Consignes fictives'),
+            ('en', 'ltr', 'Fictional historical instructions'),
+            ('ar', 'rtl', 'تعليمات وهمية'),
+        ]:
+            with self.subTest(language=language):
+                User.objects.filter(pk=self.pro.pk).update(instruction_language=language)
+                response = self.client.get(route, secure=True)
+                self.assertContains(response, f'<p lang="{language}" dir="{direction}">{wording}</p>', html=True)
+                for other_wording in set(self.activity.instructions.values()) - {wording}:
+                    self.assertNotContains(response, other_wording)
+                if language == 'ar':
+                    self.assertContains(response, 'Instructions unavailable')
+                    self.assertNotContains(response, 'Fictional legacy instructions')
+
     def test_only_the_visible_page_gets_media_checks_and_counts_keep_their_explicit_scope(self):
         fillers = [self.legacy_publication(f'A legacy entry {index:02d}') for index in range(24)]
         checked = []

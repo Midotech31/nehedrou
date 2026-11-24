@@ -9,6 +9,12 @@ def guide_language(value, language):
     return dict(guide, language=language) if isinstance(guide, dict) and guide else {}
 
 
+@register.filter
+def instruction_language(value, language):
+    instruction = value.get(language) if isinstance(value, dict) else None
+    return instruction if isinstance(instruction, str) and instruction.strip() else ''
+
+
 @register.simple_tag
 def science_articles(language):
     from catalog.science_articles import ARTICLES
