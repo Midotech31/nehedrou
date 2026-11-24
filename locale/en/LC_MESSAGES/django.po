@@ -6428,3 +6428,73 @@ msgstr "Record observation"
 
 msgid "Operator observation history"
 msgstr "Operator observation history"
+
+# Reviewer recorded definitions (2026-11-24).
+msgid "Either word may be requested; the activity link selects the picture."
+msgstr "Either word may be requested; the activity link selects the picture."
+
+msgid "Evidence bytes missing or changed."
+msgstr "Evidence bytes missing or changed."
+
+msgid "Evidence reference"
+msgstr "Evidence reference"
+
+msgid "Evidence reference unavailable for this variety and category."
+msgstr "Evidence reference unavailable for this variety and category."
+
+msgid "Evidence revoked."
+msgstr "Evidence revoked."
+
+msgid "Evidence validity is unknown, expired or not yet current."
+msgstr "Evidence validity is unknown, expired or not yet current."
+
+msgid "Final"
+msgstr "Final"
+
+msgid "Initial"
+msgstr "Initial"
+
+msgid "Medial"
+msgstr "Medial"
+
+msgid "No admissible variant recorded."
+msgstr "No admissible variant recorded."
+
+msgid "No evidence fingerprint recorded."
+msgstr "No evidence fingerprint recorded."
+
+msgid "No evidence reference recorded."
+msgstr "No evidence reference recorded."
+
+msgid "No requested picture for this response mode."
+msgstr "No requested picture for this response mode."
+
+msgid "Open the referenced private evidence"
+msgstr "Open the referenced private evidence"
+
+msgid "Other"
+msgstr "Other"
+
+msgid "Phoneme index (starts at 0)"
+msgstr "Phoneme index (starts at 0)"
+
+msgid "Recorded evidence fingerprint"
+msgstr "Recorded evidence fingerprint"
+
+msgid "Recorded evidence fingerprint differs from the document."
+msgstr "Recorded evidence fingerprint differs from the document."
+
+msgid "Recorded familiarity note"
+msgstr "Recorded familiarity note"
+
+msgid "Recorded reference matches intact evidence within its declared validity period."
+msgstr "Recorded reference matches intact evidence within its declared validity period."
+
+msgid "Recorded task and word definitions"
+msgstr "Recorded task and word definitions"
+
+msgid "These are current editorial entries for the displayed fingerprint. They are not verified linguistic or clinical evidence."
+msgstr "These are current editorial entries for the displayed fingerprint. They are not verified linguistic or clinical evidence."
+
+msgid "Unknown stored task value."
+msgstr "Unknown stored task value."

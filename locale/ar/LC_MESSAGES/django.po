@@ -6428,3 +6428,73 @@ msgstr "تسجيل الملاحظة"
 
 msgid "Operator observation history"
 msgstr "تاريخ الملاحظات التشغيلية"
+
+# Reviewer recorded definitions (2026-11-24).
+msgid "Either word may be requested; the activity link selects the picture."
+msgstr "يمكن طلب أيّ من الكلمتين؛ ويحدّد رابط النشاط الصورة المطلوبة."
+
+msgid "Evidence bytes missing or changed."
+msgstr "ملف الدليل مفقود أو تغيّرت محتوياته."
+
+msgid "Evidence reference"
+msgstr "مرجع الدليل"
+
+msgid "Evidence reference unavailable for this variety and category."
+msgstr "مرجع الدليل غير متاح لهذا التنوع اللغوي وهذه الفئة."
+
+msgid "Evidence revoked."
+msgstr "سُحب ملف الدليل."
+
+msgid "Evidence validity is unknown, expired or not yet current."
+msgstr "مدة صلاحية ملف الدليل غير معروفة أو منتهية أو لم تبدأ بعد."
+
+msgid "Final"
+msgstr "نهائي"
+
+msgid "Initial"
+msgstr "أوّلي"
+
+msgid "Medial"
+msgstr "وسطي"
+
+msgid "No admissible variant recorded."
+msgstr "لم يُسجّل أيّ بديل مقبول."
+
+msgid "No evidence fingerprint recorded."
+msgstr "لم تُسجّل بصمة لملف الدليل."
+
+msgid "No evidence reference recorded."
+msgstr "لم يُسجّل مرجع لدليل."
+
+msgid "No requested picture for this response mode."
+msgstr "لا توجد صورة مطلوبة في نمط الاستجابة هذا."
+
+msgid "Open the referenced private evidence"
+msgstr "فتح ملف الدليل الخاص المشار إليه"
+
+msgid "Other"
+msgstr "أخرى"
+
+msgid "Phoneme index (starts at 0)"
+msgstr "رقم الصوت (يبدأ من 0)"
+
+msgid "Recorded evidence fingerprint"
+msgstr "بصمة الدليل المسجّلة"
+
+msgid "Recorded evidence fingerprint differs from the document."
+msgstr "بصمة الدليل المسجّلة تختلف عن بصمة الوثيقة."
+
+msgid "Recorded familiarity note"
+msgstr "ملاحظة الألفة المسجّلة"
+
+msgid "Recorded reference matches intact evidence within its declared validity period."
+msgstr "المرجع المسجّل يطابق ملف الدليل وبصمته ضمن مدة صلاحيته المصرّح بها."
+
+msgid "Recorded task and word definitions"
+msgstr "المهمة وتعريفات الكلمات المسجّلة"
+
+msgid "These are current editorial entries for the displayed fingerprint. They are not verified linguistic or clinical evidence."
+msgstr "هذه بيانات تحريرية حالية مرتبطة بالبصمة المعروضة، ولا تمثّل أدلة لغوية أو سريرية معتمدة."
+
+msgid "Unknown stored task value."
+msgstr "قيمة المهمة المسجّلة غير معروفة."

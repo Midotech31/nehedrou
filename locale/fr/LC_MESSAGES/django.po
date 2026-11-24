@@ -6428,3 +6428,73 @@ msgstr "Consigner l’observation"
 
 msgid "Operator observation history"
 msgstr "Historique des observations d’exploitation"
+
+# Reviewer recorded definitions (2026-11-24).
+msgid "Either word may be requested; the activity link selects the picture."
+msgstr "L’un ou l’autre mot peut être demandé ; le lien de l’activité choisit l’image."
+
+msgid "Evidence bytes missing or changed."
+msgstr "Fichier de preuve absent ou modifié."
+
+msgid "Evidence reference"
+msgstr "Référence de preuve"
+
+msgid "Evidence reference unavailable for this variety and category."
+msgstr "Référence de preuve indisponible pour cette variété et cette catégorie."
+
+msgid "Evidence revoked."
+msgstr "Preuve révoquée."
+
+msgid "Evidence validity is unknown, expired or not yet current."
+msgstr "La période de validité de la preuve est inconnue, expirée ou n’a pas encore commencé."
+
+msgid "Final"
+msgstr "Finale"
+
+msgid "Initial"
+msgstr "Initiale"
+
+msgid "Medial"
+msgstr "Médiane"
+
+msgid "No admissible variant recorded."
+msgstr "Aucune variante admissible enregistrée."
+
+msgid "No evidence fingerprint recorded."
+msgstr "Aucune empreinte de preuve enregistrée."
+
+msgid "No evidence reference recorded."
+msgstr "Aucune référence de preuve enregistrée."
+
+msgid "No requested picture for this response mode."
+msgstr "Ce mode de réponse n’impose aucune image."
+
+msgid "Open the referenced private evidence"
+msgstr "Ouvrir la pièce privée référencée"
+
+msgid "Other"
+msgstr "Autre"
+
+msgid "Phoneme index (starts at 0)"
+msgstr "Indice du phonème (à partir de 0)"
+
+msgid "Recorded evidence fingerprint"
+msgstr "Empreinte de preuve enregistrée"
+
+msgid "Recorded evidence fingerprint differs from the document."
+msgstr "L’empreinte de preuve enregistrée diffère de celle du document."
+
+msgid "Recorded familiarity note"
+msgstr "Note de familiarité enregistrée"
+
+msgid "Recorded reference matches intact evidence within its declared validity period."
+msgstr "La référence enregistrée correspond au fichier intact de la pièce dans sa période de validité déclarée."
+
+msgid "Recorded task and word definitions"
+msgstr "Tâche et définitions des mots enregistrées"
+
+msgid "These are current editorial entries for the displayed fingerprint. They are not verified linguistic or clinical evidence."
+msgstr "Ces données éditoriales actuelles correspondent à l’empreinte affichée. Elles ne constituent pas des preuves linguistiques ou cliniques validées."
+
+msgid "Unknown stored task value."
+msgstr "Valeur de tâche enregistrée inconnue."

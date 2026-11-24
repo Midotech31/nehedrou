@@ -1,0 +1,23 @@
+{% load i18n content_language %}{% get_current_language as ui_language %}{% if payload %}
+<section class="card" id="reviewer-recorded-definition" data-reviewer-payload>
+<h2>{% translate "Recorded task and word definitions" %}</h2>
+<p>{% translate "These are current editorial entries for the displayed fingerprint. They are not verified linguistic or clinical evidence." %}</p>
+<p>{% translate "Content version" %}: <span data-review-version>{{ activity.version }}</span> · {% translate "Exact content fingerprint" %}: <code dir="ltr" data-review-content-digest>{{ content_digest }}</code></p>
+<dl data-recorded-task>
+<dt>{% translate "Activity type" %}</dt><dd>{{ payload.kind_label }}</dd>
+<dt>{% translate "Response mode" %}</dt><dd data-response-mode="{{ payload.response_mode }}">{{ payload.response_label }}</dd>
+<dt>{% translate "Requested picture target" %}</dt><dd data-requested-target="{{ payload.target_state }}">{{ payload.target_label }}{% if payload.target_word %} · <bdi lang="{{ activity.variety|spoken_language }}" dir="{{ activity.variety|spoken_language|language_direction }}">{{ payload.target_word }}</bdi>{% endif %}</dd>
+</dl>
+{% for word in payload.words %}<article data-review-word="{{ word.side }}">
+<h3><bdi lang="{{ activity.variety|spoken_language }}" dir="{{ activity.variety|spoken_language|language_direction }}">{{ word.word }}</bdi></h3>
+<dl><dt>{% translate "Intended meaning" %}</dt><dd data-word-meaning>{% if word.meaning %}<span lang="und" dir="auto">{{ word.meaning }}</span>{% else %}{% translate "Not recorded" %}{% endif %}</dd></dl>
+<h4>{% translate "Ordered phonemes" %}</h4>
+<ol start="0" lang="und-fonipa" dir="ltr" data-word-segments>{% for segment in word.segments %}<li value="{{ segment.index }}">{% if segment.phoneme %}<bdi>{{ segment.phoneme }}</bdi>{% else %}<span lang="{{ ui_language }}" dir="auto">{% translate "Unknown" %}</span>{% endif %}</li>{% empty %}<li lang="{{ ui_language }}" dir="auto">{% translate "Not recorded" %}</li>{% endfor %}</ol>
+<h4>{% translate "Target occurrences" %}</h4>
+<div class="table-scroll"><table data-word-targets><thead><tr><th>{% translate "Phoneme index (starts at 0)" %}</th><th>{% translate "Target phoneme" %}</th><th>{% translate "Target position" %}</th></tr></thead><tbody>{% for target in word.targets %}<tr><td dir="ltr">{% if target.index != None %}{{ target.index }}{% else %}{% translate "Unknown" %}{% endif %}</td><td>{% if target.phoneme %}<bdi lang="und-fonipa" dir="ltr">{{ target.phoneme }}</bdi>{% else %}{% translate "Unknown" %}{% endif %}</td><td>{{ target.position }}</td></tr>{% empty %}<tr><td colspan="3">{% translate "Not recorded" %}</td></tr>{% endfor %}</tbody></table></div>
+<h4>{% translate "Admissible variants and reasons" %}</h4>
+<ul data-word-variants>{% for variant in word.variants %}<li>{% if variant.ipa %}<bdi lang="und-fonipa" dir="ltr">{{ variant.ipa }}</bdi>{% else %}{% translate "Not recorded" %}{% endif %} · {% if variant.reason %}<span lang="und" dir="auto">{{ variant.reason }}</span>{% else %}{% translate "Not recorded" %}{% endif %}</li>{% empty %}<li>{% translate "No admissible variant recorded." %}</li>{% endfor %}</ul>
+<dl><dt>{% translate "Recorded familiarity note" %}</dt><dd data-familiarity-note>{% if word.familiarity_note %}<span lang="und" dir="auto">{{ word.familiarity_note }}</span>{% else %}{% translate "Not recorded" %}{% endif %}</dd>
+<dt>{% translate "Word and image familiarity evidence" %}</dt><dd><p data-familiarity-status="{{ word.evidence.state }}">{{ word.evidence.label }}</p>{% if word.evidence.reference %}<p>{% translate "Evidence reference" %}: <code dir="ltr">{{ word.evidence.reference }}</code></p>{% endif %}{% if word.evidence.sha256 %}<p>{% translate "Recorded evidence fingerprint" %}: <code dir="ltr">{{ word.evidence.sha256 }}</code></p>{% endif %}{% if word.evidence.url %}<p><a href="{{ word.evidence.url }}">{% translate "Open the referenced private evidence" %}</a></p>{% endif %}</dd></dl>
+</article>{% endfor %}
+</section>{% endif %}
