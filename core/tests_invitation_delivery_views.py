@@ -2,13 +2,15 @@ from .testing import practice_form_data
 """Known unavailable transport must not invite futile token rotation."""
 from unittest.mock import patch
 
+from django.core.exceptions import ValidationError
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import translation
 from django.utils.translation import gettext as _
 
 from care.models import Child, FamilyLink
-from core.models import Invitation, Membership, Organization, User
+from core.models import AuditEvent, Invitation, Membership, Organization, User
+from core.services import issue_and_deliver_invitation
 
 
 @override_settings(DEMO_MODE=True, MFA_REQUIRED=False,
@@ -53,19 +55,54 @@ class InvitationDeliveryViewTests(TestCase):
                     self.assertNotContains(response, 'api.resend.com')
 
     def test_initial_invitations_remain_recorded_failed_without_external_transport(self):
-        for kind in ('family', 'clinician'):
-            with self.subTest(kind=kind), patch('http.client.HTTPSConnection') as https, patch('smtplib.SMTP') as smtp:
-                path = reverse('child_detail', args=[self.child.pk]) if kind == 'family' else reverse('members')
-                data = {'email':'initial-'+kind+'@example.test'}
-                if kind == 'clinician':
-                    data = practice_form_data(self.client, path, data)
-                response = self.client.post(path, data)
-                self.assertEqual(response.status_code, 302)
-                invitation = Invitation.objects.get(email='initial-'+kind+'@example.test')
-                self.assertEqual(invitation.delivery, 'failed')
-                shown = self.client.get(response.url)
-                self.assertContains(shown, _('Invitation recorded, but email delivery is unavailable in this configuration. Ask the service operator to configure delivery before retrying.'))
-                https.assert_not_called(); smtp.assert_not_called()
+        profiles = (
+            dict(EMAIL_BACKEND='core.email_backends.DisabledEmailBackend'),
+            dict(EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend', EMAIL_HOST='smtp.fixture.invalid',
+                 EMAIL_PORT=587, EMAIL_USE_TLS=False, EMAIL_USE_SSL=False, EMAIL_TIMEOUT=10,
+                 EMAIL_HOST_USER='fixture-user', EMAIL_HOST_PASSWORD='fixture-password',
+                 DEFAULT_FROM_EMAIL='access@fictional-mail.tld'),
+            dict(EMAIL_BACKEND='core.email_backends.ResendEmailBackend', RESEND_ENABLED=False),
+            dict(EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend', DEBUG=False),
+        )
+        for index, profile in enumerate(profiles):
+            for kind in ('family', 'clinician'):
+                with self.subTest(backend=profile['EMAIL_BACKEND'], kind=kind), override_settings(**profile), \
+                        patch('django.core.mail.send_mail') as mail:
+                    path = reverse('child_detail', args=[self.child.pk]) if kind == 'family' else reverse('members')
+                    email = f'initial-{kind}-{index}@example.test'
+                    data = {'email': email}
+                    if kind == 'clinician':
+                        data = practice_form_data(self.client, path, data)
+                    response = self.client.post(path, data)
+                    self.assertEqual(response.status_code, 302)
+                    invitation = Invitation.objects.get(email=email)
+                    self.assertEqual(invitation.delivery, 'failed')
+                    self.assertEqual(list(AuditEvent.objects.filter(object_id=str(invitation.pk)).values_list('action', flat=True).order_by('pk')),
+                                     ['invitation.created', 'invitation.delivery_failed'])
+                    shown = self.client.get(response.url)
+                    self.assertContains(shown, _('Invitation recorded, but email delivery is unavailable in this configuration. Ask the service operator to configure delivery before retrying.'))
+                    mail.assert_not_called()
+
+    def test_unavailable_direct_retry_preserves_the_existing_link(self):
+        invitation = self.failed_invitation('family')
+        expected = self.snapshot(invitation)
+        with patch('django.core.mail.send_mail') as mail, self.assertRaises(ValidationError):
+            issue_and_deliver_invitation(self.owner, self.organization, self.child, invitation.email, replacing=invitation)
+        invitation.refresh_from_db()
+        self.assertEqual(self.snapshot(invitation), expected)
+        self.assertEqual(Invitation.objects.count(), 1)
+        self.assertFalse(AuditEvent.objects.exists())
+        mail.assert_not_called()
+
+    @override_settings(EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend', DEBUG=True, IS_RENDER=False)
+    def test_local_development_console_keeps_its_distinct_invitation_status(self):
+        path = reverse('child_detail', args=[self.child.pk])
+        with patch('django.core.mail.backends.console.EmailBackend.send_messages', return_value=1) as console:
+            response = self.client.post(path, {'email': 'local-console@example.test'})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Invitation.objects.get().delivery, 'console')
+        self.assertTrue(AuditEvent.objects.filter(action='invitation.delivery_console').exists())
+        console.assert_called_once()
 
     def test_known_unavailable_retry_keeps_both_invitation_kinds_unchanged(self):
         for kind in ('family', 'clinician'):

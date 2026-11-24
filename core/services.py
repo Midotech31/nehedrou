@@ -9,6 +9,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from care.models import Child, Program, ProgramItem, PracticeSession, FamilyLink, PracticeRun, PracticeRunTask, ProgramFeedback
+from .invitation_delivery import invitation_delivery_status
 from .models import Organization, Entitlement, Invitation, AuditEvent, Membership
 
 def _audit_purpose(action):
@@ -61,6 +62,7 @@ def issue_and_deliver_invitation(actor, organization, child, email, kind='family
     from django.core.mail import send_mail
     from django.urls import reverse
     from .models import User
+    status = invitation_delivery_status()
     with transaction.atomic():
         org = Organization.objects.select_for_update().get(pk=organization.pk)
         if kind == 'family':
@@ -76,6 +78,8 @@ def issue_and_deliver_invitation(actor, organization, child, email, kind='family
         if User.objects.filter(email__iexact=email, is_active=False).exists():
             raise ValidationError(_('This email belongs to an inactive account. Contact the platform manager before inviting it.'))
         if replacing:
+            if status['known_unavailable']:
+                raise ValidationError(status['retry_blocked_message'])
             old = Invitation.objects.select_for_update().get(pk=replacing.pk, organization=org)
             if not old.available:
                 raise ValidationError(_('This invitation is unavailable or belongs to another account.'))
@@ -83,12 +87,15 @@ def issue_and_deliver_invitation(actor, organization, child, email, kind='family
             old.save()
         invite, token = Invitation.issue(org, child, email, actor, kind=kind)
         audit(actor, 'invitation.created', invite, org)
-    url = settings.PUBLIC_ORIGIN.rstrip('/') + reverse('invite', args=[token])
-    try:
-        sent = send_mail(_('Your Nehedrou invitation'), _('You have been invited to Nehedrou. Sign in or create an account to accept this invitation:') + '\n' + url, settings.DEFAULT_FROM_EMAIL, [invite.email])
-        delivery = ('console' if settings.EMAIL_BACKEND.endswith('console.EmailBackend') else 'sent') if sent else 'failed'
-    except (OSError, SMTPException):
-        delivery = 'failed'
+    delivery = 'failed'
+    if not status['known_unavailable']:
+        url = settings.PUBLIC_ORIGIN.rstrip('/') + reverse('invite', args=[token])
+        try:
+            sent = send_mail(_('Your Nehedrou invitation'), _('You have been invited to Nehedrou. Sign in or create an account to accept this invitation:') + '\n' + url, settings.DEFAULT_FROM_EMAIL, [invite.email])
+            if sent:
+                delivery = 'console' if status['state'] == 'local_console' else 'sent'
+        except (OSError, SMTPException):
+            pass
     with transaction.atomic():
         invite.delivery = delivery
         invite.save(update_fields=['delivery'])
