@@ -38,6 +38,20 @@ class Organization(CheckedModel):
     def __str__(self):
         return self.name
 
+
+class PracticeAccessRequest(models.Model):
+    """An owner's request for manual review of an inactive cabinet plan."""
+    organization = models.ForeignKey(Organization, on_delete=models.PROTECT)
+    requested_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='+')
+    requested_at = models.DateTimeField(auto_now_add=True)
+    acknowledged_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='+')
+    acknowledged_at = models.DateTimeField(null=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['organization'],
+            condition=models.Q(acknowledged_at__isnull=True), name='one_pending_practice_access_request')]
+
+
 class Membership(CheckedModel):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

@@ -40,6 +40,7 @@ from .services import (
 from .reserves import activity_is_reserved, reserved_activity_ids, family_catalog_exclusions
 from .product_views import program_calendar
 from .planning import decorate_plan, activity_overview
+from .practice_access_views import owner_access_request
 
 def home(request):
     return render(request, 'home.html')
@@ -837,6 +838,7 @@ def revoke_member(request, pk):
         messages.error(request, ' '.join(error.messages))
     return redirect('members')
 
+@never_cache
 @login_required
 def subscription(request):
     member = manager(request)
@@ -852,6 +854,7 @@ def subscription(request):
         'entitlement': entitlement,
         'access_usable': access_usable,
         'access_status': access_status,
+        **owner_access_request(request, practice, access_usable),
         'used_children': Child.objects.filter(organization=practice, active=True).count(),
         'used_members': Membership.objects.filter(organization=practice, active=True).count(),
     })

@@ -1,1 +1,33 @@
-{% extends 'base.html' %}{% load i18n %}{% block content %}<h1>{% translate "Manual billing operations" %}</h1><section class="card">{% for organization in organizations %}<div class="report-row"><strong>{{ organization.name }}</strong><a href="{% url 'billing_detail' organization.pk %}">{% translate "Manage access" %}</a></div>{% endfor %}</section>{% endblock %}
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<h1>{% translate "Manual billing operations" %}</h1>
+{% if not demo_mode %}
+<section class="card" id="practice-access-requests">
+  <h2>{% translate "Practice access requests" %}</h2>
+  {% for access_request in pending_access_requests %}
+    <article class="report-row" data-request-state="pending">
+      <div>
+        <strong dir="auto">{{ access_request.organization.name }}</strong>
+        <time datetime="{{ access_request.requested_at|date:'c' }}">{{ access_request.requested_at|date:'DATETIME_FORMAT' }}</time>
+      </div>
+      <a href="{% url 'billing_detail' access_request.organization_id %}">{% translate "Manage access" %}</a>
+      <form method="post" action="{% url 'acknowledge_practice_access' access_request.pk %}">
+        {% csrf_token %}
+        <button class="button secondary" type="submit">{% translate "Acknowledge request" %}</button>
+      </form>
+    </article>
+  {% empty %}
+    <p>{% translate "No practice access requests are awaiting review." %}</p>
+  {% endfor %}
+</section>
+{% endif %}
+<section class="card">
+  {% for organization in organizations %}
+    <div class="report-row">
+      <strong dir="auto">{{ organization.name }}</strong>
+      <a href="{% url 'billing_detail' organization.pk %}">{% translate "Manage access" %}</a>
+    </div>
+  {% endfor %}
+</section>
+{% endblock %}

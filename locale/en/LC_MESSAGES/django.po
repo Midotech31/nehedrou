@@ -6290,3 +6290,30 @@ msgstr "Before entering personal data, ask your practice for full information on
 
 msgid "Practice contact for data questions"
 msgstr "Practice contact for data questions"
+
+msgid "Manual review of practice access"
+msgstr "Manual review of practice access"
+
+msgid "Request an access review"
+msgstr "Request an access review"
+
+msgid "Your request is awaiting review by the platform operator."
+msgstr "Your request is awaiting review by the platform operator."
+
+msgid "The platform operator has acknowledged your request."
+msgstr "The platform operator has acknowledged your request."
+
+msgid "Review and access activation are separate steps. You can check the request status on this page."
+msgstr "Review and access activation are separate steps. You can check the request status on this page."
+
+msgid "Practice access requests"
+msgstr "Practice access requests"
+
+msgid "Acknowledge request"
+msgstr "Acknowledge request"
+
+msgid "No practice access requests are awaiting review."
+msgstr "No practice access requests are awaiting review."
+
+msgid "The cabinet access request is acknowledged."
+msgstr "The cabinet access request is acknowledged."

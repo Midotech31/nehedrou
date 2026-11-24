@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth
 from django.urls import path, include
 from core import views
-from core import security, complete_views, billing_views
+from core import security, complete_views, billing_views, practice_access_views
 from catalog import views as editorial_views
 from catalog import editorial_access_views
 from catalog import working, quality, guided_audio, recording_retention
@@ -59,6 +59,7 @@ urlpatterns += i18n_patterns(
     path('members/', views.members, name='members'),
     path('members/<uuid:pk>/revoke/', views.revoke_member, name='revoke_member'),
     path('subscription/', views.subscription, name='subscription'),
+    path('subscription/request-access/', practice_access_views.request_access, name='request_practice_access'),
     path('preferences/', views.preferences, name='preferences'),
     path('security/setup/', security.setup, name='mfa_setup'),
     path('security/qr/', security.qr, name='mfa_qr'),
@@ -80,6 +81,8 @@ urlpatterns += i18n_patterns(
     path('operations/editorial-access/invitations/<uuid:pk>/revoke/', editorial_access_views.revoke_editorial_invitation_view, name='editorial_invitation_revoke'),
     path('operations/editorial-access/grants/<uuid:pk>/<str:capability>/revoke/', editorial_access_views.revoke_editorial_capability_view, name='editorial_capability_revoke'),
     path('billing/', complete_views.billing, name='billing_index'),
+    path('billing/access-requests/<int:pk>/acknowledge/', practice_access_views.acknowledge_access,
+         name='acknowledge_practice_access'),
     path('billing/<uuid:pk>/', complete_views.billing, name='billing_detail'),
     path('billing/<uuid:pk>/invoice/', complete_views.invoice_create, name='invoice_create'),
     path('billing/invoices/<uuid:pk>/', billing_views.invoice_detail, name='invoice_detail'),

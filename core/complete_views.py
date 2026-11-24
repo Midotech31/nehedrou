@@ -10,12 +10,14 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import gettext as _, gettext_lazy
+from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST, require_http_methods
 from care.models import Child, Program, PracticeSession, ProgramItem, Observation, FamilyLink
 from catalog.models import Activity
 from .access import clinician_child, professional_children, manager, visible_children, membership, is_family_workspace
 from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .billing import ENTITLEMENT_EDIT_FIELDS, entitlement_form_snapshot
+from .practice_access_views import pending_access_requests
 from .forms import ChildForm, ProgramForm, ReassignForm, PrivacyDecisionForm
 from .models import Organization, PrivacyRequest, Invitation, Entitlement, Invoice, NoticeAcknowledgement
 from .access import CURRENT_NOTICE_VERSION, notice_gate, PENDING_NOTICE_INVITATION_DIGEST, LEGACY_PENDING_NOTICE_INVITATION_TOKEN
@@ -178,12 +180,16 @@ class InvoiceForm(forms.ModelForm):
         self.instance.paid_at = timezone.now() if data.get('status') == 'paid' else None
         return data
 
+@never_cache
 @login_required
 @permission_required('core.manage_entitlements', raise_exception=True)
 @require_http_methods(['GET', 'POST'])
 def billing(request, pk=None):
     if pk is None:
-        return render(request, 'billing/index.html', {'organizations': Organization.objects.all().order_by('name')})
+        return render(request, 'billing/index.html', {
+            'organizations': Organization.objects.all().order_by('name'),
+            'pending_access_requests': pending_access_requests(),
+        })
     if request.method == 'POST':
         # Serialize first-time creation and edits with other practice mutations.
         with transaction.atomic():

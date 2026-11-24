@@ -22,4 +22,26 @@
   {% endif %}
   <p>{% translate "Billing is managed manually. No card information is collected." %}</p>
 </section>
+{% if latest_access_request or access_request_scope %}
+<section class="card" id="practice-access-request">
+  <h2>{% translate "Manual review of practice access" %}</h2>
+  {% if latest_access_request %}
+    {% if latest_access_request.acknowledged_at %}
+      <p data-request-state="acknowledged"><strong>{% translate "The platform operator has acknowledged your request." %}</strong>
+        <time datetime="{{ latest_access_request.acknowledged_at|date:'c' }}">{{ latest_access_request.acknowledged_at|date:'DATETIME_FORMAT' }}</time></p>
+    {% else %}
+      <p data-request-state="pending"><strong>{% translate "Your request is awaiting review by the platform operator." %}</strong>
+        <time datetime="{{ latest_access_request.requested_at|date:'c' }}">{{ latest_access_request.requested_at|date:'DATETIME_FORMAT' }}</time></p>
+    {% endif %}
+  {% endif %}
+  <p>{% translate "Review and access activation are separate steps. You can check the request status on this page." %}</p>
+  {% if access_request_scope %}
+    <form method="post" action="{% url 'request_practice_access' %}">
+      {% csrf_token %}
+      <input type="hidden" name="practice_scope" value="{{ access_request_scope }}">
+      <button class="button" type="submit">{% translate "Request an access review" %}</button>
+    </form>
+  {% endif %}
+</section>
+{% endif %}
 {% endblock %}

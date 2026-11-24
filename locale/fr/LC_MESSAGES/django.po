@@ -6290,3 +6290,30 @@ msgstr "Avant de saisir des données personnelles, demandez à votre cabinet les
 
 msgid "Practice contact for data questions"
 msgstr "Contact du cabinet pour les questions sur les données"
+
+msgid "Manual review of practice access"
+msgstr "Examen manuel de l’accès du cabinet"
+
+msgid "Request an access review"
+msgstr "Demander un examen de l’accès"
+
+msgid "Your request is awaiting review by the platform operator."
+msgstr "Votre demande est en attente d’examen par le gestionnaire de la plateforme."
+
+msgid "The platform operator has acknowledged your request."
+msgstr "Le gestionnaire de la plateforme a accusé réception de votre demande."
+
+msgid "Review and access activation are separate steps. You can check the request status on this page."
+msgstr "L’examen de la demande et l’activation de l’accès se font séparément. Consultez cette page pour suivre votre demande."
+
+msgid "Practice access requests"
+msgstr "Demandes d’accès des cabinets"
+
+msgid "Acknowledge request"
+msgstr "Accuser réception"
+
+msgid "No practice access requests are awaiting review."
+msgstr "Aucune demande d’accès de cabinet n’attend d’examen."
+
+msgid "The cabinet access request is acknowledged."
+msgstr "La réception de la demande d’accès du cabinet est enregistrée."

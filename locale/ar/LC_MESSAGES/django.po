@@ -6290,3 +6290,30 @@ msgstr "قبل إدخال بيانات شخصية، اطلبوا من عيادت
 
 msgid "Practice contact for data questions"
 msgstr "عنوان العيادة لأسئلة البيانات"
+
+msgid "Manual review of practice access"
+msgstr "مراجعة يدوية لوصول العيادة"
+
+msgid "Request an access review"
+msgstr "طلب مراجعة الوصول"
+
+msgid "Your request is awaiting review by the platform operator."
+msgstr "طلبكم في انتظار مراجعة مسؤول المنصة."
+
+msgid "The platform operator has acknowledged your request."
+msgstr "أكّد مسؤول المنصة استلام طلبكم."
+
+msgid "Review and access activation are separate steps. You can check the request status on this page."
+msgstr "تتم مراجعة الطلب وتفعيل الوصول في خطوتين منفصلتين. يمكنكم متابعة حالة الطلب في هذه الصفحة."
+
+msgid "Practice access requests"
+msgstr "طلبات وصول العيادات"
+
+msgid "Acknowledge request"
+msgstr "تأكيد الاستلام"
+
+msgid "No practice access requests are awaiting review."
+msgstr "لا توجد طلبات وصول للعيادات تنتظر المراجعة."
+
+msgid "The cabinet access request is acknowledged."
+msgstr "سُجّل استلام طلب وصول العيادة."
