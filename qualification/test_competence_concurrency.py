@@ -5,7 +5,9 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
+from catalog.integrity import integrity_scope
 from catalog.models import EditorialGrant, Variety
+from catalog.services import allowed
 from core.models import AuditEvent, User
 from .forms import CompetenceForm
 from .models import ReviewerCompetence, ReviewerCompetenceDecision
@@ -108,6 +110,22 @@ class CompetenceDecisionSnapshotTests(TestCase):
         self.assertEqual(saved.current_decision.status, 'rejected')
         self.assertEqual(ReviewerCompetenceDecision.objects.count(), 2)
         self.assertFalse(has_competence(self.owner, self.variety, 'clinical'))
+
+    def test_decision_requires_the_current_active_actor_and_publishing_scope(self):
+        with integrity_scope():
+            self.assertTrue(allowed(self.publisher, self.variety, 'publish'))
+            EditorialGrant.objects.filter(user=self.publisher, variety=self.variety).update(publish=False)
+            with self.assertRaises(PermissionDenied):
+                self.decision()
+        EditorialGrant.objects.filter(user=self.publisher, variety=self.variety).update(publish=True)
+        User.objects.filter(pk=self.publisher.pk).update(is_active=False)
+        self.assertTrue(self.publisher.is_active)
+        with self.assertRaises(PermissionDenied):
+            self.decision()
+        self.declaration.refresh_from_db()
+        self.assertIsNone(self.declaration.current_decision_id)
+        self.assertFalse(ReviewerCompetenceDecision.objects.exists())
+        self.assertFalse(AuditEvent.objects.filter(action='qualification.competence_verified').exists())
 
     def test_declaration_service_requires_owner_and_current_variety_scope(self):
         with self.assertRaises(PermissionDenied):

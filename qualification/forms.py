@@ -65,7 +65,7 @@ class OpeningTargetForm(forms.Form):
 
 
 class AvailabilityForm(forms.Form):
-    target = forms.CharField(widget=forms.HiddenInput)
+    target = forms.CharField(widget=forms.HiddenInput(attrs={'id': 'availability-decision-target'}))
     expected_version = forms.CharField(max_length=64, min_length=64, widget=forms.HiddenInput)
     status = forms.ChoiceField(label=_('Decision status'), choices=[('blocked', _('Pending requirements')), ('available', _('Available within the documented scope'))])
     scope = forms.CharField(label=_('Authorised purpose, countries and limits'), widget=forms.Textarea)

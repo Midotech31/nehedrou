@@ -1,5 +1,6 @@
 from catalog.review_history import decision_history
 import mimetypes
+from urllib.parse import urlencode
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -9,6 +10,7 @@ from django.http import FileResponse, Http404
 from django.db import transaction
 import uuid
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from care.models import ProgramItem
@@ -84,8 +86,14 @@ def detail(request, pk):
     from .integrity import activity_reviews
     digest = activity.fingerprint()
     history = decision_history(activity_reviews(activity), digest)
-    return render(request, 'editorial/detail.html', {'activity': activity, 'latest_version':latest_version, 'is_latest_version':latest_version.pk == activity.pk, 'form': form, 'issues': issues, 'can_edit': allowed(request.user, activity.variety, 'edit'), 'can_publish': allowed(request.user, activity.variety, 'publish'), 'can_review': can_review, 'reviews': [row['review'] for row in history], 'review_history': history, 'affected': ProgramItem.objects.filter(activity=activity).count(), 'readiness': readiness, 'content_digest': digest, 'review_snapshot_changed':review_snapshot_changed,
+    can_publish = allowed(request.user, activity.variety, 'publish')
+    availability_prepare_url = ''
+    if can_publish and not activity.is_demo:
+        from qualification.opening import target_key
+        availability_prepare_url = reverse('qualification:availability') + '?' + urlencode({'target': target_key('practice', activity)})
+    return render(request, 'editorial/detail.html', {'activity': activity, 'latest_version':latest_version, 'is_latest_version':latest_version.pk == activity.pk, 'form': form, 'issues': issues, 'can_edit': allowed(request.user, activity.variety, 'edit'), 'can_publish': can_publish, 'can_review': can_review, 'reviews': [row['review'] for row in history], 'review_history': history, 'affected': ProgramItem.objects.filter(activity=activity).count(), 'readiness': readiness, 'content_digest': digest, 'review_snapshot_changed':review_snapshot_changed,
         'transition_choices': activity_transition_choices(request.user, activity),
+        'availability_prepare_url': availability_prepare_url,
         'reviewer_experience': reviewer_experience, 'review_waiting_for_submission': bool(review_kinds) and activity.state == 'draft' and not allowed(request.user, activity.variety, 'edit')})
 
 @login_required

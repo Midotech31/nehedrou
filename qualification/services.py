@@ -5,6 +5,7 @@ from django.db import transaction
 from django.utils.translation import gettext as _
 from catalog.models import EditorialGrant, Variety
 from catalog.services import allowed, require_review_snapshot
+from core.models import User
 from core.services import audit
 from .models import EvidenceDocument, ReviewerCompetence, ReviewerCompetenceDecision, AvailabilityDecision, LexicalPack, LexicalCandidate, FamiliarityStudy, PackReview
 
@@ -50,9 +51,16 @@ def save_competence_declaration(actor, data, competence_id=None):
 
 @transaction.atomic
 def record_competence_decision(actor, competence_id, status, basis, checked_on, *, expected_digest):
-    competence = ReviewerCompetence.objects.select_for_update(of=('self',)).select_related('user', 'variety', 'evidence').get(pk=competence_id)
-    if not allowed(actor, competence.variety, 'publish'):
+    from catalog.integrity import invalidate_integrity
+    current_actor = User.objects.select_for_update(no_key=True).filter(pk=actor.pk, is_active=True).first()
+    if current_actor is None:
         raise PermissionDenied
+    competence = ReviewerCompetence.objects.select_for_update(of=('self',)).select_related('user', 'variety', 'evidence').get(pk=competence_id)
+    # Hold the exact publishing scope through the decision and its audit.
+    if not current_actor.is_superuser and not EditorialGrant.objects.select_for_update().filter(
+            user=current_actor, variety_id=competence.variety_id, publish=True).exists():
+        raise PermissionDenied
+    invalidate_integrity()
     current_digest = competence.fingerprint()
     if expected_digest != current_digest:
         raise ValidationError(
@@ -64,12 +72,12 @@ def record_competence_decision(actor, competence_id, status, basis, checked_on, 
         status=status,
         checked_on=checked_on,
         basis=basis,
-        decided_by=actor,
+        decided_by=current_actor,
     )
     decision.save()
     competence.current_decision = decision
     competence.save(update_fields=['current_decision'])
-    audit(actor, 'qualification.competence_' + status, decision)
+    audit(current_actor, 'qualification.competence_' + status, decision)
     return decision
 
 def evidence_snapshot(documents):
