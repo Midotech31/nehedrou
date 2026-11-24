@@ -13,6 +13,7 @@ from care.models import Child, FamilyLink, Program, ProgramItem
 from catalog.content_catalog import current_catalog
 from catalog.models import Activity, EditorialGrant, Variety
 from core.models import Entitlement, Membership, Organization, User
+from core.reserves import activity_is_reserved
 from .seed_demo import DEMO_VARIETY_CODES, demo_password, validate_demo_account
 
 
@@ -116,6 +117,8 @@ class Command(BaseCommand):
                     and not child.programs.filter(variety=msa).exists()):
                 if msa_example is None:
                     self.stderr.write('The fictional Standard Arabic sample is unavailable.')
+                elif activity_is_reserved(child, msa_example):
+                    self.stderr.write('The fictional Standard Arabic sample uses a reserved word.')
                 else:
                     samples.append((msa, msa_example, MSA_PROGRAM_TITLE))
             for variety, activity, title in samples:
