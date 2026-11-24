@@ -7,13 +7,15 @@ from unittest.mock import patch
 
 from django.contrib.auth.models import Permission
 from django.core.exceptions import PermissionDenied, ValidationError
-from django.db import close_old_connections
+from django.db import close_old_connections, connections
 from django.test import Client, TestCase, TransactionTestCase, override_settings, skipUnlessDBFeature
 from django.urls import reverse
 from django.utils import timezone, translation
 
 from core.billing import transition_invoice
+from core.complete_views import InvoiceForm
 from core.models import AuditEvent, Entitlement, Invoice, Membership, Organization, User
+from core.services import audit
 
 
 @override_settings(DEMO_MODE=True, MFA_REQUIRED=False,
@@ -120,6 +122,67 @@ class ManualInvoiceLifecycleTests(TestCase):
         self.assertIsNotNone(created.paid_at)
         self.assertTrue(AuditEvent.objects.filter(action='invoice.recorded',object_id=str(created.pk)).exists())
 
+    def test_creation_rolls_back_invoice_and_partial_audit_then_allows_retry(self):
+        self.client.force_login(self.operator)
+        url = reverse('invoice_create', args=[self.organization.pk])
+        entitlement_before = Entitlement.objects.values().get(pk=self.entitlement.pk)
+
+        def failing_audit(*args, **kwargs):
+            audit(*args, **kwargs)
+            raise RuntimeError('Fictional invoice audit failure')
+
+        for status in ('issued', 'paid'):
+            with self.subTest(status=status):
+                number = f'FICTIONAL-AUDIT-{status}'
+                data = {
+                    'number': number, 'amount': '2300.00', 'currency': 'DZD',
+                    'status': status, 'reference': 'fictional-external-receipt',
+                }
+                events_before = AuditEvent.objects.count()
+                with patch('core.complete_views.audit', side_effect=failing_audit):
+                    with self.assertRaisesMessage(RuntimeError, 'Fictional invoice audit failure'):
+                        self.client.post(url, data)
+                self.assertFalse(Invoice.objects.filter(number=number).exists())
+                self.assertEqual(AuditEvent.objects.count(), events_before)
+
+                self.assertRedirects(
+                    self.client.post(url, data),
+                    reverse('billing_detail', args=[self.organization.pk]),
+                    fetch_redirect_response=False,
+                )
+                invoice = Invoice.objects.get(number=number)
+                self.assertEqual(invoice.status, status)
+                self.assertEqual(invoice.paid_at is not None, status == 'paid')
+                event = AuditEvent.objects.get(action='invoice.recorded', object_id=str(invoice.pk))
+                self.assertEqual(
+                    (event.actor_id, event.organization_id, event.purpose_code),
+                    (self.operator.pk, self.organization.pk, 'billing_admin'),
+                )
+                self.assertEqual(AuditEvent.objects.count(), events_before + 1)
+                self.assertEqual(Entitlement.objects.values().get(pk=self.entitlement.pk), entitlement_before)
+
+    def test_number_recorded_between_form_and_model_validation_is_a_field_error(self):
+        self.client.force_login(self.operator)
+        number = 'FICTIONAL-POST-FORM-COLLISION'
+        other = Organization.objects.create(name='Fictional competing practice')
+        real_is_valid = InvoiceForm.is_valid
+
+        def validate_then_simulate_other_request(form):
+            valid = real_is_valid(form)
+            if valid and not Invoice.objects.filter(number=number).exists():
+                self.invoice(number=number, organization=other)
+            return valid
+
+        data = {'number': number, 'amount': '2300.00', 'currency': 'DZD', 'status': 'paid'}
+        with patch.object(InvoiceForm, 'is_valid', validate_then_simulate_other_request):
+            response = self.client.post(reverse('invoice_create', args=[self.organization.pk]), data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['form'].has_error('number', 'unique'))
+        invoice = Invoice.objects.get(number=number)
+        self.assertEqual((invoice.organization_id, invoice.amount, invoice.status), (other.pk, Decimal('1500.00'), 'issued'))
+        self.assertFalse(AuditEvent.objects.filter(action='invoice.recorded').exists())
+
     def test_http_permissions_methods_replay_and_uneditable_amounts(self):
         invoice=self.invoice()
         detail=reverse('invoice_detail',args=[invoice.pk])
@@ -182,10 +245,52 @@ class ConcurrentManualInvoiceTests(TransactionTestCase):
                 except ValidationError:
                     return False
             finally:
-                close_old_connections()
+                connections.close_all()
         with ThreadPoolExecutor(max_workers=2) as executor:
             outcomes=list(executor.map(attempt,['paid','cancelled']))
         self.assertEqual(outcomes.count(True),1)
         invoice.refresh_from_db()
         self.assertIn(invoice.status,('paid','cancelled'))
         self.assertEqual(AuditEvent.objects.filter(object_id=str(invoice.pk)).count(),1)
+
+    @skipUnlessDBFeature('has_select_for_update')
+    def test_concurrent_creation_returns_one_success_and_one_field_error(self):
+        operator = User.objects.create_user(username='fictional-concurrent-invoice', email='invoices@example.test')
+        operator.user_permissions.add(Permission.objects.get(codename='manage_entitlements'))
+        practices = [Organization.objects.create(name=f'Fictional practice {i}') for i in (1, 2)]
+        number = 'FICTIONAL-CONCURRENT-CREATE'
+        barrier = threading.Barrier(2)
+        validate_unique = Invoice.validate_unique
+
+        def validate_before_insert(invoice, exclude=None):
+            validate_unique(invoice, exclude=exclude)
+            # The form excludes organization. Wait only after model validation
+            # so both threads reach the real PostgreSQL uniqueness constraint.
+            if 'organization' not in (exclude or ()):
+                barrier.wait(timeout=10)
+
+        def attempt(practice):
+            close_old_connections()
+            try:
+                client = Client()
+                client.force_login(User.objects.get(pk=operator.pk))
+                response = client.post(reverse('invoice_create', args=[practice.pk]), {
+                    'number': number, 'amount': '1500.00', 'currency': 'DZD', 'status': 'issued',
+                })
+                if response.status_code == 200:
+                    return response.status_code, response.context['form'].has_error('number', 'unique')
+                return response.status_code, None
+            finally:
+                connections.close_all()
+
+        with patch.object(Invoice, 'validate_unique', validate_before_insert):
+            with ThreadPoolExecutor(max_workers=2) as executor:
+                outcomes = list(executor.map(attempt, practices))
+
+        self.assertCountEqual(outcomes, [(302, None), (200, True)])
+        invoice = Invoice.objects.get(number=number)
+        event = AuditEvent.objects.get(action='invoice.recorded')
+        self.assertEqual(
+            (event.actor_id, event.organization_id, event.object_id),
+            (operator.pk, invoice.organization_id, str(invoice.pk)),
+        )

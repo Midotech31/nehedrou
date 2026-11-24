@@ -6023,3 +6023,174 @@ msgstr "يجب أن يخص دليل معرفة الكلمات والصور ال�
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "يحتفظ الاختيار غير المعدّل ببصمته المسجّلة. امسحوا الإحالة باختيار إزالتها صراحةً."
+
+msgid "Create a link to hand over personally"
+msgstr "إنشاء رابط للتسليم شخصيًا"
+
+msgid "A new personal handoff link replaces open invitations for this recipient and this access only."
+msgstr "يستبدل الرابط الجديد الدعوات المفتوحة لهذا المدعو ولهذا الوصول فقط."
+
+msgid "Invitation request already processed"
+msgstr "سبق تنفيذ طلب الدعوة هذا"
+
+msgid "The link is no longer shown. Return to the invitation form to create a new one if needed."
+msgstr "لم يعد الرابط معروضًا. عُد إلى نموذج الدعوة لإنشاء رابط جديد عند الحاجة."
+
+msgid "Access starts after acceptance. The link does not verify the recipient’s email address."
+msgstr "يبدأ الوصول بعد قبول الدعوة. لا يتحقق الرابط من عنوان البريد الإلكتروني للمدعو."
+
+msgid "Back to invitations"
+msgstr "العودة إلى الدعوات"
+
+msgid "Choose how to deliver the invitation."
+msgstr "اختر طريقة تسليم الدعوة."
+
+msgid "Build a review batch"
+msgstr "إعداد دفعة للمراجعة"
+
+msgid "Choose versions for the review pack"
+msgstr "اختيار إصدارات للمراجعة"
+
+msgid "Select versions on this page. The download contains only the versions you select."
+msgstr "حدّدوا الإصدارات في هذه الصفحة. يتضمّن الملف الإصدارات التي اخترتموها فقط."
+
+msgid "Download selected versions"
+msgstr "تنزيل الإصدارات المحدّدة"
+
+msgid "Review batch"
+msgstr "دفعة للمراجعة"
+
+msgid "Return to content quality"
+msgstr "العودة إلى صفحة جودة المحتوى"
+
+msgid "Choose one or more versions from the same page and try again."
+msgstr "حدّدوا إصدارًا واحدًا أو أكثر من الصفحة نفسها، ثم أعيدوا المحاولة."
+
+msgid "A selected version has changed. Review its current state and select it again."
+msgstr "تغيّر أحد الإصدارات المحدّدة. راجعوا حالته الحالية ثم اختاروه مجددًا."
+
+msgid "The recording prompts include the current audio status for each word and a link to the exact version. When available, the collection link opens the draft for that word. Check the version fingerprint again before changing any media."
+msgstr "تبيّن قائمة التسجيل حالة الملف الصوتي لكل كلمة، وتحتوي على رابط للإصدار المعني. يفتح رابط جمع التسجيلات، عند توفّره، مسوّدة الكلمة المعنيّة. أعيدوا فحص بصمة الإصدار قبل تغيير أي ملف وسائط."
+
+msgid "Record or attach an audio file"
+msgstr "سجّلوا ملفًا صوتيًا أو أرفقوه"
+
+msgid "Check the existing file and its link to this word"
+msgstr "تحقّقوا من الملف الحالي وربطه بهذه الكلمة"
+
+msgid "Complete the audio documentation"
+msgstr "أكملوا وثائق الملف الصوتي"
+
+msgid "Listen and verify during human review"
+msgstr "استمعوا وتحقّقوا من التسجيل أثناء المراجعة"
+
+msgid "Available home activities match the declared spoken varieties"
+msgstr "الأنشطة المنزلية المتاحة توافق التنوعات اللغوية المنطوقة المعلنة"
+
+msgid "Available home activities outside the declared offer"
+msgstr "أنشطة منزلية متاحة خارج العرض المعلن"
+
+msgid "The interface language and the sample's spoken variety are separate. Changing the variety starts a new sample."
+msgstr "لغة الواجهة والتنوع اللغوي المنطوق في المثال مستقلّان. يبدأ مثال جديد عند تغيير التنوع اللغوي."
+
+msgid "Choose a supported spoken variety for this sample."
+msgstr "اختاروا أحد التنوعات اللغوية المنطوقة المتاحة لهذا المثال."
+
+msgid "These access rights may have changed since you opened the form. Reload and review the current values before saving."
+msgstr "ربما تغيّرت حقوق الوصول منذ فتح النموذج. أعِد تحميل الصفحة وراجع القيم الحالية قبل الحفظ."
+
+msgid "Reload current access rights"
+msgstr "إعادة تحميل حقوق الوصول الحالية"
+
+msgid "Latest decision for this content fingerprint"
+msgstr "آخر قرار لبصمة هذا المحتوى"
+
+msgid "Superseded decision for this content fingerprint"
+msgstr "قرار تجاوزه قرار أحدث لبصمة هذا المحتوى"
+
+msgid "Decision for different content"
+msgstr "قرار يخص محتوى مختلفًا"
+
+msgid "Decision labels describe content matching and decision order. They do not establish current clinical qualification."
+msgstr "تبيّن التسميات مطابقة المحتوى وترتيب القرارات، ولا تثبت اعتمادًا سريريًا حاليًا."
+
+msgid "Password recovery unavailable"
+msgstr "استعادة كلمة المرور غير متاحة"
+
+msgid "Email delivery is unavailable on this service. This page cannot send a password recovery email."
+msgstr "إرسال البريد الإلكتروني غير متاح في هذه الخدمة. لا يمكن لهذه الصفحة إرسال رسالة لاستعادة كلمة المرور."
+
+msgid "If an eligible account matches this email address, we try to send a recovery link. Delivery is not confirmed."
+msgstr "إذا كان عنوان البريد الإلكتروني هذا مرتبطًا بحساب مؤهّل للاستعادة، نحاول إرسال رابط للاستعادة. لم يتم تأكيد وصول الرسالة."
+
+msgid "Change password"
+msgstr "تغيير كلمة المرور"
+
+msgid "Enter your current password and choose a new password. No email is needed."
+msgstr "يرجى إدخال كلمة المرور الحالية واختيار كلمة مرور جديدة. لا حاجة إلى البريد الإلكتروني."
+
+msgid "Password changed"
+msgstr "تم تغيير كلمة المرور"
+
+msgid "Your password has been changed. Other sessions will require you to sign in again."
+msgstr "تم تغيير كلمة المرور. ستتطلب الجلسات الأخرى تسجيل الدخول مجددًا."
+
+msgid "Availability is checked when you preview or save this program."
+msgstr "تُفحص إتاحة الأنشطة عند معاينة البرنامج أو حفظه."
+
+msgid "catalogue entries"
+msgstr "مدخلات المكتبة"
+
+msgid "catalogue entries found"
+msgstr "مدخلات في المكتبة"
+
+msgid "Available on this page"
+msgstr "متاح في هذه الصفحة"
+
+msgid "Unavailable on this page"
+msgstr "غير متاح في هذه الصفحة"
+
+msgid "The total includes unavailable entries; availability is checked for this page."
+msgstr "يشمل الإجمالي المدخلات غير المتاحة؛ تُفحص إتاحة المدخلات الظاهرة في هذه الصفحة."
+
+msgid "Unavailable for new practice"
+msgstr "غير متاح لممارسة جديدة"
+
+msgid "Assigned historical content"
+msgstr "محتوى مُسند محفوظ في السجل"
+
+msgid "This assigned version is shown for reference. It is unavailable for new practice."
+msgstr "تُعرض هذه النسخة المسندة للرجوع إليها، وهي غير متاحة لممارسة جديدة."
+
+msgid "Media unavailable for this version"
+msgstr "الوسائط غير متاحة لهذه النسخة"
+
+msgid "Your reviewer experience"
+msgstr "خبرتك في المراجعة"
+
+msgid "For this spoken variety, review permission and independently checked experience are separate requirements. This status does not approve the content."
+msgstr "الإذن بالمراجعة والتحقق المستقل من الخبرة شرطان منفصلان لهذه اللغة أو اللهجة. هذه الحالة لا تعني اعتماد المحتوى."
+
+msgid "Experience declaration needed"
+msgstr "يلزم التصريح بالخبرة"
+
+msgid "Declaration inactive"
+msgstr "التصريح غير نشط"
+
+msgid "Independent check current"
+msgstr "التحقق المستقل سارٍ"
+
+msgid "View or update your declaration"
+msgstr "عرض تصريحك أو تعديله"
+
+msgid "An authorised publisher must check your declaration independently. You cannot verify your own experience."
+msgstr "يجب أن يتحقق شخص مخوّل بالنشر من تصريحك بصورة مستقلة. لا يمكنك التحقق من خبرتك بنفسك."
+
+msgid "You may request changes without approving this content. Approval also requires complete exact-version content and media."
+msgstr "يمكنك طلب تعديلات دون اعتماد هذا المحتوى. ويتطلب الاعتماد أيضًا اكتمال المحتوى والوسائط للنسخة المحددة."
+
+msgid "The link is shown only once. If you did not copy it, create another personal handoff link for the same email, spoken variety and role."
+msgstr "يظهر الرابط مرةً واحدة. إذا لم تنسخه، فأنشئ رابطًا جديدًا للتسليم الشخصي لعنوان البريد نفسه والتنوّع اللغوي المنطوق نفسه والدور نفسه."
+
+msgid "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role."
+msgstr "يبقى الرابط السابق غير المستخدم صالحًا إذا تعذّر إرسال البريد الإلكتروني. يحلّ رابط جديد للتسليم الشخصي أو رسالة قبلتها خدمة البريد محلّ الروابط السابقة لعنوان البريد نفسه والتنوّع اللغوي المنطوق نفسه والدور نفسه."

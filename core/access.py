@@ -9,6 +9,13 @@ from .models import Membership
 # Bump this value whenever the privacy notice changes materially. Existing
 # acknowledgements do not acknowledge a newer version of the notice.
 CURRENT_NOTICE_VERSION = '2026-10-09'
+PENDING_NOTICE_INVITATION_DIGEST = 'pending_notice_invitation_digest'
+LEGACY_PENDING_NOTICE_INVITATION_TOKEN = 'pending_notice_invitation_token'
+
+
+def queue_invitation_notice(request, invitation):
+    request.session.pop(LEGACY_PENDING_NOTICE_INVITATION_TOKEN, None)
+    request.session[PENDING_NOTICE_INVITATION_DIGEST] = invitation.token_hash
 
 
 def notice_acknowledged(user, organization):

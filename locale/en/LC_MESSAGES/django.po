@@ -6023,3 +6023,174 @@ msgstr "The familiarity evidence must concern the activity’s spoken variety."
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
+
+msgid "Create a link to hand over personally"
+msgstr "Create a link to hand over personally"
+
+msgid "A new personal handoff link replaces open invitations for this recipient and this access only."
+msgstr "A new personal handoff link replaces open invitations for this recipient and this access only."
+
+msgid "Invitation request already processed"
+msgstr "Invitation request already processed"
+
+msgid "The link is no longer shown. Return to the invitation form to create a new one if needed."
+msgstr "The link is no longer shown. Return to the invitation form to create a new one if needed."
+
+msgid "Access starts after acceptance. The link does not verify the recipient’s email address."
+msgstr "Access starts after acceptance. The link does not verify the recipient’s email address."
+
+msgid "Back to invitations"
+msgstr "Back to invitations"
+
+msgid "Choose how to deliver the invitation."
+msgstr "Choose how to deliver the invitation."
+
+msgid "Build a review batch"
+msgstr "Build a review batch"
+
+msgid "Choose versions for the review pack"
+msgstr "Choose versions for the review pack"
+
+msgid "Select versions on this page. The download contains only the versions you select."
+msgstr "Select versions on this page. The download contains only the versions you select."
+
+msgid "Download selected versions"
+msgstr "Download selected versions"
+
+msgid "Review batch"
+msgstr "Review batch"
+
+msgid "Return to content quality"
+msgstr "Return to content quality"
+
+msgid "Choose one or more versions from the same page and try again."
+msgstr "Choose one or more versions from the same page and try again."
+
+msgid "A selected version has changed. Review its current state and select it again."
+msgstr "A selected version has changed. Review its current state and select it again."
+
+msgid "The recording prompts include the current audio status for each word and a link to the exact version. When available, the collection link opens the draft for that word. Check the version fingerprint again before changing any media."
+msgstr "The recording prompts include the current audio status for each word and a link to the exact version. When available, the collection link opens the draft for that word. Check the version fingerprint again before changing any media."
+
+msgid "Record or attach an audio file"
+msgstr "Record or attach an audio file"
+
+msgid "Check the existing file and its link to this word"
+msgstr "Check the existing file and its link to this word"
+
+msgid "Complete the audio documentation"
+msgstr "Complete the audio documentation"
+
+msgid "Listen and verify during human review"
+msgstr "Listen and verify during human review"
+
+msgid "Available home activities match the declared spoken varieties"
+msgstr "Available home activities match the declared spoken varieties"
+
+msgid "Available home activities outside the declared offer"
+msgstr "Available home activities outside the declared offer"
+
+msgid "The interface language and the sample's spoken variety are separate. Changing the variety starts a new sample."
+msgstr "The interface language and the sample's spoken variety are separate. Changing the variety starts a new sample."
+
+msgid "Choose a supported spoken variety for this sample."
+msgstr "Choose a supported spoken variety for this sample."
+
+msgid "These access rights may have changed since you opened the form. Reload and review the current values before saving."
+msgstr "These access rights may have changed since you opened the form. Reload and review the current values before saving."
+
+msgid "Reload current access rights"
+msgstr "Reload current access rights"
+
+msgid "Latest decision for this content fingerprint"
+msgstr "Latest decision for this content fingerprint"
+
+msgid "Superseded decision for this content fingerprint"
+msgstr "Superseded decision for this content fingerprint"
+
+msgid "Decision for different content"
+msgstr "Decision for different content"
+
+msgid "Decision labels describe content matching and decision order. They do not establish current clinical qualification."
+msgstr "Decision labels describe content matching and decision order. They do not establish current clinical qualification."
+
+msgid "Password recovery unavailable"
+msgstr "Password recovery unavailable"
+
+msgid "Email delivery is unavailable on this service. This page cannot send a password recovery email."
+msgstr "Email delivery is unavailable on this service. This page cannot send a password recovery email."
+
+msgid "If an eligible account matches this email address, we try to send a recovery link. Delivery is not confirmed."
+msgstr "If an eligible account matches this email address, we try to send a recovery link. Delivery is not confirmed."
+
+msgid "Change password"
+msgstr "Change password"
+
+msgid "Enter your current password and choose a new password. No email is needed."
+msgstr "Enter your current password and choose a new password. No email is needed."
+
+msgid "Password changed"
+msgstr "Password changed"
+
+msgid "Your password has been changed. Other sessions will require you to sign in again."
+msgstr "Your password has been changed. Other sessions will require you to sign in again."
+
+msgid "Availability is checked when you preview or save this program."
+msgstr "Availability is checked when you preview or save this program."
+
+msgid "catalogue entries"
+msgstr "catalogue entries"
+
+msgid "catalogue entries found"
+msgstr "catalogue entries found"
+
+msgid "Available on this page"
+msgstr "Available on this page"
+
+msgid "Unavailable on this page"
+msgstr "Unavailable on this page"
+
+msgid "The total includes unavailable entries; availability is checked for this page."
+msgstr "The total includes unavailable entries; availability is checked for this page."
+
+msgid "Unavailable for new practice"
+msgstr "Unavailable for new practice"
+
+msgid "Assigned historical content"
+msgstr "Assigned historical content"
+
+msgid "This assigned version is shown for reference. It is unavailable for new practice."
+msgstr "This assigned version is shown for reference. It is unavailable for new practice."
+
+msgid "Media unavailable for this version"
+msgstr "Media unavailable for this version"
+
+msgid "Your reviewer experience"
+msgstr "Your reviewer experience"
+
+msgid "For this spoken variety, review permission and independently checked experience are separate requirements. This status does not approve the content."
+msgstr "For this spoken variety, review permission and independently checked experience are separate requirements. This status does not approve the content."
+
+msgid "Experience declaration needed"
+msgstr "Experience declaration needed"
+
+msgid "Declaration inactive"
+msgstr "Declaration inactive"
+
+msgid "Independent check current"
+msgstr "Independent check current"
+
+msgid "View or update your declaration"
+msgstr "View or update your declaration"
+
+msgid "An authorised publisher must check your declaration independently. You cannot verify your own experience."
+msgstr "An authorised publisher must check your declaration independently. You cannot verify your own experience."
+
+msgid "You may request changes without approving this content. Approval also requires complete exact-version content and media."
+msgstr "You may request changes without approving this content. Approval also requires complete exact-version content and media."
+
+msgid "The link is shown only once. If you did not copy it, create another personal handoff link for the same email, spoken variety and role."
+msgstr "The link is shown only once. If you did not copy it, create another personal handoff link for the same email, spoken variety and role."
+
+msgid "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role."
+msgstr "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role."

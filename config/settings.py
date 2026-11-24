@@ -70,7 +70,11 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STORAGES = {
     'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
-    'staticfiles': {'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage' if not DEBUG else 'django.contrib.staticfiles.storage.StaticFilesStorage'},
+    'staticfiles': {'BACKEND': (
+        'whitenoise.storage.CompressedManifestStaticFilesStorage'
+        if not DEBUG or os.getenv('NEHEDROU_BUILD_STATIC_MANIFEST') == '1'
+        else 'django.contrib.staticfiles.storage.StaticFilesStorage'
+    )},
 }
 # Optional private S3-compatible uploads; static assets continue through WhiteNoise.
 MEDIA_STORAGE_BACKEND = os.getenv('NEHEDROU_MEDIA_BACKEND', 'filesystem')

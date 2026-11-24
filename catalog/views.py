@@ -1,3 +1,4 @@
+from catalog.review_history import decision_history
 import mimetypes
 from django.conf import settings
 from django.contrib import messages
@@ -63,6 +64,8 @@ def detail(request, pk):
         raise PermissionDenied
     form = ReviewForm(request.POST or None, instance=Review(activity=activity, reviewer=request.user), allowed_kinds=review_kinds,
         initial={'expected_digest': activity.fingerprint()})
+    from qualification.reviewer_guidance import reviewer_experience_guidance
+    reviewer_experience = reviewer_experience_guidance(request.user, activity.variety, review_kinds)
     review_snapshot_changed = False
     if request.method == 'POST' and form.is_valid():
         try:
@@ -78,9 +81,12 @@ def detail(request, pk):
     for field in ['rights', 'population', 'image_a', 'image_b', 'audio_a', 'audio_b', 'transcription_a', 'transcription_b']:
         if not getattr(activity, field):
             issues.append(checklist_labels[field])
-    return render(request, 'editorial/detail.html', {'activity': activity, 'latest_version':latest_version, 'is_latest_version':latest_version.pk == activity.pk, 'form': form, 'issues': issues, 'can_edit': allowed(request.user, activity.variety, 'edit'), 'can_publish': allowed(request.user, activity.variety, 'publish'), 'can_review': can_review, 'reviews': activity.reviews.select_related('reviewer'), 'affected': ProgramItem.objects.filter(activity=activity).count(), 'readiness': readiness, 'content_digest': activity.fingerprint(), 'review_snapshot_changed':review_snapshot_changed,
+    from .integrity import activity_reviews
+    digest = activity.fingerprint()
+    history = decision_history(activity_reviews(activity), digest)
+    return render(request, 'editorial/detail.html', {'activity': activity, 'latest_version':latest_version, 'is_latest_version':latest_version.pk == activity.pk, 'form': form, 'issues': issues, 'can_edit': allowed(request.user, activity.variety, 'edit'), 'can_publish': allowed(request.user, activity.variety, 'publish'), 'can_review': can_review, 'reviews': [row['review'] for row in history], 'review_history': history, 'affected': ProgramItem.objects.filter(activity=activity).count(), 'readiness': readiness, 'content_digest': digest, 'review_snapshot_changed':review_snapshot_changed,
         'transition_choices': activity_transition_choices(request.user, activity),
-        'review_waiting_for_submission': bool(review_kinds) and activity.state == 'draft' and not allowed(request.user, activity.variety, 'edit')})
+        'reviewer_experience': reviewer_experience, 'review_waiting_for_submission': bool(review_kinds) and activity.state == 'draft' and not allowed(request.user, activity.variety, 'edit')})
 
 @login_required
 def edit(request, pk=None):

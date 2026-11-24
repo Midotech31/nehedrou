@@ -1,1 +1,4 @@
 content/review_packs/ar-initial-review-20261101/* text eol=lf
+
+# The existing French pack receipt hashes these exact manifest bytes.
+content/review_packs/fr-p-b-initial-review-20261030/manifest.json -text

@@ -1,3 +1,4 @@
+from catalog.review_history import decision_history
 import hashlib
 from io import BytesIO
 from django.contrib.auth.decorators import login_required
@@ -98,6 +99,16 @@ def competence(request,pk=None):
     form = CompetenceForm(request.POST or None,instance=obj)
     form.fields['variety'].queryset = varieties(request.user)
     form.fields['evidence'].queryset = private_documents(request.user)
+
+    if not pk and request.method == 'GET':
+        # A personal review link only prefills an unsaved declaration. The scoped
+        # queryset and the existing POST/service checks remain authoritative.
+        selected = form.fields['variety'].queryset.filter(code=request.GET.get('variety', '')).first()
+        if selected:
+            form.initial['variety'] = selected.pk
+        discipline = request.GET.get('discipline', '')
+        if discipline in dict(form.fields['discipline'].choices):
+            form.initial['discipline'] = discipline
     if request.method=='POST' and form.is_valid():
         try:
             obj = save_competence_declaration(request.user, form.cleaned_data, obj.pk if pk else None)
@@ -230,7 +241,10 @@ def pack_detail(request,pk):
             except ValidationError as error:
                 form.add_error(None, error)
                 review_snapshot_changed = getattr(error, 'code', None) == 'review_snapshot_changed'
-    return render(request,'qualification/pack.html',{'pack':pack,'candidates':pack.candidates.prefetch_related('familiarity'), 'form':form, 'can_edit':allowed(request.user,pack.variety,'edit'), 'can_publish':allowed(request.user,pack.variety,'publish'), 'can_review':bool(kinds) and pack.state=='review', 'issues':pack_readiness_reasons(pack),'digest':pack.fingerprint(),'reviews':pack.reviews.select_related('reviewer'),'review_snapshot_changed':review_snapshot_changed,
+    digest = pack.fingerprint()
+    reviews = pack.reviews.select_related('reviewer').order_by('-created_at', '-pk')
+    history = decision_history(reviews, digest)
+    return render(request,'qualification/pack.html',{'pack':pack,'candidates':pack.candidates.prefetch_related('familiarity'), 'form':form, 'can_edit':allowed(request.user,pack.variety,'edit'), 'can_publish':allowed(request.user,pack.variety,'publish'), 'can_review':bool(kinds) and pack.state=='review', 'issues':pack_readiness_reasons(pack),'digest':digest,'reviews':reviews,'review_history':history,'review_snapshot_changed':review_snapshot_changed,
         'transition_choices': pack_transition_choices(request.user, pack),
         'review_waiting_for_submission': bool(kinds) and pack.state == 'draft' and not allowed(request.user, pack.variety, 'edit')})
 

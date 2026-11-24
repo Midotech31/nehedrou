@@ -1,0 +1,9 @@
+{% extends 'base.html' %}{% load i18n %}
+{% block title %}{% translate "Review batch" %} · Nehedrou{% endblock %}
+{% block content %}
+<section class="card auth-card">
+  <h1>{% translate "Review batch" %}</h1>
+  <p>{{ body }}</p>
+  <a class="button secondary" href="{{ return_url }}">{% translate "Return to content quality" %}</a>
+</section>
+{% endblock %}

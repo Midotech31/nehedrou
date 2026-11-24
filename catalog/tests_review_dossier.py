@@ -11,6 +11,7 @@ from django.db import connection
 from django.test import TestCase, override_settings
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
+from django.utils.translation import override
 from catalog.integrity import integrity_scope, prepare_activities
 from catalog.models import Activity, EditorialGrant, MediaAsset, Review, Variety
 from catalog.quality import completeness
@@ -19,7 +20,7 @@ from catalog.review_dossier import review_dossier
 from catalog.services import review_version, transition
 from core.models import User
 from qualification.models import AvailabilityDecision, EvidenceDocument, _digest_file
-from qualification.test_support import availability_fixture, competence_fixture, prepare_activity_fixture
+from qualification.test_support import availability_fixture, competence_fixture, media_fixture, prepare_activity_fixture
 
 
 @override_settings(DEMO_MODE=True, MFA_REQUIRED=False, PUBLIC_ORIGIN='https://demo.example',
@@ -202,6 +203,55 @@ class EvidenceDossierTests(TestCase):
                 self.assertNotIn(secret, combined)
             self.assertEqual(archive.testzip(), None)
         self.assertEqual(counts, (Activity.objects.count(), Review.objects.count(), EvidenceDocument.objects.count(), AvailabilityDecision.objects.count()))
+
+    def test_recording_prompts_distinguish_existing_audio_from_work_still_to_do(self):
+        activity = self.activity()
+        audio = media_fixture(activity.variety, self.editor, 'audio', word=activity.word_a)
+        activity.audio_a = f'https://demo.example/fr/media/{audio.pk}/'
+        activity.save(update_fields=['audio_a'])
+
+        def prompts():
+            with self.archive(activity) as archive:
+                return {row['side']: row for row in
+                        csv.DictReader(io.StringIO(archive.read('recording_prompts.csv').decode('utf-8-sig')))}
+
+        with override('fr'):
+            first = prompts()
+            self.assertEqual(first['a']['audio_work_status'], 'human_review_required')
+            self.assertEqual(first['a']['audio_work_label'], 'Écouter et vérifier lors de la relecture')
+            self.assertEqual(first['a']['current_audio_asset_id'], str(audio.pk))
+            self.assertEqual(first['a']['current_audio_sha256'], audio.technical_metadata['sha256'])
+            self.assertEqual(first['a']['audio_collection_url'], '')
+            self.assertEqual(first['b']['audio_work_status'], 'audio_missing')
+            self.assertEqual(first['b']['audio_reason_codes'], 'media_missing')
+            collection = reverse('editorial_upload') + f'?draft={activity.pk}&audio_side=b'
+            self.assertEqual(first['b']['audio_collection_url'], 'https://demo.example' + collection)
+            self.assertEqual(first['b']['editorial_version_url'],
+                             'https://demo.example' + reverse('editorial_detail', args=[activity.pk]))
+            self.assertContains(self.client.get(collection), activity.word_b)
+            for row in first.values():
+                for field in ('adult_speaker_reference', 'consent_evidence_reference',
+                              'linguistic_decision', 'clinical_decision'):
+                    self.assertEqual(row[field], '')
+                self.assertNotIn('guided_context', row['audio_collection_url'])
+
+        audio.rights_status = 'unknown'
+        audio.save()
+        documentary = prompts()['a']
+        self.assertEqual(documentary['audio_work_status'], 'documentation_required')
+        self.assertIn('rights_status', documentary['audio_reason_codes'])
+        self.assertEqual(documentary['audio_collection_url'], '')
+
+        audio.provenance['audio']['text'] = 'Different fictional word'
+        audio.save()
+        mismatch = prompts()['a']
+        self.assertEqual(mismatch['audio_work_status'], 'integrity_or_binding_issue')
+        self.assertIn('audio_binding', mismatch['audio_reason_codes'])
+        self.assertIn('audio_side=a', mismatch['audio_collection_url'])
+        self.assertFalse(activity.reviews.exists())
+
+        EditorialGrant.objects.filter(user=self.editor, variety=self.variety).update(edit=False)
+        self.assertTrue(all(not row['audio_collection_url'] for row in prompts().values()))
 
     def test_foreign_evidence_metadata_is_redacted_and_does_not_qualify(self):
         activity = self.activity(complete=True)

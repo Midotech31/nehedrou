@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
@@ -31,7 +33,8 @@ class ProgramForm(forms.Form):
     title = forms.CharField(label=_('Program title'), max_length=120)
     goal = forms.CharField(label=_('Goal chosen by the clinician'), required=False, max_length=240)
     variety = forms.ModelChoiceField(queryset=Variety.objects.none(), label=_('Spoken variety'))
-    activities = forms.ModelMultipleChoiceField(queryset=None, label=_('Activities'), widget=forms.CheckboxSelectMultiple)
+    activities = forms.ModelMultipleChoiceField(queryset=None, label=_('Activities'), widget=forms.CheckboxSelectMultiple,
+        help_text=_('Availability is checked when you preview or save this program.'))
     activity_order = forms.CharField(required=False, widget=forms.HiddenInput, max_length=8000)
     guidance = forms.CharField(label=_('Personal instructions'), widget=forms.Textarea, required=False, max_length=2000)
     schedule = forms.CharField(label=_('Frequency and duration chosen by clinician'), required=False, max_length=160)
@@ -59,6 +62,11 @@ class ProgramForm(forms.Form):
         if data.get('variety') and data.get('activities') and any(a.variety_id != data['variety'].pk for a in data['activities']):
             raise forms.ValidationError(_('All activities must match the selected variety.'))
         if data.get('activities'):
+            from catalog.presentation_availability import prepare_availability
+            selected_availability = prepare_availability(data['activities'])
+            if any(not activity.presentation_available for activity in selected_availability):
+                self.add_error('activities', _('This activity is no longer available. Contact your clinician.'))
+        if data.get('activities'):
             selected = {str(a.pk): a for a in data['activities']}
             order = data.get('activity_order', '').split(',') if data.get('activity_order') else list(selected)
             if len(order) != len(selected) or set(order) != set(selected):
@@ -73,6 +81,15 @@ class ProgramForm(forms.Form):
 
 class InvitationForm(forms.Form):
     email = forms.EmailField(label=_('Caregiver email'))
+    creation_id = forms.UUIDField(required=False, initial=uuid4, widget=forms.HiddenInput)
+
+    def clean(self):
+        data = super().clean()
+        method = self.data.get('delivery_method', 'email')
+        if method not in ('email', 'manual'):
+            raise forms.ValidationError(_('Choose how to deliver the invitation.'))
+        data['delivery_method'] = method
+        return data
 
     def clean_email(self):
         email = self.cleaned_data['email']

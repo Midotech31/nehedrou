@@ -124,6 +124,20 @@ class GeneratedReviewPackTests(TestCase):
         receipt.record = {}
         with self.assertRaises(ValidationError): receipt.save()
 
+    def test_existing_receipt_rejects_conversion_of_manifest_line_endings(self):
+        manifest_lf = (json.dumps(self.manifest, ensure_ascii=False, indent=2) + '\n').encode('utf-8')
+        self.path.write_bytes(manifest_lf)
+        install_pack(self.actor, self.source_dir, apply=True)
+        saved_digest = GeneratedReviewPackImport.objects.get(pack_id=PACK_ID).manifest_digest
+        self.assertEqual(saved_digest, hashlib.sha256(manifest_lf).hexdigest())
+
+        self.path.write_bytes(manifest_lf.replace(b'\n', b'\r\n'))
+        with self.assertRaisesMessage(ValidationError, 'This named pack already has another manifest.'):
+            install_pack(self.actor, self.source_dir)
+        self.assertEqual(GeneratedReviewPackImport.objects.get(pack_id=PACK_ID).manifest_digest, saved_digest)
+        self.assertEqual(Activity.objects.count(), 6)
+        self.assertEqual(MediaAsset.objects.count(), 18)
+
     def test_webp_variants_have_manifest_dimensions_weights_and_whole_frame_derivation(self):
         for concept in self.manifest['concepts']:
             for size, record in concept['display_variants'].items():
@@ -218,6 +232,10 @@ class GeneratedReviewPackTests(TestCase):
 
 
 class GeneratedReviewPackBundleTests(SimpleTestCase):
+    def test_pack_manifest_retains_the_bytes_used_by_the_existing_import(self):
+        self.assertEqual(hashlib.sha256(generated_pack.MANIFEST_PATH.read_bytes()).hexdigest(),
+                         'b566593430f3ce054e9313ec60837f5e79eec5fccd30a239594478fd5e0ce89d')
+
     def test_versioned_full_sources_and_webp_derivatives_match_the_manifest(self):
         pack_dir = Path(settings.BASE_DIR) / 'content' / 'review_packs' / PACK_ID
         manifest, _, payloads = generated_pack.load_pack(pack_dir / 'sources')

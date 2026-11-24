@@ -36,6 +36,19 @@ def _validate_editorial_recipient(email, variety, capability):
     return variety, email
 
 
+def _live_editorial_invitations(email, variety, capability):
+    return EditorialAccessInvitation.objects.filter(
+        email__iexact=email, variety=variety, capability=capability,
+        revoked=False, used_at__isnull=True, expires_at__gt=timezone.now())
+
+
+def _revoke_replaced_invitations(actor, invitations):
+    for previous in invitations.select_for_update():
+        previous.revoked = True
+        previous.save(update_fields=['revoked'])
+        audit(actor, 'catalog.editorial_invitation_revoked', previous)
+
+
 def _manual_creation_replay(invitation, actor, email, variety, capability):
     if (invitation.created_by_id != actor.pk or invitation.email != email
             or invitation.variety_id != variety.pk or invitation.capability != capability
@@ -73,13 +86,8 @@ def issue_manual_editorial_access_invitation(actor, email, variety, capability, 
             invitation, token = EditorialAccessInvitation.issue(
                 email, locked_variety, capability, actor,
                 invitation_id=creation_id, delivery='manual')
-            prior = EditorialAccessInvitation.objects.select_for_update().filter(
-                email__iexact=email, variety=locked_variety, capability=capability,
-                revoked=False, used_at__isnull=True, expires_at__gt=timezone.now()).exclude(pk=invitation.pk)
-            for previous in prior:
-                previous.revoked = True
-                previous.save(update_fields=['revoked'])
-                audit(actor, 'catalog.editorial_invitation_revoked', previous)
+            prior = _live_editorial_invitations(email, locked_variety, capability).exclude(pk=invitation.pk)
+            _revoke_replaced_invitations(actor, prior)
             audit(actor, 'catalog.editorial_invitation_created', invitation)
             audit(actor, 'catalog.editorial_invitation_manual_created', invitation)
             return invitation, token
@@ -96,20 +104,16 @@ def issue_editorial_access_invitation(actor, email, variety, capability):
     _require_manager(actor)
     if capability not in ALLOWED_EDITORIAL_CAPABILITIES:
         raise ValidationError(_('Choose a limited editorial role.'))
+    status = invitation_delivery_status()
     with transaction.atomic():
         variety, email = _validate_editorial_recipient(email, variety, capability)
-        # A replacement invalidates every unused link for the same exact invitation.
-        prior = EditorialAccessInvitation.objects.select_for_update().filter(email__iexact=email, variety=variety, capability=capability, revoked=False, used_at__isnull=True).exclude(expires_at__lte=timezone.now())
-        for previous in prior:
-            previous.revoked = True
-            previous.save(update_fields=['revoked'])
-            audit(actor, 'catalog.editorial_invitation_revoked', previous)
+        previous_ids = () if status['known_unavailable'] else tuple(
+            _live_editorial_invitations(email, variety, capability).values_list('pk', flat=True))
         invitation, token = EditorialAccessInvitation.issue(email, variety, capability, actor)
         audit(actor, 'catalog.editorial_invitation_created', invitation)
-    url = settings.PUBLIC_ORIGIN.rstrip('/') + reverse('accept_editorial_invite', args=[token])
-    status = invitation_delivery_status()
     delivery = 'failed'
-    if status['state'] != 'unavailable':
+    if not status['known_unavailable']:
+        url = settings.PUBLIC_ORIGIN.rstrip('/') + reverse('accept_editorial_invite', args=[token])
         try:
             sent = send_mail(_('Nehedrou editorial access invitation'),
                 _('You have been invited to a limited Nehedrou editorial role for %(variety)s. This link expires in seven days. It grants only the selected editorial capability and does not add practice-record access; any permissions already on your account remain unchanged:') % {'variety': variety.display_label} + '\n' + url,
@@ -119,8 +123,15 @@ def issue_editorial_access_invitation(actor, email, variety, capability):
         except (OSError, SMTPException):
             delivery = 'failed'
     with transaction.atomic():
+        # Match creation and acceptance lock order without holding a lock over
+        # the transport call. A new handoff may have replaced this link.
+        Variety.objects.select_for_update().only('pk').get(pk=variety.pk)
+        invitation = EditorialAccessInvitation.objects.select_for_update().get(pk=invitation.pk)
         invitation.delivery = delivery
         invitation.save(update_fields=['delivery'])
+        if delivery != 'failed' and not invitation.revoked:
+            prior = _live_editorial_invitations(email, variety, capability).filter(pk__in=previous_ids)
+            _revoke_replaced_invitations(actor, prior)
         audit(actor, 'catalog.editorial_invitation_delivery_' + delivery, invitation)
     return invitation
 
@@ -153,6 +164,10 @@ def accept_editorial_access_invitation(actor, raw_token):
     invitation.used_at = timezone.now()
     invitation.accepted_by = user
     invitation.save(update_fields=['used_at', 'accepted_by'])
+    # An email replacement can still be pending during acceptance. Consume
+    # any other links for this one grant before it could later be revoked.
+    alternatives = _live_editorial_invitations(invitation.email, variety, invitation.capability)
+    _revoke_replaced_invitations(user, alternatives)
     audit(user, 'catalog.editorial_invitation_accepted', invitation)
     return grant
 

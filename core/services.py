@@ -1,11 +1,15 @@
 import hashlib
 import json
+import uuid
 from django.core.exceptions import ValidationError
-from django.db import transaction
+from django.core.validators import validate_email
+from django.db import IntegrityError, transaction
+from django.db.models import Q
 from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from care.models import Child, Program, ProgramItem, PracticeSession, FamilyLink, PracticeRun, PracticeRunTask, ProgramFeedback
+from .invitation_delivery import invitation_delivery_status
 from .models import Organization, Entitlement, Invitation, AuditEvent, Membership
 
 def _audit_purpose(action):
@@ -24,17 +28,20 @@ def _audit_purpose(action):
     return ''
 
 
-def audit(actor, action, obj, organization=None, *, purpose_code=None):
+def audit(actor, action, obj, organization=None, *, purpose_code=None, object_ref=None):
     """Append a purpose-coded event without copying clinical content into the log."""
     if organization is None:
         organization = getattr(obj, 'organization', None)
     actor_ref = str(actor.pk) if actor is not None and getattr(actor, 'pk', None) is not None else ''
+    subject_pk = getattr(obj, 'pk', None)
+    if object_ref is None:
+        object_ref = str(subject_pk) if subject_pk is not None else ''
     return AuditEvent.objects.create(
         actor=actor,
         actor_ref=actor_ref,
         action=action,
         purpose_code=purpose_code or _audit_purpose(action),
-        object_id=str(obj.pk) if obj is not None and getattr(obj, 'pk', None) is not None else '',
+        object_id=object_ref,
         organization=organization,
     )
 
@@ -55,6 +62,7 @@ def issue_and_deliver_invitation(actor, organization, child, email, kind='family
     from django.core.mail import send_mail
     from django.urls import reverse
     from .models import User
+    status = invitation_delivery_status()
     with transaction.atomic():
         org = Organization.objects.select_for_update().get(pk=organization.pk)
         if kind == 'family':
@@ -70,6 +78,8 @@ def issue_and_deliver_invitation(actor, organization, child, email, kind='family
         if User.objects.filter(email__iexact=email, is_active=False).exists():
             raise ValidationError(_('This email belongs to an inactive account. Contact the platform manager before inviting it.'))
         if replacing:
+            if status['known_unavailable']:
+                raise ValidationError(status['retry_blocked_message'])
             old = Invitation.objects.select_for_update().get(pk=replacing.pk, organization=org)
             if not old.available:
                 raise ValidationError(_('This invitation is unavailable or belongs to another account.'))
@@ -77,17 +87,122 @@ def issue_and_deliver_invitation(actor, organization, child, email, kind='family
             old.save()
         invite, token = Invitation.issue(org, child, email, actor, kind=kind)
         audit(actor, 'invitation.created', invite, org)
-    url = settings.PUBLIC_ORIGIN.rstrip('/') + reverse('invite', args=[token])
-    try:
-        sent = send_mail(_('Your Nehedrou invitation'), _('You have been invited to Nehedrou. Sign in or create an account to accept this invitation:') + '\n' + url, settings.DEFAULT_FROM_EMAIL, [invite.email])
-        delivery = ('console' if settings.EMAIL_BACKEND.endswith('console.EmailBackend') else 'sent') if sent else 'failed'
-    except (OSError, SMTPException):
-        delivery = 'failed'
+    delivery = 'failed'
+    if not status['known_unavailable']:
+        url = settings.PUBLIC_ORIGIN.rstrip('/') + reverse('invite', args=[token])
+        try:
+            sent = send_mail(_('Your Nehedrou invitation'), _('You have been invited to Nehedrou. Sign in or create an account to accept this invitation:') + '\n' + url, settings.DEFAULT_FROM_EMAIL, [invite.email])
+            if sent:
+                delivery = 'console' if status['state'] == 'local_console' else 'sent'
+        except (OSError, SMTPException):
+            pass
     with transaction.atomic():
         invite.delivery = delivery
         invite.save(update_fields=['delivery'])
         audit(actor, 'invitation.delivery_' + delivery, invite, org)
     return invite
+
+
+def _lock_practice_invitation_scope(actor, organization, child, kind, *, email=None, issuing=True):
+    """Recheck current authority under the common organization-first lock."""
+    from .models import User
+    if not getattr(actor, 'is_authenticated', False) or kind not in ('family', 'clinician'):
+        raise ValidationError(_('Access is no longer available.'))
+    org = Organization.objects.select_for_update().filter(pk=getattr(organization, 'pk', None)).first()
+    if org is None:
+        raise ValidationError(_('Access is no longer available.'))
+    # Ordering shared accounts avoids reversed actor/recipient locks between
+    # different practices. NO KEY UPDATE still serializes account deactivation
+    # while allowing the invitation/audit foreign-key references.
+    scope = Q(pk=getattr(actor, 'pk', None))
+    if email is not None:
+        scope |= Q(email__iexact=email)
+    accounts = list(User.objects.select_for_update(no_key=True).filter(scope).order_by('pk'))
+    current_actor = next((user for user in accounts if user.pk == getattr(actor, 'pk', None)), None)
+    if current_actor is None or not current_actor.is_active:
+        raise ValidationError(_('Access is no longer available.'))
+    member = Membership.objects.filter(user=current_actor, organization=org, active=True).first()
+    if member is None:
+        raise ValidationError(_('Access is no longer available.'))
+    if kind == 'family':
+        if child is None:
+            raise ValidationError(_('A family invitation requires a child profile.'))
+        child = Child.objects.select_for_update().filter(pk=getattr(child, 'pk', None), organization=org).first()
+        if child is None or child.responsible_id != current_actor.pk or (issuing and not child.active):
+            raise ValidationError(_('Access is no longer available.'))
+    elif child is not None:
+        raise ValidationError(_('A practitioner invitation must not include a child profile.'))
+    elif member.role != 'owner':
+        raise ValidationError(_('Access is no longer available.'))
+    if email is not None and any(user.email.casefold() == email.casefold() and not user.is_active for user in accounts):
+        raise ValidationError(_('This email belongs to an inactive account. Contact the platform manager before inviting it.'))
+    return current_actor, org, child
+
+
+def _manual_practice_creation_replay(invitation, actor, organization, child, email, kind):
+    if (invitation.delivery != 'manual' or invitation.created_by_id != actor.pk
+            or invitation.organization_id != organization.pk or invitation.child_id != (child.pk if child else None)
+            or invitation.email != email or invitation.kind != kind):
+        raise ValidationError(_('This creation request has already been used. Open a new form to create another invitation.'))
+    # Terminal invitations remain terminal; a repeated POST cannot reconstruct
+    # the raw token or replace a later invitation with the same creation UUID.
+    return invitation, None
+
+
+def issue_manual_practice_invitation(actor, organization, child, email, kind, creation_id):
+    """Create one scoped personal-handoff link; never send or persist its token."""
+    try:
+        creation_id = uuid.UUID(str(creation_id))
+    except (ValueError, TypeError, AttributeError):
+        raise ValidationError(_('Open a new form to create a personal handoff link.'))
+    if not isinstance(email, str):
+        raise ValidationError(validate_email.message, code=validate_email.code)
+    email = email.strip().lower()
+    validate_email(email)
+    try:
+        with transaction.atomic():
+            current_actor, org, scoped_child = _lock_practice_invitation_scope(actor, organization, child, kind, email=email)
+            existing = Invitation.objects.select_for_update().filter(pk=creation_id).first()
+            if existing is not None:
+                return _manual_practice_creation_replay(existing, current_actor, org, scoped_child, email, kind)
+            invitation, token = Invitation.issue(org, scoped_child, email, current_actor, kind=kind,
+                invitation_id=creation_id, delivery='manual')
+            # Insert before revoking: a UUID collision must roll back without
+            # invalidating a link from a different creation request.
+            prior = Invitation.objects.select_for_update().filter(organization=org, child=scoped_child,
+                kind=kind, email__iexact=email, revoked=False, used_at__isnull=True,
+                expires_at__gt=timezone.now()).exclude(pk=invitation.pk).order_by('pk')
+            for previous in prior:
+                previous.revoked = True
+                previous.save(update_fields=['revoked'])
+                audit(current_actor, 'invitation.revoked', previous, org)
+            audit(current_actor, 'invitation.created', invitation, org)
+            audit(current_actor, 'invitation.manual_created', invitation, org)
+            return invitation, token
+    except (IntegrityError, ValidationError):
+        # A concurrent creation may win UUID validation or the database insert.
+        # Reacquire authority after rollback; never replay on cached permissions.
+        with transaction.atomic():
+            current_actor, org, scoped_child = _lock_practice_invitation_scope(actor, organization, child, kind, email=email)
+            existing = Invitation.objects.select_for_update().filter(pk=creation_id).first()
+            if existing is None:
+                raise
+            return _manual_practice_creation_replay(existing, current_actor, org, scoped_child, email, kind)
+
+
+@transaction.atomic
+def revoke_practice_invitation(actor, invite_id, organization, child, kind):
+    """Revoke an unused exact-scope invitation without overwriting acceptance."""
+    current_actor, org, scoped_child = _lock_practice_invitation_scope(actor, organization, child, kind, issuing=False)
+    invitation = Invitation.objects.select_for_update().filter(pk=invite_id,
+        organization=org, child=scoped_child, kind=kind).first()
+    if invitation is None:
+        raise ValidationError(_('This invitation is unavailable or belongs to another account.'))
+    if not invitation.revoked and invitation.used_at is None:
+        invitation.revoked = True
+        invitation.save(update_fields=['revoked'])
+        audit(current_actor, 'invitation.revoked', invitation, org)
+    return invitation
 
 @transaction.atomic
 def resolve_privacy(actor, request_id, data):
@@ -250,14 +365,31 @@ def publish_feedback(actor, reference, text, source_report=None):
     audit(actor, 'family_feedback.published', feedback, program.organization)
     return feedback
 
-@transaction.atomic
 def accept_invitation(actor, token):
-    ref = Invitation.objects.filter(token_hash=hashlib.sha256(token.encode()).hexdigest()).first()
+    return accept_invitation_digest(actor, hashlib.sha256(token.encode()).hexdigest())
+
+
+@transaction.atomic
+def accept_invitation_digest(actor, digest):
+    ref = Invitation.objects.filter(token_hash=digest).first()
     if not ref:
         raise ValidationError(_('This invitation is unavailable or belongs to another account.'))
     Organization.objects.select_for_update().get(pk=ref.organization_id)
-    invite = Invitation.objects.select_for_update().filter(token_hash=hashlib.sha256(token.encode()).hexdigest()).first()
-    if not invite or not invite.available or actor.email.lower() != invite.email.lower():
+    invite = Invitation.objects.select_for_update().filter(token_hash=digest).first()
+    if not invite or not invite.available:
+        raise ValidationError(_('This invitation is unavailable or belongs to another account.'))
+    if invite.delivery == 'manual':
+        from .models import User
+        actor = User.objects.select_for_update(no_key=True).filter(pk=getattr(actor, 'pk', None), is_active=True).first()
+        if actor is None:
+            raise ValidationError(_('This invitation is unavailable or belongs to another account.'))
+        if invite.kind == 'family':
+            child = Child.objects.select_for_update().filter(pk=invite.child_id,
+                organization_id=invite.organization_id, active=True).first()
+            if child is None:
+                raise ValidationError(_('This invitation is unavailable or belongs to another account.'))
+            invite.child = child
+    if actor.email.lower() != invite.email.lower():
         raise ValidationError(_('This invitation is unavailable or belongs to another account.'))
     if invite.kind == 'clinician':
         org = Organization.objects.select_for_update().get(pk=invite.organization_id)

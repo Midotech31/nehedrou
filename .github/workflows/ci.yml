@@ -76,6 +76,9 @@ jobs:
           done
           docker logs nehedrou-ci
           exit 1
+      - name: Smoke test durable PostgreSQL container and recovery
+        timeout-minutes: 8
+        run: python scripts/smoke_durable_postgres.py --image nehedrou-ci:pull-request
 
   postgres:
     name: PostgreSQL permission and concurrency checks
@@ -129,6 +132,8 @@ jobs:
           assert connection.features.has_select_for_update;
           print('PostgreSQL connection and row locks verified')"
       - name: Run qualification, invoice and PostgreSQL-only regressions
+        env:
+          NEHEDROU_STARTUP_PREFLIGHT_POSTGRES: "1"
         run: >-
           python manage.py test --noinput --verbosity 2
           qualification
@@ -136,13 +141,19 @@ jobs:
           core.tests_billing_entitlements
           core.test_live_integrity_writes
           core.tests_restore_targets
+          core.tests_startup_database.PostgreSQLMigrationDatabaseRouteTests
           core.tests_concurrency.ConcurrentQualificationTests
           core.tests_access_auth.ConcurrentResponsibilityTests
           core.tests_access_auth.ConcurrentAuthThrottleTests
           core.tests_account_onboarding.ConcurrentMFAOnboardingTests
+          core.tests_password_change.PasswordChangeConcurrencyTests
           core.tests_form_scope.PracticeFormScopeConcurrencyTests
+          core.tests_deployment.RuntimeStartupPostgreSQLTests
           core.tests_operations_views.DatabaseProbeTimeoutTests
           catalog.tests_guided_audio.GuidedAudioConcurrencyTests
           catalog.tests_working_concurrency.WorkingCopyConcurrencyTests
+          catalog.tests_darja_metadata_revisions.DarjaMetadataRevisionConcurrencyTests
           catalog.tests_editorial_manual_concurrency.ManualEditorialHandoffConcurrencyTests
+          core.tests_practice_manual_handoff.PracticeManualHandoffConcurrencyTests
+          catalog.tests_publishing_access.PublishingAccessConcurrencyTests
           followup.tests.FollowupConcurrencyTests

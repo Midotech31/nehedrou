@@ -16,16 +16,27 @@ from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.cache import patch_cache_control
 from django.utils.translation import gettext as _
+from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
+from django.views.decorators.debug import sensitive_variables
 from care.models import Child, FamilyLink, Program, ProgramItem, PracticeSession, Observation, PracticeRun, PracticeRunTask, ProgramFeedback
 from catalog.models import Activity, Variety
-from .access import membership, manager, visible_children, visible_programs, clinician_child, professional_children, is_family_workspace, workspace_children, notice_gate, notice_acknowledged
+from .access import (
+    clinician_child, is_family_workspace, manager, membership, notice_acknowledged,
+    notice_gate, professional_children, queue_invitation_notice, visible_children,
+    visible_programs, workspace_children,
+)
 from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .invitation_delivery import invitation_delivery_status
 from .forms import SignupForm, InviteSignupForm, ChildForm, ProgramForm, InvitationForm, PracticeForm, ObservationForm, PreferencesForm, DemoPracticeForm, FamilyFeedbackForm, HistoryFilterForm
 from .models import Organization, Membership, Entitlement, Invitation, PrivacyRequest
-from .services import audit, log_child_access, check_entitlement, create_program, accept_invitation, record_practice, issue_and_deliver_invitation, lock_clinical_child, publish_feedback
+from .services import (
+    accept_invitation, audit, check_entitlement, create_program,
+    issue_and_deliver_invitation, issue_manual_practice_invitation, lock_clinical_child,
+    log_child_access, publish_feedback, record_practice, revoke_practice_invitation,
+)
 from .reserves import activity_is_reserved, reserved_activity_ids, family_catalog_exclusions
 from .product_views import program_calendar
 from .planning import decorate_plan, activity_overview
@@ -46,26 +57,42 @@ def demo_activity(request):
         from django.http import HttpResponseNotAllowed
         return HttpResponseNotAllowed(['GET', 'HEAD', 'POST'])
     from django.utils.translation import get_language
+    from urllib.parse import urlencode
+    language = get_language()
     examples = {
-        'fr': ('chat', 'rat', 'cat', 'rat', _('French · illustrative contrast')),
-        'en': ('coat', 'goat', 'coat', 'goat', _('English · illustrative contrast')),
-        'ar': ('دار', 'نار', 'house', 'fire', _('Algerian Darja · local proposal awaiting review')),
+        'fr-fr-pilot': ('chat', 'rat', 'cat', 'rat', _('French · illustrative contrast'), 'fr-FR'),
+        'en-us-general-pilot': ('coat', 'goat', 'coat', 'goat', _('English · illustrative contrast'), 'en-US'),
+        'ar-msa-pilot': ('قط', 'كلب', 'cat', 'dog', _('Standard Arabic · educational pilot'), 'ar'),
+        'ar-dz-pilot': ('دار', 'نار', 'house', 'fire', _('Algerian Darja · local proposal awaiting review'), 'ar-DZ'),
     }
-    word_a, word_b, image_a, image_b, example_variety = examples.get(get_language(), examples['fr'])
+    default_code = {'fr': 'fr-fr-pilot', 'en': 'en-us-general-pilot', 'ar': 'ar-dz-pilot'}.get(language, 'fr-fr-pilot')
+    query_choices = request.GET.getlist('variety')
+    posted_choices = request.POST.getlist('variety') if request.method == 'POST' else []
+    invalid_selection = (len(query_choices) > 1 or len(posted_choices) > 1
+        or any(code not in examples for code in query_choices + posted_choices)
+        or bool(query_choices and posted_choices and query_choices[0] != posted_choices[0]))
+    variety_code = (posted_choices or query_choices or [default_code])[0] if not invalid_selection else default_code
+    word_a, word_b, image_a, image_b, example_variety, word_language = examples[variety_code]
+    retry_url = reverse('demo_activity') + '?' + urlencode({'variety': variety_code})
+    variety_choices = [{'label': spec[4], 'selected': code == variety_code,
+                        'url': reverse('demo_activity') + '?' + urlencode({'variety': code})}
+                       for code, spec in examples.items()]
     form = DemoPracticeForm(request.POST if request.method == 'POST' else None)
     summary = None
-    if request.method == 'POST' and form.is_valid():
+    if request.method == 'POST' and not invalid_selection and form.is_valid():
         summary = {
             'completion': dict(form.fields['completion'].choices)[form.cleaned_data['completion']],
             'parent_report': dict(form.fields['parent_report'].choices)[form.cleaned_data['parent_report']],
             'answer': _('Stopped · no answer counted') if form.cleaned_data['completion'] == 'stopped' else _('Matching picture selected') if form.cleaned_data['answer'] == 'a' else _('A different picture selected'),
         }
     from catalog.content_catalog import public_example
-    example = public_example(get_language()) or {}
-    guide = dict(example.get('practice_guide', {}).get(get_language(), {}))
+    example = public_example(language, variety_code) or {}
+    guide = dict(example.get('practice_guide', {}).get(language, {}))
     if guide:
-        guide['language'] = get_language()
-    response = render(request, 'demo_activity.html', {'form': form, 'summary': summary, 'word_a': word_a, 'word_b': word_b, 'image_a': f'editorial/{image_a}.svg', 'image_b': f'editorial/{image_b}.svg', 'example_variety': example_variety, 'sample_guide': guide, 'sample_sources': example.get('evidence_sources', []), 'word_language': 'ar-DZ' if get_language() == 'ar' else 'en-US' if get_language() == 'en' else 'fr-FR', 'guide_language': get_language()})
+        guide['language'] = language
+    response = render(request, 'demo_activity.html', {'form': form, 'summary': summary, 'word_a': word_a, 'word_b': word_b, 'image_a': f'editorial/{image_a}.svg', 'image_b': f'editorial/{image_b}.svg', 'example_variety': example_variety, 'sample_guide': guide, 'sample_sources': example.get('evidence_sources', []), 'word_language': word_language, 'guide_language': language,
+        'sample_variety_code': variety_code, 'sample_variety_choices': variety_choices, 'demo_retry_url': retry_url,
+        'language_next_url': retry_url, 'sample_selection_error': invalid_selection}, status=400 if invalid_selection else 200)
     from django.utils.cache import patch_cache_control
     patch_cache_control(response, no_store=True)
     return response
@@ -201,11 +228,29 @@ def child_create(request):
             form.add_error(None, error)
     return render(request, 'form.html', {'form': form, 'title': _('Add a child profile'), 'submit': _('Save profile'), 'practice_scope': scope}, status=200 if scope_valid else 409)
 
+@sensitive_variables('token', 'link')
+def render_invitation_handoff(request, invitation, token, destination):
+    # The raw link exists only in the immediate response to the issuing POST.
+    link = settings.PUBLIC_ORIGIN.rstrip('/') + reverse('invite', args=[token]) if token else ''
+    response = render(request, 'practice_invitation_handoff.html', {
+        'manual_invitation': invitation,
+        'manual_link': link,
+        'manual_already_created': token is None,
+        'invitation_return_url': destination,
+    })
+    patch_cache_control(response, private=True, no_store=True)
+    response.headers['Referrer-Policy'] = 'no-referrer'
+    response.headers['X-Robots-Tag'] = 'noindex, nofollow'
+    return response
+
+
 @login_required
+@sensitive_variables('token')
 def child_detail(request, pk):
     child = get_object_or_404(visible_children(request.user).prefetch_related('varieties'), pk=pk)
     professional = professional_children(request.user).filter(pk=pk).exists()
-    form = InvitationForm(request.POST or None)
+    can_hand_off = professional and child.active and not is_family_workspace(request)
+    form = InvitationForm(request.POST if request.method == 'POST' else None)
     if request.method == 'GET':
         log_child_access(request.user, child, resource='child_profile', purpose_code='care_delivery' if professional else 'family_practice')
     if request.method == 'POST':
@@ -216,12 +261,28 @@ def child_detail(request, pk):
             return gated
         if form.is_valid():
             try:
+                if form.cleaned_data['delivery_method'] == 'manual':
+                    if not can_hand_off:
+                        raise Http404
+                    invitation, token = issue_manual_practice_invitation(
+                        request.user, child.organization, child, form.cleaned_data['email'],
+                        kind='family', creation_id=form.cleaned_data['creation_id'])
+                    return render_invitation_handoff(request, invitation, token, reverse('child_detail', args=[pk]))
                 invitation = issue_and_deliver_invitation(request.user, child.organization, child, form.cleaned_data['email'])
                 invitation_message(request, invitation)
                 return redirect('child_detail', pk=pk)
             except ValidationError as error:
                 form.add_error(None, error)
-    return render(request, 'child_detail.html', {'child': child, 'professional': professional, 'form': form, 'invitation_delivery': invitation_delivery_status() if professional else None, 'programs': child.programs.select_related('variety').order_by('-created_at'), 'links': child.family_links.filter(active=True).select_related('user') if professional else [], 'invitations': child.invitation_set.filter(revoked=False, used_at__isnull=True) if professional else []})
+    return render(request, 'child_detail.html', {
+        'child': child,
+        'professional': professional,
+        'can_hand_off_invitation': can_hand_off,
+        'form': form,
+        'invitation_delivery': invitation_delivery_status() if professional else None,
+        'programs': child.programs.select_related('variety').order_by('-created_at'),
+        'links': child.family_links.filter(active=True).select_related('user') if professional else [],
+        'invitations': child.invitation_set.filter(revoked=False, used_at__isnull=True) if professional else [],
+    })
 
 @login_required
 @require_POST
@@ -251,10 +312,14 @@ def revoke_link(request, pk):
 @login_required
 @require_POST
 def revoke_invite(request, pk):
-    invite = get_object_or_404(Invitation, pk=pk, child__in=professional_children(request.user))
-    invite.revoked = True
-    invite.save()
-    audit(request.user, 'invitation.revoked', invite, invite.organization)
+    invite = get_object_or_404(
+        Invitation.objects.select_related('child', 'organization'),
+        pk=pk, kind='family', child__in=professional_children(request.user),
+    )
+    try:
+        revoke_practice_invitation(request.user, invite.pk, invite.organization, invite.child, 'family')
+    except ValidationError as error:
+        messages.error(request, ' '.join(error.messages))
     return redirect('child_detail', pk=invite.child_id)
 
 def select_invitation_workspace(request, invitation):
@@ -263,6 +328,7 @@ def select_invitation_workspace(request, invitation):
         request.session['organization'] = str(invitation.organization_id)
 
 
+@never_cache
 def invite(request, token):
     invitation = get_object_or_404(Invitation, token_hash=hashlib.sha256(token.encode()).hexdigest())
     if not invitation.available:
@@ -273,7 +339,7 @@ def invite(request, token):
     if request.method == 'POST':
         if request.user.is_authenticated:
             if not settings.DEMO_MODE and not notice_acknowledged(request.user, invitation.organization):
-                request.session['pending_notice_invitation_token'] = token
+                queue_invitation_notice(request, invitation)
                 return redirect('data_notice')
             try:
                 accept_invitation(request.user, token)
@@ -291,7 +357,7 @@ def invite(request, token):
                         accept_invitation(user, token)
                 login(request, user)
                 if not settings.DEMO_MODE:
-                    request.session['pending_notice_invitation_token'] = token
+                    queue_invitation_notice(request, invitation)
                     return redirect('data_notice')
                 select_invitation_workspace(request, invitation)
                 return redirect('dashboard')
@@ -337,7 +403,12 @@ def library(request):
     arabic_base = arabic_base.exclude(pk__in=family_catalog_exclusions(request.user, arabic_base))
     collections = [{'code': v.code, 'label': v.display_label, 'count': arabic_base.filter(variety=v).count()}
                    for v in Variety.objects.filter(code__in=['ar-msa-pilot', 'ar-dz-pilot']).order_by('-code')]
-    return render(request, 'library.html', {'page': Paginator(qs.order_by('title', 'pk'), 12).get_page(request.GET.get('page')),
+    from catalog.presentation_availability import prepare_availability
+    page = Paginator(qs.order_by('title', 'pk'), 12).get_page(request.GET.get('page'))
+    page.object_list = prepare_availability(page.object_list, include_audio=True)
+    available_on_page = sum(activity.presentation_available for activity in page)
+    return render(request, 'library.html', {'page': page,
+        'available_on_page': available_on_page, 'unavailable_on_page': len(page.object_list) - available_on_page,
         'varieties': Variety.objects.filter(language=language) if language in dict(settings.LANGUAGES) else Variety.objects.all(),
         'selected': code, 'query': query, 'content_language': language, 'result_count': qs.count(),
         'kinds': Activity.KIND_CHOICES, 'themes': Activity.THEME_CHOICES, 'selected_kind': kind, 'selected_theme': theme,
@@ -350,7 +421,14 @@ def activity_detail(request, pk):
         raise Http404
     if activity.pk in family_catalog_exclusions(request.user, [activity]):
         raise Http404
-    return render(request, 'activity_detail.html', {'activity': activity, 'instruction': activity.instructions.get(request.user.instruction_language), 'missing_instruction': not activity.instructions.get(request.user.instruction_language)})
+    from catalog.presentation_availability import prepare_availability
+    available = prepare_availability([activity])[0].presentation_available
+    assigned_history = not available and ProgramItem.objects.filter(
+        activity=activity, program__in=visible_programs(request.user)).exists()
+    if not available and not assigned_history:
+        raise Http404
+    return render(request, 'activity_detail.html', {'activity': activity,
+        'activity_available': available, 'assigned_history': assigned_history, 'instruction': activity.instructions.get(request.user.instruction_language), 'missing_instruction': not activity.instructions.get(request.user.instruction_language)})
 
 @login_required
 def program_create(request, pk):
@@ -679,6 +757,7 @@ def export_child(request, pk):
     return response
 
 @login_required
+@sensitive_variables('token')
 def members(request):
     member = manager(request)
     form = InvitationForm(request.POST if request.method == 'POST' else None)
@@ -690,12 +769,26 @@ def members(request):
         if gated:
             return gated
         try:
+            if form.cleaned_data['delivery_method'] == 'manual':
+                invitation, token = issue_manual_practice_invitation(
+                    request.user, member.organization, None, form.cleaned_data['email'],
+                    kind='clinician', creation_id=form.cleaned_data['creation_id'])
+                return render_invitation_handoff(request, invitation, token, reverse('members'))
             invitation = issue_and_deliver_invitation(request.user, member.organization, None, form.cleaned_data['email'], kind='clinician')
             invitation_message(request, invitation)
             return redirect('members')
         except ValidationError as error:
             form.add_error(None, error)
-    return render(request, 'members.html', {'form': form, 'practice_scope': scope, 'invitation_delivery': invitation_delivery_status(), 'members': Membership.objects.filter(organization=member.organization).select_related('user'), 'invitations': Invitation.objects.filter(organization=member.organization, kind='clinician', revoked=False, used_at__isnull=True)}, status=200 if scope_valid else 409)
+    return render(request, 'members.html', {
+        'form': form,
+        'practice_scope': scope,
+        'can_hand_off_invitation': scope_valid,
+        'invitation_delivery': invitation_delivery_status(),
+        'members': Membership.objects.filter(organization=member.organization).select_related('user'),
+        'invitations': Invitation.objects.filter(
+            organization=member.organization, kind='clinician', revoked=False, used_at__isnull=True,
+        ),
+    }, status=200 if scope_valid else 409)
 
 def invitation_message(request, invitation):
     if invitation.delivery == 'failed':

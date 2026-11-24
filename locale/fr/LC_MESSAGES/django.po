@@ -6023,3 +6023,174 @@ msgstr "Le justificatif de familiarité doit concerner la variété parlée de l
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "Une sélection inchangée conserve son empreinte enregistrée. Pour effacer une référence, demandez explicitement son retrait."
+
+msgid "Create a link to hand over personally"
+msgstr "Créer un lien à remettre en personne"
+
+msgid "A new personal handoff link replaces open invitations for this recipient and this access only."
+msgstr "Un nouveau lien remplace uniquement les invitations en cours pour ce destinataire et cet accès."
+
+msgid "Invitation request already processed"
+msgstr "Cette demande d’invitation a déjà été traitée"
+
+msgid "The link is no longer shown. Return to the invitation form to create a new one if needed."
+msgstr "Le lien ne s’affiche plus. Retournez au formulaire d’invitation pour en créer un si nécessaire."
+
+msgid "Access starts after acceptance. The link does not verify the recipient’s email address."
+msgstr "L’accès commence après acceptation. Le lien ne vérifie pas l’adresse électronique du destinataire."
+
+msgid "Back to invitations"
+msgstr "Revenir aux invitations"
+
+msgid "Choose how to deliver the invitation."
+msgstr "Choisissez comment remettre l’invitation."
+
+msgid "Build a review batch"
+msgstr "Préparer un lot de relecture"
+
+msgid "Choose versions for the review pack"
+msgstr "Sélectionner les versions à relire"
+
+msgid "Select versions on this page. The download contains only the versions you select."
+msgstr "Cochez les versions sur cette page. Le téléchargement contient uniquement les versions cochées."
+
+msgid "Download selected versions"
+msgstr "Télécharger les versions sélectionnées"
+
+msgid "Review batch"
+msgstr "Lot de relecture"
+
+msgid "Return to content quality"
+msgstr "Revenir à la page Qualité des contenus"
+
+msgid "Choose one or more versions from the same page and try again."
+msgstr "Cochez une ou plusieurs versions sur la même page, puis réessayez."
+
+msgid "A selected version has changed. Review its current state and select it again."
+msgstr "Une version sélectionnée a changé. Vérifiez son état actuel, puis sélectionnez-la de nouveau."
+
+msgid "The recording prompts include the current audio status for each word and a link to the exact version. When available, the collection link opens the draft for that word. Check the version fingerprint again before changing any media."
+msgstr "La fiche d’enregistrement indique l’état audio de chaque mot et donne accès à la version exacte. Quand il est proposé, le lien de collecte ouvre le brouillon pour le mot concerné. Vérifiez de nouveau l’empreinte de la version avant de modifier un média."
+
+msgid "Record or attach an audio file"
+msgstr "Enregistrer ou joindre un fichier audio"
+
+msgid "Check the existing file and its link to this word"
+msgstr "Vérifier le fichier existant et son association à ce mot"
+
+msgid "Complete the audio documentation"
+msgstr "Compléter la documentation de l’audio"
+
+msgid "Listen and verify during human review"
+msgstr "Écouter et vérifier lors de la relecture"
+
+msgid "Available home activities match the declared spoken varieties"
+msgstr "Les activités à domicile disponibles correspondent aux variétés parlées déclarées"
+
+msgid "Available home activities outside the declared offer"
+msgstr "Activités à domicile disponibles en dehors de l’offre déclarée"
+
+msgid "The interface language and the sample's spoken variety are separate. Changing the variety starts a new sample."
+msgstr "La langue de l’interface et la variété parlée de l’exemple sont distinctes. Changer de variété démarre un nouvel exemple."
+
+msgid "Choose a supported spoken variety for this sample."
+msgstr "Choisissez une variété parlée proposée pour cet exemple."
+
+msgid "These access rights may have changed since you opened the form. Reload and review the current values before saving."
+msgstr "Les droits d’accès ont peut-être changé depuis l’ouverture du formulaire. Rechargez la page et vérifiez les valeurs en vigueur avant d’enregistrer."
+
+msgid "Reload current access rights"
+msgstr "Recharger les droits d’accès en vigueur"
+
+msgid "Latest decision for this content fingerprint"
+msgstr "Dernière décision pour cette empreinte de contenu"
+
+msgid "Superseded decision for this content fingerprint"
+msgstr "Décision remplacée pour cette empreinte de contenu"
+
+msgid "Decision for different content"
+msgstr "Décision portant sur un autre contenu"
+
+msgid "Decision labels describe content matching and decision order. They do not establish current clinical qualification."
+msgstr "Les libellés indiquent la correspondance du contenu et l’ordre des décisions. Ils ne prouvent pas une qualification clinique actuelle."
+
+msgid "Password recovery unavailable"
+msgstr "Récupération du mot de passe indisponible"
+
+msgid "Email delivery is unavailable on this service. This page cannot send a password recovery email."
+msgstr "L’envoi de courriels est indisponible sur ce service. Cette page ne peut pas envoyer de courriel de récupération du mot de passe."
+
+msgid "If an eligible account matches this email address, we try to send a recovery link. Delivery is not confirmed."
+msgstr "Si cette adresse correspond à un compte pouvant être récupéré, nous tentons d’envoyer un lien de récupération. La réception n’est pas confirmée."
+
+msgid "Change password"
+msgstr "Changer le mot de passe"
+
+msgid "Enter your current password and choose a new password. No email is needed."
+msgstr "Saisissez votre mot de passe actuel et choisissez un nouveau mot de passe. Aucun courriel n’est nécessaire."
+
+msgid "Password changed"
+msgstr "Mot de passe modifié"
+
+msgid "Your password has been changed. Other sessions will require you to sign in again."
+msgstr "Votre mot de passe a été modifié. Les autres sessions nécessiteront une nouvelle connexion."
+
+msgid "Availability is checked when you preview or save this program."
+msgstr "La disponibilité des activités est vérifiée lors de la prévisualisation ou de l’enregistrement du programme."
+
+msgid "catalogue entries"
+msgstr "entrées du catalogue"
+
+msgid "catalogue entries found"
+msgstr "entrées du catalogue trouvées"
+
+msgid "Available on this page"
+msgstr "Disponibles sur cette page"
+
+msgid "Unavailable on this page"
+msgstr "Indisponibles sur cette page"
+
+msgid "The total includes unavailable entries; availability is checked for this page."
+msgstr "Le total inclut les entrées indisponibles ; la disponibilité est vérifiée pour cette page."
+
+msgid "Unavailable for new practice"
+msgstr "Indisponible pour une nouvelle pratique"
+
+msgid "Assigned historical content"
+msgstr "Contenu affecté conservé dans l’historique"
+
+msgid "This assigned version is shown for reference. It is unavailable for new practice."
+msgstr "Cette version déjà affectée reste consultable à titre de référence. Elle est indisponible pour une nouvelle pratique."
+
+msgid "Media unavailable for this version"
+msgstr "Médias indisponibles pour cette version"
+
+msgid "Your reviewer experience"
+msgstr "Votre expérience de relecture"
+
+msgid "For this spoken variety, review permission and independently checked experience are separate requirements. This status does not approve the content."
+msgstr "Pour cette variété parlée, l’autorisation de relire et la vérification indépendante de l’expérience sont deux exigences distinctes. Cet état n’approuve pas le contenu."
+
+msgid "Experience declaration needed"
+msgstr "Déclaration d’expérience requise"
+
+msgid "Declaration inactive"
+msgstr "Déclaration inactive"
+
+msgid "Independent check current"
+msgstr "Vérification indépendante à jour"
+
+msgid "View or update your declaration"
+msgstr "Consulter ou modifier votre déclaration"
+
+msgid "An authorised publisher must check your declaration independently. You cannot verify your own experience."
+msgstr "Une personne habilitée à publier doit vérifier votre déclaration de manière indépendante. Vous ne pouvez pas vérifier votre propre expérience."
+
+msgid "You may request changes without approving this content. Approval also requires complete exact-version content and media."
+msgstr "Vous pouvez demander des corrections sans approuver ce contenu. Une approbation exige aussi le contenu et les médias complets de la version exacte."
+
+msgid "The link is shown only once. If you did not copy it, create another personal handoff link for the same email, spoken variety and role."
+msgstr "Le lien s’affiche une seule fois. Si vous ne l’avez pas copié, créez un nouveau lien de remise en main propre pour la même adresse, la même variété parlée et le même rôle."
+
+msgid "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role."
+msgstr "Un lien antérieur encore utilisable reste valable si l’envoi par courriel échoue. Un nouveau lien de remise en main propre ou un courriel accepté par le service de messagerie remplace les anciens liens de la même adresse, de la même variété parlée et du même rôle."

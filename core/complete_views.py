@@ -3,7 +3,7 @@ from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import ValidationError
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
@@ -14,10 +14,11 @@ from care.models import Child, Program, PracticeSession, ProgramItem, Observatio
 from catalog.models import Activity
 from .access import clinician_child, professional_children, manager, visible_children, membership
 from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
+from .billing import ENTITLEMENT_EDIT_FIELDS, entitlement_form_snapshot
 from .forms import ChildForm, ProgramForm, ReassignForm, PrivacyDecisionForm
 from .models import Organization, PrivacyRequest, Invitation, Entitlement, Invoice, NoticeAcknowledgement
-from .access import CURRENT_NOTICE_VERSION, notice_gate
-from .services import audit, log_child_access, check_entitlement, create_program, lock_clinical_child, accept_invitation
+from .access import CURRENT_NOTICE_VERSION, notice_gate, PENDING_NOTICE_INVITATION_DIGEST, LEGACY_PENDING_NOTICE_INVITATION_TOKEN
+from .services import audit, log_child_access, check_entitlement, create_program, lock_clinical_child, accept_invitation_digest, revoke_practice_invitation
 
 @login_required
 def child_edit(request, pk):
@@ -160,7 +161,7 @@ def resolve_request(request, pk):
 class BillingForm(forms.ModelForm):
     class Meta:
         model = Entitlement
-        fields = ['plan', 'status', 'expires_at', 'child_quota', 'practitioner_quota', 'amount', 'currency', 'billing_reference']
+        fields = ENTITLEMENT_EDIT_FIELDS
         labels = {'plan': _('Plan name'), 'status': _('Status'), 'expires_at': _('Access until'), 'child_quota': _('Child profile quota'), 'practitioner_quota': _('Practitioner quota'), 'amount': _('Amount'), 'currency': _('Currency'), 'billing_reference': _('Billing reference')}
 
 class InvoiceForm(forms.ModelForm):
@@ -182,38 +183,55 @@ class InvoiceForm(forms.ModelForm):
 def billing(request, pk=None):
     if pk is None:
         return render(request, 'billing/index.html', {'organizations': Organization.objects.all().order_by('name')})
-    org = get_object_or_404(Organization, pk=pk)
     if request.method == 'POST':
-        # Lock the parent even when no entitlement exists: concurrent first
-        # saves must share one lock, not race to create a OneToOne record.
+        # Serialize first-time creation and edits with other practice mutations.
         with transaction.atomic():
             org = get_object_or_404(Organization.objects.select_for_update(), pk=pk)
             entitlement = Entitlement.objects.filter(organization=org).first()
-            created = entitlement is None
-            form = BillingForm(request.POST, instance=entitlement or Entitlement(organization=org))
-            if form.is_valid():
-                entitlement = form.save()
-                audit(request.user, 'entitlement.created' if created else 'entitlement.updated', entitlement, org)
-                return redirect('billing_detail', pk=pk)
+            token, matches = entitlement_form_snapshot(request, org, entitlement)
+            form = None
+            if matches:
+                instance = entitlement if entitlement is not None else Entitlement(organization=org)
+                form = BillingForm(request.POST, instance=instance)
+                if form.is_valid():
+                    saved = form.save()
+                    audit(request.user, 'entitlement.created' if entitlement is None else 'entitlement.updated', saved, org)
+                    return redirect('billing_detail', pk=pk)
     else:
-        # Display defaults on an unsaved instance. Visiting this page must not
-        # grant access, create billing data, or alter existing rights.
+        org = get_object_or_404(Organization, pk=pk)
         entitlement = Entitlement.objects.filter(organization=org).first()
+        token, matches = entitlement_form_snapshot(request, org, entitlement)
         form = BillingForm(instance=entitlement or Entitlement(organization=org))
-    return render(request, 'billing/detail.html', {'organization': org, 'form': form, 'invoices': org.invoice_set.all().order_by('-issued_at')})
+    return render(request, 'billing/detail.html', {
+        'organization': org, 'form': form, 'entitlement_snapshot': token,
+        'invoices': org.invoice_set.all().order_by('-issued_at'),
+    }, status=200 if matches else 409)
 
 @login_required
 @permission_required('core.manage_entitlements', raise_exception=True)
 def invoice_create(request, pk):
     org = get_object_or_404(Organization, pk=pk)
-    form = InvoiceForm(request.POST or None, instance=Invoice(organization=org))
+    data = request.POST if request.method == 'POST' else None
+    form = InvoiceForm(data, instance=Invoice(organization=org))
     if request.method == 'POST' and form.is_valid():
         invoice = form.save(commit=False)
-        if invoice.status == 'paid':
-            invoice.paid_at = timezone.now()
-        invoice.save()
-        audit(request.user, 'invoice.recorded', invoice, org)
-        return redirect('billing_detail', pk=pk)
+        saved = False
+        try:
+            with transaction.atomic():
+                invoice.save()
+                saved = True
+                audit(request.user, 'invoice.recorded', invoice, org)
+        except ValidationError as error:
+            if saved:
+                raise
+            form.add_error(None, error)
+        except IntegrityError:
+            # The number may have been recorded after model validation.
+            if saved or not Invoice.objects.filter(number=invoice.number).exists():
+                raise
+            form.add_error('number', invoice.unique_error_message(Invoice, ['number']))
+        else:
+            return redirect('billing_detail', pk=pk)
     return render(request, 'form.html', {'title': _('Record a manual invoice'), 'form': form, 'submit': _('Save')})
 
 @login_required
@@ -221,20 +239,28 @@ def invoice_create(request, pk):
 def revoke_member_invitation(request, pk):
     member = manager(request)
     invite = get_object_or_404(Invitation, pk=pk, organization=member.organization, kind='clinician')
-    invite.revoked = True
-    invite.save()
-    audit(request.user, 'invitation.revoked', invite, member.organization)
+    try:
+        revoke_practice_invitation(request.user, invite.pk, member.organization, None, 'clinician')
+    except ValidationError as error:
+        messages.error(request, ' '.join(error.messages))
     return redirect('members')
 
 def pending_notice_invitation(request):
-    token = request.session.get('pending_notice_invitation_token', '')
-    if not token:
-        return None
-    token_hash = hashlib.sha256(token.encode()).hexdigest()
-    invitation = Invitation.objects.filter(token_hash=token_hash, email__iexact=request.user.email).select_related('organization').first()
+    digest = request.session.get(PENDING_NOTICE_INVITATION_DIGEST)
+    if not digest:
+        # Sessions created by older releases can finish the same notice step.
+        legacy_token = request.session.pop(LEGACY_PENDING_NOTICE_INVITATION_TOKEN, '')
+        if not legacy_token:
+            return None
+        digest = hashlib.sha256(legacy_token.encode()).hexdigest()
+    invitation = Invitation.objects.filter(
+        token_hash=digest, email__iexact=request.user.email,
+    ).select_related('organization').first()
     if not invitation or not invitation.available:
-        request.session.pop('pending_notice_invitation_token', None)
+        request.session.pop(PENDING_NOTICE_INVITATION_DIGEST, None)
         return None
+    if not request.session.get(PENDING_NOTICE_INVITATION_DIGEST):
+        request.session[PENDING_NOTICE_INVITATION_DIGEST] = digest
     return invitation
 
 
@@ -252,9 +278,9 @@ def notice(request):
                 obj, _created = NoticeAcknowledgement.objects.get_or_create(user=request.user, organization=org, version=CURRENT_NOTICE_VERSION, defaults={'language': get_language()})
                 audit(request.user, 'notice.acknowledged', obj, org)
                 if pending:
-                    accept_invitation(request.user, request.session['pending_notice_invitation_token'])
+                    accept_invitation_digest(request.user, pending.token_hash)
             if pending:
-                request.session.pop('pending_notice_invitation_token', None)
+                request.session.pop(PENDING_NOTICE_INVITATION_DIGEST, None)
                 request.session['workspace'] = 'family' if pending.kind == 'family' else 'professional'
                 if pending.kind == 'clinician':
                     request.session['organization'] = str(pending.organization_id)

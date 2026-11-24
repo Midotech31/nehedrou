@@ -6,10 +6,12 @@ import sys
 import tempfile
 import textwrap
 from pathlib import Path
+from unittest import skipUnless
 from unittest.mock import patch
 from django.conf import settings
-from django.db import DatabaseError
-from django.test import TestCase, SimpleTestCase, override_settings
+from django.core.exceptions import ImproperlyConfigured
+from django.db import DatabaseError, connection
+from django.test import TestCase, SimpleTestCase, TransactionTestCase, override_settings
 
 
 class DeploymentSettingsTests(SimpleTestCase):
@@ -29,10 +31,15 @@ class DeploymentSettingsTests(SimpleTestCase):
         import runpy
         from unittest.mock import patch
         with override_settings(DEBUG=False, DEMO_MODE=False, DEMO_EPHEMERAL=False), \
-                patch.dict(os.environ, {'DEMO_SEED_ON_START':'0'}), \
+                patch.dict(os.environ, {'DEMO_SEED_ON_START': '0', 'POSTGRES_HOST': 'runtime.fixture.invalid',
+                                         'POSTGRES_MIGRATION_HOST': 'migration.fixture.invalid'}), \
+                patch('core.startup_database.verify_migration_database') as verify, \
                 patch('subprocess.run') as command, patch('os.execvp') as handoff:
             runpy.run_path(str(settings.BASE_DIR/'scripts/render_start.py'), run_name='__main__')
+        verify.assert_called_once_with('migration.fixture.invalid')
         self.assertEqual(command.call_count, 2)
+        self.assertEqual(command.call_args_list[0].kwargs['env']['POSTGRES_HOST'], 'migration.fixture.invalid')
+        self.assertEqual(command.call_args.kwargs['env']['POSTGRES_HOST'], 'runtime.fixture.invalid')
         self.assertEqual(command.call_args.args[0][1:], ['manage.py', 'check_readiness', '--strict'])
         self.assertTrue(command.call_args.kwargs['check'])
         self.assertEqual(handoff.call_count, 1)
@@ -43,18 +50,49 @@ class DeploymentSettingsTests(SimpleTestCase):
         from unittest.mock import patch
         failure = CalledProcessError(1, ['manage.py', 'check_readiness', '--strict'])
         with override_settings(DEBUG=False, DEMO_MODE=False, DEMO_EPHEMERAL=False), \
-                patch.dict(os.environ, {'DEMO_SEED_ON_START':'0'}), \
+                patch.dict(os.environ, {'DEMO_SEED_ON_START':'0', 'POSTGRES_MIGRATION_HOST':''}), \
                 patch('subprocess.run', side_effect=[None, failure]), \
                 patch('os.execvp') as handoff:
             with self.assertRaises(CalledProcessError):
                 runpy.run_path(str(settings.BASE_DIR/'scripts/render_start.py'), run_name='__main__')
         handoff.assert_not_called()
 
+    def test_invalid_listening_port_prevents_migration(self):
+        import runpy
+        for value in ('0', '65536', 'fictional-invalid-value'):
+            with self.subTest(port=value), \
+                    override_settings(DEBUG=False, DEMO_MODE=True, DEMO_EPHEMERAL=False), \
+                    patch.dict(os.environ, {'PORT': value, 'POSTGRES_MIGRATION_HOST': 'separate.fixture.invalid'}), \
+                    patch('core.startup_database.verify_migration_database') as verify, \
+                    patch('subprocess.run') as command, patch('os.execvp') as handoff:
+                with self.assertRaisesMessage(SystemExit, 'Invalid listening port.'):
+                    runpy.run_path(str(settings.BASE_DIR/'scripts/render_start.py'), run_name='__main__')
+                verify.assert_not_called()
+                command.assert_not_called()
+                handoff.assert_not_called()
+
+    def test_unverified_database_route_prevents_any_migration_or_handoff(self):
+        import runpy
+        failure = ImproperlyConfigured('Fictional route mismatch')
+        for demo in (True, False):
+            with self.subTest(demonstration=demo), \
+                    override_settings(DEBUG=False, DEMO_MODE=demo, DEMO_EPHEMERAL=False), \
+                    patch.dict(os.environ, {'POSTGRES_MIGRATION_HOST': 'separate.fixture.invalid'}), \
+                    patch('core.startup_database.verify_migration_database', side_effect=failure), \
+                    patch('subprocess.run') as command, patch('os.execvp') as handoff:
+                with self.assertRaisesMessage(ImproperlyConfigured, 'Fictional route mismatch'):
+                    runpy.run_path(str(settings.BASE_DIR/'scripts/render_start.py'), run_name='__main__')
+                command.assert_not_called()
+                handoff.assert_not_called()
+
     def test_disabled_demo_seeding_preserves_initialized_database(self):
         import runpy
-        from unittest.mock import patch
-        with override_settings(DEBUG=False,DEMO_MODE=True,DEMO_EPHEMERAL=False), patch.dict(os.environ,{'DEMO_SEED_ON_START':'0','POSTGRES_MIGRATION_HOST':'fictional-direct.example.test'}), patch('subprocess.run') as command, patch('os.execvp') as handoff:
-            runpy.run_path(str(settings.BASE_DIR/'scripts/render_start.py'),run_name='__main__')
+        with override_settings(DEBUG=False, DEMO_MODE=True, DEMO_EPHEMERAL=False), \
+                patch.dict(os.environ, {'DEMO_SEED_ON_START': '0', 'POSTGRES_MIGRATION_HOST': 'fictional-direct.example.test'}), \
+                patch('core.startup_database.verify_migration_database') as verify, \
+                patch('subprocess.run') as command, patch('os.execvp') as handoff:
+            runpy.run_path(str(settings.BASE_DIR/'scripts/render_start.py'), run_name='__main__')
+        verify.assert_called_once_with('fictional-direct.example.test')
         self.assertEqual(command.call_count,1)
         self.assertEqual(command.call_args.args[0][1:4],['manage.py','migrate','--noinput'])
         self.assertEqual(command.call_args.kwargs['env']['POSTGRES_HOST'],'fictional-direct.example.test')
@@ -161,6 +199,72 @@ class DeploymentSettingsTests(SimpleTestCase):
     def test_render_rejects_debug_and_invalid_hostname(self):
         self.assertNotEqual(self.load_settings(DEMO_MODE='1', DEMO_EPHEMERAL='1', RENDER='true', DJANGO_DEBUG='1').returncode, 0)
         self.assertNotEqual(self.load_settings(DEMO_MODE='1', DEMO_EPHEMERAL='1', RENDER='true', RENDER_EXTERNAL_HOSTNAME='https://outside.example').returncode, 0)
+
+
+@skipUnless(connection.vendor == 'postgresql' and os.getenv('NEHEDROU_STARTUP_PREFLIGHT_POSTGRES') == '1',
+    'Requires an explicitly enabled disposable PostgreSQL startup fixture')
+class RuntimeStartupPostgreSQLTests(TransactionTestCase):
+    def test_real_startup_checks_runtime_database_after_direct_host_migration(self):
+        config = connection.settings_dict
+        # Evaluate the name after Django has created and selected its test DB.
+        # Never run startup/migrations against an inherited application database.
+        if config.get('HOST') not in ('localhost', '127.0.0.1') or not str(config.get('NAME', '')).startswith('test_'):
+            self.skipTest('Requires a loopback PostgreSQL database named test_*')
+        runtime_host = config['HOST']
+        migration_host = 'localhost' if runtime_host == '127.0.0.1' else '127.0.0.1'
+        with tempfile.TemporaryDirectory(prefix='nehedrou-runtime-startup-') as directory:
+            # Keep only OS process essentials; no provider/storage/email secrets.
+            essentials = {'PATH', 'SYSTEMROOT', 'WINDIR', 'COMSPEC', 'PATHEXT'}
+            env = {key:value for key,value in os.environ.items() if key.upper() in essentials}
+            env.update(
+                DJANGO_SECRET_KEY='disposable-startup-fixture-' + 'x' * 60,
+                DJANGO_DEBUG='0', DEMO_MODE='0', DEMO_EPHEMERAL='0', DEMO_SEED_ON_START='0',
+                RENDER='true', RENDER_EXTERNAL_HOSTNAME='nehedrou-startup-fixture.onrender.com',
+                POSTGRES_HOST=runtime_host, POSTGRES_MIGRATION_HOST=migration_host,
+                POSTGRES_PORT=str(config.get('PORT') or 5432), POSTGRES_DB=str(config['NAME']),
+                POSTGRES_USER=str(config.get('USER') or ''), POSTGRES_PASSWORD=str(config.get('PASSWORD') or ''),
+                NEHEDROU_MEDIA_ROOT=str(Path(directory) / 'media'), NEHEDROU_MEDIA_BACKEND='filesystem',
+                NEHEDROU_MEDIA_DURABLE='0', MFA_REQUIRED='1', PUBLIC_ORIGIN='https://startup.example.invalid',
+                EMAIL_BACKEND='core.email_backends.DisabledEmailBackend', PYTHONDONTWRITEBYTECODE='1',
+                PYTHONIOENCODING='utf-8', TEMP=directory, TMP=directory)
+            script = str(settings.BASE_DIR / 'scripts' / 'render_start.py')
+            code = textwrap.dedent("""
+                import os, runpy, subprocess, sys
+                from unittest.mock import patch
+                actual_run = subprocess.run
+                observed = []
+                def observe(command, **kwargs):
+                    tail = command[1:]
+                    if tail == ['manage.py', 'migrate', '--noinput']:
+                        correct = kwargs['env']['POSTGRES_HOST'] == os.environ['POSTGRES_MIGRATION_HOST']
+                        result = actual_run(command, **kwargs)
+                        observed.append(('migration_completed', correct))
+                        return result
+                    if tail == ['manage.py', 'check_readiness', '--strict']:
+                        correct = kwargs['env']['POSTGRES_HOST'] == os.environ['POSTGRES_HOST']
+                        observed.append(('runtime_readiness_started', correct))
+                        return actual_run(command, **kwargs)
+                    raise AssertionError('Unexpected startup command')
+                with patch('subprocess.run', side_effect=observe), patch('os.execvp') as handoff:
+                    try:
+                        runpy.run_path(sys.argv[1], run_name='__main__')
+                    except subprocess.CalledProcessError as error:
+                        assert error.cmd[1:] == ['manage.py', 'check_readiness', '--strict']
+                        assert error.returncode != 0
+                    else:
+                        raise AssertionError('Incomplete real-mode fixture unexpectedly passed readiness')
+                    handoff.assert_not_called()
+                assert observed == [('migration_completed', True), ('runtime_readiness_started', True)]
+                print('RUNTIME_POSTGRES_STARTUP_BLOCKED_AS_EXPECTED')
+            """)
+            result = subprocess.run([sys.executable, '-c', code, script], cwd=directory,
+                env=env, text=True, capture_output=True, timeout=90)
+        # Failure messages deliberately omit captured output and connection values.
+        self.assertEqual(result.returncode, 0, 'Isolated real-mode startup contract failed')
+        self.assertTrue('RUNTIME_POSTGRES_STARTUP_BLOCKED_AS_EXPECTED' in result.stdout,
+            'Startup did not verify runtime routing and the absence of a server handoff')
+        for key in ('processing_register_present_and_populated', 'current_available_nondemo_content_in_each_offered_variety'):
+            self.assertTrue('BLOCK ' + key in result.stdout, 'The actual empty-fixture readiness checks did not run')
 
 
 class HostedRoutesTests(TestCase):

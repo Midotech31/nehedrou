@@ -15,7 +15,7 @@ from django.test import TransactionTestCase, override_settings
 from catalog import editorial_access
 from catalog.editorial_access import (
     accept_editorial_access_invitation, issue_manual_editorial_access_invitation,
-    revoke_editorial_capability,
+    issue_editorial_access_invitation, revoke_editorial_capability,
 )
 from catalog.models import EditorialAccessInvitation, EditorialGrant, Variety
 from core.models import AuditEvent, Membership, User
@@ -180,6 +180,83 @@ class ManualEditorialHandoffConcurrencyTests(TransactionTestCase):
         invitation, token = issue_manual_editorial_access_invitation(
             self.manager, recipient.email, self.variety, 'clinical_review', uuid.uuid4())
         return recipient, invitation, token
+
+    @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
+    def test_late_email_acceptance_does_not_revoke_a_newer_manual_handoff(self):
+        recipient, previous, _token = self.manual_recipient()
+        sending = threading.Event()
+        release = threading.Event()
+
+        def send(*args, **kwargs):
+            sending.set()
+            if not release.wait(10):
+                raise AssertionError('The test transport was not released.')
+            return 1
+
+        with patch('catalog.editorial_access.send_mail', side_effect=send):
+            with ThreadPoolExecutor(max_workers=1) as pool:
+                attempt = pool.submit(self.service_worker,
+                    lambda: issue_editorial_access_invitation(
+                        self.manager, recipient.email, self.variety, 'clinical_review'),
+                    {}, 'email', threading.Event())
+                try:
+                    self.assertTrue(sending.wait(5))
+                    previous.refresh_from_db()
+                    self.assertTrue(previous.available)
+                    newer, token = issue_manual_editorial_access_invitation(
+                        self.manager, recipient.email, self.variety, 'clinical_review', uuid.uuid4())
+                finally:
+                    release.set()
+                outcome, emailed = attempt.result(timeout=15)
+        self.assertEqual(outcome, 'accepted')
+        self.assertEqual(emailed.delivery, 'sent')
+        self.assertTrue(emailed.revoked)
+        newer.refresh_from_db()
+        self.assertTrue(newer.available)
+        previous.refresh_from_db()
+        self.assertTrue(previous.revoked)
+        grant = accept_editorial_access_invitation(recipient, token)
+        self.assertTrue(grant.clinical_review)
+        self.assertFalse(grant.edit or grant.linguistic_review or grant.publish)
+
+    @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
+    def test_acceptance_consumes_same_scope_pending_link_before_capability_revocation(self):
+        recipient, handoff, token = self.manual_recipient()
+        unrelated, _other = issue_manual_editorial_access_invitation(
+            self.manager, recipient.email, self.variety, 'linguistic_review', uuid.uuid4())
+        sending = threading.Event()
+        release = threading.Event()
+        emailed_token = []
+
+        def send(subject, message, *args, **kwargs):
+            emailed_token.append(message.rsplit('/', 2)[-2])
+            sending.set()
+            if not release.wait(10):
+                raise AssertionError('The test transport was not released.')
+            return 1
+
+        with patch('catalog.editorial_access.send_mail', side_effect=send):
+            with ThreadPoolExecutor(max_workers=1) as pool:
+                attempt = pool.submit(self.service_worker,
+                    lambda: issue_editorial_access_invitation(
+                        self.manager, recipient.email, self.variety, handoff.capability),
+                    {}, 'email', threading.Event())
+                try:
+                    self.assertTrue(sending.wait(5))
+                    grant = accept_editorial_access_invitation(recipient, token)
+                    revoke_editorial_capability(self.manager, grant.pk, handoff.capability)
+                finally:
+                    release.set()
+                outcome, emailed = attempt.result(timeout=15)
+        self.assertEqual(outcome, 'accepted')
+        self.assertEqual(emailed.delivery, 'sent')
+        with self.assertRaises(ValidationError):
+            accept_editorial_access_invitation(recipient, emailed_token[0])
+        self.assertTrue(emailed.revoked)
+        self.assertFalse(EditorialGrant.objects.filter(
+            user=recipient, variety=self.variety, clinical_review=True).exists())
+        unrelated.refresh_from_db()
+        self.assertTrue(unrelated.available)
 
     def test_acceptance_before_replacement_serializes_without_deadlock(self):
         recipient, invitation, token = self.manual_recipient()

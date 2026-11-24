@@ -7,8 +7,9 @@ from unittest.mock import patch
 
 from django.contrib import admin
 from django.contrib.auth.models import Permission
+from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.exceptions import ValidationError
-from django.db import close_old_connections
+from django.db import close_old_connections, connections
 from django.test import Client, RequestFactory, TestCase, TransactionTestCase, override_settings, skipUnlessDBFeature
 from django.urls import reverse
 from django.utils import timezone
@@ -44,6 +45,14 @@ class ManualEntitlementTests(TestCase):
         self.client.force_login(self.operator)
         self.url = reverse('billing_detail', args=[self.organization.pk])
 
+    def snapshot(self):
+        response = self.client.get(self.url)
+        self.assertContains(response, 'name="entitlement_snapshot"')
+        return response.context['entitlement_snapshot']
+
+    def save_rights(self, **changes):
+        return self.client.post(self.url, entitlement_data(entitlement_snapshot=self.snapshot(), **changes))
+
     def test_get_displays_unsaved_defaults_and_never_creates_rights_or_events(self):
         for path in [reverse('billing_index'), self.url, self.url]:
             self.assertEqual(self.client.get(path).status_code, 200)
@@ -56,11 +65,11 @@ class ManualEntitlementTests(TestCase):
         self.assertFalse(form.is_bound)
 
     def test_post_creates_then_updates_one_record_and_audits_each_success(self):
-        self.assertRedirects(self.client.post(self.url, entitlement_data()), self.url)
+        self.assertRedirects(self.save_rights(), self.url)
         entitlement = Entitlement.objects.get(organization=self.organization)
         initial_pk = entitlement.pk
         self.assertEqual((entitlement.amount, entitlement.currency), (Decimal('1250.00'), 'DZD'))
-        self.assertRedirects(self.client.post(self.url, entitlement_data(amount='0.00', currency='EUR', status='cancelled')), self.url)
+        self.assertRedirects(self.save_rights(amount='0.00', currency='EUR', status='cancelled'), self.url)
         entitlement.refresh_from_db()
         self.assertEqual((entitlement.pk, entitlement.amount, entitlement.currency, entitlement.status),
             (initial_pk, Decimal('0.00'), 'EUR', 'cancelled'))
@@ -78,7 +87,7 @@ class ManualEntitlementTests(TestCase):
         for values, field in [(entitlement_data(amount='-0.01'), 'amount'),
                 (entitlement_data(currency='dzd'), 'currency'), (entitlement_data(currency='D1D'), 'currency')]:
             with self.subTest(field=field, value=values[field]):
-                response = self.client.post(self.url, values)
+                response = self.client.post(self.url, {**values, 'entitlement_snapshot': self.snapshot()})
                 self.assertEqual(response.status_code, 200)
                 self.assertIn(field, response.context['form'].errors)
         self.assertEqual(self.client.put(self.url, entitlement_data()).status_code, 405)
@@ -98,15 +107,75 @@ class ManualEntitlementTests(TestCase):
     def test_failed_audit_rolls_back_creation_and_update(self):
         with patch('core.complete_views.audit', side_effect=RuntimeError('Fictional audit unavailable')):
             with self.assertRaises(RuntimeError):
-                self.client.post(self.url, entitlement_data())
+                self.save_rights()
         self.assertFalse(Entitlement.objects.exists())
         entitlement = Entitlement.objects.create(organization=self.organization, amount='50.00', currency='DZD')
         with patch('core.complete_views.audit', side_effect=RuntimeError('Fictional audit unavailable')):
             with self.assertRaises(RuntimeError):
-                self.client.post(self.url, entitlement_data(amount='75.00'))
+                self.save_rights(amount='75.00')
         entitlement.refresh_from_db()
         self.assertEqual(entitlement.amount, Decimal('50.00'))
         self.assertFalse(AuditEvent.objects.filter(organization=self.organization).exists())
+
+    def test_a_stale_tab_cannot_restore_cancelled_access_and_renewal_uses_fresh_form(self):
+        self.assertRedirects(self.save_rights(), self.url)
+        old_snapshot = self.snapshot()
+        self.assertRedirects(self.save_rights(status='cancelled', child_quota=4, amount='50.00'), self.url)
+        cancelled = Entitlement.objects.values().get(organization=self.organization)
+        response = self.client.post(self.url, entitlement_data(
+            entitlement_snapshot=old_snapshot, billing_reference='old-tab-reference',
+        ))
+        self.assertContains(response, reverse('billing_detail', args=[self.organization.pk]), status_code=409)
+        self.assertNotContains(response, 'name="entitlement_snapshot"', status_code=409)
+        self.assertEqual(Entitlement.objects.values().get(organization=self.organization), cancelled)
+        self.assertEqual(cancelled['status'], 'cancelled')
+        self.assertEqual(AuditEvent.objects.filter(organization=self.organization).count(), 2)
+        self.assertRedirects(self.save_rights(plan='Fictional renewal'), self.url)
+        self.assertEqual(Entitlement.objects.get(organization=self.organization).status, 'active')
+
+    def test_replay_is_rejected_even_when_saved_values_have_not_changed(self):
+        self.assertRedirects(self.save_rights(), self.url)
+        entitlement = Entitlement.objects.get(organization=self.organization)
+        unchanged = {name: str(getattr(entitlement, name)) for name in (
+            'plan', 'status', 'expires_at', 'child_quota', 'practitioner_quota',
+            'amount', 'currency', 'billing_reference',
+        )}
+        unchanged['expires_at'] = entitlement.expires_at.isoformat()
+        data = {**unchanged, 'entitlement_snapshot': self.snapshot()}
+        persisted = Entitlement.objects.values().get(pk=entitlement.pk)
+        self.assertRedirects(self.client.post(self.url, data), self.url)
+        self.assertEqual(Entitlement.objects.values().get(pk=entitlement.pk), persisted)
+        self.assertEqual(self.client.post(self.url, data).status_code, 409)
+        self.assertEqual(AuditEvent.objects.filter(organization=self.organization).count(), 2)
+
+    def test_missing_duplicate_expired_and_out_of_scope_snapshots_cannot_write(self):
+        first = self.snapshot()
+        other = Organization.objects.create(name='Fictional alternate practice')
+        foreign_url = reverse('billing_detail', args=[other.pk])
+        self.assertEqual(self.client.post(foreign_url, entitlement_data(entitlement_snapshot=first)).status_code, 409)
+        for bad in ('', first + 'x', [first, first]):
+            with self.subTest(token_kind=type(bad).__name__):
+                self.assertEqual(self.client.post(self.url, entitlement_data(entitlement_snapshot=bad)).status_code, 409)
+        with patch('core.billing.MAX_AGE', -1):
+            self.assertEqual(self.client.post(self.url, entitlement_data(entitlement_snapshot=first)).status_code, 409)
+        self.other.user_permissions.add(Permission.objects.get(codename='manage_entitlements'))
+        self.client.force_login(self.other)
+        self.assertEqual(self.client.post(self.url, entitlement_data(entitlement_snapshot=first)).status_code, 409)
+        self.assertFalse(Entitlement.objects.exists())
+        self.assertFalse(AuditEvent.objects.exists())
+
+    def test_an_existing_record_modified_outside_the_ui_invalidates_a_saved_form(self):
+        rights = Entitlement.objects.create(organization=self.organization, status='expired')
+        old_snapshot = self.snapshot()
+        Entitlement.objects.filter(pk=rights.pk).update(practitioner_quota=1)
+        response = self.client.post(self.url, entitlement_data(entitlement_snapshot=old_snapshot))
+        self.assertEqual(response.status_code, 409)
+        rights.refresh_from_db()
+        self.assertEqual((rights.practitioner_quota, rights.status), (1, 'expired'))
+        self.assertFalse(AuditEvent.objects.filter(organization=self.organization).exists())
+        self.assertRedirects(self.save_rights(practitioner_quota=3), self.url)
+        rights.refresh_from_db()
+        self.assertEqual((rights.practitioner_quota, rights.status), (3, 'active'))
 
     def test_models_reject_negative_amounts_and_invalid_currency_format(self):
         for amount in ['-0.01', '-100', 'invalid']:
@@ -152,27 +221,42 @@ class ManualEntitlementTests(TestCase):
     PASSWORD_HASHERS=['django.contrib.auth.hashers.MD5PasswordHasher'])
 class ConcurrentEntitlementTests(TransactionTestCase):
     @skipUnlessDBFeature('has_select_for_update')
-    def test_concurrent_initial_posts_create_one_record_and_two_audited_saves(self):
+    def test_concurrent_forms_cannot_create_or_update_a_second_time(self):
         operator = User.objects.create_user(username='fictional-concurrent-access', email='concurrent-access@example.test')
         operator.user_permissions.add(Permission.objects.get(codename='manage_entitlements'))
-        organization = Organization.objects.create(name='Fictional concurrent access practice')
-        barrier = threading.Barrier(2)
+        first_view, second_view = Client(), Client()
+        first_view.force_login(operator)
+        second_view.force_login(operator)
 
-        def attempt(amount):
-            close_old_connections()
-            try:
-                request = RequestFactory().post('/', entitlement_data(amount=amount))
-                request.user = User.objects.get(pk=operator.pk)
-                barrier.wait(timeout=10)
-                return billing(request, pk=organization.pk).status_code
-            finally:
-                close_old_connections()
+        for exists in (False, True):
+            with self.subTest(existing_rights=exists):
+                organization = Organization.objects.create(name=f'Fictional concurrent practice {exists}')
+                if exists:
+                    Entitlement.objects.create(organization=organization)
+                url = reverse('billing_detail', args=[organization.pk])
+                first = first_view.get(url).context['entitlement_snapshot']
+                second = second_view.get(url).context['entitlement_snapshot']
+                barrier = threading.Barrier(2)
 
-        with ThreadPoolExecutor(max_workers=2) as executor:
-            results = list(executor.map(attempt, ['100.00', '200.00']))
-        self.assertEqual(results, [302, 302])
-        entitlement = Entitlement.objects.get(organization=organization)
-        self.assertIn(entitlement.amount, [Decimal('100.00'), Decimal('200.00')])
-        events = AuditEvent.objects.filter(organization=organization, object_id=str(entitlement.pk))
-        self.assertEqual(events.filter(action='entitlement.created').count(), 1)
-        self.assertEqual(events.filter(action='entitlement.updated').count(), 1)
+                def attempt(data):
+                    amount, token = data
+                    close_old_connections()
+                    try:
+                        payload = entitlement_data(amount=amount, entitlement_snapshot=token)
+                        request = RequestFactory().post(url, payload)
+                        SessionMiddleware(lambda request: None).process_request(request)
+                        request.user = User.objects.get(pk=operator.pk)
+                        barrier.wait(timeout=10)
+                        return billing(request, pk=organization.pk).status_code
+                    finally:
+                        connections.close_all()
+
+                with ThreadPoolExecutor(max_workers=2) as executor:
+                    amounts = ['100.00', '200.00']
+                    results = list(executor.map(attempt, zip(amounts, (first, second))))
+                self.assertCountEqual(results, [302, 409])
+                entitlement = Entitlement.objects.get(organization=organization)
+                self.assertEqual(entitlement.amount, Decimal(amounts[results.index(302)]))
+                events = AuditEvent.objects.filter(organization=organization, object_id=str(entitlement.pk))
+                expected = 'entitlement.updated' if exists else 'entitlement.created'
+                self.assertEqual(list(events.values_list('action', flat=True)), [expected])

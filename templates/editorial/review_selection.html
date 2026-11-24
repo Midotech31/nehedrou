@@ -1,0 +1,22 @@
+{% load i18n %}
+<details class="card">
+  <summary>{% translate "Build a review batch" %}</summary>
+  <form method="get" action="{% url 'editorial_review_pack' %}" aria-labelledby="review-batch-heading">
+    <h2 id="review-batch-heading">{% translate "Choose versions for the review pack" %}</h2>
+    <p>{% translate "Select versions on this page. The download contains only the versions you select." %}</p>
+    <input type="hidden" name="export" value="selected">
+    <input type="hidden" name="page" value="{{ page.number }}">
+    {% for name,value in batch_filters.items %}<input type="hidden" name="{{ name }}" value="{{ value }}">{% endfor %}
+    <div class="grid two">
+      {% for row in page %}
+      <label>
+        <input type="checkbox" name="selection_item" value="{{ row.activity.pk }}:{{ row.activity.state }}:{{ row.dossier.content_sha256 }}">
+        <bdi>{{ row.activity.title }}</bdi> · {{ row.activity.variety.display_label }} ·
+        {% if row.activity.is_demo %}{% translate "Unvalidated example" %}{% else %}{{ row.activity.get_state_display }}{% endif %} ·
+        <bdi>v{{ row.activity.version }}</bdi>
+      </label>
+      {% endfor %}
+    </div>
+    <div class="actions"><button class="button" type="submit">{% translate "Download selected versions" %}</button></div>
+  </form>
+</details>

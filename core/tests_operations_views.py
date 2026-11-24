@@ -163,6 +163,55 @@ class PrivateOperationsViewTests(TestCase):
         self.assertIn('attachment;', response['Content-Disposition'])
         self.assertIn('no-store', response['Cache-Control'])
 
+    def test_unlisted_available_activities_are_visible_with_localized_labels(self):
+        self.client.force_login(self.operator)
+        report = {
+            'technical_gates_passed': False,
+            'checks': {'current_available_practice_within_offered_varieties': False},
+            'currently_available_unlisted_nondemo_counts_by_variety': {'fr-unlisted-fixture': 2},
+        }
+        labels = {
+            'fr': 'Activités à domicile disponibles en dehors de l’offre déclarée',
+            'en': 'Available home activities outside the declared offer',
+            'ar': 'أنشطة منزلية متاحة خارج العرض المعلن',
+        }
+        with patch('core.operations_views.call_command',
+                   side_effect=lambda command, *, json, stdout: stdout.write(__import__('json').dumps(report))):
+            for language, label in labels.items():
+                with self.subTest(language=language):
+                    response = self.client.get(f'/{language}/operations/readiness/')
+                    self.assertContains(response, label)
+                    self.assertContains(response, '<bdi dir="ltr">fr-unlisted-fixture</bdi>')
+                    self.assertContains(response, '<td>2</td>')
+                    self.assertNotContains(response, 'current_available_practice_within_offered_varieties')
+
+    def test_readiness_identifies_the_process_for_real_command_and_private_web_delivery(self):
+        from django.core.management import call_command
+
+        self.client.force_login(self.operator)
+        url = '/en/operations/readiness/'
+        output = io.StringIO()
+        with override_settings(IS_RENDER=False), patch.dict(os.environ, {'RENDER_GIT_COMMIT': 'A' * 40}):
+            call_command('check_readiness', json=True, stdout=output)
+            cli = json.loads(output.getvalue())['execution']
+        self.assertEqual(cli['delivery'], 'management_command')
+        self.assertEqual(cli['process'], 'operator_or_local_process')
+        self.assertIsNone(cli['build_commit'])
+        self.assertTrue(cli['observed_at'])
+
+        with override_settings(IS_RENDER=True), patch.dict(os.environ, {'RENDER_GIT_COMMIT': 'A' * 40}):
+            web = self.client.get(url + '?format=json').json()['execution']
+            html = self.client.get(url)
+        self.assertEqual(web['delivery'], 'authenticated_private_web_view')
+        self.assertEqual(web['process'], 'render')
+        self.assertEqual(web['build_commit'], 'a' * 40)
+        self.assertContains(html, 'Build commit')
+        self.assertContains(html, 'a' * 40)
+        with override_settings(IS_RENDER=True), patch.dict(os.environ, {'RENDER_GIT_COMMIT': 'fictional-redacted-value'}):
+            malformed = self.client.get(url + '?format=json')
+        self.assertIsNone(malformed.json()['execution']['build_commit'])
+        self.assertNotContains(malformed, 'fictional-redacted-value')
+
     def test_launch_readiness_report_requires_platform_permission(self):
         for user in [self.ordinary, self.staff]:
             self.client.force_login(user)
