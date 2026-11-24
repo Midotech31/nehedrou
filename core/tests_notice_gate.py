@@ -2,7 +2,9 @@ from datetime import timedelta
 
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
-from django.utils import timezone
+from django.utils import timezone, translation
+
+from .forms import ChildForm
 
 from care.models import Child, FamilyLink
 from catalog.models import Variety
@@ -50,6 +52,22 @@ class NoticeGateTests(TestCase):
         child = self.organization.child_set.get()
         self.assertRedirects(response, reverse('child_detail', kwargs={'pk': child.pk}), fetch_redirect_response=False)
         self.assertEqual(self.organization.child_set.count(), 1)
+
+    def test_notice_and_age_validation_reflect_the_operating_mode_in_each_language(self):
+        demo_notice = 'This local version uses fictional profiles. Before real use, the practice must provide its identified contacts, applicable legal information, retention policy and hosting details.'
+        real_notice = 'Before entering personal data, ask your practice for its contact details and full information on data handling, retention and hosting.'
+        for locale in ('fr', 'en', 'ar'):
+            with self.subTest(locale=locale), translation.override(locale):
+                notice = '/' + locale + '/information/'
+                for demo in (False, True):
+                    with self.settings(DEMO_MODE=demo):
+                        response = self.client.get(notice)
+                        self.assertContains(response, translation.gettext(demo_notice if demo else real_notice))
+                        self.assertNotContains(response, translation.gettext(real_notice if demo else demo_notice))
+                        form = ChildForm({'age_years': 8})
+                        message = 'The demonstration covers ages 4 to 7.' if demo else 'Enter an age from 4 to 7 years.'
+                        self.assertIn(translation.gettext(message), form.errors['age_years'])
+        self.assertFalse(NoticeAcknowledgement.objects.exists())
 
     def test_old_notice_acknowledgement_does_not_unlock_real_data_creation(self):
         NoticeAcknowledgement.objects.create(user=self.user, organization=self.organization,

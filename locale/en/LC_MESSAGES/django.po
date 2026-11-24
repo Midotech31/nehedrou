@@ -6233,3 +6233,9 @@ msgstr "An upload receipt requires an exact request fingerprint."
 
 msgid "The saved recording is unavailable or changed. Your WAV is still here. Check the saved result before starting another upload."
 msgstr "The saved recording is unavailable or changed. Your WAV is still here. Check the saved result before starting another upload."
+
+msgid "Before entering personal data, ask your practice for its contact details and full information on data handling, retention and hosting."
+msgstr "Before entering personal data, ask your practice for its contact details and full information on data handling, retention and hosting."
+
+msgid "Enter an age from 4 to 7 years."
+msgstr "Enter an age from 4 to 7 years."

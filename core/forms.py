@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 from django import forms
+from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
 from .models import User, ProcessingActivity, Organization
@@ -26,7 +27,8 @@ class ChildForm(forms.ModelForm):
     def clean_age_years(self):
         value = self.cleaned_data['age_years']
         if not 4 <= value <= 7:
-            raise forms.ValidationError(_('The demonstration covers ages 4 to 7.'))
+            message = _('The demonstration covers ages 4 to 7.') if settings.DEMO_MODE else _('Enter an age from 4 to 7 years.')
+            raise forms.ValidationError(message)
         return value
 
 class ProgramForm(forms.Form):
