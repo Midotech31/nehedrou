@@ -11,6 +11,7 @@ import tempfile
 import zipfile
 from contextlib import closing
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.core.management.base import CommandError
 
 LIMIT = 64 * 1024 * 1024
@@ -36,7 +37,20 @@ def private_path(value):
     return path
 
 
-def pg_command(name, dbname, extra):
+def _postgres_host(config):
+    direct_host = os.getenv('POSTGRES_MIGRATION_HOST')
+    if not direct_host:
+        return config.get('HOST') or 'localhost'
+    from core.startup_database import verify_migration_database
+    try:
+        verify_migration_database(direct_host)
+    except ImproperlyConfigured:
+        raise CommandError('Could not verify that the PostgreSQL application and direct routes point to the same database. '
+                           'No database backup or restore was started.') from None
+    return direct_host
+
+
+def pg_command(name, dbname, extra, *, verified_host=None):
     config = settings.DATABASES['default']
     configured = os.environ.get('NEHEDROU_PG_BIN')
     binary = str(Path(configured) / (name + ('.exe' if os.name == 'nt' else ''))) if configured else shutil.which(name)
@@ -45,7 +59,8 @@ def pg_command(name, dbname, extra):
     env = dict(os.environ, PGPASSWORD=str(config.get('PASSWORD','')))
     if config.get('OPTIONS', {}).get('sslmode'):
         env['PGSSLMODE'] = config['OPTIONS']['sslmode']
-    args = [binary, '--host', str(os.getenv('POSTGRES_MIGRATION_HOST') or config.get('HOST') or 'localhost'), '--port', str(config.get('PORT') or 5432),
+    host = verified_host if verified_host is not None else _postgres_host(config)
+    args = [binary, '--host', str(host), '--port', str(config.get('PORT') or 5432),
             '--username', str(config.get('USER') or ''), '--dbname', str(dbname), *extra]
     try:
         result = subprocess.run(args, env=env, capture_output=True, timeout=120)
@@ -178,7 +193,7 @@ def inspect_backup(source):
 def verify_backup(source):
     manifest, entries, sha256 = _inspect_backup(source)
     return {'verified': True, 'database_engine': manifest['database_engine'],
-            'file_count': len(entries), 'sha256': sha256}
+            'file_count': len(entries), 'sha256': sha256, 'schema': manifest['schema']}
 
 
 # The dump includes the whole database, so the destination check must include
@@ -294,7 +309,8 @@ def restore_backup(source, media_destination, sqlite_destination=None, postgres_
             raise CommandError('Provide a distinct, existing empty PostgreSQL database.')
         import psycopg
         config=settings.DATABASES['default']
-        with psycopg.connect(host=os.getenv('POSTGRES_MIGRATION_HOST') or config.get('HOST') or 'localhost',port=config.get('PORT') or 5432,
+        verified_host = _postgres_host(config)
+        with psycopg.connect(host=verified_host,port=config.get('PORT') or 5432,
                 user=config.get('USER'),password=config.get('PASSWORD'),dbname=postgres_database,connect_timeout=5, **({'sslmode':config['OPTIONS']['sslmode']} if config.get('OPTIONS',{}).get('sslmode') else {})) as connection:
             if postgres_target_has_user_objects(connection):
                 raise CommandError('The PostgreSQL target is not empty. No restoration was attempted.')
@@ -317,7 +333,7 @@ def restore_backup(source, media_destination, sqlite_destination=None, postgres_
                 temporary.write_bytes(entries['database.bin'])
                 database_started = True
                 pg_command('pg_restore', postgres_database, ['--exit-on-error', '--single-transaction',
-                    '--no-owner', '--no-acl', str(temporary)])
+                    '--no-owner', '--no-acl', str(temporary)], verified_host=verified_host)
                 database_restored = True
         if media.exists() or media.is_symlink():
             raise FileExistsError

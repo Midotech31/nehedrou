@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import sqlite3
+import sys
 import tempfile
 import zipfile
 from contextlib import closing
@@ -11,8 +12,9 @@ from unittest.mock import patch
 from cryptography.fernet import Fernet
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.core.exceptions import ImproperlyConfigured
 from django.test import SimpleTestCase, override_settings
-from core.backups import create_backup, inspect_backup, restore_backup, cipher
+from core.backups import create_backup, inspect_backup, restore_backup, cipher, pg_command
 
 
 class EncryptedOperatorBackupTests(SimpleTestCase):
@@ -156,3 +158,29 @@ class EncryptedOperatorBackupTests(SimpleTestCase):
             with patch('django.core.files.storage.default_storage.listdir',side_effect=OSError('Fictional unavailable backend')):
                 with self.assertRaises(OSError):create_backup(self.archive)
         self.assertFalse(self.archive.exists())
+
+
+class BackupPostgreSQLRouteTests(SimpleTestCase):
+    def test_unverified_direct_host_prevents_the_database_client_from_running(self):
+        with patch.dict(os.environ, {'POSTGRES_MIGRATION_HOST': 'direct.fixture.invalid'}, clear=True), \
+                patch('core.backups.shutil.which', return_value=sys.executable), \
+                patch('core.startup_database.verify_migration_database', side_effect=ImproperlyConfigured('private detail')) as verify, \
+                patch('core.backups.subprocess.run') as client:
+            with self.assertRaisesMessage(CommandError, 'No database backup or restore was started') as failure:
+                pg_command('pg_dump', 'fixture', [])
+        verify.assert_called_once_with('direct.fixture.invalid')
+        client.assert_not_called()
+        self.assertNotIn('private detail', str(failure.exception))
+
+    def test_unset_direct_host_preserves_normal_and_default_client_routes(self):
+        for configured, expected in [('runtime.fixture.invalid', 'runtime.fixture.invalid'), ('', 'localhost')]:
+            with self.subTest(configured=bool(configured)), \
+                    override_settings(DATABASES={'default': {'HOST': configured}}), patch.dict(os.environ, {}, clear=True), \
+                    patch('core.backups.shutil.which', return_value=sys.executable), \
+                    patch('core.startup_database.verify_migration_database') as verify, \
+                    patch('core.backups.subprocess.run') as client:
+                client.return_value.returncode = 0
+                pg_command('pg_dump', 'fixture', [])
+            verify.assert_not_called()
+            args = client.call_args.args[0]
+            self.assertEqual(args[args.index('--host') + 1], expected)
