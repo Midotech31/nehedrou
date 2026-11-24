@@ -3,7 +3,9 @@ import csv
 import hashlib
 import io
 import json
+import re
 import zipfile
+from urllib.parse import urlencode
 from uuid import UUID
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
@@ -11,13 +13,19 @@ from django.http import Http404, HttpResponse
 from django.db.models import Q
 from core.storage_health import file_exists
 from django.shortcuts import render
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_GET
 from .content_validation import validate_minimal_pair
-from .models import Variety
+from .models import Activity, Variety
 from .integrity import prepare_activities
 from .review_dossier import review_dossier
 from .readiness import referenced_asset
+from .recording_queue import RECORDING_CONTEXT_COLUMNS, recording_context_by_side
+
+
+REVIEW_PAGE_SIZE = 16
+QUALITY_FILTERS = ('activity', 'variety', 'kind', 'gap', 'state', 'versions', 'content')
 
 
 def guide_complete(activity):
@@ -94,16 +102,40 @@ def filter_gaps(catalogue, gap):
     return catalogue
 
 
+def selection_notice(request, body, status):
+    filters = {key: request.GET[key] for key in (*QUALITY_FILTERS, 'page') if request.GET.get(key)}
+    url = reverse('editorial_quality')
+    response = render(request, 'editorial/review_selection_notice.html', {
+        'body': body,
+        'return_url': f'{url}?{urlencode(filters)}' if filters else url,
+    }, status=status)
+    response['Cache-Control'] = 'private, no-store'
+    return response
+
+
+def review_selection(items):
+    if not 1 <= len(items) <= REVIEW_PAGE_SIZE:
+        raise ValueError
+    states = dict(Activity._meta.get_field('state').choices)
+    selected = {}
+    for item in items:
+        pk, state, digest = item.split(':')
+        identifier = UUID(pk)
+        if identifier in selected or state not in states or not re.fullmatch(r'[0-9a-f]{64}', digest):
+            raise ValueError
+        selected[identifier] = (state, digest)
+    return selected
+
+
 @login_required
 @require_GET
 def dashboard(request):
-    from .models import Activity
     from django.core.paginator import Paginator
     catalogue = scoped_catalogue(request)
     total_content = catalogue.count()
     varieties = Variety.objects.filter(pk__in=catalogue.values('variety_id')).distinct()
     catalogue = filter_gaps(catalogue, request.GET.get('gap'))
-    page = Paginator(catalogue, 16).get_page(request.GET.get('page'))
+    page = Paginator(catalogue, REVIEW_PAGE_SIZE).get_page(request.GET.get('page'))
     activities = prepare_activities(list(page.object_list))
     page.object_list = [{'activity': activity, **completeness(activity), 'dossier': review_dossier(activity)} for activity in activities]
     missing_audio = sum(any(check['key'] == 'audio' and not check['complete'] for check in row['checks']) for row in page)
@@ -111,7 +143,8 @@ def dashboard(request):
         'varieties':varieties, 'kinds':Activity.KIND_CHOICES, 'selected_variety':request.GET.get('variety',''),
         'selected_kind':request.GET.get('kind',''), 'selected_gap':request.GET.get('gap',''),
         'selected_activity':request.GET.get('activity',''), 'selected_state':request.GET.get('state',''),
-        'selected_versions':request.GET.get('versions',''), 'selected_content':request.GET.get('content','')})
+        'selected_versions':request.GET.get('versions',''), 'selected_content':request.GET.get('content',''),
+        'batch_filters': {key: request.GET[key] for key in QUALITY_FILTERS if request.GET.get(key)}})
     response['Cache-Control'] = 'private, no-store'
     return response
 
@@ -119,7 +152,24 @@ def dashboard(request):
 @login_required
 @require_GET
 def review_pack(request):
-    catalogue = prepare_activities(list(filter_gaps(scoped_catalogue(request), request.GET.get('gap'))))
+    catalogue = scoped_catalogue(request)
+    selection_items = request.GET.getlist('selection_item')
+    selected_mode = request.GET.get('export') == 'selected'
+    selected = {}
+    if selected_mode or selection_items:
+        try:
+            if not selected_mode:
+                raise ValueError
+            selected = review_selection(selection_items)
+        except ValueError:
+            return selection_notice(request, _('Choose one or more versions from the same page and try again.'), 400)
+        catalogue = catalogue.filter(pk__in=selected)
+    rows = list(filter_gaps(catalogue, request.GET.get('gap')))
+    if selected_mode and len(rows) != len(selected):
+        raise Http404
+    catalogue = prepare_activities(rows)
+    if selected_mode and any((activity.state, activity.fingerprint()) != selected[activity.pk] for activity in catalogue):
+        return selection_notice(request, _('A selected version has changed. Review its current state and select it again.'), 409)
     # Export contains editorial text only: no patients, accounts, recordings or private evidence files.
     records = []
     tasks, media_rows = io.StringIO(newline=''), io.StringIO(newline='')
@@ -128,7 +178,7 @@ def review_pack(request):
     media_writer.writerow(['activity_id','version','content_sha256','spoken_variety','field','word','kind','asset_id','sha256','rights_status','rights_validity','rights_valid_from','rights_valid_until','revoked','voice_source','missing_rights_fields','rights_evidence_id','rights_evidence_sha256','reason_codes','current_gaps'])
     recordings = io.StringIO(newline='')
     audio_writer = csv.writer(recordings)
-    audio_writer.writerow(['activity_id','version','content_sha256','spoken_variety','side','word','intended_meaning','proposed_transcription','adult_speaker_reference','regional_usage','recording_filename','consent_evidence_reference','linguistic_decision','clinical_decision'])
+    audio_writer.writerow(['activity_id','version','content_sha256','spoken_variety','side','word','intended_meaning','proposed_transcription','adult_speaker_reference','regional_usage','recording_filename','consent_evidence_reference','linguistic_decision','clinical_decision', *RECORDING_CONTEXT_COLUMNS])
     table = io.StringIO(newline='')
     writer = csv.writer(table)
     writer.writerow(['activity_id','version','content_sha256','variety','kind','word_a','word_b','missing_editorial_items','clinical_decision','linguistic_decision','reviewer_note','series_uuid'])
@@ -146,7 +196,9 @@ def review_pack(request):
                 media.get('rights_valid_until',''), media.get('revoked',''), media.get('voice_source',''),
                 ' / '.join(media.get('missing_rights_fields',[])), media['evidence'].get('id',''),
                 media['evidence'].get('sha256',''), ' / '.join(media['reason_codes']), ' / '.join(media['reasons'])])
-        record = {'id':str(activity.pk), 'series':str(activity.series), 'version':activity.version, 'content_sha256':activity.fingerprint(),
+        digest = dossier['content_sha256']
+        audio_context = recording_context_by_side(activity, dossier, request.user)
+        record = {'id':str(activity.pk), 'series':str(activity.series), 'version':activity.version, 'content_sha256':digest,
             'title':activity.title, 'variety':activity.variety.code, 'kind':activity.kind, 'theme':activity.theme,
             'response_mode':activity.response_mode, 'contrast':activity.contrast,
             'words':{'a':activity.word_a,'b':activity.word_b}, 'transcriptions':{'a':activity.transcription_a,'b':activity.transcription_b},
@@ -155,21 +207,22 @@ def review_pack(request):
             'rights_description':activity.rights, 'is_demo':activity.is_demo, 'state':activity.state,
             'editorial_completeness':quality, 'evidence_dossier':dossier, 'clinical_validation': 'not_inferred_from_completeness'}
         for side in ['a', 'b']:
-            audio_row = [str(activity.pk), activity.version, activity.fingerprint(), activity.variety.code, side,
+            write_csv(audio_writer, [str(activity.pk), activity.version, digest, activity.variety.code, side,
                 getattr(activity, 'word_' + side), activity.item_metadata.get(side, {}).get('meaning', ''),
-                getattr(activity, 'transcription_' + side), '', '', '', '', '', '']
-            audio_writer.writerow(["'" + str(value) if str(value).lstrip().startswith(('=','+','-','@','\t','\r')) else value for value in audio_row])
+                getattr(activity, 'transcription_' + side), '', '', '', '', '', '', *audio_context[side]])
         records.append(record)
-        row = [str(activity.pk), activity.version, activity.fingerprint(), activity.variety.code, activity.kind, activity.word_a, activity.word_b,
+        row = [str(activity.pk), activity.version, digest, activity.variety.code, activity.kind, activity.word_a, activity.word_b,
                ' / '.join(str(value) for value in quality['missing']), '', '', '', str(activity.series)]
         # Spreadsheet formula injection must not turn authored text into executable cells.
-        writer.writerow(["'" + str(value) if str(value).lstrip().startswith(('=','+','-','@','\t','\r')) else value for value in row])
+        write_csv(writer, row)
     dossier_payload = json.dumps({'schema':'nehedrou-evidence-dossiers-v1',
         'scope':'Read-only documentary gaps for exact editorial versions; no clinical validation or imported approval.',
         'activities':[record['evidence_dossier'] for record in records]}, ensure_ascii=False, default=str, indent=2).encode('utf-8')
     selection = {'versions': 'exact' if request.GET.get('activity') else 'all' if request.GET.get('versions') == 'all' else 'latest',
         'content':request.GET.get('content') if request.GET.get('content') in ('candidate', 'demo') else 'all',
         'gap':request.GET.get('gap') if request.GET.get('gap') in ('audio', 'guide') else ''}
+    if selected_mode:
+        selection['batch'] = True
     payload = json.dumps({'schema':'nehedrou-review-pack-v1','scope':'Editorial review only. No imported approval is accepted.',
         'selection':selection, 'activities':records}, ensure_ascii=False, default=str, indent=2).encode('utf-8')
     checklist = (_('Review each exact version: indication, intended meaning, local familiarity, image recognition, recording and transcription, allowable variants, instructions, rights and limits.') + '\n\n' +
@@ -177,6 +230,7 @@ def review_pack(request):
         _('Minimal pairs: check phonemic contrast, aligned position and structure, meaningful words and the child’s actual error profile. A spelling difference alone is insufficient.') + '\n\n' +
         _('Enter decisions through the existing review workflow. This exported sheet cannot approve or publish an activity.') + '\n\n' + _('Recording prompts are proposals: an adult native speaker and the reviewers must confirm meaning, regional usage, phonemes, consent and rights before recording and release. Blank decisions are not approvals.')).encode('utf-8')
     checklist += ('\n\n' + _('evidence_tasks.csv lists current unmet requirements with responsible roles and actions. Assignment, evidence and human decisions remain blank. media_requirements.csv identifies the exact media and documentary gaps without exporting contracts or account identities. Recheck the live CMS before recording any decision: this download is a dated snapshot.')).encode('utf-8')
+    checklist += ('\n\n' + _('The recording prompts include the current audio status for each word and a link to the exact version. When available, the collection link opens the draft for that word. Check the version fingerprint again before changing any media.')).encode('utf-8')
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, 'w', zipfile.ZIP_DEFLATED) as archive:
         archive.writestr('activities.json',payload)
