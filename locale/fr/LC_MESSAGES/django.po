@@ -6164,3 +6164,9 @@ msgstr "Cette version déjà affectée reste consultable à titre de référence
 
 msgid "Media unavailable for this version"
 msgstr "Médias indisponibles pour cette version"
+
+msgid "The link is shown only once. If you did not copy it, create another personal handoff link for the same email, spoken variety and role."
+msgstr "Le lien s’affiche une seule fois. Si vous ne l’avez pas copié, créez un nouveau lien de remise en main propre pour la même adresse, la même variété parlée et le même rôle."
+
+msgid "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role."
+msgstr "Un lien antérieur encore utilisable reste valable si l’envoi par courriel échoue. Un nouveau lien de remise en main propre ou un courriel accepté par le service de messagerie remplace les anciens liens de la même adresse, de la même variété parlée et du même rôle."

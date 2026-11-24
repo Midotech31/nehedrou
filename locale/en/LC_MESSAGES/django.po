@@ -6164,3 +6164,9 @@ msgstr "This assigned version is shown for reference. It is unavailable for new 
 
 msgid "Media unavailable for this version"
 msgstr "Media unavailable for this version"
+
+msgid "The link is shown only once. If you did not copy it, create another personal handoff link for the same email, spoken variety and role."
+msgstr "The link is shown only once. If you did not copy it, create another personal handoff link for the same email, spoken variety and role."
+
+msgid "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role."
+msgstr "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role."

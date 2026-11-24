@@ -157,6 +157,14 @@ class ManualEditorialHandoffTests(TestCase):
         self.assertTrue(AuditEvent.objects.filter(
             action='catalog.editorial_invitation_revoked', object_id=str(handoff.pk)).exists())
 
+    def test_revoked_email_link_is_reported_as_inactive_even_when_transport_accepted(self):
+        with patch('catalog.editorial_access_views.issue_editorial_access_invitation') as issue:
+            issue.return_value.revoked = True
+            issue.return_value.delivery = 'sent'
+            response = self.client.post(self.path, self.payload(delivery_method='email'), follow=True)
+        self.assertContains(response, 'The editorial invitation was revoked.')
+        self.assertNotContains(response, 'The invitation was handed to the mail service.')
+
     def test_manual_post_shows_link_once_with_recipient_scope_and_private_headers(self):
         payload = self.payload(email='  MANUAL-REVIEWER@EXAMPLE.TEST  ')
         with patch('catalog.editorial_access.send_mail') as send:

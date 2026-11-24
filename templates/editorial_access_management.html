@@ -7,7 +7,7 @@
 <p>{% translate "Expires" %}: <bdi dir="ltr">{{ manual_invitation.expires_at|date:'Y-m-d H:i' }}</bdi></p>
 {% if manual_already_created %}
 <p role="status">{% translate "This creation request was already processed. No new link was created and the previous link was kept." %}</p>
-<p>{% translate "The link cannot be shown again. If you did not copy it, create a new invitation below; this will invalidate older unused links for the same email, spoken variety and role." %}</p>
+<p>{% translate "The link is shown only once. If you did not copy it, create another personal handoff link for the same email, spoken variety and role." %}</p>
 {% else %}
 <p id="manual-link-help">{% translate "Copy this link before leaving this page. It is shown only once. Share it personally with the intended recipient after checking their identity. No email has been sent." %}</p>
 <label for="manual-editorial-link">{% translate "Invitation link to copy" %}</label>
@@ -21,7 +21,7 @@
 {% if invitation_delivery.known_unavailable %}<p class="muted">{% translate "Email delivery is unavailable. You can create a link to hand over personally." %}</p>{% endif %}
 <p>{% translate "Choose email delivery or a link to hand over personally. Personal handoff does not require an email service. The account is created only when the recipient accepts." %}</p>
 <p>{% translate "Only draft editing, clinical review, or linguistic review can be assigned here. This invitation does not grant publishing or practice-record access; any permissions already on the account remain unchanged." %}</p>
-<p class="muted">{% translate "Creating another invitation invalidates older unused links for the same email, spoken variety and role. Invitations for other varieties or roles remain unchanged." %}</p>
+<p class="muted">{% translate "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role." %}</p>
 <form method="post">{% csrf_token %}{{ form.as_p }}<button class="button">{% translate "Create editorial invitation" %}</button></form>
 </section>
 <section class="card"><h2>{% translate "Invitations" %}</h2>{% for invitation in invitations %}<div class="report-row"><div><strong dir="ltr">{{ invitation.email }}</strong><p>{{ invitation.variety.display_label }} · {{ invitation.get_capability_display }} · {{ invitation.get_delivery_display }}</p><small>{% translate "Expires" %}: <bdi dir="ltr">{{ invitation.expires_at|date:'Y-m-d H:i' }}</bdi>{% if invitation.used_at %} · {% translate "Accepted by" %}: {{ invitation.accepted_by.username }}{% endif %}</small></div>{% if invitation.available %}<form method="post" action="{% url 'editorial_invitation_revoke' invitation.pk %}">{% csrf_token %}<button class="button secondary">{% translate "Revoke invitation" %}</button></form>{% endif %}</div>{% empty %}<p>—</p>{% endfor %}<p class="muted">{% translate "Sent means handed to the configured mail transport; it does not prove receipt. A manual link is created for personal handoff, not confirmed delivery. Access starts only after acceptance." %}</p></section>

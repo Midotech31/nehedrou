@@ -6164,3 +6164,9 @@ msgstr "تُعرض هذه النسخة المسندة للرجوع إليها، 
 
 msgid "Media unavailable for this version"
 msgstr "الوسائط غير متاحة لهذه النسخة"
+
+msgid "The link is shown only once. If you did not copy it, create another personal handoff link for the same email, spoken variety and role."
+msgstr "يظهر الرابط مرةً واحدة. إذا لم تنسخه، فأنشئ رابطًا جديدًا للتسليم الشخصي لعنوان البريد نفسه والتنوّع اللغوي المنطوق نفسه والدور نفسه."
+
+msgid "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role."
+msgstr "يبقى الرابط السابق غير المستخدم صالحًا إذا تعذّر إرسال البريد الإلكتروني. يحلّ رابط جديد للتسليم الشخصي أو رسالة قبلتها خدمة البريد محلّ الروابط السابقة لعنوان البريد نفسه والتنوّع اللغوي المنطوق نفسه والدور نفسه."
