@@ -9,7 +9,7 @@ from django.db import connection
 from catalog.models import Activity, Variety
 from catalog.content_catalog import current_catalog
 from catalog.integrity import integrity_scope, prepare_activities
-from core.ops_readiness import smtp_configuration, email_configuration
+from core.ops_readiness import smtp_configuration, email_configuration, execution_context
 from core.models import ProcessingActivity
 
 
@@ -31,6 +31,7 @@ class Command(BaseCommand):
         parser.add_argument('--strict', action='store_true', help='Fail if any technical gate is unmet.')
 
     def handle(self, *args, **options):
+        execution = {**execution_context(), 'delivery': 'management_command'}
         offered = offered_content_varieties()
         known_offered = set(Variety.objects.filter(code__in=offered).values_list('code', flat=True))
         unknown_offered = sorted(set(offered) - known_offered)
@@ -68,6 +69,8 @@ class Command(BaseCommand):
         available_varieties = Counter(a.variety.code for a in catalogue if a.pk in current_ids and qualified[a.pk])
         published_by_variety = {code: published_varieties[code] for code in offered}
         available_by_variety = {code: available_varieties[code] for code in offered}
+        available_outside_offer = {code: available_varieties[code]
+                                   for code in sorted(available_varieties) if code not in offered}
         # Re-check deployment origin and durable media. Published versions are immutable.
         unavailable = sum(not qualified[a.pk] for a in catalogue)
         origin = urlsplit(settings.PUBLIC_ORIGIN)
@@ -92,11 +95,13 @@ class Command(BaseCommand):
             'email_configured': email['configured'],
             'offered_content_varieties_exist': not unknown_offered,
             'current_available_nondemo_content_in_each_offered_variety': not unknown_offered and all(available_by_variety.values()),
+            'current_available_practice_within_offered_varieties': not available_outside_offer,
             'published_audio_and_current_reviews_available': bool(catalogue) and unavailable == 0,
         }
         report = {
             'technical_gates_passed': all(checks.values()),
             'checks': checks,
+            'execution': execution,
             'processing_register': {
                 'active_platform_records': register.count(),
                 'active_by_capacity': {capacity: register.filter(register_capacity=capacity).count()
@@ -111,6 +116,7 @@ class Command(BaseCommand):
             'unknown_offered_content_varieties': unknown_offered,
             'published_nondemo_counts_by_variety': published_by_variety,
             'current_available_nondemo_counts_by_variety': available_by_variety,
+            'currently_available_unlisted_nondemo_counts_by_variety': available_outside_offer,
             'editorial_pipeline_by_variety': editorial_pipeline,
             'editorial_pipeline_scope': 'Counts the highest-numbered non-demo version in each series regardless of editorial state. Missing audio counts blank A/B references only; it does not verify file integrity, variety, rights, review or availability.',
             'content_coverage_scope': 'Interface-language counts are descriptive only. Every explicitly offered spoken variety requires its own currently usable non-demo practice version, exact media, current reviews and authorised availability; MSA never covers Algerian Darja.',
@@ -137,6 +143,9 @@ class Command(BaseCommand):
                 self.stdout.write('CONTENT ' + code + ': ' + json.dumps(counts, sort_keys=True))
             if unknown_offered:
                 self.stdout.write('BLOCK unknown offered content varieties: ' + ', '.join(unknown_offered))
+            if available_outside_offer:
+                self.stdout.write('BLOCK currently available practice outside the declared offer: ' +
+                                  json.dumps(available_outside_offer))
             self.stdout.write(report['scope'])
         if options['strict'] and not report['technical_gates_passed']:
             raise CommandError('Technical launch gates are not met.')

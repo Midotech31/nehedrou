@@ -6083,3 +6083,9 @@ msgstr "أكملوا وثائق الملف الصوتي"
 
 msgid "Listen and verify during human review"
 msgstr "استمعوا وتحقّقوا من التسجيل أثناء المراجعة"
+
+msgid "Available home activities match the declared spoken varieties"
+msgstr "الأنشطة المنزلية المتاحة توافق التنوعات اللغوية المنطوقة المعلنة"
+
+msgid "Available home activities outside the declared offer"
+msgstr "أنشطة منزلية متاحة خارج العرض المعلن"
