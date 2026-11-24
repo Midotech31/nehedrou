@@ -312,7 +312,7 @@ class DemoRoleWorkflowTests(TestCase):
         detail = client.get(reverse('billing_detail', args=[self.organization.pk]))
         self.assertEqual(detail.status_code, 200)
         entitlement = Entitlement.objects.get(organization=self.organization)
-        data = {'plan': 'Fictional manual plan', 'status': 'active', 'expires_at': entitlement.expires_at.strftime('%Y-%m-%d %H:%M:%S'), 'child_quota': 15, 'practitioner_quota': 5, 'amount': '0', 'currency': 'EUR', 'billing_reference': 'fictional-role-fixture', 'csrfmiddlewaretoken': self.csrf(detail)}
+        data = {'plan': 'Fictional manual plan', 'status': 'active', 'expires_at': entitlement.expires_at.strftime('%Y-%m-%d %H:%M:%S'), 'child_quota': 15, 'practitioner_quota': 5, 'amount': '0', 'currency': 'EUR', 'billing_reference': 'fictional-role-fixture', 'entitlement_snapshot': detail.context['entitlement_snapshot'], 'csrfmiddlewaretoken': self.csrf(detail)}
         self.assertEqual(client.post(reverse('billing_detail', args=[self.organization.pk]), data).status_code, 302)
         entitlement.refresh_from_db()
         self.assertEqual(entitlement.billing_reference, 'fictional-role-fixture')

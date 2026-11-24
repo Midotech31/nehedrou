@@ -6023,3 +6023,9 @@ msgstr "The familiarity evidence must concern the activity’s spoken variety."
 
 msgid "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
 msgstr "An unchanged selection keeps its recorded fingerprint. Remove a reference explicitly to clear it."
+
+msgid "These access rights may have changed since you opened the form. Reload and review the current values before saving."
+msgstr "These access rights may have changed since you opened the form. Reload and review the current values before saving."
+
+msgid "Reload current access rights"
+msgstr "Reload current access rights"
