@@ -1,122 +1,244 @@
 {
   "schema_version": 1,
   "prepared_on": "2026-10-30",
-  "purpose": "Exact language declarations for inspected legacy French scope statements; no clinical or bibliographic endorsement. Unknown or edited text remains undetermined.",
+  "purpose": "Exact URL and source-text declarations and display translations for shipped reference notes. Translations do not alter reviewed records or establish clinical or bibliographic endorsement.",
   "entries": [
     {
       "url": "https://aclanthology.org/W15-3208/",
       "scope": "Proposition de convention d’écriture de l’arabe algérien, utile pour documenter le registre écrit. Ne fournit pas une norme orale, une norme pédiatrique ou une validation de notre lexique.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Proposed spelling conventions for Algerian Arabic, useful for documenting written usage. They do not establish a spoken or pediatric norm or validate the proposed words.",
+        "ar": "اقتراح لقواعد كتابة الدارجة الجزائرية يفيد في توثيق الاستعمال الكتابي. لا يضع معيارًا للنطق أو للأطفال، ولا يعتمد المفردات المقترحة."
+      }
     },
     {
       "url": "https://andreasmhallberg.github.io/documents/minimal-pairs/",
       "scope": "Source linguistique pédagogique de l’auteur : présente explicitement تين / طين comme paire minimale en arabe standard. Ne vérifie ni la familiarité chez les enfants, ni l’indication orthophonique, ni l’audio, ni Nehedrou. La transcription IPA proposée ici est notre analyse de travail.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "An educational linguistics reference in which the author explicitly lists تين / طين as a minimal pair in Standard Arabic. It does not verify familiarity in children, clinical suitability, the audio, or Nehedrou. The IPA transcription given here is a working analysis by the project.",
+        "ar": "مصدر تعليمي في اللسانيات يورد فيه المؤلف «تين / طين» صراحةً بوصفهما زوجًا أدنى في العربية الفصحى. لا يتحقّق المصدر من ألفة الكلمتين لدى الأطفال أو ملاءمتهما في علاج النطق أو صلاحية التسجيل الصوتي أو تطبيق نهدروا. والتدوين بالأبجدية الصوتية الدولية هنا تحليل أوّلي أعدّه فريق المشروع."
+      }
     },
     {
       "url": "https://andreasmhallberg.github.io/documents/minimal-pairs/",
       "scope": "Source linguistique pédagogique de l’auteur : présente explicitement كلب / قلب comme paire minimale en arabe standard. Ne vérifie ni la familiarité chez les enfants, ni l’indication orthophonique, ni l’audio, ni Nehedrou. La transcription IPA proposée ici est notre analyse de travail.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "An educational linguistics reference in which the author explicitly lists كلب / قلب as a minimal pair in Standard Arabic. It does not verify familiarity in children, clinical suitability, the audio, or Nehedrou. The IPA transcription given here is a working analysis by the project.",
+        "ar": "مصدر تعليمي في اللسانيات يورد فيه المؤلف «كلب / قلب» صراحةً بوصفهما زوجًا أدنى في العربية الفصحى. لا يتحقّق المصدر من ألفة الكلمتين لدى الأطفال أو ملاءمتهما في علاج النطق أو صلاحية التسجيل الصوتي أو تطبيق نهدروا. والتدوين بالأبجدية الصوتية الدولية هنا تحليل أوّلي أعدّه فريق المشروع."
+      }
     },
     {
       "url": "https://corvam.unizar.es/en/localities/oran/",
       "scope": "Corpus linguistique local d’Oran. Contexte de diversité dialectale, sans norme développementale ni validation des activités de Nehedrou.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "A local linguistic corpus from Oran that documents dialect diversity. It does not establish a developmental norm or validate Nehedrou activities.",
+        "ar": "مدوّنة لغوية محليّة من وهران توثّق تنوّع اللهجات. لا تضع معيارًا نمائيًا ولا تعتمد أنشطة نهدروا."
+      }
     },
     {
       "url": "https://journals.uco.es/edna/article/download/8669/8173",
       "scope": "Description linguistique locale de Dellys : justifie de conserver la région et les usages familiaux. Ne représente pas toute l’Algérie et n’atteste pas automatiquement nos mots proposés.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "A local linguistic description of Dellys that supports documenting regional and family usage. It does not represent all of Algeria or necessarily attest the words proposed here.",
+        "ar": "وصف لغوي محلي لدارجة دلّس يبيّن أهمية توثيق المنطقة والاستعمال العائلي. لا يمثّل الدارجة في الجزائر كلّها، ولا يوثّق بالضرورة الكلمات المقترحة هنا."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/بيت",
       "scope": "Attestation lexicographique de البَيْت au sens de résidence. Les autres sens du mot ne sont pas retenus. Aucune validation pédiatrique ou thérapeutique.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Dictionary attestation of البَيْت as a place of residence. The activity uses this meaning alone. It provides no pediatric or therapeutic validation.",
+        "ar": "يوثّق المعجم لفظ «البَيْت» بمعنى المسكن. يقتصر النشاط على هذا المعنى. ولا يشكّل التوثيق المعجمي اعتمادًا لاستخدامه مع الأطفال أو للأغراض العلاجية."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/جرس",
       "scope": "Attestation de الجَرَس comme instrument sonore. La forme avec /a/ médian est retenue ; الجَرْس a un autre sens. Aucune indication clinique ou familiarité enfantine établie.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Dictionary attestation of الجَرَس as an instrument that makes a sound. This activity uses the form with medial /a/. The form الجَرْس has a different meaning. The source does not establish clinical suitability or familiarity in children.",
+        "ar": "يوثّق المعجم لفظ «الجَرَس» بمعنى أداة تُصدر صوتًا. اختيرت صيغة فتح الراء، إذ إن «الجَرْس» له معنى آخر. لا يثبت المصدر الملاءمة السريرية أو ألفة الكلمة لدى الأطفال."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/جمل",
       "scope": "Attestation lexicographique de الجَمَل au sens de chameau mâle adulte. Le sens animal est retenu, pas les autres acceptions homographes. Aucune validation thérapeutique.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Dictionary attestation of الجَمَل as an adult male camel. The activity uses the animal meaning alone. It provides no therapeutic validation.",
+        "ar": "يوثّق المعجم لفظ «الجَمَل» بمعنى ذكر الإبل البالغ. يقتصر النشاط على معنى الحيوان دون المعاني الأخرى التي تشترك معه في الرسم. ولا يشكّل المصدر اعتمادًا علاجيًا."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/حمل",
       "scope": "Attestation de الحَمَل au sens d’agneau. La vocalisation /ħamal/ est essentielle : الحَمْل et الحِمْل ont d’autres sens. La segmentation et le contraste proposés ne sont pas approuvés cliniquement.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Dictionary attestation of الحَمَل as a lamb. The pronunciation /ħamal/ is essential because الحَمْل and الحِمْل have other meanings. The proposed segmentation and contrast have not received clinical approval.",
+        "ar": "يوثّق المعجم لفظ «الحَمَل» بمعنى صغير الضأن. ويُراعى ضبطه بفتح الحاء والميم، لأن «الحَمْل» و«الحِمْل» لهما معانٍ أخرى. تقسيم الأصوات والتقابل المقترحان غير معتمَدَين سريريًا."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/دمع",
       "scope": "Attestation de دمع, liquide des yeux, et de دمعة comme une goutte de ce liquide. L’IPA isolée et la minimalité sous le même traitement de ة restent des analyses de travail à relire.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Dictionary attestation of دمع as the liquid from the eyes and دمعة as a drop of that liquid. The IPA analysis of the words in isolation and their status as a minimal pair when ة is treated the same way remain proposals for review.",
+        "ar": "يوثّق المعجم «الدمع» بمعنى سائل العين و«الدمعة» بمعنى قطرة منه. تدوين النطق في العزل بالأبجدية الصوتية الدولية، واعتبار الكلمتين زوجًا أدنى عند نطق التاء المربوطة بالطريقة نفسها فيهما، تحليلان أوّليان ينتظران المراجعة."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/دور",
       "scope": "Attestation de الدّار parmi les sens de maison habitée. La forme standard est retenue ; aucune attestation d’une réalisation régionale darija de /r/ n’est déduite.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Dictionary attestation of الدّار as an inhabited house. The Standard Arabic form is used here. This source does not attest a regional Darja pronunciation of /r/.",
+        "ar": "يوثّق المعجم من معاني «الدّار» المنزل المسكون. اختيرت صيغة العربية الفصحى، ولا يُستدلّ من هذا المصدر على كيفية نطق الراء في أيّ دارجة محليّة."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/رمل",
       "scope": "Attestation lexicographique de الرَّمْل au sens de sable. La vocalisation avec sukūn doit être conservée : الرَّمَل représente d’autres sens. Aucune validation clinique de la paire.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Dictionary attestation of الرَّمْل as sand. Keep the sukūn in this form because الرَّمَل has other meanings. The source provides no clinical validation of the pair.",
+        "ar": "يوثّق المعجم لفظ «الرَّمْل» بمعنى الرمل المعروف. تُضبط الميم بالسكون هنا، لأن «الرَّمَل» له معانٍ أخرى. ولا يقدّم المصدر اعتمادًا سريريًا للزوج."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/زيت",
       "scope": "Attestation lexicographique de الزَّيْت, notamment huile d’olive. L’IPA et la minimalité de la paire sous ces formes isolées sont nos analyses à relire ; aucune validation de l’application.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Dictionary attestation of الزَّيْت, including olive oil. The IPA transcription and the minimality of these isolated forms are working analyses for review. The source does not validate the app.",
+        "ar": "يوثّق المعجم لفظ «الزَّيْت»، ومن معانيه زيت الزيتون. تدوين النطق بالأبجدية الصوتية الدولية واعتبار الصيغتين في العزل زوجًا أدنى تحليلان أوّليان ينتظران المراجعة. ولا يقدّم المصدر اعتمادًا للتطبيق."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/فرس",
       "scope": "Attestation de الفَرَس comme cheval, mâle ou femelle. La transcription avec /dʒ/ pour ج et la minimalité de la paire sont nos propositions MSA à relire.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Dictionary attestation of الفَرَس as a horse of either sex. The IPA transcription using /dʒ/ for ج and the minimality of the pair are Standard Arabic proposals for review.",
+        "ar": "يوثّق المعجم لفظ «الفَرَس» بمعنى الحصان، ذكرًا كان أم أنثى. تدوين الجيم بالصوت ⁦/dʒ/⁩ واعتبار الكلمتين زوجًا أدنى اقتراحان في العربية الفصحى ينتظران المراجعة."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/نمل",
       "scope": "Attestation lexicographique de النَّمْل comme collectif dont le singulier est نملة. L’IPA et les segments sont notre analyse MSA de travail, pas une attestation darija ni une approbation thérapeutique.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Dictionary attestation of النَّمْل as a collective noun, with نملة as its singular. The IPA transcription and segments are a working Standard Arabic analysis. They do not attest Darja usage or imply therapeutic approval.",
+        "ar": "يوثّق المعجم «النَّمْل» اسمَ جنسٍ جمعيًّا واحده «نملة». تدوين النطق بالأبجدية الصوتية الدولية وتقسيم الأصوات تحليلان أوّليان للعربية الفصحى. ولا يوثّقان الاستعمال في الدارجة ولا يشكّلان اعتمادًا علاجيًا."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/search_engine/roots/نور",
       "scope": "Attestation de النّار dans le champ du feu et de la flamme. L’analyse de la paire sous /daːr/ et /naːr/ est proposée, sans validation clinique de Nehedrou.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Dictionary attestation of النّار in the sense of fire and flame. The analysis of the pair as /daːr/ and /naːr/ is a proposal and does not clinically validate Nehedrou.",
+        "ar": "يوثّق المعجم «النّار» بمعنى النار واللهب. ويقترح النشاط تحليل الزوج بالصيغتين ⁦/daːr/⁩ و⁦/naːr/⁩. ولا يُعدّ ذلك اعتمادًا سريريًا لنهدروا."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/محرك-البحث/الحوت",
       "scope": "L’entrée comporte un sens de poisson et un sens de grand cétacé. Le sens baleine est choisi explicitement pour la proposition MSA ; la source ne dit pas que حوت signifie exclusivement baleine. Aucune approbation clinique.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "The dictionary entry includes a fish sense and a large-cetacean sense. The proposed Standard Arabic activity uses the whale meaning. The source does not give whale as the only meaning of حوت and provides no clinical approval.",
+        "ar": "يورد المعجم للفظ «حوت» معنى السمكة ومعنى الحوت الكبير. اختار النشاط المقترح بالفصحى معنى الحوت من الثدييات البحرية تحديدًا. لا يحصر المعجم استعمال الكلمة في هذا المعنى، ولا يقدّم اعتمادًا سريريًا للنشاط."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/محرك-البحث/الشَّمْعة?exact_search=true",
       "scope": "Attestation lexicographique du mot vocalisé الشَّمْعة au sens de bougie. Aucune preuve de familiarité chez les enfants ou d’effet thérapeutique.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Dictionary attestation of the vowelled form الشَّمْعة as a candle. It provides no evidence of familiarity in children or of therapeutic effect.",
+        "ar": "يوثّق المعجم لفظ «الشَّمْعة» بالضبط المذكور، بمعنى الشمعة المعروفة. ولا يبيّن مدى ألفة الكلمة لدى الأطفال أو أيّ أثر علاجي."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/محرك-البحث/تُوتُ?exact_search=true",
       "scope": "Attestation lexicographique du mûrier cultivé pour ses fruits et ses feuilles ; le sens des fruits de mûrier est retenu pour l’image. Ne documente ni la fréquence de ce mot chez l’enfant ni sa familiarité locale.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Dictionary attestation of the mulberry tree cultivated for fruit and leaves. The picture uses the fruit sense. The source does not document the frequency of the word in children’s speech or its local familiarity.",
+        "ar": "يوثّق المعجم شجرة التوت التي تُزرع لأجل ثمرها وورقها. تمثّل الصورة ثمار التوت. ولا يبيّن المصدر تواتر الكلمة في كلام الأطفال أو مدى ألفتها محليًا."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/محرك-البحث/معجم/dic-19/قدم",
       "scope": "Attestation lexicographique de القَدَم au sens de pied humain. L’IPA, la segmentation et le contraste /l/–/d/ sont des propositions de travail à relire, pas une validation de Nehedrou.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Dictionary attestation of القَدَم as a human foot. The IPA transcription, segmentation and /l/–/d/ contrast are working proposals for review. They do not validate Nehedrou.",
+        "ar": "يوثّق المعجم لفظ «القَدَم» بمعنى قدم الإنسان. تدوين النطق بالأبجدية الصوتية الدولية، وتقسيم الأصوات، والتقابل بين اللام والدال مقترحات أوّلية للمراجعة. ولا تشكّل اعتمادًا لنهدروا."
+      }
     },
     {
       "url": "https://www.arabicacademy.gov.eg/ar/محرك-البحث/معجم/dic-19/قلم",
       "scope": "Attestation lexicographique de القَلَم au sens d’instrument d’écriture. Ni analyse clinique de cette paire, ni familiarité enfantine vérifiée, ni enregistrement approuvé.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "Dictionary attestation of القَلَم as a writing instrument. It does not analyze the pair clinically, verify familiarity in children, or provide an approved recording.",
+        "ar": "يوثّق المعجم لفظ «القَلَم» بمعنى أداة الكتابة. لا يتضمّن المصدر تحليلًا سريريًا للزوج، ولا يتحقّق من ألفة الكلمة لدى الأطفال، ولا يوفّر تسجيلًا معتمدًا."
+      }
     },
     {
       "url": "https://www.asha.org/practice-portal/clinical-topics/articulation-and-phonology/",
       "scope": "Cadre de sélection individualisée des contrastes phonologiques par un professionnel. Ne constitue pas une preuve de traitement par ces jeux lexicaux ou par l’application.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "A professional framework for selecting phonological contrasts for each individual. It does not establish the therapeutic efficacy of these vocabulary games or the app.",
+        "ar": "إطار مهني لاختيار التقابلات الصوتية وفق احتياجات كلّ طفل. لا يقدّم دليلًا على فعالية هذه الألعاب اللغوية أو التطبيق في العلاج."
+      }
     },
     {
       "url": "https://www.asha.org/practice-portal/professional-issues/multilingual-service-delivery/",
       "scope": "Cadre professionnel de prise en compte des langues, dialectes et usages familiaux. Ne valide ni ces mots ni les illustrations ni l’efficacité de Nehedrou.",
-      "scope_language": "fr"
+      "scope_language": "fr",
+      "translations": {
+        "en": "A professional framework for taking languages, dialects and family usage into account. It does not validate the words or illustrations used here or establish the effectiveness of Nehedrou.",
+        "ar": "إطار مهني لمراعاة اللغات واللهجات والاستعمالات العائلية. لا يعتمد الكلمات أو الرسوم المستخدمة هنا، ولا يثبت فعالية نهدروا."
+      }
+    },
+    {
+      "url": "https://www.asha.org/practice-portal/clinical-topics/articulation-and-phonology/",
+      "scope": "Approach reference only / Référence de méthode uniquement / مرجع للمنهج فقط. No approval of this pair or Nehdrou.",
+      "scope_language": "mul",
+      "translations": {
+        "fr": "Référence sur la méthode. Cette source n’approuve ni cette paire ni Nehedrou.",
+        "en": "Reference on the method. This source does not approve the pair or Nehedrou.",
+        "ar": "مرجع للمنهج. لا يعتمد هذا المصدر الزوجَ المقترح أو تطبيق نهدروا."
+      }
+    },
+    {
+      "url": "https://pubs.asha.org/doi/10.1044/2021_LSHSS-21-00105",
+      "scope": "Clinical target selection tutorial, not a trial of Nehdrou / Choix professionnel des cibles, pas une évaluation de Nehdrou / اختيار الأهداف من طرف المختص، وليس تقييم التطبيق.",
+      "scope_language": "mul",
+      "translations": {
+        "fr": "Guide de sélection des cibles cliniques par le praticien. La publication n’évalue pas Nehedrou.",
+        "en": "A tutorial on selecting clinical targets. The publication does not evaluate Nehedrou.",
+        "ar": "دليل للمختص في اختيار الأهداف السريرية. لا يتناول المنشور تقييمَ تطبيق نهدروا."
+      }
+    },
+    {
+      "url": "https://journals.uco.es/index.php/edna/article/view/8669/8173",
+      "scope": "Local lexical attestation: daṛ = house, naṛ = fire. Not a child norm, approved transcription, or clinical validation / Attestation locale uniquement / توثيق لغوي محلي فقط.",
+      "scope_language": "mul",
+      "translations": {
+        "fr": "Cette attestation lexicale locale indique que daṛ signifie « maison » et naṛ, « feu ». La source ne fournit ni norme pédiatrique, ni transcription approuvée, ni validation clinique.",
+        "en": "Local lexical attestation: daṛ means “house” and naṛ means “fire”. It does not establish a child norm, provide an approved transcription, or establish clinical validity.",
+        "ar": "توثيق لغوي محلي لكلمتَي «دار» بمعنى المنزل و«نار» بمعنى النار، بالصورتين ⁦daṛ⁩ و⁦naṛ⁩ كما وردتا في الوصف. لا يضع المصدر معيارًا للأطفال، ولا يقدّم تدوينًا صوتيًا معتمدًا أو اعتمادًا سريريًا."
+      }
     }
   ]
 }

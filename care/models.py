@@ -30,6 +30,28 @@ class FamilyLink(CheckedModel):
     class Meta:
         constraints = [models.UniqueConstraint(fields=['child', 'user'], name='unique_family_link')]
 
+# These exact strings identify the fixture captions. Custom program text stays as entered.
+DEMO_PROGRAM_TITLES = {
+    'Parcours fictif · fr': _('Fictional program · French'),
+    'Parcours fictif · en': _('Fictional program · English'),
+    'Parcours fictif · ar': _('Fictional program · Algerian Darja'),
+    'Parcours fictif · arabe standard': _('Fictional program · Standard Arabic'),
+    **{f'Découvrir les images · {language}': _('Discover the pictures') for language, _label in settings.LANGUAGES},
+}
+DEMO_PROGRAM_TEXTS = {
+    'Découvrir les étapes et le bilan de pratique avec des données fictives.':
+        _('Explore the activity steps and practice report using fictional data.'),
+    'Exemple illustratif non validé, sans mesure de prononciation.':
+        _('Unvalidated example with no pronunciation assessment.'),
+    'Démonstration accompagnée ; aucune prescription réelle.':
+        _('Try the demonstration together. It contains no prescribed practice schedule.'),
+    'Programme fictif pour découvrir le parcours.':
+        _('Use this fictional program to explore the practice steps.'),
+    'Selon les consignes du praticien / As directed by your clinician':
+        _('As directed by your clinician'),
+}
+
+
 class Program(CheckedModel):
     organization = models.ForeignKey('core.Organization', on_delete=models.PROTECT)
     child = models.ForeignKey(Child, on_delete=models.PROTECT, related_name='programs')
@@ -45,6 +67,30 @@ class Program(CheckedModel):
     practice_minutes = models.PositiveSmallIntegerField(null=True, blank=True)
     state = models.CharField(max_length=12, default='active', choices=[('active', _('Active')), ('completed', _('Completed'))])
     created_at = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def display_title(self):
+        if settings.DEMO_MODE:
+            return DEMO_PROGRAM_TITLES.get(self.title, self.title)
+        return self.title
+
+    def _display_demo_text(self, value):
+        if settings.DEMO_MODE and self.title in DEMO_PROGRAM_TITLES:
+            return DEMO_PROGRAM_TEXTS.get(value, value)
+        return value
+
+    @property
+    def display_goal(self):
+        return self._display_demo_text(self.goal)
+
+    @property
+    def display_guidance(self):
+        return self._display_demo_text(self.guidance)
+
+    @property
+    def display_schedule(self):
+        return self._display_demo_text(self.schedule)
+
     def clean(self):
         from core.planning import validate_plan
         validate_plan(self.practice_start, self.practice_end, self.practice_days, self.practice_minutes)

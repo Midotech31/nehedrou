@@ -64,7 +64,8 @@ class Command(BaseCommand):
                 raise CommandError(f'Refusing to reuse a practice without fictitious affiliation: {name}.')
         accounts = {}
         for name in LEGACY_DEMO_USERNAMES:
-            user, created = User.objects.get_or_create(username=name, defaults={'email': name + '@demo.example', 'is_staff': name == 'editorial'})
+            user, created = User.objects.get_or_create(username=name, defaults={'email': name + '@demo.example', 'is_staff': name == 'editorial',
+                               'instruction_language_follows_interface': name == 'famille'})
             if created:
                 user.set_password(password)
                 user.save()

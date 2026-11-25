@@ -17,6 +17,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.cache import patch_cache_control
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST, require_http_methods
@@ -95,7 +96,6 @@ def demo_activity(request):
     response = render(request, 'demo_activity.html', {'form': form, 'summary': summary, 'word_a': word_a, 'word_b': word_b, 'image_a': f'editorial/{image_a}.svg', 'image_b': f'editorial/{image_b}.svg', 'example_variety': example_variety, 'sample_guide': guide, 'sample_sources': example.get('evidence_sources', []), 'word_language': word_language, 'guide_language': language,
         'sample_variety_code': variety_code, 'sample_variety_choices': variety_choices, 'demo_retry_url': retry_url,
         'language_next_url': retry_url, 'sample_selection_error': invalid_selection}, status=400 if invalid_selection else 200)
-    from django.utils.cache import patch_cache_control
     patch_cache_control(response, no_store=True)
     return response
 
@@ -142,6 +142,7 @@ def dashboard(request):
     # selected workspace once so the audit scope matches the data queried.
     for child in children.select_related('organization').iterator():
         log_child_access(request.user, child, resource='dashboard_summary', purpose_code=purpose)
+    instruction_language = request.user.effective_instruction_language
     for program in cards:
         decorate_plan(program, today=today)
         available = program.items.filter(activity__state='published').select_related('activity')
@@ -151,11 +152,11 @@ def dashboard(request):
         if not professional_children(request.user).filter(pk=program.child_id).exists():
             program.activity_count = program.items.exclude(activity_id__in=reserved).count()
             program.report_count = sessions.filter(item__program=program).exclude(item__activity_id__in=reserved).count()
-        program.first_available = next((item for item in available if item.activity.usable and item.activity_id not in reserved and item.activity.instructions.get(request.user.instruction_language)), None)
+        program.first_available = next((item for item in available if item.activity.usable and item.activity_id not in reserved and item.activity.instructions.get(instruction_language)), None)
         program.last_report = sessions.filter(item__program=program).order_by('-created_at').first()
         program.latest_feedback = program.family_feedback.select_related('author').first()
         program.current_run = program.practice_runs.filter(user=request.user, state='active').first()
-        program.run_available = not reserved and all(i.activity.usable and i.activity.instructions.get(request.user.instruction_language) for i in program.items.select_related('activity')) and program.items.exists()
+        program.run_available = not reserved and all(i.activity.usable and i.activity.instructions.get(instruction_language) for i in program.items.select_related('activity')) and program.items.exists()
     weekly = sessions.filter(created_at__date__gte=start)
     attention = list(active.annotate(help_count=Count('items__sessions', filter=Q(items__sessions__created_at__date__gte=start) & ~Q(items__sessions__parent_report='easy'), distinct=True), stopped_count=Count('items__sessions', filter=Q(items__sessions__created_at__date__gte=start, items__sessions__completion='stopped'), distinct=True)).filter(Q(help_count__gt=0) | Q(stopped_count__gt=0)).order_by('-help_count')[:6]) if member else []
     return render(request, 'dashboard.html', {'first_child': children.filter(active=True).order_by('created_at').first(), 'children_count': children.filter(active=True).count(), 'program_count': active.count(), 'sessions_count': sessions.count(), 'programs': cards, 'recent_sessions': sessions.order_by('-created_at')[:6], 'week': week, 'week_total': sum(daily.values()), 'weekly_help': weekly.exclude(parent_report='easy').count(), 'weekly_stopped': weekly.filter(completion='stopped').count(), 'attention_programs': attention, 'waiting_count': waiting, 'today': today})
@@ -464,8 +465,11 @@ def activity_detail(request, pk):
         activity=activity, program__in=visible_programs(request.user)).exists()
     if not available and not assigned_history:
         raise Http404
-    return render(request, 'activity_detail.html', {'activity': activity,
-        'activity_available': available, 'assigned_history': assigned_history, 'instruction': activity.instructions.get(request.user.instruction_language), 'missing_instruction': not activity.instructions.get(request.user.instruction_language)})
+    instruction_language = request.user.effective_instruction_language
+    instruction = activity.instructions.get(instruction_language)
+    return render(request, 'activity_detail.html', {'activity': activity, 'activity_available': available,
+        'assigned_history': assigned_history, 'instruction': instruction,
+        'missing_instruction': not instruction, 'instruction_language': instruction_language})
 
 @login_required
 def program_create(request, pk):
@@ -530,9 +534,10 @@ def program_detail(request, pk):
     runs = program.practice_runs.select_related('user').annotate(task_count=Count('tasks', distinct=True), reported_count=Count('tasks__report', distinct=True))
     if not professional:
         runs = runs.filter(user=request.user)
-    return render(request, 'program_detail.html', {'program': program, 'items': items, 'sessions': sessions[:6], 'stats': stats, 'activity_summary': activity_summary, 'professional': professional, 'observations': program.observations.select_related('author') if professional else [], 'form': form,
+    instruction_language = request.user.effective_instruction_language
+    return render(request, 'program_detail.html', {'program': program, 'items': items, 'instruction_language': instruction_language, 'sessions': sessions[:6], 'stats': stats, 'activity_summary': activity_summary, 'professional': professional, 'observations': program.observations.select_related('author') if professional else [], 'form': form,
         'family_feedback': program.family_feedback.select_related('author')[:3], 'practice_runs': runs.order_by('-started_at', '-pk')[:5], 'current_run': program.practice_runs.filter(user=request.user, state='active').first(),
-        'run_available': bool(items) and not blocked_ids and program.child.active and program.state == 'active' and all(i.usable and i.activity.instructions.get(request.user.instruction_language) for i in items)})
+        'run_available': bool(items) and not blocked_ids and program.child.active and program.state == 'active' and all(i.usable and i.activity.instructions.get(instruction_language) for i in items)})
 
 @login_required
 def family_feedback_create(request, pk):
@@ -714,15 +719,17 @@ def practice(request, pk):
             return render(request, 'notice.html', {'title': _('Activity unavailable'), 'body': _('The activity link has expired. Reload the page.')}, status=400)
     if not item.program.child.active or not item.activity.usable or item.program.state != 'active':
         return render(request, 'notice.html', {'title': _('Activity unavailable'), 'body': _('Contact your clinician to adjust the program.')}, status=410)
-    instruction = item.activity.instructions.get(request.user.instruction_language)
+    instruction_language = request.user.effective_instruction_language
+    instruction = item.activity.instructions.get(instruction_language)
     if not instruction:
-        return render(request, 'notice.html', {'title': _('Instructions unavailable'), 'body': _('Choose another instruction language in your preferences or contact your clinician.')}, status=409)
+        return render(request, 'notice.html', {'title': _('Instructions unavailable'), 'body': _('Choose another instruction language in your preferences or contact your clinician.'),
+            'show_instruction_preferences': True}, status=409)
     target = (item.activity.word_a if ticket_data['target'] == 'a' else item.activity.word_b) if item.activity.response_mode == 'matching' else ''
     audio = (item.activity.audio_a if ticket_data['target'] == 'a' else item.activity.audio_b) if item.activity.response_mode == 'matching' else ''
     step_two_title = {'matching': _('Listen and choose'), 'free': _('Choose a picture freely'), 'observation': _('Play together')}[item.activity.response_mode]
     if request.method == 'GET':
         log_child_access(request.user, item.program.child, resource='home_practice', purpose_code='family_practice')
-    return render(request, 'practice.html', {'item': item, 'form': form, 'instruction': instruction, 'target': target, 'target_side': ticket_data['target'], 'audio': audio, 'response_mode': item.activity.response_mode, 'step_two_title': step_two_title, 'run_task': task, 'run_count': task.run.tasks.count() if task else None})
+    return render(request, 'practice.html', {'item': item, 'form': form, 'instruction_language': instruction_language, 'instruction': instruction, 'target': target, 'target_side': ticket_data['target'], 'audio': audio, 'response_mode': item.activity.response_mode, 'step_two_title': step_two_title, 'run_task': task, 'run_count': task.run.tasks.count() if task else None})
 
 @login_required
 def practice_report(request, pk):
@@ -754,11 +761,12 @@ def print_program(request, pk):
     log_child_access(request.user, program.child, resource='program_print', purpose_code='care_delivery' if professional else 'family_practice')
     if not professional:
         items = [i for i in items if i.activity_id not in blocked_ids]
+    instruction_language = request.user.effective_instruction_language
     for item in items:
         item.usable = item.activity.usable and item.activity_id not in blocked_ids
-        item.instruction = item.activity.instructions.get(request.user.instruction_language)
+        item.instruction = item.activity.instructions.get(instruction_language)
     decorate_plan(program)
-    return render(request, 'print.html', {'program': program, 'items': items, 'instruction_language': request.user.instruction_language})
+    return render(request, 'print.html', {'program': program, 'items': items, 'instruction_language': instruction_language})
 
 @login_required
 def export_child(request, pk):
@@ -901,11 +909,17 @@ def subscription(request):
 @login_required
 def preferences(request):
     form = PreferencesForm(request.POST or None, instance=request.user)
+    next_url = request.POST.get('next', '') if request.method == 'POST' else request.GET.get('next', '')
+    if not next_url.startswith('/') or not url_has_allowed_host_and_scheme(
+        next_url, allowed_hosts=set(), require_https=request.is_secure(),
+    ):
+        next_url = ''
     if request.method == 'POST' and form.is_valid():
-        form.save()
+        form.save(commit=False).save(update_fields=form.Meta.fields)
         messages.success(request, _('Preferences saved. Program language is unchanged.'))
-        return redirect('preferences')
-    return render(request, 'preferences.html', {'form': form})
+        return redirect(next_url or 'preferences')
+    return render(request, 'preferences.html', {'form': form, 'next_url': next_url,
+        'instruction_language': request.user.effective_instruction_language})
 
 @login_required
 @require_POST

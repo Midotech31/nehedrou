@@ -573,7 +573,7 @@ def record_practice(actor, item, payload, ticket):
         pending = run.tasks.filter(report__isnull=True).order_by('position').first()
         if run.state != 'active' or not pending or pending.pk != task.pk:
             raise ValidationError(_('Resume the current activity from your practice run.'))
-        if not item.activity.instructions.get(actor.instruction_language):
+        if not item.activity.instructions.get(actor.effective_instruction_language):
             raise ValidationError(_('Choose another instruction language in your preferences or contact your clinician.'))
     reporter_role = 'caregiver' if FamilyLink.objects.filter(child=item.program.child, user=actor, active=True).exists() else 'clinician'
     session = PracticeSession.objects.create(organization=item.program.organization, item=item, user=actor, run_task=task, reporter_role=reporter_role, idempotency_key=ticket['key'], payload_digest=digest, answer=body['answer'], target=ticket['target'], response_mode=response_mode, completion=body['completion'], correct=(body['answer'] == ticket['target']) if body['completion'] == 'completed' and response_mode == 'matching' else None, parent_report=body['parent_report'], comment=body['comment'], support_used=body.get('support_used', ''), stop_reason=body.get('stop_reason', ''))

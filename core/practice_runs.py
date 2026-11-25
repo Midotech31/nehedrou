@@ -21,7 +21,7 @@ def lock_program(actor, reference):
     if not child or not program or not visible_programs(actor).filter(pk=program.pk).exists():
         raise ValidationError(_('Access is no longer available.'))
     program.child = child
-    return program
+    return program, actor
 
 
 def task_ticket(task):
@@ -35,7 +35,7 @@ def task_url(task):
 
 @transaction.atomic
 def start_run(actor, reference):
-    program = lock_program(actor, reference)
+    program, actor = lock_program(actor, reference)
     existing = PracticeRun.objects.select_for_update().filter(program=program, user=actor, state='active').first()
     if existing:
         return existing
@@ -51,7 +51,7 @@ def start_run(actor, reference):
     from .reserves import reserved_activity_ids
     if reserved_activity_ids(program.child, activities.values()):
         raise ValidationError(_('This activity is no longer available. Contact your clinician.'))
-    if any(not activities[i.activity_id].instructions.get(actor.instruction_language) for i in items):
+    if any(not activities[i.activity_id].instructions.get(actor.effective_instruction_language) for i in items):
         raise ValidationError(_('Choose another instruction language in your preferences or contact your clinician.'))
     # Assignment identity is immutable; these rows are the ordered snapshot.
     list(ProgramItem.objects.select_for_update().filter(pk__in=[i.pk for i in items]).order_by('pk'))
@@ -66,7 +66,7 @@ def start_run(actor, reference):
 
 @transaction.atomic
 def stop_run(actor, reference):
-    program = lock_program(actor, reference.program)
+    program, actor = lock_program(actor, reference.program)
     run = PracticeRun.objects.select_for_update().filter(pk=reference.pk, program=program, user=actor).first()
     if not run:
         raise ValidationError(_('Access is no longer available.'))
@@ -97,7 +97,7 @@ def run_summary(run, actor):
         from .reserves import activity_is_reserved
         if not run.program.child.active or run.program.state != 'active' or not pending.item.activity.usable or activity_is_reserved(run.program.child, pending.item.activity):
             blocked = _('This activity is no longer available. Contact your clinician.')
-        elif not pending.item.activity.instructions.get(actor.instruction_language):
+        elif not pending.item.activity.instructions.get(actor.effective_instruction_language):
             blocked = _('Choose another instruction language in your preferences or contact your clinician.')
     return {'run': run, 'tasks': tasks, 'reported_count': reported, 'task_count': len(tasks),
             'pending': pending, 'resume_url': task_url(pending) if own and pending and run.state == 'active' and not blocked else None,

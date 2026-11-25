@@ -137,6 +137,18 @@ class Activity(CheckedModel):
             return bool(asset and asset.technical_metadata.get('format') in ['PNG', 'JPEG', 'WEBP'] and asset.rights.strip() and file_exists(asset.file))
         return bool(reference.startswith('editorial/') and '..' not in reference and (Path(settings.BASE_DIR) / 'static' / reference).is_file())
     @property
+    def display_population(self):
+        if self.is_demo and self.population == 'Fictional demo profiles only.':
+            return _('Fictional demo profiles only.')
+        return self.population
+
+    @property
+    def display_limitations(self):
+        if self.is_demo and self.limitations == 'These words are NOT approved minimal pairs. No clinical validity, audio model or phonetic transcription is supplied.':
+            return _('These words are NOT approved minimal pairs. No clinical validity, audio model or phonetic transcription is supplied.')
+        return self.limitations
+
+    @property
     def usable(self):
         if self.state != 'published' or (self.is_demo and not settings.DEMO_MODE):
             return False

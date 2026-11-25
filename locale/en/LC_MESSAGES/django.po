@@ -6674,3 +6674,57 @@ msgstr "Illustration unavailable"
 
 msgid "Some linked media cannot be used in this rehearsal. Check the draft media and exact word bindings in the editorial workspace."
 msgstr "Some linked media cannot be used in this rehearsal. Check the draft media and exact word bindings in the editorial workspace."
+
+msgid "Use the interface language for caregiver instructions"
+msgstr "Use the interface language for caregiver instructions"
+
+msgid "Fixed caregiver instruction language"
+msgstr "Fixed caregiver instruction language"
+
+msgid "Used when caregiver instructions do not follow the interface."
+msgstr "Used when caregiver instructions do not follow the interface."
+
+msgid "Choose a fixed language for caregiver instructions or follow the interface. The words assigned to the child stay the same."
+msgstr "Choose a fixed language for caregiver instructions or follow the interface. The words assigned to the child stay the same."
+
+msgid "Fictional program · French"
+msgstr "Fictional program · French"
+
+msgid "Fictional program · English"
+msgstr "Fictional program · English"
+
+msgid "Fictional program · Algerian Darja"
+msgstr "Fictional program · Algerian Darja"
+
+msgid "Fictional program · Standard Arabic"
+msgstr "Fictional program · Standard Arabic"
+
+msgid "Discover the pictures"
+msgstr "Discover the pictures"
+
+msgid "Explore the activity steps and practice report using fictional data."
+msgstr "Explore the activity steps and practice report using fictional data."
+
+msgid "Unvalidated example with no pronunciation assessment."
+msgstr "Unvalidated example with no pronunciation assessment."
+
+msgid "Try the demonstration together. It contains no prescribed practice schedule."
+msgstr "Try the demonstration together. It contains no prescribed practice schedule."
+
+msgid "Use this fictional program to explore the practice steps."
+msgstr "Use this fictional program to explore the practice steps."
+
+msgid "As directed by your clinician"
+msgstr "As directed by your clinician"
+
+msgid "A"
+msgstr "A"
+
+msgid "B"
+msgstr "B"
+
+msgid "Fictional demo profiles only."
+msgstr "Fictional demo profiles only."
+
+msgid "These words are NOT approved minimal pairs. No clinical validity, audio model or phonetic transcription is supplied."
+msgstr "These words are NOT approved minimal pairs. No clinical validity, audio model or phonetic transcription is supplied."

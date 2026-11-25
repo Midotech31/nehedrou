@@ -6674,3 +6674,57 @@ msgstr "Illustration indisponible"
 
 msgid "Some linked media cannot be used in this rehearsal. Check the draft media and exact word bindings in the editorial workspace."
 msgstr "Certains médias liés ne peuvent pas être utilisés dans cet essai. Vérifiez les médias du brouillon et leur association exacte aux mots dans l’espace éditorial."
+
+msgid "Use the interface language for caregiver instructions"
+msgstr "Suivre la langue de l’interface pour les consignes"
+
+msgid "Fixed caregiver instruction language"
+msgstr "Langue fixe des consignes"
+
+msgid "Used when caregiver instructions do not follow the interface."
+msgstr "Utilisée si les consignes ne suivent pas la langue de l’interface."
+
+msgid "Choose a fixed language for caregiver instructions or follow the interface. The words assigned to the child stay the same."
+msgstr "Choisissez une langue fixe pour les consignes ou utilisez celle de l’interface. Les mots proposés à l’enfant restent les mêmes."
+
+msgid "Fictional program · French"
+msgstr "Parcours fictif · français"
+
+msgid "Fictional program · English"
+msgstr "Parcours fictif · anglais"
+
+msgid "Fictional program · Algerian Darja"
+msgstr "Parcours fictif · darija algérienne"
+
+msgid "Fictional program · Standard Arabic"
+msgstr "Parcours fictif · arabe standard"
+
+msgid "Discover the pictures"
+msgstr "Découvrir les images"
+
+msgid "Explore the activity steps and practice report using fictional data."
+msgstr "Découvrir les étapes et le bilan de pratique avec des données fictives."
+
+msgid "Unvalidated example with no pronunciation assessment."
+msgstr "Exemple illustratif non validé, sans mesure de prononciation."
+
+msgid "Try the demonstration together. It contains no prescribed practice schedule."
+msgstr "Démonstration accompagnée, sans programme de pratique prescrit."
+
+msgid "Use this fictional program to explore the practice steps."
+msgstr "Programme fictif pour découvrir le parcours."
+
+msgid "As directed by your clinician"
+msgstr "Selon les indications de votre orthophoniste"
+
+msgid "A"
+msgstr "A"
+
+msgid "B"
+msgstr "B"
+
+msgid "Fictional demo profiles only."
+msgstr "Réservé aux profils fictifs de démonstration."
+
+msgid "These words are NOT approved minimal pairs. No clinical validity, audio model or phonetic transcription is supplied."
+msgstr "Ces mots servent d’exemples. Ils ne constituent pas une paire minimale approuvée et sont fournis sans modèle audio ni transcription phonétique validés."

@@ -156,7 +156,9 @@ class HistoryFilterForm(forms.Form):
 class PreferencesForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['instruction_language']
+        fields = ['instruction_language_follows_interface', 'instruction_language']
+        labels = {'instruction_language': _('Fixed caregiver instruction language')}
+        help_texts = {'instruction_language': _('Used when caregiver instructions do not follow the interface.')}
 
 class ReassignForm(forms.Form):
     responsible = forms.ModelChoiceField(queryset=User.objects.none(), label=_('New responsible clinician'))

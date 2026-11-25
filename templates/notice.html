@@ -1,1 +1,1 @@
-{% extends 'base.html' %}{% block content %}<section class="card auth-card"><h1>{{ title }}</h1><p>{{ body }}</p></section>{% endblock %}
+{% extends 'base.html' %}{% load i18n %}{% block content %}<section class="card auth-card"><h1>{{ title }}</h1><p>{{ body }}</p>{% if show_instruction_preferences %}<a class="button" href="{% url 'preferences' %}?next={{ request.get_full_path|urlencode }}">{% translate "Change instruction language" %}</a>{% endif %}</section>{% endblock %}

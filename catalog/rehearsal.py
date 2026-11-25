@@ -92,12 +92,12 @@ def rehearse(request, pk):
             *RehearsalForm(response_mode=activity.response_mode).fields})
     if set(incoming) - fields or any(len(incoming.getlist(key)) != 1 for key in incoming):
         return HttpResponseBadRequest()
-    selection = GuideLanguageForm(incoming or None, initial={'guide_language': request.user.instruction_language})
+    selection = GuideLanguageForm(incoming or None, initial={'guide_language': request.user.effective_instruction_language})
     if incoming and not selection.is_valid():
         return render(request, 'editorial/rehearsal.html', {
             'activity': activity, 'selection_form': selection, 'selection_invalid': True,
         }, status=400)
-    language = selection.cleaned_data['guide_language'] if incoming else request.user.instruction_language
+    language = selection.cleaned_data['guide_language'] if incoming else request.user.effective_instruction_language
     instruction = activity.instructions.get(language, '')
     target_side = activity.requested_target or 'a'
     token, matches = _snapshot(request, activity, language, target_side)

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}{% load i18n %}{% block content %}
 <a href="{% url 'program_detail' program.pk %}"><span class="direction-arrow" aria-hidden="true">←</span> {% translate "Return to program" %}</a>
-<div class="page-heading"><div><span class="eyebrow">{% translate "Program history" %}</span><h1 dir="auto">{{ program.title }}</h1><p><bdi>{{ program.child.code }}</bdi> · {{ program.variety.display_label }}</p></div></div>
+<div class="page-heading"><div><span class="eyebrow">{% translate "Program history" %}</span><h1 dir="auto">{{ program.display_title }}</h1><p><bdi>{{ program.child.code }}</bdi> · {{ program.variety.display_label }}</p></div></div>
 <form method="get" class="card history-filters">{% include 'error_summary.html' %}{% for field in form %}<div>{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}<div class="actions"><button class="button" type="submit">{% translate "Filter history" %}</button><a href="{% url 'program_history' program.pk %}">{% translate "Reset filters" %}</a></div></form>
 <p class="result-count"><bdi>{{ page.paginator.count }} / {{ unfiltered_count }}</bdi> {% translate "matching records" %}</p>
 <section class="card history-list" aria-label="{% translate 'Program history' %}">

@@ -8,7 +8,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language, gettext_lazy as _
 from .billing_validation import validate_billing_currency
 from .operator_acceptance import (
     OperatorAcceptanceCheck, OperatorObservationOutcome, OperatorObservationScope,
@@ -18,6 +18,18 @@ from .operator_acceptance import (
 class User(AbstractUser):
     email = models.EmailField(unique=True)
     instruction_language = models.CharField(max_length=2, choices=settings.LANGUAGES, default='fr', verbose_name=_('Parent instruction language'))
+    instruction_language_follows_interface = models.BooleanField(
+        default=False, verbose_name=_('Use the interface language for caregiver instructions'),
+    )
+
+    @property
+    def effective_instruction_language(self):
+        if self.instruction_language_follows_interface:
+            language = get_language()
+            if language in dict(settings.LANGUAGES):
+                return language
+        return self.instruction_language
+
     def clean(self):
         super().clean()
         self.email = self.email.lower().strip()

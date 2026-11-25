@@ -6674,3 +6674,57 @@ msgstr "الصورة غير متاحة"
 
 msgid "Some linked media cannot be used in this rehearsal. Check the draft media and exact word bindings in the editorial workspace."
 msgstr "لا يمكن استخدام بعض الوسائط المرتبطة في هذه التجربة. راجعوا وسائط المسودة وارتباطها الدقيق بالكلمات في مساحة التحرير."
+
+msgid "Use the interface language for caregiver instructions"
+msgstr "استخدم لغة الواجهة لإرشادات المرافق"
+
+msgid "Fixed caregiver instruction language"
+msgstr "اللغة الثابتة لإرشادات المرافق"
+
+msgid "Used when caregiver instructions do not follow the interface."
+msgstr "تُستخدم عندما تكون لغة الإرشادات مستقلة عن لغة الواجهة."
+
+msgid "Choose a fixed language for caregiver instructions or follow the interface. The words assigned to the child stay the same."
+msgstr "اختر لغة ثابتة لإرشادات المرافق أو استخدم لغة الواجهة. تبقى الكلمات المخصَّصة للطفل كما هي."
+
+msgid "Fictional program · French"
+msgstr "مسار تجريبي · الفرنسية"
+
+msgid "Fictional program · English"
+msgstr "مسار تجريبي · الإنجليزية"
+
+msgid "Fictional program · Algerian Darja"
+msgstr "مسار تجريبي · الدارجة الجزائرية"
+
+msgid "Fictional program · Standard Arabic"
+msgstr "مسار تجريبي · العربية الفصحى"
+
+msgid "Discover the pictures"
+msgstr "نتعرّف على الصور"
+
+msgid "Explore the activity steps and practice report using fictional data."
+msgstr "تعرّف على خطوات النشاط وتقرير الممارسة باستخدام بيانات وهمية."
+
+msgid "Unvalidated example with no pronunciation assessment."
+msgstr "مثال توضيحي غير معتمد لا يتضمّن تقييمًا للنطق."
+
+msgid "Try the demonstration together. It contains no prescribed practice schedule."
+msgstr "جرّبوا النشاط معًا. هذا العرض لا يحدّد جدولًا علاجيًا للممارسة."
+
+msgid "Use this fictional program to explore the practice steps."
+msgstr "استخدموا هذا المسار التجريبي للتعرّف على خطوات الممارسة."
+
+msgid "As directed by your clinician"
+msgstr "وفق إرشادات اختصاصي علاج النطق"
+
+msgid "A"
+msgstr "أ"
+
+msgid "B"
+msgstr "ب"
+
+msgid "Fictional demo profiles only."
+msgstr "مخصّص للملفات الوهمية في العرض التجريبي."
+
+msgid "These words are NOT approved minimal pairs. No clinical validity, audio model or phonetic transcription is supplied."
+msgstr "هذه الكلمات أمثلة توضيحية. وهي لا تشكّل زوجًا أدنى معتمدًا، ولا يصاحبها نموذج صوتي أو تدوين صوتي خضع للمراجعة."

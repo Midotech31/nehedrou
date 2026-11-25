@@ -62,7 +62,8 @@ class Command(BaseCommand):
         new_accounts = set()
         for name in ROLE_USERNAMES:
             account, created = User.objects.get_or_create(
-                username=name, defaults={'email': name + '@demo.example', 'is_staff': False, 'is_superuser': False})
+                username=name, defaults={'email': name + '@demo.example', 'is_staff': False, 'is_superuser': False,
+                                         'instruction_language_follows_interface': name == 'accompagnant'})
             if created:
                 new_accounts.add(name)
                 account.set_password(passwords[name])
