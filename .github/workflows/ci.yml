@@ -45,6 +45,8 @@ jobs:
         run: python manage.py check
       - name: Check migrations
         run: python manage.py makemigrations --check --dry-run
+      - name: Test browser recording retries
+        run: node scripts/test_recording_retention.cjs
       - name: Run test suite
         run: python manage.py test --verbosity 2
       - name: Build production Docker image
@@ -138,20 +140,32 @@ jobs:
           python manage.py test --noinput --verbosity 2
           qualification
           core.tests_billing_lifecycle
+          core.tests_practice_billing_summary
           core.tests_billing_entitlements
+          core.tests_practice_access_requests
           core.test_live_integrity_writes
+          core.tests_practice_active_actor
+          core.tests_clinical_active_actor
           core.tests_restore_targets
           core.tests_startup_database.PostgreSQLMigrationDatabaseRouteTests
           core.tests_concurrency.ConcurrentQualificationTests
           core.tests_access_auth.ConcurrentResponsibilityTests
           core.tests_access_auth.ConcurrentAuthThrottleTests
           core.tests_account_onboarding.ConcurrentMFAOnboardingTests
+          core.tests_practice_invitation_mfa
+          core.tests_privacy_erasure_requests
+          catalog.tests_editorial_invite_mfa
           core.tests_password_change.PasswordChangeConcurrencyTests
           core.tests_form_scope.PracticeFormScopeConcurrencyTests
           core.tests_deployment.RuntimeStartupPostgreSQLTests
           core.tests_operations_views.DatabaseProbeTimeoutTests
           catalog.tests_guided_audio.GuidedAudioConcurrencyTests
+          catalog.tests_image_rights
+          catalog.tests_recording_retention.RecordingRetentionCommitAckTests
+          catalog.tests_recording_retention.RecordingRetentionConcurrencyTests
           catalog.tests_working_concurrency.WorkingCopyConcurrencyTests
+          catalog.tests_draft_finalization.DraftFinalizationConcurrencyTests
+          catalog.tests_guide_recovery.GuideRecoveryConcurrencyTests
           catalog.tests_darja_metadata_revisions.DarjaMetadataRevisionConcurrencyTests
           catalog.tests_editorial_manual_concurrency.ManualEditorialHandoffConcurrencyTests
           core.tests_practice_manual_handoff.PracticeManualHandoffConcurrencyTests

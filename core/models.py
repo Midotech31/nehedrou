@@ -8,12 +8,28 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language, gettext_lazy as _
 from .billing_validation import validate_billing_currency
+from .operator_acceptance import (
+    OperatorAcceptanceCheck, OperatorObservationOutcome, OperatorObservationScope,
+    validate_evidence_sha256, validate_observed_on,
+)
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
     instruction_language = models.CharField(max_length=2, choices=settings.LANGUAGES, default='fr', verbose_name=_('Parent instruction language'))
+    instruction_language_follows_interface = models.BooleanField(
+        default=False, verbose_name=_('Use the interface language for caregiver instructions'),
+    )
+
+    @property
+    def effective_instruction_language(self):
+        if self.instruction_language_follows_interface:
+            language = get_language()
+            if language in dict(settings.LANGUAGES):
+                return language
+        return self.instruction_language
+
     def clean(self):
         super().clean()
         self.email = self.email.lower().strip()
@@ -33,8 +49,24 @@ class Organization(CheckedModel):
     country = models.CharField(max_length=2, default='DZ')
     created_at = models.DateTimeField(auto_now_add=True)
     retention_days = models.PositiveIntegerField(null=True, blank=True)
+    data_notice_contact_email = models.EmailField(max_length=254, blank=True)
+
     def __str__(self):
         return self.name
+
+
+class PracticeAccessRequest(models.Model):
+    """An owner's request for manual review of an inactive cabinet plan."""
+    organization = models.ForeignKey(Organization, on_delete=models.PROTECT)
+    requested_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='+')
+    requested_at = models.DateTimeField(auto_now_add=True)
+    acknowledged_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='+')
+    acknowledged_at = models.DateTimeField(null=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['organization'],
+            condition=models.Q(acknowledged_at__isnull=True), name='one_pending_practice_access_request')]
+
 
 class Membership(CheckedModel):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
@@ -196,6 +228,37 @@ class ProcessingActivityRevision(models.Model):
         raise ValidationError(_('Register history entries cannot be deleted.'))
 
 
+class OperatorAcceptanceObservation(CheckedModel):
+    """Append-only metadata for a check performed outside the application."""
+    check_code = models.CharField(max_length=40, choices=OperatorAcceptanceCheck.choices)
+    scope = models.CharField(max_length=20, choices=OperatorObservationScope.choices)
+    outcome = models.CharField(max_length=14, choices=OperatorObservationOutcome.choices)
+    observed_on = models.DateField(validators=[validate_observed_on])
+    evidence_sha256 = models.CharField(max_length=64, validators=[validate_evidence_sha256])
+    recorded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='+')
+    recorded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-observed_on', '-recorded_at', '-pk']
+        indexes = [
+            models.Index(fields=['check_code', 'scope', '-observed_on', '-recorded_at'],
+                         name='ops_observation_by_scope'),
+        ]
+
+    def clean(self):
+        super().clean()
+        if isinstance(self.evidence_sha256, str):
+            self.evidence_sha256 = self.evidence_sha256.lower()
+
+    def save(self, *args, **kwargs):
+        if not self._state.adding:
+            raise ValidationError(_('Operator evidence history is append-only.'))
+        return super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        raise ValidationError(_('Operator evidence history cannot be deleted.'))
+
+
 class PrivacyRequest(CheckedModel):
     organization = models.ForeignKey(Organization, on_delete=models.PROTECT)
     child = models.ForeignKey('care.Child', on_delete=models.SET_NULL, null=True, blank=True)
@@ -228,6 +291,7 @@ class Invoice(CheckedModel):
     issued_at = models.DateTimeField(auto_now_add=True)
     paid_at = models.DateTimeField(null=True, blank=True)
     reference = models.CharField(max_length=100, blank=True)
+    shared_with_practice_at = models.DateTimeField(null=True, blank=True, editable=False)
     def clean(self):
         if self.amount is not None and self.amount < 0:
             raise ValidationError(_('The amount cannot be negative.'))

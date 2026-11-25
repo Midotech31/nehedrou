@@ -6194,3 +6194,537 @@ msgstr "Le lien s’affiche une seule fois. Si vous ne l’avez pas copié, cré
 
 msgid "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role."
 msgstr "Un lien antérieur encore utilisable reste valable si l’envoi par courriel échoue. Un nouveau lien de remise en main propre ou un courriel accepté par le service de messagerie remplace les anciens liens de la même adresse, de la même variété parlée et du même rôle."
+
+msgid "Your attached recording stays in this tab if saving fails. Keep this tab open or download the WAV before leaving."
+msgstr "Si la sauvegarde échoue, la prise jointe reste dans cet onglet. Gardez-le ouvert ou téléchargez le WAV avant de quitter."
+
+msgid "Download your WAV before saving in this browser. The normal upload will reload this page."
+msgstr "Téléchargez votre WAV avant de sauvegarder dans ce navigateur. L’envoi habituel rechargera cette page."
+
+msgid "Saving this recording… Keep this page open."
+msgstr "Sauvegarde de la prise… Gardez cette page ouverte."
+
+msgid "Check the form. Your recording is still here."
+msgstr "Vérifiez le formulaire. Votre prise est toujours disponible ici."
+
+msgid "The save outcome could not be confirmed. Your WAV is still here. Retry the unchanged form or download it before leaving."
+msgstr "La sauvegarde n’a pas pu être confirmée. Votre WAV est toujours ici. Réessayez sans modifier le formulaire ou téléchargez-le avant de quitter."
+
+msgid "This attempt was already used for different content. Open the saved result before starting another upload."
+msgstr "Cette tentative a déjà servi pour un contenu différent. Consultez le résultat sauvegardé avant de lancer un nouvel envoi."
+
+msgid "Your recording was saved. Open the saved media."
+msgstr "Votre prise est sauvegardée. Ouvrez le média sauvegardé."
+
+msgid "Open saved media"
+msgstr "Ouvrir le média sauvegardé"
+
+msgid "This recording upload request is invalid. Keep your WAV and reload the collection page."
+msgstr "Cette demande d’envoi est invalide. Conservez votre WAV et rechargez la page de collecte."
+
+msgid "Upload receipts are immutable."
+msgstr "Les reçus d’envoi sont immuables."
+
+msgid "An upload receipt must belong to the uploader of its media."
+msgstr "Un reçu d’envoi doit appartenir à la personne ayant téléversé le média."
+
+msgid "An upload receipt requires an exact request fingerprint."
+msgstr "Un reçu d’envoi exige l’empreinte exacte de la demande."
+
+msgid "The saved recording is unavailable or changed. Your WAV is still here. Check the saved result before starting another upload."
+msgstr "Le média sauvegardé est indisponible ou a changé. Votre WAV est toujours ici. Vérifiez le résultat sauvegardé avant de lancer un nouvel envoi."
+
+msgid "Before entering personal data, ask your practice for its contact details and full information on data handling, retention and hosting."
+msgstr "Avant de saisir des données personnelles, demandez à votre cabinet ses coordonnées et des informations complètes sur le traitement, la conservation et l’hébergement des données."
+
+msgid "Enter an age from 4 to 7 years."
+msgstr "Indiquez un âge compris entre 4 et 7 ans."
+
+msgid "No access plan has been set"
+msgstr "Aucune offre d’accès n’a été définie"
+
+msgid "Profile creation and activity assignment are paused. You can view existing programs, history and authorized exports."
+msgstr "La création de profils et l’attribution d’activités sont suspendues. Vous pouvez consulter les programmes existants, l’historique et les exports autorisés."
+
+msgid "Contact the platform operator to arrange activation or renewal for this practice."
+msgstr "Contactez le gestionnaire de la plateforme pour activer ou renouveler l’accès de ce cabinet."
+
+msgid "An authorised operator manages publishing access for this spoken variety."
+msgstr "Un opérateur habilité gère le droit de publication pour cette variété parlée."
+
+msgid "Verification of the trusted proxy chain"
+msgstr "Vérification de la chaîne de proxys de confiance"
+
+msgid "Test of private storage access and persistence after restart"
+msgstr "Essai de l’accès au stockage privé et de la conservation des fichiers après redémarrage"
+
+msgid "Test of the encrypted off-host backup destination and schedule"
+msgstr "Essai de la destination hors hébergeur et de la planification des sauvegardes chiffrées"
+
+msgid "Verification of backup key custody and archive retention"
+msgstr "Vérification de la garde des clés de sauvegarde et de la conservation des archives"
+
+msgid "Recent restore test and access to restored dossiers"
+msgstr "Essai récent de restauration et d’accès aux dossiers restaurés"
+
+msgid "Test of alert recipients and escalation procedure"
+msgstr "Essai de la réception des alertes et de la procédure d’escalade"
+
+msgid "Receipt of invitation and recovery emails and successful use of their links"
+msgstr "Réception des courriels d’invitation et de récupération et essai concluant de leurs liens"
+
+msgid "Validation of recovery time and data-loss objectives"
+msgstr "Validation des objectifs de délai de reprise et de perte de données"
+
+msgid "The operator verifies these requirements before paid launch or clinical use."
+msgstr "L’exploitant vérifie ces conditions avant une ouverture payante ou un usage clinique."
+
+msgid "Email address shown on the data notice"
+msgstr "Adresse e-mail affichée dans la notice sur les données"
+
+msgid "Use a practice address for data questions. It is shown to authorized users and invited recipients for this practice."
+msgstr "Utilisez une adresse du cabinet pour les questions sur les données. Elle est visible par les personnes autorisées et invitées pour ce cabinet."
+
+msgid "Before entering personal data, ask your practice for full information on data handling, retention and hosting."
+msgstr "Avant de saisir des données personnelles, demandez à votre cabinet les informations complètes sur leur traitement, leur conservation et leur hébergement."
+
+msgid "Practice contact for data questions"
+msgstr "Contact du cabinet pour les questions sur les données"
+
+msgid "Manual review of practice access"
+msgstr "Examen manuel de l’accès du cabinet"
+
+msgid "Request an access review"
+msgstr "Demander un examen de l’accès"
+
+msgid "Your request is awaiting review by the platform operator."
+msgstr "Votre demande est en attente d’examen par le gestionnaire de la plateforme."
+
+msgid "The platform operator has acknowledged your request."
+msgstr "Le gestionnaire de la plateforme a accusé réception de votre demande."
+
+msgid "Review and access activation are separate steps. You can check the request status on this page."
+msgstr "L’examen de la demande et l’activation de l’accès se font séparément. Consultez cette page pour suivre votre demande."
+
+msgid "Practice access requests"
+msgstr "Demandes d’accès des cabinets"
+
+msgid "Acknowledge request"
+msgstr "Accuser réception"
+
+msgid "No practice access requests are awaiting review."
+msgstr "Aucune demande d’accès de cabinet n’attend d’examen."
+
+msgid "The cabinet access request is acknowledged."
+msgstr "La réception de la demande d’accès du cabinet est enregistrée."
+
+msgid "Document illustration rights"
+msgstr "Documenter les droits de l’illustration"
+
+msgid "This links a new copy of the same illustration to this word in the draft. Review and publication are separate steps."
+msgstr "Une nouvelle copie de la même illustration sera associée à ce mot dans le brouillon. La relecture et la publication se font séparément."
+
+msgid "Save rights and link illustration"
+msgstr "Enregistrer les droits et associer l’illustration"
+
+msgid "The draft or illustration changed. Open the current draft and review the illustration again."
+msgstr "Le brouillon ou l’illustration a changé. Rouvrez le brouillon et vérifiez l’illustration."
+
+msgid "The result could not be confirmed. Reopen the draft before trying again."
+msgstr "Le résultat reste à confirmer. Rouvrez le brouillon avant de réessayer."
+
+msgid "Illustration rights saved and linked to the draft."
+msgstr "Les droits ont été enregistrés et l’illustration a été liée au brouillon."
+
+msgid "An illustration’s recorded predecessor cannot be changed."
+msgstr "Impossible de changer l’illustration précédente enregistrée."
+
+msgid "An illustration predecessor must be a different existing image with the same bytes."
+msgstr "L’illustration précédente doit être une autre image existante aux octets identiques."
+
+msgid "Illustration origin"
+msgstr "Origine de l’illustration"
+
+msgid "Previous illustration"
+msgstr "Illustration précédente"
+
+msgid "Original illustration"
+msgstr "Illustration d’origine"
+
+msgid "Generated review pack"
+msgstr "Lot d’images générées pour la relecture"
+
+msgid "Local test with fictional data"
+msgstr "Essai local avec des données fictives"
+
+msgid "Hosted demonstration"
+msgstr "Démonstration hébergée"
+
+msgid "Intended live service"
+msgstr "Service réel visé"
+
+msgid "Reported successful check"
+msgstr "Vérification déclarée concluante"
+
+msgid "Reported issue or incomplete result"
+msgstr "Problème ou résultat incomplet signalé"
+
+msgid "Enter a SHA-256 digest with exactly 64 hexadecimal characters."
+msgstr "Saisissez une empreinte SHA-256 de 64 caractères hexadécimaux exactement."
+
+msgid "The observation date cannot be in the future."
+msgstr "La date de l’observation ne peut pas être dans le futur."
+
+msgid "Operator evidence history is append-only."
+msgstr "L’historique des preuves accepte uniquement de nouvelles entrées."
+
+msgid "Operator evidence history cannot be deleted."
+msgstr "Les entrées du registre des preuves ne peuvent pas être supprimées."
+
+msgid "Operator check"
+msgstr "Contrôle d’exploitation"
+
+msgid "Observed environment"
+msgstr "Environnement observé"
+
+msgid "Reported outcome"
+msgstr "Résultat déclaré"
+
+msgid "Evidence SHA-256"
+msgstr "Empreinte SHA-256 du justificatif"
+
+msgid "Submit only the listed operator evidence fields."
+msgstr "Renseignez uniquement les champs de preuve affichés."
+
+msgid "The operator observation was recorded."
+msgstr "L’observation d’exploitation a été enregistrée."
+
+msgid "Operator evidence register"
+msgstr "Registre des preuves d’exploitation"
+
+msgid "Recorded operator observations"
+msgstr "Observations d’exploitation consignées"
+
+msgid "The latest observation is shown for each check and environment."
+msgstr "L’observation la plus récente est affichée pour chaque contrôle et chaque environnement."
+
+msgid "Open the evidence register"
+msgstr "Ouvrir le registre des preuves"
+
+msgid "Keep the evidence in private storage. The SHA-256 identifies the retained file. The operator verifies the evidence and the reported outcome."
+msgstr "Conservez le justificatif dans un espace privé. L’empreinte SHA-256 identifie le fichier conservé. La vérification du justificatif et du résultat déclaré relève de l’exploitant."
+
+msgid "No operator observations recorded yet."
+msgstr "Aucune observation d’exploitation n’a encore été consignée."
+
+msgid "Record an operator observation"
+msgstr "Consigner une observation d’exploitation"
+
+msgid "Enter the date and environment of the original check. Use a new record to correct or update an observation."
+msgstr "Indiquez la date et l’environnement du contrôle initial. Ajoutez une entrée pour corriger ou actualiser une observation."
+
+msgid "Record observation"
+msgstr "Consigner l’observation"
+
+msgid "Operator observation history"
+msgstr "Historique des observations d’exploitation"
+
+# Reviewer recorded definitions (2026-11-24).
+msgid "Either word may be requested; the activity link selects the picture."
+msgstr "L’un ou l’autre mot peut être demandé ; le lien de l’activité choisit l’image."
+
+msgid "Evidence bytes missing or changed."
+msgstr "Fichier de preuve absent ou modifié."
+
+msgid "Evidence reference"
+msgstr "Référence de preuve"
+
+msgid "Evidence reference unavailable for this variety and category."
+msgstr "Référence de preuve indisponible pour cette variété et cette catégorie."
+
+msgid "Evidence revoked."
+msgstr "Preuve révoquée."
+
+msgid "Evidence validity is unknown, expired or not yet current."
+msgstr "La période de validité de la preuve est inconnue, expirée ou n’a pas encore commencé."
+
+msgid "Final"
+msgstr "Finale"
+
+msgid "Initial"
+msgstr "Initiale"
+
+msgid "Medial"
+msgstr "Médiane"
+
+msgid "No admissible variant recorded."
+msgstr "Aucune variante admissible enregistrée."
+
+msgid "No evidence fingerprint recorded."
+msgstr "Aucune empreinte de preuve enregistrée."
+
+msgid "No evidence reference recorded."
+msgstr "Aucune référence de preuve enregistrée."
+
+msgid "No requested picture for this response mode."
+msgstr "Ce mode de réponse n’impose aucune image."
+
+msgid "Open the referenced private evidence"
+msgstr "Ouvrir la pièce privée référencée"
+
+msgid "Other"
+msgstr "Autre"
+
+msgid "Phoneme index (starts at 0)"
+msgstr "Indice du phonème (à partir de 0)"
+
+msgid "Recorded evidence fingerprint"
+msgstr "Empreinte de preuve enregistrée"
+
+msgid "Recorded evidence fingerprint differs from the document."
+msgstr "L’empreinte de preuve enregistrée diffère de celle du document."
+
+msgid "Recorded familiarity note"
+msgstr "Note de familiarité enregistrée"
+
+msgid "Recorded reference matches intact evidence within its declared validity period."
+msgstr "La référence enregistrée correspond au fichier intact de la pièce dans sa période de validité déclarée."
+
+msgid "Recorded task and word definitions"
+msgstr "Tâche et définitions des mots enregistrées"
+
+msgid "These are current editorial entries for the displayed fingerprint. They are not verified linguistic or clinical evidence."
+msgstr "Ces données éditoriales actuelles correspondent à l’empreinte affichée. Elles ne constituent pas des preuves linguistiques ou cliniques validées."
+
+msgid "Unknown stored task value."
+msgstr "Valeur de tâche enregistrée inconnue."
+
+msgid "Practice billing summary"
+msgstr "Récapitulatif de facturation du cabinet"
+
+msgid "Billing summary sharing"
+msgstr "Partage du récapitulatif de facturation"
+
+msgid "Reopen the invoice to review its current status and sharing setting before saving."
+msgstr "Rouvrez la facture pour consulter son statut et son réglage de partage avant d’enregistrer."
+
+msgid "Shared with the cabinet owner"
+msgstr "Partagé avec le responsable du cabinet"
+
+msgid "Private to platform billing"
+msgstr "Réservé à la facturation de la plateforme"
+
+msgid "The cabinet summary shows the invoice number, amount, status and dates."
+msgstr "Le récapitulatif du cabinet indique le numéro de facture, le montant, le statut et les dates."
+
+msgid "Share billing summary"
+msgstr "Partager le récapitulatif"
+
+msgid "Hide billing summary"
+msgstr "Masquer le récapitulatif"
+
+msgid "Billing summary shared"
+msgstr "Récapitulatif partagé"
+
+msgid "Billing summary hidden"
+msgstr "Récapitulatif masqué"
+
+msgid "These entries are shared by the platform operator. Use the original billing document for your records."
+msgstr "Le gestionnaire de la plateforme partage ces informations. Conservez le document de facturation original pour votre comptabilité."
+
+msgid "No billing summaries have been shared with this practice."
+msgstr "Aucun récapitulatif de facturation n’a été partagé avec ce cabinet."
+
+# First draft save receipt (2026-11-24).
+msgid "Draft already saved"
+msgstr "Brouillon déjà enregistré"
+
+msgid "Open saved draft"
+msgstr "Ouvrir le brouillon enregistré"
+
+msgid "Reload the creation page and choose the spoken variety again."
+msgstr "Rechargez la page de création et choisissez de nouveau la variété parlée."
+
+msgid "This save request already created a draft with different content. Open the saved draft or start a new creation page."
+msgstr "Cette demande d’enregistrement a déjà créé un brouillon avec un contenu différent. Ouvrez le brouillon enregistré ou commencez une nouvelle création."
+
+msgid "Inviting practice"
+msgstr "Cabinet qui vous invite"
+
+msgid "Document recording rights"
+msgstr "Documenter les droits de l’enregistrement"
+
+msgid "The draft or recording changed. Open the current draft and check the recording again."
+msgstr "Le brouillon ou l’enregistrement a changé. Rouvrez le brouillon et vérifiez l’enregistrement."
+
+msgid "Recording rights saved and linked to the draft."
+msgstr "Les droits de l’enregistrement ont été liés au brouillon."
+
+msgid "I confirm this evidence covers this adult voice recording and the stated uses."
+msgstr "Je confirme que ce justificatif couvre cet enregistrement de voix adulte et ses usages déclarés."
+
+msgid "This links the same adult recording to the draft with its rights evidence. Review and publication are separate steps."
+msgstr "Le même enregistrement de voix adulte sera lié au brouillon avec son justificatif. La relecture et la publication se font séparément."
+
+msgid "Save rights and link recording"
+msgstr "Enregistrer les droits et lier l’enregistrement"
+
+msgid "The recorded source and voice details cannot be changed."
+msgstr "La source enregistrée et les renseignements sur la voix ne peuvent pas être modifiés."
+
+msgid "The source recording must have the same bytes and voice details."
+msgstr "L’enregistrement source doit avoir les mêmes octets et les mêmes renseignements sur la voix."
+
+msgid "The selected rights evidence is missing, expired, changed or revoked."
+msgstr "Le justificatif de droits choisi est absent, expiré, altéré ou révoqué."
+
+# Explicit family-guide recovery (2026-11-24).
+msgid "Choose saved instructions or guide sections to place in a new private working copy based on the current draft. This does not change or approve the activity."
+msgstr "Choisissez les consignes ou sections enregistrées à placer dans une nouvelle copie de travail privée fondée sur le brouillon courant. Cela ne modifie ni n’approuve l’activité."
+
+msgid "Choose the family-guide fields to recover"
+msgstr "Choisissez les champs du guide familial à récupérer"
+
+msgid "Compare and recover saved family-guide fields"
+msgstr "Comparer et récupérer les champs du guide familial enregistré"
+
+msgid "Compare the last saved family guide with the current draft. Text entered since the working copy’s last save stays on this page."
+msgstr "Comparez le dernier guide familial enregistré avec le brouillon courant. Le texte saisi depuis le dernier enregistrement de la copie de travail reste sur cette page."
+
+msgid "Create the private recovery copy"
+msgstr "Créer la copie privée de reprise"
+
+msgid "Current draft value"
+msgstr "Valeur du brouillon courant"
+
+msgid "Current words, media, variety and other draft details are kept. All other saved fields remain in the original working copy and are not applied here."
+msgstr "Les mots, médias, la variété et les autres détails actuels du brouillon sont conservés. Tous les autres champs enregistrés restent dans la copie de travail d’origine et ne sont pas appliqués ici."
+
+msgid "Empty value"
+msgstr "Valeur vide"
+
+msgid "No saved family-guide differences to recover."
+msgstr "Aucune différence du guide familial enregistré à récupérer."
+
+msgid "Only the checked fields will be recovered. Choosing an empty saved value keeps it empty; normal draft validation still applies afterwards."
+msgstr "Seuls les champs cochés seront récupérés. Une valeur enregistrée vide restera vide si vous la choisissez ; les contrôles habituels du brouillon s’appliqueront ensuite."
+
+msgid "Open current draft"
+msgstr "Ouvrir le brouillon courant"
+
+msgid "Recover saved family-guide fields"
+msgstr "Récupérer les champs du guide familial enregistré"
+
+msgid "Reload the comparison"
+msgstr "Recharger la comparaison"
+
+msgid "Saved working-copy value"
+msgstr "Valeur de la copie de travail enregistrée"
+
+msgid "The comparison link is invalid or expired. Open a new comparison."
+msgstr "Le lien de comparaison est invalide ou expiré. Ouvrez une nouvelle comparaison."
+
+msgid "The recovered working copy would exceed the existing size limit."
+msgstr "La copie de travail récupérée dépasserait la limite de taille existante."
+
+msgid "The working copy or current draft changed. Reload the comparison before choosing fields again."
+msgstr "La copie de travail ou le brouillon courant a changé. Rechargez la comparaison avant de choisir de nouveau les champs."
+
+msgid "Erasure requires an erasure request for this dossier."
+msgstr "Pour effacer ce dossier, il faut une demande d’effacement qui le concerne."
+
+msgid "The dossier was erased while processing another request for the same profile."
+msgstr "Le dossier a été effacé lors du traitement d’une autre demande concernant le même profil."
+
+msgid "Erasing this profile also resolves pending erasure requests for the same profile."
+msgstr "L’effacement de ce profil clôt également les demandes d’effacement en attente qui le concernent."
+
+msgid "Reviewer account inactive"
+msgstr "Compte de relecture inactif"
+
+msgid "Review permission missing for this discipline and variety"
+msgstr "Droit de relecture manquant pour cette discipline et cette variété"
+
+msgid "Reviewer requirements met for this discipline and variety"
+msgstr "Conditions de relecture réunies pour cette discipline et cette variété"
+
+msgid "Private activity rehearsal"
+msgstr "Essai privé de l’activité"
+
+msgid "Try this version privately"
+msgstr "Essayer cette version en privé"
+
+msgid "Try this exact version using fictional choices only. Nothing is saved, assigned, approved or made available for real use."
+msgstr "Essayez cette version précise avec des réponses fictives. Rien n’est enregistré, attribué, approuvé ou ouvert à un usage réel."
+
+msgid "Do not enter child information. This rehearsal omits patient identifiers and free-text comments."
+msgstr "Ne saisissez aucune information sur un enfant. Cet essai ne comporte ni identifiant de patient ni commentaire libre."
+
+msgid "This rehearsal changed or expired. Reload the exact version and review it before trying again."
+msgstr "Cet essai a changé ou a expiré. Rechargez la version précise et relisez-la avant de réessayer."
+
+msgid "No instructions have been entered in the selected language. The family activity cannot start with this language."
+msgstr "Aucune consigne n’a été saisie dans la langue choisie. L’activité familiale ne peut pas démarrer dans cette langue."
+
+msgid "Show the rehearsal summary"
+msgstr "Afficher le bilan de l’essai"
+
+msgid "Illustration unavailable"
+msgstr "Illustration indisponible"
+
+msgid "Some linked media cannot be used in this rehearsal. Check the draft media and exact word bindings in the editorial workspace."
+msgstr "Certains médias liés ne peuvent pas être utilisés dans cet essai. Vérifiez les médias du brouillon et leur association exacte aux mots dans l’espace éditorial."
+
+msgid "Use the interface language for caregiver instructions"
+msgstr "Suivre la langue de l’interface pour les consignes"
+
+msgid "Fixed caregiver instruction language"
+msgstr "Langue fixe des consignes"
+
+msgid "Used when caregiver instructions do not follow the interface."
+msgstr "Utilisée si les consignes ne suivent pas la langue de l’interface."
+
+msgid "Choose a fixed language for caregiver instructions or follow the interface. The words assigned to the child stay the same."
+msgstr "Choisissez une langue fixe pour les consignes ou utilisez celle de l’interface. Les mots proposés à l’enfant restent les mêmes."
+
+msgid "Fictional program · French"
+msgstr "Parcours fictif · français"
+
+msgid "Fictional program · English"
+msgstr "Parcours fictif · anglais"
+
+msgid "Fictional program · Algerian Darja"
+msgstr "Parcours fictif · darija algérienne"
+
+msgid "Fictional program · Standard Arabic"
+msgstr "Parcours fictif · arabe standard"
+
+msgid "Discover the pictures"
+msgstr "Découvrir les images"
+
+msgid "Explore the activity steps and practice report using fictional data."
+msgstr "Découvrir les étapes et le bilan de pratique avec des données fictives."
+
+msgid "Unvalidated example with no pronunciation assessment."
+msgstr "Exemple illustratif non validé, sans mesure de prononciation."
+
+msgid "Try the demonstration together. It contains no prescribed practice schedule."
+msgstr "Démonstration accompagnée, sans programme de pratique prescrit."
+
+msgid "Use this fictional program to explore the practice steps."
+msgstr "Programme fictif pour découvrir le parcours."
+
+msgid "As directed by your clinician"
+msgstr "Selon les indications de votre orthophoniste"
+
+msgid "A"
+msgstr "A"
+
+msgid "B"
+msgstr "B"
+
+msgid "Fictional demo profiles only."
+msgstr "Réservé aux profils fictifs de démonstration."
+
+msgid "These words are NOT approved minimal pairs. No clinical validity, audio model or phonetic transcription is supplied."
+msgstr "Ces mots servent d’exemples. Ils ne constituent pas une paire minimale approuvée et sont fournis sans modèle audio ni transcription phonétique validés."

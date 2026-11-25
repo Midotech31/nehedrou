@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from django.conf import settings
 from django.core.management.base import CommandError
-from core.backups import cipher, create_backup, inspect_backup, private_path
+from core.backups import cipher, create_backup, private_path, verify_backup
 
 
 def hook_path(name):
@@ -50,8 +50,11 @@ def scheduled_backup():
         try:
             run_hook(quiet, 'Quiesce')
             result = create_backup(destination)
-            manifest, _entries = inspect_backup(destination)
-            result.update(authenticated_manifest_verified=True, schema=manifest['schema'])
+            verified = verify_backup(destination)
+            if result['sha256'] != verified['sha256']:
+                raise CommandError('The encrypted archive changed between creation and verification. '
+                                   'Keep the file for private review. No successful backup receipt was issued.')
+            result.update(authenticated_manifest_verified=True, schema=verified['schema'])
         finally:
             # A partially successful quiesce hook can already have stopped writes.
             run_hook(resume, 'Resume')

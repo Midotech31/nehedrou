@@ -52,13 +52,19 @@ Pour exercer `core.tests_concurrency`, configurer les variables PostgreSQL décr
 
 Les trois langues d’interface (`settings.LANGUAGES` : FR, EN, AR) ne définissent pas l’offre de contenu oral. En particulier, un contenu en arabe standard (MSA) ne couvre pas la Darja algérienne. `check_readiness` conserve `published_nondemo_counts` par langue comme information descriptive, mais son contrôle strict repose désormais sur chaque code exact de variété offerte.
 
-Par défaut, les quatre variétés sont `fr-fr-pilot` (français de France), `en-us-general-pilot` (anglais des États-Unis), `ar-msa-pilot` (arabe standard) et `ar-dz-pilot` (Darja algérienne). L’exploitant peut définir explicitement `OFFERED_CONTENT_VARIETIES` dans sa configuration Django, par exemple :
+Par défaut, les quatre variétés sont `fr-fr-pilot` (français de France), `en-us-general-pilot` (anglais des États-Unis), `ar-msa-pilot` (arabe standard) et `ar-dz-pilot` (Darja algérienne). Pour déclarer un autre périmètre sur un service hébergé, l’exploitant définit la variable d’environnement `NEHEDROU_OFFERED_CONTENT_VARIETIES` avec les seuls codes retenus, séparés par des virgules sans espaces. Laisser la variable absente pour utiliser les quatre valeurs par défaut. Les quatre valeurs ci-dessous illustrent le format attendu.
+
+```text
+NEHEDROU_OFFERED_CONTENT_VARIETIES=fr-fr-pilot,en-us-general-pilot,ar-msa-pilot,ar-dz-pilot
+```
+
+Le même réglage reste accessible dans une configuration Django personnalisée.
 
 ```python
 OFFERED_CONTENT_VARIETIES = ('fr-fr-pilot', 'en-us-general-pilot', 'ar-msa-pilot', 'ar-dz-pilot')
 ```
 
-La configuration doit être une liste ou un tuple non vide de codes uniques. Une configuration vide, doublonnée, fournie sous forme de chaîne seule ou contenant un code mal formé provoque une erreur explicite. Un code bien formé mais absent de la base reste visible dans `unknown_offered_content_varieties`, fait échouer `offered_content_varieties_exist` et le contrôle de couverture, puis fait échouer `--strict` après émission du rapport. Le JSON reste ainsi exploitable pour diagnostiquer une variété de référence manquante sans la supprimer discrètement de l’offre. Ce réglage définit le périmètre déclaré dans le rapport. Les langues d’interface, publications, décisions de disponibilité et historiques suivent leurs règles propres.
+Dans Django, le réglage est une liste ou un tuple non vide de codes uniques. Une variable définie mais vide, une virgule sans code, un doublon, un espace ou un joker provoque une erreur explicite. La validation utilise le même format d’identifiant que le catalogue. Un code bien formé mais absent de la base reste visible dans `unknown_offered_content_varieties`, fait échouer `offered_content_varieties_exist` et le contrôle de couverture, puis fait échouer `--strict` après émission du rapport. Le JSON reste ainsi exploitable pour diagnostiquer une variété de référence manquante sans la supprimer discrètement de l’offre. Ce réglage définit le périmètre déclaré dans le rapport. Les langues d’interface, publications, décisions de disponibilité et historiques suivent leurs règles propres.
 
 Le rapport ajoute `offered_content_varieties`, `published_nondemo_counts_by_variety` et `current_available_nondemo_counts_by_variety`. Le contrôle `current_available_nondemo_content_in_each_offered_variety` exige au moins une activité réelle actuellement utilisable dans chaque variété offerte : médias exacts, droits valides, avis courants et décision de disponibilité autorisée. Un brouillon, une copie de démonstration, une simple publication sans disponibilité ou une ancienne version supplantée ne satisfait pas cette couverture. Les comptes publiés conservent les versions historiques pour information ; leur présence ne vaut pas disponibilité actuelle. Le contrôle existant des médias et avis sur l’ensemble des versions publiées reste distinct.
 

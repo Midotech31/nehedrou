@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% load i18n %}
+{% block title %}{% translate "Draft already saved" %} · Nehedrou{% endblock %}
+{% block content %}<section class="card"><h1>{% translate "Draft already saved" %}</h1>
+<p role="alert">{{ body }}</p><div class="actions">
+<a class="button" href="{% url 'editorial_detail' saved_activity.pk %}">{% translate "Open saved draft" %}</a>
+<a class="button secondary" href="{% url 'editorial_create' %}">{% translate "Create an activity from scratch" %}</a>
+</div></section>{% endblock %}

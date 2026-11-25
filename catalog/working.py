@@ -11,6 +11,11 @@ from django.views.decorators.http import require_POST
 from .models import Activity, EditorialGrant, DraftWorkingCopy
 from .services import allowed
 
+WORKING_COPY_LIMIT = 30
+WORKING_BODY_LIMIT = 180000
+WORKING_VALUE_LIMIT = 16000
+RECOVERY_RECEIPT_KEY = '_server_family_guide_recovery'
+
 
 def authorize_copy(user, copy):
     if copy.activity_id:
@@ -25,18 +30,31 @@ def authorize_copy(user, copy):
 
 
 def resume_copy(request, activity):
-    value = request.GET.get('resume') or request.POST.get('working_copy')
+    resumed = request.GET.get('resume')
+    posted = request.POST.get('working_copy')
+    if request.method == 'POST' and resumed and 'working_copy' in request.POST:
+        try:
+            if uuid.UUID(resumed) != uuid.UUID(posted):
+                raise Http404
+        except (ValueError, TypeError, AttributeError):
+            raise Http404 from None
+    value = resumed or posted
     if not value:
         return None
     try:
         identifier = uuid.UUID(value)
     except (ValueError, AttributeError):
         raise Http404
-    copy = DraftWorkingCopy.objects.filter(pk=identifier, owner=request.user, committed=False, dismissed=False).select_related('activity__variety').first()
+    copy = DraftWorkingCopy.objects.filter(pk=identifier, owner=request.user, dismissed=False).select_related('activity__variety').first()
     if not copy:
         # An unsaved first page submits its preallocated UUID before autosave starts.
         if request.method == 'POST' and not DraftWorkingCopy.objects.filter(pk=identifier).exists():
             return None
+        raise Http404
+    if copy.committed:
+        from .finalization import new_draft_receipt
+        if request.method == 'POST' and activity._state.adding and new_draft_receipt(copy):
+            return copy
         raise Http404
     if copy.activity_id != (activity.pk if not activity._state.adding else None):
         raise Http404
@@ -54,7 +72,7 @@ def recover_url(copy):
 def autosave(request, pk):
     if not request.user.is_superuser and not EditorialGrant.objects.filter(user=request.user, edit=True).exists():
         raise PermissionDenied
-    if len(request.body) > 180000:
+    if len(request.body) > WORKING_BODY_LIMIT:
         return JsonResponse({'error': 'too_large'}, status=413)
     try:
         payload = json.loads(request.body)
@@ -63,7 +81,7 @@ def autosave(request, pk):
             raise ValueError
         from .authoring import ActivityAuthoringForm
         permitted = set(ActivityAuthoringForm(actor=request.user).fields)
-        if any(key not in permitted or not isinstance(value, str) or len(value) > 16000 for key, value in data.items()):
+        if any(key not in permitted or not isinstance(value, str) or len(value) > WORKING_VALUE_LIMIT for key, value in data.items()):
             raise ValueError
         activity_id = uuid.UUID(payload['activity']) if payload.get('activity') else None
         if data.get('variety'):
@@ -83,13 +101,16 @@ def autosave(request, pk):
             if not copy:
                 if revision != 0:
                     return JsonResponse({'error': 'expired'}, status=409)
-                if DraftWorkingCopy.objects.filter(owner=request.user, committed=False, dismissed=False).count() >= 30:
+                if DraftWorkingCopy.objects.filter(owner=request.user, committed=False, dismissed=False).count() >= WORKING_COPY_LIMIT:
                     return JsonResponse({'error': 'capacity'}, status=409)
                 activity = get_object_or_404(Activity, pk=activity_id) if activity_id else None
                 copy = DraftWorkingCopy(id=pk, owner=request.user, activity=activity, base_digest=base_digest)
             if copy.revision != revision:
                 return JsonResponse({'error': 'conflict'}, status=409)
+            receipt = copy.data.get(RECOVERY_RECEIPT_KEY) if isinstance(copy.data, dict) else None
             copy.data = data
+            if receipt is not None:
+                copy.data[RECOVERY_RECEIPT_KEY] = receipt
             authorize_copy(request.user, copy)
             if copy.activity_id and copy.base_digest != copy.activity.fingerprint():
                 return JsonResponse({'error': 'source_changed'}, status=409)
@@ -117,7 +138,7 @@ def set_aside(request, pk):
             if not request.user.is_superuser and not EditorialGrant.objects.filter(user=request.user, edit=True).exists():
                 raise PermissionDenied
             authorize_copy(request.user,copy)
-            if DraftWorkingCopy.objects.filter(owner=request.user,committed=False,dismissed=False).count() >= 30:
+            if DraftWorkingCopy.objects.filter(owner=request.user,committed=False,dismissed=False).count() >= WORKING_COPY_LIMIT:
                 return JsonResponse({'error':'capacity'},status=409)
         copy.dismissed = action == 'dismiss'
         copy.save(update_fields=['dismissed','updated_at'])

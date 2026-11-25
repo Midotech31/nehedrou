@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import sqlite3
+import sys
 import tempfile
 import zipfile
 from contextlib import closing
@@ -11,8 +12,9 @@ from unittest.mock import patch
 from cryptography.fernet import Fernet
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.core.exceptions import ImproperlyConfigured
 from django.test import SimpleTestCase, override_settings
-from core.backups import create_backup, inspect_backup, restore_backup, cipher
+from core.backups import create_backup, inspect_backup, restore_backup, cipher, pg_command
 
 
 class EncryptedOperatorBackupTests(SimpleTestCase):
@@ -39,6 +41,7 @@ class EncryptedOperatorBackupTests(SimpleTestCase):
         self.assertNotIn(b'Fictional saved activity',self.archive.read_bytes())
         restored=restore_backup(self.archive,self.root/'new-media',self.root/'restored.sqlite3')
         self.assertTrue(restored['target_was_fresh'])
+        self.assertEqual(restored['sha256'], created['sha256'])
         with closing(sqlite3.connect(self.root/'restored.sqlite3')) as connection:
             self.assertEqual(connection.execute('SELECT value FROM fictional').fetchone()[0],'Fictional saved activity')
             self.assertEqual(connection.execute('PRAGMA integrity_check').fetchone()[0],'ok')
@@ -104,11 +107,38 @@ class EncryptedOperatorBackupTests(SimpleTestCase):
         with self.assertRaises(CommandError):call_command('backup_nehedrou',destination=str(self.archive),stdout=io.StringIO())
         output=io.StringIO()
         call_command('backup_nehedrou',destination=str(self.archive),quiescent=True,stdout=output)
-        self.assertTrue(json.loads(output.getvalue())['encrypted'])
+        created=json.loads(output.getvalue())
+        self.assertTrue(created['encrypted'])
         output=io.StringIO()
         call_command('restore_nehedrou',source=str(self.archive),verify_only=True,stdout=output)
-        self.assertTrue(json.loads(output.getvalue())['verified'])
+        verified=json.loads(output.getvalue())
+        self.assertTrue(verified['verified'])
+        self.assertEqual(verified['sha256'], created['sha256'])
+        self.assertEqual(verified['sha256'], hashlib.sha256(self.archive.read_bytes()).hexdigest())
         self.assertFalse((self.root/'restored.sqlite3').exists())
+
+    def test_media_write_failure_cannot_leave_a_restored_database(self):
+        create_backup(self.archive)
+        media, database = self.root / 'new-media', self.root / 'restored.sqlite3'
+        with patch('core.backups._write_staged_media', side_effect=OSError('Fictional failed stage')):
+            with self.assertRaisesMessage(CommandError, 'No database restore was attempted'):
+                restore_backup(self.archive, media, database)
+        self.assertFalse(database.exists())
+        self.assertFalse(media.exists())
+        self.assertFalse(list(self.root.glob('nehedrou-restore-media-*')))
+
+    def test_late_publication_failure_preserves_database_and_complete_private_stage(self):
+        create_backup(self.archive)
+        media, database = self.root / 'new-media', self.root / 'restored.sqlite3'
+        with patch.object(Path, 'rename', side_effect=OSError('Fictional publication failure')):
+            with self.assertRaisesMessage(CommandError, 'The database restore completed') as failure:
+                restore_backup(self.archive, media, database)
+        self.assertTrue(database.is_file())
+        self.assertFalse(media.exists())
+        stage, = self.root.glob('nehedrou-restore-media-*')
+        self.assertIn(stage.name, str(failure.exception))
+        self.assertNotIn(str(self.root), str(failure.exception))
+        self.assertEqual((stage / 'editorial/model.wav').read_bytes(), (self.media / 'editorial/model.wav').read_bytes())
 
     def test_remote_storage_files_are_included_and_restore_exactly(self):
         from django.core.files.base import ContentFile
@@ -128,3 +158,29 @@ class EncryptedOperatorBackupTests(SimpleTestCase):
             with patch('django.core.files.storage.default_storage.listdir',side_effect=OSError('Fictional unavailable backend')):
                 with self.assertRaises(OSError):create_backup(self.archive)
         self.assertFalse(self.archive.exists())
+
+
+class BackupPostgreSQLRouteTests(SimpleTestCase):
+    def test_unverified_direct_host_prevents_the_database_client_from_running(self):
+        with patch.dict(os.environ, {'POSTGRES_MIGRATION_HOST': 'direct.fixture.invalid'}, clear=True), \
+                patch('core.backups.shutil.which', return_value=sys.executable), \
+                patch('core.startup_database.verify_migration_database', side_effect=ImproperlyConfigured('private detail')) as verify, \
+                patch('core.backups.subprocess.run') as client:
+            with self.assertRaisesMessage(CommandError, 'No database backup or restore was started') as failure:
+                pg_command('pg_dump', 'fixture', [])
+        verify.assert_called_once_with('direct.fixture.invalid')
+        client.assert_not_called()
+        self.assertNotIn('private detail', str(failure.exception))
+
+    def test_unset_direct_host_preserves_normal_and_default_client_routes(self):
+        for configured, expected in [('runtime.fixture.invalid', 'runtime.fixture.invalid'), ('', 'localhost')]:
+            with self.subTest(configured=bool(configured)), \
+                    override_settings(DATABASES={'default': {'HOST': configured}}), patch.dict(os.environ, {}, clear=True), \
+                    patch('core.backups.shutil.which', return_value=sys.executable), \
+                    patch('core.startup_database.verify_migration_database') as verify, \
+                    patch('core.backups.subprocess.run') as client:
+                client.return_value.returncode = 0
+                pg_command('pg_dump', 'fixture', [])
+            verify.assert_not_called()
+            args = client.call_args.args[0]
+            self.assertEqual(args[args.index('--host') + 1], expected)

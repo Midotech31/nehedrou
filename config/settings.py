@@ -49,7 +49,9 @@ if os.getenv('POSTGRES_HOST'):
 else:
     if not DEBUG and not (DEMO_MODE and DEMO_EPHEMERAL):
         raise ImproperlyConfigured('Production requires PostgreSQL.')
-    demo_database = Path(os.environ['DEMO_DATABASE_PATH']) if DEMO_EPHEMERAL and os.getenv('DEMO_DATABASE_PATH') else BASE_DIR / 'demo.sqlite3'
+    demo_database = BASE_DIR / 'demo.sqlite3'
+    if DEMO_MODE and (DEBUG or DEMO_EPHEMERAL) and os.getenv('DEMO_DATABASE_PATH'):
+        demo_database = Path(os.environ['DEMO_DATABASE_PATH'])
     # Acquire the write reservation before reads, avoiding DEFERRED lock upgrades.
     DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': demo_database, 'OPTIONS': {'timeout': 20, 'transaction_mode': 'IMMEDIATE'}}}
 if os.getenv('POSTGRES_SSLMODE') and DATABASES['default']['ENGINE'].endswith('postgresql'):
@@ -61,6 +63,10 @@ AUTH_USER_MODEL = 'core.User'
 AUTH_PASSWORD_VALIDATORS = [{'NAME': 'django.contrib.auth.password_validation.' + name} for name in ['UserAttributeSimilarityValidator', 'MinimumLengthValidator', 'CommonPasswordValidator', 'NumericPasswordValidator']]
 LANGUAGE_CODE = 'fr'
 LANGUAGES = [('fr', 'Français'), ('en', 'English'), ('ar', 'العربية')]
+_offered_content_varieties_env = os.getenv('NEHEDROU_OFFERED_CONTENT_VARIETIES')
+if _offered_content_varieties_env is not None:
+    # Keep empty fields so the launch report diagnoses malformed configuration.
+    OFFERED_CONTENT_VARIETIES = tuple(_offered_content_varieties_env.split(','))
 LOCALE_PATHS = [BASE_DIR / 'locale']
 TIME_ZONE = 'UTC'
 USE_I18N = True

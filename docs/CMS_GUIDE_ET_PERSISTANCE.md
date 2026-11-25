@@ -69,3 +69,11 @@ Le lien brut est affiché uniquement dans la première réponse privée à la cr
 L'accès d'un publicateur déjà présent pour la même variété n'est pas modifié ; il doit être examiné directement. L'acceptation n'atteste pas les compétences du relecteur : sa déclaration, sa vérification indépendante et les revues du contenu exact restent nécessaires. Aucune activité n'est approuvée ou publiée par cette remise de lien.
 
 Ce parcours concerne les invitations éditoriales. Il ne configure pas les courriels, la récupération de mot de passe ni les invitations de familles ou de praticiens.
+
+## Essayer une version en privé — 24 novembre 2026
+
+Depuis la fiche CMS, **Essayer cette version en privé** ouvre les trois étapes utilisées dans le parcours famille : découverte, choix ou observation, puis retour structuré. Les aides, la pause et l’arrêt restent disponibles. L’essai porte sur la version affichée, même si une version plus récente existe. Le choix de la langue des consignes ne change ni les préférences du compte ni la variété parlée du contenu ; aucune autre langue ne remplace une consigne absente.
+
+Cet espace est réservé aux comptes ayant déjà accès à la variété dans le CMS. Utiliser uniquement des réponses fictives : aucun dossier, programme, rapport, avis ou état de progression n’est enregistré ; les commentaires libres et identifiants de patients sont absents. L’aperçu visuel de l’éditeur reste disponible. Si le contenu ou les médias ont changé, recharger la version avant de reprendre l’essai. Les fichiers révoqués, altérés ou associés à un autre mot ou à une autre variété ne servent pas de modèles dans l’essai.
+
+L’essai ne publie pas le contenu et ne valide ni les droits, ni la prononciation, ni la pertinence clinique. Les décisions de relecture et de disponibilité conservent leurs formulaires et leurs exigences.

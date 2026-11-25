@@ -1,1 +1,26 @@
-{% extends 'base.html' %}{% load i18n %}{% block content %}<section class="card form-card"><h1>{% translate "Information about your data" %}</h1><p>{% translate "The practice manages accompanied profiles and authorizes family access. The application records assigned activities, participation and comments. Professional observations remain restricted." %}</p><p>{% translate "This local version uses fictional profiles. Before real use, the practice must provide its identified contacts, applicable legal information, retention policy and hosting details." %}</p><p>{% translate "You can export authorized records or submit an erasure request from the profile. Acknowledging this information is not a certification of compliance or a substitute for applicable consent." %}</p><p>{{ organization.name }} · {% translate "Configured retention days" %} : {{ organization.retention_days|default_if_none:'—' }}</p>{% if scope_error %}<p class="errornote" role="alert">{{ scope_error }}</p>{% endif %}{% if organization %}<form method="post">{% csrf_token %}<input type="hidden" name="practice_scope" value="{{ practice_scope }}"><button class="button">{% translate "I have read this information" %}</button></form>{% endif %}</section>{% endblock %}
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<section class="card form-card">
+  <h1>{% translate "Information about your data" %}</h1>
+  <p>{% translate "The practice manages accompanied profiles and authorizes family access. The application records assigned activities, participation and comments. Professional observations remain restricted." %}</p>
+  {% if demo_mode %}
+    <p>{% translate "This local version uses fictional profiles. Before real use, the practice must provide its identified contacts, applicable legal information, retention policy and hosting details." %}</p>
+  {% elif notice_contact_email %}
+    <p>{% translate "Before entering personal data, ask your practice for full information on data handling, retention and hosting." %}</p>
+    <p>{% translate "Practice contact for data questions" %} · <bdi dir="ltr">{{ notice_contact_email }}</bdi></p>
+  {% else %}
+    <p>{% translate "Before entering personal data, ask your practice for its contact details and full information on data handling, retention and hosting." %}</p>
+  {% endif %}
+  <p>{% translate "You can export authorized records or submit an erasure request from the profile. Acknowledging this information is not a certification of compliance or a substitute for applicable consent." %}</p>
+  <p>{{ organization.name }} · {% translate "Configured retention days" %} : {{ organization.retention_days|default_if_none:'—' }}</p>
+  {% if scope_error %}<p class="errornote" role="alert">{{ scope_error }}</p>{% endif %}
+  {% if organization %}
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="practice_scope" value="{{ practice_scope }}">
+      <button class="button">{% translate "I have read this information" %}</button>
+    </form>
+  {% endif %}
+</section>
+{% endblock %}

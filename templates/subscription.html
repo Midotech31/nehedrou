@@ -1,1 +1,50 @@
-{% extends 'base.html' %}{% load i18n %}{% block content %}<h1>{% translate "Plan and access" %}</h1><section class="card"><span class="badge">{{ entitlement.get_status_display }}</span><h2>{{ entitlement.plan }}</h2><div class="grid three stats"><div><span>{% translate "Active profiles" %}</span><strong>{{ used_children }} / {{ entitlement.child_quota }}</strong></div><div><span>{% translate "Practitioners" %}</span><strong>{{ used_members }} / {{ entitlement.practitioner_quota }}</strong></div><div><span>{% translate "Access until" %}</span><strong class="date">{{ entitlement.expires_at|date:'d/m/Y' }}</strong></div></div><p>{% translate "Billing is managed manually. No card information is collected." %}</p><p>{% translate "Expired access blocks new profiles and assignments. Existing programs, history and authorized exports remain accessible." %}</p></section>{% endblock %}
+{% extends 'base.html' %}{% load i18n %}
+{% block title %}{% translate "Plan and access" %} · Nehedrou{% endblock %}
+{% block content %}
+<h1>{% translate "Plan and access" %}</h1>
+<section class="card">
+  {% if entitlement %}
+  <span class="badge{% if not access_usable %} warning{% endif %}">{{ access_status }}</span>
+  <h2 dir="auto">{{ entitlement.plan }}</h2>
+  {% else %}
+  <h2>{% translate "No access plan has been set" %}</h2>
+  {% endif %}
+  <div class="grid three stats">
+    <div><span>{% translate "Active profiles" %}</span><strong><bdi dir="ltr">{{ used_children }}{% if entitlement %} / {{ entitlement.child_quota }}{% endif %}</bdi></strong></div>
+    <div><span>{% translate "Practitioners" %}</span><strong><bdi dir="ltr">{{ used_members }}{% if entitlement %} / {{ entitlement.practitioner_quota }}{% endif %}</bdi></strong></div>
+    {% if entitlement %}
+    <div><span>{% translate "Access until" %}</span><strong class="date"><bdi dir="ltr">{{ entitlement.expires_at|date:'d/m/Y' }}</bdi></strong></div>
+    {% endif %}
+  </div>
+  {% if not access_usable %}
+  <p>{% translate "Profile creation and activity assignment are paused. You can view existing programs, history and authorized exports." %}</p>
+  <p><strong>{% translate "Contact the platform operator to arrange activation or renewal for this practice." %}</strong></p>
+  {% endif %}
+  <p>{% translate "Billing is managed manually. No card information is collected." %}</p>
+  {% if not practice_selection_required %}
+  <p><a class="button secondary" id="practice-billing-summary-link" href="{% url 'practice_billing_summary' %}">{% translate "Practice billing summary" %}</a></p>
+  {% endif %}
+</section>
+{% if latest_access_request or access_request_scope %}
+<section class="card" id="practice-access-request">
+  <h2>{% translate "Manual review of practice access" %}</h2>
+  {% if latest_access_request %}
+    {% if latest_access_request.acknowledged_at %}
+      <p data-request-state="acknowledged"><strong>{% translate "The platform operator has acknowledged your request." %}</strong>
+        <time datetime="{{ latest_access_request.acknowledged_at|date:'c' }}">{{ latest_access_request.acknowledged_at|date:'DATETIME_FORMAT' }}</time></p>
+    {% else %}
+      <p data-request-state="pending"><strong>{% translate "Your request is awaiting review by the platform operator." %}</strong>
+        <time datetime="{{ latest_access_request.requested_at|date:'c' }}">{{ latest_access_request.requested_at|date:'DATETIME_FORMAT' }}</time></p>
+    {% endif %}
+  {% endif %}
+  <p>{% translate "Review and access activation are separate steps. You can check the request status on this page." %}</p>
+  {% if access_request_scope %}
+    <form method="post" action="{% url 'request_practice_access' %}">
+      {% csrf_token %}
+      <input type="hidden" name="practice_scope" value="{{ access_request_scope }}">
+      <button class="button" type="submit">{% translate "Request an access review" %}</button>
+    </form>
+  {% endif %}
+</section>
+{% endif %}
+{% endblock %}

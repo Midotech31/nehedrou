@@ -21,6 +21,7 @@ RECORDING_CONTEXT_COLUMNS = (
     'audio_current_gaps',
     'editorial_version_url',
     'audio_collection_url',
+    'audio_documentation_url',
 )
 
 _INTEGRITY_OR_BINDING = frozenset(('media_bytes', 'audio_binding'))
@@ -57,13 +58,20 @@ def _can_collect(activity, user):
             and allowed(user, activity.variety, 'edit'))
 
 
+def _documentation_required(media, codes, status):
+    return (status == 'documentation_required' and media.get('voice_source') == 'human'
+            and not media.get('revoked') and media.get('rights_status') != 'excluded'
+            and 'evidence_scope' not in codes)
+
+
 def recording_context_by_side(activity, dossier, user):
     """Return exactly A/B context rows in RECORDING_CONTEXT_COLUMNS order.
 
     Callers append these values to their existing exact-version worksheet row
     and retain its CSV escaping. Collection is offered only for a recording or
     binding/integrity task in an editable draft. A documentation-only gap must
-    not silently become another recording request. Opening the normal endpoint
+    not silently become another recording request. A separate documentation
+    link is available for an eligible linked adult take. Opening the normal endpoint
     creates its fresh signed context; no expiring capability is exported here.
     """
     media_by_side = {}
@@ -81,17 +89,21 @@ def recording_context_by_side(activity, dossier, user):
             codes.append('media_missing')
         rows[side] = (media, codes, _status(media, codes))
 
-    collection_allowed = (any(row[2] in _COLLECTION_STATUSES for row in rows.values())
-                          and _can_collect(activity, user))
+    can_edit = (any(status in _COLLECTION_STATUSES or _documentation_required(media, codes, status)
+                    for media, codes, status in rows.values()) and _can_collect(activity, user))
+    can_document = can_edit and not activity.is_demo
     origin = settings.PUBLIC_ORIGIN.rstrip('/')
     version_url = origin + reverse('editorial_detail', args=[activity.pk])
     upload_url = origin + reverse('editorial_upload')
     result = {}
     for side, (media, codes, status) in rows.items():
         collection_url = ''
-        if collection_allowed and status in _COLLECTION_STATUSES:
+        if can_edit and status in _COLLECTION_STATUSES:
             collection_url = upload_url + '?' + urlencode({'draft': str(activity.pk), 'audio_side': side})
+        documentation_url = ''
+        if can_document and _documentation_required(media, codes, status):
+            documentation_url = origin + reverse('editorial_audio_rights', args=[activity.pk, side])
         result[side] = [status, str(_STATUS_LABELS[status]), str(media.get('asset_id') or ''), str(media.get('sha256') or ''),
             ' / '.join(codes), ' / '.join(_unique_text(media.get('reasons', ()))),
-            version_url, collection_url]
+            version_url, collection_url, documentation_url]
     return result

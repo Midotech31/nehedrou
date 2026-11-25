@@ -128,11 +128,17 @@ def main():
         os.environ['NEHEDROU_BACKUP_KEY'] = Fernet.generate_key().decode('ascii')
         sys.path[:0] = [str(root), str(repository)]
         import django
-        django.setup()
+        from django.conf import settings
+        from django.core.management import call_command
         from django.db import connections
+        # The restored template uses production WhiteNoise assets. Build the
+        # manifest in the fixture so the checkout stays read-only.
+        settings.STATIC_ROOT = directory / 'staticfiles'
+        django.setup()
+        call_command('collectstatic', interactive=False, verbosity=0)
+        require((settings.STATIC_ROOT / 'staticfiles.json').is_file(), 'STATIC_MANIFEST_REQUIRED')
         # Preserve Django's populated TEST defaults (MIRROR, MIGRATE, ...).
         connections['default'].settings_dict['TEST']['NAME'] = 'restore_reg_source_' + identity
-        from django.core.management import call_command
         call_command('test', 'postgres_roundtrip_tests', verbosity=2, interactive=False)
         summary = json.loads((directory / 'roundtrip-result.json').read_text(encoding='utf-8'))
     finally:

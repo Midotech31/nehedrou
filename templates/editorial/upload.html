@@ -9,5 +9,19 @@
 <audio controls preload="none" data-record-preview hidden aria-label="{% translate 'Listen to your recording before uploading' %}"></audio>
 <div class="audio-actions"><button type="button" class="button" data-record-use hidden>{% translate 'Use this recording' %}</button><a data-record-download hidden download="nehedrou-adult-model.wav">{% translate 'Download WAV' %}</a></div>
 <small>{% translate 'Recording permission does not replace a documented licence or clinical and linguistic review. Never record a child here.' %}</small>
-</section><noscript><p>{% translate 'Recording needs JavaScript. File import remains available.' %}</p></noscript>
-<fieldset><legend>{% translate 'Rights and permissions' %}</legend>{% for field in form %}{% if field.name != 'file' and field.name != 'kind' and field.name|slice:':6' != 'audio_' %}<p>{{ field.label_tag }}{{ field }}{{ field.errors }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}</p>{% endif %}{% endfor %}</fieldset><button class="button">{% translate 'Save media' %}</button></form></section><script src="{% static 'audio-recorder.js' %}" defer></script>{% endblock %}
+</section><section data-record-retention
+ data-retained="{% translate 'Your attached recording stays in this tab if saving fails. Keep this tab open or download the WAV before leaving.' %}"
+ data-fallback="{% translate 'Download your WAV before saving in this browser. The normal upload will reload this page.' %}"
+ data-saving="{% translate 'Saving this recording… Keep this page open.' %}"
+ data-invalid="{% translate 'Check the form. Your recording is still here.' %}"
+ data-uncertain="{% translate 'The save outcome could not be confirmed. Your WAV is still here. Retry the unchanged form or download it before leaving.' %}"
+ data-conflict="{% translate 'This attempt was already used for different content. Open the saved result before starting another upload.' %}"
+ data-unavailable="{% translate 'The saved recording is unavailable or changed. Your WAV is still here. Check the saved result before starting another upload.' %}"
+ data-saved="{% translate 'Your recording was saved. Open the saved media.' %}">
+ <output role="status" aria-live="polite" data-retention-status></output>
+ <div role="alert" tabindex="-1" data-retention-errors hidden></div>
+ <a data-retention-result hidden>{% translate 'Open saved media' %}</a>
+</section>
+<noscript><p>{% translate 'Recording needs JavaScript. File import remains available.' %}</p></noscript>
+<fieldset><legend>{% translate 'Rights and permissions' %}</legend>{% for field in form %}{% if field.name != 'file' and field.name != 'kind' and field.name|slice:':6' != 'audio_' %}<p>{{ field.label_tag }}{{ field }}{{ field.errors }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}</p>{% endif %}{% endfor %}</fieldset><button class="button">{% translate 'Save media' %}</button></form></section><script src="{% static 'audio-recorder.js' %}" defer></script>
+<script src="{% static 'recording-retention.js' %}" defer></script>{% endblock %}

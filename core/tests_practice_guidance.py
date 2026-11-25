@@ -162,6 +162,8 @@ class AssignedPracticeGuidanceTests(TestCase):
         execute_controller(self,response,'observation')
 
     def test_private_pair_precautions_and_sources_remain_in_collapsed_adult_guide(self):
+        self.family.instruction_language_follows_interface = False
+        self.family.save(update_fields=['instruction_language_follows_interface'])
         document=json.loads((Path(settings.BASE_DIR)/'docs/arabic-library-v1.json').read_text(encoding='utf-8'))
         source=next(row for row in document['activities'] if row['word_a']=='جَمَل' and row['kind']=='phonological_contrast')
         values=dict(source)

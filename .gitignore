@@ -11,3 +11,7 @@ editorial_uploads/
 *.sqlite3-wal
 *.sqlite3-shm
 .render-secrets.json
+.demo-secret
+.demo-password-pitou
+pilot-data/
+wheelhouse/

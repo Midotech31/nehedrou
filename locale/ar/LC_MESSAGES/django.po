@@ -6194,3 +6194,537 @@ msgstr "يظهر الرابط مرةً واحدة. إذا لم تنسخه، فأ
 
 msgid "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role."
 msgstr "يبقى الرابط السابق غير المستخدم صالحًا إذا تعذّر إرسال البريد الإلكتروني. يحلّ رابط جديد للتسليم الشخصي أو رسالة قبلتها خدمة البريد محلّ الروابط السابقة لعنوان البريد نفسه والتنوّع اللغوي المنطوق نفسه والدور نفسه."
+
+msgid "Your attached recording stays in this tab if saving fails. Keep this tab open or download the WAV before leaving."
+msgstr "إذا فشل الحفظ، يبقى التسجيل المرفق في علامة التبويب هذه. أبقها مفتوحة أو نزّل ملف WAV قبل المغادرة."
+
+msgid "Download your WAV before saving in this browser. The normal upload will reload this page."
+msgstr "نزّل ملف WAV قبل الحفظ في هذا المتصفح. سيعيد الرفع العادي تحميل الصفحة."
+
+msgid "Saving this recording… Keep this page open."
+msgstr "جارٍ حفظ التسجيل… أبق هذه الصفحة مفتوحة."
+
+msgid "Check the form. Your recording is still here."
+msgstr "راجع الاستمارة. ما زال تسجيلك موجودًا هنا."
+
+msgid "The save outcome could not be confirmed. Your WAV is still here. Retry the unchanged form or download it before leaving."
+msgstr "تعذّر تأكيد نتيجة الحفظ. ما زال ملف WAV هنا. أعد المحاولة دون تغيير الاستمارة أو نزّله قبل المغادرة."
+
+msgid "This attempt was already used for different content. Open the saved result before starting another upload."
+msgstr "استُخدمت هذه المحاولة لمحتوى مختلف. افتح النتيجة المحفوظة قبل بدء رفع جديد."
+
+msgid "Your recording was saved. Open the saved media."
+msgstr "حُفظ تسجيلك. افتح الوسائط المحفوظة."
+
+msgid "Open saved media"
+msgstr "فتح الوسائط المحفوظة"
+
+msgid "This recording upload request is invalid. Keep your WAV and reload the collection page."
+msgstr "طلب رفع التسجيل غير صالح. احتفظ بملف WAV وأعد تحميل صفحة جمع التسجيل."
+
+msgid "Upload receipts are immutable."
+msgstr "لا يمكن تعديل إيصالات الرفع."
+
+msgid "An upload receipt must belong to the uploader of its media."
+msgstr "يجب أن يخص إيصال الرفع الشخص الذي رفع الوسائط."
+
+msgid "An upload receipt requires an exact request fingerprint."
+msgstr "يتطلب إيصال الرفع بصمة دقيقة للطلب."
+
+msgid "The saved recording is unavailable or changed. Your WAV is still here. Check the saved result before starting another upload."
+msgstr "التسجيل المحفوظ غير متاح أو تغيّر. ما زال ملف WAV هنا. تحقّق من النتيجة المحفوظة قبل بدء رفع جديد."
+
+msgid "Before entering personal data, ask your practice for its contact details and full information on data handling, retention and hosting."
+msgstr "قبل إدخال بيانات شخصية، اطلب من عيادتك بيانات الاتصال والمعلومات الكاملة عن كيفية معالجة البيانات والاحتفاظ بها واستضافتها."
+
+msgid "Enter an age from 4 to 7 years."
+msgstr "أدخل عمرًا من 4 إلى 7 سنوات."
+
+msgid "No access plan has been set"
+msgstr "لم تُحدَّد خطة وصول للعيادة"
+
+msgid "Profile creation and activity assignment are paused. You can view existing programs, history and authorized exports."
+msgstr "إضافة ملفات الأطفال وإسناد الأنشطة متوقفان حاليًا. يمكنكم الاطلاع على البرامج الحالية والسجل والتصديرات المصرّح بها."
+
+msgid "Contact the platform operator to arrange activation or renewal for this practice."
+msgstr "تواصلوا مع مسؤول المنصة لتفعيل صلاحية وصول العيادة أو تجديدها."
+
+msgid "An authorised operator manages publishing access for this spoken variety."
+msgstr "يدير مشغّل مخوّل صلاحية النشر لهذه اللغة أو اللهجة."
+
+msgid "Verification of the trusted proxy chain"
+msgstr "التحقق من سلسلة الوكلاء الموثوق بهم"
+
+msgid "Test of private storage access and persistence after restart"
+msgstr "اختبار الوصول إلى التخزين الخاص وبقاء الملفات بعد إعادة التشغيل"
+
+msgid "Test of the encrypted off-host backup destination and schedule"
+msgstr "اختبار وجهة النسخ الاحتياطية المشفّرة خارج الاستضافة وجدولتها"
+
+msgid "Verification of backup key custody and archive retention"
+msgstr "التحقق من حفظ مفاتيح النسخ الاحتياطي والاحتفاظ بالأرشيف"
+
+msgid "Recent restore test and access to restored dossiers"
+msgstr "اختبار حديث للاستعادة والوصول إلى الملفات المستعادة"
+
+msgid "Test of alert recipients and escalation procedure"
+msgstr "اختبار استلام التنبيهات وإجراءات التصعيد"
+
+msgid "Receipt of invitation and recovery emails and successful use of their links"
+msgstr "استلام رسائل الدعوة واستعادة الحساب واستخدام روابطها بنجاح"
+
+msgid "Validation of recovery time and data-loss objectives"
+msgstr "التحقق من أهداف زمن الاستعادة والحد الأقصى لفقدان البيانات"
+
+msgid "The operator verifies these requirements before paid launch or clinical use."
+msgstr "يتحقّق المشغّل من هذه الشروط قبل الإطلاق المدفوع أو الاستخدام السريري."
+
+msgid "Email address shown on the data notice"
+msgstr "عنوان البريد الإلكتروني المعروض في إشعار البيانات"
+
+msgid "Use a practice address for data questions. It is shown to authorized users and invited recipients for this practice."
+msgstr "استخدموا عنوانًا للعيادة مخصصًا لأسئلة البيانات. يظهر للمستخدمين المخوّلين ولمن تلقّوا دعوة من هذه العيادة."
+
+msgid "Before entering personal data, ask your practice for full information on data handling, retention and hosting."
+msgstr "قبل إدخال بيانات شخصية، اطلبوا من عيادتكم المعلومات الكاملة عن معالجتها والاحتفاظ بها واستضافتها."
+
+msgid "Practice contact for data questions"
+msgstr "عنوان العيادة لأسئلة البيانات"
+
+msgid "Manual review of practice access"
+msgstr "مراجعة يدوية لوصول العيادة"
+
+msgid "Request an access review"
+msgstr "طلب مراجعة الوصول"
+
+msgid "Your request is awaiting review by the platform operator."
+msgstr "طلبكم في انتظار مراجعة مسؤول المنصة."
+
+msgid "The platform operator has acknowledged your request."
+msgstr "أكّد مسؤول المنصة استلام طلبكم."
+
+msgid "Review and access activation are separate steps. You can check the request status on this page."
+msgstr "تتم مراجعة الطلب وتفعيل الوصول في خطوتين منفصلتين. يمكنكم متابعة حالة الطلب في هذه الصفحة."
+
+msgid "Practice access requests"
+msgstr "طلبات وصول العيادات"
+
+msgid "Acknowledge request"
+msgstr "تأكيد الاستلام"
+
+msgid "No practice access requests are awaiting review."
+msgstr "لا توجد طلبات وصول للعيادات تنتظر المراجعة."
+
+msgid "The cabinet access request is acknowledged."
+msgstr "سُجّل استلام طلب وصول العيادة."
+
+msgid "Document illustration rights"
+msgstr "توثيق حقوق الصورة"
+
+msgid "This links a new copy of the same illustration to this word in the draft. Review and publication are separate steps."
+msgstr "تُربط نسخة جديدة من الصورة نفسها بهذه الكلمة في المسودة. تُجرى المراجعة والنشر في خطوات منفصلة."
+
+msgid "Save rights and link illustration"
+msgstr "حفظ الحقوق وربط الصورة"
+
+msgid "The draft or illustration changed. Open the current draft and review the illustration again."
+msgstr "تغيّرت المسودة أو الصورة. افتح المسودة الحالية وتحقّق من الصورة من جديد."
+
+msgid "The result could not be confirmed. Reopen the draft before trying again."
+msgstr "تعذّر التأكّد من النتيجة. أعد فتح المسودة قبل المحاولة مرة أخرى."
+
+msgid "Illustration rights saved and linked to the draft."
+msgstr "حُفظت حقوق الصورة ورُبطت بالمسودة."
+
+msgid "An illustration’s recorded predecessor cannot be changed."
+msgstr "لا يمكن تغيير الصورة السابقة المسجلة."
+
+msgid "An illustration predecessor must be a different existing image with the same bytes."
+msgstr "يجب أن تكون الصورة السابقة صورة أخرى موجودة ذات وحدات بايت مطابقة."
+
+msgid "Illustration origin"
+msgstr "مصدر الصورة"
+
+msgid "Previous illustration"
+msgstr "الصورة السابقة"
+
+msgid "Original illustration"
+msgstr "الصورة الأصلية"
+
+msgid "Generated review pack"
+msgstr "حزمة الصور المولَّدة للمراجعة"
+
+msgid "Local test with fictional data"
+msgstr "اختبار محلي ببيانات وهمية"
+
+msgid "Hosted demonstration"
+msgstr "العرض التجريبي المستضاف"
+
+msgid "Intended live service"
+msgstr "الخدمة الفعلية المستهدفة"
+
+msgid "Reported successful check"
+msgstr "تحقّق ناجح بحسب الإفادة"
+
+msgid "Reported issue or incomplete result"
+msgstr "مشكلة أو نتيجة غير مكتملة بحسب الإفادة"
+
+msgid "Enter a SHA-256 digest with exactly 64 hexadecimal characters."
+msgstr "أدخلوا بصمة SHA-256 من 64 محرفًا سداسيًا عشريًا بالضبط."
+
+msgid "The observation date cannot be in the future."
+msgstr "لا يمكن أن يكون تاريخ الملاحظة في المستقبل."
+
+msgid "Operator evidence history is append-only."
+msgstr "يتيح سجل الأدلة إضافة سجلات جديدة فقط."
+
+msgid "Operator evidence history cannot be deleted."
+msgstr "لا يمكن حذف سجلات الأدلة."
+
+msgid "Operator check"
+msgstr "فحص تشغيلي"
+
+msgid "Observed environment"
+msgstr "البيئة المرصودة"
+
+msgid "Reported outcome"
+msgstr "النتيجة المبلّغ عنها"
+
+msgid "Evidence SHA-256"
+msgstr "بصمة SHA-256 للدليل"
+
+msgid "Submit only the listed operator evidence fields."
+msgstr "أرسلوا الحقول المعروضة في سجل الأدلة فقط."
+
+msgid "The operator observation was recorded."
+msgstr "سُجّلت الملاحظة التشغيلية."
+
+msgid "Operator evidence register"
+msgstr "سجل الأدلة التشغيلية"
+
+msgid "Recorded operator observations"
+msgstr "الملاحظات التشغيلية المسجّلة"
+
+msgid "The latest observation is shown for each check and environment."
+msgstr "تُعرض أحدث ملاحظة لكل فحص ولكل بيئة."
+
+msgid "Open the evidence register"
+msgstr "فتح سجل الأدلة"
+
+msgid "Keep the evidence in private storage. The SHA-256 identifies the retained file. The operator verifies the evidence and the reported outcome."
+msgstr "احتفظوا بالدليل في مكان خاص. تحدّد بصمة SHA-256 الملف المحفوظ. وتقع مسؤولية التحقّق من الدليل والنتيجة المبلّغ عنها على مشغّل الخدمة."
+
+msgid "No operator observations recorded yet."
+msgstr "لم تُسجّل أي ملاحظات تشغيلية بعد."
+
+msgid "Record an operator observation"
+msgstr "تسجيل ملاحظة تشغيلية"
+
+msgid "Enter the date and environment of the original check. Use a new record to correct or update an observation."
+msgstr "أدخلوا تاريخ الفحص الأصلي وبيئته. أضيفوا سجلًا جديدًا لتصحيح ملاحظة أو تحديثها."
+
+msgid "Record observation"
+msgstr "تسجيل الملاحظة"
+
+msgid "Operator observation history"
+msgstr "تاريخ الملاحظات التشغيلية"
+
+# Reviewer recorded definitions (2026-11-24).
+msgid "Either word may be requested; the activity link selects the picture."
+msgstr "يمكن طلب أيّ من الكلمتين؛ ويحدّد رابط النشاط الصورة المطلوبة."
+
+msgid "Evidence bytes missing or changed."
+msgstr "ملف الدليل مفقود أو تغيّرت محتوياته."
+
+msgid "Evidence reference"
+msgstr "مرجع الدليل"
+
+msgid "Evidence reference unavailable for this variety and category."
+msgstr "مرجع الدليل غير متاح لهذا التنوع اللغوي وهذه الفئة."
+
+msgid "Evidence revoked."
+msgstr "سُحب ملف الدليل."
+
+msgid "Evidence validity is unknown, expired or not yet current."
+msgstr "مدة صلاحية ملف الدليل غير معروفة أو منتهية أو لم تبدأ بعد."
+
+msgid "Final"
+msgstr "نهائي"
+
+msgid "Initial"
+msgstr "أوّلي"
+
+msgid "Medial"
+msgstr "وسطي"
+
+msgid "No admissible variant recorded."
+msgstr "لم يُسجّل أيّ بديل مقبول."
+
+msgid "No evidence fingerprint recorded."
+msgstr "لم تُسجّل بصمة لملف الدليل."
+
+msgid "No evidence reference recorded."
+msgstr "لم يُسجّل مرجع لدليل."
+
+msgid "No requested picture for this response mode."
+msgstr "لا توجد صورة مطلوبة في نمط الاستجابة هذا."
+
+msgid "Open the referenced private evidence"
+msgstr "فتح ملف الدليل الخاص المشار إليه"
+
+msgid "Other"
+msgstr "أخرى"
+
+msgid "Phoneme index (starts at 0)"
+msgstr "رقم الصوت (يبدأ من 0)"
+
+msgid "Recorded evidence fingerprint"
+msgstr "بصمة الدليل المسجّلة"
+
+msgid "Recorded evidence fingerprint differs from the document."
+msgstr "بصمة الدليل المسجّلة تختلف عن بصمة الوثيقة."
+
+msgid "Recorded familiarity note"
+msgstr "ملاحظة الألفة المسجّلة"
+
+msgid "Recorded reference matches intact evidence within its declared validity period."
+msgstr "المرجع المسجّل يطابق ملف الدليل وبصمته ضمن مدة صلاحيته المصرّح بها."
+
+msgid "Recorded task and word definitions"
+msgstr "المهمة وتعريفات الكلمات المسجّلة"
+
+msgid "These are current editorial entries for the displayed fingerprint. They are not verified linguistic or clinical evidence."
+msgstr "هذه بيانات تحريرية حالية مرتبطة بالبصمة المعروضة، ولا تمثّل أدلة لغوية أو سريرية معتمدة."
+
+msgid "Unknown stored task value."
+msgstr "قيمة المهمة المسجّلة غير معروفة."
+
+msgid "Practice billing summary"
+msgstr "ملخّص فواتير العيادة"
+
+msgid "Billing summary sharing"
+msgstr "مشاركة ملخّص الفواتير"
+
+msgid "Reopen the invoice to review its current status and sharing setting before saving."
+msgstr "أعيدوا فتح الفاتورة لمراجعة حالتها وإعداد المشاركة قبل الحفظ."
+
+msgid "Shared with the cabinet owner"
+msgstr "مشارَك مع مسؤول العيادة"
+
+msgid "Private to platform billing"
+msgstr "خاص بمسؤولي الفوترة في المنصة"
+
+msgid "The cabinet summary shows the invoice number, amount, status and dates."
+msgstr "يعرض ملخّص العيادة رقم الفاتورة والمبلغ والحالة والتواريخ."
+
+msgid "Share billing summary"
+msgstr "مشاركة ملخّص الفاتورة"
+
+msgid "Hide billing summary"
+msgstr "إخفاء ملخّص الفاتورة"
+
+msgid "Billing summary shared"
+msgstr "تمّت مشاركة ملخّص الفاتورة"
+
+msgid "Billing summary hidden"
+msgstr "تمّ إخفاء ملخّص الفاتورة"
+
+msgid "These entries are shared by the platform operator. Use the original billing document for your records."
+msgstr "يشارك مسؤول المنصة هذه المعلومات. احتفظوا بمستند الفوترة الأصلي لسجلاتكم."
+
+msgid "No billing summaries have been shared with this practice."
+msgstr "لم تُشارَك أي ملخّصات للفواتير مع هذه العيادة."
+
+# First draft save receipt (2026-11-24).
+msgid "Draft already saved"
+msgstr "المسودة محفوظة بالفعل"
+
+msgid "Open saved draft"
+msgstr "فتح المسودة المحفوظة"
+
+msgid "Reload the creation page and choose the spoken variety again."
+msgstr "أعيدوا تحميل صفحة الإنشاء واختاروا التنوع اللغوي المنطوق من جديد."
+
+msgid "This save request already created a draft with different content. Open the saved draft or start a new creation page."
+msgstr "أنشأ طلب الحفظ هذا مسودة بمحتوى مختلف. افتحوا المسودة المحفوظة أو ابدؤوا صفحة إنشاء جديدة."
+
+msgid "Inviting practice"
+msgstr "العيادة صاحبة الدعوة"
+
+msgid "Document recording rights"
+msgstr "توثيق حقوق التسجيل"
+
+msgid "The draft or recording changed. Open the current draft and check the recording again."
+msgstr "تغيّرت المسودة أو التسجيل. افتح المسودة الحالية وتحقّق من التسجيل مرة أخرى."
+
+msgid "Recording rights saved and linked to the draft."
+msgstr "حُفظت حقوق التسجيل ورُبطت بالمسودة."
+
+msgid "I confirm this evidence covers this adult voice recording and the stated uses."
+msgstr "أؤكّد أن هذا المستند يشمل تسجيل صوت الشخص البالغ هذا والاستخدامات المصرّح بها."
+
+msgid "This links the same adult recording to the draft with its rights evidence. Review and publication are separate steps."
+msgstr "يُربط تسجيل صوت الشخص البالغ نفسه بالمسودة مع مستند حقوقه. وتُجرى المراجعة والنشر في خطوات منفصلة."
+
+msgid "Save rights and link recording"
+msgstr "حفظ الحقوق وربط التسجيل"
+
+msgid "The recorded source and voice details cannot be changed."
+msgstr "لا يمكن تغيير المصدر المسجّل أو بيانات الصوت."
+
+msgid "The source recording must have the same bytes and voice details."
+msgstr "يجب أن يتطابق التسجيل المصدر في وحدات البايت وبيانات الصوت."
+
+msgid "The selected rights evidence is missing, expired, changed or revoked."
+msgstr "مستند الحقوق المحدّد مفقود أو منتهي الصلاحية أو تغيّر أو أُلغي."
+
+# Explicit family-guide recovery (2026-11-24).
+msgid "Choose saved instructions or guide sections to place in a new private working copy based on the current draft. This does not change or approve the activity."
+msgstr "اختاروا التعليمات أو أقسام الدليل المحفوظة لوضعها في نسخة عمل خاصة جديدة مبنية على المسودة الحالية. لا يؤدي ذلك إلى تعديل النشاط أو اعتماده."
+
+msgid "Choose the family-guide fields to recover"
+msgstr "اختاروا حقول الدليل الأسري المراد استرجاعها"
+
+msgid "Compare and recover saved family-guide fields"
+msgstr "مقارنة حقول الدليل الأسري المحفوظ واسترجاعها"
+
+msgid "Compare the last saved family guide with the current draft. Text entered since the working copy’s last save stays on this page."
+msgstr "قارنوا آخر دليل أسري محفوظ بالمسودة الحالية. يبقى النص المدخل منذ آخر حفظ لنسخة العمل في هذه الصفحة."
+
+msgid "Create the private recovery copy"
+msgstr "إنشاء نسخة الاسترجاع الخاصة"
+
+msgid "Current draft value"
+msgstr "القيمة في المسودة الحالية"
+
+msgid "Current words, media, variety and other draft details are kept. All other saved fields remain in the original working copy and are not applied here."
+msgstr "تُحفظ الكلمات والوسائط والتنوع اللغوي وسائر تفاصيل المسودة الحالية. تبقى جميع الحقول المحفوظة الأخرى في نسخة العمل الأصلية ولا تُطبَّق هنا."
+
+msgid "Empty value"
+msgstr "قيمة فارغة"
+
+msgid "No saved family-guide differences to recover."
+msgstr "لا توجد اختلافات محفوظة في الدليل الأسري لاسترجاعها."
+
+msgid "Only the checked fields will be recovered. Choosing an empty saved value keeps it empty; normal draft validation still applies afterwards."
+msgstr "ستُسترجع الحقول المحددة فقط. اختيار قيمة محفوظة فارغة يُبقيها فارغة؛ وتظل ضوابط المسودة المعتادة مطبّقة بعد ذلك."
+
+msgid "Open current draft"
+msgstr "فتح المسودة الحالية"
+
+msgid "Recover saved family-guide fields"
+msgstr "استرجاع حقول الدليل الأسري المحفوظ"
+
+msgid "Reload the comparison"
+msgstr "إعادة تحميل المقارنة"
+
+msgid "Saved working-copy value"
+msgstr "القيمة المحفوظة في نسخة العمل"
+
+msgid "The comparison link is invalid or expired. Open a new comparison."
+msgstr "رابط المقارنة غير صالح أو منتهي المدة. افتحوا مقارنة جديدة."
+
+msgid "The recovered working copy would exceed the existing size limit."
+msgstr "ستتجاوز نسخة العمل المسترجعة الحدّ الحالي للحجم."
+
+msgid "The working copy or current draft changed. Reload the comparison before choosing fields again."
+msgstr "تغيّرت نسخة العمل أو المسودة الحالية. أعيدوا تحميل المقارنة قبل اختيار الحقول من جديد."
+
+msgid "Erasure requires an erasure request for this dossier."
+msgstr "يتطلب محو هذا الملف وجود طلب محو يخصّه."
+
+msgid "The dossier was erased while processing another request for the same profile."
+msgstr "مُحي الملف عند معالجة طلب آخر يتعلق بالملف نفسه."
+
+msgid "Erasing this profile also resolves pending erasure requests for the same profile."
+msgstr "يؤدي محو هذا الملف أيضًا إلى إغلاق طلبات المحو المعلّقة التي تخصّه."
+
+msgid "Reviewer account inactive"
+msgstr "حساب المراجع غير نشط"
+
+msgid "Review permission missing for this discipline and variety"
+msgstr "صلاحية المراجعة غير متاحة لهذا الاختصاص وهذا التنوع اللغوي"
+
+msgid "Reviewer requirements met for this discipline and variety"
+msgstr "شروط المراجعة مستوفاة لهذا الاختصاص وهذا التنوع اللغوي"
+
+msgid "Private activity rehearsal"
+msgstr "تجربة خاصة للنشاط"
+
+msgid "Try this version privately"
+msgstr "تجربة هذه النسخة بشكل خاص"
+
+msgid "Try this exact version using fictional choices only. Nothing is saved, assigned, approved or made available for real use."
+msgstr "جرّبوا هذه النسخة نفسها باختيارات وهمية فقط. لا يُحفظ شيء ولا يُسند نشاط ولا يُعتمد المحتوى ولا يُتاح للاستخدام الفعلي."
+
+msgid "Do not enter child information. This rehearsal omits patient identifiers and free-text comments."
+msgstr "لا تُدخلوا معلومات عن طفل. لا تتضمن هذه التجربة معرّفات مرضى أو تعليقات حرة."
+
+msgid "This rehearsal changed or expired. Reload the exact version and review it before trying again."
+msgstr "تغيّرت هذه التجربة أو انتهت صلاحيتها. أعيدوا تحميل النسخة نفسها وراجعوها قبل إعادة المحاولة."
+
+msgid "No instructions have been entered in the selected language. The family activity cannot start with this language."
+msgstr "لم تُدخل تعليمات باللغة المختارة. لا يمكن بدء النشاط العائلي بهذه اللغة."
+
+msgid "Show the rehearsal summary"
+msgstr "عرض ملخّص التجربة"
+
+msgid "Illustration unavailable"
+msgstr "الصورة غير متاحة"
+
+msgid "Some linked media cannot be used in this rehearsal. Check the draft media and exact word bindings in the editorial workspace."
+msgstr "لا يمكن استخدام بعض الوسائط المرتبطة في هذه التجربة. راجعوا وسائط المسودة وارتباطها الدقيق بالكلمات في مساحة التحرير."
+
+msgid "Use the interface language for caregiver instructions"
+msgstr "استخدم لغة الواجهة لإرشادات المرافق"
+
+msgid "Fixed caregiver instruction language"
+msgstr "اللغة الثابتة لإرشادات المرافق"
+
+msgid "Used when caregiver instructions do not follow the interface."
+msgstr "تُستخدم عندما تكون لغة الإرشادات مستقلة عن لغة الواجهة."
+
+msgid "Choose a fixed language for caregiver instructions or follow the interface. The words assigned to the child stay the same."
+msgstr "اختر لغة ثابتة لإرشادات المرافق أو استخدم لغة الواجهة. تبقى الكلمات المخصَّصة للطفل كما هي."
+
+msgid "Fictional program · French"
+msgstr "مسار تجريبي · الفرنسية"
+
+msgid "Fictional program · English"
+msgstr "مسار تجريبي · الإنجليزية"
+
+msgid "Fictional program · Algerian Darja"
+msgstr "مسار تجريبي · الدارجة الجزائرية"
+
+msgid "Fictional program · Standard Arabic"
+msgstr "مسار تجريبي · العربية الفصحى"
+
+msgid "Discover the pictures"
+msgstr "نتعرّف على الصور"
+
+msgid "Explore the activity steps and practice report using fictional data."
+msgstr "تعرّف على خطوات النشاط وتقرير الممارسة باستخدام بيانات وهمية."
+
+msgid "Unvalidated example with no pronunciation assessment."
+msgstr "مثال توضيحي غير معتمد لا يتضمّن تقييمًا للنطق."
+
+msgid "Try the demonstration together. It contains no prescribed practice schedule."
+msgstr "جرّبوا النشاط معًا. هذا العرض لا يحدّد جدولًا علاجيًا للممارسة."
+
+msgid "Use this fictional program to explore the practice steps."
+msgstr "استخدموا هذا المسار التجريبي للتعرّف على خطوات الممارسة."
+
+msgid "As directed by your clinician"
+msgstr "وفق إرشادات اختصاصي علاج النطق"
+
+msgid "A"
+msgstr "أ"
+
+msgid "B"
+msgstr "ب"
+
+msgid "Fictional demo profiles only."
+msgstr "مخصّص للملفات الوهمية في العرض التجريبي."
+
+msgid "These words are NOT approved minimal pairs. No clinical validity, audio model or phonetic transcription is supplied."
+msgstr "هذه الكلمات أمثلة توضيحية. وهي لا تشكّل زوجًا أدنى معتمدًا، ولا يصاحبها نموذج صوتي أو تدوين صوتي خضع للمراجعة."

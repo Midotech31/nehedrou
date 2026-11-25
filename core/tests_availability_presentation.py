@@ -12,15 +12,17 @@ from django.urls import reverse
 from django.utils import timezone, translation
 
 from care.models import Child, FamilyLink, Program
+from catalog.content_catalog import current_catalog
 from catalog.integrity import integrity_scope, invalidate_integrity, prepare_activities
 from catalog.models import Activity, EditorialGrant, Variety
 from catalog.presentation_availability import prepare_availability
 from catalog.readiness import referenced_asset
-from catalog.services import transition
+from catalog.services import clone_version, transition
 from qualification.opening import revoke_decision
 from qualification.test_support import prepare_activity_fixture, availability_fixture
+from .access import CURRENT_NOTICE_VERSION
 from .forms import ProgramForm
-from .models import AuditEvent, Entitlement, Membership, Organization, User
+from .models import AuditEvent, Entitlement, Membership, NoticeAcknowledgement, Organization, User
 from .services import create_program
 
 
@@ -116,6 +118,48 @@ class AvailabilityPresentationTests(TestCase):
         self.assertEqual(self.client.get(reverse('activity_detail', args=[self.activity.pk])).status_code, 200)
         self.assertEqual(AuditEvent.objects.count(), before)
 
+    def test_demo_revision_cannot_replace_the_qualified_production_assignment(self):
+        demo = clone_version(self.pro, self.activity)
+        demo.title = 'Fictional demo-only revision'
+        demo.is_demo = True
+        demo.save()
+        for state in ('review', 'approved', 'published'):
+            demo = transition(self.pro, demo.pk, state)
+
+        self.assertTrue(self.activity.usable)
+        self.assertEqual(list(current_catalog(Activity.objects.filter(
+            series=demo.series, state='published'))), [demo])
+        response = self.client.get(reverse('library'),
+            {'content_language': 'ar', 'variety': self.variety.code}, secure=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['result_count'], 1)
+        self.assertContains(response, reverse('activity_detail', args=[self.activity.pk]))
+        self.assertNotContains(response, demo.title)
+        self.assertEqual(next(row['count'] for row in response.context['arabic_collections']
+            if row['code'] == self.variety.code), 1)
+        response = self.client.get(reverse('editorial_detail', args=[self.activity.pk]), secure=True)
+        self.assertFalse(response.context['is_latest_version'])
+
+        NoticeAcknowledgement.objects.create(user=self.pro, organization=self.org,
+            version=CURRENT_NOTICE_VERSION, language='en')
+        assignment = reverse('program_create', args=[self.child.pk])
+        response = self.client.get(assignment, secure=True)
+        self.assertEqual(list(response.context['form'].fields['activities'].queryset), [self.activity])
+        response = self.client.post(assignment, {**self.values(), 'action': 'assign'}, secure=True)
+        program = Program.objects.get(title=self.values()['title'])
+        self.assertRedirects(response, reverse('program_detail', args=[program.pk]), fetch_redirect_response=False)
+        item = program.items.get()
+        self.assertEqual(item.activity_id, self.activity.pk)
+        self.client.force_login(self.family)
+        with translation.override('ar'):
+            response = self.client.get(reverse('practice', args=[item.pk]), secure=True)
+            self.assertContains(response, self.activity.title)
+
+        output = io.StringIO()
+        call_command('check_readiness', json=True, stdout=output)
+        self.assertEqual(json.loads(output.getvalue())['current_available_nondemo_counts_by_variety'],
+            {self.variety.code: 1})
+
     def test_post_start_rights_revocation_updates_catalogue_form_and_launch_count(self):
         self.assertTrue(self.activity.usable)
         self.assertEqual(self.library().context['available_on_page'], 1)
@@ -208,6 +252,24 @@ class AvailabilityPresentationTests(TestCase):
             response = self.client.get(reverse('program_create', args=[self.child.pk]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Availability is checked when you preview or save this program.')
+
+    def test_builder_shows_simple_instructions_in_the_selected_language(self):
+        self.legacy_publication('Fictional alternative with English instructions only')
+        route = reverse('program_create', args=[self.child.pk])
+        for language, direction, wording in [
+            ('fr', 'ltr', 'Consignes fictives'),
+            ('en', 'ltr', 'Fictional historical instructions'),
+            ('ar', 'rtl', 'تعليمات وهمية'),
+        ]:
+            with self.subTest(language=language):
+                User.objects.filter(pk=self.pro.pk).update(instruction_language=language)
+                response = self.client.get(route, secure=True)
+                self.assertContains(response, f'<p lang="{language}" dir="{direction}">{wording}</p>', html=True)
+                for other_wording in set(self.activity.instructions.values()) - {wording}:
+                    self.assertNotContains(response, other_wording)
+                if language == 'ar':
+                    self.assertContains(response, 'Instructions unavailable')
+                    self.assertNotContains(response, 'Fictional legacy instructions')
 
     def test_only_the_visible_page_gets_media_checks_and_counts_keep_their_explicit_scope(self):
         fillers = [self.legacy_publication(f'A legacy entry {index:02d}') for index in range(24)]

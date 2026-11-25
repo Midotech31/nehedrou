@@ -1,0 +1,8 @@
+{% load i18n %}
+<span class="badge" data-competence-status="{{ status }}">
+  {% if status == 'account_inactive' %}{% translate "Reviewer account inactive" %}
+  {% elif status == 'permission_missing' %}{% translate "Review permission missing for this discipline and variety" %}
+  {% elif status == 'check_required' %}{% translate "Independent check required" %}
+  {% elif status == 'eligible' %}{% translate "Reviewer requirements met for this discipline and variety" %}
+  {% endif %}
+</span>

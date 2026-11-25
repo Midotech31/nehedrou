@@ -11,8 +11,10 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_http_methods
-from core.ops_readiness import operations_report
+from core.ops_readiness import operations_report, operator_acceptance_report
 from core.forms import ProcessingActivityForm
+from core.operator_acceptance import OperatorAcceptanceCheck
+from core.operator_evidence_views import latest_operator_observations
 from core.models import ProcessingActivity
 from core.technical_storage_probe import PROBE_KEY, PROBE_SHA256
 
@@ -60,6 +62,8 @@ MANUAL_READINESS_LABELS = {
     'processing_register_accuracy_and_legal_review': _('Processing-register accuracy and legal review'),
     'clinical_effectiveness_claims_require_separate_evidence': _('Any clinical-effectiveness claim supported by separate evidence'),
 }
+
+OPERATOR_ACCEPTANCE_LABELS = dict(OperatorAcceptanceCheck.choices)
 
 EMAIL_LABELS = {
     **SMTP_LABELS,
@@ -120,12 +124,19 @@ def launch_readiness_report(request):
             'report_available': False,
             'technical_gates_passed': False,
             'checks': {},
+            'operator_acceptance': operator_acceptance_report(),
             'scope': 'Technical report only; this route never certifies clinical release or commercial approval.',
             'configuration_error': 'Readiness report could not run because the offered spoken-variety configuration is invalid or incomplete.',
         }
         status = 503
     report.setdefault('generated_at', timezone.localtime().isoformat(timespec='seconds'))
+    observations = list(latest_operator_observations())
     if request.GET.get('format') == 'json':
+        report['operator_acceptance_observations'] = [{
+            'check': observation.check_code, 'scope': observation.scope, 'outcome': observation.outcome,
+            'observed_on': observation.observed_on.isoformat(), 'evidence_sha256': observation.evidence_sha256,
+            'recorded_at': observation.recorded_at.isoformat(),
+        } for observation in observations]
         response = HttpResponse(json.dumps(report, ensure_ascii=True, indent=2), content_type='application/json', status=status)
         response['Content-Disposition'] = 'attachment; filename="nehdrou-launch-readiness.json"'
     else:
@@ -134,6 +145,7 @@ def launch_readiness_report(request):
             'nav_section': 'operations',
             'report': report,
             'report_status': status,
+            'observations': observations,
             'check_rows': [(READINESS_CHECK_LABELS.get(key, key), bool(value)) for key, value in report.get('checks', {}).items()],
             'content_rows': [
                 (code, report.get('published_nondemo_counts_by_variety', {}).get(code, 0),
@@ -147,6 +159,8 @@ def launch_readiness_report(request):
                 for code in report.get('offered_content_varieties', [])
             ],
             'manual_gate_rows': [MANUAL_READINESS_LABELS.get(key, key) for key in report.get('manual_gates_required', [])],
+            'operator_acceptance_rows': [OPERATOR_ACCEPTANCE_LABELS[key]
+                                         for key in report.get('operator_acceptance', {}).get('required', [])],
         }, status=status)
     response['Cache-Control'] = 'private, no-store'
     response['X-Robots-Tag'] = 'noindex, nofollow'
@@ -169,18 +183,8 @@ def processing_register(request, pk=None):
         obj.updated_by = request.user
         with transaction.atomic():
             obj.save()
-            from core.models import ProcessingActivityRevision
-            from core.services import audit
-            snapshot_fields = ('organization_id', 'register_capacity', 'name', 'controller_name', 'controller_contact',
-                               'data_protection_contact', 'purposes', 'legal_basis', 'data_subject_categories',
-                               'personal_data_categories', 'recipient_categories', 'international_transfers',
-                               'retention_periods', 'security_measures', 'operations', 'active')
-            snapshot = {field: getattr(obj, field) for field in snapshot_fields}
-            revision_number = (ProcessingActivityRevision.objects.filter(activity=obj).order_by('-revision')
-                              .values_list('revision', flat=True).first() or 0) + 1
-            ProcessingActivityRevision.objects.create(activity=obj, revision=revision_number, snapshot=snapshot,
-                                                       changed_by=request.user)
-            audit(request.user, action, obj, obj.organization)
+            from core.services import record_processing_activity_revision
+            record_processing_activity_revision(request.user, obj, action)
         messages.success(request, _('Register entry saved. Have its accuracy and legal basis reviewed by the responsible people.'))
         return redirect('processing_register')
     entries = list(ProcessingActivity.objects.select_related('organization').prefetch_related('revisions__changed_by').order_by('organization__name', 'name'))

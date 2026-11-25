@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 from django import forms
+from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
 from .models import User, ProcessingActivity, Organization
@@ -26,7 +27,8 @@ class ChildForm(forms.ModelForm):
     def clean_age_years(self):
         value = self.cleaned_data['age_years']
         if not 4 <= value <= 7:
-            raise forms.ValidationError(_('The demonstration covers ages 4 to 7.'))
+            message = _('The demonstration covers ages 4 to 7.') if settings.DEMO_MODE else _('Enter an age from 4 to 7 years.')
+            raise forms.ValidationError(message)
         return value
 
 class ProgramForm(forms.Form):
@@ -50,10 +52,8 @@ class ProgramForm(forms.Form):
         if not self.is_bound and child.varieties.count() == 1 and not self.initial.get('variety'):
             self.fields['variety'].initial = child.varieties.first()
         qs = Activity.objects.filter(state='published', variety__in=child.varieties.all())
-        if not settings.DEMO_MODE:
-            qs = qs.filter(is_demo=False)
         from catalog.content_catalog import current_catalog
-        qs = current_catalog(qs)
+        qs = current_catalog(qs, real_only=not settings.DEMO_MODE)
         from .reserves import reserved_activity_ids
         qs = qs.exclude(pk__in=reserved_activity_ids(child, qs.select_related('variety')))
         self.fields['activities'].queryset = qs.select_related('variety').order_by('title', 'pk')
@@ -156,7 +156,9 @@ class HistoryFilterForm(forms.Form):
 class PreferencesForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['instruction_language']
+        fields = ['instruction_language_follows_interface', 'instruction_language']
+        labels = {'instruction_language': _('Fixed caregiver instruction language')}
+        help_texts = {'instruction_language': _('Used when caregiver instructions do not follow the interface.')}
 
 class ReassignForm(forms.Form):
     responsible = forms.ModelChoiceField(queryset=User.objects.none(), label=_('New responsible clinician'))
@@ -168,6 +170,14 @@ class PrivacyDecisionForm(forms.Form):
     decision = forms.ChoiceField(label=_('Decision'), choices=[('erase', _('Erase the child record')), ('retain', _('Retain with documented reason'))])
     reason = forms.CharField(label=_('Decision reason'), max_length=500, widget=forms.Textarea)
     confirmation = forms.CharField(label=_('Enter the child pseudonym to confirm'), max_length=60, required=False)
+
+    def __init__(self, *args, can_erase, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not can_erase:
+            self.fields['decision'].choices = [
+                (value, label) for value, label in self.fields['decision'].choices if value == 'retain'
+            ]
+            self.fields.pop('confirmation')
 
 
 class ProcessingActivityForm(forms.ModelForm):

@@ -5,12 +5,13 @@ from django.contrib import admin
 from django.contrib.auth import views as auth
 from django.urls import path, include
 from core import views
-from core import security, complete_views, billing_views
+from core import security, complete_views, billing_views, practice_access_views
 from catalog import views as editorial_views
 from catalog import editorial_access_views
-from catalog import working, quality, guided_audio
+from catalog import rehearsal
+from catalog import working, quality, guided_audio, recording_retention, image_rights, guide_recovery
 from core.health import health
-from core import operations_views
+from core import operations_views, operator_evidence_views
 from core.email_forms import CanonicalPasswordResetForm
 from core.password_views import AccountPasswordChangeView
 from core.email_views import PasswordRecoveryView, PasswordRecoveryDoneView
@@ -42,6 +43,7 @@ urlpatterns += i18n_patterns(
     path('invitations/<uuid:pk>/revoke/', views.revoke_invite, name='revoke_invite'),
     path('invitations/<uuid:pk>/resend/', views.resend_invitation, name='resend_invitation'),
     path('invite/<str:token>/', views.invite, name='invite'),
+    path('invitation/resume/', views.resume_practice_invitation, name='resume_practice_invitation'),
     path('library/', views.library, name='library'),
     path('library/<uuid:pk>/', views.activity_detail, name='activity_detail'),
     path('programs/<uuid:pk>/', views.program_detail, name='program_detail'),
@@ -59,6 +61,8 @@ urlpatterns += i18n_patterns(
     path('members/', views.members, name='members'),
     path('members/<uuid:pk>/revoke/', views.revoke_member, name='revoke_member'),
     path('subscription/', views.subscription, name='subscription'),
+    path('subscription/billing/', billing_views.practice_billing_summary, name='practice_billing_summary'),
+    path('subscription/request-access/', practice_access_views.request_access, name='request_practice_access'),
     path('preferences/', views.preferences, name='preferences'),
     path('security/setup/', security.setup, name='mfa_setup'),
     path('security/qr/', security.qr, name='mfa_qr'),
@@ -74,32 +78,44 @@ urlpatterns += i18n_patterns(
     path('practice/settings/', complete_views.organization_settings, name='organization_settings'),
     path('operations/', operations_views.diagnostics, name='operations_diagnostics'),
     path('operations/readiness/', operations_views.launch_readiness_report, name='launch_readiness_report'),
+    path('operations/readiness/evidence/', operator_evidence_views.operator_evidence, name='operator_acceptance_evidence'),
     path('operations/register/', operations_views.processing_register, name='processing_register'),
     path('operations/register/<uuid:pk>/', operations_views.processing_register, name='processing_register_edit'),
     path('operations/editorial-access/', editorial_access_views.manage_editorial_access, name='editorial_access_management'),
     path('operations/editorial-access/invitations/<uuid:pk>/revoke/', editorial_access_views.revoke_editorial_invitation_view, name='editorial_invitation_revoke'),
     path('operations/editorial-access/grants/<uuid:pk>/<str:capability>/revoke/', editorial_access_views.revoke_editorial_capability_view, name='editorial_capability_revoke'),
     path('billing/', complete_views.billing, name='billing_index'),
+    path('billing/access-requests/<int:pk>/acknowledge/', practice_access_views.acknowledge_access,
+         name='acknowledge_practice_access'),
     path('billing/<uuid:pk>/', complete_views.billing, name='billing_detail'),
     path('billing/<uuid:pk>/invoice/', complete_views.invoice_create, name='invoice_create'),
     path('billing/invoices/<uuid:pk>/', billing_views.invoice_detail, name='invoice_detail'),
     path('billing/invoices/<uuid:pk>/status/', billing_views.invoice_status, name='invoice_status'),
+    path('billing/invoices/<uuid:pk>/sharing/', billing_views.invoice_sharing, name='invoice_sharing'),
     path('members/invitations/<uuid:pk>/revoke/', complete_views.revoke_member_invitation, name='revoke_member_invitation'),
     path('editorial/invite/<str:token>/', editorial_access_views.accept_editorial_invite, name='accept_editorial_invite'),
+    path('editorial/invitation/resume/', editorial_access_views.resume_editorial_invitation,
+         name='resume_editorial_invitation'),
     path('editorial/', editorial_views.index, name='editorial_index'),
     path('followup/', include('followup.urls')),
     path('qualification/', include('qualification.urls')),
     path('editorial/work/<uuid:pk>/set-aside/', working.set_aside, name='editorial_working_status'),
+    path('editorial/work/<uuid:pk>/reconcile/', guide_recovery.reconcile, name='editorial_working_reconcile'),
     path('editorial/work/<uuid:pk>/', working.autosave, name='editorial_autosave'),
     path('editorial/quality/', quality.dashboard, name='editorial_quality'),
     path('editorial/quality/export/', quality.review_pack, name='editorial_review_pack'),
     path('editorial/new/', editorial_views.edit, name='editorial_create'),
     path('editorial/<uuid:pk>/', editorial_views.detail, name='editorial_detail'),
     path('editorial/<uuid:pk>/edit/', editorial_views.edit, name='editorial_edit'),
+    path('editorial/<uuid:pk>/rehearse/', rehearsal.rehearse, name='editorial_rehearsal'),
     path('editorial/<uuid:pk>/transition/', editorial_views.change_state, name='editorial_transition'),
     path('editorial/<uuid:pk>/clone/', editorial_views.clone, name='editorial_clone'),
     path('editorial/upload/', editorial_views.upload, name='editorial_upload'),
+    path('editorial/uploads/<uuid:pk>/', recording_retention.result, name='editorial_upload_result'),
     path('editorial/<uuid:pk>/audio/<str:side>/associate/', guided_audio.associate, name='editorial_audio_associate'),
+    path('editorial/<uuid:pk>/image/<str:side>/rights/', image_rights.document, name='editorial_image_rights'),
+    path('editorial/<uuid:pk>/audio/<str:side>/rights/', image_rights.document,
+        {'kind': 'audio'}, name='editorial_audio_rights'),
     path('media/<uuid:pk>/', editorial_views.media, name='editorial_media'),
     path('editorial/media/<uuid:pk>/revoke/', editorial_views.revoke_media, name='editorial_media_revoke'),
 )

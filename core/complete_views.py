@@ -1,5 +1,6 @@
 import hashlib
 from django import forms
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import ValidationError
@@ -8,13 +9,15 @@ from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, gettext_lazy
+from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST, require_http_methods
 from care.models import Child, Program, PracticeSession, ProgramItem, Observation, FamilyLink
 from catalog.models import Activity
-from .access import clinician_child, professional_children, manager, visible_children, membership
+from .access import clinician_child, professional_children, manager, visible_children, membership, is_family_workspace
 from .form_scope import practice_form_scope, ERROR as PRACTICE_SCOPE_ERROR
 from .billing import ENTITLEMENT_EDIT_FIELDS, entitlement_form_snapshot
+from .practice_access_views import pending_access_requests
 from .forms import ChildForm, ProgramForm, ReassignForm, PrivacyDecisionForm
 from .models import Organization, PrivacyRequest, Invitation, Entitlement, Invoice, NoticeAcknowledgement
 from .access import CURRENT_NOTICE_VERSION, notice_gate, PENDING_NOTICE_INVITATION_DIGEST, LEGACY_PENDING_NOTICE_INVITATION_TOKEN
@@ -147,8 +150,9 @@ def requests(request):
 def resolve_request(request, pk):
     obj = get_object_or_404(privacy_scope(request).select_related('child'), pk=pk)
     # A manager administers requests, but only the responsible clinician can erase clinical records.
-    can_erase = obj.child and professional_children(request.user).filter(pk=obj.child_id).exists()
-    form = PrivacyDecisionForm(request.POST or None)
+    can_erase = (obj.kind == 'erasure' and obj.child_id is not None
+        and professional_children(request.user).filter(pk=obj.child_id).exists())
+    form = PrivacyDecisionForm(request.POST or None, can_erase=can_erase)
     if request.method == 'POST' and form.is_valid():
         try:
             from .services import resolve_privacy
@@ -177,12 +181,16 @@ class InvoiceForm(forms.ModelForm):
         self.instance.paid_at = timezone.now() if data.get('status') == 'paid' else None
         return data
 
+@never_cache
 @login_required
 @permission_required('core.manage_entitlements', raise_exception=True)
 @require_http_methods(['GET', 'POST'])
 def billing(request, pk=None):
     if pk is None:
-        return render(request, 'billing/index.html', {'organizations': Organization.objects.all().order_by('name')})
+        return render(request, 'billing/index.html', {
+            'organizations': Organization.objects.all().order_by('name'),
+            'pending_access_requests': pending_access_requests(),
+        })
     if request.method == 'POST':
         # Serialize first-time creation and edits with other practice mutations.
         with transaction.atomic():
@@ -264,6 +272,27 @@ def pending_notice_invitation(request):
     return invitation
 
 
+def _notice_contact_email(request, organization, invitation, member):
+    if settings.DEMO_MODE or organization is None:
+        return ''
+    if invitation:
+        return organization.data_notice_contact_email
+    if request.practice_selection_required:
+        return ''
+    if member:
+        return organization.data_notice_contact_email
+    if is_family_workspace(request):
+        organizations = (
+            FamilyLink.objects.filter(user=request.user, active=True)
+            .order_by('child__organization_id')
+            .values_list('child__organization_id', flat=True)
+            .distinct()
+        )
+        if list(organizations[:2]) == [organization.pk]:
+            return organization.data_notice_contact_email
+    return ''
+
+
 @login_required
 def notice(request):
     pending = pending_notice_invitation(request)
@@ -288,14 +317,31 @@ def notice(request):
             return redirect('dashboard')
         except ValidationError as error:
             messages.error(request, ' '.join(error.messages))
-    return render(request, 'privacy/notice.html', {'organization': org, 'practice_scope': scope, 'scope_error': PRACTICE_SCOPE_ERROR if not scope_valid else ''}, status=200 if scope_valid else 409)
+    return render(request, 'privacy/notice.html', {
+        'organization': org,
+        'notice_contact_email': _notice_contact_email(request, org, pending, member),
+        'practice_scope': scope,
+        'scope_error': PRACTICE_SCOPE_ERROR if not scope_valid else '',
+    }, status=200 if scope_valid else 409)
+
 
 class OrganizationForm(forms.ModelForm):
     retention_days = forms.IntegerField(required=False, min_value=0, label=_('Retention period in days'), help_text=_('Choose this policy with your practice adviser before processing erasure.'))
     class Meta:
         model = Organization
-        fields = ['name', 'country', 'retention_days']
-        labels = {'name': _('Practice name'), 'country': _('Country code')}
+        fields = ['name', 'country', 'retention_days', 'data_notice_contact_email']
+        labels = {
+            'name': _('Practice name'),
+            'country': _('Country code'),
+            'data_notice_contact_email': gettext_lazy('Email address shown on the data notice'),
+        }
+        help_texts = {
+            'data_notice_contact_email': gettext_lazy(
+                'Use a practice address for data questions. It is shown to authorized users and invited recipients for this practice.'
+            ),
+        }
+        widgets = {'data_notice_contact_email': forms.EmailInput(attrs={'dir': 'ltr'})}
+
 
 @login_required
 def organization_settings(request):
@@ -305,7 +351,12 @@ def organization_settings(request):
     if not scope_valid:
         form.add_error(None, PRACTICE_SCOPE_ERROR)
     if request.method == 'POST' and scope_valid and form.is_valid():
-        org = form.save()
+        if 'data_notice_contact_email' in request.POST:
+            org = form.save()
+        else:
+            # An older form can still save the previous fields without overwriting the contact.
+            org = form.save(commit=False)
+            org.save(update_fields=['name', 'country', 'retention_days'])
         audit(request.user, 'organization.settings_updated', org, org)
         return redirect('members')
     return render(request, 'form.html', {'title': _('Practice settings'), 'form': form, 'submit': _('Save'), 'practice_scope': scope}, status=200 if scope_valid else 409)

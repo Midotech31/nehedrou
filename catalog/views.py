@@ -1,5 +1,6 @@
 from catalog.review_history import decision_history
 import mimetypes
+from urllib.parse import urlencode
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -9,6 +10,7 @@ from django.http import FileResponse, Http404
 from django.db import transaction
 import uuid
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from care.models import ProgramItem
@@ -84,8 +86,18 @@ def detail(request, pk):
     from .integrity import activity_reviews
     digest = activity.fingerprint()
     history = decision_history(activity_reviews(activity), digest)
-    return render(request, 'editorial/detail.html', {'activity': activity, 'latest_version':latest_version, 'is_latest_version':latest_version.pk == activity.pk, 'form': form, 'issues': issues, 'can_edit': allowed(request.user, activity.variety, 'edit'), 'can_publish': allowed(request.user, activity.variety, 'publish'), 'can_review': can_review, 'reviews': [row['review'] for row in history], 'review_history': history, 'affected': ProgramItem.objects.filter(activity=activity).count(), 'readiness': readiness, 'content_digest': digest, 'review_snapshot_changed':review_snapshot_changed,
+    can_publish = allowed(request.user, activity.variety, 'publish')
+    can_edit = allowed(request.user, activity.variety, 'edit')
+    from .image_rights import eligible_media
+    image_rights_sides = eligible_media(activity, 'image') if can_edit else []
+    audio_rights_sides = eligible_media(activity, 'audio') if can_edit else []
+    availability_prepare_url = ''
+    if can_publish and not activity.is_demo:
+        from qualification.opening import target_key
+        availability_prepare_url = reverse('qualification:availability') + '?' + urlencode({'target': target_key('practice', activity)})
+    return render(request, 'editorial/detail.html', {'activity': activity, 'latest_version':latest_version, 'is_latest_version':latest_version.pk == activity.pk, 'form': form, 'issues': issues, 'can_edit': can_edit, 'image_rights_sides': image_rights_sides, 'audio_rights_sides': audio_rights_sides, 'can_publish': can_publish, 'can_review': can_review, 'reviews': [row['review'] for row in history], 'review_history': history, 'affected': ProgramItem.objects.filter(activity=activity).count(), 'readiness': readiness, 'content_digest': digest, 'review_snapshot_changed':review_snapshot_changed,
         'transition_choices': activity_transition_choices(request.user, activity),
+        'availability_prepare_url': availability_prepare_url,
         'reviewer_experience': reviewer_experience, 'review_waiting_for_submission': bool(review_kinds) and activity.state == 'draft' and not allowed(request.user, activity.variety, 'edit')})
 
 @login_required
@@ -109,7 +121,17 @@ def edit(request, pk=None):
         if working and request.method != 'POST':
             form.initial.update(working.data)
     form.fields['variety'].queryset = Variety.objects.all() if request.user.is_superuser else Variety.objects.filter(editorialgrant__user=request.user, editorialgrant__edit=True)
-    if request.method == 'POST' and form.is_valid():
+    save_status, finalization_conflict = 200, None
+    if request.method == 'POST' and not pk and request.POST.get('working_copy'):
+        from .finalization import save_new_draft
+        saved, save_status, finalization_conflict = save_new_draft(request, form, working.pk if working else uuid.UUID(request.POST['working_copy']))
+        if saved:
+            return redirect('editorial_detail', pk=saved.pk)
+        if finalization_conflict:
+            from .finalization import CONFLICT_MESSAGE
+            return render(request, 'editorial/finalization_conflict.html',
+                {'saved_activity': finalization_conflict, 'body': CONFLICT_MESSAGE}, status=409)
+    elif request.method == 'POST' and form.is_valid():
         if not allowed(request.user, form.cleaned_data['variety'], 'edit'):
             raise PermissionDenied
         with transaction.atomic():
@@ -146,7 +168,7 @@ def edit(request, pk=None):
                    'capacity':_('You have 30 active working copies. Save an activity or set a copy aside in the editorial workspace.'), 'unchanged':_('No unsaved changes.'), 'pending':_('Changes waiting to be saved.'), 'failed':_('Working copy not saved. Keep this page open and retry.'),
                    'conflict':_('Another session or the source changed. Open your saved copy to reconcile changes.')}
     }
-    response = render(request, 'form.html' if advanced else 'editorial/author.html', {'title': _('Edit content draft') if pk else _('Create an activity from scratch'), 'form': form, 'submit': _('Save draft'), 'activity': activity, 'activity_add': not pk, 'working_id':working_id, 'base_digest':base_digest, 'author_config':config})
+    response = render(request, 'form.html' if advanced else 'editorial/author.html', {'title': _('Edit content draft') if pk else _('Create an activity from scratch'), 'form': form, 'submit': _('Save draft'), 'activity': activity, 'activity_add': not pk, 'working_id':working_id, 'base_digest':base_digest, 'author_config':config, 'finalization_conflict':finalization_conflict, 'guide_recovery_url':reverse('editorial_working_reconcile', args=[working.pk]) if working and pk else ''}, status=save_status)
     response['Cache-Control'] = 'private, no-store'
     return response
 
@@ -191,6 +213,9 @@ def upload(request):
     form.fields['rights_evidence'].queryset = EvidenceDocument.objects.filter(category='rights', revoked=False) if request.user.is_superuser else EvidenceDocument.objects.filter(category='rights', revoked=False, variety__editorialgrant__user=request.user).distinct()
     if collection:
         configure_upload_form(form, collection)
+    from .recording_retention import requested, save_recording
+    if requested(request):
+        return save_recording(request, form, draft, collection)
     valid = request.method == 'POST' and form.is_valid()
     if valid and collection:
         valid = validate_upload_form(form, collection)

@@ -5,11 +5,12 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import translation
 
-from core.models import AuditEvent, ProcessingActivity, ProcessingActivityRevision, User
+from core.models import AuditEvent, Organization, ProcessingActivity, ProcessingActivityRevision, User
 
 
 class ProcessingRegisterAdminTests(TestCase):
     def setUp(self):
+        self.enterContext(translation.override('fr'))
         self.operator = User.objects.create_user(
             username='processing-register-operator', email='operator@fictional.example', password='Fictional-Test-Only-123!', is_staff=True)
         self.operator.user_permissions.add(Permission.objects.get(codename='manage_processing_register'))
@@ -62,6 +63,24 @@ class ProcessingRegisterAdminTests(TestCase):
         self.assertEqual(revisions[1].changed_by_id, self.operator.pk)
         with self.assertRaises(ValidationError):
             revisions[0].delete()
+
+    def test_cabinet_register_serializes_and_retains_identity_in_private_revisions(self):
+        practice = Organization.objects.create(name='Fictional cabinet for the register')
+        payload = {**self.payload(), 'organization': str(practice.pk)}
+        self.assertRedirects(self.client.post(reverse('processing_register'), payload),
+            reverse('processing_register'), fetch_redirect_response=False)
+        record = ProcessingActivity.objects.get(organization=practice)
+        payload['purposes'] = 'Fictional changed purpose'
+        self.assertRedirects(self.client.post(reverse('processing_register_edit', args=[record.pk]), payload),
+            reverse('processing_register'), fetch_redirect_response=False)
+        data = self.client.get(reverse('processing_register') + '?format=json').json()['entries'][0]
+        self.assertEqual(data['organization'], practice.name)
+        revisions = data['revisions']
+        self.assertEqual([row['revision'] for row in revisions], [1, 2])
+        self.assertEqual([row['snapshot']['organization_id'] for row in revisions], [str(practice.pk)] * 2)
+        self.assertNotEqual(revisions[0]['snapshot']['purposes'], revisions[1]['snapshot']['purposes'])
+        self.assertEqual(AuditEvent.objects.filter(organization=practice, object_id=str(record.pk),
+            action__in=['privacy.register_activity_created', 'privacy.register_activity_updated']).count(), 2)
 
     def test_authorized_operator_can_read_and_download_register_with_access_audit(self):
         payload = self.payload()
@@ -119,6 +138,16 @@ class ProcessingRegisterAdminTests(TestCase):
         self.client.force_login(operator)
         response = self.client.get(reverse('processing_register'))
         self.assertRedirects(response, reverse('mfa_setup'), fetch_redirect_response=False)
+
+    def test_technical_admin_records_a_revision_for_a_cabinet(self):
+        practice = Organization.objects.create(name='Fictional admin register cabinet')
+        payload = {**self.payload(), 'organization': str(practice.pk), '_save': 'Save'}
+        result = self.client.post(reverse('admin:core_processingactivity_add'), payload)
+        self.assertEqual(result.status_code, 302)
+        record = ProcessingActivity.objects.get(organization=practice)
+        self.assertEqual(record.revisions.get().snapshot['organization_id'], str(practice.pk))
+        self.assertTrue(AuditEvent.objects.filter(organization=practice, object_id=str(record.pk),
+                                                 action='privacy.register_activity_created').exists())
 
     def test_register_entries_cannot_be_deleted_from_admin(self):
         payload = self.payload()

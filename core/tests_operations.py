@@ -156,17 +156,30 @@ class PrivateScheduledBackupTests(SimpleTestCase):
         self.assertFalse((self.root / '.nehedrou-backup.lock').exists())
 
     def test_success_authenticates_archive_before_reporting_and_concurrent_lock_blocks(self):
-        with patch.dict(os.environ, self.environment), patch('core.scheduled_backups.run_hook') as hook, patch('core.scheduled_backups.create_backup', return_value={'encrypted': True}) as create, patch('core.scheduled_backups.inspect_backup', return_value=({'schema': 'nehedrou-encrypted-backup-v1'}, {})):
+        sha256 = '1' * 64
+        with patch.dict(os.environ, self.environment), patch('core.scheduled_backups.run_hook') as hook, \
+                patch('core.scheduled_backups.create_backup', return_value={'encrypted': True, 'sha256': sha256}) as create, \
+                patch('core.scheduled_backups.verify_backup', return_value={'schema': 'nehedrou-encrypted-backup-v1', 'sha256': sha256}) as verify:
             report = scheduled_backup()
             self.assertTrue(report['authenticated_manifest_verified'])
             self.assertEqual([call.args[1] for call in hook.call_args_list], ['Quiesce', 'Resume'])
             destination = create.call_args.args[0]
             self.assertEqual(destination.parent, self.root.resolve())
+            verify.assert_called_once_with(destination)
             (self.root / '.nehedrou-backup.lock').write_text('Fictional other job')
             hook.reset_mock()
             with self.assertRaises(CommandError):
                 scheduled_backup()
             hook.assert_not_called()
+
+    def test_authentic_but_different_archive_is_not_reported_as_the_created_backup(self):
+        with patch.dict(os.environ, self.environment), patch('core.scheduled_backups.run_hook') as hook, \
+                patch('core.scheduled_backups.create_backup', return_value={'encrypted': True, 'sha256': '1' * 64}), \
+                patch('core.scheduled_backups.verify_backup', return_value={'schema': 'nehedrou-encrypted-backup-v1', 'sha256': '2' * 64}):
+            with self.assertRaisesMessage(CommandError, 'No successful backup receipt was issued'):
+                scheduled_backup()
+        self.assertEqual([call.args[1] for call in hook.call_args_list], ['Quiesce', 'Resume'])
+        self.assertFalse((self.root / '.nehedrou-backup.lock').exists())
 
 
 class HealthTimingTests(TestCase):

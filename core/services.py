@@ -46,6 +46,21 @@ def audit(actor, action, obj, organization=None, *, purpose_code=None, object_re
     )
 
 
+def record_processing_activity_revision(actor, activity, action):
+    """Snapshot the saved activity within the caller's write transaction."""
+    from .models import ProcessingActivityRevision
+    fields = ('register_capacity', 'name', 'controller_name', 'controller_contact',
+              'data_protection_contact', 'purposes', 'legal_basis', 'data_subject_categories',
+              'personal_data_categories', 'recipient_categories', 'international_transfers',
+              'retention_periods', 'security_measures', 'operations', 'active')
+    snapshot = {'organization_id': str(activity.organization_id) if activity.organization_id is not None else None}
+    snapshot.update((field, getattr(activity, field)) for field in fields)
+    previous = activity.revisions.order_by('-revision').values_list('revision', flat=True).first() or 0
+    ProcessingActivityRevision.objects.create(activity=activity, revision=previous + 1,
+                                               snapshot=snapshot, changed_by=actor)
+    audit(actor, action, activity, activity.organization)
+
+
 def log_child_access(actor, child, *, resource, purpose_code):
     """Log an authorized consultation by its actor, purpose, and pseudonymous subject ref."""
     if purpose_code not in {'care_delivery', 'family_practice', 'clinical_followup', 'data_portability'}:
@@ -149,6 +164,18 @@ def _manual_practice_creation_replay(invitation, actor, organization, child, ema
     return invitation, None
 
 
+def _revoke_open_practice_invitations(actor, *, organization, child, kind, email, keep_id=None):
+    invitations = Invitation.objects.select_for_update().filter(
+        organization=organization, child=child, kind=kind, email__iexact=email,
+        revoked=False, used_at__isnull=True, expires_at__gt=timezone.now()).order_by('pk')
+    if keep_id is not None:
+        invitations = invitations.exclude(pk=keep_id)
+    for invitation in invitations:
+        invitation.revoked = True
+        invitation.save(update_fields=['revoked'])
+        audit(actor, 'invitation.revoked', invitation, organization)
+
+
 def issue_manual_practice_invitation(actor, organization, child, email, kind, creation_id):
     """Create one scoped personal-handoff link; never send or persist its token."""
     try:
@@ -169,13 +196,8 @@ def issue_manual_practice_invitation(actor, organization, child, email, kind, cr
                 invitation_id=creation_id, delivery='manual')
             # Insert before revoking: a UUID collision must roll back without
             # invalidating a link from a different creation request.
-            prior = Invitation.objects.select_for_update().filter(organization=org, child=scoped_child,
-                kind=kind, email__iexact=email, revoked=False, used_at__isnull=True,
-                expires_at__gt=timezone.now()).exclude(pk=invitation.pk).order_by('pk')
-            for previous in prior:
-                previous.revoked = True
-                previous.save(update_fields=['revoked'])
-                audit(current_actor, 'invitation.revoked', previous, org)
+            _revoke_open_practice_invitations(current_actor, organization=org, child=scoped_child,
+                kind=kind, email=email, keep_id=invitation.pk)
             audit(current_actor, 'invitation.created', invitation, org)
             audit(current_actor, 'invitation.manual_created', invitation, org)
             return invitation, token
@@ -205,13 +227,30 @@ def revoke_practice_invitation(actor, invite_id, organization, child, kind):
     return invitation
 
 @transaction.atomic
+def create_erasure_request(actor, reference):
+    from .access import visible_children
+    from .models import PrivacyRequest
+    organization = Organization.objects.select_for_update().get(pk=reference.organization_id)
+    actor = lock_active_practice_actor(actor)
+    child = Child.objects.select_for_update().filter(pk=reference.pk, organization=organization).first()
+    if child is None or not visible_children(actor).filter(pk=child.pk).exists():
+        raise ValidationError(_('Access is no longer available.'))
+    obj = PrivacyRequest.objects.create(
+        organization=organization, child=child, requester=actor, kind='erasure',
+    )
+    audit(actor, 'privacy.requested', obj, organization)
+    return obj
+
+
+@transaction.atomic
 def resolve_privacy(actor, request_id, data):
     from .models import PrivacyRequest
     from .access import professional_children
     from care.models import Observation
     reference = PrivacyRequest.objects.get(pk=request_id)
     org = Organization.objects.select_for_update().get(pk=reference.organization_id)
-    child = Child.objects.select_for_update().filter(pk=reference.child_id).first()
+    actor = lock_active_practice_actor(actor)
+    child = Child.objects.select_for_update().filter(pk=reference.child_id, organization=org).first()
     obj = PrivacyRequest.objects.select_for_update().get(pk=request_id)
     professional = child and professional_children(actor).filter(pk=child.pk).exists()
     owner = Membership.objects.filter(user=actor, organization=org, active=True, role='owner').exists()
@@ -219,7 +258,10 @@ def resolve_privacy(actor, request_id, data):
         raise ValidationError(_('Access is no longer available.'))
     if obj.status != 'pending':
         raise ValidationError(_('This request has already been resolved.'))
+    resolutions = [(obj, data['reason'])]
     if data['decision'] == 'erase':
+        if obj.kind != 'erasure':
+            raise ValidationError(_('Erasure requires an erasure request for this dossier.'))
         if not professional:
             raise ValidationError(_('Access is no longer available.'))
         if data['confirmation'] != child.code:
@@ -229,6 +271,11 @@ def resolve_privacy(actor, request_id, data):
         from .complete_views import retention_anchor
         if retention_anchor(child) + timezone.timedelta(days=org.retention_days) > timezone.now():
             raise ValidationError(_('The configured retention period has not elapsed. Retain with a documented reason.'))
+        related = list(
+            PrivacyRequest.objects.select_for_update().filter(
+                organization=org, child=child, kind='erasure', status='pending',
+            ).exclude(pk=obj.pk).order_by('pk')
+        )
         audit(actor, 'child.erased', child, org)
         from followup.services import erase_child_followup
         erase_child_followup(child)
@@ -241,12 +288,33 @@ def resolve_privacy(actor, request_id, data):
         FamilyLink.objects.filter(child=child).delete()
         Invitation.objects.filter(child=child).delete()
         child.delete()
-        obj.child = None
-    obj.status = 'resolved'
-    obj.decision_reason = data['reason']
-    obj.resolved_at = timezone.now()
-    obj.save()
-    audit(actor, 'privacy.resolved', obj, org)
+        related_reason = _('The dossier was erased while processing another request for the same profile.')
+        resolutions.extend((item, related_reason) for item in related)
+        for item, _reason in resolutions:
+            # Child deletion already cleared the persisted foreign keys.
+            item.child = None
+    resolved_at = timezone.now()
+    for item, reason in resolutions:
+        item.status = 'resolved'
+        item.decision_reason = reason
+        item.resolved_at = resolved_at
+        item.save(update_fields=['status', 'decision_reason', 'resolved_at'])
+        audit(actor, 'privacy.resolved', item, org)
+
+@transaction.atomic
+def revoke_family_link(actor, reference):
+    child = lock_clinical_child(actor, reference.child)
+    link = FamilyLink.objects.select_for_update().filter(pk=reference.pk, child=child).first()
+    if link is None:
+        raise ValidationError(_('Access is no longer available.'))
+    if link.active:
+        link.active = False
+        link.save(update_fields=['active'])
+        audit(actor, 'family.revoked', link, child.organization)
+        _revoke_open_practice_invitations(actor, organization=child.organization, child=child,
+            kind='family', email=link.user.email)
+    return link
+
 
 @transaction.atomic
 def revoke_membership(actor, organization, membership_id):
@@ -266,12 +334,19 @@ def revoke_membership(actor, organization, membership_id):
         target.active = False
         target.save(update_fields=['active'])
         audit(actor, 'member.revoked', target, org)
+        _revoke_open_practice_invitations(actor, organization=org, child=None,
+            kind='clinician', email=target.user.email)
     return target
 
 
 @transaction.atomic
 def transfer_child(actor, reference, recipient):
     from .models import ChildResponsibilityTransfer, User
+    Organization.objects.select_for_update().get(pk=reference.organization_id)
+    # The shared clinical entry point locks the actor. A transfer also locks a
+    # recipient, so acquire both accounts in stable order across practices.
+    list(User.objects.select_for_update(no_key=True).filter(
+        pk__in=[actor.pk, recipient.pk]).order_by('pk'))
     child = lock_clinical_child(actor, reference)
     # Recheck current account and membership after locking: form choices can become stale.
     recipient = User.objects.select_for_update().filter(pk=recipient.pk, is_active=True).first()
@@ -302,32 +377,30 @@ def check_entitlement(organization, creating_child=False):
         raise ValidationError(_('The active child quota has been reached.'))
 
 def lock_clinical_child(actor, child):
-    """All clinical mutations lock practice, then child, then dependent records."""
-    Organization.objects.select_for_update().get(pk=child.organization_id)
-    locked = Child.objects.select_for_update().filter(pk=child.pk).first()
+    """Clinical writes lock practice, current active actor, then child/records."""
+    organization = Organization.objects.select_for_update().get(pk=child.organization_id)
+    actor = lock_active_practice_actor(actor)
+    locked = Child.objects.select_for_update().filter(pk=child.pk, organization=organization).first()
     if not locked:
         raise ValidationError(_('Access is no longer available.'))
     from .access import professional_children
     if not professional_children(actor).filter(pk=locked.pk).exists():
         raise ValidationError(_('Access is no longer available.'))
+    locked.organization = organization
     return locked
 
 @transaction.atomic
 def create_program(actor, child, data):
-    org = Organization.objects.select_for_update().get(pk=child.organization_id)
-    child = Child.objects.select_for_update().filter(pk=child.pk).first()
-    if child is None:
-        raise ValidationError(_('Access is no longer available.'))
-    from .access import professional_children
+    child = lock_clinical_child(actor, child)
+    org = child.organization
     from catalog.models import Activity
-    if not professional_children(actor).filter(pk=child.pk).exists():
-        raise ValidationError(_('Access is no longer available.'))
     if not child.active:
         raise ValidationError(_('This profile is archived. Existing records remain accessible.'))
     check_entitlement(org)
     selected = list(data['activities'])
     from catalog.content_catalog import current_catalog
-    locked = {a.pk: a for a in current_catalog(Activity.objects.select_for_update().filter(pk__in=[a.pk for a in selected])).order_by('pk')}
+    choices = Activity.objects.select_for_update().filter(pk__in=[activity.pk for activity in selected])
+    locked = {a.pk: a for a in current_catalog(choices, real_only=not settings.DEMO_MODE).order_by('pk')}
     if not selected or len(locked) != len(selected) or not child.varieties.filter(pk=data['variety'].pk).exists():
         raise ValidationError(_('All activities must match the selected variety.'))
     activities = [locked[a.pk] for a in selected]
@@ -365,6 +438,20 @@ def publish_feedback(actor, reference, text, source_report=None):
     audit(actor, 'family_feedback.published', feedback, program.organization)
     return feedback
 
+def _require_invitation_after_revocation(invitation, access, action):
+    # Older releases did not cancel open links when access was revoked. Require
+    # a later, exact issuance event for an explicitly revoked access record.
+    revoked = AuditEvent.objects.filter(organization_id=invitation.organization_id,
+        action=action, object_id=str(access.pk)).order_by('-created_at', '-pk').values_list('created_at', 'pk').first()
+    if revoked is None:
+        return
+    time, event_id = revoked
+    later = Q(created_at__gt=time) | Q(created_at=time, pk__gt=event_id)
+    if not AuditEvent.objects.filter(later, organization_id=invitation.organization_id,
+            action='invitation.created', object_id=str(invitation.pk)).exists():
+        raise ValidationError(_('This invitation is unavailable or belongs to another account.'))
+
+
 def accept_invitation(actor, token):
     return accept_invitation_digest(actor, hashlib.sha256(token.encode()).hexdigest())
 
@@ -396,6 +483,8 @@ def accept_invitation_digest(actor, digest):
         check_entitlement(org)
         member = Membership.objects.filter(organization=org, user=actor).first()
         if not member or not member.active:
+            if member is not None:
+                _require_invitation_after_revocation(invite, member, 'member.revoked')
             if Membership.objects.filter(organization=org, active=True).count() >= org.entitlement.practitioner_quota:
                 raise ValidationError(_('The practitioner quota has been reached.'))
             if member:
@@ -406,6 +495,7 @@ def accept_invitation_digest(actor, digest):
     else:
         link, _created = FamilyLink.objects.get_or_create(child=invite.child, user=actor)
         if not link.active:
+            _require_invitation_after_revocation(invite, link, 'family.revoked')
             link.active = True
             link.save()
     invite.used_at = timezone.now()
@@ -413,13 +503,28 @@ def accept_invitation_digest(actor, digest):
     audit(actor, 'invitation.accepted', invite, invite.organization)
     return invite.child
 
+def lock_active_practice_actor(actor):
+    """Recheck the persisted account under the existing care-write User lock.
+
+    Call after the Organization lock and inside the caller's transaction. A
+    request authenticated before deactivation must not use its stale snapshot.
+    NO KEY UPDATE preserves independent audit/record foreign-key references.
+    """
+    from .models import User
+    try:
+        current = User.objects.select_for_update(no_key=True).get(pk=getattr(actor, 'pk', None))
+    except User.DoesNotExist:
+        raise ValidationError(_('Access is no longer available.'))
+    if not current.is_active:
+        raise ValidationError(_('Access is no longer available.'))
+    return current
+
+
 @transaction.atomic
 def record_practice(actor, item, payload, ticket):
     # Serialize same-user submissions for idempotency, including requests racing on PostgreSQL.
-    from .models import User
     Organization.objects.select_for_update().get(pk=item.program.organization_id)
-    # Serialise actor mutations while allowing independent FK audit references.
-    User.objects.select_for_update(no_key=True).get(pk=actor.pk)
+    actor = lock_active_practice_actor(actor)
     from .access import visible_programs
     if not Child.objects.select_for_update().filter(pk=item.program.child_id).first():
         raise ValidationError(_('Access is no longer available.'))
@@ -468,7 +573,7 @@ def record_practice(actor, item, payload, ticket):
         pending = run.tasks.filter(report__isnull=True).order_by('position').first()
         if run.state != 'active' or not pending or pending.pk != task.pk:
             raise ValidationError(_('Resume the current activity from your practice run.'))
-        if not item.activity.instructions.get(actor.instruction_language):
+        if not item.activity.instructions.get(actor.effective_instruction_language):
             raise ValidationError(_('Choose another instruction language in your preferences or contact your clinician.'))
     reporter_role = 'caregiver' if FamilyLink.objects.filter(child=item.program.child, user=actor, active=True).exists() else 'clinician'
     session = PracticeSession.objects.create(organization=item.program.organization, item=item, user=actor, run_task=task, reporter_role=reporter_role, idempotency_key=ticket['key'], payload_digest=digest, answer=body['answer'], target=ticket['target'], response_mode=response_mode, completion=body['completion'], correct=(body['answer'] == ticket['target']) if body['completion'] == 'completed' and response_mode == 'matching' else None, parent_report=body['parent_report'], comment=body['comment'], support_used=body.get('support_used', ''), stop_reason=body.get('stop_reason', ''))

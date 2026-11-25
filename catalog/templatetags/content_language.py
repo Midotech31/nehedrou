@@ -34,26 +34,44 @@ def language_direction(value):
 
 
 @lru_cache(maxsize=1)
-def legacy_french_scopes():
-    # The French scope statements in this shipped editorial source were inspected
-    # individually on 30 October. Exact URL+text matches preserve existing digests;
-    # edited/unknown source text never acquires a guessed language.
+def source_declarations():
+    # Match both the URL and the original scope so editorial changes never
+    # inherit a translation intended for different content.
+    path = Path(settings.BASE_DIR) / 'docs/source-language-declarations-20261030.json'
     try:
-        data=json.loads((Path(settings.BASE_DIR)/'docs/source-language-declarations-20261030.json').read_text(encoding='utf-8'))
-        return {(source['url'],source['scope']) for source in data['entries'] if source['scope_language']=='fr'}
-    except (OSError,ValueError,KeyError,TypeError):
-        return set()
+        data = json.loads(path.read_text(encoding='utf-8'))
+        return {(entry['url'], entry['scope']): entry for entry in data['entries']}
+    except (OSError, ValueError, KeyError, TypeError):
+        return {}
+
+
+def source_declaration(source):
+    url, scope = source.get('url'), source.get('scope')
+    if not isinstance(url, str) or not isinstance(scope, str):
+        return {}
+    return source_declarations().get((url, scope), {})
 
 
 @register.filter
 def source_scope_language(source):
-    if not isinstance(source,dict):
+    if not isinstance(source, dict):
         return 'und'
     if source.get('scope_language'):
         return valid_language(source['scope_language'])
-    if not isinstance(source.get('url'),str) or not isinstance(source.get('scope'),str):
-        return 'und'
-    return 'fr' if (source['url'],source['scope']) in legacy_french_scopes() else 'und'
+    return source_declaration(source).get('scope_language', 'und')
+
+
+@register.filter
+def localized_source_scope(source, language):
+    if not isinstance(source, dict):
+        return {'text': '', 'language': 'und'}
+    original_language = source_scope_language(source)
+    declaration = source_declaration(source)
+    if original_language == declaration.get('scope_language'):
+        translated = declaration.get('translations', {}).get(language)
+        if translated:
+            return {'text': translated, 'language': language}
+    return {'text': source.get('scope', ''), 'language': original_language}
 
 
 @register.filter

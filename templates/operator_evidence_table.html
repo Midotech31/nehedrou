@@ -1,0 +1,27 @@
+{% load i18n %}
+{% if observations %}
+<div class="table-scroll">
+  <table class="report-table">
+    <thead><tr>
+      <th scope="col">{% translate "Operator check" %}</th>
+      <th scope="col">{% translate "Observed environment" %}</th>
+      <th scope="col">{% translate "Reported outcome" %}</th>
+      <th scope="col">{% translate "Observation date" %}</th>
+      <th scope="col">{% translate "Evidence SHA-256" %}</th>
+    </tr></thead>
+    <tbody>
+      {% for observation in observations %}
+      <tr data-observation-scope="{{ observation.scope }}">
+        <th scope="row">{{ observation.get_check_code_display }}</th>
+        <td>{{ observation.get_scope_display }}</td>
+        <td>{{ observation.get_outcome_display }}</td>
+        <td><time datetime="{{ observation.observed_on|date:'Y-m-d' }}">{{ observation.observed_on|date:'DATE_FORMAT' }}</time></td>
+        <td><bdi class="content-fingerprint" dir="ltr">{{ observation.evidence_sha256 }}</bdi></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p>{% translate "No operator observations recorded yet." %}</p>
+{% endif %}

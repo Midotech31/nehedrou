@@ -4,12 +4,13 @@ from collections import Counter
 from pathlib import Path
 from urllib.parse import urlsplit
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.management.base import BaseCommand, CommandError
 from django.db import connection
 from catalog.models import Activity, Variety
 from catalog.content_catalog import current_catalog
 from catalog.integrity import integrity_scope, prepare_activities
-from core.ops_readiness import smtp_configuration, email_configuration, execution_context
+from core.ops_readiness import smtp_configuration, email_configuration, execution_context, operator_acceptance_report
 from core.models import ProcessingActivity
 
 
@@ -18,8 +19,17 @@ DEFAULT_OFFERED_CONTENT_VARIETIES = ('fr-fr-pilot', 'en-us-general-pilot', 'ar-m
 
 def offered_content_varieties():
     configured = getattr(settings, 'OFFERED_CONTENT_VARIETIES', DEFAULT_OFFERED_CONTENT_VARIETIES)
-    if not isinstance(configured, (tuple, list)) or not configured or any(not isinstance(code, str) or not code or code != code.strip() for code in configured) or len(set(configured)) != len(configured):
-        raise CommandError('OFFERED_CONTENT_VARIETIES must be a nonempty list or tuple of unique exact variety codes.')
+    error = 'OFFERED_CONTENT_VARIETIES must be a nonempty list or tuple of unique exact variety codes.'
+    if (not isinstance(configured, (tuple, list)) or not configured
+            or any(not isinstance(code, str) for code in configured)
+            or len(set(configured)) != len(configured)):
+        raise CommandError(error)
+    code_field = Variety._meta.get_field('code')
+    try:
+        for code in configured:
+            code_field.clean(code, None)
+    except ValidationError:
+        raise CommandError(error) from None
     return tuple(configured)
 
 
@@ -58,7 +68,7 @@ class Command(BaseCommand):
                 'missing_one_or_more_audio_references': sum(not activity.audio_a.strip() or not activity.audio_b.strip() for activity in records),
             }
         published = Activity.objects.filter(state='published', is_demo=False).select_related('variety')
-        current_ids = set(current_catalog(published).values_list('pk', flat=True))
+        current_ids = set(current_catalog(published, real_only=True).values_list('pk', flat=True))
         # Share byte checks only within this invocation, never with a later run.
         with integrity_scope():
             catalogue = prepare_activities(list(published))
@@ -122,6 +132,7 @@ class Command(BaseCommand):
             'content_coverage_scope': 'Interface-language counts are descriptive only. Every explicitly offered spoken variety requires its own currently usable non-demo practice version, exact media, current reviews and authorised availability; MSA never covers Algerian Darja.',
             'versions_with_unavailable_audio_or_reviews': unavailable,
             'manual_gates_required': ['professional_content_and_audio_validation', 'native_language_review', 'reviewer_identity_and_variety_competence_independently_verified', 'browser_and_accessibility_acceptance', 'backup_restore_and_concurrency_acceptance', 'applicable_launch_obligations', 'processing_register_accuracy_and_legal_review', 'clinical_effectiveness_claims_require_separate_evidence'],
+            'operator_acceptance': operator_acceptance_report(),
             'storage_scope': 'Durability is operator-declared; verify persistence across restart, backup scheduling, off-host retention and restoration before launch.',
             'scope': 'A technical report, never clinical validation or commercial approval.',
         }
@@ -146,6 +157,8 @@ class Command(BaseCommand):
             if available_outside_offer:
                 self.stdout.write('BLOCK currently available practice outside the declared offer: ' +
                                   json.dumps(available_outside_offer))
+            for requirement in report['operator_acceptance']['required']:
+                self.stdout.write('NOT EVALUATED operator acceptance: ' + requirement)
             self.stdout.write(report['scope'])
         if options['strict'] and not report['technical_gates_passed']:
             raise CommandError('Technical launch gates are not met.')

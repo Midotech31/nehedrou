@@ -77,7 +77,7 @@ class ProcessingActivityAdmin(admin.ModelAdmin):
         return False
 
     def save_model(self, request, obj, form, change):
-        from .services import audit
+        from .services import record_processing_activity_revision
         if not change:
             obj.created_by = request.user
             action = 'privacy.register_activity_created'
@@ -85,17 +85,7 @@ class ProcessingActivityAdmin(admin.ModelAdmin):
             action = 'privacy.register_activity_updated'
         obj.updated_by = request.user
         super().save_model(request, obj, form, change)
-        from .models import ProcessingActivityRevision
-        snapshot_fields = ('organization_id', 'register_capacity', 'name', 'controller_name', 'controller_contact',
-                           'data_protection_contact', 'purposes', 'legal_basis', 'data_subject_categories',
-                           'personal_data_categories', 'recipient_categories', 'international_transfers',
-                           'retention_periods', 'security_measures', 'operations', 'active')
-        snapshot = {field: getattr(obj, field) for field in snapshot_fields}
-        revision_number = (ProcessingActivityRevision.objects.filter(activity=obj).order_by('-revision')
-                           .values_list('revision', flat=True).first() or 0) + 1
-        ProcessingActivityRevision.objects.create(activity=obj, revision=revision_number, snapshot=snapshot,
-                                                   changed_by=request.user)
-        audit(request.user, action, obj, obj.organization)
+        record_processing_activity_revision(request.user, obj, action)
 
 
 @admin.register(AuditEvent)

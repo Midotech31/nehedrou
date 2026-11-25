@@ -14,4 +14,22 @@
 </section>
 {% endif %}
 {% endwith %}
-{% if sources %}<section class="card"><h2>{% translate "Sources and their scope" %}</h2><p>{% translate "These sources describe approaches or language facts. They do not validate this activity or the application." %}</p><ul>{% for source in sources %}<li><a href="{{ source.url }}" rel="noreferrer" lang="{{ source|source_title_language }}" dir="{{ source|source_title_language|language_direction }}">{{ source.title }}</a><p lang="{{ source|source_scope_language }}" dir="{{ source|source_scope_language|language_direction }}">{{ source.scope }}</p></li>{% endfor %}</ul></section>{% endif %}
+{% if sources %}
+{% get_current_language as source_ui_language %}
+{% with source_language=guide.language|default:source_ui_language %}
+<section class="card">
+<h2>{% translate "Sources and their scope" %}</h2>
+<p>{% translate "These sources describe approaches or language facts. They do not validate this activity or the application." %}</p>
+<ul>
+{% for source in sources %}
+{% with scope=source|localized_source_scope:source_language title_language=source|source_title_language %}
+<li>
+<a href="{{ source.url }}" rel="noreferrer" lang="{{ title_language }}" dir="{% if title_language == 'und' %}auto{% else %}{{ title_language|language_direction }}{% endif %}">{{ source.title }}</a>
+<p lang="{{ scope.language }}" dir="{% if scope.language == 'und' or scope.language == 'mul' %}auto{% else %}{{ scope.language|language_direction }}{% endif %}">{{ scope.text }}</p>
+</li>
+{% endwith %}
+{% endfor %}
+</ul>
+</section>
+{% endwith %}
+{% endif %}

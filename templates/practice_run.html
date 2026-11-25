@@ -1,6 +1,6 @@
 {% extends 'base.html' %}{% load i18n content_language %}{% block title %}{% translate "Practice run" %} · {{ reported_count }} / {{ task_count }} · Nehedrou{% endblock %}{% block content %}
 <a href="{% url 'program_detail' run.program_id %}"><span class="direction-arrow" aria-hidden="true">←</span> {% translate "Return to program" %}</a>
-<div class="page-heading"><div><span class="eyebrow">{% translate "Practice run" %}</span><h1 dir="auto">{{ run.program.title }}</h1><p><bdi>{{ run.program.child.code }}</bdi> · {{ run.program.variety.display_label }}</p></div><span class="badge">{{ run.get_state_display }}</span></div>
+<div class="page-heading"><div><span class="eyebrow">{% translate "Practice run" %}</span><h1 dir="auto">{{ run.program.display_title }}</h1><p><bdi>{{ run.program.child.code }}</bdi> · {{ run.program.variety.display_label }}</p></div><span class="badge">{{ run.get_state_display }}</span></div>
 <section class="card run-overview">
 <h2>{% translate "Your place is saved" %}</h2>
 <p>{% translate "Activities stay in the assigned order. You can pause and return later." %}</p>

@@ -6194,3 +6194,537 @@ msgstr "The link is shown only once. If you did not copy it, create another pers
 
 msgid "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role."
 msgstr "An older unused link stays valid when email delivery fails. A new personal handoff or an email accepted by the mail service replaces older links for the same email, spoken variety and role."
+
+msgid "Your attached recording stays in this tab if saving fails. Keep this tab open or download the WAV before leaving."
+msgstr "Your attached recording stays in this tab if saving fails. Keep this tab open or download the WAV before leaving."
+
+msgid "Download your WAV before saving in this browser. The normal upload will reload this page."
+msgstr "Download your WAV before saving in this browser. The normal upload will reload this page."
+
+msgid "Saving this recording… Keep this page open."
+msgstr "Saving this recording… Keep this page open."
+
+msgid "Check the form. Your recording is still here."
+msgstr "Check the form. Your recording is still here."
+
+msgid "The save outcome could not be confirmed. Your WAV is still here. Retry the unchanged form or download it before leaving."
+msgstr "The save outcome could not be confirmed. Your WAV is still here. Retry the unchanged form or download it before leaving."
+
+msgid "This attempt was already used for different content. Open the saved result before starting another upload."
+msgstr "This attempt was already used for different content. Open the saved result before starting another upload."
+
+msgid "Your recording was saved. Open the saved media."
+msgstr "Your recording was saved. Open the saved media."
+
+msgid "Open saved media"
+msgstr "Open saved media"
+
+msgid "This recording upload request is invalid. Keep your WAV and reload the collection page."
+msgstr "This recording upload request is invalid. Keep your WAV and reload the collection page."
+
+msgid "Upload receipts are immutable."
+msgstr "Upload receipts are immutable."
+
+msgid "An upload receipt must belong to the uploader of its media."
+msgstr "An upload receipt must belong to the uploader of its media."
+
+msgid "An upload receipt requires an exact request fingerprint."
+msgstr "An upload receipt requires an exact request fingerprint."
+
+msgid "The saved recording is unavailable or changed. Your WAV is still here. Check the saved result before starting another upload."
+msgstr "The saved recording is unavailable or changed. Your WAV is still here. Check the saved result before starting another upload."
+
+msgid "Before entering personal data, ask your practice for its contact details and full information on data handling, retention and hosting."
+msgstr "Before entering personal data, ask your practice for its contact details and full information on data handling, retention and hosting."
+
+msgid "Enter an age from 4 to 7 years."
+msgstr "Enter an age from 4 to 7 years."
+
+msgid "No access plan has been set"
+msgstr "No access plan has been set"
+
+msgid "Profile creation and activity assignment are paused. You can view existing programs, history and authorized exports."
+msgstr "Profile creation and activity assignment are paused. You can view existing programs, history and authorized exports."
+
+msgid "Contact the platform operator to arrange activation or renewal for this practice."
+msgstr "Contact the platform operator to arrange activation or renewal for this practice."
+
+msgid "An authorised operator manages publishing access for this spoken variety."
+msgstr "An authorised operator manages publishing access for this spoken variety."
+
+msgid "Verification of the trusted proxy chain"
+msgstr "Verification of the trusted proxy chain"
+
+msgid "Test of private storage access and persistence after restart"
+msgstr "Test of private storage access and persistence after restart"
+
+msgid "Test of the encrypted off-host backup destination and schedule"
+msgstr "Test of the encrypted off-host backup destination and schedule"
+
+msgid "Verification of backup key custody and archive retention"
+msgstr "Verification of backup key custody and archive retention"
+
+msgid "Recent restore test and access to restored dossiers"
+msgstr "Recent restore test and access to restored dossiers"
+
+msgid "Test of alert recipients and escalation procedure"
+msgstr "Test of alert recipients and escalation procedure"
+
+msgid "Receipt of invitation and recovery emails and successful use of their links"
+msgstr "Receipt of invitation and recovery emails and successful use of their links"
+
+msgid "Validation of recovery time and data-loss objectives"
+msgstr "Validation of recovery time and data-loss objectives"
+
+msgid "The operator verifies these requirements before paid launch or clinical use."
+msgstr "The operator verifies these requirements before paid launch or clinical use."
+
+msgid "Email address shown on the data notice"
+msgstr "Email address shown on the data notice"
+
+msgid "Use a practice address for data questions. It is shown to authorized users and invited recipients for this practice."
+msgstr "Use a practice address for data questions. It is shown to authorized users and invited recipients for this practice."
+
+msgid "Before entering personal data, ask your practice for full information on data handling, retention and hosting."
+msgstr "Before entering personal data, ask your practice for full information on data handling, retention and hosting."
+
+msgid "Practice contact for data questions"
+msgstr "Practice contact for data questions"
+
+msgid "Manual review of practice access"
+msgstr "Manual review of practice access"
+
+msgid "Request an access review"
+msgstr "Request an access review"
+
+msgid "Your request is awaiting review by the platform operator."
+msgstr "Your request is awaiting review by the platform operator."
+
+msgid "The platform operator has acknowledged your request."
+msgstr "The platform operator has acknowledged your request."
+
+msgid "Review and access activation are separate steps. You can check the request status on this page."
+msgstr "Review and access activation are separate steps. You can check the request status on this page."
+
+msgid "Practice access requests"
+msgstr "Practice access requests"
+
+msgid "Acknowledge request"
+msgstr "Acknowledge request"
+
+msgid "No practice access requests are awaiting review."
+msgstr "No practice access requests are awaiting review."
+
+msgid "The cabinet access request is acknowledged."
+msgstr "The cabinet access request is acknowledged."
+
+msgid "Document illustration rights"
+msgstr "Document illustration rights"
+
+msgid "This links a new copy of the same illustration to this word in the draft. Review and publication are separate steps."
+msgstr "This links a new copy of the same illustration to this word in the draft. Review and publication are separate steps."
+
+msgid "Save rights and link illustration"
+msgstr "Save rights and link illustration"
+
+msgid "The draft or illustration changed. Open the current draft and review the illustration again."
+msgstr "The draft or illustration changed. Open the current draft and review the illustration again."
+
+msgid "The result could not be confirmed. Reopen the draft before trying again."
+msgstr "The result could not be confirmed. Reopen the draft before trying again."
+
+msgid "Illustration rights saved and linked to the draft."
+msgstr "Illustration rights saved and linked to the draft."
+
+msgid "An illustration’s recorded predecessor cannot be changed."
+msgstr "An illustration’s recorded predecessor cannot be changed."
+
+msgid "An illustration predecessor must be a different existing image with the same bytes."
+msgstr "An illustration predecessor must be a different existing image with the same bytes."
+
+msgid "Illustration origin"
+msgstr "Illustration origin"
+
+msgid "Previous illustration"
+msgstr "Previous illustration"
+
+msgid "Original illustration"
+msgstr "Original illustration"
+
+msgid "Generated review pack"
+msgstr "Generated review pack"
+
+msgid "Local test with fictional data"
+msgstr "Local test with fictional data"
+
+msgid "Hosted demonstration"
+msgstr "Hosted demonstration"
+
+msgid "Intended live service"
+msgstr "Intended live service"
+
+msgid "Reported successful check"
+msgstr "Reported successful check"
+
+msgid "Reported issue or incomplete result"
+msgstr "Reported issue or incomplete result"
+
+msgid "Enter a SHA-256 digest with exactly 64 hexadecimal characters."
+msgstr "Enter a SHA-256 digest with exactly 64 hexadecimal characters."
+
+msgid "The observation date cannot be in the future."
+msgstr "The observation date cannot be in the future."
+
+msgid "Operator evidence history is append-only."
+msgstr "Operator evidence history is append-only."
+
+msgid "Operator evidence history cannot be deleted."
+msgstr "Operator evidence history cannot be deleted."
+
+msgid "Operator check"
+msgstr "Operator check"
+
+msgid "Observed environment"
+msgstr "Observed environment"
+
+msgid "Reported outcome"
+msgstr "Reported outcome"
+
+msgid "Evidence SHA-256"
+msgstr "Evidence SHA-256"
+
+msgid "Submit only the listed operator evidence fields."
+msgstr "Submit only the listed operator evidence fields."
+
+msgid "The operator observation was recorded."
+msgstr "The operator observation was recorded."
+
+msgid "Operator evidence register"
+msgstr "Operator evidence register"
+
+msgid "Recorded operator observations"
+msgstr "Recorded operator observations"
+
+msgid "The latest observation is shown for each check and environment."
+msgstr "The latest observation is shown for each check and environment."
+
+msgid "Open the evidence register"
+msgstr "Open the evidence register"
+
+msgid "Keep the evidence in private storage. The SHA-256 identifies the retained file. The operator verifies the evidence and the reported outcome."
+msgstr "Keep the evidence in private storage. The SHA-256 identifies the retained file. The operator verifies the evidence and the reported outcome."
+
+msgid "No operator observations recorded yet."
+msgstr "No operator observations recorded yet."
+
+msgid "Record an operator observation"
+msgstr "Record an operator observation"
+
+msgid "Enter the date and environment of the original check. Use a new record to correct or update an observation."
+msgstr "Enter the date and environment of the original check. Use a new record to correct or update an observation."
+
+msgid "Record observation"
+msgstr "Record observation"
+
+msgid "Operator observation history"
+msgstr "Operator observation history"
+
+# Reviewer recorded definitions (2026-11-24).
+msgid "Either word may be requested; the activity link selects the picture."
+msgstr "Either word may be requested; the activity link selects the picture."
+
+msgid "Evidence bytes missing or changed."
+msgstr "Evidence bytes missing or changed."
+
+msgid "Evidence reference"
+msgstr "Evidence reference"
+
+msgid "Evidence reference unavailable for this variety and category."
+msgstr "Evidence reference unavailable for this variety and category."
+
+msgid "Evidence revoked."
+msgstr "Evidence revoked."
+
+msgid "Evidence validity is unknown, expired or not yet current."
+msgstr "Evidence validity is unknown, expired or not yet current."
+
+msgid "Final"
+msgstr "Final"
+
+msgid "Initial"
+msgstr "Initial"
+
+msgid "Medial"
+msgstr "Medial"
+
+msgid "No admissible variant recorded."
+msgstr "No admissible variant recorded."
+
+msgid "No evidence fingerprint recorded."
+msgstr "No evidence fingerprint recorded."
+
+msgid "No evidence reference recorded."
+msgstr "No evidence reference recorded."
+
+msgid "No requested picture for this response mode."
+msgstr "No requested picture for this response mode."
+
+msgid "Open the referenced private evidence"
+msgstr "Open the referenced private evidence"
+
+msgid "Other"
+msgstr "Other"
+
+msgid "Phoneme index (starts at 0)"
+msgstr "Phoneme index (starts at 0)"
+
+msgid "Recorded evidence fingerprint"
+msgstr "Recorded evidence fingerprint"
+
+msgid "Recorded evidence fingerprint differs from the document."
+msgstr "Recorded evidence fingerprint differs from the document."
+
+msgid "Recorded familiarity note"
+msgstr "Recorded familiarity note"
+
+msgid "Recorded reference matches intact evidence within its declared validity period."
+msgstr "Recorded reference matches intact evidence within its declared validity period."
+
+msgid "Recorded task and word definitions"
+msgstr "Recorded task and word definitions"
+
+msgid "These are current editorial entries for the displayed fingerprint. They are not verified linguistic or clinical evidence."
+msgstr "These are current editorial entries for the displayed fingerprint. They are not verified linguistic or clinical evidence."
+
+msgid "Unknown stored task value."
+msgstr "Unknown stored task value."
+
+msgid "Practice billing summary"
+msgstr "Practice billing summary"
+
+msgid "Billing summary sharing"
+msgstr "Billing summary sharing"
+
+msgid "Reopen the invoice to review its current status and sharing setting before saving."
+msgstr "Reopen the invoice to review its current status and sharing setting before saving."
+
+msgid "Shared with the cabinet owner"
+msgstr "Shared with the cabinet owner"
+
+msgid "Private to platform billing"
+msgstr "Private to platform billing"
+
+msgid "The cabinet summary shows the invoice number, amount, status and dates."
+msgstr "The cabinet summary shows the invoice number, amount, status and dates."
+
+msgid "Share billing summary"
+msgstr "Share billing summary"
+
+msgid "Hide billing summary"
+msgstr "Hide billing summary"
+
+msgid "Billing summary shared"
+msgstr "Billing summary shared"
+
+msgid "Billing summary hidden"
+msgstr "Billing summary hidden"
+
+msgid "These entries are shared by the platform operator. Use the original billing document for your records."
+msgstr "These entries are shared by the platform operator. Use the original billing document for your records."
+
+msgid "No billing summaries have been shared with this practice."
+msgstr "No billing summaries have been shared with this practice."
+
+# First draft save receipt (2026-11-24).
+msgid "Draft already saved"
+msgstr "Draft already saved"
+
+msgid "Open saved draft"
+msgstr "Open saved draft"
+
+msgid "Reload the creation page and choose the spoken variety again."
+msgstr "Reload the creation page and choose the spoken variety again."
+
+msgid "This save request already created a draft with different content. Open the saved draft or start a new creation page."
+msgstr "This save request already created a draft with different content. Open the saved draft or start a new creation page."
+
+msgid "Inviting practice"
+msgstr "Inviting practice"
+
+msgid "Document recording rights"
+msgstr "Document recording rights"
+
+msgid "The draft or recording changed. Open the current draft and check the recording again."
+msgstr "The draft or recording changed. Open the current draft and check the recording again."
+
+msgid "Recording rights saved and linked to the draft."
+msgstr "Recording rights saved and linked to the draft."
+
+msgid "I confirm this evidence covers this adult voice recording and the stated uses."
+msgstr "I confirm this evidence covers this adult voice recording and the stated uses."
+
+msgid "This links the same adult recording to the draft with its rights evidence. Review and publication are separate steps."
+msgstr "This links the same adult recording to the draft with its rights evidence. Review and publication are separate steps."
+
+msgid "Save rights and link recording"
+msgstr "Save rights and link recording"
+
+msgid "The recorded source and voice details cannot be changed."
+msgstr "The recorded source and voice details cannot be changed."
+
+msgid "The source recording must have the same bytes and voice details."
+msgstr "The source recording must have the same bytes and voice details."
+
+msgid "The selected rights evidence is missing, expired, changed or revoked."
+msgstr "The selected rights evidence is missing, expired, changed or revoked."
+
+# Explicit family-guide recovery (2026-11-24).
+msgid "Choose saved instructions or guide sections to place in a new private working copy based on the current draft. This does not change or approve the activity."
+msgstr "Choose saved instructions or guide sections to place in a new private working copy based on the current draft. This does not change or approve the activity."
+
+msgid "Choose the family-guide fields to recover"
+msgstr "Choose the family-guide fields to recover"
+
+msgid "Compare and recover saved family-guide fields"
+msgstr "Compare and recover saved family-guide fields"
+
+msgid "Compare the last saved family guide with the current draft. Text entered since the working copy’s last save stays on this page."
+msgstr "Compare the last saved family guide with the current draft. Text entered since the working copy’s last save stays on this page."
+
+msgid "Create the private recovery copy"
+msgstr "Create the private recovery copy"
+
+msgid "Current draft value"
+msgstr "Current draft value"
+
+msgid "Current words, media, variety and other draft details are kept. All other saved fields remain in the original working copy and are not applied here."
+msgstr "Current words, media, variety and other draft details are kept. All other saved fields remain in the original working copy and are not applied here."
+
+msgid "Empty value"
+msgstr "Empty value"
+
+msgid "No saved family-guide differences to recover."
+msgstr "No saved family-guide differences to recover."
+
+msgid "Only the checked fields will be recovered. Choosing an empty saved value keeps it empty; normal draft validation still applies afterwards."
+msgstr "Only the checked fields will be recovered. Choosing an empty saved value keeps it empty; normal draft validation still applies afterwards."
+
+msgid "Open current draft"
+msgstr "Open current draft"
+
+msgid "Recover saved family-guide fields"
+msgstr "Recover saved family-guide fields"
+
+msgid "Reload the comparison"
+msgstr "Reload the comparison"
+
+msgid "Saved working-copy value"
+msgstr "Saved working-copy value"
+
+msgid "The comparison link is invalid or expired. Open a new comparison."
+msgstr "The comparison link is invalid or expired. Open a new comparison."
+
+msgid "The recovered working copy would exceed the existing size limit."
+msgstr "The recovered working copy would exceed the existing size limit."
+
+msgid "The working copy or current draft changed. Reload the comparison before choosing fields again."
+msgstr "The working copy or current draft changed. Reload the comparison before choosing fields again."
+
+msgid "Erasure requires an erasure request for this dossier."
+msgstr "Erasure requires an erasure request for this dossier."
+
+msgid "The dossier was erased while processing another request for the same profile."
+msgstr "The dossier was erased while processing another request for the same profile."
+
+msgid "Erasing this profile also resolves pending erasure requests for the same profile."
+msgstr "Erasing this profile also resolves pending erasure requests for the same profile."
+
+msgid "Reviewer account inactive"
+msgstr "Reviewer account inactive"
+
+msgid "Review permission missing for this discipline and variety"
+msgstr "Review permission missing for this discipline and variety"
+
+msgid "Reviewer requirements met for this discipline and variety"
+msgstr "Reviewer requirements met for this discipline and variety"
+
+msgid "Private activity rehearsal"
+msgstr "Private activity rehearsal"
+
+msgid "Try this version privately"
+msgstr "Try this version privately"
+
+msgid "Try this exact version using fictional choices only. Nothing is saved, assigned, approved or made available for real use."
+msgstr "Try this exact version using fictional choices only. Nothing is saved, assigned, approved or made available for real use."
+
+msgid "Do not enter child information. This rehearsal omits patient identifiers and free-text comments."
+msgstr "Do not enter child information. This rehearsal omits patient identifiers and free-text comments."
+
+msgid "This rehearsal changed or expired. Reload the exact version and review it before trying again."
+msgstr "This rehearsal changed or expired. Reload the exact version and review it before trying again."
+
+msgid "No instructions have been entered in the selected language. The family activity cannot start with this language."
+msgstr "No instructions have been entered in the selected language. The family activity cannot start with this language."
+
+msgid "Show the rehearsal summary"
+msgstr "Show the rehearsal summary"
+
+msgid "Illustration unavailable"
+msgstr "Illustration unavailable"
+
+msgid "Some linked media cannot be used in this rehearsal. Check the draft media and exact word bindings in the editorial workspace."
+msgstr "Some linked media cannot be used in this rehearsal. Check the draft media and exact word bindings in the editorial workspace."
+
+msgid "Use the interface language for caregiver instructions"
+msgstr "Use the interface language for caregiver instructions"
+
+msgid "Fixed caregiver instruction language"
+msgstr "Fixed caregiver instruction language"
+
+msgid "Used when caregiver instructions do not follow the interface."
+msgstr "Used when caregiver instructions do not follow the interface."
+
+msgid "Choose a fixed language for caregiver instructions or follow the interface. The words assigned to the child stay the same."
+msgstr "Choose a fixed language for caregiver instructions or follow the interface. The words assigned to the child stay the same."
+
+msgid "Fictional program · French"
+msgstr "Fictional program · French"
+
+msgid "Fictional program · English"
+msgstr "Fictional program · English"
+
+msgid "Fictional program · Algerian Darja"
+msgstr "Fictional program · Algerian Darja"
+
+msgid "Fictional program · Standard Arabic"
+msgstr "Fictional program · Standard Arabic"
+
+msgid "Discover the pictures"
+msgstr "Discover the pictures"
+
+msgid "Explore the activity steps and practice report using fictional data."
+msgstr "Explore the activity steps and practice report using fictional data."
+
+msgid "Unvalidated example with no pronunciation assessment."
+msgstr "Unvalidated example with no pronunciation assessment."
+
+msgid "Try the demonstration together. It contains no prescribed practice schedule."
+msgstr "Try the demonstration together. It contains no prescribed practice schedule."
+
+msgid "Use this fictional program to explore the practice steps."
+msgstr "Use this fictional program to explore the practice steps."
+
+msgid "As directed by your clinician"
+msgstr "As directed by your clinician"
+
+msgid "A"
+msgstr "A"
+
+msgid "B"
+msgstr "B"
+
+msgid "Fictional demo profiles only."
+msgstr "Fictional demo profiles only."
+
+msgid "These words are NOT approved minimal pairs. No clinical validity, audio model or phonetic transcription is supplied."
+msgstr "These words are NOT approved minimal pairs. No clinical validity, audio model or phonetic transcription is supplied."

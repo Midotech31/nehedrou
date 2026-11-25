@@ -1,0 +1,19 @@
+{% extends 'base.html' %}{% load i18n content_language %}
+{% block title %}{% translate "Recover saved family-guide fields" %} · Nehedrou{% endblock %}
+{% block content %}<section class="card" id="working-guide-recovery">
+<h1>{% translate "Recover saved family-guide fields" %}</h1>
+<p><span lang="und" dir="auto">{{ activity.title }}</span> · v{{ activity.version }} · {{ activity.variety.display_label }}</p>
+<p>{% translate "Choose saved instructions or guide sections to place in a new private working copy based on the current draft. This does not change or approve the activity." %}</p>
+<p data-preserved-fields>{% translate "Current words, media, variety and other draft details are kept. All other saved fields remain in the original working copy and are not applied here." %}</p>
+{% if recovery_error %}<p class="errorlist" role="alert" data-recovery-conflict>{{ recovery_error }}</p>
+{% if can_reload %}<p><a class="button secondary" href="{% url 'editorial_working_reconcile' source.pk %}">{% translate "Reload the comparison" %}</a></p>{% endif %}
+{% elif rows %}<form method="post">{% csrf_token %}{{ form.state_token }}{{ form.non_field_errors }}{{ form.select_fields.errors }}
+<p>{% translate "Only the checked fields will be recovered. Choosing an empty saved value keeps it empty; normal draft validation still applies afterwards." %}</p>
+{% for row in rows %}<article class="card" data-recovery-field="{{ row.name }}">
+<h2><label for="recover-{{ row.name }}"><input id="recover-{{ row.name }}" type="checkbox" name="select_fields" value="{{ row.name }}"{% if row.selected %} checked{% endif %}> {{ row.language_label }} · {{ row.label }}</label></h2>
+<dl><dt>{% translate "Current draft value" %}</dt><dd data-current-value>{% if row.current %}<p lang="{{ row.language }}" dir="{{ row.language|language_direction }}">{{ row.current|linebreaksbr }}</p>{% else %}{% translate "Empty value" %}{% endif %}</dd>
+<dt>{% translate "Saved working-copy value" %}</dt><dd data-saved-value>{% if row.saved %}<p lang="{{ row.language }}" dir="{{ row.language|language_direction }}">{{ row.saved|linebreaksbr }}</p>{% else %}{% translate "Empty value" %}{% endif %}</dd></dl>
+</article>{% endfor %}<button class="button" type="submit">{% translate "Create the private recovery copy" %}</button></form>
+{% else %}<p>{% translate "No saved family-guide differences to recover." %}</p>{% endif %}
+<p><a href="{% url 'editorial_detail' activity.pk %}">{% translate "Open current draft" %}</a></p>
+</section>{% endblock %}

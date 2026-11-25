@@ -9,7 +9,7 @@ from django.db import DatabaseError, connection, transaction
 from unittest import skipUnless
 from django.test import Client, SimpleTestCase, TestCase, TransactionTestCase, override_settings
 from core.models import User
-from core.ops_readiness import execution_context, database_probe
+from core.ops_readiness import execution_context, database_probe, operator_acceptance_report
 
 @override_settings(MFA_REQUIRED=False, DEMO_MODE=True)
 class PrivateOperationsViewTests(TestCase):
@@ -92,15 +92,23 @@ class PrivateOperationsViewTests(TestCase):
         self.client.force_login(self.operator)
         report = {'technical_gates_passed': True, 'checks': {'debug_disabled': True},
                   'manual_gates_required': ['professional_content_and_audio_validation', 'reviewer_identity_and_variety_competence_independently_verified'],
-                  'scope': 'Technical report only.'}
+                  'scope': 'Technical report only.', 'operator_acceptance': operator_acceptance_report()}
         with patch('core.operations_views.call_command', side_effect=lambda command, *, json, stdout: stdout.write(__import__('json').dumps(report))):
             response = self.client.get('/en/operations/readiness/')
+            french = self.client.get('/fr/operations/readiness/')
+            arabic = self.client.get('/ar/operations/readiness/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Technical checks passed')
         self.assertContains(response, 'Human review and acceptance still required')
         self.assertContains(response, 'Professional review of activity content and exact audio')
         self.assertContains(response, 'Reviewer identity, declared expertise and spoken-variety competence independently verified')
         self.assertContains(response, 'does not approve clinical content, legal compliance or commercial release')
+        self.assertContains(response, 'Operator acceptance still required')
+        self.assertContains(response, 'Receipt of invitation and recovery emails and successful use of their links')
+        self.assertContains(response, 'href="/en/operations/"')
+        self.assertContains(french, 'Réception des courriels d’invitation et de récupération et essai concluant de leurs liens')
+        self.assertContains(arabic, 'استلام رسائل الدعوة واستعادة الحساب واستخدام روابطها بنجاح')
+        self.assertContains(arabic, 'dir="rtl"')
 
     def test_invalid_configuration_has_a_safe_localized_html_state(self):
         self.client.force_login(self.operator)
@@ -150,10 +158,16 @@ class PrivateOperationsViewTests(TestCase):
                 self.assertContains(response, expected)
                 for key in checks:
                     self.assertNotContains(response, key)
+                operator = response.context['report']['operator_acceptance']
+                self.assertEqual(operator, operator_acceptance_report())
+                self.assertEqual(len(response.context['operator_acceptance_rows']), len(operator['required']))
+                for key in operator['required']:
+                    self.assertNotContains(response, key)
 
     def test_launch_readiness_json_download_preserves_shared_report(self):
         self.client.force_login(self.operator)
-        report = {'technical_gates_passed': False, 'checks': {'offered_content_varieties_exist': False}, 'scope': 'Technical report only.'}
+        report = {'technical_gates_passed': True, 'checks': {'offered_content_varieties_exist': True},
+                  'scope': 'Technical report only.', 'operator_acceptance': operator_acceptance_report()}
         with patch('core.operations_views.call_command', side_effect=lambda command, *, json, stdout: stdout.write(__import__('json').dumps(report))):
             response = self.client.get('/en/operations/readiness/?format=json')
         self.assertEqual(response.status_code, 200)
@@ -162,6 +176,8 @@ class PrivateOperationsViewTests(TestCase):
         self.assertTrue(payload['generated_at'])
         self.assertIn('attachment;', response['Content-Disposition'])
         self.assertIn('no-store', response['Cache-Control'])
+        self.assertIn('private', response['Cache-Control'])
+        self.assertEqual(response['X-Robots-Tag'], 'noindex, nofollow')
 
     def test_unlisted_available_activities_are_visible_with_localized_labels(self):
         self.client.force_login(self.operator)
@@ -213,11 +229,14 @@ class PrivateOperationsViewTests(TestCase):
         self.assertNotContains(malformed, 'fictional-redacted-value')
 
     def test_launch_readiness_report_requires_platform_permission(self):
+        self.assertEqual(self.client.get('/en/operations/readiness/?format=json').status_code, 302)
         for user in [self.ordinary, self.staff]:
             self.client.force_login(user)
             with patch('core.operations_views.call_command') as run:
                 response = self.client.get('/en/operations/readiness/')
+                download = self.client.get('/en/operations/readiness/?format=json')
             self.assertEqual(response.status_code, 403)
+            self.assertEqual(download.status_code, 403)
             run.assert_not_called()
 
     def test_invalid_readiness_configuration_returns_a_noncommercial_blocker(self):
@@ -228,6 +247,7 @@ class PrivateOperationsViewTests(TestCase):
         report = response.json()
         self.assertFalse(report['report_available'])
         self.assertFalse(report['technical_gates_passed'])
+        self.assertEqual(report['operator_acceptance'], operator_acceptance_report())
         self.assertNotIn('private config detail', response.content.decode())
         self.assertIn('no-store', response['Cache-Control'])
 

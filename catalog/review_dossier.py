@@ -13,6 +13,7 @@ from qualification.validity import currently_valid
 from .audio_checks import audio_binding_errors
 from .content_validation import validate_item_definition
 from .integrity import activity_reviews, evidence_document
+from .image_origin import image_origin
 from .readiness import activity_readiness, media_binding_current, referenced_asset
 from .services import allowed
 
@@ -118,6 +119,12 @@ def review_dossier(activity):
                     'rights_valid_from': asset.rights_valid_from, 'rights_valid_until': asset.rights_valid_until,
                     'revoked': asset.revoked, 'missing_rights_fields': missing,
                     'voice_source': profile.get('source', '') if isinstance(profile, dict) and profile.get('source') in ('human', 'synthetic', 'unspecified') else ''}
+                origin = image_origin(asset, activity.variety_id)
+                if origin:
+                    summary['image_origin'] = origin
+                if kind == 'audio' and asset.audio_predecessor_id:
+                    summary['audio_origin'] = {'predecessor_asset_id': str(asset.audio_predecessor_id),
+                        'predecessor_sha256': asset.technical_metadata.get('sha256', '')}
             label = (_('Illustration: %(word)s') if kind == 'image' else _('Recording: %(word)s')) % {'word': word}
             check = _check(checks, field, kind, label, editor,
                 _('Obtain the actual permissions and valid evidence, then upload documented media; a written rights claim alone is insufficient.'),

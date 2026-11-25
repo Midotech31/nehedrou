@@ -32,22 +32,31 @@ def main():
     require(not any(name.startswith('PG') and name != 'PGOPTIONS' for name in os.environ),
             'INHERITED_LIBPQ_ENVIRONMENT_REFUSED')
     import django
-    django.setup()
     from django.conf import settings
+    from django.contrib.staticfiles.storage import staticfiles_storage
+
+    root = Path(os.environ['NEHEDROU_RESTORE_REGRESSION_ROOT']).resolve(strict=True)
+    static_root = (root / 'staticfiles').resolve(strict=True)
+    require(static_root.parent == root and not root.is_relative_to(Path(settings.BASE_DIR).resolve()),
+            'ISOLATED_STATIC_PATH_REQUIRED')
+    require(not settings.DEBUG and (static_root / 'staticfiles.json').is_file(), 'STATIC_MANIFEST_REQUIRED')
+    settings.STATIC_ROOT = static_root
+    django.setup()
     from django.db import connection, transaction
     from django.http import Http404
     from django.test import RequestFactory
-    from core.models import User, Invitation
-    from catalog.models import EditorialAccessInvitation, MediaAsset
+    from core.models import User, Invitation, OperatorAcceptanceObservation
+    from catalog.guide_recovery import reconcile
+    from catalog.models import Activity, DraftWorkingCopy, EditorialAccessInvitation, MediaAsset
+    from catalog.readiness import referenced_asset
+    from catalog.review_dossier import review_dossier
     from care.models import Child
     from qualification.models import EvidenceDocument
     from core.views import export_child
 
-    root = Path(os.environ['NEHEDROU_RESTORE_REGRESSION_ROOT']).resolve(strict=True)
     cluster = Path(os.environ['NEHEDROU_RESTORE_REGRESSION_CLUSTER']).resolve(strict=True)
     media = Path(settings.MEDIA_ROOT).resolve(strict=True)
-    require(cluster.parent == root and media.parent == root and
-            not root.is_relative_to(Path(settings.BASE_DIR).resolve()), 'ISOLATED_PATHS_REQUIRED')
+    require(cluster.parent == root and media.parent == root, 'ISOLATED_PATHS_REQUIRED')
     require(settings.DATABASES['default']['HOST'] == '127.0.0.1' and
             settings.DATABASES['default']['NAME'] == database, 'RESTORED_CONFIGURATION_REQUIRED')
     identities = json.loads(os.environ['NEHEDROU_RESTORE_REGRESSION_IDENTITIES'])
@@ -94,12 +103,58 @@ def main():
                 'PRACTICE_INVITATION_DELIVERY_CHANGED')
         require(EditorialAccessInvitation.objects.get(pk=identities['editorial']).delivery == expected_editorial,
                 'EDITORIAL_INVITATION_DELIVERY_CHANGED')
-        require(EvidenceDocument.objects.get(pk=identities['document']).intact, 'RESTORED_EVIDENCE_CHANGED')
-        require(MediaAsset.objects.get(pk=identities['asset']).intact, 'RESTORED_IMAGE_CHANGED')
+        proof = EvidenceDocument.objects.get(pk=identities['document'])
+        original = MediaAsset.objects.get(pk=identities['asset'])
+        require(proof.intact, 'RESTORED_EVIDENCE_CHANGED')
+        require(original.intact, 'RESTORED_IMAGE_CHANGED')
+        derived = MediaAsset.objects.get(pk=identities['derived_asset'])
+        require(derived.image_predecessor_id == original.pk and derived.file.name != original.file.name and
+                derived.intact and derived.technical_metadata['sha256'] == original.technical_metadata['sha256'],
+                'RESTORED_ILLUSTRATION_ORIGIN_CHANGED')
+        audio_origin = MediaAsset.objects.get(pk=identities['audio_origin'])
+        activity = Activity.objects.get(pk=identities['editorial_activity'])
+        audio = referenced_asset(activity.audio_a, 'audio')
+        require(audio and str(audio.pk) == identities['documented_audio']
+                and audio.audio_predecessor_id == audio_origin.pk and audio.file.name != audio_origin.file.name
+                and audio.provenance['audio'] == audio_origin.provenance['audio']
+                and audio.technical_metadata['sha256'] == audio_origin.technical_metadata['sha256']
+                and str(audio.rights_evidence_id) == identities['audio_rights']
+                and audio_origin.intact and audio.documented, 'RESTORED_AUDIO_RIGHTS_ORIGIN_CHANGED')
+        audio_row = next(item for item in review_dossier(activity)['media'] if item['field'] == 'audio_a')
+        require(audio_row['audio_origin'] == {'predecessor_asset_id': str(audio_origin.pk),
+                'predecessor_sha256': audio_origin.technical_metadata['sha256']}, 'RESTORED_AUDIO_DOSSIER_CHANGED')
+        copy = DraftWorkingCopy.objects.get(pk=identities['working_copy'])
+        require(copy.activity_id == activity.pk and not copy.committed
+                and copy.base_digest != activity.fingerprint(), 'RESTORED_WORKING_COPY_CONTEXT_CHANGED')
+        request = factory.get('/fictional-restore-guide')
+        request.session = {}
+        request.user = User.objects.get(pk=identities['professional'])
+        comparison = reconcile(request, copy.pk)
+        require(comparison.status_code == 200 and 'no-store' in comparison['Cache-Control']
+                and b'FICTIONAL_PRIVATE_RESTORED_GUIDE' in comparison.content
+                and b'OLD_FICTIONAL_WORD' not in comparison.content, 'RESTORED_GUIDE_COMPARISON_CHANGED')
+        stylesheet = staticfiles_storage.url('product.css')
+        require(stylesheet != settings.STATIC_URL + 'product.css' and stylesheet.encode() in comparison.content,
+                'RESTORED_GUIDE_STATIC_ASSET_MISSING')
+        request.user = User.objects.get(pk=identities['family'])
+        try:
+            reconcile(request, copy.pk)
+        except Http404:
+            pass
+        else:
+            raise ReadcheckFailure('RESTORED_PRIVATE_GUIDE_DISCLOSED')
+        observation = OperatorAcceptanceObservation.objects.get(pk=identities['operator_observation'])
+        require(observation.recorded_by_id == identities['professional'] and
+                observation.check_code == 'recent_restore_and_dossier_access' and observation.scope == 'local_fictional' and
+                observation.outcome == 'gap_found' and observation.observed_on.isoformat() == identities['operator_observed_on'] and
+                observation.evidence_sha256 == proof.sha256, 'RESTORED_OPERATOR_EVIDENCE_CHANGED')
     print(json.dumps({'professional_export': True, 'family_private_observation_excluded': True,
         'family_shared_feedback_preserved': True, 'unrelated_account_denied': True,
         'practice_invitation_delivery_preserved': True, 'editorial_invitation_delivery_preserved': True,
-        'referenced_evidence_intact': True, 'referenced_image_intact': True}))
+        'referenced_evidence_intact': True, 'referenced_image_intact': True,
+        'operator_evidence_reference_preserved': True, 'illustration_predecessor_preserved': True,
+        'documented_audio_origin_preserved': True, 'private_guide_comparison_preserved': True,
+        'private_guide_uses_manifest_assets': True}))
 
 
 if __name__ == '__main__':

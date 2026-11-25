@@ -135,11 +135,14 @@ def issue_editorial_access_invitation(actor, email, variety, capability):
         audit(actor, 'catalog.editorial_invitation_delivery_' + delivery, invitation)
     return invitation
 
-@transaction.atomic
 def accept_editorial_access_invitation(actor, raw_token):
+    return accept_editorial_access_invitation_digest(actor, hashlib.sha256(raw_token.encode()).hexdigest())
+
+
+@transaction.atomic
+def accept_editorial_access_invitation_digest(actor, digest):
     if not actor.is_authenticated:
         raise PermissionDenied
-    digest = hashlib.sha256(raw_token.encode()).hexdigest()
     variety_id = EditorialAccessInvitation.objects.filter(token_hash=digest).values_list('variety_id', flat=True).first()
     if variety_id is None:
         raise ValidationError(_('This editorial invitation has expired or is no longer available.'))

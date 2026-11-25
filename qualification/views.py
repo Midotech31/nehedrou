@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
+from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from catalog.models import Variety, EditorialGrant, MediaAsset
 from catalog.services import allowed
@@ -16,7 +17,10 @@ from core.storage_health import STORAGE_ERRORS
 from core.storage_io import read_bounded
 from .models import EvidenceDocument, ReviewerCompetence, AvailabilityDecision, LexicalPack, LexicalCandidate, FamiliarityStudy, PackReview
 from .forms import EvidenceForm, CompetenceForm, CompetenceDecisionForm, AvailabilityForm, PackForm, CandidateForm, FamiliarityForm, PackReviewForm, OpeningTargetForm, AvailabilityRevocationForm
-from .services import change_pack_state, clone_pack, pack_readiness_reasons, record_competence_decision, save_competence_declaration, review_pack, pack_transition_choices
+from .services import (
+    change_pack_state, clone_pack, competence_actionability, pack_readiness_reasons, pack_transition_choices,
+    record_competence_decision, review_pack, save_competence_declaration, with_review_permission,
+)
 
 def varieties(user, capability=None):
     if user.is_superuser:
@@ -36,11 +40,13 @@ def private_documents(user):
 def form_page(request,form,title):
     return render(request,'form.html',{'form':form,'title':title,'submit':_('Save')})
 
+@never_cache
 @login_required
 def index(request):
     require_workspace(request.user)
     visible = varieties(request.user)
-    competences = ReviewerCompetence.objects.filter(user=request.user).select_related('variety','evidence','current_decision__decided_by')
+    declarations = with_review_permission(ReviewerCompetence.objects.filter(user=request.user))
+    competences = [{'declaration': row, 'status': competence_actionability(row)} for row in declarations]
     return render(request,'qualification/index.html',{'packs':LexicalPack.objects.filter(variety__in=visible).select_related('variety'), 'competences':competences, 'documents':private_documents(request.user).order_by('-created_at')[:30], 'can_edit':varieties(request.user,'edit').exists(), 'can_publish':varieties(request.user,'publish').exists()})
 
 @login_required
@@ -117,17 +123,25 @@ def competence(request,pk=None):
             form.add_error(None, ' '.join(exc.messages))
     return form_page(request,form,_('Declare reviewer experience'))
 
+def declarations_for_verification(user):
+    return with_review_permission(ReviewerCompetence.objects.filter(
+        variety__in=varieties(user, 'publish'), active=True,
+    ).exclude(user=user))
+
+
+@never_cache
 @login_required
 def competence_verification_index(request):
-    declarations = list(ReviewerCompetence.objects.filter(variety__in=varieties(request.user,'publish'),active=True).exclude(user=request.user).select_related('user','variety','evidence','current_decision__decided_by').order_by('variety__code','discipline','user__username'))
+    declarations = declarations_for_verification(request.user).order_by('variety__code', 'discipline', 'user__username')
     rows = [{'declaration': declaration, 'decision': declaration.current_verification,
-             'effective': declaration.independently_verified} for declaration in declarations]
-    return render(request,'qualification/competence_verification_index.html',{'rows':rows})
+             'status': competence_actionability(declaration)} for declaration in declarations]
+    return render(request, 'qualification/competence_verification_index.html', {'rows': rows})
 
+
+@never_cache
 @login_required
 def competence_verification(request,pk):
-    declaration = get_object_or_404(ReviewerCompetence.objects.filter(variety__in=varieties(request.user,'publish'),active=True).exclude(user=request.user).select_related('user','variety','evidence'),pk=pk)
-    declaration = ReviewerCompetence.objects.select_related('user','variety','evidence','current_decision__decided_by').get(pk=declaration.pk)
+    declaration = get_object_or_404(declarations_for_verification(request.user), pk=pk)
     form = CompetenceDecisionForm(request.POST or None, initial={'expected_digest':declaration.fingerprint()})
     reload_declaration = False
     if request.method == 'POST' and form.is_valid():
@@ -137,7 +151,10 @@ def competence_verification(request,pk):
         except ValidationError as exc:
             form.add_error(None,' '.join(exc.messages))
             reload_declaration = getattr(exc, 'code', None) == 'competence_snapshot_changed'
-    return render(request,'qualification/competence_verification.html',{'declaration':declaration,'decision':declaration.current_verification,'form':form,'reload_declaration':reload_declaration})
+    return render(request, 'qualification/competence_verification.html', {
+        'declaration': declaration, 'decision': declaration.current_verification,
+        'status': competence_actionability(declaration), 'form': form, 'reload_declaration': reload_declaration,
+    })
 
 @login_required
 def availability(request):

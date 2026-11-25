@@ -1,0 +1,1 @@
+{% load i18n editorial %}{% if reference %}<img lang="{{ word_language }}" src="{% editorial_image reference %}" srcset="{% editorial_image_srcset reference %}" sizes="{{ image_sizes }}" alt="{{ word }}">{% else %}<span class="muted">{% translate "Illustration unavailable" %}</span>{% endif %}

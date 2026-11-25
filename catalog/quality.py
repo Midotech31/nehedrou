@@ -175,7 +175,9 @@ def review_pack(request):
     tasks, media_rows = io.StringIO(newline=''), io.StringIO(newline='')
     task_writer, media_writer = csv.writer(tasks), csv.writer(media_rows)
     task_writer.writerow(['activity_id','version','content_sha256','spoken_variety','requirement','category','side','responsible_role','reason_codes','current_gaps','required_action','assigned_person','actual_evidence_reference','human_decision','decision_date'])
-    media_writer.writerow(['activity_id','version','content_sha256','spoken_variety','field','word','kind','asset_id','sha256','rights_status','rights_validity','rights_valid_from','rights_valid_until','revoked','voice_source','missing_rights_fields','rights_evidence_id','rights_evidence_sha256','reason_codes','current_gaps'])
+    media_writer.writerow(['activity_id','version','content_sha256','spoken_variety','field','word','kind','asset_id','sha256','rights_status','rights_validity','rights_valid_from','rights_valid_until','revoked','voice_source','missing_rights_fields','rights_evidence_id','rights_evidence_sha256','reason_codes','current_gaps',
+        'predecessor_asset_id','predecessor_sha256','original_asset_id','generation_pack_id','generation_concept_id',
+        'generation_variant','generation_manifest_sha256','generation_source_asset_id','generation_source_sha256'])
     recordings = io.StringIO(newline='')
     audio_writer = csv.writer(recordings)
     audio_writer.writerow(['activity_id','version','content_sha256','spoken_variety','side','word','intended_meaning','proposed_transcription','adult_speaker_reference','regional_usage','recording_filename','consent_evidence_reference','linguistic_decision','clinical_decision', *RECORDING_CONTEXT_COLUMNS])
@@ -190,12 +192,16 @@ def review_pack(request):
                 task['key'], task['category'], task['side'], task['responsible_role'], ' / '.join(task['reason_codes']),
                 ' / '.join(task['reasons']), task['action'], '', '', '', ''])
         for media in dossier['media']:
+            origin = media.get('image_origin') or media.get('audio_origin', {})
+            generated = origin.get('generated', {})
             write_csv(media_writer, [str(activity.pk), activity.version, dossier['content_sha256'], activity.variety.code,
                 media['field'], media['word'], media['kind'], media.get('asset_id',''), media.get('sha256',''),
                 media.get('rights_status',''), media.get('rights_validity',''), media.get('rights_valid_from',''),
                 media.get('rights_valid_until',''), media.get('revoked',''), media.get('voice_source',''),
                 ' / '.join(media.get('missing_rights_fields',[])), media['evidence'].get('id',''),
-                media['evidence'].get('sha256',''), ' / '.join(media['reason_codes']), ' / '.join(media['reasons'])])
+                media['evidence'].get('sha256',''), ' / '.join(media['reason_codes']), ' / '.join(media['reasons']),
+                origin.get('predecessor_asset_id',''), origin.get('predecessor_sha256',''), origin.get('original_asset_id',''),
+                *(generated.get(key,'') for key in ('pack_id','concept_id','variant','manifest_sha256','source_asset_id','source_sha256'))])
         digest = dossier['content_sha256']
         audio_context = recording_context_by_side(activity, dossier, request.user)
         record = {'id':str(activity.pk), 'series':str(activity.series), 'version':activity.version, 'content_sha256':digest,

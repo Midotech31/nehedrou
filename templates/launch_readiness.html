@@ -1,7 +1,7 @@
 {% extends 'base.html' %}{% load i18n %}{% block content %}
 <div class="page-heading">
   <div><p class="eyebrow">{% translate "Platform operations" %}</p><h1>{% translate "Launch readiness" %}</h1><p>{% translate "A current technical checklist for this deployed service." %}</p></div>
-  <div class="actions"><a class="button secondary" href="?format=json">{% translate "Download JSON report" %}</a><a class="button secondary" href="{% url 'operations_diagnostics' %}">{% translate "Back to hosting diagnostics" %}</a></div>
+  <div class="actions"><a class="button secondary" href="?format=json">{% translate "Download JSON report" %}</a>{% if not operator_acceptance_rows %}<a class="button secondary" href="{% url 'operations_diagnostics' %}">{% translate "Back to hosting diagnostics" %}</a>{% endif %}</div>
 </div>
 <section class="card callout" role="status" aria-live="polite">
   {% if report.report_available == False %}
@@ -21,6 +21,21 @@
     <dt>{% translate "Build commit" %}</dt><dd>{% if report.execution.build_commit %}<bdi class="content-fingerprint" dir="ltr">{{ report.execution.build_commit }}</bdi>{% else %}{% translate "Not supplied by the hosting environment" %}{% endif %}</dd>
   </dl>
   {% endif %}
+</section>
+{% if operator_acceptance_rows %}
+<section class="card" aria-labelledby="operator-acceptance-heading">
+  <h2 id="operator-acceptance-heading">{% translate "Operator acceptance still required" %}</h2>
+  <p>{% translate "The operator verifies these requirements before paid launch or clinical use." %}</p>
+  <ul>{% for label in operator_acceptance_rows %}<li>{{ label }}</li>{% endfor %}</ul>
+  <p><a class="button secondary" href="{% url 'operations_diagnostics' %}">{% translate "Hosting diagnostics" %}</a></p>
+</section>
+{% endif %}
+<section class="card" id="recorded-operator-observations" aria-labelledby="recorded-operator-observations-heading">
+  <h2 id="recorded-operator-observations-heading">{% translate "Recorded operator observations" %}</h2>
+  <p>{% translate "The latest observation is shown for each check and environment." %}</p>
+  {% include 'operator_evidence_explanation.html' %}
+  {% include 'operator_evidence_table.html' %}
+  <p><a class="button secondary" id="operator-evidence-register-link" href="{% url 'operator_acceptance_evidence' %}">{% translate "Open the evidence register" %}</a></p>
 </section>
 {% if check_rows %}
 <section class="card">

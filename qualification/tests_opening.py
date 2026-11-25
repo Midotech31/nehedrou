@@ -1,6 +1,7 @@
 """Opening decisions use real scoped fictional targets and explicit human input."""
 import uuid
 from copy import deepcopy
+from urllib.parse import urlencode
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.test import TestCase, override_settings
 from django.urls import reverse
@@ -82,6 +83,23 @@ class OpeningDecisionTests(TestCase):
         self.assertNotContains(response, foreign.title)
         self.assertFalse(AvailabilityDecision.objects.exists())
         self.assertFalse(response.context['form'].initial.get('acknowledge', False))
+        self.assertContains(response, 'id="id_target"', count=1)
+        self.assertContains(response, 'id="availability-decision-target"', count=1)
+
+    def test_editorial_detail_links_publishers_to_the_exact_non_demo_version(self):
+        detail = reverse('editorial_detail', args=[self.activity.pk])
+        link = self.path + '?' + urlencode({'target': target_key('practice', self.activity)})
+        self.assertContains(self.client.get(detail), link)
+        form = self.client.get(link).context['form']
+        self.assertEqual(form['expected_version'].value(), self.activity.fingerprint())
+        self.assertEqual(form['target'].value(), target_key('practice', self.activity))
+        self.assertFalse(AvailabilityDecision.objects.exists())
+        demo = self.activity_fixture('Fictional demonstration', is_demo=True)
+        self.assertNotContains(self.client.get(reverse('editorial_detail', args=[demo.pk])), '?target=practice')
+        grant = EditorialGrant.objects.get(user=self.actor, variety=self.variety)
+        grant.publish = False
+        grant.save(update_fields=['publish'])
+        self.assertNotContains(self.client.get(detail), link)
 
     def test_model_rejects_orphan_hash_even_with_five_usable_documents(self):
         from .services import evidence_snapshot

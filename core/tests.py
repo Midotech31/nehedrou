@@ -166,7 +166,8 @@ class WorkflowTests(TestCase):
         # Simulates a legacy incomplete version; normal publication rejects this state.
         Activity.objects.filter(pk=self.item.activity_id).update(instructions={'fr': 'French only'})
         self.family.instruction_language = 'ar'
-        self.family.save()
+        self.family.instruction_language_follows_interface = False
+        self.family.save(update_fields=["instruction_language", "instruction_language_follows_interface"])
         self.client.force_login(self.family)
         self.assertEqual(self.client.get(reverse('practice', args=[self.item.pk])).status_code, 409)
 
